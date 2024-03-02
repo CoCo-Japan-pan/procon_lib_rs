@@ -22,11 +22,6 @@ pub trait ModInt:
     fn inv(&self) -> Self;
 }
 
-/// u32 or u64 for Mod
-pub trait ModType {}
-impl ModType for u32 {}
-impl ModType for u64 {}
-
 /// Trait for primitive integer types.
 pub trait Number {}
 impl Number for i8 {}
