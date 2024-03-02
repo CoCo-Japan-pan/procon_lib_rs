@@ -1,6 +1,6 @@
 [workspace]
 members = [
     "string/*",
-    "traits/*",
+    "internals/*",
 ]
 resolver = "2"

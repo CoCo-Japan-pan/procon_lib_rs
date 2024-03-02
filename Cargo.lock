@@ -3,6 +3,13 @@
 version = 3
 
 [[package]]
+name = "modint_mersenne"
+version = "0.1.0"
+dependencies = [
+ "modint_traits",
+]
+
+[[package]]
 name = "modint_traits"
 version = "0.1.0"
 
@@ -10,5 +17,5 @@ version = "0.1.0"
 name = "rolling_hash"
 version = "0.1.0"
 dependencies = [
- "modint_traits",
+ "modint_mersenne",
 ]
