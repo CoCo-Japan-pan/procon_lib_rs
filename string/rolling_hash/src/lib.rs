@@ -53,15 +53,21 @@ impl FromPrimitiveInt<u64> for ModIntMersenne {
 impl FromPrimitiveInt<usize> for ModIntMersenne {
     type Output = ModIntMersenne;
     fn new(x: usize) -> Self {
-        ModIntMersenne::new(x as u64)
+        let casted: u64 = x.try_into().unwrap();
+        ModIntMersenne::new(casted)
     }
 }
 
 impl FromPrimitiveInt<i32> for ModIntMersenne {
     type Output = ModIntMersenne;
     fn new(x: i32) -> Self {
-        let x_abs = x.abs() as u64;
-        -ModIntMersenne::new(x_abs)
+        if x == i32::MIN {
+            -ModIntMersenne::new((x + (MOD as i32)).abs() as u64)
+        } else if x < 0 {
+            -ModIntMersenne::new(x.abs() as u64)
+        } else {
+            ModIntMersenne::new(x as u64)
+        }
     }
 }
 
@@ -81,7 +87,8 @@ impl FromPrimitiveInt<i64> for ModIntMersenne {
 impl FromPrimitiveInt<isize> for ModIntMersenne {
     type Output = ModIntMersenne;
     fn new(x: isize) -> Self {
-        ModIntMersenne::new(x as i64)
+        let casted: i64 = x.try_into().unwrap();
+        ModIntMersenne::new(casted)
     }
 }
 
