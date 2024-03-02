@@ -20,16 +20,48 @@ impl ModIntMersenne {
     pub fn modulus() -> u64 {
         MOD
     }
+    #[inline]
+    fn calc_mod(x: u64) -> u64 {
+        let tmp = (x >> 61) + (x & MOD);
+        if tmp >= MOD {
+            tmp - MOD
+        } else {
+            tmp
+        }
+    }
+    /// https://qiita.com/keymoon/items/11fac5627672a6d6a9f6
+    #[inline]
+    fn mul(a: u64, b: u64) -> u64 {
+        let au = a >> 31;
+        let ad = a & ((1 << 31) - 1);
+        let bu = b >> 31;
+        let bd = b & ((1 << 31) - 1);
+        let mid = ad * bu + au * bd;
+        let midu = mid >> 30;
+        let midd = mid & ((1 << 30) - 1);
+        Self::calc_mod(
+            au * bu * 2 + midu + (midd << 31) + ad * bd,
+        )
+    }
 }
 
 const MOD: u64 = (1 << 61) - 1;
 
 impl ModInt for ModIntMersenne {
-    fn pow(&self, n: u64) -> Self {
-        todo!()
+    fn pow(&self, mut n: u64) -> Self {
+        let mut ret = ModIntMersenne::new(1);
+        let mut base = *self;
+        while n > 0 {
+            if n & 1 == 1 {
+                ret = ret * base;
+            }
+            base = base * base;
+            n >>= 1;
+        }
+        ret
     }
     fn inv(&self) -> Self {
-        todo!()
+        self.pow(MOD - 2)
     }
 }
 
@@ -43,9 +75,8 @@ impl FromPrimitiveInt<u32> for ModIntMersenne {
 impl FromPrimitiveInt<u64> for ModIntMersenne {
     type Output = ModIntMersenne;
     fn new(x: u64) -> Self::Output {
-        let tmp = (x >> 61) + (x & MOD);
         ModIntMersenne {
-            value: if tmp >= MOD { tmp - MOD } else { tmp },
+            value: ModIntMersenne::calc_mod(x),
         }
     }
 }
@@ -143,7 +174,7 @@ impl Sub for ModIntMersenne {
 
 impl MulAssign for ModIntMersenne {
     fn mul_assign(&mut self, rhs: Self) {
-        todo!()
+        self.value = Self::mul(self.value, rhs.value);
     }
 }
 
@@ -158,7 +189,7 @@ impl Mul for ModIntMersenne {
 
 impl DivAssign for ModIntMersenne {
     fn div_assign(&mut self, rhs: Self) {
-        todo!()
+        self.mul_assign(rhs.inv());
     }
 }
 
