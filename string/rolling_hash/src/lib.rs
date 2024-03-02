@@ -50,6 +50,13 @@ impl FromPrimitiveInt<u64> for ModIntMersenne {
     }
 }
 
+impl FromPrimitiveInt<usize> for ModIntMersenne {
+    type Output = ModIntMersenne;
+    fn new(x: usize) -> Self {
+        ModIntMersenne::new(x as u64)
+    }
+}
+
 impl FromPrimitiveInt<i32> for ModIntMersenne {
     type Output = ModIntMersenne;
     fn new(x: i32) -> Self {
@@ -68,6 +75,13 @@ impl FromPrimitiveInt<i64> for ModIntMersenne {
         } else {
             ModIntMersenne::new(x as u64)
         }
+    }
+}
+
+impl FromPrimitiveInt<isize> for ModIntMersenne {
+    type Output = ModIntMersenne;
+    fn new(x: isize) -> Self {
+        ModIntMersenne::new(x as i64)
     }
 }
 
