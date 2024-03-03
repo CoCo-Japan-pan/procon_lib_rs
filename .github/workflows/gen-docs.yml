@@ -1,0 +1,31 @@
+name: gen-docs
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: generate docs
+      run: cargo doc --lib --no-deps --target-dir docs
+
+    - name: switch to docs branch
+      run: git switch docs
+
+    - name: commit and push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_PAT: ${{ secrets.GH_PAT }}
+      run: |
+        git add .
+        git commit -m "update docs"
+        git push origin docs
