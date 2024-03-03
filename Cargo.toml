@@ -2,6 +2,7 @@
 members = [
     "crates/internals/*",
     "crates/string/*",
+    "crates/data_structure/*",
     "verify/yosupo/*"
 ]
 resolver = "2"

@@ -3,6 +3,10 @@
 version = 3
 
 [[package]]
+name = "dual_seg_tree"
+version = "0.1.0"
+
+[[package]]
 name = "modint_mersenne"
 version = "0.1.0"
 dependencies = [
