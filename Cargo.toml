@@ -1,6 +1,7 @@
 [workspace]
 members = [
-    "string/*",
-    "internals/*",
+    "crates/internals/*",
+    "crates/string/*",
+    "verify/yosupo/*"
 ]
 resolver = "2"

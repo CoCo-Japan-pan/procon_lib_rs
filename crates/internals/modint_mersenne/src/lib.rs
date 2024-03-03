@@ -1,5 +1,5 @@
-use modint_traits::ModInt;
 pub use modint_traits::FromPrimitiveInt;
+use modint_traits::ModInt;
 use std::fmt::Display;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
@@ -40,9 +40,7 @@ impl ModIntMersenne {
         let mid = ad * bu + au * bd;
         let midu = mid >> 30;
         let midd = mid & ((1 << 30) - 1);
-        Self::calc_mod(
-            au * bu * 2 + midu + (midd << 31) + ad * bd,
-        )
+        Self::calc_mod(au * bu * 2 + midu + (midd << 31) + ad * bd)
     }
 }
 
@@ -54,9 +52,9 @@ impl ModInt for ModIntMersenne {
         let mut base = *self;
         while n > 0 {
             if n & 1 == 1 {
-                ret = ret * base;
+                ret *= base;
             }
-            base = base * base;
+            base *= base;
             n >>= 1;
         }
         ret
@@ -95,12 +93,10 @@ impl FromPrimitiveInt<i32> for ModIntMersenne {
     fn new(x: i32) -> Self {
         if x < 0 {
             ModIntMersenne {
-                value: MOD - ((-x) as u64),
+                value: MOD - x.unsigned_abs() as u64,
             }
         } else {
-            ModIntMersenne {
-                value: x as u64,
-            }
+            ModIntMersenne { value: x as u64 }
         }
     }
 }
@@ -108,10 +104,8 @@ impl FromPrimitiveInt<i32> for ModIntMersenne {
 impl FromPrimitiveInt<i64> for ModIntMersenne {
     type Output = ModIntMersenne;
     fn new(x: i64) -> Self {
-        if x == i64::MIN {
-            -ModIntMersenne::new((x + (MOD as i64)).abs() as u64)
-        } else if x < 0 {
-            -ModIntMersenne::new(x.abs() as u64)
+        if x < 0 {
+            -ModIntMersenne::new(x.unsigned_abs())
         } else {
             ModIntMersenne::new(x as u64)
         }

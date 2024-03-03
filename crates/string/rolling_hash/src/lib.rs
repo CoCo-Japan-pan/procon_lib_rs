@@ -1,4 +1,5 @@
 use modint_mersenne::{FromPrimitiveInt, ModIntMersenne};
+use std::iter::once;
 use std::time::SystemTime;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -17,17 +18,17 @@ impl RollingHash {
             .unwrap()
             .subsec_nanos();
         let base = ModIntMersenne::new(rand_time);
-        let base_pow_table: Vec<ModIntMersenne> = (0..s.len())
-            .scan(ModIntMersenne::new(1), |acc, _| {
-                *acc = *acc * base;
+        let base_pow_table: Vec<ModIntMersenne> = once(ModIntMersenne::new(1))
+            .chain((0..s.len()).scan(ModIntMersenne::new(1), |acc, _| {
+                *acc *= base;
                 Some(*acc)
-            })
+            }))
             .collect();
-        let prefix_hash_table: Vec<ModIntMersenne> = (0..s.len())
-            .scan(ModIntMersenne::new(0), |acc, i| {
-                *acc = *acc * base + ModIntMersenne::new(s[i] as u64);
+        let prefix_hash_table: Vec<ModIntMersenne> = once(ModIntMersenne::new(0))
+            .chain(s.iter().scan(ModIntMersenne::new(0), |acc, s| {
+                *acc = *acc * base + ModIntMersenne::new(*s as u64);
                 Some(*acc)
-            })
+            }))
             .collect();
         Self {
             base_pow_table,
@@ -46,7 +47,7 @@ impl RollingHash {
         self.base_pow_table[i]
     }
 
-    /// 接頭辞のhash値を返す
+    /// 接頭辞のhash値を返す(get_hash(0, i)と同じ)
     pub fn get_prefix_hash(&self, i: usize) -> ModIntMersenne {
         self.prefix_hash_table[i]
     }
