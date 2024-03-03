@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"trait":["FromPrimitiveInt","ModInt","Number"]};
