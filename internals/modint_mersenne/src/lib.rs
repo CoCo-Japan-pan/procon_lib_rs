@@ -1,4 +1,5 @@
-use modint_traits::{FromPrimitiveInt, ModInt};
+use modint_traits::ModInt;
+pub use modint_traits::FromPrimitiveInt;
 use std::fmt::Display;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
@@ -92,12 +93,14 @@ impl FromPrimitiveInt<usize> for ModIntMersenne {
 impl FromPrimitiveInt<i32> for ModIntMersenne {
     type Output = ModIntMersenne;
     fn new(x: i32) -> Self {
-        if x == i32::MIN {
-            -ModIntMersenne::new((x + (MOD as i32)).abs() as u64)
-        } else if x < 0 {
-            -ModIntMersenne::new(x.abs() as u64)
+        if x < 0 {
+            ModIntMersenne {
+                value: MOD - ((-x) as u64),
+            }
         } else {
-            ModIntMersenne::new(x as u64)
+            ModIntMersenne {
+                value: x as u64,
+            }
         }
     }
 }
