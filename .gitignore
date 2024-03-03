@@ -1,3 +1,4 @@
 target/
 *TOKEN
 env.sh
+cargo-doc/
