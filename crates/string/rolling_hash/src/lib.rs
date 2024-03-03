@@ -2,6 +2,7 @@ use modint_mersenne::{FromPrimitiveInt, ModIntMersenne};
 use std::iter::once;
 use std::time::SystemTime;
 
+/// 各接頭辞のハッシュ値を事前計算しておき、部分列のハッシュ値をO(1)で求める
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct RollingHash {
     /// baseの累乗のテーブル[0..s.len()]
@@ -11,6 +12,7 @@ pub struct RollingHash {
 }
 
 impl RollingHash {
+    /// sのrolling hashを構築 O(|s|)
     pub fn new(s: &Vec<char>) -> Self {
         // [2, MOD -2]の範囲で乱数を生成
         let rand_time = SystemTime::now()
@@ -36,7 +38,7 @@ impl RollingHash {
         }
     }
 
-    /// 部分列[l, r)のhash値を返す(0-base)
+    /// 部分列[l, r)のhash値を返す O(1)
     pub fn get_hash(&self, l: usize, r: usize) -> ModIntMersenne {
         assert!(l <= r);
         self.prefix_hash_table[r] - self.prefix_hash_table[l] * self.base_pow_table[r - l]
