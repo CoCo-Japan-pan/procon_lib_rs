@@ -1,1 +1,0 @@
-[cargo-doc](cargo-doc/doc/rolling_hash/index.html)

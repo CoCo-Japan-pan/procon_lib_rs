@@ -27,22 +27,8 @@ jobs:
         rustup install 1.70.0
         rustup override set nightly
 
-    - name: Run tests
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        YUKICODER_TOKEN: ${{ secrets.YUKICODER_TOKEN }}
-        GH_PAT: ${{ secrets.GH_PAT }}
-        DROPBOX_TOKEN: ${{ secrets.DROPBOX_TOKEN }}
-      run: oj-verify all
-
-    - name: switch to main
-      run: git switch main
-
     - name: generate cargo doc
-      run: cargo doc --lib --no-deps --target-dir cargo-doc
-    
-    - name: switch to gh-pages
-      run: git switch gh-pages
+      run: cargo doc --lib --no-deps --target-dir .verify-helper/docs/static/cargo-doc
 
     - name: commit and push
       env:
@@ -52,5 +38,13 @@ jobs:
         git config --global user.name "github-actions[bot]"
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git add cargo-doc
-        git commit -m "update"
-        git push origin gh-pages
+        git commit -m "update cargo doc"
+        git push origin main
+
+    - name: Run tests
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        YUKICODER_TOKEN: ${{ secrets.YUKICODER_TOKEN }}
+        GH_PAT: ${{ secrets.GH_PAT }}
+        DROPBOX_TOKEN: ${{ secrets.DROPBOX_TOKEN }}
+      run: oj-verify all
