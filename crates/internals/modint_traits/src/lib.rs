@@ -38,6 +38,7 @@ impl Number for u128 {}
 impl Number for usize {}
 
 /// Trait for converting primitive integers to ModInt.
+/// impl this for each primitive integer type to use `new` method.
 pub trait FromPrimitiveInt<T: Number> {
     type Output;
     fn new(x: T) -> Self::Output;
