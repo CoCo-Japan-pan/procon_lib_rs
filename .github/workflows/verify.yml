@@ -41,10 +41,11 @@ jobs:
         GH_PAT: ${{ secrets.GH_PAT }}
       run: |
         git switch main 
-        cargo doc --lib --no-deps --target-dir cargo-doc
+        cargo doc --lib --no-deps --target-dir
         git switch gh-pages
         git config --global user.name "github-actions[bot]"
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        cp -r ./target/doc cargo-doc
         git add -A
         git commit -m "update cargo doc"
         git push origin gh-pages
