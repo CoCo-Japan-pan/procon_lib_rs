@@ -1,17 +1,18 @@
 //! 作用素を通常のセグメント木のように持つ
 //! 作用が可換なら作用の伝播をしなくてOK
+//! 作用が可換でないなら作用の伝播をしてから適用する(未実装)
 
-pub use algebra::CommutativeMap;
+pub use algebra::{CommutativeMap, Map};
 use std::ops::RangeBounds;
 
 /// 可換な作用を区間適用, 1点取得(その点への作用の合成の取得)ができるデータ構造
-pub struct DualSegTree<T: CommutativeMap> {
+pub struct DualSegTree<T: Map> {
     lazy_nodes: Vec<T>,
     leaf_size: usize,
     range_size: usize,
 }
 
-impl<T: CommutativeMap> DualSegTree<T> {
+impl<T: Map> DualSegTree<T> {
     pub fn new(size: usize) -> Self {
         let mut leaf_size = 1;
         while leaf_size < size {
@@ -24,6 +25,20 @@ impl<T: CommutativeMap> DualSegTree<T> {
         }
     }
 
+    /// 一点取得 その点への作用の合成を返す
+    pub fn get(&self, i: usize) -> T {
+        assert!(i < self.range_size);
+        let mut i = i + self.leaf_size;
+        let mut res = T::id();
+        while i > 0 {
+            res = T::compostion(&res, &self.lazy_nodes[i]);
+            i >>= 1;
+        }
+        res
+    }
+}
+
+impl<T: CommutativeMap> DualSegTree<T> {
     /// 区間に作用を適用する
     pub fn apply<R: RangeBounds<usize>>(&mut self, range: R, map: &T) {
         let mut l = match range.start_bound() {
@@ -51,17 +66,5 @@ impl<T: CommutativeMap> DualSegTree<T> {
             l >>= 1;
             r >>= 1;
         }
-    }
-
-    /// 一点取得 その点への作用の合成を返す
-    pub fn get(&self, i: usize) -> T {
-        assert!(i < self.range_size);
-        let mut i = i + self.leaf_size;
-        let mut res = T::id();
-        while i > 0 {
-            res = T::compostion(&res, &self.lazy_nodes[i]);
-            i >>= 1;
-        }
-        res
     }
 }

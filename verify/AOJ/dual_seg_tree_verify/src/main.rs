@@ -1,6 +1,6 @@
 // verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_D
 
-use dual_seg_tree::{CommutativeMap, DualSegTree};
+use dual_seg_tree::{CommutativeMap, DualSegTree, Map};
 use proconio::{fastout, input};
 
 #[derive(Debug, Clone, PartialEq, Eq, Copy)]
@@ -9,7 +9,7 @@ pub struct RUQ {
     value: u32,
 }
 
-impl CommutativeMap for RUQ {
+impl Map for RUQ {
     fn id() -> Self {
         Self {
             time_stamp: 0,
@@ -27,6 +27,8 @@ impl CommutativeMap for RUQ {
         }
     }
 }
+
+impl CommutativeMap for RUQ {}
 
 #[fastout]
 fn main() {
