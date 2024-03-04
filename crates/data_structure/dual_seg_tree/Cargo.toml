@@ -2,6 +2,7 @@
 name = "dual_seg_tree"
 version = "0.1.0"
 edition = "2021"
+repository = "ssh://git@github.com/CoCo-Japan-pan/procon_lib_rs.git"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
