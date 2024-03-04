@@ -1,11 +1,13 @@
 //! 作用素を通常のセグメント木のように持つ
+//!
 //! 作用が可換なら作用の伝播をしなくてOK
+//!
 //! 作用が可換でないなら作用の伝播をしてから適用する(未実装)
 
 pub use algebra::{CommutativeMap, Map};
 use std::ops::RangeBounds;
 
-/// 可換な作用を区間適用, 1点取得(その点への作用の合成の取得)ができるデータ構造
+/// 作用を区間適用, 1点取得(その点への作用の合成の取得)ができるデータ構造
 pub struct DualSegTree<T: Map> {
     lazy_nodes: Vec<T>,
     leaf_size: usize,
