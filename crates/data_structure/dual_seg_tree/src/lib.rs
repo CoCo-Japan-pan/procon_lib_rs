@@ -1,9 +1,10 @@
-use std::ops::RangeBounds;
+//! 作用素を通常のセグメント木のように持つ
+//! 作用が可換なら作用の伝播をしなくてOK
 
 pub use algebra::CommutativeMap;
+use std::ops::RangeBounds;
 
-/// 可換な作用素を通常のセグメント木のように持つ
-/// 一点取得時には、その作用の合成を返す
+/// 可換な作用を区間適用, 1点取得(その点への作用の合成の取得)ができるデータ構造
 pub struct DualSegTree<T: CommutativeMap> {
     lazy_nodes: Vec<T>,
     leaf_size: usize,
@@ -24,7 +25,7 @@ impl<T: CommutativeMap> DualSegTree<T> {
     }
 
     /// 区間に作用を適用する
-    pub fn apply<R: RangeBounds<usize>>(&mut self, range: R) {
+    pub fn apply<R: RangeBounds<usize>>(&mut self, range: R, map: &T) {
         let mut l = match range.start_bound() {
             std::ops::Bound::Included(&l) => l,
             std::ops::Bound::Excluded(&l) => l + 1,
@@ -40,12 +41,12 @@ impl<T: CommutativeMap> DualSegTree<T> {
         r += self.leaf_size;
         while l < r {
             if l & 1 == 1 {
-                self.lazy_nodes[l] = T::compostion(&self.lazy_nodes[l], &T::id());
+                self.lazy_nodes[l] = T::compostion(&self.lazy_nodes[l], map);
                 l += 1;
             }
             if r & 1 == 1 {
                 r -= 1;
-                self.lazy_nodes[r] = T::compostion(&self.lazy_nodes[r], &T::id());
+                self.lazy_nodes[r] = T::compostion(&self.lazy_nodes[r], map);
             }
             l >>= 1;
             r >>= 1;

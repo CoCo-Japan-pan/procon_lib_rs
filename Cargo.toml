@@ -4,6 +4,7 @@ members = [
     "crates/string/*",
     "crates/data_structure/*",
     "crates/algebra",
-    "verify/yosupo/*"
+    "verify/yosupo/*",
+    "verify/AOJ/*"
 ]
 resolver = "2"

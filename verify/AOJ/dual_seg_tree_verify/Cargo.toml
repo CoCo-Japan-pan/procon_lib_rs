@@ -1,0 +1,10 @@
+[package]
+name = "dual_seg_tree_verify"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+proconio = { version = "=0.4.5", features = ["derive"] }
+dual_seg_tree = { path = "../../../crates/data_structure/dual_seg_tree" }
