@@ -12,3 +12,6 @@ pub trait Map: Debug + Clone + PartialEq + Eq {
 
 /// 可換な作用
 pub trait CommutativeMap: Map {}
+
+/// 非可換な作用
+pub trait NonCommutativeMap: Map {}
