@@ -14,6 +14,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "dual_seg_tree_non_commutative"
+version = "0.1.0"
+dependencies = [
+ "dual_seg_tree",
+ "proconio",
+]
+
+[[package]]
 name = "dual_seg_tree_verify"
 version = "0.1.0"
 dependencies = [
