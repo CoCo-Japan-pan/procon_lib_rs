@@ -14,11 +14,11 @@ pub struct RollingHash {
 impl RollingHash {
     /// sのrolling hashを構築 `O(|s|)`
     pub fn new(s: &Vec<char>) -> Self {
-        // [2, MOD -2]の範囲で乱数を生成
-        let rand_time = SystemTime::now()
+        // baseは乱数を生成(randクレートを使えない場合を考慮して時間で)
+        let rand_duration = SystemTime::now()
             .duration_since(SystemTime::UNIX_EPOCH)
-            .unwrap()
-            .subsec_nanos();
+            .unwrap();
+        let rand_time = rand_duration.subsec_nanos() as u64 + rand_duration.as_secs();
         let base = ModIntMersenne::new(rand_time);
         let base_pow_table: Vec<ModIntMersenne> = once(ModIntMersenne::new(1))
             .chain((0..s.len()).scan(ModIntMersenne::new(1), |acc, _| {

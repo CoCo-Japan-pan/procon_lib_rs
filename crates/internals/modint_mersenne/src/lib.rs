@@ -1,5 +1,5 @@
 pub use modint_traits::FromPrimitiveInt;
-use modint_traits::ModInt;
+use modint_traits::ModInt; // 外部でpowやinvを使うならpubにする
 use std::fmt::Display;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
