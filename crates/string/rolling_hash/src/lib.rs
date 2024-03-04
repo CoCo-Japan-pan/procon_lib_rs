@@ -1,5 +1,6 @@
 use modint_mersenne::{FromPrimitiveInt, ModIntMersenne};
 use std::iter::once;
+use std::ops::RangeBounds;
 use std::time::SystemTime;
 
 /// 各接頭辞のハッシュ値を事前計算しておき、連続部分列のハッシュ値を`O(1)`で求める
@@ -38,9 +39,19 @@ impl RollingHash {
         }
     }
 
-    /// 部分列`s[l..r]`のhash値を返す `O(1)`
-    pub fn get_hash(&self, l: usize, r: usize) -> ModIntMersenne {
-        assert!(l <= r);
+    /// 部分列`s[range]`のhash値を返す `O(1)`
+    pub fn get_hash<R: RangeBounds<usize>>(&self, range: R) -> ModIntMersenne {
+        let l = match range.start_bound() {
+            std::ops::Bound::Included(&l) => l,
+            std::ops::Bound::Excluded(&l) => l + 1,
+            std::ops::Bound::Unbounded => 0,
+        };
+        let r = match range.end_bound() {
+            std::ops::Bound::Included(&r) => r + 1,
+            std::ops::Bound::Excluded(&r) => r,
+            std::ops::Bound::Unbounded => self.prefix_hash_table.len() - 1,
+        };
+        assert!(l <= r && r < self.prefix_hash_table.len());
         self.prefix_hash_table[r] - self.prefix_hash_table[l] * self.base_pow_table[r - l]
     }
 
@@ -49,7 +60,7 @@ impl RollingHash {
         self.base_pow_table[i]
     }
 
-    /// 接頭辞のhash値を返す(`get_hash(0, i)`と同じ)
+    /// 接頭辞のhash値を返す(`get_hash(0..i)`と同じ)
     pub fn get_prefix_hash(&self, i: usize) -> ModIntMersenne {
         self.prefix_hash_table[i]
     }

@@ -16,7 +16,7 @@ fn main() {
         let mut right = S.len() + 1;
         while right - left > 1 {
             let mid = (left + right) / 2;
-            if rh.get_hash(i, mid) == rh.get_prefix_hash(mid - i) {
+            if rh.get_hash(i..mid) == rh.get_prefix_hash(mid - i) {
                 left = mid;
             } else {
                 right = mid;
