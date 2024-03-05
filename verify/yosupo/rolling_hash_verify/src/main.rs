@@ -9,7 +9,7 @@ fn main() {
     input! {
         S: Chars,
     }
-    let rh = RollingHash::new(&S);
+    let rh = RollingHash::new(&S, None);
     for i in 0..S.len() {
         // [i, i) ~ [i, S.len() + 1) で二分探索
         let mut left = i;

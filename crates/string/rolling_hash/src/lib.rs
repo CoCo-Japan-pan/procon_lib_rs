@@ -15,14 +15,20 @@ pub struct RollingHash {
 }
 
 impl RollingHash {
-    /// sのrolling hashを構築 `O(|s|)`
-    pub fn new(s: &Vec<char>) -> Self {
-        // baseは乱数を生成(randクレートを使えない場合を考慮して時間で)
-        let rand_duration = SystemTime::now()
-            .duration_since(SystemTime::UNIX_EPOCH)
-            .unwrap();
-        let rand_time = rand_duration.subsec_nanos() as u64 + rand_duration.as_secs();
-        let base = ModIntMersenne::new(rand_time);
+    /// sのrolling hashを構築 `O(|s|)`  
+    /// 複数の文字列に用いられる場合はbaseを指定する
+    pub fn new(s: &Vec<char>, base: Option<u64>) -> Self {
+        // baseとしてNoneが指定されてたら乱数を生成(randクレートを使えない場合を考慮して時間で)
+        let base = if let Some(base) = base {
+            assert!(base > 1 && base < ModIntMersenne::modulus() - 1);
+            base
+        } else {
+            let rand_duration = SystemTime::now()
+                .duration_since(SystemTime::UNIX_EPOCH)
+                .unwrap();
+            rand_duration.subsec_nanos() as u64 + rand_duration.as_secs()
+        };
+        let base = ModIntMersenne::new(base);
         let base_pow_table: Vec<ModIntMersenne> = once(ModIntMersenne::new(1))
             .chain((0..s.len()).scan(ModIntMersenne::new(1), |acc, _| {
                 *acc *= base;
@@ -60,7 +66,7 @@ impl RollingHash {
         let r = match range.end_bound() {
             std::ops::Bound::Included(&r) => r + 1,
             std::ops::Bound::Excluded(&r) => r,
-            std::ops::Bound::Unbounded => self.prefix_hash_table.len() - 1,
+            std::ops::Bound::Unbounded => self.len,
         };
         assert!(l <= r && r < self.prefix_hash_table.len());
         self.prefix_hash_table[r] - self.prefix_hash_table[l] * self.base_pow_table[r - l]
