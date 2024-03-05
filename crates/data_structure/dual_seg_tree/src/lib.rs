@@ -18,7 +18,7 @@ pub struct DualSegTree<T: Map> {
 impl<T: Map> DualSegTree<T> {
     pub fn new(size: usize) -> Self {
         let mut leaf_size = 1;
-        let mut log = 1;
+        let mut log = 0;
         while leaf_size < size {
             leaf_size *= 2;
             log += 1;
