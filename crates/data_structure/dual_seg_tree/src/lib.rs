@@ -34,7 +34,7 @@ impl<T: Map> DualSegTree<T> {
         assert!(i < self.range_size);
         let mut i = i + self.leaf_size;
         while i > 0 {
-            target = T::mapping(&self.lazy_nodes[i], &target);
+            target = self.lazy_nodes[i].mapping(&target);
             i >>= 1;
         }
         target
@@ -67,6 +67,9 @@ impl<T: CommutativeMap> DualSegTree<T> {
             std::ops::Bound::Unbounded => self.range_size,
         };
         assert!(l <= r && r <= self.range_size);
+        if l == r {
+            return;
+        }
         l += self.leaf_size;
         r += self.leaf_size;
         while l < r {

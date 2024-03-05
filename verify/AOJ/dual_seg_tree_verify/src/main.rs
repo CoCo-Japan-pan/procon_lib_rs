@@ -23,11 +23,11 @@ impl algebra::Map for RUQ {
             *self = *rhs;
         }
     }
-    fn mapping(map: &Self, target: &Self::Target) -> Self::Target {
-        if map.time_stamp < target.time_stamp {
+    fn mapping(&self, target: &Self::Target) -> Self::Target {
+        if self.time_stamp < target.time_stamp {
             *target
         } else {
-            *map
+            *self
         }
     }
 }
@@ -60,8 +60,8 @@ fn main() {
             input! {
                 i: usize,
             }
-            let mapped = seg.get_mapped(i, RUQ::id());
-            println!("{}", mapped.value);
+            let composed = seg.get_composition(i);
+            println!("{}", composed.mapping(&RUQ::id()).value);
         }
     }
 }

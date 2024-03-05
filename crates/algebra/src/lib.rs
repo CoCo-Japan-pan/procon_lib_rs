@@ -10,7 +10,7 @@ pub trait Map: Debug + Clone + PartialEq + Eq {
     /// 作用の合成
     fn composition(&mut self, rhs: &Self);
     /// 作用の適用
-    fn mapping(map: &Self, target: &Self::Target) -> Self::Target;
+    fn mapping(&self, target: &Self::Target) -> Self::Target;
 }
 
 /// 可換な作用
