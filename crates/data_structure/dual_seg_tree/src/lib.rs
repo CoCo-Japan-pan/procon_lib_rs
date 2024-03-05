@@ -5,7 +5,7 @@
 use algebra::{CommutativeMap, Map, NonCommutativeMap};
 use std::ops::RangeBounds;
 
-/// 作用を区間適用, 1点取得(その点への作用の合成の取得)ができるデータ構造
+/// 作用を区間適用, 1点取得ができるデータ構造
 pub struct DualSegTree<T: Map> {
     lazy_nodes: Vec<T>,
     leaf_size: usize,

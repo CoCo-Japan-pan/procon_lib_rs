@@ -1,4 +1,4 @@
-use modint_mersenne::{FromPrimitiveInt, ModIntMersenne};
+use modint_mersenne::ModIntMersenne;
 use std::iter::once;
 use std::ops::RangeBounds;
 use std::time::SystemTime;

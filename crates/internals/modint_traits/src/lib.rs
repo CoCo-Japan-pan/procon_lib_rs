@@ -23,23 +23,6 @@ pub trait ModInt:
 }
 
 /// Trait for primitive integer types.
-pub trait Number {}
-impl Number for i8 {}
-impl Number for i16 {}
-impl Number for i32 {}
-impl Number for i64 {}
-impl Number for i128 {}
-impl Number for isize {}
-impl Number for u8 {}
-impl Number for u16 {}
-impl Number for u32 {}
-impl Number for u64 {}
-impl Number for u128 {}
-impl Number for usize {}
-
-/// Trait for converting primitive integers to ModInt.
-/// impl this for each primitive integer type to use `new` method.
-pub trait FromPrimitiveInt<T: Number> {
-    type Output;
-    fn new(x: T) -> Self::Output;
+pub trait RemEuclidU32 {
+    fn rem_euclid_u32(self, m: u32) -> u32;
 }

@@ -1,4 +1,3 @@
-pub use modint_traits::FromPrimitiveInt;
 use modint_traits::ModInt;
 use std::fmt::Display;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
@@ -15,6 +14,9 @@ impl Display for ModIntMersenne {
 }
 
 impl ModIntMersenne {
+    pub fn new<T: RemEuclidU64>(x: T) -> Self {
+        x.rem_euclid_u64()
+    }
     pub fn value(&self) -> u64 {
         self.value
     }
@@ -64,59 +66,55 @@ impl ModInt for ModIntMersenne {
     }
 }
 
-impl FromPrimitiveInt<u32> for ModIntMersenne {
-    type Output = ModIntMersenne;
-    fn new(x: u32) -> Self::Output {
-        ModIntMersenne { value: x.into() }
+pub trait RemEuclidU64 {
+    fn rem_euclid_u64(self) -> ModIntMersenne;
+}
+
+impl RemEuclidU64 for u32 {
+    fn rem_euclid_u64(self) -> ModIntMersenne {
+        ModIntMersenne { value: self as u64 }
     }
 }
 
-impl FromPrimitiveInt<u64> for ModIntMersenne {
-    type Output = ModIntMersenne;
-    fn new(x: u64) -> Self::Output {
+impl RemEuclidU64 for u64 {
+    fn rem_euclid_u64(self) -> ModIntMersenne {
         ModIntMersenne {
-            value: ModIntMersenne::calc_mod(x),
+            value: ModIntMersenne::calc_mod(self),
         }
     }
 }
 
-impl FromPrimitiveInt<usize> for ModIntMersenne {
-    type Output = ModIntMersenne;
-    fn new(x: usize) -> Self {
-        let casted: u64 = x.try_into().unwrap();
-        ModIntMersenne::new(casted)
+impl RemEuclidU64 for usize {
+    fn rem_euclid_u64(self) -> ModIntMersenne {
+        let casted: u64 = self.try_into().unwrap();
+        casted.rem_euclid_u64()
     }
 }
 
-impl FromPrimitiveInt<i32> for ModIntMersenne {
-    type Output = ModIntMersenne;
-    fn new(x: i32) -> Self {
-        if x < 0 {
-            ModIntMersenne {
-                value: MOD - x.unsigned_abs() as u64,
-            }
+impl RemEuclidU64 for i32 {
+    fn rem_euclid_u64(self) -> ModIntMersenne {
+        if self < 0 {
+            -(self.unsigned_abs().rem_euclid_u64())
         } else {
-            ModIntMersenne { value: x as u64 }
+            (self as u64).rem_euclid_u64()
         }
     }
 }
 
-impl FromPrimitiveInt<i64> for ModIntMersenne {
-    type Output = ModIntMersenne;
-    fn new(x: i64) -> Self {
-        if x < 0 {
-            -ModIntMersenne::new(x.unsigned_abs())
+impl RemEuclidU64 for i64 {
+    fn rem_euclid_u64(self) -> ModIntMersenne {
+        if self < 0 {
+            -(self.unsigned_abs().rem_euclid_u64())
         } else {
-            ModIntMersenne::new(x as u64)
+            (self as u64).rem_euclid_u64()
         }
     }
 }
 
-impl FromPrimitiveInt<isize> for ModIntMersenne {
-    type Output = ModIntMersenne;
-    fn new(x: isize) -> Self {
-        let casted: i64 = x.try_into().unwrap();
-        ModIntMersenne::new(casted)
+impl RemEuclidU64 for isize {
+    fn rem_euclid_u64(self) -> ModIntMersenne {
+        let casted: i64 = self.try_into().unwrap();
+        casted.rem_euclid_u64()
     }
 }
 
