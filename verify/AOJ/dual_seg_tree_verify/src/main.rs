@@ -1,5 +1,6 @@
 // verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_D
 
+use algebra::Map;
 use dual_seg_tree::DualSegTree;
 use proconio::{fastout, input};
 
@@ -10,15 +11,23 @@ pub struct RUQ {
 }
 
 impl algebra::Map for RUQ {
+    type Target = Self;
     fn id() -> Self {
         Self {
             time_stamp: 0,
-            value: u32::MAX,
+            value: (1_u32 << 31) - 1,
         }
     }
-    fn compostion(&mut self, rhs: &Self) {
+    fn composition(&mut self, rhs: &Self) {
         if self.time_stamp < rhs.time_stamp {
             *self = *rhs;
+        }
+    }
+    fn mapping(map: &Self, target: &Self::Target) -> Self::Target {
+        if map.time_stamp < target.time_stamp {
+            *target
+        } else {
+            *map
         }
     }
 }
@@ -51,15 +60,8 @@ fn main() {
             input! {
                 i: usize,
             }
-            let composed = seg.get(i);
-            println!(
-                "{}",
-                if composed.time_stamp == 0 {
-                    (1_u32 << 31) - 1
-                } else {
-                    composed.value
-                }
-            );
+            let mapped = seg.get_mapped(i, RUQ::id());
+            println!("{}", mapped.value);
         }
     }
 }

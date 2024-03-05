@@ -29,13 +29,24 @@ impl<T: Map> DualSegTree<T> {
         }
     }
 
-    /// 一点取得 その点への作用の合成を返す
-    pub fn get(&self, i: usize) -> T {
+    /// 一点取得(その点への作用を適用した結果を返す)
+    pub fn get_mapped(&self, i: usize, mut target: T::Target) -> T::Target {
+        assert!(i < self.range_size);
+        let mut i = i + self.leaf_size;
+        while i > 0 {
+            target = T::mapping(&self.lazy_nodes[i], &target);
+            i >>= 1;
+        }
+        target
+    }
+
+    /// 一点取得(その点への作用の合成を返す)
+    pub fn get_composition(&self, i: usize) -> T {
         assert!(i < self.range_size);
         let mut i = i + self.leaf_size;
         let mut res = T::id();
         while i > 0 {
-            res.compostion(&self.lazy_nodes[i]);
+            res.composition(&self.lazy_nodes[i]);
             i >>= 1;
         }
         res
@@ -60,12 +71,12 @@ impl<T: CommutativeMap> DualSegTree<T> {
         r += self.leaf_size;
         while l < r {
             if l & 1 == 1 {
-                self.lazy_nodes[l].compostion(map);
+                self.lazy_nodes[l].composition(map);
                 l += 1;
             }
             if r & 1 == 1 {
                 r -= 1;
-                self.lazy_nodes[r].compostion(map);
+                self.lazy_nodes[r].composition(map);
             }
             l >>= 1;
             r >>= 1;
@@ -103,12 +114,12 @@ impl<T: NonCommutativeMap> DualSegTree<T> {
         }
         while l < r {
             if l & 1 == 1 {
-                self.lazy_nodes[l].compostion(map);
+                self.lazy_nodes[l].composition(map);
                 l += 1;
             }
             if r & 1 == 1 {
                 r -= 1;
-                self.lazy_nodes[r].compostion(map);
+                self.lazy_nodes[r].composition(map);
             }
             l >>= 1;
             r >>= 1;
@@ -119,7 +130,7 @@ impl<T: NonCommutativeMap> DualSegTree<T> {
         // 親ノードから子ノードへの作用の伝播
         let mut parent = T::id();
         std::mem::swap(&mut parent, &mut self.lazy_nodes[i]);
-        self.lazy_nodes[i * 2].compostion(&parent);
-        self.lazy_nodes[i * 2 + 1].compostion(&parent);
+        self.lazy_nodes[i * 2].composition(&parent);
+        self.lazy_nodes[i * 2 + 1].composition(&parent);
     }
 }

@@ -3,10 +3,14 @@ use std::fmt::Debug;
 
 /// 作用
 pub trait Map: Debug + Clone + PartialEq + Eq {
+    /// 作用の対象
+    type Target: Debug + Clone + PartialEq + Eq;
     /// 恒等写像
     fn id() -> Self;
     /// 作用の合成
-    fn compostion(&mut self, rhs: &Self);
+    fn composition(&mut self, rhs: &Self);
+    /// 作用の適用
+    fn mapping(map: &Self, target: &Self::Target) -> Self::Target;
 }
 
 /// 可換な作用

@@ -9,12 +9,20 @@ pub struct RUQ {
 }
 
 impl algebra::Map for RUQ {
+    type Target = u32;
     fn id() -> Self {
         Self { value: None }
     }
-    fn compostion(&mut self, rhs: &Self) {
+    fn composition(&mut self, rhs: &Self) {
         if rhs.value.is_some() {
             *self = *rhs;
+        }
+    }
+    fn mapping(map: &Self, target: &Self::Target) -> Self::Target {
+        if let Some(value) = map.value {
+            value
+        } else {
+            *target
         }
     }
 }
@@ -44,8 +52,8 @@ fn main() {
             input! {
                 i: usize,
             }
-            let composed = seg.get(i);
-            println!("{}", composed.value.unwrap_or((1_u32 << 31) - 1));
+            let mapped = seg.get_mapped(i, (1_u32 << 31) - 1);
+            println!("{}", mapped);
         }
     }
 }
