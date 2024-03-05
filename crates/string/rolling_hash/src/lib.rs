@@ -68,17 +68,19 @@ impl RollingHash {
             std::ops::Bound::Excluded(&r) => r,
             std::ops::Bound::Unbounded => self.len,
         };
-        assert!(l <= r && r < self.prefix_hash_table.len());
+        assert!(l <= r && r <= self.len);
         self.prefix_hash_table[r] - self.prefix_hash_table[l] * self.base_pow_table[r - l]
     }
 
     /// `base^i`を返す
     pub fn get_base_pow(&self, i: usize) -> ModIntMersenne {
+        assert!(i <= self.len);
         self.base_pow_table[i]
     }
 
     /// 接頭辞のhash値を返す(`get_hash(0..i)`と同じだが、テーブルから引く)
     pub fn get_prefix_hash(&self, i: usize) -> ModIntMersenne {
+        assert!(i <= self.len);
         self.prefix_hash_table[i]
     }
 }
