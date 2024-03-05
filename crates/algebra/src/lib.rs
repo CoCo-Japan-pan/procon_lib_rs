@@ -1,4 +1,3 @@
-//! # Algebra
 //! `Algrebra`では、データ構造に乗せる代数構造のtraitを提供します。
 use std::fmt::Debug;
 

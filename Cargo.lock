@@ -17,6 +17,7 @@ dependencies = [
 name = "dual_seg_tree_non_commutative"
 version = "0.1.0"
 dependencies = [
+ "algebra",
  "dual_seg_tree",
  "proconio",
 ]
@@ -25,6 +26,7 @@ dependencies = [
 name = "dual_seg_tree_verify"
 version = "0.1.0"
 dependencies = [
+ "algebra",
  "dual_seg_tree",
  "proconio",
 ]

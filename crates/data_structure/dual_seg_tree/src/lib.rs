@@ -4,7 +4,7 @@
 //!
 //! 作用が可換でないなら作用の伝播をしてから適用する
 
-pub use algebra::{CommutativeMap, Map, NonCommutativeMap};
+use algebra::{CommutativeMap, Map, NonCommutativeMap};
 use std::ops::RangeBounds;
 
 /// 作用を区間適用, 1点取得(その点への作用の合成の取得)ができるデータ構造
@@ -46,7 +46,7 @@ impl<T: Map> DualSegTree<T> {
 
 impl<T: CommutativeMap> DualSegTree<T> {
     /// 区間に可換な作用を適用する 可換なので作用の伝播をしなくてOK
-    pub fn apply<R: RangeBounds<usize>>(&mut self, range: R, map: &T) {
+    pub fn apply_commutative<R: RangeBounds<usize>>(&mut self, range: R, map: &T) {
         let mut l = match range.start_bound() {
             std::ops::Bound::Included(&l) => l,
             std::ops::Bound::Excluded(&l) => l + 1,
@@ -77,7 +77,7 @@ impl<T: CommutativeMap> DualSegTree<T> {
 
 impl<T: NonCommutativeMap> DualSegTree<T> {
     /// 区間に非可換な作用を適用する 非可換なので作用の伝播を先に行う必要がある
-    pub fn propagate_and_apply<R: RangeBounds<usize>>(&mut self, range: R, map: &T) {
+    pub fn apply_non_commutative<R: RangeBounds<usize>>(&mut self, range: R, map: &T) {
         let mut l = match range.start_bound() {
             std::ops::Bound::Included(&l) => l,
             std::ops::Bound::Excluded(&l) => l + 1,

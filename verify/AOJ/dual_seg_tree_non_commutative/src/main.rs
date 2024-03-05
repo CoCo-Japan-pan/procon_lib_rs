@@ -1,6 +1,6 @@
 // verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_D
 
-use dual_seg_tree::{DualSegTree, Map, NonCommutativeMap};
+use dual_seg_tree::DualSegTree;
 use proconio::{fastout, input};
 
 #[derive(Debug, Clone, PartialEq, Eq, Copy)]
@@ -8,7 +8,7 @@ pub struct RUQ {
     value: Option<u32>,
 }
 
-impl Map for RUQ {
+impl algebra::Map for RUQ {
     fn id() -> Self {
         Self { value: None }
     }
@@ -19,7 +19,7 @@ impl Map for RUQ {
     }
 }
 
-impl NonCommutativeMap for RUQ {}
+impl algebra::NonCommutativeMap for RUQ {}
 
 #[fastout]
 fn main() {
@@ -39,7 +39,7 @@ fn main() {
                 x: u32,
             }
             let map = RUQ { value: Some(x) };
-            seg.propagate_and_apply(s..=t, &map);
+            seg.apply_non_commutative(s..=t, &map);
         } else {
             input! {
                 i: usize,
