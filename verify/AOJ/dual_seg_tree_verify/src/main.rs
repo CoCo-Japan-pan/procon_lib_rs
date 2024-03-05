@@ -16,14 +16,9 @@ impl algebra::Map for RUQ {
             value: u32::MAX,
         }
     }
-    fn compostion(a: &Self, b: &Self) -> Self {
-        match a.time_stamp.cmp(&b.time_stamp) {
-            std::cmp::Ordering::Greater => *a,
-            std::cmp::Ordering::Less => *b,
-            std::cmp::Ordering::Equal => {
-                assert!(a.value == b.value);
-                *a
-            }
+    fn compostion(&mut self, rhs: &Self) {
+        if self.time_stamp < rhs.time_stamp {
+            *self = *rhs;
         }
     }
 }

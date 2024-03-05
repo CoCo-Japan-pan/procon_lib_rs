@@ -12,9 +12,9 @@ impl algebra::Map for RUQ {
     fn id() -> Self {
         Self { value: None }
     }
-    fn compostion(a: &Self, b: &Self) -> Self {
-        Self {
-            value: b.value.or(a.value),
+    fn compostion(&mut self, rhs: &Self) {
+        if rhs.value.is_some() {
+            *self = *rhs;
         }
     }
 }

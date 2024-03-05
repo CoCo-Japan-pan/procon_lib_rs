@@ -35,7 +35,7 @@ impl<T: Map> DualSegTree<T> {
         let mut i = i + self.leaf_size;
         let mut res = T::id();
         while i > 0 {
-            res = T::compostion(&res, &self.lazy_nodes[i]);
+            res.compostion(&self.lazy_nodes[i]);
             i >>= 1;
         }
         res
@@ -60,12 +60,12 @@ impl<T: CommutativeMap> DualSegTree<T> {
         r += self.leaf_size;
         while l < r {
             if l & 1 == 1 {
-                self.lazy_nodes[l] = T::compostion(&self.lazy_nodes[l], map);
+                self.lazy_nodes[l].compostion(map);
                 l += 1;
             }
             if r & 1 == 1 {
                 r -= 1;
-                self.lazy_nodes[r] = T::compostion(&self.lazy_nodes[r], map);
+                self.lazy_nodes[r].compostion(map);
             }
             l >>= 1;
             r >>= 1;
@@ -103,12 +103,12 @@ impl<T: NonCommutativeMap> DualSegTree<T> {
         }
         while l < r {
             if l & 1 == 1 {
-                self.lazy_nodes[l] = T::compostion(&self.lazy_nodes[l], map);
+                self.lazy_nodes[l].compostion(map);
                 l += 1;
             }
             if r & 1 == 1 {
                 r -= 1;
-                self.lazy_nodes[r] = T::compostion(&self.lazy_nodes[r], map);
+                self.lazy_nodes[r].compostion(map);
             }
             l >>= 1;
             r >>= 1;
@@ -117,9 +117,9 @@ impl<T: NonCommutativeMap> DualSegTree<T> {
 
     fn propagate(&mut self, i: usize) {
         // 親ノードから子ノードへの作用の伝播
-        self.lazy_nodes[i * 2] = T::compostion(&self.lazy_nodes[i * 2], &self.lazy_nodes[i]);
-        self.lazy_nodes[i * 2 + 1] =
-            T::compostion(&self.lazy_nodes[i * 2 + 1], &self.lazy_nodes[i]);
-        self.lazy_nodes[i] = T::id();
+        let mut parent = T::id();
+        std::mem::swap(&mut parent, &mut self.lazy_nodes[i]);
+        self.lazy_nodes[i * 2].compostion(&parent);
+        self.lazy_nodes[i * 2 + 1].compostion(&parent);
     }
 }

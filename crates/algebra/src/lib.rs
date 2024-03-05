@@ -6,7 +6,7 @@ pub trait Map: Debug + Clone + PartialEq + Eq {
     /// 恒等写像
     fn id() -> Self;
     /// 作用の合成
-    fn compostion(a: &Self, b: &Self) -> Self;
+    fn compostion(&mut self, rhs: &Self);
 }
 
 /// 可換な作用
