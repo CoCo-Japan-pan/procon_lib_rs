@@ -6,6 +6,8 @@ use std::time::SystemTime;
 /// 各接頭辞のハッシュ値を事前計算しておき、連続部分列のハッシュ値を`O(1)`で求める
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct RollingHash {
+    /// 文字列の長さ
+    len: usize,
     /// baseの累乗のテーブル[0..s.len()]
     base_pow_table: Vec<ModIntMersenne>,
     /// sのprefixのhash値のテーブル[0..s.len()]
@@ -34,9 +36,18 @@ impl RollingHash {
             }))
             .collect();
         Self {
+            len: s.len(),
             base_pow_table,
             prefix_hash_table,
         }
+    }
+
+    pub fn len(&self) -> usize {
+        self.len
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.len == 0
     }
 
     /// 部分列`s[range]`のhash値を返す `O(1)`
@@ -60,7 +71,7 @@ impl RollingHash {
         self.base_pow_table[i]
     }
 
-    /// 接頭辞のhash値を返す(`get_hash(0..i)`と同じ)
+    /// 接頭辞のhash値を返す(`get_hash(0..i)`と同じだが、テーブルから引く)
     pub fn get_prefix_hash(&self, i: usize) -> ModIntMersenne {
         self.prefix_hash_table[i]
     }
