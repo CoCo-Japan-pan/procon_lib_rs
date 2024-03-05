@@ -15,6 +15,13 @@ pub struct RollingHash {
 }
 
 impl RollingHash {
+    /// base用の乱数生成(指定するbaseの生成にこれを使えます)
+    pub fn get_random_base() -> u64 {
+        let rand_duration = SystemTime::now()
+            .duration_since(SystemTime::UNIX_EPOCH)
+            .unwrap();
+        rand_duration.subsec_nanos() as u64 + rand_duration.as_secs()
+    }
     /// sのrolling hashを構築 `O(|s|)`  
     /// 複数の文字列に用いられる場合はbaseを指定する
     pub fn new(s: &Vec<char>, base: Option<u64>) -> Self {
@@ -23,10 +30,7 @@ impl RollingHash {
             assert!(base > 1 && base < ModIntMersenne::modulus() - 1);
             base
         } else {
-            let rand_duration = SystemTime::now()
-                .duration_since(SystemTime::UNIX_EPOCH)
-                .unwrap();
-            rand_duration.subsec_nanos() as u64 + rand_duration.as_secs()
+            Self::get_random_base()
         };
         let base = ModIntMersenne::new(base);
         let base_pow_table: Vec<ModIntMersenne> = once(ModIntMersenne::new(1))
