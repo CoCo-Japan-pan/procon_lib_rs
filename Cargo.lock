@@ -34,6 +34,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "dsl_2h_lazy_seg_commutative"
+version = "0.1.0"
+dependencies = [
+ "algebra",
+ "lazy_seg_tree",
+ "proconio",
+]
+
+[[package]]
 name = "dual_seg_tree"
 version = "0.1.0"
 dependencies = [
