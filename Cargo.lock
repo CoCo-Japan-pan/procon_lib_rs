@@ -32,6 +32,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "lazy_seg_tree"
+version = "0.1.0"
+dependencies = [
+ "algebra",
+]
+
+[[package]]
 name = "modint_mersenne"
 version = "0.1.0"
 dependencies = [

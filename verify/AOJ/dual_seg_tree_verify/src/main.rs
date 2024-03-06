@@ -12,7 +12,7 @@ pub struct RUQ {
 
 impl algebra::Map for RUQ {
     type Target = Self;
-    fn id() -> Self {
+    fn id_map() -> Self {
         Self {
             time_stamp: 0,
             value: (1_u32 << 31) - 1,
@@ -61,7 +61,7 @@ fn main() {
                 i: usize,
             }
             let composed = seg.get_composition(i);
-            println!("{}", composed.mapping(&RUQ::id()).value);
+            println!("{}", composed.mapping(&RUQ::id_map()).value);
         }
     }
 }

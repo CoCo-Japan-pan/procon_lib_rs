@@ -10,7 +10,7 @@ pub struct RUQ {
 
 impl algebra::Map for RUQ {
     type Target = u32;
-    fn id() -> Self {
+    fn id_map() -> Self {
         Self { value: None }
     }
     fn composition(&mut self, rhs: &Self) {
