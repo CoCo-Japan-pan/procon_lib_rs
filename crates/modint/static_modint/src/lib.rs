@@ -1,5 +1,6 @@
 use modint_traits::{ModInt, RemEuclidU32};
 use std::fmt::Display;
+use std::iter::{Product, Sum};
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
 pub type ModInt998244353 = StaticModInt<998244353>;
@@ -13,6 +14,18 @@ pub struct StaticModInt<const MOD: u32> {
 impl<const MOD: u32> Display for StaticModInt<MOD> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.value)
+    }
+}
+
+impl<const MOD: u32> Sum for StaticModInt<MOD> {
+    fn sum<I: Iterator<Item = Self>>(iter: I) -> Self {
+        iter.fold(Self::new(0), Add::add)
+    }
+}
+
+impl<const MOD: u32> Product for StaticModInt<MOD> {
+    fn product<I: Iterator<Item = Self>>(iter: I) -> Self {
+        iter.fold(Self::new(1), Mul::mul)
     }
 }
 
@@ -198,21 +211,21 @@ mod tests {
         assert_eq!(23_809_524, div(1, 42));
     }
 
-    // #[test]
-    // fn static_modint_sum() {
-    //     fn sum(values: &[i64]) -> ModInt1000000007 {
-    //         values.iter().copied().map(ModInt1000000007::new).sum()
-    //     }
+    #[test]
+    fn static_modint_sum() {
+        fn sum(values: &[i64]) -> ModInt1000000007 {
+            values.iter().copied().map(ModInt1000000007::new).sum()
+        }
 
-    //     assert_eq!(ModInt1000000007::new(-3), sum(&[-1, 2, -3, 4, -5]));
-    // }
+        assert_eq!(ModInt1000000007::new(-3), sum(&[-1, 2, -3, 4, -5]));
+    }
 
-    // #[test]
-    // fn static_modint_product() {
-    //     fn product(values: &[i64]) -> ModInt1000000007 {
-    //         values.iter().copied().map(ModInt1000000007::new).product()
-    //     }
+    #[test]
+    fn static_modint_product() {
+        fn product(values: &[i64]) -> ModInt1000000007 {
+            values.iter().copied().map(ModInt1000000007::new).product()
+        }
 
-    //     assert_eq!(ModInt1000000007::new(-120), product(&[-1, 2, -3, 4, -5]));
-    // }
+        assert_eq!(ModInt1000000007::new(-120), product(&[-1, 2, -3, 4, -5]));
+    }
 }
