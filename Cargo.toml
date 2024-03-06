@@ -5,6 +5,7 @@ members = [
     "crates/data_structure/*",
     "crates/algebra",
     "verify/yosupo/*",
-    "verify/AOJ/*"
+    "verify/AOJ/*",
+    "verify/AtCoder/*"
 ]
 resolver = "2"

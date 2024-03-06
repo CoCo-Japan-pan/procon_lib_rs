@@ -33,7 +33,9 @@ pub trait Monoid {
 /// 自己準同型性を要求  
 /// つまり作用素を区間に適用するときに複数の区間に分割して適用しても結果が同じであることを要求
 pub trait MapMonoid {
+    /// 作用の対象のモノイド
     type M: Monoid;
+    /// 作用素のモノイド
     type F: Map<Target = <Self::M as Monoid>::S>;
     /// 単位元
     fn id_element() -> <Self::M as Monoid>::S {
