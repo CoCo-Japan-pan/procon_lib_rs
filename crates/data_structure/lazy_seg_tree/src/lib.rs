@@ -126,6 +126,86 @@ impl<F: MapMonoid> LazySegTree<F> {
             self.update(p >> i);
         }
     }
+
+    pub fn max_right<G>(&mut self, mut l: usize, g: G) -> usize
+    where
+        G: Fn(&<F::M as Monoid>::S) -> bool,
+    {
+        assert!(l <= self.range_size);
+        assert!(g(&F::id_element()));
+        if l == self.range_size {
+            return self.range_size;
+        }
+        l += self.leaf_size;
+        for i in (1..=self.log).rev() {
+            self.push(l >> i);
+        }
+        let mut sm = F::id_element();
+        while {
+            while l % 2 == 0 {
+                l >>= 1;
+            }
+            if !g(&F::binary_operation(&sm, &self.data[l])) {
+                while l < self.leaf_size {
+                    self.push(l);
+                    l *= 2;
+                    let res = F::binary_operation(&sm, &self.data[l]);
+                    if !g(&res) {
+                        sm = res;
+                        l += 1;
+                    }
+                }
+                return l - self.leaf_size;
+            }
+            sm = F::binary_operation(&sm, &self.data[l]);
+            l += 1;
+            {
+                let l = l as isize;
+                (l & -l) != l
+            }
+        } {}
+        self.range_size
+    }
+
+    pub fn min_left<G>(&mut self, mut r: usize, g: G) -> usize
+    where
+        G: Fn(&<F::M as Monoid>::S) -> bool,
+    {
+        assert!(r <= self.range_size);
+        assert!(g(&F::id_element()));
+        if r == 0 {
+            return 0;
+        }
+        r += self.leaf_size;
+        for i in (1..=self.log).rev() {
+            self.push((r - 1) >> i);
+        }
+        let mut sm = F::id_element();
+        while {
+            r -= 1;
+            while r > 1 && r % 2 != 0 {
+                r >>= 1;
+            }
+            if !g(&F::binary_operation(&self.data[r], &sm)) {
+                while r < self.leaf_size {
+                    self.push(r);
+                    r = 2 * r + 1;
+                    let res = F::binary_operation(&self.data[r], &sm);
+                    if !g(&res) {
+                        sm = res;
+                        r -= 1;
+                    }
+                }
+                return r + 1 - self.leaf_size;
+            }
+            sm = F::binary_operation(&self.data[r], &sm);
+            {
+                let r = r as isize;
+                (r & -r) != r
+            }
+        } {}
+        0
+    }
 }
 
 impl<F: CommutativeMapMonoid> LazySegTree<F> {
