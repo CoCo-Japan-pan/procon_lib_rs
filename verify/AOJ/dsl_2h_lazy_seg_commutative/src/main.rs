@@ -1,3 +1,5 @@
+// verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/all/DSL_2_H
+
 use algebra::CommutativeMapMonoid;
 use lazy_seg_tree::LazySegTree;
 use proconio::{fastout, input};
