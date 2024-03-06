@@ -1,8 +1,9 @@
 {
-"verify/AOJ/dsl_2d_dual_seg/src/main.rs": "2024-03-06 22:11:33 +0900",
-"verify/AOJ/dsl_2d_dual_seg_non_commutative/src/main.rs": "2024-03-06 22:11:33 +0900",
-"verify/AOJ/dsl_2f_lazy_seg/src/main.rs": "2024-03-06 22:11:33 +0900",
-"verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs": "2024-03-06 22:11:33 +0900",
-"verify/AtCoder/alpc_l_lazy_seg/src/main.rs": "2024-03-06 22:11:33 +0900",
+"verify/AOJ/dsl_2d_dual_seg/src/main.rs": "2024-03-07 00:44:53 +0900",
+"verify/AOJ/dsl_2d_dual_seg_non_commutative/src/main.rs": "2024-03-07 00:44:53 +0900",
+"verify/AOJ/dsl_2f_lazy_seg/src/main.rs": "2024-03-07 00:44:53 +0900",
+"verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs": "2024-03-07 00:44:53 +0900",
+"verify/AtCoder/alpc_l_lazy_seg/src/main.rs": "2024-03-07 00:44:53 +0900",
+"verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs": "2024-03-07 00:44:53 +0900",
 "verify/yosupo/zalgorithm_rolling_hash/src/main.rs": "2024-03-06 18:45:35 +0900"
 }
