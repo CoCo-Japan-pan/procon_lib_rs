@@ -27,14 +27,19 @@ jobs:
         rustup install 1.70.0
         rustup override set nightly
 
-    - name: Run tests and generate docs
+    - name: Run tests
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         YUKICODER_TOKEN: ${{ secrets.YUKICODER_TOKEN }}
         GH_PAT: ${{ secrets.GH_PAT }}
         DROPBOX_TOKEN: ${{ secrets.DROPBOX_TOKEN }}
-      run: | 
-        oj-verify all
+      run: oj-verify all 
+
+    - name: generate docs
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_PAT: ${{ secrets.GH_PAT }}
+      run: |
         git switch main 
         cargo doc --lib --no-deps
         git switch gh-pages
