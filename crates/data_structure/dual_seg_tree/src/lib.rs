@@ -7,10 +7,10 @@ use std::ops::RangeBounds;
 
 /// 作用を区間適用, 1点取得ができるデータ構造
 pub struct DualSegTree<T: Map> {
-    lazy_nodes: Vec<T>,
-    leaf_size: usize,
     range_size: usize,
+    leaf_size: usize,
     log: usize,
+    lazy_nodes: Vec<T>,
 }
 
 impl<T: Map> DualSegTree<T> {
@@ -22,10 +22,10 @@ impl<T: Map> DualSegTree<T> {
             log += 1;
         }
         Self {
-            lazy_nodes: vec![T::id_map(); 2 * leaf_size],
-            leaf_size,
             range_size: size,
+            leaf_size,
             log,
+            lazy_nodes: vec![T::id_map(); 2 * leaf_size],
         }
     }
 

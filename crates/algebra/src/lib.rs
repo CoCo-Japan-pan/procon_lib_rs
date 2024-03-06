@@ -2,6 +2,7 @@
 use std::fmt::Debug;
 
 /// 作用  
+/// 作用自体もモノイドであることを要求  
 /// 作用素を合成させてから作用させるのと、作用素を一つ一つ作用させる結果が同じであることを要求
 pub trait Map: Debug + Clone + PartialEq + Eq {
     /// 作用の対象
@@ -22,25 +23,27 @@ pub trait NonCommutativeMap: Map {}
 
 /// モノイド
 pub trait Monoid: Debug + Clone + PartialEq + Eq {
+    type S: Debug + Clone + PartialEq + Eq;
     /// 単位元
-    fn id_element() -> Self;
+    fn id_element() -> Self::S;
     /// 二項演算
-    fn binary_operation(a: &Self, b: &Self) -> Self;
+    fn binary_operation(a: &Self::S, b: &Self::S) -> Self::S;
 }
 
-/// MもF(作用)もモノイドであることを要求  
-/// 作用素を合成させてから作用させるのと、作用素を一つ一つ作用させる結果が同じであることを要求  
 /// 自己準同型性を要求  
 /// つまり作用素を区間に適用するときに複数の区間に分割して適用しても結果が同じであることを要求
 pub trait MapMonoid {
     type M: Monoid;
-    type F: Map<Target = Self::M>;
+    type F: Map<Target = <Self::M as Monoid>::S>;
     /// 単位元
-    fn id_element() -> Self::M {
+    fn id_element() -> <Self::M as Monoid>::S {
         Self::M::id_element()
     }
     /// 二項演算
-    fn binary_operation(a: &Self::M, b: &Self::M) -> Self::M {
+    fn binary_operation(
+        a: &<Self::M as Monoid>::S,
+        b: &<Self::M as Monoid>::S,
+    ) -> <Self::M as Monoid>::S {
         Self::M::binary_operation(a, b)
     }
     /// 恒等写像
@@ -52,7 +55,13 @@ pub trait MapMonoid {
         f.composition(g)
     }
     /// 作用の適用
-    fn mapping(f: &Self::F, x: &Self::M) -> Self::M {
+    fn mapping(f: &Self::F, x: &<Self::M as Monoid>::S) -> <Self::M as Monoid>::S {
         f.mapping(x)
     }
 }
+
+/// 可換な作用を持つMapMonoid
+pub trait CommutativeMapMonoid: MapMonoid {}
+
+/// 非可換な作用を持つMapMonoid
+pub trait NonCommutativeMapMonoid: MapMonoid {}
