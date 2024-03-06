@@ -7,28 +7,37 @@ name = "algebra"
 version = "0.1.0"
 
 [[package]]
+name = "dsl_2d_dual_seg"
+version = "0.1.0"
+dependencies = [
+ "algebra",
+ "dual_seg_tree",
+ "proconio",
+]
+
+[[package]]
+name = "dsl_2d_dual_seg_non_commutative"
+version = "0.1.0"
+dependencies = [
+ "algebra",
+ "dual_seg_tree",
+ "proconio",
+]
+
+[[package]]
+name = "dsl_2f_lazy_seg"
+version = "0.1.0"
+dependencies = [
+ "algebra",
+ "lazy_seg_tree",
+ "proconio",
+]
+
+[[package]]
 name = "dual_seg_tree"
 version = "0.1.0"
 dependencies = [
  "algebra",
-]
-
-[[package]]
-name = "dual_seg_tree_non_commutative"
-version = "0.1.0"
-dependencies = [
- "algebra",
- "dual_seg_tree",
- "proconio",
-]
-
-[[package]]
-name = "dual_seg_tree_verify"
-version = "0.1.0"
-dependencies = [
- "algebra",
- "dual_seg_tree",
- "proconio",
 ]
 
 [[package]]
@@ -95,14 +104,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "rolling_hash_verify"
-version = "0.1.0"
-dependencies = [
- "proconio",
- "rolling_hash",
-]
-
-[[package]]
 name = "syn"
 version = "1.0.109"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -118,3 +119,11 @@ name = "unicode-ident"
 version = "1.0.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3354b9ac3fae1ff6755cb6db53683adb661634f67557942dea4facebec0fee4b"
+
+[[package]]
+name = "zalgorithm_rolling_hash"
+version = "0.1.0"
+dependencies = [
+ "proconio",
+ "rolling_hash",
+]

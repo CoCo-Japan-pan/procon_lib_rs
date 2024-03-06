@@ -1,5 +1,5 @@
 [package]
-name = "dual_seg_tree_non_commutative"
+name = "zalgorithm_rolling_hash"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,5 +7,4 @@ edition = "2021"
 
 [dependencies]
 proconio = { version = "=0.4.5", features = ["derive"] }
-dual_seg_tree = { path = "../../../crates/data_structure/dual_seg_tree" }
-algebra = { path = "../../../crates/algebra" }
+rolling_hash = { path = "../../../crates/string/rolling_hash" }

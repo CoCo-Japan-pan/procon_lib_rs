@@ -22,7 +22,7 @@ pub trait CommutativeMap: Map {}
 pub trait NonCommutativeMap: Map {}
 
 /// モノイド
-pub trait Monoid: Debug + Clone + PartialEq + Eq {
+pub trait Monoid {
     type S: Debug + Clone + PartialEq + Eq;
     /// 単位元
     fn id_element() -> Self::S;
