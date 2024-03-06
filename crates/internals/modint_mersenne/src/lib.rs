@@ -1,6 +1,7 @@
-use modint_traits::ModInt;
 use std::fmt::Display;
-use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Mul, MulAssign, Neg, Sub, SubAssign};
+
+const MOD: u64 = (1 << 61) - 1;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct ModIntMersenne {
@@ -43,26 +44,6 @@ impl ModIntMersenne {
         let midu = mid >> 30;
         let midd = mid & ((1 << 30) - 1);
         Self::calc_mod(au * bu * 2 + midu + (midd << 31) + ad * bd)
-    }
-}
-
-const MOD: u64 = (1 << 61) - 1;
-
-impl ModInt for ModIntMersenne {
-    fn pow(&self, mut n: u64) -> Self {
-        let mut ret = ModIntMersenne::new(1);
-        let mut base = *self;
-        while n > 0 {
-            if n & 1 == 1 {
-                ret *= base;
-            }
-            base *= base;
-            n >>= 1;
-        }
-        ret
-    }
-    fn inv(&self) -> Self {
-        self.pow(MOD - 2)
     }
 }
 
@@ -178,21 +159,6 @@ impl Mul for ModIntMersenne {
     fn mul(self, rhs: Self) -> Self {
         let mut tmp = self;
         tmp *= rhs;
-        tmp
-    }
-}
-
-impl DivAssign for ModIntMersenne {
-    fn div_assign(&mut self, rhs: Self) {
-        self.mul_assign(rhs.inv());
-    }
-}
-
-impl Div for ModIntMersenne {
-    type Output = Self;
-    fn div(self, rhs: Self) -> Self {
-        let mut tmp = self;
-        tmp /= rhs;
         tmp
     }
 }
