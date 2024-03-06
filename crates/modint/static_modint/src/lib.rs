@@ -2,6 +2,9 @@ use modint_traits::{ModInt, RemEuclidU32};
 use std::fmt::Display;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
+pub type ModInt998244353 = StaticModInt<998244353>;
+pub type ModInt1000000007 = StaticModInt<1000000007>;
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct StaticModInt<const MOD: u32> {
     value: u32,
@@ -22,6 +25,9 @@ impl<const MOD: u32> StaticModInt<MOD> {
     }
     pub fn new<T: RemEuclidU32>(x: T) -> Self {
         ModInt::new(x)
+    }
+    pub fn raw(x: u32) -> Self {
+        Self { value: x }
     }
     pub fn pow(&self, n: u64) -> Self {
         ModInt::pow(self, n)
@@ -105,7 +111,7 @@ impl<const MOD: u32> Mul for StaticModInt<MOD> {
 
 impl<const MOD: u32> MulAssign for StaticModInt<MOD> {
     fn mul_assign(&mut self, rhs: Self) {
-        self.value = (self.value as u64 * rhs.value as u64 % MOD as u64) as u32;
+        self.value = (self.value as u64 * rhs.value as u64).rem_euclid_u32(MOD);
     }
 }
 
@@ -123,4 +129,90 @@ impl<const MOD: u32> DivAssign for StaticModInt<MOD> {
     fn div_assign(&mut self, rhs: Self) {
         *self *= rhs.inv();
     }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::ModInt1000000007;
+
+    #[test]
+    fn static_modint_new() {
+        assert_eq!(0, ModInt1000000007::new(0u32).value);
+        assert_eq!(1, ModInt1000000007::new(1u32).value);
+        assert_eq!(1, ModInt1000000007::new(1_000_000_008u32).value);
+
+        assert_eq!(0, ModInt1000000007::new(0u64).value);
+        assert_eq!(1, ModInt1000000007::new(1u64).value);
+        assert_eq!(1, ModInt1000000007::new(1_000_000_008u64).value);
+
+        assert_eq!(0, ModInt1000000007::new(0usize).value);
+        assert_eq!(1, ModInt1000000007::new(1usize).value);
+        assert_eq!(1, ModInt1000000007::new(1_000_000_008usize).value);
+
+        assert_eq!(0, ModInt1000000007::new(0i64).value);
+        assert_eq!(1, ModInt1000000007::new(1i64).value);
+        assert_eq!(1, ModInt1000000007::new(1_000_000_008i64).value);
+        assert_eq!(1_000_000_006, ModInt1000000007::new(-1i64).value);
+    }
+
+    #[test]
+    fn static_modint_add() {
+        fn add(lhs: u32, rhs: u32) -> u32 {
+            (ModInt1000000007::new(lhs) + ModInt1000000007::new(rhs)).value
+        }
+
+        assert_eq!(2, add(1, 1));
+        assert_eq!(1, add(1_000_000_006, 2));
+    }
+
+    #[test]
+    fn static_modint_sub() {
+        fn sub(lhs: u32, rhs: u32) -> u32 {
+            (ModInt1000000007::new(lhs) - ModInt1000000007::new(rhs)).value
+        }
+
+        assert_eq!(1, sub(2, 1));
+        assert_eq!(1_000_000_006, sub(0, 1));
+    }
+
+    #[test]
+    fn static_modint_mul() {
+        fn mul(lhs: u32, rhs: u32) -> u32 {
+            (ModInt1000000007::new(lhs) * ModInt1000000007::new(rhs)).value
+        }
+
+        assert_eq!(1, mul(1, 1));
+        assert_eq!(4, mul(2, 2));
+        assert_eq!(999_999_937, mul(100_000, 100_000));
+    }
+
+    #[test]
+    fn static_modint_prime_div() {
+        fn div(lhs: u32, rhs: u32) -> u32 {
+            (ModInt1000000007::new(lhs) / ModInt1000000007::new(rhs)).value
+        }
+
+        assert_eq!(0, div(0, 1));
+        assert_eq!(1, div(1, 1));
+        assert_eq!(1, div(2, 2));
+        assert_eq!(23_809_524, div(1, 42));
+    }
+
+    // #[test]
+    // fn static_modint_sum() {
+    //     fn sum(values: &[i64]) -> ModInt1000000007 {
+    //         values.iter().copied().map(ModInt1000000007::new).sum()
+    //     }
+
+    //     assert_eq!(ModInt1000000007::new(-3), sum(&[-1, 2, -3, 4, -5]));
+    // }
+
+    // #[test]
+    // fn static_modint_product() {
+    //     fn product(values: &[i64]) -> ModInt1000000007 {
+    //         values.iter().copied().map(ModInt1000000007::new).product()
+    //     }
+
+    //     assert_eq!(ModInt1000000007::new(-120), product(&[-1, 2, -3, 4, -5]));
+    // }
 }
