@@ -1,4 +1,4 @@
-//! 動的に決定するModを持つModInt
+//! 動的に決定するModを持つModInt  
 //! ModについてはOnceLockで管理しているので、複数のModは使えない
 
 use modint_traits::{ModInt, RemEuclidU32};
