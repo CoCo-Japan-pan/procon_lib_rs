@@ -10,7 +10,7 @@ pub struct FenwickTree<T: Clone + AddAssign + Sub<Output = T>> {
 
 impl<T: Clone + AddAssign + Sub<Output = T>> FenwickTree<T> {
     pub fn new(size: usize, e: T) -> Self {
-        let pow_2_floor = 1_usize << size.ilog2();
+        let pow_2_floor = if size == 0 { 0 } else { 1 << size.ilog2() };
         Self {
             size,
             e: e.clone(),
@@ -20,15 +20,17 @@ impl<T: Clone + AddAssign + Sub<Output = T>> FenwickTree<T> {
     }
 
     pub fn add(&mut self, mut idx: usize, val: T) {
+        assert!(idx < self.size);
         idx += 1;
         while idx <= self.size {
             self.data[idx] += val.clone();
-            idx += idx.trailing_zeros() as usize;
+            idx += idx & idx.wrapping_neg()
         }
     }
 
     pub fn set(&mut self, idx: usize, val: T) {
-        self.add(idx, val - self.sum(idx..idx + 1));
+        assert!(idx < self.size);
+        self.add(idx, val - self.sum(idx..=idx));
     }
 
     pub fn sum<R: RangeBounds<usize>>(&self, range: R) -> T {
@@ -67,11 +69,37 @@ impl<T: Clone + AddAssign + Sub<Output = T>> FenwickTree<T> {
     }
 
     fn sum_from_first(&self, mut idx: usize) -> T {
+        assert!(idx <= self.size);
         let mut sum = self.e.clone();
         while idx > 0 {
             sum += self.data[idx].clone();
-            idx -= idx.trailing_zeros() as usize;
+            idx -= idx & idx.wrapping_neg();
         }
         sum
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::ops::Bound::*;
+
+    #[test]
+    fn fenwick_tree_works() {
+        let mut bit = FenwickTree::new(5, 0i64);
+        // [1, 2, 3, 4, 5]
+        for i in 0..5 {
+            bit.add(i, i as i64 + 1);
+        }
+        assert_eq!(bit.sum(0..5), 15);
+        assert_eq!(bit.sum(0..4), 10);
+        assert_eq!(bit.sum(1..3), 5);
+
+        assert_eq!(bit.sum(..), 15);
+        assert_eq!(bit.sum(..2), 3);
+        assert_eq!(bit.sum(..=2), 6);
+        assert_eq!(bit.sum(1..), 14);
+        assert_eq!(bit.sum(1..=3), 9);
+        assert_eq!(bit.sum((Excluded(0), Included(2))), 5);
     }
 }
