@@ -3,6 +3,8 @@
 "verify/AOJ/dsl_2d_dual_seg_non_commutative/src/main.rs": "2024-03-07 17:52:09 +0900",
 "verify/AOJ/dsl_2f_lazy_seg/src/main.rs": "2024-03-07 17:57:49 +0900",
 "verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs": "2024-03-07 17:57:49 +0900",
-"verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs": "2024-03-07 17:57:49 +0900",
-"verify/yosupo/zalgorithm_rolling_hash/src/main.rs": "2024-03-06 18:45:35 +0900"
+"verify/AtCoder/alpc_l_lazy_seg/src/main.rs": "2024-03-07 17:57:49 +0900",
+"verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs": "2024-03-07 19:21:25 +0900",
+"verify/yosupo/zalgorithm_rolling_hash/src/main.rs": "2024-03-06 18:45:35 +0900",
+"verify/yukicoder/no_1092_modint_dynamic/src/main.rs": "2024-03-07 19:21:25 +0900"
 }
