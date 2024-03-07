@@ -1,3 +1,6 @@
+//! 基本的にac-library-rsと同じ
+//! compositionやmappingに可変参照を用いているところと、作用が可変なら伝播を一部サボる部分が異なる
+
 use algebra::{CommutativeMapMonoid, MapMonoid, Monoid, NonCommutativeMapMonoid};
 use std::ops::RangeBounds;
 
@@ -209,6 +212,7 @@ impl<F: MapMonoid> LazySegTree<F> {
 }
 
 impl<F: CommutativeMapMonoid> LazySegTree<F> {
+    /// 可換な作用の区間適用
     pub fn apply_range_commutative<R: RangeBounds<usize>>(&mut self, range: R, f: &F::F) {
         let mut l = match range.start_bound() {
             std::ops::Bound::Included(&l) => l,
@@ -267,6 +271,7 @@ impl<F: CommutativeMapMonoid> LazySegTree<F> {
 }
 
 impl<F: NonCommutativeMapMonoid> LazySegTree<F> {
+    /// 非可換な作用の区間適用
     pub fn apply_range_non_commutative<R: RangeBounds<usize>>(&mut self, range: R, f: &F::F) {
         let mut l = match range.start_bound() {
             std::ops::Bound::Included(&l) => l,
