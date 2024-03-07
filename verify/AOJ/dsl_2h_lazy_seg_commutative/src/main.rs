@@ -26,8 +26,8 @@ impl algebra::Map for AddMap {
     fn composition(&mut self, rhs: &Self) {
         self.add_val += rhs.add_val;
     }
-    fn mapping(&self, target: &Self::Target) -> Self::Target {
-        target + self.add_val
+    fn mapping(&self, target: &mut Self::Target) {
+        *target += self.add_val;
     }
 }
 struct RmqRaq {}

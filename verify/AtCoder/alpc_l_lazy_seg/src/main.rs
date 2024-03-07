@@ -58,15 +58,13 @@ impl algebra::Map for FlipMap {
     fn composition(&mut self, rhs: &Self) {
         self.flip ^= rhs.flip;
     }
-    fn mapping(&self, target: &Self::Target) -> Self::Target {
+    fn mapping(&self, target: &mut Self::Target) {
         if self.flip {
-            InvNum {
+            *target = InvNum {
                 inv_num: target.zero_num * target.one_num - target.inv_num,
                 zero_num: target.one_num,
                 one_num: target.zero_num,
             }
-        } else {
-            *target
         }
     }
 }

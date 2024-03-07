@@ -43,11 +43,8 @@ impl algebra::Map for AffineMap {
         self.c = self.c * rhs.b + rhs.c;
         self.b *= rhs.b;
     }
-    fn mapping(&self, target: &Self::Target) -> Self::Target {
-        Self::Target {
-            sum: self.b * target.sum + self.c * target.len,
-            len: target.len,
-        }
+    fn mapping(&self, target: &mut Self::Target) {
+        target.sum = self.b * target.sum + self.c * target.len;
     }
 }
 

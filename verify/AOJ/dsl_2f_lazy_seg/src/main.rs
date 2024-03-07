@@ -17,11 +17,9 @@ impl algebra::Map for MyMap {
             self.update = Some(x);
         }
     }
-    fn mapping(&self, target: &Self::Target) -> Self::Target {
+    fn mapping(&self, target: &mut Self::Target) {
         if let Some(x) = self.update {
-            x
-        } else {
-            *target
+            *target = x;
         }
     }
 }

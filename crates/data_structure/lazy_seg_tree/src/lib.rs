@@ -121,7 +121,7 @@ impl<F: MapMonoid> LazySegTree<F> {
         for i in (1..=self.log).rev() {
             self.push(p >> i);
         }
-        self.data[p] = F::mapping(f, &self.data[p]);
+        F::mapping(&mut self.data[p], f);
         for i in 1..=self.log {
             self.update(p >> i);
         }
@@ -261,10 +261,8 @@ impl<F: CommutativeMapMonoid> LazySegTree<F> {
     }
 
     fn update_considering_lazy(&mut self, k: usize) {
-        self.data[k] = F::mapping(
-            &self.lazy[k],
-            &F::binary_operation(&self.data[2 * k], &self.data[2 * k + 1]),
-        );
+        self.data[k] = F::binary_operation(&self.data[2 * k], &self.data[2 * k + 1]);
+        F::mapping(&mut self.data[k], &self.lazy[k]);
     }
 }
 
@@ -336,7 +334,7 @@ impl<F: MapMonoid> LazySegTree<F> {
     }
     /// 作用を適用し、lazyノードがあれば(子があれば)作用を合成する
     fn all_apply(&mut self, k: usize, f: &F::F) {
-        self.data[k] = F::mapping(f, &self.data[k]);
+        F::mapping(&mut self.data[k], f);
         if k < self.leaf_size {
             F::composition(&mut self.lazy[k], f);
         }

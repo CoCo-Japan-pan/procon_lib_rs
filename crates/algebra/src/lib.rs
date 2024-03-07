@@ -12,7 +12,7 @@ pub trait Map: Debug + Clone + PartialEq + Eq {
     /// 作用の合成(selfが先、rhsが後)
     fn composition(&mut self, rhs: &Self);
     /// 作用の適用
-    fn mapping(&self, target: &Self::Target) -> Self::Target;
+    fn mapping(&self, target: &mut Self::Target);
 }
 
 /// 可換な作用
@@ -57,7 +57,7 @@ pub trait MapMonoid {
         f.composition(g)
     }
     /// 作用の適用
-    fn mapping(f: &Self::F, x: &<Self::M as Monoid>::S) -> <Self::M as Monoid>::S {
+    fn mapping(x: &mut <Self::M as Monoid>::S, f: &Self::F) {
         f.mapping(x)
     }
 }

@@ -18,11 +18,9 @@ impl algebra::Map for RUQ {
             *self = *rhs;
         }
     }
-    fn mapping(&self, target: &Self::Target) -> Self::Target {
+    fn mapping(&self, target: &mut Self::Target) {
         if let Some(value) = self.value {
-            value
-        } else {
-            *target
+            *target = value;
         }
     }
 }

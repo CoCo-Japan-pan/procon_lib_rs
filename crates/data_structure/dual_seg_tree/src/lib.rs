@@ -34,7 +34,7 @@ impl<T: Map> DualSegTree<T> {
         assert!(i < self.range_size);
         let mut i = i + self.leaf_size;
         while i > 0 {
-            target = self.lazy_nodes[i].mapping(&target);
+            self.lazy_nodes[i].mapping(&mut target);
             i >>= 1;
         }
         target
