@@ -85,10 +85,9 @@ impl<const MOD: u32> Neg for StaticModInt<MOD> {
 
 impl<const MOD: u32> Add for StaticModInt<MOD> {
     type Output = Self;
-    fn add(self, rhs: Self) -> Self {
-        let mut res = self;
-        res += rhs;
-        res
+    fn add(mut self, rhs: Self) -> Self {
+        self += rhs;
+        self
     }
 }
 
@@ -103,10 +102,9 @@ impl<const MOD: u32> AddAssign for StaticModInt<MOD> {
 
 impl<const MOD: u32> Sub for StaticModInt<MOD> {
     type Output = Self;
-    fn sub(self, rhs: Self) -> Self {
-        let mut res = self;
-        res -= rhs;
-        res
+    fn sub(mut self, rhs: Self) -> Self {
+        self -= rhs;
+        self
     }
 }
 
@@ -121,10 +119,9 @@ impl<const MOD: u32> SubAssign for StaticModInt<MOD> {
 
 impl<const MOD: u32> Mul for StaticModInt<MOD> {
     type Output = Self;
-    fn mul(self, rhs: Self) -> Self {
-        let mut res = self;
-        res *= rhs;
-        res
+    fn mul(mut self, rhs: Self) -> Self {
+        self *= rhs;
+        self
     }
 }
 
@@ -136,10 +133,9 @@ impl<const MOD: u32> MulAssign for StaticModInt<MOD> {
 
 impl<const MOD: u32> Div for StaticModInt<MOD> {
     type Output = Self;
-    fn div(self, rhs: Self) -> Self {
-        let mut res = self;
-        res /= rhs;
-        res
+    fn div(mut self, rhs: Self) -> Self {
+        self /= rhs;
+        self
     }
 }
 
