@@ -19,10 +19,11 @@ pub trait ModInt:
     + Neg<Output = Self>
 {
     fn new<T: RemEuclidU32>(x: T) -> Self;
+    fn raw(x: u32) -> Self;
     fn value(&self) -> u32;
     fn modulus() -> u32;
     fn pow(&self, mut n: u64) -> Self {
-        let mut ret = Self::new(1);
+        let mut ret = Self::raw(1);
         let mut base = *self;
         while n > 0 {
             if n & 1 == 1 {
@@ -36,11 +37,11 @@ pub trait ModInt:
     fn inv(&self) -> Self {
         let (g, x) = inv_gcd(self.value(), Self::modulus());
         assert_eq!(g, 1);
-        Self::new(x)
+        Self::raw(x)
     }
 }
 
-/// g = gcd(a,b)と、ax = g (mod b)なる0 <= x < bとgのペアを返す
+/// g = gcd(a,b)と、ax = g (mod b)なるgと0 <= x < bのペアを返す
 fn inv_gcd(a: u32, b: u32) -> (u32, u32) {
     assert!(a < b);
     if a == 0 {

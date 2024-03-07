@@ -19,13 +19,13 @@ impl<const MOD: u32> Display for StaticModInt<MOD> {
 
 impl<const MOD: u32> Sum for StaticModInt<MOD> {
     fn sum<I: Iterator<Item = Self>>(iter: I) -> Self {
-        iter.fold(Self::new(0), Add::add)
+        iter.fold(Self::raw(0), Add::add)
     }
 }
 
 impl<const MOD: u32> Product for StaticModInt<MOD> {
     fn product<I: Iterator<Item = Self>>(iter: I) -> Self {
-        iter.fold(Self::new(1), Mul::mul)
+        iter.fold(Self::raw(1), Mul::mul)
     }
 }
 
@@ -42,9 +42,11 @@ impl<const MOD: u32> StaticModInt<MOD> {
     pub fn raw(x: u32) -> Self {
         Self { value: x }
     }
+    #[inline]
     pub fn pow(&self, n: u64) -> Self {
         ModInt::pow(self, n)
     }
+    #[inline]
     pub fn inv(&self) -> Self {
         ModInt::inv(self)
     }
@@ -57,6 +59,10 @@ impl<const MOD: u32> ModInt for StaticModInt<MOD> {
     fn modulus() -> u32 {
         MOD
     }
+    fn raw(x: u32) -> Self {
+        Self { value: x }
+    }
+    #[inline]
     fn new<T: RemEuclidU32>(x: T) -> Self {
         Self {
             value: x.rem_euclid_u32(MOD),
