@@ -1,4 +1,4 @@
-// verification-helper: PROBLEM: https://judge.yosupo.jp/problem/convolution_mod
+// verification-helper: PROBLEM https://judge.yosupo.jp/problem/convolution_mod
 
 use ntt::convolution_998244353;
 use proconio::{fastout, input};
