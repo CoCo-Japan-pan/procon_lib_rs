@@ -5,6 +5,7 @@ members = [
     "crates/data_structure/*",
     "crates/algebra",
     "crates/modint/*",
+    "crates/fps/*",
     "verify/yosupo/*",
     "verify/AOJ/*",
     "verify/AtCoder/*",
