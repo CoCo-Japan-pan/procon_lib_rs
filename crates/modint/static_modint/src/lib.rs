@@ -2,6 +2,7 @@ use modint_traits::{ModInt, RemEuclidU32};
 use std::fmt::Display;
 use std::iter::{Product, Sum};
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
+use std::str::FromStr;
 
 pub type ModInt998244353 = StaticModInt<998244353>;
 pub type ModInt1000000007 = StaticModInt<1000000007>;
@@ -26,6 +27,13 @@ impl<const MOD: u32> Sum for StaticModInt<MOD> {
 impl<const MOD: u32> Product for StaticModInt<MOD> {
     fn product<I: Iterator<Item = Self>>(iter: I) -> Self {
         iter.fold(Self::raw(1), Mul::mul)
+    }
+}
+
+impl<const MOD: u32> FromStr for StaticModInt<MOD> {
+    type Err = <i64 as FromStr>::Err;
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        i64::from_str(s).map(Self::new)
     }
 }
 

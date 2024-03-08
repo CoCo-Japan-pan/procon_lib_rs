@@ -5,6 +5,7 @@ use modint_traits::{ModInt, RemEuclidU32};
 use std::fmt::Display;
 use std::iter::{Product, Sum};
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
+use std::str::FromStr;
 use std::sync::OnceLock;
 
 static DEFAULT_MOD: OnceLock<u32> = OnceLock::new();
@@ -29,6 +30,13 @@ impl Sum for DynamicModInt {
 impl Product for DynamicModInt {
     fn product<I: Iterator<Item = Self>>(iter: I) -> Self {
         iter.fold(Self::raw(1), Mul::mul)
+    }
+}
+
+impl FromStr for DynamicModInt {
+    type Err = <i64 as FromStr>::Err;
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        i64::from_str(s).map(Self::new)
     }
 }
 

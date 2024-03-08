@@ -1,5 +1,6 @@
 use std::fmt::{Debug, Display};
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
+use std::str::FromStr;
 
 pub trait ModInt:
     Debug
@@ -17,6 +18,7 @@ pub trait ModInt:
     + MulAssign
     + DivAssign
     + Neg<Output = Self>
+    + FromStr
 {
     fn new<T: RemEuclidU32>(x: T) -> Self;
     fn raw(x: u32) -> Self;

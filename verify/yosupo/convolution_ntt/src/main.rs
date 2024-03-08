@@ -9,16 +9,14 @@ fn main() {
     input! {
         n: usize,
         m: usize,
-        a: [u32; n],
-        b: [u32; m],
+        a: [ModInt998244353; n],
+        b: [ModInt998244353; m],
     }
-    let a = a.into_iter().map(ModInt998244353::raw).collect::<Vec<_>>();
-    let b = b.into_iter().map(ModInt998244353::raw).collect::<Vec<_>>();
     let c = convolution_998244353(&a, &b);
     println!(
         "{}",
         c.iter()
-            .map(|&c| c.value().to_string())
+            .map(|&c| c.to_string())
             .collect::<Vec<_>>()
             .join(" ")
     );

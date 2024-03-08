@@ -4,53 +4,52 @@
 
 use static_modint::{ModInt998244353, StaticModInt};
 
-/// sizeを超えるような2の冪乗根を持つNTT_MODでのNTTを行う
-fn ntt<const NTT_MOD: u32, const PRIMITIVE_ROOT: u32>(
-    data: &mut [StaticModInt<NTT_MOD>],
-    size: usize,
-    inv: bool,
-) {
+fn ntt<const NTT_MOD: u32, const PRIMITIVE_ROOT: u32>(data: &mut [StaticModInt<NTT_MOD>]) {
+    let size = data.len();
     assert!(size.is_power_of_two());
-    let height = size.trailing_zeros() as usize;
-    // バタフライ演算用の配置入れ替え
-    for i in 0..size {
-        let j = ((i as u32).reverse_bits() >> (32 - size.trailing_zeros())) as usize;
-        if i < j {
-            data.swap(i, j);
-        }
-    }
-    // base^size = 1(mod NTT_MOD) (またはその逆元)
-    let nth_root = if inv {
-        StaticModInt::<NTT_MOD>::raw(PRIMITIVE_ROOT)
-            .pow((NTT_MOD as u64 - 1) / size as u64)
-            .inv()
-    } else {
-        StaticModInt::<NTT_MOD>::raw(PRIMITIVE_ROOT).pow((NTT_MOD as u64 - 1) / size as u64)
-    };
+    let mut width = size;
+    let mut offset = width >> 1;
     // バタフライ演算
-    for h in 0..height {
-        let block = 1 << h;
-        // 第log2(block) + 1 段目
-        // ブロックサイズ = block * 2
-        let base = nth_root.pow(size as u64 / (block as u64 * 2));
-        let mut weight = StaticModInt::<NTT_MOD>::raw(1);
-        for j in 0..block {
-            // ブロック内j番目
-            // 重み = (1の2block乗根)^(j)
-            for k in (0..size).step_by(block * 2) {
-                let s = data[j + k];
-                let t = data[j + k + block] * weight;
-                data[j + k] = s + t;
-                data[j + k + block] = s - t;
+    while width > 1 {
+        let base =
+            StaticModInt::<NTT_MOD>::raw(PRIMITIVE_ROOT).pow((NTT_MOD as u64 - 1) / width as u64);
+        for top in (0..size).step_by(width) {
+            let mut weight = StaticModInt::<NTT_MOD>::raw(1);
+            for i in top..top + offset {
+                let x = data[i];
+                let y = data[i + offset];
+                data[i] = x + y;
+                data[i + offset] = (x - y) * weight;
+                weight *= base;
             }
-            weight *= base;
         }
+        width >>= 1;
+        offset >>= 1;
     }
-    if inv {
-        let inv_n = StaticModInt::<NTT_MOD>::new(size).inv();
-        for a in data.iter_mut() {
-            *a *= inv_n;
+}
+
+fn intt<const NTT_MOD: u32, const PRIMITIVE_ROOT: u32>(data: &mut [StaticModInt<NTT_MOD>]) {
+    let size = data.len();
+    assert!(size.is_power_of_two());
+    let mut width = 2;
+    let mut offset = 1;
+    // バタフライ演算
+    while width <= size {
+        let base = StaticModInt::<NTT_MOD>::raw(PRIMITIVE_ROOT)
+            .pow((NTT_MOD as u64 - 1) / width as u64)
+            .inv();
+        for top in (0..size).step_by(width) {
+            let mut weight = StaticModInt::<NTT_MOD>::raw(1);
+            for i in top..top + offset {
+                let x = data[i];
+                let y = data[i + offset] * weight;
+                data[i] = x + y;
+                data[i + offset] = x - y;
+                weight *= base;
+            }
         }
+        width <<= 1;
+        offset <<= 1;
     }
 }
 
@@ -61,17 +60,21 @@ pub fn convolution<const NTT_MOD: u32, const PRIMITIVE_ROOT: u32>(
 ) -> Vec<StaticModInt<NTT_MOD>> {
     let n = a.len() + b.len() - 1;
     let size = (n + 1).next_power_of_two();
-    let mut a = a.to_vec();
-    let mut b = b.to_vec();
+    let mut a = a.to_owned();
     a.resize(size, StaticModInt::<NTT_MOD>::raw(0));
+    ntt::<NTT_MOD, PRIMITIVE_ROOT>(&mut a);
+    let mut b = b.to_owned();
     b.resize(size, StaticModInt::<NTT_MOD>::raw(0));
-    ntt::<NTT_MOD, PRIMITIVE_ROOT>(&mut a, size, false);
-    ntt::<NTT_MOD, PRIMITIVE_ROOT>(&mut b, size, false);
-    for i in 0..size {
-        a[i] *= b[i];
+    ntt::<NTT_MOD, PRIMITIVE_ROOT>(&mut b);
+    for (a, b) in a.iter_mut().zip(b.into_iter()) {
+        *a *= b;
     }
-    ntt::<NTT_MOD, PRIMITIVE_ROOT>(&mut a, size, true);
+    intt::<NTT_MOD, PRIMITIVE_ROOT>(&mut a);
     a.resize(n, StaticModInt::<NTT_MOD>::raw(0));
+    let inv_size = StaticModInt::<NTT_MOD>::raw(size as u32).inv();
+    for a in a.iter_mut() {
+        *a *= inv_size;
+    }
     a
 }
 
