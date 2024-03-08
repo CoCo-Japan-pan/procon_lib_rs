@@ -1,5 +1,6 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/convolution_mod
 
+use itertools::Itertools;
 use ntt::convolution_998244353;
 use proconio::{fastout, input};
 use static_modint::ModInt998244353;
@@ -9,15 +10,11 @@ fn main() {
     input! {
         n: usize,
         m: usize,
-        a: [ModInt998244353; n],
-        b: [ModInt998244353; m],
+        a: [u32; n],
+        b: [u32; m],
     }
+    let a: Vec<ModInt998244353> = a.into_iter().map(ModInt998244353::raw).collect();
+    let b: Vec<ModInt998244353> = b.into_iter().map(ModInt998244353::raw).collect();
     let c = convolution_998244353(&a, &b);
-    println!(
-        "{}",
-        c.iter()
-            .map(|&c| c.to_string())
-            .collect::<Vec<_>>()
-            .join(" ")
-    );
+    println!("{}", c.iter().format(" "));
 }

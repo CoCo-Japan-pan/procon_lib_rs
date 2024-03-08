@@ -38,15 +38,19 @@ impl<const MOD: u32> FromStr for StaticModInt<MOD> {
 }
 
 impl<const MOD: u32> StaticModInt<MOD> {
+    #[inline]
     pub fn value(&self) -> u32 {
         self.value
     }
+    #[inline]
     pub fn modulus() -> u32 {
         MOD
     }
+    #[inline]
     pub fn new<T: RemEuclidU32>(x: T) -> Self {
         ModInt::new(x)
     }
+    #[inline]
     pub fn raw(x: u32) -> Self {
         Self { value: x }
     }
@@ -61,12 +65,15 @@ impl<const MOD: u32> StaticModInt<MOD> {
 }
 
 impl<const MOD: u32> ModInt for StaticModInt<MOD> {
+    #[inline]
     fn value(&self) -> u32 {
         self.value
     }
+    #[inline]
     fn modulus() -> u32 {
         MOD
     }
+    #[inline]
     fn raw(x: u32) -> Self {
         Self { value: x }
     }
@@ -80,6 +87,7 @@ impl<const MOD: u32> ModInt for StaticModInt<MOD> {
 
 impl<const MOD: u32> Neg for StaticModInt<MOD> {
     type Output = Self;
+    #[inline]
     fn neg(self) -> Self {
         if self.value == 0 {
             Self { value: 0 }

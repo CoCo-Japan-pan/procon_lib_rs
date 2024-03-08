@@ -36,6 +36,7 @@ pub trait ModInt:
         }
         ret
     }
+    #[inline]
     fn inv(&self) -> Self {
         let (g, x) = inv_gcd(self.value(), Self::modulus());
         assert_eq!(g, 1);

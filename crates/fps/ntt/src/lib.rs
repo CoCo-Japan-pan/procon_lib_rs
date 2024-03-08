@@ -1,7 +1,7 @@
 //! FFT: https://www.creativ.xyz/fast-fourier-transform/  
 //! 原始根, NTT friendly MOD: https://www.mathenachia.blog/ntt-mod-list-01/#toc11  
-//! 高速化 https://tayu0110.hatenablog.com/entry/2023/05/06/023244
-//! 任意mod: https://math314.hateblo.jp/entry/2015/05/07/014908
+//! 高速化 https://tayu0110.hatenablog.com/entry/2023/05/06/023244  
+//! 任意mod: https://math314.hateblo.jp/entry/2015/05/07/014908  
 //! 結局ほとんどac-library-rsの写経になってしまった...
 
 use static_modint::{ModInt998244353, StaticModInt};
@@ -32,11 +32,11 @@ impl ButterflyCache {
     }
 }
 
-trait GetButterflyCache<const NTT_MOD: u32> {
+trait GetButterflyCache {
     fn butterfly_cache() -> &'static LocalKey<RefCell<Option<ButterflyCache>>>;
 }
 
-impl<const NTT_MOD: u32> GetButterflyCache<NTT_MOD> for StaticModInt<NTT_MOD> {
+impl<const NTT_MOD: u32> GetButterflyCache for StaticModInt<NTT_MOD> {
     fn butterfly_cache() -> &'static LocalKey<RefCell<Option<ButterflyCache>>> {
         thread_local! {
             static BUTTERFLY_CACHE: RefCell<Option<ButterflyCache>> = RefCell::new(None);
@@ -150,4 +150,12 @@ pub fn convolution<const NTT_MOD: u32, const PRIMITIVE_ROOT: u32>(
 /// 998244353 = 119 * 2^23 + 1 で原始根3を持つ
 pub fn convolution_998244353(a: &[ModInt998244353], b: &[ModInt998244353]) -> Vec<ModInt998244353> {
     convolution::<998244353, 3>(a, b)
+}
+
+/// 取りうる最大値を超えるmodを表現できるようなmodの組を選んで畳み込み、Garnerで復元
+pub fn convolution_aribtrary_mod<const MOD: u32>(
+    a: &[StaticModInt<MOD>],
+    b: &[StaticModInt<MOD>],
+) -> Vec<StaticModInt<MOD>> {
+    todo!()
 }
