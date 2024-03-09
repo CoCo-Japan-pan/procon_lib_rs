@@ -72,29 +72,19 @@ pub trait RemEuclidU32: Copy {
     fn rem_euclid_u32(self, modulus: u32) -> u32;
 }
 
-#[inline]
-fn neg(val: u32, modulus: u32) -> u32 {
-    if val == 0 {
-        0
-    } else {
-        modulus - val
+impl RemEuclidU32 for u8 {
+    #[inline]
+    fn rem_euclid_u32(self, modulus: u32) -> u32 {
+        self as u32 % modulus
     }
 }
 
-macro_rules! impl_rem_euclid_u32_ref {
-    ($($t:ty),*) => {
-        $(
-            impl RemEuclidU32 for $t {
-                #[inline]
-                fn rem_euclid_u32(self, modulus: u32) -> u32 {
-                    RemEuclidU32::rem_euclid_u32(*self, modulus)
-                }
-            }
-        )*
-    };
+impl RemEuclidU32 for u16 {
+    #[inline]
+    fn rem_euclid_u32(self, modulus: u32) -> u32 {
+        self as u32 % modulus
+    }
 }
-
-impl_rem_euclid_u32_ref!(&u32, &u64, &usize, &i32, &i64, &isize);
 
 impl RemEuclidU32 for u32 {
     #[inline]
@@ -118,32 +108,30 @@ impl RemEuclidU32 for usize {
     }
 }
 
-impl RemEuclidU32 for i32 {
-    #[inline]
-    fn rem_euclid_u32(self, modulus: u32) -> u32 {
-        if self < 0 {
-            neg(self.unsigned_abs().rem_euclid_u32(modulus), modulus)
-        } else {
-            self.unsigned_abs().rem_euclid_u32(modulus)
-        }
+#[inline]
+fn neg(val: u32, modulus: u32) -> u32 {
+    if val == 0 {
+        0
+    } else {
+        modulus - val
     }
 }
 
-impl RemEuclidU32 for i64 {
-    #[inline]
-    fn rem_euclid_u32(self, modulus: u32) -> u32 {
-        if self < 0 {
-            neg(self.unsigned_abs().rem_euclid_u32(modulus), modulus)
-        } else {
-            self.unsigned_abs().rem_euclid_u32(modulus)
-        }
-    }
+macro_rules! impl_rem_euclid_u32_for_signed {
+    ($($t:ty),*) => {
+        $(
+            impl RemEuclidU32 for $t {
+                #[inline]
+                fn rem_euclid_u32(self, modulus: u32) -> u32 {
+                    if self < 0 {
+                        neg(self.unsigned_abs().rem_euclid_u32(modulus), modulus)
+                    } else {
+                        self.unsigned_abs().rem_euclid_u32(modulus)
+                    }
+                }
+            }
+        )*
+    };
 }
 
-impl RemEuclidU32 for isize {
-    #[inline]
-    fn rem_euclid_u32(self, modulus: u32) -> u32 {
-        let casted: i64 = self.try_into().unwrap();
-        casted.rem_euclid_u32(modulus)
-    }
-}
+impl_rem_euclid_u32_for_signed!(i8, i16, i32, i64, isize);

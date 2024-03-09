@@ -162,6 +162,59 @@ impl<const MOD: u32> DivAssign for StaticModInt<MOD> {
     }
 }
 
+macro_rules! impl_binop_to_primitive {
+    ($($t:ty),*) => {
+        $(
+            impl<const MOD: u32> Add<$t> for StaticModInt<MOD> {
+                type Output = Self;
+                fn add(self, rhs: $t) -> Self {
+                    self + Self::new(rhs)
+                }
+            }
+            impl<const MOD: u32> AddAssign<$t> for StaticModInt<MOD> {
+                fn add_assign(&mut self, rhs: $t) {
+                    *self += Self::new(rhs);
+                }
+            }
+            impl<const MOD: u32> Sub<$t> for StaticModInt<MOD> {
+                type Output = Self;
+                fn sub(self, rhs: $t) -> Self {
+                    self - Self::new(rhs)
+                }
+            }
+            impl<const MOD: u32> SubAssign<$t> for StaticModInt<MOD> {
+                fn sub_assign(&mut self, rhs: $t) {
+                    *self -= Self::new(rhs);
+                }
+            }
+            impl<const MOD: u32> Mul<$t> for StaticModInt<MOD> {
+                type Output = Self;
+                fn mul(self, rhs: $t) -> Self {
+                    self * Self::new(rhs)
+                }
+            }
+            impl<const MOD: u32> MulAssign<$t> for StaticModInt<MOD> {
+                fn mul_assign(&mut self, rhs: $t) {
+                    *self *= Self::new(rhs);
+                }
+            }
+            impl<const MOD: u32> Div<$t> for StaticModInt<MOD> {
+                type Output = Self;
+                fn div(self, rhs: $t) -> Self {
+                    self / Self::new(rhs)
+                }
+            }
+            impl<const MOD: u32> DivAssign<$t> for StaticModInt<MOD> {
+                fn div_assign(&mut self, rhs: $t) {
+                    *self /= Self::new(rhs);
+                }
+            }
+        )*
+    };
+}
+
+impl_binop_to_primitive!(u8, u16, u32, u64, usize, i8, i16, i32, i64, isize);
+
 #[cfg(test)]
 mod tests {
     use super::ModInt1000000007;
@@ -245,5 +298,30 @@ mod tests {
         }
 
         assert_eq!(ModInt1000000007::new(-120), product(&[-1, 2, -3, 4, -5]));
+    }
+
+    #[test]
+    fn static_modint_binop_coercion() {
+        let f = ModInt1000000007::new;
+        let a = 10_293_812_usize;
+        let b = 9_083_240_982_usize;
+        assert_eq!(f(a) + f(b), f(a) + b);
+        assert_eq!(f(a) - f(b), f(a) - b);
+        assert_eq!(f(a) * f(b), f(a) * b);
+        assert_eq!(f(a) / f(b), f(a) / b);
+    }
+
+    #[test]
+    fn static_modint_assign_coercion() {
+        let f = ModInt1000000007::new;
+        let a = f(10_293_812_usize);
+        let b = 9_083_240_982_usize;
+        let expected = (((a + b) * b) - b) / b;
+        let mut c = a;
+        c += b;
+        c *= b;
+        c -= b;
+        c /= b;
+        assert_eq!(expected, c);
     }
 }
