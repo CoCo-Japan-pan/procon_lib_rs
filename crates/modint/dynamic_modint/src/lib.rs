@@ -1,14 +1,15 @@
 //! 動的に決定するModを持つModInt  
-//! ModについてはOnceLockで管理しているので、複数のModは使えない
+//! 同時に一つのModしか使えない
+//! 一回Modを変更したら、今までのModIntは全て無意味な値になるので、再度使わないように注意!
 
 use modint_traits::{ModInt, RemEuclidU32};
 use std::fmt::Display;
 use std::iter::{Product, Sum};
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 use std::str::FromStr;
-use std::sync::OnceLock;
+use std::sync::atomic::{AtomicU32, Ordering::Relaxed};
 
-static DEFAULT_MOD: OnceLock<u32> = OnceLock::new();
+static DEFAULT_MOD: AtomicU32 = AtomicU32::new(0);
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct DynamicModInt {
@@ -41,8 +42,9 @@ impl FromStr for DynamicModInt {
 }
 
 impl DynamicModInt {
+    /// これを設定すると、今までのModIntの値は全て無意味になるので、再度使わないように注意!
     pub fn set_modulus(modulus: u32) {
-        DEFAULT_MOD.set(modulus).unwrap();
+        DEFAULT_MOD.store(modulus, Relaxed);
     }
     pub fn new<T: RemEuclidU32>(x: T) -> Self {
         ModInt::new(x)
@@ -54,7 +56,7 @@ impl DynamicModInt {
         self.value
     }
     pub fn modulus() -> u32 {
-        *DEFAULT_MOD.get().unwrap()
+        DEFAULT_MOD.load(Relaxed)
     }
     pub fn pow(&self, n: u64) -> Self {
         ModInt::pow(self, n)
@@ -67,7 +69,7 @@ impl DynamicModInt {
 impl ModInt for DynamicModInt {
     fn new<T: RemEuclidU32>(x: T) -> Self {
         Self {
-            value: x.rem_euclid_u32(*DEFAULT_MOD.get().unwrap()),
+            value: x.rem_euclid_u32(DEFAULT_MOD.load(Relaxed)),
         }
     }
     fn raw(x: u32) -> Self {
@@ -77,7 +79,7 @@ impl ModInt for DynamicModInt {
         self.value
     }
     fn modulus() -> u32 {
-        *DEFAULT_MOD.get().unwrap()
+        DEFAULT_MOD.load(Relaxed)
     }
 }
 
@@ -155,5 +157,22 @@ impl Div for DynamicModInt {
 impl DivAssign for DynamicModInt {
     fn div_assign(&mut self, rhs: Self) {
         *self *= rhs.inv();
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_modint() {
+        DynamicModInt::set_modulus(7);
+        let a = DynamicModInt::new(4);
+        let b = DynamicModInt::new(5);
+        assert_eq!((a + b).value(), 2);
+        DynamicModInt::set_modulus(3);
+        let c = DynamicModInt::new(2);
+        let d = DynamicModInt::new(1);
+        assert_eq!((c + d).value(), 0);
     }
 }
