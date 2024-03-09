@@ -68,7 +68,7 @@ fn inv_gcd(a: u32, b: u32) -> (u32, u32) {
 }
 
 /// Trait for primitive integer types.
-pub trait RemEuclidU32 {
+pub trait RemEuclidU32: Copy {
     fn rem_euclid_u32(self, modulus: u32) -> u32;
 }
 
@@ -80,6 +80,21 @@ fn neg(val: u32, modulus: u32) -> u32 {
         modulus - val
     }
 }
+
+macro_rules! impl_rem_euclid_u32_ref {
+    ($($t:ty),*) => {
+        $(
+            impl RemEuclidU32 for $t {
+                #[inline]
+                fn rem_euclid_u32(self, modulus: u32) -> u32 {
+                    RemEuclidU32::rem_euclid_u32(*self, modulus)
+                }
+            }
+        )*
+    };
+}
+
+impl_rem_euclid_u32_ref!(&u32, &u64, &usize, &i32, &i64, &isize);
 
 impl RemEuclidU32 for u32 {
     #[inline]
