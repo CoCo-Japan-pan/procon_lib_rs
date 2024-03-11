@@ -24,7 +24,7 @@ impl RollingHash {
     }
     /// sのrolling hashを構築 `O(|s|)`  
     /// 複数の文字列に用いられる場合はbaseを指定する
-    pub fn new(s: &Vec<char>, base: Option<u64>) -> Self {
+    pub fn new<T: Into<u64> + Copy>(s: &Vec<T>, base: Option<u64>) -> Self {
         // baseとしてNoneが指定されてたら乱数を生成(randクレートを使えない場合を考慮して時間で)
         let base = if let Some(base) = base {
             assert!(base > 1 && base < ModIntMersenne::modulus() - 1);
@@ -41,7 +41,7 @@ impl RollingHash {
             .collect();
         let prefix_hash_table: Vec<ModIntMersenne> = once(ModIntMersenne::new(0))
             .chain(s.iter().scan(ModIntMersenne::new(0), |acc, s| {
-                *acc = *acc * base + ModIntMersenne::new(*s as u64);
+                *acc = *acc * base + ModIntMersenne::new(Into::<u64>::into(*s));
                 Some(*acc)
             }))
             .collect();
