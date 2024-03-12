@@ -5,7 +5,8 @@ use std::cell::RefCell;
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Dsu {
     n: usize,
-    /// -1なら根で、それ以外なら親のindex
+    /// rootなら、その集合のサイズを負の値で持つ
+    /// それ以外なら、親のノード番号を持つ
     parent_or_size: RefCell<Vec<i32>>,
 }
 
