@@ -21,11 +21,12 @@ jobs:
     - name: Install dependencies
       run: pip3 install -U online-judge-verify-helper
 
-    - name: Set up Rust (1.70.0)
-      run: |
-        rustup set profile minimal
-        rustup install 1.70.0
-        rustup override set nightly
+    - name: Set Toolchain
+      # https://github.com/dtolnay/rust-toolchain
+      uses: dtolnay/rust-toolchain@master
+      with:
+        toolchain: 1.70.0
+        components: rustfmt, clippy
     
     - name: lint
       run: |
