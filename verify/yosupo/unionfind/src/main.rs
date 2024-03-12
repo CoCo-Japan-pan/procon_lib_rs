@@ -1,6 +1,6 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/unionfind
 use dsu::Dsu;
-use proconio::{input, fastout};
+use proconio::{fastout, input};
 
 #[fastout]
 fn main() {
