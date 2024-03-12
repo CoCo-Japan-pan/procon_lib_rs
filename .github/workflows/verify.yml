@@ -30,6 +30,7 @@ jobs:
     
     - name: lint
       run: |
+        cargo check
         cargo fmt --all -- --check
         cargo clippy -- -D warnings
         cargo test --all
