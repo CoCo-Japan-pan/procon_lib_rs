@@ -26,6 +26,12 @@ jobs:
         rustup set profile minimal
         rustup install 1.70.0
         rustup override set nightly
+    
+    - name: lint
+      run: |
+        cargo fmt --all -- --check
+        cargo clippy -- -D warnings
+        cargo test --all
 
     - name: Run tests
       env:
