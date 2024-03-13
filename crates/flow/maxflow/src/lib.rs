@@ -4,7 +4,7 @@ use flow_cap_traits::Integral;
 use std::cmp::min;
 use std::iter;
 
-#[derive(Default)]
+#[derive(Default, Debug, Clone, PartialEq, Eq)]
 struct SimpleQueue<T> {
     payload: Vec<T>,
     pos: usize,
@@ -246,13 +246,14 @@ where
     }
 }
 
-#[derive(Default)]
+#[derive(Default, Debug, Clone, PartialEq, Eq)]
 pub struct MfGraph<Cap> {
     _n: usize,
     pos: Vec<(usize, usize)>,
     g: Vec<Vec<_Edge<Cap>>>,
 }
 
+#[derive(Debug, PartialEq, Eq, Clone)]
 struct _Edge<Cap> {
     to: usize,
     rev: usize,
