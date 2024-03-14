@@ -48,7 +48,7 @@ impl<T: Clone + AddAssign + Sub<Output = T>> FenwickTree<T> {
         self.sum_from_first(end) - self.sum_from_first(start)
     }
 
-    /// a[0] + ... a[x] >= w となる最小の x を返す
+    /// `a[0] + ... a[x] >= w` となる最小の x を返す
     pub fn lower_bound(&self, mut w: T) -> usize
     where
         T: PartialOrd + SubAssign,
