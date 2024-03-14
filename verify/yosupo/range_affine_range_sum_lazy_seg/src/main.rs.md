@@ -1,0 +1,71 @@
+---
+data:
+  _extendedDependsOn:
+  - icon: ':heavy_check_mark:'
+    path: crates/algebra/src/lib.rs
+    title: crates/algebra/src/lib.rs
+  - icon: ':heavy_check_mark:'
+    path: crates/data_structure/lazy_seg_tree/src/lib.rs
+    title: crates/data_structure/lazy_seg_tree/src/lib.rs
+  - icon: ':heavy_check_mark:'
+    path: crates/modint/static_modint/src/lib.rs
+    title: crates/modint/static_modint/src/lib.rs
+  _extendedRequiredBy: []
+  _extendedVerifiedWith: []
+  _isVerificationFailed: false
+  _pathExtension: rs
+  _verificationStatusIcon: ':heavy_check_mark:'
+  attributes:
+    PROBLEM: https://judge.yosupo.jp/problem/range_affine_range_sum
+    links:
+    - https://judge.yosupo.jp/problem/range_affine_range_sum
+  bundledCode: "Traceback (most recent call last):\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
+    , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
+    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
+    , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
+  code: "// verification-helper: PROBLEM https://judge.yosupo.jp/problem/range_affine_range_sum\n\
+    \nuse algebra::{MapMonoid, NonCommutativeMapMonoid};\nuse lazy_seg_tree::LazySegTree;\n\
+    use proconio::{fastout, input};\nuse static_modint::ModInt998244353;\n\n#[derive(Clone,\
+    \ Copy, Debug, PartialEq, Eq)]\nstruct AddMonoid {\n    sum: ModInt998244353,\n\
+    \    len: ModInt998244353,\n}\nimpl algebra::Monoid for AddMonoid {\n    type\
+    \ S = Self;\n    fn id_element() -> Self::S {\n        Self {\n            sum:\
+    \ ModInt998244353::raw(0),\n            len: ModInt998244353::raw(0),\n      \
+    \  }\n    }\n    fn binary_operation(a: &Self::S, b: &Self::S) -> Self::S {\n\
+    \        Self {\n            sum: a.sum + b.sum,\n            len: a.len + b.len,\n\
+    \        }\n    }\n}\n\n#[derive(Clone, Copy, Debug, PartialEq, Eq)]\nstruct AffineMap\
+    \ {\n    b: ModInt998244353,\n    c: ModInt998244353,\n}\nimpl algebra::Map for\
+    \ AffineMap {\n    type Target = AddMonoid;\n    fn id_map() -> Self {\n     \
+    \   Self {\n            b: ModInt998244353::raw(1),\n            c: ModInt998244353::raw(0),\n\
+    \        }\n    }\n    fn composition(&mut self, rhs: &Self) {\n        self.c\
+    \ = self.c * rhs.b + rhs.c;\n        self.b *= rhs.b;\n    }\n    fn mapping(&self,\
+    \ target: &mut Self::Target) {\n        target.sum = self.b * target.sum + self.c\
+    \ * target.len;\n    }\n}\n\nstruct AffineRangeSum;\nimpl MapMonoid for AffineRangeSum\
+    \ {\n    type F = AffineMap;\n    type M = AddMonoid;\n}\nimpl NonCommutativeMapMonoid\
+    \ for AffineRangeSum {}\n\n#[fastout]\nfn main() {\n    input! {\n        n: usize,\n\
+    \        q: usize,\n        a: [u32; n],\n    }\n    let a: Vec<AddMonoid> = a\n\
+    \        .into_iter()\n        .map(|a| AddMonoid {\n            sum: ModInt998244353::raw(a),\n\
+    \            len: ModInt998244353::raw(1),\n        })\n        .collect();\n\
+    \    let mut seg = LazySegTree::<AffineRangeSum>::from(a);\n    for _ in 0..q\
+    \ {\n        input! {t: u32}\n        if t == 0 {\n            input! {l: usize,\
+    \ r: usize, b: u32, c: u32}\n            seg.apply_range_non_commutative(\n  \
+    \              l..r,\n                &AffineMap {\n                    b: ModInt998244353::raw(b),\n\
+    \                    c: ModInt998244353::raw(c),\n                },\n       \
+    \     );\n        } else {\n            input! {l: usize, r: usize}\n        \
+    \    println!(\"{}\", seg.prod(l..r).sum);\n        }\n    }\n}\n"
+  dependsOn:
+  - crates/algebra/src/lib.rs
+  - crates/data_structure/lazy_seg_tree/src/lib.rs
+  - crates/modint/static_modint/src/lib.rs
+  isVerificationFile: true
+  path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
+  requiredBy: []
+  timestamp: '2024-03-09 17:05:52+09:00'
+  verificationStatus: TEST_ACCEPTED
+  verifiedWith: []
+documentation_of: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
+layout: document
+redirect_from:
+- /verify/verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
+- /verify/verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs.html
+title: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
+---
