@@ -7,6 +7,7 @@ members = [
     "crates/modint/*",
     "crates/fps/*",
     "crates/flow/*",
+    "crates/tree/*",
     "verify/yosupo/*",
     "verify/AOJ/*",
     "verify/AtCoder/*",
