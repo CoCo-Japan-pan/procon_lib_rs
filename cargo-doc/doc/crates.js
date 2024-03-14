@@ -1,0 +1,1 @@
+window.ALL_CRATES = ["algebra","dsu","dual_seg_tree","dynamic_modint","fenwick_tree","flow_cap_traits","hld","lazy_seg_tree","maxflow","maxflow_lower_bound","modint_mersenne","modint_traits","ntt","ntt_arbitrary_mod","rolling_hash","seg_tree","static_modint"];
