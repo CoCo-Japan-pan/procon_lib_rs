@@ -2,7 +2,7 @@
 //! https://tubo28.me/compprog/algorithm/flow_with_lu_bound/
 
 use flow_cap_traits::Integral;
-use maxflow::MaxFlow;
+use maxflow::{Edge, MaxFlow};
 
 pub struct MaxFlowLowerBound<Cap: Integral> {
     maxflow: MaxFlow<Cap>,
@@ -24,6 +24,10 @@ impl<Cap: Integral> MaxFlowLowerBound<Cap> {
             dummy_sink,
             lower_bound_sum: Cap::zero(),
         }
+    }
+
+    pub fn get_edge(&self, id: usize) -> Edge<Cap> {
+        self.maxflow.get_edge(id)
     }
 
     /// from→toへ、容量capの辺を張る(lowerの制約は無し)
