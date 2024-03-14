@@ -20,13 +20,13 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
-    - https://math314.hateblo.jp/entry/2015/05/07/014908
+    - https://math314.hateblo.jp/entry/2015/05/07/014908)
   bundledCode: "Traceback (most recent call last):\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "//! \u4EFB\u610Fmod: https://math314.hateblo.jp/entry/2015/05/07/014908 \
-    \ \n\nuse modint_traits::ModInt;\nuse ntt::convolution;\nuse static_modint::StaticModInt;\n\
+  code: "//! [\u4EFB\u610Fmod](https://math314.hateblo.jp/entry/2015/05/07/014908)\
+    \  \n\nuse modint_traits::ModInt;\nuse ntt::convolution;\nuse static_modint::StaticModInt;\n\
     \n/// \u53D6\u308A\u3046\u308B\u6700\u5927\u5024\u3092\u8D85\u3048\u308Bmod\u3092\
     \u8868\u73FE\u3067\u304D\u308B\u3088\u3046\u306Amod\u306E\u7D44\u3092\u9078\u3093\
     \u3067\u7573\u307F\u8FBC\u307F\u3001Garner\u3067\u5FA9\u5143\npub fn convolution_aribtrary_u32_mod<M:\
@@ -61,7 +61,7 @@ data:
   isVerificationFile: false
   path: crates/fps/ntt_arbitrary_mod/src/lib.rs
   requiredBy: []
-  timestamp: '2024-03-09 17:05:52+09:00'
+  timestamp: '2024-03-14 19:10:07+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/convolution_mod_1000000007_ntt/src/main.rs

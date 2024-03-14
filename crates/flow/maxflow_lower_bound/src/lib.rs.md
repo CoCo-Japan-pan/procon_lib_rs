@@ -17,13 +17,13 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
-    - https://tubo28.me/compprog/algorithm/flow_with_lu_bound/
+    - https://tubo28.me/compprog/algorithm/flow_with_lu_bound/>
   bundledCode: "Traceback (most recent call last):\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! \u6700\u5C0F\u6D41\u91CF\u5236\u9650\u4ED8\u304D\u6700\u5927\u6D41  \n\
-    //! https://tubo28.me/compprog/algorithm/flow_with_lu_bound/\n\nuse flow_cap_traits::Integral;\n\
+    //! <https://tubo28.me/compprog/algorithm/flow_with_lu_bound/>\n\nuse flow_cap_traits::Integral;\n\
     use maxflow::{Edge, MaxFlow};\n\npub struct MaxFlowLowerBound<Cap: Integral> {\n\
     \    maxflow: MaxFlow<Cap>,\n    vertices: usize,\n    dummy_source: usize,\n\
     \    dummy_sink: usize,\n    lower_bound_sum: Cap,\n}\n\nimpl<Cap: Integral> MaxFlowLowerBound<Cap>\
@@ -61,7 +61,7 @@ data:
   isVerificationFile: false
   path: crates/flow/maxflow_lower_bound/src/lib.rs
   requiredBy: []
-  timestamp: '2024-03-14 16:23:20+09:00'
+  timestamp: '2024-03-14 19:10:07+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc285g/src/main.rs

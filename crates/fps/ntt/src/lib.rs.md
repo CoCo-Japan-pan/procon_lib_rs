@@ -17,17 +17,17 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
-    - https://tayu0110.hatenablog.com/entry/2023/05/06/023244
-    - https://www.creativ.xyz/fast-fourier-transform/
-    - https://www.mathenachia.blog/ntt-mod-list-01/
+    - https://tayu0110.hatenablog.com/entry/2023/05/06/023244)
+    - https://www.creativ.xyz/fast-fourier-transform/)
+    - https://www.mathenachia.blog/ntt-mod-list-01/)
   bundledCode: "Traceback (most recent call last):\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "//! FFT: https://www.creativ.xyz/fast-fourier-transform/  \n//! \u539F\u59CB\
-    \u6839, NTT friendly MOD: https://www.mathenachia.blog/ntt-mod-list-01/  \n//!\
-    \ \u9AD8\u901F\u5316 https://tayu0110.hatenablog.com/entry/2023/05/06/023244 \
-    \ \n//! \u7D50\u5C40ac-library-rs\u3068\u307B\u3068\u3093\u3069\u540C\u3058\u5B9F\
+  code: "//! [FFT](https://www.creativ.xyz/fast-fourier-transform/)  \n//! [\u539F\
+    \u59CB\u6839, NTT friendly MOD](https://www.mathenachia.blog/ntt-mod-list-01/)\
+    \  \n//! [\u9AD8\u901F\u5316](https://tayu0110.hatenablog.com/entry/2023/05/06/023244)\
+    \  \n//! \u7D50\u5C40ac-library-rs\u3068\u307B\u3068\u3093\u3069\u540C\u3058\u5B9F\
     \u88C5\u3067\u3059(\u30B8\u30A7\u30CD\u30EA\u30C3\u30AF\u306B\u7D10\u3065\u304F\
     static\u306E\u5B9F\u73FE\u304C\u3080\u305A\u304F\u3066\u30AD\u30E3\u30C3\u30B7\
     \u30E5\u306F\u6BCE\u56DE\u3068\u308B\u3053\u3068\u306B...)\n\nuse static_modint::{ModInt998244353,\
@@ -81,7 +81,7 @@ data:
   path: crates/fps/ntt/src/lib.rs
   requiredBy:
   - crates/fps/ntt_arbitrary_mod/src/lib.rs
-  timestamp: '2024-03-09 17:05:52+09:00'
+  timestamp: '2024-03-14 19:10:07+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/convolution_ntt/src/main.rs

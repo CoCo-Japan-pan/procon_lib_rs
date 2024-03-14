@@ -11,7 +11,7 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links:
-    - https://qiita.com/keymoon/items/11fac5627672a6d6a9f6
+    - https://qiita.com/keymoon/items/11fac5627672a6d6a9f6>
   bundledCode: "Traceback (most recent call last):\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
@@ -26,7 +26,7 @@ data:
     \ modulus() -> u64 {\n        MOD\n    }\n    #[inline]\n    fn calc_mod(x: u64)\
     \ -> u64 {\n        let tmp = (x >> 61) + (x & MOD);\n        if tmp >= MOD {\n\
     \            tmp - MOD\n        } else {\n            tmp\n        }\n    }\n\
-    \    /// https://qiita.com/keymoon/items/11fac5627672a6d6a9f6\n    #[inline]\n\
+    \    /// <https://qiita.com/keymoon/items/11fac5627672a6d6a9f6>\n    #[inline]\n\
     \    fn mul(a: u64, b: u64) -> u64 {\n        let au = a >> 31;\n        let ad\
     \ = a & ((1 << 31) - 1);\n        let bu = b >> 31;\n        let bd = b & ((1\
     \ << 31) - 1);\n        let mid = ad * bu + au * bd;\n        let midu = mid >>\
@@ -70,7 +70,7 @@ data:
   path: crates/internals/modint_mersenne/src/lib.rs
   requiredBy:
   - crates/string/rolling_hash/src/lib.rs
-  timestamp: '2024-03-06 23:46:46+09:00'
+  timestamp: '2024-03-14 19:10:07+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/internals/modint_mersenne/src/lib.rs
