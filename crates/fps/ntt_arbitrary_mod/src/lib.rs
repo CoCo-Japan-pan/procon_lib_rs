@@ -1,4 +1,4 @@
-//! 任意mod: https://math314.hateblo.jp/entry/2015/05/07/014908  
+//! [任意mod](https://math314.hateblo.jp/entry/2015/05/07/014908)  
 
 use modint_traits::ModInt;
 use ntt::convolution;

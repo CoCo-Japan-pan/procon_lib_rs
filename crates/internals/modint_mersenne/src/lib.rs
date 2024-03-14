@@ -33,7 +33,7 @@ impl ModIntMersenne {
             tmp
         }
     }
-    /// https://qiita.com/keymoon/items/11fac5627672a6d6a9f6
+    /// <https://qiita.com/keymoon/items/11fac5627672a6d6a9f6>
     #[inline]
     fn mul(a: u64, b: u64) -> u64 {
         let au = a >> 31;
