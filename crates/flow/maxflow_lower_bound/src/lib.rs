@@ -26,11 +26,20 @@ impl<Cap: Integral> MaxFlowLowerBound<Cap> {
         }
     }
 
+    /// from→toへ、容量capの辺を張る(lowerの制約は無し)
+    pub fn add_edge(&mut self, from: usize, to: usize, cap: Cap) {
+        self.maxflow.add_edge(from, to, cap);
+    }
+
     /// from→toへ、[lower,upper]の流量制約を持つ辺を張る
-    pub fn add_edge(&mut self, from: usize, to: usize, lower: Cap, upper: Cap) {
+    pub fn add_edge_with_lower_bound(&mut self, from: usize, to: usize, lower: Cap, upper: Cap) {
         assert!(Cap::zero() <= lower && lower <= upper);
         assert!(from < self.vertices && to < self.vertices);
         if from == to || upper == Cap::zero() {
+            return;
+        }
+        if lower == Cap::zero() {
+            self.maxflow.add_edge(from, to, upper);
             return;
         }
         self.maxflow.add_edge(from, to, upper - lower);
