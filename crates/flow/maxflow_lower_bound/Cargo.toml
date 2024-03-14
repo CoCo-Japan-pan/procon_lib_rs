@@ -1,0 +1,12 @@
+[package]
+name = "maxflow_lower_bound"
+version = "0.1.0"
+edition = "2021"
+license = "CC0-1.0"
+repository = "ssh://git@github.com/CoCo-Japan-pan/procon_lib_rs.git"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+flow_cap_traits = { path = "../../internals/flow_cap_traits" }
+maxflow = { path = "../maxflow" }

@@ -43,12 +43,12 @@ impl<T> SimpleQueue<T> {
     }
 }
 
-impl<Cap> MfGraph<Cap>
+impl<Cap> MaxFlow<Cap>
 where
     Cap: Integral,
 {
-    pub fn new(n: usize) -> MfGraph<Cap> {
-        MfGraph {
+    pub fn new(n: usize) -> MaxFlow<Cap> {
+        MaxFlow {
             _n: n,
             pos: Vec::new(),
             g: iter::repeat_with(Vec::new).take(n).collect(),
@@ -81,7 +81,7 @@ pub struct Edge<Cap: Integral> {
     pub flow: Cap,
 }
 
-impl<Cap> MfGraph<Cap>
+impl<Cap> MaxFlow<Cap>
 where
     Cap: Integral,
 {
@@ -182,7 +182,7 @@ where
 }
 
 struct FlowCalculator<'a, Cap> {
-    graph: &'a mut MfGraph<Cap>,
+    graph: &'a mut MaxFlow<Cap>,
     s: usize,
     t: usize,
     level: Vec<i32>,
@@ -246,8 +246,9 @@ where
     }
 }
 
+/// 最大流を解く
 #[derive(Default, Debug, Clone, PartialEq, Eq)]
-pub struct MfGraph<Cap> {
+pub struct MaxFlow<Cap> {
     _n: usize,
     pos: Vec<(usize, usize)>,
     g: Vec<Vec<_Edge<Cap>>>,
@@ -262,13 +263,13 @@ struct _Edge<Cap> {
 
 #[cfg(test)]
 mod test {
-    use crate::{Edge, MfGraph};
+    use crate::{Edge, MaxFlow};
 
     #[test]
     fn test_max_flow_wikipedia() {
         // From https://commons.wikimedia.org/wiki/File:Min_cut.png
         // Under CC BY-SA 3.0 https://creativecommons.org/licenses/by-sa/3.0/deed.en
-        let mut graph = MfGraph::new(6);
+        let mut graph = MaxFlow::new(6);
         assert_eq!(graph.add_edge(0, 1, 3), 0);
         assert_eq!(graph.add_edge(0, 2, 3), 1);
         assert_eq!(graph.add_edge(1, 2, 2), 2);
@@ -307,7 +308,7 @@ mod test {
     fn test_max_flow_wikipedia_multiple_edges() {
         // From https://commons.wikimedia.org/wiki/File:Min_cut.png
         // Under CC BY-SA 3.0 https://creativecommons.org/licenses/by-sa/3.0/deed.en
-        let mut graph = MfGraph::new(6);
+        let mut graph = MaxFlow::new(6);
         for &(u, v, c) in &[
             (0, 1, 3),
             (0, 2, 3),
@@ -337,7 +338,7 @@ mod test {
         // From https://gist.github.com/MiSawa/47b1d99c372daffb6891662db1a2b686
         let n = 100;
 
-        let mut graph = MfGraph::new((n + 1) * 2 + 5);
+        let mut graph = MaxFlow::new((n + 1) * 2 + 5);
         let (s, a, b, c, t) = (0, 1, 2, 3, 4);
         graph.add_edge(s, a, 1);
         graph.add_edge(s, b, 2);
@@ -362,7 +363,7 @@ mod test {
     #[test]
     fn test_dont_repeat_same_phase() {
         let n = 100_000;
-        let mut graph = MfGraph::new(3);
+        let mut graph = MaxFlow::new(3);
         graph.add_edge(0, 1, n);
         for _ in 0..n {
             graph.add_edge(1, 2, 1);
