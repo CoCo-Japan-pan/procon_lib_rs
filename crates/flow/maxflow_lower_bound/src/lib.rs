@@ -1,7 +1,7 @@
 //! 最小流量制限付き最大流  
 //! <https://tubo28.me/compprog/algorithm/flow_with_lu_bound/>
 
-use flow_cap_traits::Integral;
+use internal_type_traits::Integral;
 use maxflow::{Edge, MaxFlow};
 
 pub struct MaxFlowLowerBound<Cap: Integral> {

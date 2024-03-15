@@ -47,7 +47,7 @@ fn main() {
     num_list.sort();
     num_list.dedup();
     let num_list = num_list;
-    let mut fenwick = FenwickTree::new(num_list.len(), 0_i32);
+    let mut fenwick = FenwickTree::<i32>::new(num_list.len());
     let mut sum = 0;
     for query in queries {
         match query {

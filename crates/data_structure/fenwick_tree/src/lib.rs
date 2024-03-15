@@ -1,21 +1,20 @@
+use internal_type_traits::Zero;
 use std::ops::{AddAssign, RangeBounds, Sub, SubAssign};
 
 #[derive(Debug, PartialEq, Eq, Clone)]
-pub struct FenwickTree<T: Clone + AddAssign + Sub<Output = T>> {
+pub struct FenwickTree<T: Clone + AddAssign + Sub<Output = T> + Zero> {
     size: usize,
-    e: T,
     pow_2_floor: usize,
     data: Vec<T>,
 }
 
-impl<T: Clone + AddAssign + Sub<Output = T>> FenwickTree<T> {
-    pub fn new(size: usize, e: T) -> Self {
+impl<T: Clone + AddAssign + Sub<Output = T> + Zero> FenwickTree<T> {
+    pub fn new(size: usize) -> Self {
         let pow_2_floor = if size == 0 { 0 } else { 1 << size.ilog2() };
         Self {
             size,
-            e: e.clone(),
             pow_2_floor,
-            data: vec![e; size + 1],
+            data: vec![T::zero(); size + 1],
         }
     }
 
@@ -53,7 +52,7 @@ impl<T: Clone + AddAssign + Sub<Output = T>> FenwickTree<T> {
     where
         T: PartialOrd + SubAssign,
     {
-        if w <= self.e {
+        if w <= T::zero() {
             return 0;
         }
         let mut x = 0;
@@ -70,7 +69,7 @@ impl<T: Clone + AddAssign + Sub<Output = T>> FenwickTree<T> {
 
     fn sum_from_first(&self, mut idx: usize) -> T {
         assert!(idx <= self.size);
-        let mut sum = self.e.clone();
+        let mut sum = T::zero();
         while idx > 0 {
             sum += self.data[idx].clone();
             idx -= idx & idx.wrapping_neg();
@@ -86,7 +85,7 @@ mod tests {
 
     #[test]
     fn fenwick_tree_works() {
-        let mut bit = FenwickTree::new(5, 0i64);
+        let mut bit = FenwickTree::<i64>::new(5);
         // [1, 2, 3, 4, 5]
         for i in 0..5 {
             bit.add(i, i as i64 + 1);

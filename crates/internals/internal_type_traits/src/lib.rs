@@ -1,16 +1,8 @@
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 
+/// Flowの容量の型 加算、減算、順序、Zero、Maxがある
 pub trait Integral:
-    Copy
-    + Add<Output = Self>
-    + AddAssign
-    + Sub<Output = Self>
-    + SubAssign
-    + Ord
-    + Zero
-    + One
-    + BoundedBelow
-    + BoundedAbove
+    Copy + Add<Output = Self> + AddAssign + Sub<Output = Self> + SubAssign + Ord + Zero + BoundedAbove
 {
 }
 

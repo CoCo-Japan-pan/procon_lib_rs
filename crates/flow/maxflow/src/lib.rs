@@ -1,6 +1,6 @@
 //! ac-library-rs と同じです。
 
-use flow_cap_traits::Integral;
+use internal_type_traits::Integral;
 use std::cmp::min;
 use std::iter;
 
