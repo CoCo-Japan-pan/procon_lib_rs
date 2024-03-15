@@ -32,7 +32,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/zalgorithm_rolling_hash/src/main.rs
   requiredBy: []
-  timestamp: '2024-03-11 16:41:52+09:00'
+  timestamp: '2024-03-15 19:04:26+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/zalgorithm_rolling_hash/src/main.rs

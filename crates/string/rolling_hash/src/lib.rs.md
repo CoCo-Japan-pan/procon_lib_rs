@@ -34,7 +34,7 @@ data:
     \    }\n    /// s\u306Erolling hash\u3092\u69CB\u7BC9 `O(|s|)`  \n    /// \u8907\
     \u6570\u306E\u6587\u5B57\u5217\u306B\u7528\u3044\u3089\u308C\u308B\u5834\u5408\
     \u306Fbase\u3092\u6307\u5B9A\u3059\u308B\n    pub fn new<T: Into<u64> + Copy>(s:\
-    \ &Vec<T>, base: Option<u64>) -> Self {\n        // base\u3068\u3057\u3066None\u304C\
+    \ &[T], base: Option<u64>) -> Self {\n        // base\u3068\u3057\u3066None\u304C\
     \u6307\u5B9A\u3055\u308C\u3066\u305F\u3089\u4E71\u6570\u3092\u751F\u6210(rand\u30AF\
     \u30EC\u30FC\u30C8\u3092\u4F7F\u3048\u306A\u3044\u5834\u5408\u3092\u8003\u616E\
     \u3057\u3066\u6642\u9593\u3067)\n        let base = if let Some(base) = base {\n\
@@ -69,7 +69,7 @@ data:
   isVerificationFile: false
   path: crates/string/rolling_hash/src/lib.rs
   requiredBy: []
-  timestamp: '2024-03-14 19:10:07+09:00'
+  timestamp: '2024-03-15 19:04:26+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/zalgorithm_rolling_hash/src/main.rs
