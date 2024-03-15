@@ -9,12 +9,12 @@ data:
     title: crates/internals/internal_type_traits/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/AtCoder/abc285g/src/main.rs
     title: verify/AtCoder/abc285g/src/main.rs
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
     - https://tubo28.me/compprog/algorithm/flow_with_lu_bound/>
@@ -62,7 +62,7 @@ data:
   path: crates/flow/maxflow_lower_bound/src/lib.rs
   requiredBy: []
   timestamp: '2024-03-15 22:56:41+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc285g/src/main.rs
 documentation_of: crates/flow/maxflow_lower_bound/src/lib.rs

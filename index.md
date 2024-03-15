@@ -6,11 +6,6 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/algebra/src/lib.rs
       title: crates/algebra/src/lib.rs
-  - name: crates/data_structure/dsu/src
-    pages:
-    - icon: ':heavy_check_mark:'
-      path: crates/data_structure/dsu/src/lib.rs
-      title: crates/data_structure/dsu/src/lib.rs
   - name: crates/data_structure/dual_seg_tree/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -31,6 +26,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/data_structure/seg_tree/src/lib.rs
       title: crates/data_structure/seg_tree/src/lib.rs
+  - name: crates/data_structure/union_find/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: crates/data_structure/union_find/src/lib.rs
+      title: crates/data_structure/union_find/src/lib.rs
   - name: crates/flow/maxflow/src
     pages:
     - icon: ':warning:'
@@ -38,7 +38,7 @@ data:
       title: crates/flow/maxflow/src/lib.rs
   - name: crates/flow/maxflow_lower_bound/src
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: crates/flow/maxflow_lower_bound/src/lib.rs
       title: crates/flow/maxflow_lower_bound/src/lib.rs
   - name: crates/fps/ntt/src
@@ -109,7 +109,7 @@ data:
       title: verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
   - name: verify/AtCoder/abc285g/src
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: verify/AtCoder/abc285g/src/main.rs
       title: verify/AtCoder/abc285g/src/main.rs
   - name: verify/AtCoder/alpc_l_lazy_seg/src
