@@ -3,7 +3,6 @@
 "verify/AOJ/dsl_2d_dual_seg_non_commutative/src/main.rs": "2024-03-07 17:52:09 +0900",
 "verify/AOJ/dsl_2f_lazy_seg/src/main.rs": "2024-03-07 17:57:49 +0900",
 "verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs": "2024-03-07 17:57:49 +0900",
-"verify/AtCoder/abc285g/src/main.rs": "2024-03-14 19:10:07 +0900",
 "verify/AtCoder/alpc_l_lazy_seg/src/main.rs": "2024-03-07 17:57:49 +0900",
 "verify/yosupo/convolution_mod_1000000007_ntt/src/main.rs": "2024-03-14 19:10:07 +0900",
 "verify/yosupo/convolution_ntt/src/main.rs": "2024-03-14 19:10:07 +0900",
@@ -12,5 +11,5 @@
 "verify/yosupo/unionfind/src/main.rs": "2024-03-12 10:59:56 +0900",
 "verify/yosupo/zalgorithm_rolling_hash/src/main.rs": "2024-03-15 19:04:26 +0900",
 "verify/yukicoder/no_1092_modint_dynamic/src/main.rs": "2024-03-09 18:37:28 +0900",
-"verify/yukicoder/no_649_fenwick_tree/src/main.rs": "2024-03-14 14:26:19 +0900"
+"verify/yukicoder/no_649_fenwick_tree/src/main.rs": "2024-03-15 22:56:41 +0900"
 }
