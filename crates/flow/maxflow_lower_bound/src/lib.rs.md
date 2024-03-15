@@ -5,16 +5,16 @@ data:
     path: crates/flow/maxflow/src/lib.rs
     title: crates/flow/maxflow/src/lib.rs
   - icon: ':warning:'
-    path: crates/internals/flow_cap_traits/src/lib.rs
-    title: crates/internals/flow_cap_traits/src/lib.rs
+    path: crates/internals/internal_type_traits/src/lib.rs
+    title: crates/internals/internal_type_traits/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/AtCoder/abc285g/src/main.rs
     title: verify/AtCoder/abc285g/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links:
     - https://tubo28.me/compprog/algorithm/flow_with_lu_bound/>
@@ -23,7 +23,7 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! \u6700\u5C0F\u6D41\u91CF\u5236\u9650\u4ED8\u304D\u6700\u5927\u6D41  \n\
-    //! <https://tubo28.me/compprog/algorithm/flow_with_lu_bound/>\n\nuse flow_cap_traits::Integral;\n\
+    //! <https://tubo28.me/compprog/algorithm/flow_with_lu_bound/>\n\nuse internal_type_traits::Integral;\n\
     use maxflow::{Edge, MaxFlow};\n\npub struct MaxFlowLowerBound<Cap: Integral> {\n\
     \    maxflow: MaxFlow<Cap>,\n    vertices: usize,\n    dummy_source: usize,\n\
     \    dummy_sink: usize,\n    lower_bound_sum: Cap,\n}\n\nimpl<Cap: Integral> MaxFlowLowerBound<Cap>\
@@ -57,12 +57,12 @@ data:
     \            None\n        }\n    }\n}\n"
   dependsOn:
   - crates/flow/maxflow/src/lib.rs
-  - crates/internals/flow_cap_traits/src/lib.rs
+  - crates/internals/internal_type_traits/src/lib.rs
   isVerificationFile: false
   path: crates/flow/maxflow_lower_bound/src/lib.rs
   requiredBy: []
-  timestamp: '2024-03-14 19:10:07+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2024-03-15 22:56:41+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - verify/AtCoder/abc285g/src/main.rs
 documentation_of: crates/flow/maxflow_lower_bound/src/lib.rs

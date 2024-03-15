@@ -2,10 +2,10 @@
 data:
   _extendedDependsOn:
   - icon: ':warning:'
-    path: crates/internals/flow_cap_traits/src/lib.rs
-    title: crates/internals/flow_cap_traits/src/lib.rs
+    path: crates/internals/internal_type_traits/src/lib.rs
+    title: crates/internals/internal_type_traits/src/lib.rs
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: crates/flow/maxflow_lower_bound/src/lib.rs
     title: crates/flow/maxflow_lower_bound/src/lib.rs
   _extendedVerifiedWith: []
@@ -23,7 +23,7 @@ data:
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "//! ac-library-rs \u3068\u540C\u3058\u3067\u3059\u3002\n\nuse flow_cap_traits::Integral;\n\
+  code: "//! ac-library-rs \u3068\u540C\u3058\u3067\u3059\u3002\n\nuse internal_type_traits::Integral;\n\
     use std::cmp::min;\nuse std::iter;\n\n#[derive(Default, Debug, Clone, PartialEq,\
     \ Eq)]\nstruct SimpleQueue<T> {\n    payload: Vec<T>,\n    pos: usize,\n}\n\n\
     impl<T> SimpleQueue<T> {\n    fn empty(&self) -> bool {\n        self.pos == self.payload.len()\n\
@@ -158,12 +158,12 @@ data:
     \    graph.add_edge(0, 1, n);\n        for _ in 0..n {\n            graph.add_edge(1,\
     \ 2, 1);\n        }\n        assert_eq!(graph.flow(0, 2), n);\n    }\n}\n"
   dependsOn:
-  - crates/internals/flow_cap_traits/src/lib.rs
+  - crates/internals/internal_type_traits/src/lib.rs
   isVerificationFile: false
   path: crates/flow/maxflow/src/lib.rs
   requiredBy:
   - crates/flow/maxflow_lower_bound/src/lib.rs
-  timestamp: '2024-03-14 12:48:59+09:00'
+  timestamp: '2024-03-15 22:56:41+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/flow/maxflow/src/lib.rs
