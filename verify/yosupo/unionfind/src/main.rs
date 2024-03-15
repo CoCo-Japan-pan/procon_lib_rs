@@ -1,6 +1,6 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/unionfind
-use dsu::Dsu;
 use proconio::{fastout, input};
+use union_find::UnionFind;
 
 #[fastout]
 fn main() {
@@ -8,7 +8,7 @@ fn main() {
         n: usize,
         q: usize,
     }
-    let mut dsu = Dsu::new(n);
+    let mut dsu = UnionFind::new(n);
     for _ in 0..q {
         input! {
             t: usize,

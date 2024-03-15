@@ -3,16 +3,16 @@
 use std::cell::RefCell;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct Dsu {
+pub struct UnionFind {
     n: usize,
     /// rootなら、その集合のサイズを負の値で持つ
     /// それ以外なら、親のノード番号を持つ
     parent_or_size: RefCell<Vec<i32>>,
 }
 
-impl Dsu {
+impl UnionFind {
     pub fn new(size: usize) -> Self {
-        Dsu {
+        UnionFind {
             n: size,
             parent_or_size: RefCell::new(vec![-1; size]),
         }

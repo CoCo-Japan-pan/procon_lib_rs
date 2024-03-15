@@ -7,4 +7,4 @@ edition = "2021"
 
 [dependencies]
 proconio = { version = "=0.4.5", features = ["derive"] }
-dsu = { path = "../../../crates/data_structure/dsu" }
+union_find = { path = "../../../crates/data_structure/union_find" }
