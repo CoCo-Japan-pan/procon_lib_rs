@@ -8,7 +8,7 @@ data:
   - icon: ':warning:'
     path: crates/flow/maxflow/src/lib.rs
     title: crates/flow/maxflow/src/lib.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: crates/flow/maxflow_lower_bound/src/lib.rs
     title: crates/flow/maxflow_lower_bound/src/lib.rs
   _extendedVerifiedWith: []
