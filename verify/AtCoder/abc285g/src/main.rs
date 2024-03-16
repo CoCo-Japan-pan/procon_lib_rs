@@ -45,7 +45,6 @@ fn main() {
             }
         }
     }
-    // 最小流量制限を満たせるならYesを出力
     if mf.flow(start, goal).is_some() {
         println!("Yes");
     } else {
