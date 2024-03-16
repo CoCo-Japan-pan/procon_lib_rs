@@ -45,7 +45,6 @@ fn main() {
             }
         }
     }
-    // 制約を満たすならYes
     if mf.flow(start, goal).is_some() {
         println!("Yes");
     } else {
