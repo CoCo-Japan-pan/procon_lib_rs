@@ -1,4 +1,5 @@
 //! 最小流量制限付き最大流  
+//! <https://atcoder.jp/contests/abc285/editorial/5500>
 //! <https://tubo28.me/compprog/algorithm/flow_with_lu_bound/>
 
 use internal_type_traits::Integral;
