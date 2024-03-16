@@ -37,15 +37,15 @@ data:
     \           mf.add_edge(id(i, j), id(ni as usize, nj as usize), 1);\n        \
     \    }\n        } else {\n            if C[i][j] == '2' {\n                mf.add_edge_with_lower_bound(id(i,\
     \ j), goal, 1, 1);\n            } else {\n                mf.add_edge(id(i, j),\
-    \ goal, 1);\n            }\n        }\n    }\n    // \u5236\u7D04\u3092\u6E80\u305F\
-    \u3059\u306A\u3089Yes\n    if mf.flow(start, goal).is_some() {\n        println!(\"\
-    Yes\");\n    } else {\n        println!(\"No\");\n    }\n}\n"
+    \ goal, 1);\n            }\n        }\n    }\n    if mf.flow(start, goal).is_some()\
+    \ {\n        println!(\"Yes\");\n    } else {\n        println!(\"No\");\n   \
+    \ }\n}\n"
   dependsOn:
   - crates/flow/maxflow_lower_bound/src/lib.rs
   isVerificationFile: true
   path: verify/AtCoder/abc285g/src/main.rs
   requiredBy: []
-  timestamp: '2024-03-16 13:00:59+09:00'
+  timestamp: '2024-03-16 13:16:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AtCoder/abc285g/src/main.rs
