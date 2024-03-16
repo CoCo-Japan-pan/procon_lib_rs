@@ -1,3 +1,0 @@
-(function() {var implementors = {
-"maxflow":[["impl&lt;Cap: <a class=\"trait\" href=\"https://doc.rust-lang.org/1.70.0/core/default/trait.Default.html\" title=\"trait core::default::Default\">Default</a>&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/1.70.0/core/default/trait.Default.html\" title=\"trait core::default::Default\">Default</a> for <a class=\"struct\" href=\"maxflow/struct.MaxFlow.html\" title=\"struct maxflow::MaxFlow\">MaxFlow</a>&lt;Cap&gt;"]]
-};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
