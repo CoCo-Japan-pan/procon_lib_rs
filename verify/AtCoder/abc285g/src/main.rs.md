@@ -1,14 +1,14 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: crates/flow/maxflow_lower_bound/src/lib.rs
     title: crates/flow/maxflow_lower_bound/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     PROBLEM: https://atcoder.jp/contests/abc285/tasks/abc285_g
     links:
@@ -45,8 +45,8 @@ data:
   isVerificationFile: true
   path: verify/AtCoder/abc285g/src/main.rs
   requiredBy: []
-  timestamp: '2024-03-15 22:56:41+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2024-03-16 12:28:23+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: verify/AtCoder/abc285g/src/main.rs
 layout: document

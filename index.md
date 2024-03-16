@@ -38,7 +38,7 @@ data:
       title: crates/flow/maxflow/src/lib.rs
   - name: crates/flow/maxflow_lower_bound/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: crates/flow/maxflow_lower_bound/src/lib.rs
       title: crates/flow/maxflow_lower_bound/src/lib.rs
   - name: crates/fps/ntt/src
@@ -109,7 +109,7 @@ data:
       title: verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
   - name: verify/AtCoder/abc285g/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/AtCoder/abc285g/src/main.rs
       title: verify/AtCoder/abc285g/src/main.rs
   - name: verify/AtCoder/alpc_l_lazy_seg/src
