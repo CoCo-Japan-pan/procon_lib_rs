@@ -66,6 +66,11 @@ data:
     - icon: ':warning:'
       path: crates/internals/modint_traits/src/lib.rs
       title: crates/internals/modint_traits/src/lib.rs
+  - name: crates/misc/top2/src
+    pages:
+    - icon: ':warning:'
+      path: crates/misc/top2/src/lib.rs
+      title: crates/misc/top2/src/lib.rs
   - name: crates/modint/dynamic_modint/src
     pages:
     - icon: ':heavy_check_mark:'
