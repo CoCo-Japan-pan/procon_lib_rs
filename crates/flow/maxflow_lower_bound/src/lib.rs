@@ -37,7 +37,7 @@ impl<Cap: Integral> MaxFlowLowerBound<Cap> {
         self.maxflow.add_edge(from, to, cap)
     }
 
-    /// from→toへ、rangeの流量制約を持つ辺を張る(返す辺のidは、from→toのcap=upper-lowerの辺のid)
+    /// from→toへ、rangeの流量制約を持つ辺を張る(返す辺のidは、from→toのcap=upper-lowerの辺のid)  
     /// (大抵は大丈夫だが)excludedな境界についてはCap::one()を足し引きしていることに注意
     pub fn add_edge_with_lower_bound<R: RangeBounds<Cap>>(
         &mut self,

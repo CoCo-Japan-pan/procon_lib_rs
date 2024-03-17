@@ -1,14 +1,4 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
+//! [HCPCの資料](https://hcpc-hokudai.github.io/archive/graph_tree_001.pdf)  
+//! [HLDの中にsubtreeクエリも対応させる](https://codeforces.com/blog/entry/53170)  
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
-}
+pub struct HLD {}
