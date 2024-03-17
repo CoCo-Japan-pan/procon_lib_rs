@@ -13,7 +13,7 @@ pub struct Top2Map<K: Eq + Copy, V: Ord + Copy> {
     map: Inner<K, V>,
 }
 
-impl Default for Top2Map<i32, i32> {
+impl<K: Eq + Copy, V: Ord + Copy> Default for Top2Map<K, V> {
     fn default() -> Self {
         Self::new()
     }
