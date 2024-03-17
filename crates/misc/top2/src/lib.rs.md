@@ -20,19 +20,19 @@ data:
     \ V); 2]),\n}\n\n/// Top2(\u5927\u304D\u3044\u9806)\u307E\u3067\u306EMap\u3092\
     \u6301\u3064 \u305F\u3060\u3057\u540C\u3058Key\u306F\u4E00\u3064\u307E\u3067\n\
     #[derive(Debug, Clone, Copy)]\npub struct Top2Map<K: Eq + Copy, V: Ord + Copy>\
-    \ {\n    map: Inner<K, V>,\n}\n\nimpl Default for Top2Map<i32, i32> {\n    fn\
-    \ default() -> Self {\n        Self::new()\n    }\n}\n\nimpl<K: Eq + Copy, V:\
-    \ Ord + Copy> Top2Map<K, V> {\n    pub fn new() -> Self {\n        Self { map:\
-    \ Inner::Empty }\n    }\n    #[allow(clippy::collapsible_else_if)]\n    pub fn\
-    \ insert(&mut self, key: K, value: V) {\n        match self.map {\n          \
-    \  Inner::Empty => {\n                self.map = Inner::One(key, value);\n   \
-    \         }\n            Inner::One(k, v) => {\n                if key == k {\n\
-    \                    self.map = Inner::One(key, v.max(value));\n             \
-    \   } else {\n                    if value > v {\n                        self.map\
-    \ = Inner::Two([(key, value), (k, v)]);\n                    } else {\n      \
-    \                  self.map = Inner::Two([(k, v), (key, value)]);\n          \
-    \          }\n                }\n            }\n            Inner::Two([(k1, v1),\
-    \ (k2, v2)]) => {\n                if key == k1 {\n                    self.map\
+    \ {\n    map: Inner<K, V>,\n}\n\nimpl<K: Eq + Copy, V: Ord + Copy> Default for\
+    \ Top2Map<K, V> {\n    fn default() -> Self {\n        Self::new()\n    }\n}\n\
+    \nimpl<K: Eq + Copy, V: Ord + Copy> Top2Map<K, V> {\n    pub fn new() -> Self\
+    \ {\n        Self { map: Inner::Empty }\n    }\n    #[allow(clippy::collapsible_else_if)]\n\
+    \    pub fn insert(&mut self, key: K, value: V) {\n        match self.map {\n\
+    \            Inner::Empty => {\n                self.map = Inner::One(key, value);\n\
+    \            }\n            Inner::One(k, v) => {\n                if key == k\
+    \ {\n                    self.map = Inner::One(key, v.max(value));\n         \
+    \       } else {\n                    if value > v {\n                       \
+    \ self.map = Inner::Two([(key, value), (k, v)]);\n                    } else {\n\
+    \                        self.map = Inner::Two([(k, v), (key, value)]);\n    \
+    \                }\n                }\n            }\n            Inner::Two([(k1,\
+    \ v1), (k2, v2)]) => {\n                if key == k1 {\n                    self.map\
     \ = Inner::Two([(key, v1.max(value)), (k2, v2)]);\n                } else if key\
     \ == k2 {\n                    let new_k2_val = v2.max(value);\n             \
     \       if new_k2_val > v1 {\n                        self.map = Inner::Two([(k2,\
@@ -52,7 +52,7 @@ data:
   isVerificationFile: false
   path: crates/misc/top2/src/lib.rs
   requiredBy: []
-  timestamp: '2024-03-17 16:35:12+09:00'
+  timestamp: '2024-03-17 16:41:57+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/misc/top2/src/lib.rs
