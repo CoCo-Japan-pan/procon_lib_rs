@@ -23,7 +23,7 @@ fn main() {
         }
         if (i + j) % 2 == 0 {
             if C[i][j] == '2' {
-                mf.add_edge_with_lower_bound(start, id(i, j), 1, 1);
+                mf.add_edge_with_lower_bound(start, id(i, j), 1..=1);
             } else {
                 mf.add_edge(start, id(i, j), 1);
             }
@@ -39,7 +39,7 @@ fn main() {
             }
         } else {
             if C[i][j] == '2' {
-                mf.add_edge_with_lower_bound(id(i, j), goal, 1, 1);
+                mf.add_edge_with_lower_bound(id(i, j), goal, 1..=1);
             } else {
                 mf.add_edge(id(i, j), goal, 1);
             }

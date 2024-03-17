@@ -4,6 +4,7 @@
 
 use internal_type_traits::Integral;
 use maxflow::{Edge, MaxFlow};
+use std::ops::RangeBounds;
 
 pub struct MaxFlowLowerBound<Cap: Integral> {
     maxflow: MaxFlow<Cap>,
@@ -36,14 +37,23 @@ impl<Cap: Integral> MaxFlowLowerBound<Cap> {
         self.maxflow.add_edge(from, to, cap)
     }
 
-    /// from→toへ、`[lower,upper]`の流量制約を持つ辺を張る(返す辺のidは、from→toのcap=upper-lowerの辺のid)
-    pub fn add_edge_with_lower_bound(
+    /// from→toへ、rangeの流量制約を持つ辺を張る(返す辺のidは、from→toのcap=upper-lowerの辺のid)
+    pub fn add_edge_with_lower_bound<R: RangeBounds<Cap>>(
         &mut self,
         from: usize,
         to: usize,
-        lower: Cap,
-        upper: Cap,
+        range: R,
     ) -> usize {
+        let lower = match range.start_bound() {
+            std::ops::Bound::Included(&x) => x,
+            std::ops::Bound::Excluded(&x) => x + Cap::one(),
+            std::ops::Bound::Unbounded => Cap::zero(),
+        };
+        let upper = match range.end_bound() {
+            std::ops::Bound::Included(&x) => x,
+            std::ops::Bound::Excluded(&x) => x - Cap::one(),
+            std::ops::Bound::Unbounded => Cap::max_value(),
+        };
         assert!(Cap::zero() <= lower && lower <= upper);
         assert!(from < self.vertices && to < self.vertices);
         assert!(from != to && upper > Cap::zero());
