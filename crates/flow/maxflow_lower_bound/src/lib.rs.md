@@ -25,9 +25,9 @@ data:
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! \u6700\u5C0F\u6D41\u91CF\u5236\u9650\u4ED8\u304D\u6700\u5927\u6D41  \n\
     //! <https://atcoder.jp/contests/abc285/editorial/5500>\n//! <https://tubo28.me/compprog/algorithm/flow_with_lu_bound/>\n\
-    \nuse internal_type_traits::Integral;\nuse maxflow::{Edge, MaxFlow};\n\npub struct\
-    \ MaxFlowLowerBound<Cap: Integral> {\n    maxflow: MaxFlow<Cap>,\n    vertices:\
-    \ usize,\n    dummy_source: usize,\n    dummy_sink: usize,\n    lower_bound_sum:\
+    \nuse internal_type_traits::Integral;\nuse maxflow::{Edge, MaxFlow};\nuse std::ops::RangeBounds;\n\
+    \npub struct MaxFlowLowerBound<Cap: Integral> {\n    maxflow: MaxFlow<Cap>,\n\
+    \    vertices: usize,\n    dummy_source: usize,\n    dummy_sink: usize,\n    lower_bound_sum:\
     \ Cap,\n}\n\nimpl<Cap: Integral> MaxFlowLowerBound<Cap> {\n    pub fn new(n: usize)\
     \ -> Self {\n        let dummy_source = n;\n        let dummy_sink = n + 1;\n\
     \        let maxflow = MaxFlow::new(n + 2);\n        Self {\n            maxflow,\n\
@@ -37,12 +37,17 @@ data:
     \ from\u2192to\u3078\u3001\u5BB9\u91CFcap\u306E\u8FBA\u3092\u5F35\u308B(lower\u306E\
     \u5236\u7D04\u306F\u7121\u3057)\n    pub fn add_edge(&mut self, from: usize, to:\
     \ usize, cap: Cap) -> usize {\n        self.maxflow.add_edge(from, to, cap)\n\
-    \    }\n\n    /// from\u2192to\u3078\u3001`[lower,upper]`\u306E\u6D41\u91CF\u5236\
-    \u7D04\u3092\u6301\u3064\u8FBA\u3092\u5F35\u308B(\u8FD4\u3059\u8FBA\u306Eid\u306F\
-    \u3001from\u2192to\u306Ecap=upper-lower\u306E\u8FBA\u306Eid)\n    pub fn add_edge_with_lower_bound(\n\
-    \        &mut self,\n        from: usize,\n        to: usize,\n        lower:\
-    \ Cap,\n        upper: Cap,\n    ) -> usize {\n        assert!(Cap::zero() <=\
-    \ lower && lower <= upper);\n        assert!(from < self.vertices && to < self.vertices);\n\
+    \    }\n\n    /// from\u2192to\u3078\u3001range\u306E\u6D41\u91CF\u5236\u7D04\u3092\
+    \u6301\u3064\u8FBA\u3092\u5F35\u308B(\u8FD4\u3059\u8FBA\u306Eid\u306F\u3001from\u2192\
+    to\u306Ecap=upper-lower\u306E\u8FBA\u306Eid)\n    pub fn add_edge_with_lower_bound<R:\
+    \ RangeBounds<Cap>>(\n        &mut self,\n        from: usize,\n        to: usize,\n\
+    \        range: R,\n    ) -> usize {\n        let lower = match range.start_bound()\
+    \ {\n            std::ops::Bound::Included(&x) => x,\n            std::ops::Bound::Excluded(&x)\
+    \ => x + Cap::one(),\n            std::ops::Bound::Unbounded => Cap::zero(),\n\
+    \        };\n        let upper = match range.end_bound() {\n            std::ops::Bound::Included(&x)\
+    \ => x,\n            std::ops::Bound::Excluded(&x) => x - Cap::one(),\n      \
+    \      std::ops::Bound::Unbounded => Cap::max_value(),\n        };\n        assert!(Cap::zero()\
+    \ <= lower && lower <= upper);\n        assert!(from < self.vertices && to < self.vertices);\n\
     \        assert!(from != to && upper > Cap::zero());\n        if lower == Cap::zero()\
     \ {\n            return self.maxflow.add_edge(from, to, upper);\n        }\n \
     \       self.lower_bound_sum += lower;\n        self.maxflow.add_edge(self.dummy_source,\
@@ -63,7 +68,7 @@ data:
   isVerificationFile: false
   path: crates/flow/maxflow_lower_bound/src/lib.rs
   requiredBy: []
-  timestamp: '2024-03-16 12:28:23+09:00'
+  timestamp: '2024-03-17 17:52:30+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc285g/src/main.rs

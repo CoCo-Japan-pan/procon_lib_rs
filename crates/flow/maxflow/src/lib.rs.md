@@ -163,7 +163,7 @@ data:
   path: crates/flow/maxflow/src/lib.rs
   requiredBy:
   - crates/flow/maxflow_lower_bound/src/lib.rs
-  timestamp: '2024-03-15 22:56:41+09:00'
+  timestamp: '2024-03-17 17:52:30+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/flow/maxflow/src/lib.rs

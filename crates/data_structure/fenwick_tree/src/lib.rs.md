@@ -61,7 +61,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/fenwick_tree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-03-15 22:56:41+09:00'
+  timestamp: '2024-03-17 17:52:30+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_649_fenwick_tree/src/main.rs
