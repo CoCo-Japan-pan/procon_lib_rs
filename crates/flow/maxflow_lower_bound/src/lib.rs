@@ -1,5 +1,5 @@
 //! 最小流量制限付き最大流  
-//! <https://atcoder.jp/contests/abc285/editorial/5500>
+//! <https://atcoder.jp/contests/abc285/editorial/5500>  
 //! <https://tubo28.me/compprog/algorithm/flow_with_lu_bound/>
 
 use internal_type_traits::Integral;
@@ -38,6 +38,7 @@ impl<Cap: Integral> MaxFlowLowerBound<Cap> {
     }
 
     /// from→toへ、rangeの流量制約を持つ辺を張る(返す辺のidは、from→toのcap=upper-lowerの辺のid)
+    /// (大抵は大丈夫だが)excludedな境界についてはCap::one()を足し引きしていることに注意
     pub fn add_edge_with_lower_bound<R: RangeBounds<Cap>>(
         &mut self,
         from: usize,
