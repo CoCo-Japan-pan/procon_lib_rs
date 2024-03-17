@@ -39,7 +39,7 @@ data:
     \ usize, cap: Cap) -> usize {\n        self.maxflow.add_edge(from, to, cap)\n\
     \    }\n\n    /// from\u2192to\u3078\u3001range\u306E\u6D41\u91CF\u5236\u7D04\u3092\
     \u6301\u3064\u8FBA\u3092\u5F35\u308B(\u8FD4\u3059\u8FBA\u306Eid\u306F\u3001from\u2192\
-    to\u306Ecap=upper-lower\u306E\u8FBA\u306Eid)\n    /// (\u5927\u62B5\u306F\u5927\
+    to\u306Ecap=upper-lower\u306E\u8FBA\u306Eid)  \n    /// (\u5927\u62B5\u306F\u5927\
     \u4E08\u592B\u3060\u304C)excluded\u306A\u5883\u754C\u306B\u3064\u3044\u3066\u306F\
     Cap::one()\u3092\u8DB3\u3057\u5F15\u304D\u3057\u3066\u3044\u308B\u3053\u3068\u306B\
     \u6CE8\u610F\n    pub fn add_edge_with_lower_bound<R: RangeBounds<Cap>>(\n   \
@@ -71,7 +71,7 @@ data:
   isVerificationFile: false
   path: crates/flow/maxflow_lower_bound/src/lib.rs
   requiredBy: []
-  timestamp: '2024-03-17 20:16:20+09:00'
+  timestamp: '2024-03-17 20:21:07+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc285g/src/main.rs

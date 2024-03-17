@@ -46,7 +46,7 @@ data:
   isVerificationFile: true
   path: verify/AtCoder/abc285g/src/main.rs
   requiredBy: []
-  timestamp: '2024-03-17 20:16:20+09:00'
+  timestamp: '2024-03-17 20:21:07+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AtCoder/abc285g/src/main.rs
