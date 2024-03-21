@@ -213,7 +213,7 @@ macro_rules! impl_binop_to_primitive {
     };
 }
 
-impl_binop_to_primitive!(u8, u16, u32, u64, usize, i8, i16, i32, i64, isize);
+impl_binop_to_primitive!(u8, u16, u32, u64, usize, u128, i8, i16, i32, i64, isize, i128);
 
 #[cfg(test)]
 mod tests {

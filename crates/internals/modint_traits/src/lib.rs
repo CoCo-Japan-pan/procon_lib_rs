@@ -108,6 +108,13 @@ impl RemEuclidU32 for usize {
     }
 }
 
+impl RemEuclidU32 for u128 {
+    #[inline]
+    fn rem_euclid_u32(self, modulus: u32) -> u32 {
+        (self % modulus as u128) as u32
+    }
+}
+
 #[inline]
 fn neg(val: u32, modulus: u32) -> u32 {
     if val == 0 {
@@ -134,4 +141,4 @@ macro_rules! impl_rem_euclid_u32_for_signed {
     };
 }
 
-impl_rem_euclid_u32_for_signed!(i8, i16, i32, i64, isize);
+impl_rem_euclid_u32_for_signed!(i8, i16, i32, i64, isize, i128);
