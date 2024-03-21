@@ -2,9 +2,6 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
-    path: crates/data_structure/fenwick_tree/src/lib.rs
-    title: crates/data_structure/fenwick_tree/src/lib.rs
   - icon: ':warning:'
     path: crates/flow/maxflow/src/lib.rs
     title: crates/flow/maxflow/src/lib.rs
@@ -48,7 +45,6 @@ data:
   requiredBy:
   - crates/flow/maxflow/src/lib.rs
   - crates/flow/maxflow_lower_bound/src/lib.rs
-  - crates/data_structure/fenwick_tree/src/lib.rs
   timestamp: '2024-03-17 17:52:30+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

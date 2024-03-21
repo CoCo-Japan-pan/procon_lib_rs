@@ -30,7 +30,7 @@ data:
     \ {\n            if let Query::Add(a) = q {\n                Some(*a)\n      \
     \      } else {\n                None\n            }\n        })\n        .collect::<Vec<_>>();\n\
     \    num_list.sort();\n    num_list.dedup();\n    let num_list = num_list;\n \
-    \   let mut fenwick = FenwickTree::<i32>::new(num_list.len());\n    let mut sum\
+    \   let mut fenwick = FenwickTree::new(num_list.len(), 0_i32);\n    let mut sum\
     \ = 0;\n    for query in queries {\n        match query {\n            Query::Add(a)\
     \ => {\n                let idx = num_list.binary_search(&a).unwrap();\n     \
     \           fenwick.add(idx, 1);\n                sum += 1;\n            }\n \
@@ -44,7 +44,7 @@ data:
   isVerificationFile: true
   path: verify/yukicoder/no_649_fenwick_tree/src/main.rs
   requiredBy: []
-  timestamp: '2024-03-15 22:56:41+09:00'
+  timestamp: '2024-03-21 10:45:53+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yukicoder/no_649_fenwick_tree/src/main.rs
