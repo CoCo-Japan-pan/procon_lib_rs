@@ -53,7 +53,7 @@ jobs:
       run: |
         git switch main 
         cargo clean
-        cargo doc --lib --no-deps
+        cargo doc --lib
         git switch gh-pages
         git config --global user.name "github-actions[bot]"
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
