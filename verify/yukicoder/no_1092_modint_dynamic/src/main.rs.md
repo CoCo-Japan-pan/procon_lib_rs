@@ -18,21 +18,21 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://yukicoder.me/problems/no/1092\n\n\
-    use dynamic_modint::DynamicModInt;\nuse proconio::{fastout, input, marker::Chars};\n\
-    \n#[fastout]\nfn main() {\n    input! {\n        p: u32,\n        n: u32,\n  \
-    \      a: [u32; n],\n        s: Chars,\n    }\n    DynamicModInt::set_modulus(p);\n\
-    \    let a = a.into_iter().map(DynamicModInt::raw).collect::<Vec<_>>();\n    let\
-    \ ans = a\n        .iter()\n        .skip(1)\n        .zip(s.iter())\n       \
-    \ .fold(a[0], |acc, (x, &c)| match c {\n            '+' => acc + *x,\n       \
-    \     '-' => acc - *x,\n            '*' => acc * *x,\n            '/' => acc /\
-    \ *x,\n            _ => unreachable!(),\n        });\n    println!(\"{}\", ans);\n\
-    }\n"
+    use dynamic_modint::{define_modint, DynamicModInt};\nuse proconio::{fastout, input,\
+    \ marker::Chars};\n\n#[fastout]\nfn main() {\n    input! {\n        p: u32,\n\
+    \        n: u32,\n        a: [u32; n],\n        s: Chars,\n    }\n    define_modint!(MOD,\
+    \ p);\n    let a = a\n        .into_iter()\n        .map(DynamicModInt::<MOD>::raw)\n\
+    \        .collect::<Vec<_>>();\n    let ans = a\n        .iter()\n        .skip(1)\n\
+    \        .zip(s.iter())\n        .fold(a[0], |acc, (x, &c)| match c {\n      \
+    \      '+' => acc + *x,\n            '-' => acc - *x,\n            '*' => acc\
+    \ * *x,\n            '/' => acc / *x,\n            _ => unreachable!(),\n    \
+    \    });\n    println!(\"{}\", ans);\n}\n"
   dependsOn:
   - crates/modint/dynamic_modint/src/lib.rs
   isVerificationFile: true
   path: verify/yukicoder/no_1092_modint_dynamic/src/main.rs
   requiredBy: []
-  timestamp: '2024-03-09 18:37:28+09:00'
+  timestamp: '2024-03-21 12:12:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yukicoder/no_1092_modint_dynamic/src/main.rs

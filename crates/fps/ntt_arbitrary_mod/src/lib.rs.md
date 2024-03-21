@@ -61,7 +61,7 @@ data:
   isVerificationFile: false
   path: crates/fps/ntt_arbitrary_mod/src/lib.rs
   requiredBy: []
-  timestamp: '2024-03-14 19:10:07+09:00'
+  timestamp: '2024-03-21 12:12:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/convolution_mod_1000000007_ntt/src/main.rs

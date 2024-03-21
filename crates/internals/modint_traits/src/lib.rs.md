@@ -52,15 +52,16 @@ data:
     \        (self % modulus as u64) as u32\n    }\n}\n\nimpl RemEuclidU32 for usize\
     \ {\n    #[inline]\n    fn rem_euclid_u32(self, modulus: u32) -> u32 {\n     \
     \   let casted: u64 = self.try_into().unwrap();\n        casted.rem_euclid_u32(modulus)\n\
-    \    }\n}\n\n#[inline]\nfn neg(val: u32, modulus: u32) -> u32 {\n    if val ==\
-    \ 0 {\n        0\n    } else {\n        modulus - val\n    }\n}\n\nmacro_rules!\
-    \ impl_rem_euclid_u32_for_signed {\n    ($($t:ty),*) => {\n        $(\n      \
-    \      impl RemEuclidU32 for $t {\n                #[inline]\n               \
-    \ fn rem_euclid_u32(self, modulus: u32) -> u32 {\n                    if self\
-    \ < 0 {\n                        neg(self.unsigned_abs().rem_euclid_u32(modulus),\
+    \    }\n}\n\nimpl RemEuclidU32 for u128 {\n    #[inline]\n    fn rem_euclid_u32(self,\
+    \ modulus: u32) -> u32 {\n        (self % modulus as u128) as u32\n    }\n}\n\n\
+    #[inline]\nfn neg(val: u32, modulus: u32) -> u32 {\n    if val == 0 {\n      \
+    \  0\n    } else {\n        modulus - val\n    }\n}\n\nmacro_rules! impl_rem_euclid_u32_for_signed\
+    \ {\n    ($($t:ty),*) => {\n        $(\n            impl RemEuclidU32 for $t {\n\
+    \                #[inline]\n                fn rem_euclid_u32(self, modulus: u32)\
+    \ -> u32 {\n                    if self < 0 {\n                        neg(self.unsigned_abs().rem_euclid_u32(modulus),\
     \ modulus)\n                    } else {\n                        self.unsigned_abs().rem_euclid_u32(modulus)\n\
     \                    }\n                }\n            }\n        )*\n    };\n\
-    }\n\nimpl_rem_euclid_u32_for_signed!(i8, i16, i32, i64, isize);\n"
+    }\n\nimpl_rem_euclid_u32_for_signed!(i8, i16, i32, i64, isize, i128);\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/internals/modint_traits/src/lib.rs
@@ -68,7 +69,7 @@ data:
   - crates/fps/ntt_arbitrary_mod/src/lib.rs
   - crates/modint/static_modint/src/lib.rs
   - crates/modint/dynamic_modint/src/lib.rs
-  timestamp: '2024-03-09 17:05:52+09:00'
+  timestamp: '2024-03-21 12:12:54+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/internals/modint_traits/src/lib.rs

@@ -105,9 +105,9 @@ data:
     \  }\n            impl<const MOD: u32> DivAssign<$t> for StaticModInt<MOD> {\n\
     \                fn div_assign(&mut self, rhs: $t) {\n                    *self\
     \ /= Self::new(rhs);\n                }\n            }\n        )*\n    };\n}\n\
-    \nimpl_binop_to_primitive!(u8, u16, u32, u64, usize, i8, i16, i32, i64, isize);\n\
-    \n#[cfg(test)]\nmod tests {\n    use super::ModInt1000000007;\n\n    #[test]\n\
-    \    fn static_modint_new() {\n        assert_eq!(0, ModInt1000000007::new(0u32).value);\n\
+    \nimpl_binop_to_primitive!(u8, u16, u32, u64, usize, u128, i8, i16, i32, i64,\
+    \ isize, i128);\n\n#[cfg(test)]\nmod tests {\n    use super::ModInt1000000007;\n\
+    \n    #[test]\n    fn static_modint_new() {\n        assert_eq!(0, ModInt1000000007::new(0u32).value);\n\
     \        assert_eq!(1, ModInt1000000007::new(1u32).value);\n        assert_eq!(1,\
     \ ModInt1000000007::new(1_000_000_008u32).value);\n\n        assert_eq!(0, ModInt1000000007::new(0u64).value);\n\
     \        assert_eq!(1, ModInt1000000007::new(1u64).value);\n        assert_eq!(1,\
@@ -154,7 +154,7 @@ data:
   requiredBy:
   - crates/fps/ntt/src/lib.rs
   - crates/fps/ntt_arbitrary_mod/src/lib.rs
-  timestamp: '2024-03-09 17:05:52+09:00'
+  timestamp: '2024-03-21 12:12:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/point_set_range_composite/src/main.rs
