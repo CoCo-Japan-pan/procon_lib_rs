@@ -50,24 +50,23 @@ data:
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! `Algrebra`\u3067\u306F\u3001\u30C7\u30FC\u30BF\u69CB\u9020\u306B\u4E57\
     \u305B\u308B\u4EE3\u6570\u69CB\u9020\u306Etrait\u3092\u63D0\u4F9B\u3057\u307E\u3059\
-    \u3002\nuse std::fmt::Debug;\n\n/// \u4F5C\u7528  \n/// \u4F5C\u7528\u81EA\u4F53\
+    \u3002\nuse std::fmt::Debug;\n/// \u4F5C\u7528  \n/// \u4F5C\u7528\u81EA\u4F53\
     \u3082\u30E2\u30CE\u30A4\u30C9\u3067\u3042\u308B\u3053\u3068\u3092\u8981\u6C42\
     \  \n/// \u4F5C\u7528\u7D20\u3092\u5408\u6210\u3055\u305B\u3066\u304B\u3089\u4F5C\
     \u7528\u3055\u305B\u308B\u306E\u3068\u3001\u4F5C\u7528\u7D20\u3092\u4E00\u3064\
     \u4E00\u3064\u4F5C\u7528\u3055\u305B\u308B\u7D50\u679C\u304C\u540C\u3058\u3067\
-    \u3042\u308B\u3053\u3068\u3092\u8981\u6C42\npub trait Map: Debug + Clone + PartialEq\
-    \ + Eq {\n    /// \u4F5C\u7528\u306E\u5BFE\u8C61\n    type Target: Debug + Clone\
-    \ + PartialEq + Eq;\n    /// \u6052\u7B49\u5199\u50CF\n    fn id_map() -> Self;\n\
-    \    /// \u4F5C\u7528\u306E\u5408\u6210(self\u304C\u5148\u3001rhs\u304C\u5F8C\
-    )\n    fn composition(&mut self, rhs: &Self);\n    /// \u4F5C\u7528\u306E\u9069\
-    \u7528\n    fn mapping(&self, target: &mut Self::Target);\n}\n\n/// \u53EF\u63DB\
-    \u306A\u4F5C\u7528\npub trait CommutativeMap: Map {}\n\n/// \u975E\u53EF\u63DB\
-    \u306A\u4F5C\u7528\npub trait NonCommutativeMap: Map {}\n\n/// \u30E2\u30CE\u30A4\
-    \u30C9\npub trait Monoid {\n    /// \u30E2\u30CE\u30A4\u30C9\u306E\u8981\u7D20\
-    \n    type Target: Debug + Clone + PartialEq + Eq;\n    /// \u5358\u4F4D\u5143\
-    \n    fn id_element() -> Self::Target;\n    /// \u4E8C\u9805\u6F14\u7B97\n   \
-    \ fn binary_operation(a: &Self::Target, b: &Self::Target) -> Self::Target;\n}\n\
-    \n/// \u81EA\u5DF1\u6E96\u540C\u578B\u6027\u3092\u8981\u6C42  \n/// \u3064\u307E\
+    \u3042\u308B\u3053\u3068\u3092\u8981\u6C42\npub trait Map: Clone {\n    /// \u4F5C\
+    \u7528\u306E\u5BFE\u8C61\n    type Target: Clone;\n    /// \u6052\u7B49\u5199\u50CF\
+    \n    fn id_map() -> Self;\n    /// \u4F5C\u7528\u306E\u5408\u6210(self\u304C\u5148\
+    \u3001rhs\u304C\u5F8C)\n    fn composition(&mut self, rhs: &Self);\n    /// \u4F5C\
+    \u7528\u306E\u9069\u7528\n    fn mapping(&self, target: &mut Self::Target);\n\
+    }\n\n/// \u53EF\u63DB\u306A\u4F5C\u7528\npub trait CommutativeMap: Map {}\n\n\
+    /// \u975E\u53EF\u63DB\u306A\u4F5C\u7528\npub trait NonCommutativeMap: Map {}\n\
+    \n/// \u30E2\u30CE\u30A4\u30C9\npub trait Monoid {\n    /// \u30E2\u30CE\u30A4\
+    \u30C9\u306E\u8981\u7D20\n    type Target: Debug + Clone;\n    /// \u5358\u4F4D\
+    \u5143\n    fn id_element() -> Self::Target;\n    /// \u4E8C\u9805\u6F14\u7B97\
+    \n    fn binary_operation(a: &Self::Target, b: &Self::Target) -> Self::Target;\n\
+    }\n\n/// \u81EA\u5DF1\u6E96\u540C\u578B\u6027\u3092\u8981\u6C42  \n/// \u3064\u307E\
     \u308A\u533A\u9593\u548C\u3078\u306E\u9069\u7528\u3068\u3001\u5404\u8981\u7D20\
     \u3078\u306E\u9069\u7528\u306E\u533A\u9593\u548C\u304C\u4E00\u81F4\u3059\u308B\
     \u3053\u3068\u3092\u8981\u6C42\npub trait MapMonoid {\n    /// \u4F5C\u7528\u306E\
@@ -95,7 +94,7 @@ data:
   - crates/data_structure/dual_seg_tree/src/lib.rs
   - crates/data_structure/lazy_seg_tree/src/lib.rs
   - crates/data_structure/seg_tree/src/lib.rs
-  timestamp: '2024-04-01 22:48:20+09:00'
+  timestamp: '2024-04-01 23:03:12+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/no1068/src/main.rs

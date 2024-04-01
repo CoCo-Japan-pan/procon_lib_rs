@@ -28,22 +28,23 @@ data:
     \u4F1D\u64AD\u3092\u3057\u3066\u304B\u3089\u9069\u7528\u3059\u308B\n\nuse algebra::{CommutativeMap,\
     \ Map, NonCommutativeMap};\nuse std::ops::RangeBounds;\n\n/// \u4F5C\u7528\u3092\
     \u533A\u9593\u9069\u7528, 1\u70B9\u53D6\u5F97\u304C\u3067\u304D\u308B\u30C7\u30FC\
-    \u30BF\u69CB\u9020\npub struct DualSegTree<T: Map> {\n    range_size: usize,\n\
-    \    leaf_size: usize,\n    log: usize,\n    lazy_nodes: Vec<T>,\n}\n\nimpl<T:\
-    \ Map> DualSegTree<T> {\n    pub fn new(size: usize) -> Self {\n        let mut\
-    \ leaf_size = 1;\n        let mut log = 0;\n        while leaf_size < size {\n\
-    \            leaf_size *= 2;\n            log += 1;\n        }\n        Self {\n\
-    \            range_size: size,\n            leaf_size,\n            log,\n   \
-    \         lazy_nodes: vec![T::id_map(); 2 * leaf_size],\n        }\n    }\n\n\
-    \    /// \u4E00\u70B9\u53D6\u5F97(\u305D\u306E\u70B9\u3078\u306E\u4F5C\u7528\u3092\
-    \u9069\u7528\u3057\u305F\u7D50\u679C\u3092\u8FD4\u3059)\n    pub fn get_mapped(&self,\
-    \ i: usize, mut target: T::Target) -> T::Target {\n        assert!(i < self.range_size);\n\
-    \        let mut i = i + self.leaf_size;\n        while i > 0 {\n            self.lazy_nodes[i].mapping(&mut\
-    \ target);\n            i >>= 1;\n        }\n        target\n    }\n\n    ///\
-    \ \u4E00\u70B9\u53D6\u5F97(\u305D\u306E\u70B9\u3078\u306E\u4F5C\u7528\u306E\u5408\
-    \u6210\u3092\u8FD4\u3059)\n    pub fn get_composition(&self, i: usize) -> T {\n\
+    \u30BF\u69CB\u9020\n#[derive(Debug)]\npub struct DualSegTree<T: Map> {\n    range_size:\
+    \ usize,\n    leaf_size: usize,\n    log: usize,\n    lazy_nodes: Vec<T>,\n}\n\
+    \nimpl<T: Map> DualSegTree<T> {\n    pub fn new(size: usize) -> Self {\n     \
+    \   let mut leaf_size = 1;\n        let mut log = 0;\n        while leaf_size\
+    \ < size {\n            leaf_size *= 2;\n            log += 1;\n        }\n  \
+    \      Self {\n            range_size: size,\n            leaf_size,\n       \
+    \     log,\n            lazy_nodes: vec![T::id_map(); 2 * leaf_size],\n      \
+    \  }\n    }\n\n    /// \u4E00\u70B9\u53D6\u5F97(\u305D\u306E\u70B9\u3078\u306E\
+    \u4F5C\u7528\u3092\u9069\u7528\u3057\u305F\u7D50\u679C\u3092\u8FD4\u3059)\n  \
+    \  pub fn get_mapped(&self, i: usize, mut target: T::Target) -> T::Target {\n\
     \        assert!(i < self.range_size);\n        let mut i = i + self.leaf_size;\n\
-    \        let mut res = T::id_map();\n        while i > 0 {\n            res.composition(&self.lazy_nodes[i]);\n\
+    \        while i > 0 {\n            self.lazy_nodes[i].mapping(&mut target);\n\
+    \            i >>= 1;\n        }\n        target\n    }\n\n    /// \u4E00\u70B9\
+    \u53D6\u5F97(\u305D\u306E\u70B9\u3078\u306E\u4F5C\u7528\u306E\u5408\u6210\u3092\
+    \u8FD4\u3059)\n    pub fn get_composition(&self, i: usize) -> T {\n        assert!(i\
+    \ < self.range_size);\n        let mut i = i + self.leaf_size;\n        let mut\
+    \ res = T::id_map();\n        while i > 0 {\n            res.composition(&self.lazy_nodes[i]);\n\
     \            i >>= 1;\n        }\n        res\n    }\n}\n\nimpl<T: CommutativeMap>\
     \ DualSegTree<T> {\n    /// \u533A\u9593\u306B\u53EF\u63DB\u306A\u4F5C\u7528\u3092\
     \u9069\u7528\u3059\u308B \u53EF\u63DB\u306A\u306E\u3067\u4F5C\u7528\u306E\u4F1D\
@@ -91,7 +92,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/dual_seg_tree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-01 22:48:20+09:00'
+  timestamp: '2024-04-01 23:03:12+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/dsl_2d_dual_seg/src/main.rs

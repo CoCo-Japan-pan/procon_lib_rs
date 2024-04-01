@@ -32,12 +32,12 @@ data:
     \u3053\u308D\u3068\u3001\u4F5C\u7528\u304C\u53EF\u5909\u306A\u3089\u4F1D\u64AD\
     \u3092\u4E00\u90E8\u30B5\u30DC\u308B\u90E8\u5206\u304C\u7570\u306A\u308B\n\nuse\
     \ algebra::{CommutativeMapMonoid, MapMonoid, Monoid, NonCommutativeMapMonoid};\n\
-    use std::ops::RangeBounds;\n\n#[derive(Debug, Clone, PartialEq, Eq)]\npub struct\
-    \ LazySegTree<F: MapMonoid> {\n    range_size: usize,\n    leaf_size: usize,\n\
-    \    log: usize,\n    data: Vec<<F::Monoid as Monoid>::Target>,\n    lazy: Vec<F::Map>,\n\
-    }\n\nimpl<F: MapMonoid> From<Vec<<F::Monoid as Monoid>::Target>> for LazySegTree<F>\
-    \ {\n    fn from(v: Vec<<F::Monoid as Monoid>::Target>) -> Self {\n        let\
-    \ range_size = v.len();\n        let log = (32 - (range_size as u32).saturating_sub(1).leading_zeros())\
+    use std::ops::RangeBounds;\n\n#[derive(Debug)]\npub struct LazySegTree<F: MapMonoid>\
+    \ {\n    range_size: usize,\n    leaf_size: usize,\n    log: usize,\n    data:\
+    \ Vec<<F::Monoid as Monoid>::Target>,\n    lazy: Vec<F::Map>,\n}\n\nimpl<F: MapMonoid>\
+    \ From<Vec<<F::Monoid as Monoid>::Target>> for LazySegTree<F> {\n    fn from(v:\
+    \ Vec<<F::Monoid as Monoid>::Target>) -> Self {\n        let range_size = v.len();\n\
+    \        let log = (32 - (range_size as u32).saturating_sub(1).leading_zeros())\
     \ as usize;\n        let leaf_size = 1 << log;\n        let mut data = vec![F::id_element();\
     \ 2 * leaf_size];\n        let lazy = vec![F::id_map(); leaf_size];\n        data[leaf_size..(leaf_size\
     \ + range_size)].clone_from_slice(&v);\n        let mut ret = Self {\n       \
@@ -174,7 +174,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/lazy_seg_tree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-01 22:48:20+09:00'
+  timestamp: '2024-04-01 23:03:12+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs

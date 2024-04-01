@@ -25,7 +25,7 @@ data:
     \u306E\u3067\u6CE8\u610F  \n//! \u77E9\u5F62\u9818\u57DF\u306E\u533A\u9593\u548C\
     \u306A\u306E\u3067\u3001\u53EF\u63DB\u3092\u4EEE\u5B9A\u3057\u3066\u3044\u308B\
     (\u975E\u53EF\u63DB\u3060\u3068\u6F14\u7B97\u9806\u5E8F\u304C\u66D6\u6627\u3067\
-    \u306F?)\n//! <https://nasubi-blog.hatenablog.com/entry/2021/11/27/185818>\u306E\
+    \u306F?)  \n//! <https://nasubi-blog.hatenablog.com/entry/2021/11/27/185818>\u306E\
     \u56F3\u304C\u5206\u304B\u308A\u3084\u3059\u304B\u3063\u305F\u3067\u3059  \n\n\
     use algebra::Monoid;\nuse std::ops::RangeBounds;\n\n#[derive(Debug)]\npub struct\
     \ SegTree2D<M: Monoid> {\n    height: usize,\n    width: usize,\n    ceil_log_h:\
@@ -107,7 +107,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/seg_tree_2d/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-01 22:48:20+09:00'
+  timestamp: '2024-04-01 23:03:12+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/no1068/src/main.rs
