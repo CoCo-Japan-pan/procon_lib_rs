@@ -4,7 +4,7 @@
 use algebra::{CommutativeMapMonoid, MapMonoid, Monoid, NonCommutativeMapMonoid};
 use std::ops::RangeBounds;
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug)]
 pub struct LazySegTree<F: MapMonoid> {
     range_size: usize,
     leaf_size: usize,

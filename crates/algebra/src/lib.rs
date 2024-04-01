@@ -1,12 +1,11 @@
 //! `Algrebra`では、データ構造に乗せる代数構造のtraitを提供します。
 use std::fmt::Debug;
-
 /// 作用  
 /// 作用自体もモノイドであることを要求  
 /// 作用素を合成させてから作用させるのと、作用素を一つ一つ作用させる結果が同じであることを要求
-pub trait Map: Debug + Clone + PartialEq + Eq {
+pub trait Map: Clone {
     /// 作用の対象
-    type Target: Debug + Clone + PartialEq + Eq;
+    type Target: Clone;
     /// 恒等写像
     fn id_map() -> Self;
     /// 作用の合成(selfが先、rhsが後)
@@ -24,7 +23,7 @@ pub trait NonCommutativeMap: Map {}
 /// モノイド
 pub trait Monoid {
     /// モノイドの要素
-    type Target: Debug + Clone + PartialEq + Eq;
+    type Target: Debug + Clone;
     /// 単位元
     fn id_element() -> Self::Target;
     /// 二項演算

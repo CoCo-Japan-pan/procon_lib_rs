@@ -6,6 +6,7 @@ use algebra::{CommutativeMap, Map, NonCommutativeMap};
 use std::ops::RangeBounds;
 
 /// 作用を区間適用, 1点取得ができるデータ構造
+#[derive(Debug)]
 pub struct DualSegTree<T: Map> {
     range_size: usize,
     leaf_size: usize,
