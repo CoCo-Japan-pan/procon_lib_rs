@@ -1,6 +1,6 @@
 //! 動的に決定するModを持つModInt  
-//! 同時に一つのModしか使えない
-//! 一回Modを変更したら、今までのModIntは全て無意味な値になるので、再度使わないように注意!
+//! define_modint!を用いてModContainerを定義し、それをジェネリック引数とする  
+//! 複数のModを使いたいなら、それぞれのModContainerを定義して使う  
 
 use modint_traits::{ModInt, RemEuclidU32};
 use std::fmt::Debug;
@@ -263,17 +263,17 @@ mod tests {
     #[test]
     fn test_modint() {
         define_modint!(MOD7, 7);
+        define_modint!(MOD11, 11);
         let a = DynamicModInt::<MOD7>::new(3);
         let b = DynamicModInt::<MOD7>::new(4);
-        assert_eq!((a + b).value(), 0);
-        assert_eq!((a - b).value(), 6);
-        assert_eq!((a * b).value(), 5);
-        assert_eq!((a / b).value(), 6);
-        define_modint!(MOD11, 11);
         let c = DynamicModInt::<MOD11>::new(3);
         let d = DynamicModInt::<MOD11>::new(4);
+        assert_eq!((a + b).value(), 0);
+        assert_eq!((a - b).value(), 6);
         assert_eq!((c + d).value(), 7);
         assert_eq!((c - d).value(), 10);
+        assert_eq!((a * b).value(), 5);
+        assert_eq!((a / b).value(), 6);
         assert_eq!((c * d).value(), 1);
         assert_eq!((c / d).value(), 9);
     }
