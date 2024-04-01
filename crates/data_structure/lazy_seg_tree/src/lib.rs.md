@@ -34,74 +34,73 @@ data:
     \ algebra::{CommutativeMapMonoid, MapMonoid, Monoid, NonCommutativeMapMonoid};\n\
     use std::ops::RangeBounds;\n\n#[derive(Debug, Clone, PartialEq, Eq)]\npub struct\
     \ LazySegTree<F: MapMonoid> {\n    range_size: usize,\n    leaf_size: usize,\n\
-    \    log: usize,\n    data: Vec<<F::M as Monoid>::S>,\n    lazy: Vec<F::F>,\n\
-    }\n\nimpl<F: MapMonoid> From<Vec<<F::M as Monoid>::S>> for LazySegTree<F> {\n\
-    \    fn from(v: Vec<<F::M as Monoid>::S>) -> Self {\n        let range_size =\
-    \ v.len();\n        let mut leaf_size = 1;\n        let mut log = 0;\n       \
-    \ while leaf_size < range_size {\n            leaf_size *= 2;\n            log\
-    \ += 1;\n        }\n        let mut data = vec![F::id_element(); 2 * leaf_size];\n\
-    \        let lazy = vec![F::id_map(); leaf_size];\n        data[leaf_size..(leaf_size\
+    \    log: usize,\n    data: Vec<<F::Monoid as Monoid>::Target>,\n    lazy: Vec<F::Map>,\n\
+    }\n\nimpl<F: MapMonoid> From<Vec<<F::Monoid as Monoid>::Target>> for LazySegTree<F>\
+    \ {\n    fn from(v: Vec<<F::Monoid as Monoid>::Target>) -> Self {\n        let\
+    \ range_size = v.len();\n        let log = (32 - (range_size as u32).saturating_sub(1).leading_zeros())\
+    \ as usize;\n        let leaf_size = 1 << log;\n        let mut data = vec![F::id_element();\
+    \ 2 * leaf_size];\n        let lazy = vec![F::id_map(); leaf_size];\n        data[leaf_size..(leaf_size\
     \ + range_size)].clone_from_slice(&v);\n        let mut ret = Self {\n       \
     \     range_size,\n            leaf_size,\n            log,\n            data,\n\
     \            lazy,\n        };\n        for i in (1..leaf_size).rev() {\n    \
     \        ret.update(i);\n        }\n        ret\n    }\n}\n\nimpl<F: MapMonoid>\
     \ LazySegTree<F> {\n    pub fn new(n: usize) -> Self {\n        vec![F::id_element();\
-    \ n].into()\n    }\n\n    pub fn set(&mut self, mut p: usize, x: <F::M as Monoid>::S)\
-    \ {\n        assert!(p < self.range_size);\n        p += self.leaf_size;\n   \
-    \     for i in (1..=self.log).rev() {\n            self.push(p >> i);\n      \
-    \  }\n        self.data[p] = x;\n        for i in 1..=self.log {\n           \
-    \ self.update(p >> i);\n        }\n    }\n\n    pub fn get(&mut self, mut p: usize)\
-    \ -> <F::M as Monoid>::S {\n        assert!(p < self.range_size);\n        p +=\
-    \ self.leaf_size;\n        for i in (1..=self.log).rev() {\n            self.push(p\
-    \ >> i);\n        }\n        self.data[p].clone()\n    }\n\n    pub fn prod<R:\
-    \ RangeBounds<usize>>(&mut self, range: R) -> <F::M as Monoid>::S {\n        let\
-    \ mut l = match range.start_bound() {\n            std::ops::Bound::Included(&l)\
-    \ => l,\n            std::ops::Bound::Excluded(&l) => l + 1,\n            std::ops::Bound::Unbounded\
-    \ => 0,\n        };\n        let mut r = match range.end_bound() {\n         \
-    \   std::ops::Bound::Included(&r) => r + 1,\n            std::ops::Bound::Excluded(&r)\
-    \ => r,\n            std::ops::Bound::Unbounded => self.range_size,\n        };\n\
-    \        assert!(l <= r && r <= self.range_size);\n        if l == r {\n     \
-    \       return F::id_element();\n        }\n        if l == 0 && r == self.range_size\
-    \ {\n            return self.all_prod();\n        }\n\n        l += self.leaf_size;\n\
-    \        r += self.leaf_size;\n\n        for i in (1..=self.log).rev() {\n   \
-    \         if ((l >> i) << i) != l {\n                self.push(l >> i);\n    \
-    \        }\n            if ((r >> i) << i) != r {\n                self.push(r\
-    \ >> i);\n            }\n        }\n\n        let mut sml = F::id_element();\n\
-    \        let mut smr = F::id_element();\n        while l < r {\n            if\
-    \ l & 1 != 0 {\n                sml = F::binary_operation(&sml, &self.data[l]);\n\
-    \                l += 1;\n            }\n            if r & 1 != 0 {\n       \
-    \         r -= 1;\n                smr = F::binary_operation(&self.data[r], &smr);\n\
-    \            }\n            l >>= 1;\n            r >>= 1;\n        }\n\n    \
-    \    F::binary_operation(&sml, &smr)\n    }\n\n    pub fn all_prod(&self) -> <F::M\
-    \ as Monoid>::S {\n        self.data[1].clone()\n    }\n\n    pub fn apply(&mut\
-    \ self, mut p: usize, f: &F::F) {\n        assert!(p < self.range_size);\n   \
-    \     p += self.leaf_size;\n        for i in (1..=self.log).rev() {\n        \
-    \    self.push(p >> i);\n        }\n        F::mapping(&mut self.data[p], f);\n\
-    \        for i in 1..=self.log {\n            self.update(p >> i);\n        }\n\
-    \    }\n\n    pub fn max_right<G>(&mut self, mut l: usize, g: G) -> usize\n  \
-    \  where\n        G: Fn(&<F::M as Monoid>::S) -> bool,\n    {\n        assert!(l\
-    \ <= self.range_size);\n        assert!(g(&F::id_element()));\n        if l ==\
-    \ self.range_size {\n            return self.range_size;\n        }\n        l\
-    \ += self.leaf_size;\n        for i in (1..=self.log).rev() {\n            self.push(l\
-    \ >> i);\n        }\n        let mut sm = F::id_element();\n        while {\n\
-    \            while l % 2 == 0 {\n                l >>= 1;\n            }\n   \
-    \         if !g(&F::binary_operation(&sm, &self.data[l])) {\n                while\
-    \ l < self.leaf_size {\n                    self.push(l);\n                  \
-    \  l *= 2;\n                    let res = F::binary_operation(&sm, &self.data[l]);\n\
-    \                    if !g(&res) {\n                        sm = res;\n      \
-    \                  l += 1;\n                    }\n                }\n       \
-    \         return l - self.leaf_size;\n            }\n            sm = F::binary_operation(&sm,\
-    \ &self.data[l]);\n            l += 1;\n            {\n                let l =\
-    \ l as isize;\n                (l & -l) != l\n            }\n        } {}\n  \
-    \      self.range_size\n    }\n\n    pub fn min_left<G>(&mut self, mut r: usize,\
-    \ g: G) -> usize\n    where\n        G: Fn(&<F::M as Monoid>::S) -> bool,\n  \
-    \  {\n        assert!(r <= self.range_size);\n        assert!(g(&F::id_element()));\n\
-    \        if r == 0 {\n            return 0;\n        }\n        r += self.leaf_size;\n\
-    \        for i in (1..=self.log).rev() {\n            self.push((r - 1) >> i);\n\
-    \        }\n        let mut sm = F::id_element();\n        while {\n         \
-    \   r -= 1;\n            while r > 1 && r % 2 != 0 {\n                r >>= 1;\n\
-    \            }\n            if !g(&F::binary_operation(&self.data[r], &sm)) {\n\
-    \                while r < self.leaf_size {\n                    self.push(r);\n\
+    \ n].into()\n    }\n\n    pub fn set(&mut self, mut p: usize, x: <F::Monoid as\
+    \ Monoid>::Target) {\n        assert!(p < self.range_size);\n        p += self.leaf_size;\n\
+    \        for i in (1..=self.log).rev() {\n            self.push(p >> i);\n   \
+    \     }\n        self.data[p] = x;\n        for i in 1..=self.log {\n        \
+    \    self.update(p >> i);\n        }\n    }\n\n    pub fn get(&mut self, mut p:\
+    \ usize) -> <F::Monoid as Monoid>::Target {\n        assert!(p < self.range_size);\n\
+    \        p += self.leaf_size;\n        for i in (1..=self.log).rev() {\n     \
+    \       self.push(p >> i);\n        }\n        self.data[p].clone()\n    }\n\n\
+    \    pub fn prod<R: RangeBounds<usize>>(&mut self, range: R) -> <F::Monoid as\
+    \ Monoid>::Target {\n        let mut l = match range.start_bound() {\n       \
+    \     std::ops::Bound::Included(&l) => l,\n            std::ops::Bound::Excluded(&l)\
+    \ => l + 1,\n            std::ops::Bound::Unbounded => 0,\n        };\n      \
+    \  let mut r = match range.end_bound() {\n            std::ops::Bound::Included(&r)\
+    \ => r + 1,\n            std::ops::Bound::Excluded(&r) => r,\n            std::ops::Bound::Unbounded\
+    \ => self.range_size,\n        };\n        assert!(l <= r && r <= self.range_size);\n\
+    \        if l == r {\n            return F::id_element();\n        }\n       \
+    \ if l == 0 && r == self.range_size {\n            return self.all_prod();\n \
+    \       }\n\n        l += self.leaf_size;\n        r += self.leaf_size;\n\n  \
+    \      for i in (1..=self.log).rev() {\n            if ((l >> i) << i) != l {\n\
+    \                self.push(l >> i);\n            }\n            if ((r >> i) <<\
+    \ i) != r {\n                self.push(r >> i);\n            }\n        }\n\n\
+    \        let mut sml = F::id_element();\n        let mut smr = F::id_element();\n\
+    \        while l < r {\n            if l & 1 != 0 {\n                sml = F::binary_operation(&sml,\
+    \ &self.data[l]);\n                l += 1;\n            }\n            if r &\
+    \ 1 != 0 {\n                r -= 1;\n                smr = F::binary_operation(&self.data[r],\
+    \ &smr);\n            }\n            l >>= 1;\n            r >>= 1;\n        }\n\
+    \n        F::binary_operation(&sml, &smr)\n    }\n\n    pub fn all_prod(&self)\
+    \ -> <F::Monoid as Monoid>::Target {\n        self.data[1].clone()\n    }\n\n\
+    \    pub fn apply(&mut self, mut p: usize, f: &F::Map) {\n        assert!(p <\
+    \ self.range_size);\n        p += self.leaf_size;\n        for i in (1..=self.log).rev()\
+    \ {\n            self.push(p >> i);\n        }\n        F::mapping(&mut self.data[p],\
+    \ f);\n        for i in 1..=self.log {\n            self.update(p >> i);\n   \
+    \     }\n    }\n\n    pub fn max_right<G>(&mut self, mut l: usize, g: G) -> usize\n\
+    \    where\n        G: Fn(&<F::Monoid as Monoid>::Target) -> bool,\n    {\n  \
+    \      assert!(l <= self.range_size);\n        assert!(g(&F::id_element()));\n\
+    \        if l == self.range_size {\n            return self.range_size;\n    \
+    \    }\n        l += self.leaf_size;\n        for i in (1..=self.log).rev() {\n\
+    \            self.push(l >> i);\n        }\n        let mut sm = F::id_element();\n\
+    \        while {\n            while l % 2 == 0 {\n                l >>= 1;\n \
+    \           }\n            if !g(&F::binary_operation(&sm, &self.data[l])) {\n\
+    \                while l < self.leaf_size {\n                    self.push(l);\n\
+    \                    l *= 2;\n                    let res = F::binary_operation(&sm,\
+    \ &self.data[l]);\n                    if !g(&res) {\n                       \
+    \ sm = res;\n                        l += 1;\n                    }\n        \
+    \        }\n                return l - self.leaf_size;\n            }\n      \
+    \      sm = F::binary_operation(&sm, &self.data[l]);\n            l += 1;\n  \
+    \          {\n                let l = l as isize;\n                (l & -l) !=\
+    \ l\n            }\n        } {}\n        self.range_size\n    }\n\n    pub fn\
+    \ min_left<G>(&mut self, mut r: usize, g: G) -> usize\n    where\n        G: Fn(&<F::Monoid\
+    \ as Monoid>::Target) -> bool,\n    {\n        assert!(r <= self.range_size);\n\
+    \        assert!(g(&F::id_element()));\n        if r == 0 {\n            return\
+    \ 0;\n        }\n        r += self.leaf_size;\n        for i in (1..=self.log).rev()\
+    \ {\n            self.push((r - 1) >> i);\n        }\n        let mut sm = F::id_element();\n\
+    \        while {\n            r -= 1;\n            while r > 1 && r % 2 != 0 {\n\
+    \                r >>= 1;\n            }\n            if !g(&F::binary_operation(&self.data[r],\
+    \ &sm)) {\n                while r < self.leaf_size {\n                    self.push(r);\n\
     \                    r = 2 * r + 1;\n                    let res = F::binary_operation(&self.data[r],\
     \ &sm);\n                    if !g(&res) {\n                        sm = res;\n\
     \                        r -= 1;\n                    }\n                }\n \
@@ -110,9 +109,9 @@ data:
     \ r = r as isize;\n                (r & -r) != r\n            }\n        } {}\n\
     \        0\n    }\n}\n\nimpl<F: CommutativeMapMonoid> LazySegTree<F> {\n    ///\
     \ \u53EF\u63DB\u306A\u4F5C\u7528\u306E\u533A\u9593\u9069\u7528\n    pub fn apply_range_commutative<R:\
-    \ RangeBounds<usize>>(&mut self, range: R, f: &F::F) {\n        let mut l = match\
-    \ range.start_bound() {\n            std::ops::Bound::Included(&l) => l,\n   \
-    \         std::ops::Bound::Excluded(&l) => l + 1,\n            std::ops::Bound::Unbounded\
+    \ RangeBounds<usize>>(&mut self, range: R, f: &F::Map) {\n        let mut l =\
+    \ match range.start_bound() {\n            std::ops::Bound::Included(&l) => l,\n\
+    \            std::ops::Bound::Excluded(&l) => l + 1,\n            std::ops::Bound::Unbounded\
     \ => 0,\n        };\n        let mut r = match range.end_bound() {\n         \
     \   std::ops::Bound::Included(&r) => r + 1,\n            std::ops::Bound::Excluded(&r)\
     \ => r,\n            std::ops::Bound::Unbounded => self.range_size,\n        };\n\
@@ -135,9 +134,9 @@ data:
     \ k], &self.data[2 * k + 1]);\n        F::mapping(&mut self.data[k], &self.lazy[k]);\n\
     \    }\n}\n\nimpl<F: NonCommutativeMapMonoid> LazySegTree<F> {\n    /// \u975E\
     \u53EF\u63DB\u306A\u4F5C\u7528\u306E\u533A\u9593\u9069\u7528\n    pub fn apply_range_non_commutative<R:\
-    \ RangeBounds<usize>>(&mut self, range: R, f: &F::F) {\n        let mut l = match\
-    \ range.start_bound() {\n            std::ops::Bound::Included(&l) => l,\n   \
-    \         std::ops::Bound::Excluded(&l) => l + 1,\n            std::ops::Bound::Unbounded\
+    \ RangeBounds<usize>>(&mut self, range: R, f: &F::Map) {\n        let mut l =\
+    \ match range.start_bound() {\n            std::ops::Bound::Included(&l) => l,\n\
+    \            std::ops::Bound::Excluded(&l) => l + 1,\n            std::ops::Bound::Unbounded\
     \ => 0,\n        };\n        let mut r = match range.end_bound() {\n         \
     \   std::ops::Bound::Included(&r) => r + 1,\n            std::ops::Bound::Excluded(&r)\
     \ => r,\n            std::ops::Bound::Unbounded => self.range_size,\n        };\n\
@@ -164,7 +163,7 @@ data:
     \ k], &self.data[2 * k + 1]);\n    }\n    /// \u4F5C\u7528\u3092\u9069\u7528\u3057\
     \u3001lazy\u30CE\u30FC\u30C9\u304C\u3042\u308C\u3070(\u5B50\u304C\u3042\u308C\u3070\
     )\u4F5C\u7528\u3092\u5408\u6210\u3059\u308B\n    fn all_apply(&mut self, k: usize,\
-    \ f: &F::F) {\n        F::mapping(&mut self.data[k], f);\n        if k < self.leaf_size\
+    \ f: &F::Map) {\n        F::mapping(&mut self.data[k], f);\n        if k < self.leaf_size\
     \ {\n            F::composition(&mut self.lazy[k], f);\n        }\n    }\n   \
     \ /// \u4F5C\u7528\u3092\u5B50\u306B\u62BC\u3057\u8FBC\u3080\n    fn push(&mut\
     \ self, k: usize) {\n        let mut parent = F::id_map();\n        std::mem::swap(&mut\
@@ -175,7 +174,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/lazy_seg_tree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-03-07 17:57:49+09:00'
+  timestamp: '2024-04-01 22:48:20+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs

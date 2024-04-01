@@ -28,17 +28,17 @@ data:
     \   if let Some(x) = rhs.update {\n            self.update = Some(x);\n      \
     \  }\n    }\n    fn mapping(&self, target: &mut Self::Target) {\n        if let\
     \ Some(x) = self.update {\n            *target = x;\n        }\n    }\n}\n\nstruct\
-    \ MinMonoid {}\nimpl algebra::Monoid for MinMonoid {\n    type S = u32;\n    fn\
-    \ id_element() -> Self::S {\n        u32::MAX\n    }\n    fn binary_operation(a:\
-    \ &Self::S, b: &Self::S) -> Self::S {\n        *a.min(b)\n    }\n}\n\nstruct RmqRuq\
-    \ {}\nimpl algebra::MapMonoid for RmqRuq {\n    type M = MinMonoid;\n    type\
-    \ F = MyMap;\n}\nimpl algebra::NonCommutativeMapMonoid for RmqRuq {}\n\n#[fastout]\n\
-    fn main() {\n    input! {\n        n: usize,\n        q: usize,\n    }\n    let\
-    \ mut lazy_seg = LazySegTree::<RmqRuq>::from(vec![(1_u32 << 31) - 1; n]);\n  \
-    \  for _ in 0..q {\n        input! {\n            t: u32,\n        }\n       \
-    \ if t == 0 {\n            input! {\n                s: usize,\n             \
-    \   t: usize,\n                x: u32,\n            }\n            let map = MyMap\
-    \ { update: Some(x) };\n            lazy_seg.apply_range_non_commutative(s..=t,\
+    \ MinMonoid {}\nimpl algebra::Monoid for MinMonoid {\n    type Target = u32;\n\
+    \    fn id_element() -> Self::Target {\n        u32::MAX\n    }\n    fn binary_operation(a:\
+    \ &Self::Target, b: &Self::Target) -> Self::Target {\n        *a.min(b)\n    }\n\
+    }\n\nstruct RmqRuq {}\nimpl algebra::MapMonoid for RmqRuq {\n    type Monoid =\
+    \ MinMonoid;\n    type Map = MyMap;\n}\nimpl algebra::NonCommutativeMapMonoid\
+    \ for RmqRuq {}\n\n#[fastout]\nfn main() {\n    input! {\n        n: usize,\n\
+    \        q: usize,\n    }\n    let mut lazy_seg = LazySegTree::<RmqRuq>::from(vec![(1_u32\
+    \ << 31) - 1; n]);\n    for _ in 0..q {\n        input! {\n            t: u32,\n\
+    \        }\n        if t == 0 {\n            input! {\n                s: usize,\n\
+    \                t: usize,\n                x: u32,\n            }\n         \
+    \   let map = MyMap { update: Some(x) };\n            lazy_seg.apply_range_non_commutative(s..=t,\
     \ &map);\n        } else {\n            input! {\n                s: usize,\n\
     \                t: usize,\n            }\n            println!(\"{}\", lazy_seg.prod(s..=t));\n\
     \        }\n    }\n}\n"
@@ -48,7 +48,7 @@ data:
   isVerificationFile: true
   path: verify/AOJ/dsl_2f_lazy_seg/src/main.rs
   requiredBy: []
-  timestamp: '2024-03-07 17:57:49+09:00'
+  timestamp: '2024-04-01 22:48:20+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/dsl_2f_lazy_seg/src/main.rs

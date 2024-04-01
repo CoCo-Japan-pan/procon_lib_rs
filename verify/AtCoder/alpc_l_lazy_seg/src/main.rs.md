@@ -28,21 +28,22 @@ data:
     \  inv_num: 0,\n                zero_num: 1,\n                one_num: 0,\n  \
     \          }\n        } else {\n            InvNum {\n                inv_num:\
     \ 0,\n                zero_num: 0,\n                one_num: 1,\n            }\n\
-    \        }\n    }\n}\n\nimpl algebra::Monoid for InvNum {\n    type S = Self;\n\
-    \    fn id_element() -> Self::S {\n        InvNum {\n            inv_num: 0,\n\
-    \            zero_num: 0,\n            one_num: 0,\n        }\n    }\n    fn binary_operation(a:\
-    \ &Self::S, b: &Self::S) -> Self::S {\n        InvNum {\n            inv_num:\
-    \ a.inv_num + b.inv_num + a.one_num * b.zero_num,\n            zero_num: a.zero_num\
-    \ + b.zero_num,\n            one_num: a.one_num + b.one_num,\n        }\n    }\n\
-    }\n\n#[derive(Clone, Copy, Debug, PartialEq, Eq)]\nstruct FlipMap {\n    flip:\
-    \ bool,\n}\nimpl algebra::Map for FlipMap {\n    type Target = InvNum;\n    fn\
-    \ id_map() -> Self {\n        FlipMap { flip: false }\n    }\n    fn composition(&mut\
-    \ self, rhs: &Self) {\n        self.flip ^= rhs.flip;\n    }\n    fn mapping(&self,\
-    \ target: &mut Self::Target) {\n        if self.flip {\n            *target =\
-    \ InvNum {\n                inv_num: target.zero_num * target.one_num - target.inv_num,\n\
-    \                zero_num: target.one_num,\n                one_num: target.zero_num,\n\
-    \            }\n        }\n    }\n}\nstruct MyMapMonoid;\nimpl algebra::MapMonoid\
-    \ for MyMapMonoid {\n    type M = InvNum;\n    type F = FlipMap;\n}\n\nimpl algebra::CommutativeMapMonoid\
+    \        }\n    }\n}\n\nimpl algebra::Monoid for InvNum {\n    type Target = Self;\n\
+    \    fn id_element() -> Self::Target {\n        InvNum {\n            inv_num:\
+    \ 0,\n            zero_num: 0,\n            one_num: 0,\n        }\n    }\n  \
+    \  fn binary_operation(a: &Self::Target, b: &Self::Target) -> Self::Target {\n\
+    \        InvNum {\n            inv_num: a.inv_num + b.inv_num + a.one_num * b.zero_num,\n\
+    \            zero_num: a.zero_num + b.zero_num,\n            one_num: a.one_num\
+    \ + b.one_num,\n        }\n    }\n}\n\n#[derive(Clone, Copy, Debug, PartialEq,\
+    \ Eq)]\nstruct FlipMap {\n    flip: bool,\n}\nimpl algebra::Map for FlipMap {\n\
+    \    type Target = InvNum;\n    fn id_map() -> Self {\n        FlipMap { flip:\
+    \ false }\n    }\n    fn composition(&mut self, rhs: &Self) {\n        self.flip\
+    \ ^= rhs.flip;\n    }\n    fn mapping(&self, target: &mut Self::Target) {\n  \
+    \      if self.flip {\n            *target = InvNum {\n                inv_num:\
+    \ target.zero_num * target.one_num - target.inv_num,\n                zero_num:\
+    \ target.one_num,\n                one_num: target.zero_num,\n            }\n\
+    \        }\n    }\n}\nstruct MyMapMonoid;\nimpl algebra::MapMonoid for MyMapMonoid\
+    \ {\n    type Monoid = InvNum;\n    type Map = FlipMap;\n}\n\nimpl algebra::CommutativeMapMonoid\
     \ for MyMapMonoid {}\n\n#[fastout]\nfn main() {\n    input! {\n        n: usize,\n\
     \        q: usize,\n        a: [u32; n],\n    }\n    let mut lazy_seg =\n    \
     \    LazySegTree::<MyMapMonoid>::from(a.iter().map(|&x| InvNum::new(x)).collect::<Vec<_>>());\n\
@@ -57,7 +58,7 @@ data:
   isVerificationFile: true
   path: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   requiredBy: []
-  timestamp: '2024-03-07 17:57:49+09:00'
+  timestamp: '2024-04-01 22:48:20+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AtCoder/alpc_l_lazy_seg/src/main.rs

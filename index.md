@@ -26,6 +26,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/data_structure/seg_tree/src/lib.rs
       title: crates/data_structure/seg_tree/src/lib.rs
+  - name: crates/data_structure/seg_tree_2d/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: crates/data_structure/seg_tree_2d/src/lib.rs
+      title: crates/data_structure/seg_tree_2d/src/lib.rs
   - name: crates/data_structure/union_find/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -112,6 +117,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
       title: verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
+  - name: verify/AOJ/no1068/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/AOJ/no1068/src/main.rs
+      title: verify/AOJ/no1068/src/main.rs
   - name: verify/AtCoder/abc285g/src
     pages:
     - icon: ':heavy_check_mark:'

@@ -26,18 +26,19 @@ data:
   code: "// verification-helper: PROBLEM https://judge.yosupo.jp/problem/point_set_range_composite\n\
     \nuse algebra::Monoid;\nuse proconio::{fastout, input};\nuse seg_tree::SegTree;\n\
     use static_modint::ModInt998244353;\n\n#[derive(Clone, Copy, Debug, PartialEq,\
-    \ Eq)]\nstruct MyMonoid {}\nimpl Monoid for MyMonoid {\n    type S = (ModInt998244353,\
-    \ ModInt998244353);\n    fn id_element() -> Self::S {\n        (ModInt998244353::new(1),\
-    \ ModInt998244353::new(0))\n    }\n    fn binary_operation(a: &Self::S, b: &Self::S)\
-    \ -> Self::S {\n        (a.0 * b.0, a.1 * b.0 + b.1)\n    }\n}\n\n#[fastout]\n\
-    fn main() {\n    input! {\n        n: usize,\n        q: usize,\n        a_b:\
-    \ [(ModInt998244353, ModInt998244353); n],\n    }\n    let mut seg = SegTree::<MyMonoid>::from(a_b);\n\
-    \    for _ in 0..q {\n        input! { t: usize }\n        match t {\n       \
-    \     0 => {\n                input! { p: usize, c: (ModInt998244353, ModInt998244353)\
-    \ }\n                seg.set(p, c);\n            }\n            1 => {\n     \
-    \           input! { l: usize, r: usize, x: ModInt998244353 }\n              \
-    \  let (a, b) = seg.prod(l..r);\n                println!(\"{}\", a * x + b);\n\
-    \            }\n            _ => unreachable!(),\n        }\n    }\n}\n"
+    \ Eq)]\nstruct MyMonoid {}\nimpl Monoid for MyMonoid {\n    type Target = (ModInt998244353,\
+    \ ModInt998244353);\n    fn id_element() -> Self::Target {\n        (ModInt998244353::new(1),\
+    \ ModInt998244353::new(0))\n    }\n    fn binary_operation(a: &Self::Target, b:\
+    \ &Self::Target) -> Self::Target {\n        (a.0 * b.0, a.1 * b.0 + b.1)\n   \
+    \ }\n}\n\n#[fastout]\nfn main() {\n    input! {\n        n: usize,\n        q:\
+    \ usize,\n        a_b: [(ModInt998244353, ModInt998244353); n],\n    }\n    let\
+    \ mut seg = SegTree::<MyMonoid>::from(a_b);\n    for _ in 0..q {\n        input!\
+    \ { t: usize }\n        match t {\n            0 => {\n                input!\
+    \ { p: usize, c: (ModInt998244353, ModInt998244353) }\n                seg.set(p,\
+    \ c);\n            }\n            1 => {\n                input! { l: usize, r:\
+    \ usize, x: ModInt998244353 }\n                let (a, b) = seg.prod(l..r);\n\
+    \                println!(\"{}\", a * x + b);\n            }\n            _ =>\
+    \ unreachable!(),\n        }\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
   - crates/data_structure/seg_tree/src/lib.rs
@@ -45,7 +46,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/point_set_range_composite/src/main.rs
   requiredBy: []
-  timestamp: '2024-03-21 12:12:54+09:00'
+  timestamp: '2024-04-01 22:48:20+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/point_set_range_composite/src/main.rs

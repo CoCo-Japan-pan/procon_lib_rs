@@ -21,22 +21,22 @@ data:
   code: "//! ac_library_rs\u3068\u540C\u3058\u3067\u3059\u3002\n\nuse algebra::Monoid;\n\
     use std::ops::RangeBounds;\n\n#[derive(Debug, Clone, PartialEq, Eq)]\npub struct\
     \ SegTree<M: Monoid> {\n    range_size: usize,\n    leaf_size: usize,\n    log:\
-    \ usize,\n    data: Vec<M::S>,\n}\n\nimpl<M: Monoid> From<Vec<M::S>> for SegTree<M>\
-    \ {\n    fn from(v: Vec<M::S>) -> Self {\n        let range_size = v.len();\n\
-    \        let log = (32 - (range_size as u32).saturating_sub(1).leading_zeros())\
+    \ usize,\n    data: Vec<M::Target>,\n}\n\nimpl<M: Monoid> From<Vec<M::Target>>\
+    \ for SegTree<M> {\n    fn from(v: Vec<M::Target>) -> Self {\n        let range_size\
+    \ = v.len();\n        let log = (32 - (range_size as u32).saturating_sub(1).leading_zeros())\
     \ as usize;\n        let leaf_size = 1 << log;\n        let mut data = vec![M::id_element();\
     \ leaf_size * 2];\n        data[leaf_size..leaf_size + range_size].clone_from_slice(&v);\n\
     \        let mut seg_tree = SegTree {\n            range_size,\n            leaf_size,\n\
     \            log,\n            data,\n        };\n        for i in (1..leaf_size).rev()\
     \ {\n            seg_tree.update(i);\n        }\n        seg_tree\n    }\n}\n\n\
     impl<M: Monoid> SegTree<M> {\n    pub fn new(n: usize) -> Self {\n        vec![M::id_element();\
-    \ n].into()\n    }\n\n    pub fn set(&mut self, mut p: usize, x: M::S) {\n   \
-    \     assert!(p < self.range_size);\n        p += self.leaf_size;\n        self.data[p]\
-    \ = x;\n        for i in 1..=self.log {\n            self.update(p >> i);\n  \
-    \      }\n    }\n\n    pub fn get(&self, p: usize) -> M::S {\n        assert!(p\
-    \ < self.range_size);\n        self.data[p + self.leaf_size].clone()\n    }\n\n\
-    \    pub fn prod<R: RangeBounds<usize>>(&self, range: R) -> M::S {\n        let\
-    \ mut l = match range.start_bound() {\n            std::ops::Bound::Included(&l)\
+    \ n].into()\n    }\n\n    pub fn set(&mut self, mut p: usize, x: M::Target) {\n\
+    \        assert!(p < self.range_size);\n        p += self.leaf_size;\n       \
+    \ self.data[p] = x;\n        for i in 1..=self.log {\n            self.update(p\
+    \ >> i);\n        }\n    }\n\n    pub fn get(&self, p: usize) -> M::Target {\n\
+    \        assert!(p < self.range_size);\n        self.data[p + self.leaf_size].clone()\n\
+    \    }\n\n    pub fn prod<R: RangeBounds<usize>>(&self, range: R) -> M::Target\
+    \ {\n        let mut l = match range.start_bound() {\n            std::ops::Bound::Included(&l)\
     \ => l,\n            std::ops::Bound::Excluded(&l) => l + 1,\n            std::ops::Bound::Unbounded\
     \ => 0,\n        };\n        let mut r = match range.end_bound() {\n         \
     \   std::ops::Bound::Included(&r) => r + 1,\n            std::ops::Bound::Excluded(&r)\
@@ -49,10 +49,10 @@ data:
     \              l += 1;\n            }\n            if r & 1 != 0 {\n         \
     \       r -= 1;\n                smr = M::binary_operation(&self.data[r], &smr);\n\
     \            }\n            l >>= 1;\n            r >>= 1;\n        }\n      \
-    \  M::binary_operation(&sml, &smr)\n    }\n\n    pub fn all_prod(&self) -> M::S\
+    \  M::binary_operation(&sml, &smr)\n    }\n\n    pub fn all_prod(&self) -> M::Target\
     \ {\n        self.data[1].clone()\n    }\n\n    pub fn max_right<F>(&self, mut\
-    \ l: usize, f: F) -> usize\n    where\n        F: Fn(&M::S) -> bool,\n    {\n\
-    \        assert!(l <= self.range_size);\n        assert!(f(&M::id_element()));\n\
+    \ l: usize, f: F) -> usize\n    where\n        F: Fn(&M::Target) -> bool,\n  \
+    \  {\n        assert!(l <= self.range_size);\n        assert!(f(&M::id_element()));\n\
     \        if l == self.range_size {\n            return self.range_size;\n    \
     \    }\n        l += self.leaf_size;\n        let mut sm = M::id_element();\n\
     \        while {\n            while l % 2 == 0 {\n                l >>= 1;\n \
@@ -65,7 +65,7 @@ data:
     \ &self.data[l]);\n            l += 1;\n            {\n                let l =\
     \ l as isize;\n                (l & -l) != l\n            }\n        } {}\n  \
     \      self.range_size\n    }\n\n    pub fn min_left<F>(&self, mut r: usize, f:\
-    \ F) -> usize\n    where\n        F: Fn(&M::S) -> bool,\n    {\n        assert!(r\
+    \ F) -> usize\n    where\n        F: Fn(&M::Target) -> bool,\n    {\n        assert!(r\
     \ <= self.range_size);\n        assert!(f(&M::id_element()));\n        if r ==\
     \ 0 {\n            return 0;\n        }\n        r += self.leaf_size;\n      \
     \  let mut sm = M::id_element();\n        while {\n            r -= 1;\n     \
@@ -85,7 +85,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/seg_tree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-03-09 20:35:26+09:00'
+  timestamp: '2024-04-01 22:48:20+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/point_set_range_composite/src/main.rs
