@@ -32,7 +32,7 @@ data:
   isVerificationFile: true
   path: verify/yukicoder/no_1092_modint_dynamic/src/main.rs
   requiredBy: []
-  timestamp: '2024-03-21 12:12:54+09:00'
+  timestamp: '2024-04-01 23:14:42+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yukicoder/no_1092_modint_dynamic/src/main.rs

@@ -19,11 +19,11 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! \u52D5\u7684\u306B\u6C7A\u5B9A\u3059\u308BMod\u3092\u6301\u3064ModInt\
-    \  \n//! \u540C\u6642\u306B\u4E00\u3064\u306EMod\u3057\u304B\u4F7F\u3048\u306A\
-    \u3044\n//! \u4E00\u56DEMod\u3092\u5909\u66F4\u3057\u305F\u3089\u3001\u4ECA\u307E\
-    \u3067\u306EModInt\u306F\u5168\u3066\u7121\u610F\u5473\u306A\u5024\u306B\u306A\
-    \u308B\u306E\u3067\u3001\u518D\u5EA6\u4F7F\u308F\u306A\u3044\u3088\u3046\u306B\
-    \u6CE8\u610F!\n\nuse modint_traits::{ModInt, RemEuclidU32};\nuse std::fmt::Debug;\n\
+    \  \n//! define_modint!\u3092\u7528\u3044\u3066ModContainer\u3092\u5B9A\u7FA9\u3057\
+    \u3001\u305D\u308C\u3092\u30B8\u30A7\u30CD\u30EA\u30C3\u30AF\u5F15\u6570\u3068\
+    \u3059\u308B  \n//! \u8907\u6570\u306EMod\u3092\u4F7F\u3044\u305F\u3044\u306A\u3089\
+    \u3001\u305D\u308C\u305E\u308C\u306EModContainer\u3092\u5B9A\u7FA9\u3057\u3066\
+    \u4F7F\u3046  \n\nuse modint_traits::{ModInt, RemEuclidU32};\nuse std::fmt::Debug;\n\
     use std::fmt::Display;\nuse std::iter::{Product, Sum};\nuse std::marker::PhantomData;\n\
     use std::num::ParseIntError;\nuse std::ops::{Add, AddAssign, Div, DivAssign, Mul,\
     \ MulAssign, Neg, Sub, SubAssign};\nuse std::str::FromStr;\nuse std::sync::OnceLock;\n\
@@ -121,19 +121,19 @@ data:
     \  )*\n    }\n}\n\nimpl_binop_to_primitive!(i8, i16, i32, i64, isize, i128, u8,\
     \ u16, u32, u64, usize, u128);\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\
     \n    #[test]\n    fn test_modint() {\n        define_modint!(MOD7, 7);\n    \
-    \    let a = DynamicModInt::<MOD7>::new(3);\n        let b = DynamicModInt::<MOD7>::new(4);\n\
-    \        assert_eq!((a + b).value(), 0);\n        assert_eq!((a - b).value(),\
-    \ 6);\n        assert_eq!((a * b).value(), 5);\n        assert_eq!((a / b).value(),\
-    \ 6);\n        define_modint!(MOD11, 11);\n        let c = DynamicModInt::<MOD11>::new(3);\n\
-    \        let d = DynamicModInt::<MOD11>::new(4);\n        assert_eq!((c + d).value(),\
-    \ 7);\n        assert_eq!((c - d).value(), 10);\n        assert_eq!((c * d).value(),\
+    \    define_modint!(MOD11, 11);\n        let a = DynamicModInt::<MOD7>::new(3);\n\
+    \        let b = DynamicModInt::<MOD7>::new(4);\n        let c = DynamicModInt::<MOD11>::new(3);\n\
+    \        let d = DynamicModInt::<MOD11>::new(4);\n        assert_eq!((a + b).value(),\
+    \ 0);\n        assert_eq!((a - b).value(), 6);\n        assert_eq!((c + d).value(),\
+    \ 7);\n        assert_eq!((c - d).value(), 10);\n        assert_eq!((a * b).value(),\
+    \ 5);\n        assert_eq!((a / b).value(), 6);\n        assert_eq!((c * d).value(),\
     \ 1);\n        assert_eq!((c / d).value(), 9);\n    }\n}\n"
   dependsOn:
   - crates/internals/modint_traits/src/lib.rs
   isVerificationFile: false
   path: crates/modint/dynamic_modint/src/lib.rs
   requiredBy: []
-  timestamp: '2024-03-21 12:12:54+09:00'
+  timestamp: '2024-04-01 23:14:42+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_1092_modint_dynamic/src/main.rs
