@@ -8,11 +8,11 @@ pub struct SegTree<M: Monoid> {
     range_size: usize,
     leaf_size: usize,
     log: usize,
-    data: Vec<M::S>,
+    data: Vec<M::Target>,
 }
 
-impl<M: Monoid> From<Vec<M::S>> for SegTree<M> {
-    fn from(v: Vec<M::S>) -> Self {
+impl<M: Monoid> From<Vec<M::Target>> for SegTree<M> {
+    fn from(v: Vec<M::Target>) -> Self {
         let range_size = v.len();
         let log = (32 - (range_size as u32).saturating_sub(1).leading_zeros()) as usize;
         let leaf_size = 1 << log;
@@ -36,7 +36,7 @@ impl<M: Monoid> SegTree<M> {
         vec![M::id_element(); n].into()
     }
 
-    pub fn set(&mut self, mut p: usize, x: M::S) {
+    pub fn set(&mut self, mut p: usize, x: M::Target) {
         assert!(p < self.range_size);
         p += self.leaf_size;
         self.data[p] = x;
@@ -45,12 +45,12 @@ impl<M: Monoid> SegTree<M> {
         }
     }
 
-    pub fn get(&self, p: usize) -> M::S {
+    pub fn get(&self, p: usize) -> M::Target {
         assert!(p < self.range_size);
         self.data[p + self.leaf_size].clone()
     }
 
-    pub fn prod<R: RangeBounds<usize>>(&self, range: R) -> M::S {
+    pub fn prod<R: RangeBounds<usize>>(&self, range: R) -> M::Target {
         let mut l = match range.start_bound() {
             std::ops::Bound::Included(&l) => l,
             std::ops::Bound::Excluded(&l) => l + 1,
@@ -85,13 +85,13 @@ impl<M: Monoid> SegTree<M> {
         M::binary_operation(&sml, &smr)
     }
 
-    pub fn all_prod(&self) -> M::S {
+    pub fn all_prod(&self) -> M::Target {
         self.data[1].clone()
     }
 
     pub fn max_right<F>(&self, mut l: usize, f: F) -> usize
     where
-        F: Fn(&M::S) -> bool,
+        F: Fn(&M::Target) -> bool,
     {
         assert!(l <= self.range_size);
         assert!(f(&M::id_element()));
@@ -127,7 +127,7 @@ impl<M: Monoid> SegTree<M> {
 
     pub fn min_left<F>(&self, mut r: usize, f: F) -> usize
     where
-        F: Fn(&M::S) -> bool,
+        F: Fn(&M::Target) -> bool,
     {
         assert!(r <= self.range_size);
         assert!(f(&M::id_element()));

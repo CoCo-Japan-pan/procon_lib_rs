@@ -29,15 +29,15 @@ impl InvNum {
 }
 
 impl algebra::Monoid for InvNum {
-    type S = Self;
-    fn id_element() -> Self::S {
+    type Target = Self;
+    fn id_element() -> Self::Target {
         InvNum {
             inv_num: 0,
             zero_num: 0,
             one_num: 0,
         }
     }
-    fn binary_operation(a: &Self::S, b: &Self::S) -> Self::S {
+    fn binary_operation(a: &Self::Target, b: &Self::Target) -> Self::Target {
         InvNum {
             inv_num: a.inv_num + b.inv_num + a.one_num * b.zero_num,
             zero_num: a.zero_num + b.zero_num,
@@ -70,8 +70,8 @@ impl algebra::Map for FlipMap {
 }
 struct MyMapMonoid;
 impl algebra::MapMonoid for MyMapMonoid {
-    type M = InvNum;
-    type F = FlipMap;
+    type Monoid = InvNum;
+    type Map = FlipMap;
 }
 
 impl algebra::CommutativeMapMonoid for MyMapMonoid {}

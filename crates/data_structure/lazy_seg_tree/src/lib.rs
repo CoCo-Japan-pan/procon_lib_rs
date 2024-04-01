@@ -9,19 +9,15 @@ pub struct LazySegTree<F: MapMonoid> {
     range_size: usize,
     leaf_size: usize,
     log: usize,
-    data: Vec<<F::M as Monoid>::S>,
-    lazy: Vec<F::F>,
+    data: Vec<<F::Monoid as Monoid>::Target>,
+    lazy: Vec<F::Map>,
 }
 
-impl<F: MapMonoid> From<Vec<<F::M as Monoid>::S>> for LazySegTree<F> {
-    fn from(v: Vec<<F::M as Monoid>::S>) -> Self {
+impl<F: MapMonoid> From<Vec<<F::Monoid as Monoid>::Target>> for LazySegTree<F> {
+    fn from(v: Vec<<F::Monoid as Monoid>::Target>) -> Self {
         let range_size = v.len();
-        let mut leaf_size = 1;
-        let mut log = 0;
-        while leaf_size < range_size {
-            leaf_size *= 2;
-            log += 1;
-        }
+        let log = (32 - (range_size as u32).saturating_sub(1).leading_zeros()) as usize;
+        let leaf_size = 1 << log;
         let mut data = vec![F::id_element(); 2 * leaf_size];
         let lazy = vec![F::id_map(); leaf_size];
         data[leaf_size..(leaf_size + range_size)].clone_from_slice(&v);
@@ -44,7 +40,7 @@ impl<F: MapMonoid> LazySegTree<F> {
         vec![F::id_element(); n].into()
     }
 
-    pub fn set(&mut self, mut p: usize, x: <F::M as Monoid>::S) {
+    pub fn set(&mut self, mut p: usize, x: <F::Monoid as Monoid>::Target) {
         assert!(p < self.range_size);
         p += self.leaf_size;
         for i in (1..=self.log).rev() {
@@ -56,7 +52,7 @@ impl<F: MapMonoid> LazySegTree<F> {
         }
     }
 
-    pub fn get(&mut self, mut p: usize) -> <F::M as Monoid>::S {
+    pub fn get(&mut self, mut p: usize) -> <F::Monoid as Monoid>::Target {
         assert!(p < self.range_size);
         p += self.leaf_size;
         for i in (1..=self.log).rev() {
@@ -65,7 +61,7 @@ impl<F: MapMonoid> LazySegTree<F> {
         self.data[p].clone()
     }
 
-    pub fn prod<R: RangeBounds<usize>>(&mut self, range: R) -> <F::M as Monoid>::S {
+    pub fn prod<R: RangeBounds<usize>>(&mut self, range: R) -> <F::Monoid as Monoid>::Target {
         let mut l = match range.start_bound() {
             std::ops::Bound::Included(&l) => l,
             std::ops::Bound::Excluded(&l) => l + 1,
@@ -114,11 +110,11 @@ impl<F: MapMonoid> LazySegTree<F> {
         F::binary_operation(&sml, &smr)
     }
 
-    pub fn all_prod(&self) -> <F::M as Monoid>::S {
+    pub fn all_prod(&self) -> <F::Monoid as Monoid>::Target {
         self.data[1].clone()
     }
 
-    pub fn apply(&mut self, mut p: usize, f: &F::F) {
+    pub fn apply(&mut self, mut p: usize, f: &F::Map) {
         assert!(p < self.range_size);
         p += self.leaf_size;
         for i in (1..=self.log).rev() {
@@ -132,7 +128,7 @@ impl<F: MapMonoid> LazySegTree<F> {
 
     pub fn max_right<G>(&mut self, mut l: usize, g: G) -> usize
     where
-        G: Fn(&<F::M as Monoid>::S) -> bool,
+        G: Fn(&<F::Monoid as Monoid>::Target) -> bool,
     {
         assert!(l <= self.range_size);
         assert!(g(&F::id_element()));
@@ -172,7 +168,7 @@ impl<F: MapMonoid> LazySegTree<F> {
 
     pub fn min_left<G>(&mut self, mut r: usize, g: G) -> usize
     where
-        G: Fn(&<F::M as Monoid>::S) -> bool,
+        G: Fn(&<F::Monoid as Monoid>::Target) -> bool,
     {
         assert!(r <= self.range_size);
         assert!(g(&F::id_element()));
@@ -213,7 +209,7 @@ impl<F: MapMonoid> LazySegTree<F> {
 
 impl<F: CommutativeMapMonoid> LazySegTree<F> {
     /// 可換な作用の区間適用
-    pub fn apply_range_commutative<R: RangeBounds<usize>>(&mut self, range: R, f: &F::F) {
+    pub fn apply_range_commutative<R: RangeBounds<usize>>(&mut self, range: R, f: &F::Map) {
         let mut l = match range.start_bound() {
             std::ops::Bound::Included(&l) => l,
             std::ops::Bound::Excluded(&l) => l + 1,
@@ -272,7 +268,7 @@ impl<F: CommutativeMapMonoid> LazySegTree<F> {
 
 impl<F: NonCommutativeMapMonoid> LazySegTree<F> {
     /// 非可換な作用の区間適用
-    pub fn apply_range_non_commutative<R: RangeBounds<usize>>(&mut self, range: R, f: &F::F) {
+    pub fn apply_range_non_commutative<R: RangeBounds<usize>>(&mut self, range: R, f: &F::Map) {
         let mut l = match range.start_bound() {
             std::ops::Bound::Included(&l) => l,
             std::ops::Bound::Excluded(&l) => l + 1,
@@ -338,7 +334,7 @@ impl<F: MapMonoid> LazySegTree<F> {
         self.data[k] = F::binary_operation(&self.data[2 * k], &self.data[2 * k + 1]);
     }
     /// 作用を適用し、lazyノードがあれば(子があれば)作用を合成する
-    fn all_apply(&mut self, k: usize, f: &F::F) {
+    fn all_apply(&mut self, k: usize, f: &F::Map) {
         F::mapping(&mut self.data[k], f);
         if k < self.leaf_size {
             F::composition(&mut self.lazy[k], f);

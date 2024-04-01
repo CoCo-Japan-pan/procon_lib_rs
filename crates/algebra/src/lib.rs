@@ -23,41 +23,42 @@ pub trait NonCommutativeMap: Map {}
 
 /// モノイド
 pub trait Monoid {
-    type S: Debug + Clone + PartialEq + Eq;
+    /// モノイドの要素
+    type Target: Debug + Clone + PartialEq + Eq;
     /// 単位元
-    fn id_element() -> Self::S;
+    fn id_element() -> Self::Target;
     /// 二項演算
-    fn binary_operation(a: &Self::S, b: &Self::S) -> Self::S;
+    fn binary_operation(a: &Self::Target, b: &Self::Target) -> Self::Target;
 }
 
 /// 自己準同型性を要求  
 /// つまり区間和への適用と、各要素への適用の区間和が一致することを要求
 pub trait MapMonoid {
     /// 作用の対象のモノイド
-    type M: Monoid;
+    type Monoid: Monoid;
     /// 作用素のモノイド
-    type F: Map<Target = <Self::M as Monoid>::S>;
+    type Map: Map<Target = <Self::Monoid as Monoid>::Target>;
     /// 単位元
-    fn id_element() -> <Self::M as Monoid>::S {
-        Self::M::id_element()
+    fn id_element() -> <Self::Monoid as Monoid>::Target {
+        Self::Monoid::id_element()
     }
     /// 二項演算
     fn binary_operation(
-        a: &<Self::M as Monoid>::S,
-        b: &<Self::M as Monoid>::S,
-    ) -> <Self::M as Monoid>::S {
-        Self::M::binary_operation(a, b)
+        a: &<Self::Monoid as Monoid>::Target,
+        b: &<Self::Monoid as Monoid>::Target,
+    ) -> <Self::Monoid as Monoid>::Target {
+        Self::Monoid::binary_operation(a, b)
     }
     /// 恒等写像
-    fn id_map() -> Self::F {
-        Self::F::id_map()
+    fn id_map() -> Self::Map {
+        Self::Map::id_map()
     }
     /// 作用の合成(fが先、gが後)
-    fn composition(f: &mut Self::F, g: &Self::F) {
+    fn composition(f: &mut Self::Map, g: &Self::Map) {
         f.composition(g)
     }
     /// 作用の適用
-    fn mapping(x: &mut <Self::M as Monoid>::S, f: &Self::F) {
+    fn mapping(x: &mut <Self::Monoid as Monoid>::Target, f: &Self::Map) {
         f.mapping(x)
     }
 }

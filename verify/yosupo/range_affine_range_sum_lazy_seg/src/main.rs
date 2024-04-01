@@ -11,14 +11,14 @@ struct AddMonoid {
     len: ModInt998244353,
 }
 impl algebra::Monoid for AddMonoid {
-    type S = Self;
-    fn id_element() -> Self::S {
+    type Target = Self;
+    fn id_element() -> Self::Target {
         Self {
             sum: ModInt998244353::raw(0),
             len: ModInt998244353::raw(0),
         }
     }
-    fn binary_operation(a: &Self::S, b: &Self::S) -> Self::S {
+    fn binary_operation(a: &Self::Target, b: &Self::Target) -> Self::Target {
         Self {
             sum: a.sum + b.sum,
             len: a.len + b.len,
@@ -50,8 +50,8 @@ impl algebra::Map for AffineMap {
 
 struct AffineRangeSum;
 impl MapMonoid for AffineRangeSum {
-    type F = AffineMap;
-    type M = AddMonoid;
+    type Map = AffineMap;
+    type Monoid = AddMonoid;
 }
 impl NonCommutativeMapMonoid for AffineRangeSum {}
 

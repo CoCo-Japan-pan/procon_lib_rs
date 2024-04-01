@@ -8,11 +8,11 @@ use static_modint::ModInt998244353;
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 struct MyMonoid {}
 impl Monoid for MyMonoid {
-    type S = (ModInt998244353, ModInt998244353);
-    fn id_element() -> Self::S {
+    type Target = (ModInt998244353, ModInt998244353);
+    fn id_element() -> Self::Target {
         (ModInt998244353::new(1), ModInt998244353::new(0))
     }
-    fn binary_operation(a: &Self::S, b: &Self::S) -> Self::S {
+    fn binary_operation(a: &Self::Target, b: &Self::Target) -> Self::Target {
         (a.0 * b.0, a.1 * b.0 + b.1)
     }
 }

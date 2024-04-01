@@ -26,19 +26,19 @@ impl algebra::Map for MyMap {
 
 struct MinMonoid {}
 impl algebra::Monoid for MinMonoid {
-    type S = u32;
-    fn id_element() -> Self::S {
+    type Target = u32;
+    fn id_element() -> Self::Target {
         u32::MAX
     }
-    fn binary_operation(a: &Self::S, b: &Self::S) -> Self::S {
+    fn binary_operation(a: &Self::Target, b: &Self::Target) -> Self::Target {
         *a.min(b)
     }
 }
 
 struct RmqRuq {}
 impl algebra::MapMonoid for RmqRuq {
-    type M = MinMonoid;
-    type F = MyMap;
+    type Monoid = MinMonoid;
+    type Map = MyMap;
 }
 impl algebra::NonCommutativeMapMonoid for RmqRuq {}
 

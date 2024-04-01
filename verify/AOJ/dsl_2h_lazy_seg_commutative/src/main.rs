@@ -6,11 +6,11 @@ use proconio::{fastout, input};
 
 struct MinMonoid {}
 impl algebra::Monoid for MinMonoid {
-    type S = i32;
-    fn id_element() -> Self::S {
+    type Target = i32;
+    fn id_element() -> Self::Target {
         i32::MAX
     }
-    fn binary_operation(a: &Self::S, b: &Self::S) -> Self::S {
+    fn binary_operation(a: &Self::Target, b: &Self::Target) -> Self::Target {
         *a.min(b)
     }
 }
@@ -32,8 +32,8 @@ impl algebra::Map for AddMap {
 }
 struct RmqRaq {}
 impl algebra::MapMonoid for RmqRaq {
-    type M = MinMonoid;
-    type F = AddMap;
+    type Monoid = MinMonoid;
+    type Map = AddMap;
 }
 impl CommutativeMapMonoid for RmqRaq {}
 
