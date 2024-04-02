@@ -32,7 +32,7 @@ data:
     \ &Self::Target) -> Self::Target {\n        (a.0 * b.0, a.1 * b.0 + b.1)\n   \
     \ }\n}\n\n#[fastout]\nfn main() {\n    input! {\n        n: usize,\n        q:\
     \ usize,\n        a_b: [(ModInt998244353, ModInt998244353); n],\n    }\n    let\
-    \ mut seg = SegTree::<MyMonoid>::from(a_b);\n    for _ in 0..q {\n        input!\
+    \ mut seg = SegTree::<MyMonoid>::from(&a_b);\n    for _ in 0..q {\n        input!\
     \ { t: usize }\n        match t {\n            0 => {\n                input!\
     \ { p: usize, c: (ModInt998244353, ModInt998244353) }\n                seg.set(p,\
     \ c);\n            }\n            1 => {\n                input! { l: usize, r:\
@@ -46,7 +46,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/point_set_range_composite/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-01 23:03:12+09:00'
+  timestamp: '2024-04-02 11:38:36+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/point_set_range_composite/src/main.rs

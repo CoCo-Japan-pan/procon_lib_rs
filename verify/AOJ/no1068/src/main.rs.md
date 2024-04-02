@@ -28,9 +28,9 @@ data:
     }\n\n#[fastout]\nfn main() {\n    loop {\n        input! {\n            r: usize,\n\
     \            c: usize,\n            q: usize,\n        }\n        if r == 0 {\n\
     \            break;\n        }\n        input! {\n            grid: [[u32; c];\
-    \ r],\n        }\n        let seg = SegTree2D::<MinMonoid>::from(grid);\n    \
-    \    for _ in 0..q {\n            input! {\n                r1: usize,\n     \
-    \           c1: usize,\n                r2: usize,\n                c2: usize,\n\
+    \ r],\n        }\n        let seg = SegTree2D::<MinMonoid>::from(&grid);\n   \
+    \     for _ in 0..q {\n            input! {\n                r1: usize,\n    \
+    \            c1: usize,\n                r2: usize,\n                c2: usize,\n\
     \            }\n            let ans = seg.prod(r1..=r2, c1..=c2);\n          \
     \  println!(\"{}\", ans);\n        }\n    }\n}\n"
   dependsOn:
@@ -39,7 +39,7 @@ data:
   isVerificationFile: true
   path: verify/AOJ/no1068/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-01 23:03:12+09:00'
+  timestamp: '2024-04-02 11:54:48+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/no1068/src/main.rs
