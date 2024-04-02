@@ -52,6 +52,8 @@ impl<M: IdempotentMonoid + Clone> SparseTableOnSegTree<M> {
         };
         assert!(height_left <= height_right && height_right <= self.range_height);
         let mut ret = M::id_element();
+        height_left += self.range_height;
+        height_right += self.range_height;
         while height_left < height_right {
             if height_left & 1 != 0 {
                 ret = M::binary_operation(&ret, &self.data[height_left].prod(width_range.clone()));
@@ -61,6 +63,8 @@ impl<M: IdempotentMonoid + Clone> SparseTableOnSegTree<M> {
                 height_right -= 1;
                 ret = M::binary_operation(&ret, &self.data[height_right].prod(width_range.clone()));
             }
+            height_left >>= 1;
+            height_right >>= 1;
         }
         ret
     }

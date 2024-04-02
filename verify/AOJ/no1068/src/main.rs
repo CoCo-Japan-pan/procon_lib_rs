@@ -1,9 +1,10 @@
 // verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/problems/1068
 
-use algebra::Monoid;
+use algebra::{IdempotentMonoid, Monoid};
 use proconio::{fastout, input};
-use segtree_2d::SegTree2D;
+use sparse_table_on_segtree::SparseTableOnSegTree;
 
+#[derive(Clone)]
 pub enum MinMonoid {}
 impl Monoid for MinMonoid {
     type Target = u32;
@@ -14,6 +15,7 @@ impl Monoid for MinMonoid {
         *a.min(b)
     }
 }
+impl IdempotentMonoid for MinMonoid {}
 
 #[fastout]
 fn main() {
@@ -29,7 +31,7 @@ fn main() {
         input! {
             grid: [[u32; c]; r],
         }
-        let seg = SegTree2D::<MinMonoid>::from(&grid);
+        let seg = SparseTableOnSegTree::<MinMonoid>::new(grid);
         for _ in 0..q {
             input! {
                 r1: usize,
