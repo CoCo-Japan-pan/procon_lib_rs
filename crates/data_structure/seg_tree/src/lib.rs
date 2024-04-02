@@ -11,13 +11,13 @@ pub struct SegTree<M: Monoid> {
     data: Vec<M::Target>,
 }
 
-impl<M: Monoid> From<Vec<M::Target>> for SegTree<M> {
-    fn from(v: Vec<M::Target>) -> Self {
+impl<M: Monoid> From<&Vec<M::Target>> for SegTree<M> {
+    fn from(v: &Vec<M::Target>) -> Self {
         let range_size = v.len();
         let log = (32 - (range_size as u32).saturating_sub(1).leading_zeros()) as usize;
         let leaf_size = 1 << log;
         let mut data = vec![M::id_element(); leaf_size * 2];
-        data[leaf_size..leaf_size + range_size].clone_from_slice(&v);
+        data[leaf_size..leaf_size + range_size].clone_from_slice(v);
         let mut seg_tree = SegTree {
             range_size,
             leaf_size,
@@ -33,7 +33,7 @@ impl<M: Monoid> From<Vec<M::Target>> for SegTree<M> {
 
 impl<M: Monoid> SegTree<M> {
     pub fn new(n: usize) -> Self {
-        vec![M::id_element(); n].into()
+        (&vec![M::id_element(); n]).into()
     }
 
     pub fn set(&mut self, mut p: usize, x: M::Target) {

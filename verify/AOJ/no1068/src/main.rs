@@ -29,7 +29,7 @@ fn main() {
         input! {
             grid: [[u32; c]; r],
         }
-        let seg = SegTree2D::<MinMonoid>::from(grid);
+        let seg = SegTree2D::<MinMonoid>::from(&grid);
         for _ in 0..q {
             input! {
                 r1: usize,

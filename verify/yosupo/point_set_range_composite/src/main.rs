@@ -24,7 +24,7 @@ fn main() {
         q: usize,
         a_b: [(ModInt998244353, ModInt998244353); n],
     }
-    let mut seg = SegTree::<MyMonoid>::from(a_b);
+    let mut seg = SegTree::<MyMonoid>::from(&a_b);
     for _ in 0..q {
         input! { t: usize }
         match t {

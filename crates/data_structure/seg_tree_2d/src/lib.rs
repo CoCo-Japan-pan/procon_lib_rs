@@ -17,8 +17,8 @@ pub struct SegTree2D<M: Monoid> {
     data: Vec<Vec<M::Target>>,
 }
 
-impl<M: Monoid> From<Vec<Vec<M::Target>>> for SegTree2D<M> {
-    fn from(v: Vec<Vec<M::Target>>) -> Self {
+impl<M: Monoid> From<&Vec<Vec<M::Target>>> for SegTree2D<M> {
+    fn from(v: &Vec<Vec<M::Target>>) -> Self {
         let height = v.len();
         let width = v[0].len();
         let ceil_log_h = (32 - (height as u32).saturating_sub(1).leading_zeros()) as usize;
@@ -54,7 +54,7 @@ impl<M: Monoid> From<Vec<Vec<M::Target>>> for SegTree2D<M> {
 
 impl<M: Monoid> SegTree2D<M> {
     pub fn new(height: usize, width: usize) -> Self {
-        vec![vec![M::id_element(); width]; height].into()
+        (&vec![vec![M::id_element(); width]; height]).into()
     }
 
     pub fn set(&mut self, h: usize, w: usize, x: M::Target) {
