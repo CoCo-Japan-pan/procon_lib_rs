@@ -6,31 +6,31 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/algebra/src/lib.rs
       title: crates/algebra/src/lib.rs
-  - name: crates/data_structure/dual_seg_tree/src
+  - name: crates/data_structure/dual_segtree/src
     pages:
     - icon: ':heavy_check_mark:'
-      path: crates/data_structure/dual_seg_tree/src/lib.rs
-      title: crates/data_structure/dual_seg_tree/src/lib.rs
+      path: crates/data_structure/dual_segtree/src/lib.rs
+      title: crates/data_structure/dual_segtree/src/lib.rs
   - name: crates/data_structure/fenwick_tree/src
     pages:
     - icon: ':heavy_check_mark:'
       path: crates/data_structure/fenwick_tree/src/lib.rs
       title: crates/data_structure/fenwick_tree/src/lib.rs
-  - name: crates/data_structure/lazy_seg_tree/src
+  - name: crates/data_structure/lazy_segtree/src
     pages:
     - icon: ':heavy_check_mark:'
-      path: crates/data_structure/lazy_seg_tree/src/lib.rs
-      title: crates/data_structure/lazy_seg_tree/src/lib.rs
-  - name: crates/data_structure/seg_tree/src
+      path: crates/data_structure/lazy_segtree/src/lib.rs
+      title: crates/data_structure/lazy_segtree/src/lib.rs
+  - name: crates/data_structure/segtree/src
     pages:
     - icon: ':heavy_check_mark:'
-      path: crates/data_structure/seg_tree/src/lib.rs
-      title: crates/data_structure/seg_tree/src/lib.rs
-  - name: crates/data_structure/seg_tree_2d/src
+      path: crates/data_structure/segtree/src/lib.rs
+      title: crates/data_structure/segtree/src/lib.rs
+  - name: crates/data_structure/segtree_2d/src
     pages:
     - icon: ':heavy_check_mark:'
-      path: crates/data_structure/seg_tree_2d/src/lib.rs
-      title: crates/data_structure/seg_tree_2d/src/lib.rs
+      path: crates/data_structure/segtree_2d/src/lib.rs
+      title: crates/data_structure/segtree_2d/src/lib.rs
   - name: crates/data_structure/sparse_table/src
     pages:
     - icon: ':heavy_check_mark:'

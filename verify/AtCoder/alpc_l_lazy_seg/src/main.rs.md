@@ -5,8 +5,8 @@ data:
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   - icon: ':heavy_check_mark:'
-    path: crates/data_structure/lazy_seg_tree/src/lib.rs
-    title: crates/data_structure/lazy_seg_tree/src/lib.rs
+    path: crates/data_structure/lazy_segtree/src/lib.rs
+    title: crates/data_structure/lazy_segtree/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -21,7 +21,7 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://atcoder.jp/contests/practice2/tasks/practice2_l\n\
-    \nuse lazy_seg_tree::LazySegTree;\nuse proconio::{fastout, input, marker::Usize1};\n\
+    \nuse lazy_segtree::LazySegTree;\nuse proconio::{fastout, input, marker::Usize1};\n\
     \n#[derive(Clone, Copy, Debug, PartialEq, Eq)]\nstruct InvNum {\n    inv_num:\
     \ u64,\n    zero_num: u64,\n    one_num: u64,\n}\n\nimpl InvNum {\n    fn new(num:\
     \ u32) -> Self {\n        if num == 0 {\n            InvNum {\n              \
@@ -54,11 +54,11 @@ data:
     \   _ => unreachable!(),\n        }\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
-  - crates/data_structure/lazy_seg_tree/src/lib.rs
+  - crates/data_structure/lazy_segtree/src/lib.rs
   isVerificationFile: true
   path: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-02 12:32:21+09:00'
+  timestamp: '2024-04-02 12:50:14+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AtCoder/alpc_l_lazy_seg/src/main.rs

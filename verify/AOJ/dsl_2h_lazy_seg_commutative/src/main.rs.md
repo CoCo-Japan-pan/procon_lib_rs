@@ -5,8 +5,8 @@ data:
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   - icon: ':heavy_check_mark:'
-    path: crates/data_structure/lazy_seg_tree/src/lib.rs
-    title: crates/data_structure/lazy_seg_tree/src/lib.rs
+    path: crates/data_structure/lazy_segtree/src/lib.rs
+    title: crates/data_structure/lazy_segtree/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -21,7 +21,7 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/all/DSL_2_H\n\
-    \nuse algebra::CommutativeMapMonoid;\nuse lazy_seg_tree::LazySegTree;\nuse proconio::{fastout,\
+    \nuse algebra::CommutativeMapMonoid;\nuse lazy_segtree::LazySegTree;\nuse proconio::{fastout,\
     \ input};\n\nstruct MinMonoid {}\nimpl algebra::Monoid for MinMonoid {\n    type\
     \ Target = i32;\n    fn id_element() -> Self::Target {\n        i32::MAX\n   \
     \ }\n    fn binary_operation(a: &Self::Target, b: &Self::Target) -> Self::Target\
@@ -43,11 +43,11 @@ data:
     \        }\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
-  - crates/data_structure/lazy_seg_tree/src/lib.rs
+  - crates/data_structure/lazy_segtree/src/lib.rs
   isVerificationFile: true
   path: verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-02 12:32:21+09:00'
+  timestamp: '2024-04-02 12:50:14+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs

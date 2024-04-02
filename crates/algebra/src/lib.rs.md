@@ -3,17 +3,17 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
-    path: crates/data_structure/dual_seg_tree/src/lib.rs
-    title: crates/data_structure/dual_seg_tree/src/lib.rs
+    path: crates/data_structure/dual_segtree/src/lib.rs
+    title: crates/data_structure/dual_segtree/src/lib.rs
   - icon: ':heavy_check_mark:'
-    path: crates/data_structure/lazy_seg_tree/src/lib.rs
-    title: crates/data_structure/lazy_seg_tree/src/lib.rs
+    path: crates/data_structure/lazy_segtree/src/lib.rs
+    title: crates/data_structure/lazy_segtree/src/lib.rs
   - icon: ':heavy_check_mark:'
-    path: crates/data_structure/seg_tree/src/lib.rs
-    title: crates/data_structure/seg_tree/src/lib.rs
+    path: crates/data_structure/segtree/src/lib.rs
+    title: crates/data_structure/segtree/src/lib.rs
   - icon: ':heavy_check_mark:'
-    path: crates/data_structure/seg_tree_2d/src/lib.rs
-    title: crates/data_structure/seg_tree_2d/src/lib.rs
+    path: crates/data_structure/segtree_2d/src/lib.rs
+    title: crates/data_structure/segtree_2d/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/sparse_table/src/lib.rs
     title: crates/data_structure/sparse_table/src/lib.rs
@@ -99,11 +99,11 @@ data:
   isVerificationFile: false
   path: crates/algebra/src/lib.rs
   requiredBy:
+  - crates/data_structure/segtree/src/lib.rs
+  - crates/data_structure/segtree_2d/src/lib.rs
+  - crates/data_structure/dual_segtree/src/lib.rs
   - crates/data_structure/sparse_table/src/lib.rs
-  - crates/data_structure/seg_tree_2d/src/lib.rs
-  - crates/data_structure/dual_seg_tree/src/lib.rs
-  - crates/data_structure/lazy_seg_tree/src/lib.rs
-  - crates/data_structure/seg_tree/src/lib.rs
+  - crates/data_structure/lazy_segtree/src/lib.rs
   timestamp: '2024-04-02 12:32:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

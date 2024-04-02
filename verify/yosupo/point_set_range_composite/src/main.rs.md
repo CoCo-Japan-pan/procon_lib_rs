@@ -5,8 +5,8 @@ data:
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   - icon: ':heavy_check_mark:'
-    path: crates/data_structure/seg_tree/src/lib.rs
-    title: crates/data_structure/seg_tree/src/lib.rs
+    path: crates/data_structure/segtree/src/lib.rs
+    title: crates/data_structure/segtree/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/modint/static_modint/src/lib.rs
     title: crates/modint/static_modint/src/lib.rs
@@ -24,7 +24,7 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://judge.yosupo.jp/problem/point_set_range_composite\n\
-    \nuse algebra::Monoid;\nuse proconio::{fastout, input};\nuse seg_tree::SegTree;\n\
+    \nuse algebra::Monoid;\nuse proconio::{fastout, input};\nuse segtree::SegTree;\n\
     use static_modint::ModInt998244353;\n\n#[derive(Clone, Copy, Debug, PartialEq,\
     \ Eq)]\nstruct MyMonoid {}\nimpl Monoid for MyMonoid {\n    type Target = (ModInt998244353,\
     \ ModInt998244353);\n    fn id_element() -> Self::Target {\n        (ModInt998244353::new(1),\
@@ -41,12 +41,12 @@ data:
     \ unreachable!(),\n        }\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
-  - crates/data_structure/seg_tree/src/lib.rs
+  - crates/data_structure/segtree/src/lib.rs
   - crates/modint/static_modint/src/lib.rs
   isVerificationFile: true
   path: verify/yosupo/point_set_range_composite/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-02 12:32:21+09:00'
+  timestamp: '2024-04-02 12:50:14+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/point_set_range_composite/src/main.rs

@@ -5,8 +5,8 @@ data:
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   - icon: ':heavy_check_mark:'
-    path: crates/data_structure/lazy_seg_tree/src/lib.rs
-    title: crates/data_structure/lazy_seg_tree/src/lib.rs
+    path: crates/data_structure/lazy_segtree/src/lib.rs
+    title: crates/data_structure/lazy_segtree/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/modint/static_modint/src/lib.rs
     title: crates/modint/static_modint/src/lib.rs
@@ -24,7 +24,7 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://judge.yosupo.jp/problem/range_affine_range_sum\n\
-    \nuse algebra::{MapMonoid, NonCommutativeMapMonoid};\nuse lazy_seg_tree::LazySegTree;\n\
+    \nuse algebra::{MapMonoid, NonCommutativeMapMonoid};\nuse lazy_segtree::LazySegTree;\n\
     use proconio::{fastout, input};\nuse static_modint::ModInt998244353;\n\n#[derive(Clone,\
     \ Copy, Debug, PartialEq, Eq)]\nstruct AddMonoid {\n    sum: ModInt998244353,\n\
     \    len: ModInt998244353,\n}\nimpl algebra::Monoid for AddMonoid {\n    type\
@@ -54,12 +54,12 @@ data:
     \    println!(\"{}\", seg.prod(l..r).sum);\n        }\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
-  - crates/data_structure/lazy_seg_tree/src/lib.rs
+  - crates/data_structure/lazy_segtree/src/lib.rs
   - crates/modint/static_modint/src/lib.rs
   isVerificationFile: true
   path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-02 12:32:21+09:00'
+  timestamp: '2024-04-02 12:50:14+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs

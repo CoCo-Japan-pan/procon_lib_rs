@@ -5,8 +5,8 @@ data:
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   - icon: ':heavy_check_mark:'
-    path: crates/data_structure/seg_tree_2d/src/lib.rs
-    title: crates/data_structure/seg_tree_2d/src/lib.rs
+    path: crates/data_structure/segtree_2d/src/lib.rs
+    title: crates/data_structure/segtree_2d/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -21,7 +21,7 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/problems/1068\n\
-    \nuse algebra::Monoid;\nuse proconio::{fastout, input};\nuse seg_tree_2d::SegTree2D;\n\
+    \nuse algebra::Monoid;\nuse proconio::{fastout, input};\nuse segtree_2d::SegTree2D;\n\
     \npub enum MinMonoid {}\nimpl Monoid for MinMonoid {\n    type Target = u32;\n\
     \    fn id_element() -> Self::Target {\n        u32::MAX\n    }\n    fn binary_operation(a:\
     \ &Self::Target, b: &Self::Target) -> Self::Target {\n        *a.min(b)\n    }\n\
@@ -35,11 +35,11 @@ data:
     \  println!(\"{}\", ans);\n        }\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
-  - crates/data_structure/seg_tree_2d/src/lib.rs
+  - crates/data_structure/segtree_2d/src/lib.rs
   isVerificationFile: true
   path: verify/AOJ/no1068/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-02 12:32:21+09:00'
+  timestamp: '2024-04-02 12:50:14+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/no1068/src/main.rs
