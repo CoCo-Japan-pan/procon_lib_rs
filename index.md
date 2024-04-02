@@ -36,6 +36,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/data_structure/sparse_table/src/lib.rs
       title: crates/data_structure/sparse_table/src/lib.rs
+  - name: crates/data_structure/sparse_table_on_segtree/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: crates/data_structure/sparse_table_on_segtree/src/lib.rs
+      title: crates/data_structure/sparse_table_on_segtree/src/lib.rs
   - name: crates/data_structure/union_find/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -127,6 +132,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/AOJ/no1068/src/main.rs
       title: verify/AOJ/no1068/src/main.rs
+  - name: verify/AOJ/no2842/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/AOJ/no2842/src/main.rs
+      title: verify/AOJ/no2842/src/main.rs
   - name: verify/AtCoder/abc285g/src
     pages:
     - icon: ':heavy_check_mark:'

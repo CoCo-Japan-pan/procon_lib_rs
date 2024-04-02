@@ -5,8 +5,8 @@ data:
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   - icon: ':heavy_check_mark:'
-    path: crates/data_structure/segtree_2d/src/lib.rs
-    title: crates/data_structure/segtree_2d/src/lib.rs
+    path: crates/data_structure/sparse_table_on_segtree/src/lib.rs
+    title: crates/data_structure/sparse_table_on_segtree/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -21,25 +21,26 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/problems/1068\n\
-    \nuse algebra::Monoid;\nuse proconio::{fastout, input};\nuse segtree_2d::SegTree2D;\n\
-    \npub enum MinMonoid {}\nimpl Monoid for MinMonoid {\n    type Target = u32;\n\
-    \    fn id_element() -> Self::Target {\n        u32::MAX\n    }\n    fn binary_operation(a:\
-    \ &Self::Target, b: &Self::Target) -> Self::Target {\n        *a.min(b)\n    }\n\
-    }\n\n#[fastout]\nfn main() {\n    loop {\n        input! {\n            r: usize,\n\
-    \            c: usize,\n            q: usize,\n        }\n        if r == 0 {\n\
-    \            break;\n        }\n        input! {\n            grid: [[u32; c];\
-    \ r],\n        }\n        let seg = SegTree2D::<MinMonoid>::from(&grid);\n   \
-    \     for _ in 0..q {\n            input! {\n                r1: usize,\n    \
-    \            c1: usize,\n                r2: usize,\n                c2: usize,\n\
+    \nuse algebra::{IdempotentMonoid, Monoid};\nuse proconio::{fastout, input};\n\
+    use sparse_table_on_segtree::SparseTableOnSegTree;\n\n#[derive(Clone)]\npub enum\
+    \ MinMonoid {}\nimpl Monoid for MinMonoid {\n    type Target = u32;\n    fn id_element()\
+    \ -> Self::Target {\n        u32::MAX\n    }\n    fn binary_operation(a: &Self::Target,\
+    \ b: &Self::Target) -> Self::Target {\n        *a.min(b)\n    }\n}\nimpl IdempotentMonoid\
+    \ for MinMonoid {}\n\n#[fastout]\nfn main() {\n    loop {\n        input! {\n\
+    \            r: usize,\n            c: usize,\n            q: usize,\n       \
+    \ }\n        if r == 0 {\n            break;\n        }\n        input! {\n  \
+    \          grid: [[u32; c]; r],\n        }\n        let seg = SparseTableOnSegTree::<MinMonoid>::new(grid);\n\
+    \        for _ in 0..q {\n            input! {\n                r1: usize,\n \
+    \               c1: usize,\n                r2: usize,\n                c2: usize,\n\
     \            }\n            let ans = seg.prod(r1..=r2, c1..=c2);\n          \
     \  println!(\"{}\", ans);\n        }\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
-  - crates/data_structure/segtree_2d/src/lib.rs
+  - crates/data_structure/sparse_table_on_segtree/src/lib.rs
   isVerificationFile: true
   path: verify/AOJ/no1068/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-02 20:00:21+09:00'
+  timestamp: '2024-04-02 23:39:51+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/no1068/src/main.rs

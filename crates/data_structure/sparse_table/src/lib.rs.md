@@ -4,7 +4,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: crates/data_structure/sparse_table_on_segtree/src/lib.rs
+    title: crates/data_structure/sparse_table_on_segtree/src/lib.rs
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/staticrmq_sparse_table/src/main.rs
@@ -21,7 +24,7 @@ data:
   code: "//! \u51AA\u7B49\u30E2\u30CE\u30A4\u30C9\u304C\u4E57\u3063\u305F\u9759\u7684\
     \u306A\u533A\u9593\u30AF\u30A8\u30EA\u3092\u51E6\u7406\u3059\u308B  \n//! Disjoint\
     \ Sparse Table \u306B\u6BD4\u3079\u3066\u5B9A\u6570\u500D\u65E9\u3044  \n\nuse\
-    \ algebra::IdempotentMonoid;\nuse std::ops::RangeBounds;\n\n#[derive(Debug)]\n\
+    \ algebra::IdempotentMonoid;\nuse std::ops::RangeBounds;\n\n#[derive(Debug, Clone)]\n\
     pub struct SparseTable<M: IdempotentMonoid> {\n    range_size: usize,\n    data:\
     \ Vec<Vec<M::Target>>,\n}\n\nimpl<M: IdempotentMonoid> SparseTable<M> {\n    ///\
     \ `O(nlogn)`\n    pub fn new(v: Vec<M::Target>) -> Self {\n        let range_size\
@@ -45,8 +48,9 @@ data:
   - crates/algebra/src/lib.rs
   isVerificationFile: false
   path: crates/data_structure/sparse_table/src/lib.rs
-  requiredBy: []
-  timestamp: '2024-04-02 12:32:21+09:00'
+  requiredBy:
+  - crates/data_structure/sparse_table_on_segtree/src/lib.rs
+  timestamp: '2024-04-02 22:54:52+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/staticrmq_sparse_table/src/main.rs
