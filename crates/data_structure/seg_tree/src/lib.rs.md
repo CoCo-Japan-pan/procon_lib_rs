@@ -85,7 +85,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/seg_tree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-02 11:38:36+09:00'
+  timestamp: '2024-04-02 12:32:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/point_set_range_composite/src/main.rs

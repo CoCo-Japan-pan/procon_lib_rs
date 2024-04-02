@@ -14,6 +14,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/seg_tree_2d/src/lib.rs
     title: crates/data_structure/seg_tree_2d/src/lib.rs
+  - icon: ':heavy_check_mark:'
+    path: crates/data_structure/sparse_table/src/lib.rs
+    title: crates/data_structure/sparse_table/src/lib.rs
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: verify/AOJ/dsl_2d_dual_seg/src/main.rs
@@ -39,6 +42,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
     title: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
+  - icon: ':heavy_check_mark:'
+    path: verify/yosupo/staticrmq_sparse_table/src/main.rs
+    title: verify/yosupo/staticrmq_sparse_table/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -50,7 +56,7 @@ data:
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! `Algrebra`\u3067\u306F\u3001\u30C7\u30FC\u30BF\u69CB\u9020\u306B\u4E57\
     \u305B\u308B\u4EE3\u6570\u69CB\u9020\u306Etrait\u3092\u63D0\u4F9B\u3057\u307E\u3059\
-    \u3002\nuse std::fmt::Debug;\n/// \u4F5C\u7528  \n/// \u4F5C\u7528\u81EA\u4F53\
+    \u3002\nuse std::fmt::Debug;\n\n/// \u4F5C\u7528  \n/// \u4F5C\u7528\u81EA\u4F53\
     \u3082\u30E2\u30CE\u30A4\u30C9\u3067\u3042\u308B\u3053\u3068\u3092\u8981\u6C42\
     \  \n/// \u4F5C\u7528\u7D20\u3092\u5408\u6210\u3055\u305B\u3066\u304B\u3089\u4F5C\
     \u7528\u3055\u305B\u308B\u306E\u3068\u3001\u4F5C\u7528\u7D20\u3092\u4E00\u3064\
@@ -85,16 +91,20 @@ data:
     \       f.mapping(x)\n    }\n}\n\n/// \u53EF\u63DB\u306A\u4F5C\u7528\u3092\u6301\
     \u3064MapMonoid\npub trait CommutativeMapMonoid: MapMonoid {}\n\n/// \u975E\u53EF\
     \u63DB\u306A\u4F5C\u7528\u3092\u6301\u3064MapMonoid\npub trait NonCommutativeMapMonoid:\
-    \ MapMonoid {}\n"
+    \ MapMonoid {}\n\n/// \u51AA\u7B49\u306A\u30E2\u30CE\u30A4\u30C9  \n/// \u3064\
+    \u307E\u308A x = x op x \u304C\u6210\u308A\u7ACB\u3064\u3088\u3046\u306A\u30E2\
+    \u30CE\u30A4\u30C9  \n/// SparseTable\u306B\u4E57\u308B\npub trait IdempotentMonoid:\
+    \ Monoid {}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/algebra/src/lib.rs
   requiredBy:
+  - crates/data_structure/sparse_table/src/lib.rs
   - crates/data_structure/seg_tree_2d/src/lib.rs
   - crates/data_structure/dual_seg_tree/src/lib.rs
   - crates/data_structure/lazy_seg_tree/src/lib.rs
   - crates/data_structure/seg_tree/src/lib.rs
-  timestamp: '2024-04-01 23:03:12+09:00'
+  timestamp: '2024-04-02 12:32:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/no1068/src/main.rs
@@ -105,6 +115,7 @@ data:
   - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   - verify/yosupo/point_set_range_composite/src/main.rs
   - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
+  - verify/yosupo/staticrmq_sparse_table/src/main.rs
 documentation_of: crates/algebra/src/lib.rs
 layout: document
 redirect_from:

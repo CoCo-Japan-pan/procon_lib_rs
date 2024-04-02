@@ -48,7 +48,7 @@ data:
   isVerificationFile: true
   path: verify/AOJ/dsl_2f_lazy_seg/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-01 23:03:12+09:00'
+  timestamp: '2024-04-02 12:32:21+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/dsl_2f_lazy_seg/src/main.rs
