@@ -30,7 +30,7 @@ pub trait ModContainer: 'static + Debug + Clone + Copy + PartialEq + Eq {
 #[macro_export]
 macro_rules! define_modint {
     ($name:ident, $modulus:expr) => {
-        #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+        #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
         pub enum $name {}
         impl $crate::ModContainer for $name {
             fn get_static_modulus() -> &'static std::sync::OnceLock<u32> {
@@ -74,7 +74,7 @@ impl<MOD: ModContainer> FromStr for DynamicModInt<MOD> {
 }
 
 impl<MOD: ModContainer> DynamicModInt<MOD> {
-    /// これを設定すると、今までのModIntの値は全て無意味になるので、再度使わないように注意!
+    /// define_modint!の中で呼ばれるので、マクロを使う場合は呼ばないでよい
     pub fn set_modulus(modulus: u32) {
         MOD::set_modulus(modulus);
     }
