@@ -2,7 +2,7 @@
 
 use algebra::Monoid;
 use proconio::{fastout, input};
-use seg_tree::SegTree;
+use segtree::SegTree;
 use static_modint::ModInt998244353;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]

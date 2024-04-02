@@ -1,6 +1,6 @@
 // verification-helper: PROBLEM https://atcoder.jp/contests/practice2/tasks/practice2_l
 
-use lazy_seg_tree::LazySegTree;
+use lazy_segtree::LazySegTree;
 use proconio::{fastout, input, marker::Usize1};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]

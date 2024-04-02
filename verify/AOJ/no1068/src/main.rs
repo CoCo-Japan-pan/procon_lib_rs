@@ -2,7 +2,7 @@
 
 use algebra::Monoid;
 use proconio::{fastout, input};
-use seg_tree_2d::SegTree2D;
+use segtree_2d::SegTree2D;
 
 pub enum MinMonoid {}
 impl Monoid for MinMonoid {

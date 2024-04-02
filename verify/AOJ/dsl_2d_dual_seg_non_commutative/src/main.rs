@@ -1,6 +1,6 @@
 // verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_D
 
-use dual_seg_tree::DualSegTree;
+use dual_segtree::DualSegTree;
 use proconio::{fastout, input};
 
 #[derive(Debug, Clone, PartialEq, Eq, Copy)]

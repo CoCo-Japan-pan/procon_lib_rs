@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/range_affine_range_sum
 
 use algebra::{MapMonoid, NonCommutativeMapMonoid};
-use lazy_seg_tree::LazySegTree;
+use lazy_segtree::LazySegTree;
 use proconio::{fastout, input};
 use static_modint::ModInt998244353;
 

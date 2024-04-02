@@ -8,5 +8,5 @@ edition = "2021"
 [dependencies]
 proconio = { version = "=0.4.5", features = ["derive"] }
 algebra = { path = "../../../crates/algebra" }
-lazy_seg_tree = { path = "../../../crates/data_structure/lazy_seg_tree" }
+lazy_segtree = { path = "../../../crates/data_structure/lazy_segtree" }
 static_modint = { path = "../../../crates/modint/static_modint" }
