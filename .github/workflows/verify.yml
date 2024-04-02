@@ -53,6 +53,7 @@ jobs:
       run: |
         git switch main 
         cargo clean
+        cargo update
         cargo doc --lib
         git switch gh-pages
         git config --global user.name "github-actions[bot]"
