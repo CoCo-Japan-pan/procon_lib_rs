@@ -4,7 +4,7 @@
 use algebra::IdempotentMonoid;
 use std::ops::RangeBounds;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct SparseTable<M: IdempotentMonoid> {
     range_size: usize,
     data: Vec<Vec<M::Target>>,
