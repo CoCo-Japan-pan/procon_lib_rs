@@ -72,10 +72,7 @@ impl<M: Monoid> SegTree2D<M> {
         for i in 1..=self.ceil_log_h {
             self.update_from_col_leaf(h >> i, w);
         }
-        for i in 1..=self.ceil_log_w {
-            self.update_from_row_leaf(h, w >> i);
-        }
-        for i in 1..=self.ceil_log_h {
+        for i in 0..=self.ceil_log_h {
             for j in 1..=self.ceil_log_w {
                 self.update_from_row_leaf(h >> i, w >> j);
             }
@@ -128,38 +125,12 @@ impl<M: Monoid> SegTree2D<M> {
         let mut ret = M::id_element();
         while h_left < h_right {
             if h_left & 1 != 0 {
-                let mut l = w_left;
-                let mut r = w_right;
-                while l < r {
-                    if l & 1 != 0 {
-                        ret = M::binary_operation(&ret, &self.data[index!(self, h_left, l)]);
-                        l += 1;
-                    }
-                    if r & 1 != 0 {
-                        r -= 1;
-                        ret = M::binary_operation(&self.data[index!(self, h_left, r)], &ret);
-                    }
-                    l >>= 1;
-                    r >>= 1;
-                }
+                ret = M::binary_operation(&ret, &self.prod_row(h_left, w_left, w_right));
                 h_left += 1;
             }
             if h_right & 1 != 0 {
                 h_right -= 1;
-                let mut l = w_left;
-                let mut r = w_right;
-                while l < r {
-                    if l & 1 != 0 {
-                        ret = M::binary_operation(&ret, &self.data[index!(self, h_right, l)]);
-                        l += 1;
-                    }
-                    if r & 1 != 0 {
-                        r -= 1;
-                        ret = M::binary_operation(&self.data[index!(self, h_right, r)], &ret);
-                    }
-                    l >>= 1;
-                    r >>= 1;
-                }
+                ret = M::binary_operation(&self.prod_row(h_right, w_left, w_right), &ret);
             }
             h_left >>= 1;
             h_right >>= 1;
@@ -181,5 +152,21 @@ impl<M: Monoid> SegTree2D<M> {
             &self.data[index!(self, h, w * 2)],
             &self.data[index!(self, h, w * 2 + 1)],
         );
+    }
+    fn prod_row(&self, h: usize, mut w_left: usize, mut w_right: usize) -> M::Target {
+        let mut ret = M::id_element();
+        while w_left < w_right {
+            if w_left & 1 != 0 {
+                ret = M::binary_operation(&ret, &self.data[index!(self, h, w_left)]);
+                w_left += 1;
+            }
+            if w_right & 1 != 0 {
+                w_right -= 1;
+                ret = M::binary_operation(&self.data[index!(self, h, w_right)], &ret);
+            }
+            w_left >>= 1;
+            w_right >>= 1;
+        }
+        ret
     }
 }
