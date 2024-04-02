@@ -43,8 +43,8 @@ data:
   isVerificationFile: false
   path: crates/internals/internal_type_traits/src/lib.rs
   requiredBy:
-  - crates/flow/maxflow/src/lib.rs
   - crates/flow/maxflow_lower_bound/src/lib.rs
+  - crates/flow/maxflow/src/lib.rs
   timestamp: '2024-03-17 17:52:30+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

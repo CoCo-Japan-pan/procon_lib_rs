@@ -35,7 +35,7 @@ data:
     \ }\n}\n\n/// ModContainer\u3092\u5B9A\u7FA9\u3059\u308B\u30DE\u30AF\u30ED \u3053\
     \u308C\u3092DynamicModInt\u306E\u30B8\u30A7\u30CD\u30EA\u30C3\u30AF\u5F15\u6570\
     \u306B\u5165\u308C\u308B\n#[macro_export]\nmacro_rules! define_modint {\n    ($name:ident,\
-    \ $modulus:expr) => {\n        #[derive(Debug, Clone, Copy, PartialEq, Eq)]\n\
+    \ $modulus:expr) => {\n        #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]\n\
     \        pub enum $name {}\n        impl $crate::ModContainer for $name {\n  \
     \          fn get_static_modulus() -> &'static std::sync::OnceLock<u32> {\n  \
     \              static ONCE: std::sync::OnceLock<u32> = std::sync::OnceLock::new();\n\
@@ -51,14 +51,13 @@ data:
     \ }\n}\n\nimpl<MOD: ModContainer> FromStr for DynamicModInt<MOD> {\n    type Err\
     \ = ParseIntError;\n    fn from_str(s: &str) -> Result<Self, ParseIntError> {\n\
     \        i64::from_str(s).map(Self::new)\n    }\n}\n\nimpl<MOD: ModContainer>\
-    \ DynamicModInt<MOD> {\n    /// \u3053\u308C\u3092\u8A2D\u5B9A\u3059\u308B\u3068\
-    \u3001\u4ECA\u307E\u3067\u306EModInt\u306E\u5024\u306F\u5168\u3066\u7121\u610F\
-    \u5473\u306B\u306A\u308B\u306E\u3067\u3001\u518D\u5EA6\u4F7F\u308F\u306A\u3044\
-    \u3088\u3046\u306B\u6CE8\u610F!\n    pub fn set_modulus(modulus: u32) {\n    \
-    \    MOD::set_modulus(modulus);\n    }\n    pub fn new<T: RemEuclidU32>(x: T)\
-    \ -> Self {\n        ModInt::new(x)\n    }\n    pub fn raw(x: u32) -> Self {\n\
-    \        Self {\n            value: x,\n            phantom: PhantomData,\n  \
-    \      }\n    }\n    pub fn value(&self) -> u32 {\n        self.value\n    }\n\
+    \ DynamicModInt<MOD> {\n    /// define_modint!\u306E\u4E2D\u3067\u547C\u3070\u308C\
+    \u308B\u306E\u3067\u3001\u30DE\u30AF\u30ED\u3092\u4F7F\u3046\u5834\u5408\u306F\
+    \u547C\u3070\u306A\u3044\u3067\u3088\u3044\n    pub fn set_modulus(modulus: u32)\
+    \ {\n        MOD::set_modulus(modulus);\n    }\n    pub fn new<T: RemEuclidU32>(x:\
+    \ T) -> Self {\n        ModInt::new(x)\n    }\n    pub fn raw(x: u32) -> Self\
+    \ {\n        Self {\n            value: x,\n            phantom: PhantomData,\n\
+    \        }\n    }\n    pub fn value(&self) -> u32 {\n        self.value\n    }\n\
     \    pub fn modulus() -> u32 {\n        MOD::modulus()\n    }\n    pub fn pow(&self,\
     \ n: u64) -> Self {\n        ModInt::pow(self, n)\n    }\n    pub fn inv(&self)\
     \ -> Self {\n        ModInt::inv(self)\n    }\n}\n\nimpl<MOD: ModContainer> ModInt\
@@ -133,7 +132,7 @@ data:
   isVerificationFile: false
   path: crates/modint/dynamic_modint/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-01 23:14:42+09:00'
+  timestamp: '2024-04-03 00:05:02+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_1092_modint_dynamic/src/main.rs
