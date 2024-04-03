@@ -24,7 +24,7 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://judge.yosupo.jp/problem/range_affine_range_sum\n\
-    \nuse algebra::{MapMonoid, NonCommutativeMapMonoid};\nuse lazy_segtree::LazySegTree;\n\
+    \nuse algebra::{MapMonoid, NonCommutative};\nuse lazy_segtree::LazySegTree;\n\
     use proconio::{fastout, input};\nuse static_modint::ModInt998244353;\n\n#[derive(Clone,\
     \ Copy, Debug, PartialEq, Eq)]\nstruct AddMonoid {\n    sum: ModInt998244353,\n\
     \    len: ModInt998244353,\n}\nimpl algebra::Monoid for AddMonoid {\n    type\
@@ -39,9 +39,9 @@ data:
     \     c: ModInt998244353::raw(0),\n        }\n    }\n    fn composition(&mut self,\
     \ rhs: &Self) {\n        self.c = self.c * rhs.b + rhs.c;\n        self.b *= rhs.b;\n\
     \    }\n    fn mapping(&self, target: &mut Self::Target) {\n        target.sum\
-    \ = self.b * target.sum + self.c * target.len;\n    }\n}\n\nstruct AffineRangeSum;\n\
-    impl MapMonoid for AffineRangeSum {\n    type Map = AffineMap;\n    type Monoid\
-    \ = AddMonoid;\n}\nimpl NonCommutativeMapMonoid for AffineRangeSum {}\n\n#[fastout]\n\
+    \ = self.b * target.sum + self.c * target.len;\n    }\n}\nimpl NonCommutative\
+    \ for AffineMap {}\n\nstruct AffineRangeSum;\nimpl MapMonoid for AffineRangeSum\
+    \ {\n    type Map = AffineMap;\n    type Monoid = AddMonoid;\n}\n\n#[fastout]\n\
     fn main() {\n    input! {\n        n: usize,\n        q: usize,\n        a: [u32;\
     \ n],\n    }\n    let a: Vec<AddMonoid> = a\n        .into_iter()\n        .map(|a|\
     \ AddMonoid {\n            sum: ModInt998244353::raw(a),\n            len: ModInt998244353::raw(1),\n\
@@ -59,7 +59,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-02 12:50:14+09:00'
+  timestamp: '2024-04-03 21:58:01+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs

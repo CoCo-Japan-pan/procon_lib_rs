@@ -29,8 +29,8 @@ data:
     \ self, rhs: &Self) {\n        if self.time_stamp < rhs.time_stamp {\n       \
     \     *self = *rhs;\n        }\n    }\n    fn mapping(&self, target: &mut Self::Target)\
     \ {\n        if self.time_stamp > target.time_stamp {\n            *target = *self;\n\
-    \        }\n    }\n}\n\nimpl algebra::CommutativeMap for RUQ {}\n\n#[fastout]\n\
-    fn main() {\n    input! {\n        n: usize,\n        q: usize,\n    }\n    let\
+    \        }\n    }\n}\n\nimpl algebra::Commutative for RUQ {}\n\n#[fastout]\nfn\
+    \ main() {\n    input! {\n        n: usize,\n        q: usize,\n    }\n    let\
     \ mut seg = DualSegTree::<RUQ>::new(n);\n    for time_stamp in 1..=q {\n     \
     \   input! {\n            query_type: u32,\n        }\n        if query_type ==\
     \ 0 {\n            input! {\n                s: usize,\n                t: usize,\n\
@@ -46,7 +46,7 @@ data:
   isVerificationFile: true
   path: verify/AOJ/dsl_2d_dual_seg/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-02 12:50:14+09:00'
+  timestamp: '2024-04-03 21:58:01+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/dsl_2d_dual_seg/src/main.rs

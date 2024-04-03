@@ -50,7 +50,7 @@ data:
   path: crates/data_structure/sparse_table/src/lib.rs
   requiredBy:
   - crates/data_structure/sparse_table_on_segtree/src/lib.rs
-  timestamp: '2024-04-02 22:54:52+09:00'
+  timestamp: '2024-04-03 21:58:01+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/staticrmq_sparse_table/src/main.rs

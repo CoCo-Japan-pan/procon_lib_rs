@@ -105,7 +105,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/segtree_2d/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-02 20:00:21+09:00'
+  timestamp: '2024-04-03 21:58:01+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/no2842/src/main.rs

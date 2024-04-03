@@ -64,7 +64,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/sparse_table_on_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-02 23:39:51+09:00'
+  timestamp: '2024-04-03 21:58:01+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/no1068/src/main.rs

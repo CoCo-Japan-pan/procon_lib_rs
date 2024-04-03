@@ -25,10 +25,10 @@ data:
     \u6728\u306E\u3088\u3046\u306B\u6301\u3064  \n//! \u4F5C\u7528\u304C\u53EF\u63DB\
     \u306A\u3089\u4F5C\u7528\u306E\u4F1D\u64AD\u3092\u3057\u306A\u304F\u3066OK  \n\
     //! \u4F5C\u7528\u304C\u53EF\u63DB\u3067\u306A\u3044\u306A\u3089\u4F5C\u7528\u306E\
-    \u4F1D\u64AD\u3092\u3057\u3066\u304B\u3089\u9069\u7528\u3059\u308B\n\nuse algebra::{CommutativeMap,\
-    \ Map, NonCommutativeMap};\nuse std::ops::RangeBounds;\n\n/// \u4F5C\u7528\u3092\
-    \u533A\u9593\u9069\u7528, 1\u70B9\u53D6\u5F97\u304C\u3067\u304D\u308B\u30C7\u30FC\
-    \u30BF\u69CB\u9020\n#[derive(Debug)]\npub struct DualSegTree<T: Map> {\n    range_size:\
+    \u4F1D\u64AD\u3092\u3057\u3066\u304B\u3089\u9069\u7528\u3059\u308B\n\nuse algebra::{Commutative,\
+    \ Map, NonCommutative};\nuse std::ops::RangeBounds;\n\n/// \u4F5C\u7528\u3092\u533A\
+    \u9593\u9069\u7528, 1\u70B9\u53D6\u5F97\u304C\u3067\u304D\u308B\u30C7\u30FC\u30BF\
+    \u69CB\u9020\n#[derive(Debug)]\npub struct DualSegTree<T: Map> {\n    range_size:\
     \ usize,\n    leaf_size: usize,\n    log: usize,\n    lazy_nodes: Vec<T>,\n}\n\
     \nimpl<T: Map> DualSegTree<T> {\n    pub fn new(size: usize) -> Self {\n     \
     \   let mut leaf_size = 1;\n        let mut log = 0;\n        while leaf_size\
@@ -45,7 +45,7 @@ data:
     \u8FD4\u3059)\n    pub fn get_composition(&self, i: usize) -> T {\n        assert!(i\
     \ < self.range_size);\n        let mut i = i + self.leaf_size;\n        let mut\
     \ res = T::id_map();\n        while i > 0 {\n            res.composition(&self.lazy_nodes[i]);\n\
-    \            i >>= 1;\n        }\n        res\n    }\n}\n\nimpl<T: CommutativeMap>\
+    \            i >>= 1;\n        }\n        res\n    }\n}\n\nimpl<T: Map + Commutative>\
     \ DualSegTree<T> {\n    /// \u533A\u9593\u306B\u53EF\u63DB\u306A\u4F5C\u7528\u3092\
     \u9069\u7528\u3059\u308B \u53EF\u63DB\u306A\u306E\u3067\u4F5C\u7528\u306E\u4F1D\
     \u64AD\u3092\u3057\u306A\u304F\u3066OK\n    pub fn apply_commutative<R: RangeBounds<usize>>(&mut\
@@ -60,7 +60,7 @@ data:
     \ 1 {\n                self.lazy_nodes[l].composition(map);\n                l\
     \ += 1;\n            }\n            if r & 1 == 1 {\n                r -= 1;\n\
     \                self.lazy_nodes[r].composition(map);\n            }\n       \
-    \     l >>= 1;\n            r >>= 1;\n        }\n    }\n}\n\nimpl<T: NonCommutativeMap>\
+    \     l >>= 1;\n            r >>= 1;\n        }\n    }\n}\n\nimpl<T: Map + NonCommutative>\
     \ DualSegTree<T> {\n    /// \u533A\u9593\u306B\u975E\u53EF\u63DB\u306A\u4F5C\u7528\
     \u3092\u9069\u7528\u3059\u308B \u975E\u53EF\u63DB\u306A\u306E\u3067\u4F5C\u7528\
     \u306E\u4F1D\u64AD\u3092\u5148\u306B\u884C\u3046\u5FC5\u8981\u304C\u3042\u308B\
@@ -92,7 +92,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/dual_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-02 12:50:14+09:00'
+  timestamp: '2024-04-03 21:58:01+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/dsl_2d_dual_seg/src/main.rs
