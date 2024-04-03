@@ -2,7 +2,6 @@
 //! [HLDの中にsubtreeクエリも対応させる](https://codeforces.com/blog/entry/53170)  
 
 #[derive(Debug)]
-#[allow(dead_code)]
 pub struct HLD {
     /// 各頂点について、heavypath(descending)が最初に来るようswapされている
     sorted_graph: Vec<Vec<usize>>,
@@ -20,6 +19,21 @@ pub struct HLD {
     hld_out: Vec<usize>,
     /// 頂点の数
     vertex_cnt: usize,
+}
+
+#[derive(Debug, Clone, Copy)]
+pub enum Path {
+    Ascending(usize, usize),
+    Descending(usize, usize),
+}
+
+impl Path {
+    fn reverse(self) -> Self {
+        match self {
+            Path::Ascending(l, r) => Path::Descending(l, r),
+            Path::Descending(l, r) => Path::Ascending(l, r),
+        }
+    }
 }
 
 impl HLD {
@@ -56,6 +70,45 @@ impl HLD {
             u
         } else {
             v
+        }
+    }
+
+    /// heavy pathを並べた配列における、vのindexを返す  
+    /// この配列において、各頂点についてその頂点とその親との間の辺を対応させた配列を用いれば、
+    /// 以下のpathやsubtree関数で得られたindexを使うことができる
+    pub fn hld_in(&self, v: usize) -> usize {
+        self.hld_in[v]
+    }
+
+    /// uからvへのパスを列挙する(これらはheavy pathを並べた配列において連続する区間となっている)  
+    /// 上りと下りを区別して、非可換に対応している  
+    /// 半開区間  
+    pub fn path(&self, u: usize, v: usize, vertex: bool) -> Vec<Path> {
+        let l = self.lca(u, v);
+        if vertex {
+            self.ascending(l, v)
+                .into_iter()
+                .chain(std::iter::once(Path::Descending(
+                    self.hld_in[l],
+                    self.hld_in[l] + 1,
+                )))
+                .chain(self.ascending(l, v).into_iter().map(Path::reverse).rev())
+                .collect()
+        } else {
+            self.ascending(l, v)
+                .into_iter()
+                .chain(self.ascending(l, v).into_iter().map(Path::reverse).rev())
+                .collect()
+        }
+    }
+
+    /// 頂点vを根とする部分木をちょうど含む区間のindexを返す 可換を仮定  
+    /// 半開区間
+    pub fn subtree(&self, v: usize, vertex: bool) -> (usize, usize) {
+        if vertex {
+            (self.hld_in[v], self.hld_out[v])
+        } else {
+            (self.hld_in[v] + 1, self.hld_out[v])
         }
     }
 }
@@ -97,5 +150,30 @@ impl HLD {
             self.dfs_hld(u, id);
         }
         self.hld_out[v] = *id;
+    }
+
+    fn ascending(&self, l: usize, mut v: usize) -> Vec<Path> {
+        // vからlへ上るまでのheavy pathを列挙(lはlcaの想定)
+        assert!(self.hld_in[l] <= self.hld_in[v]);
+        let mut ret = vec![];
+        // lcaからその親への辺は含まないので、その場合は左辺を+1することに注意
+        while self.heavy_path_lowest[l] != self.heavy_path_lowest[v] {
+            if self.heavy_path_lowest[v] != l {
+                ret.push(Path::Ascending(
+                    self.hld_in[self.heavy_path_lowest[v]],
+                    self.hld_in[v] + 1,
+                ));
+            } else {
+                ret.push(Path::Ascending(
+                    self.hld_in[self.heavy_path_lowest[v]] + 1,
+                    self.hld_in[v] + 1,
+                ));
+            }
+            v = self.parent[self.heavy_path_lowest[v]];
+        }
+        if l != v {
+            ret.push(Path::Ascending(self.hld_in[l] + 1, self.hld_in[v] + 1));
+        }
+        ret
     }
 }
