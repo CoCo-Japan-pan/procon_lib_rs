@@ -1,6 +1,6 @@
 //! 2D Sparse Tableとできることは同じだが、SegmentTreeとSparseTableを組み合わせている  
 //! つまりクエリにlogが一つかかる代わりに、構築のlogが一つ減る  
-//! //! 2次元なので可換性を要求  
+//! 2次元なので可換性を要求  
 //! <https://maspypy.github.io/library/ds/sparse_table/sparse_table_on_segtree.hpp> で知りました  
 
 use algebra::{Commutative, IdempotentMonoid};
