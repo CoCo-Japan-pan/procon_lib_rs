@@ -197,6 +197,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yosupo/unionfind/src/main.rs
       title: verify/yosupo/unionfind/src/main.rs
+  - name: verify/yosupo/vertex_add_path_sum/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yosupo/vertex_add_path_sum/src/main.rs
+      title: verify/yosupo/vertex_add_path_sum/src/main.rs
   - name: verify/yosupo/zalgorithm_rolling_hash/src
     pages:
     - icon: ':heavy_check_mark:'
