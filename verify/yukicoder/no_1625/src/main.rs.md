@@ -21,17 +21,18 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://yukicoder.me/problems/no/1625\n\n\
-    use algebra::Monoid;\nuse proconio::{fastout, input};\nuse segtree_2d_compressed::SegTree2DCompressed;\n\
+    use algebra::{Commutative, Monoid};\nuse proconio::{fastout, input};\nuse segtree_2d_compressed::SegTree2DCompressed;\n\
     \n#[derive(Clone, Copy, Debug)]\nenum Query {\n    Add(i64, i64, i64),\n    Get(i64,\
     \ i64),\n}\n\n#[derive(Clone, Copy, Debug)]\nenum MaxMonoid {}\nimpl Monoid for\
     \ MaxMonoid {\n    type Target = i64;\n    fn binary_operation(a: &Self::Target,\
     \ b: &Self::Target) -> Self::Target {\n        *a.max(b)\n    }\n    fn id_element()\
-    \ -> Self::Target {\n        -1\n    }\n}\n\n#[fastout]\nfn main() {\n    input!\
-    \ {\n        n: usize,\n        q: usize,\n        a_b_c_d_e_f: [(i64, i64, i64,\
-    \ i64, i64, i64); n],\n    }\n    let mut queries = a_b_c_d_e_f.into_iter().map(l_r_area).collect::<Vec<_>>();\n\
-    \    for _ in 0..q {\n        input! {\n            query_type: i64,\n       \
-    \ }\n        if query_type == 1 {\n            input! {\n                add:\
-    \ (i64, i64, i64, i64, i64, i64)\n            }\n            queries.push(l_r_area(add));\n\
+    \ -> Self::Target {\n        -1\n    }\n}\nimpl Commutative for MaxMonoid {}\n\
+    \n#[fastout]\nfn main() {\n    input! {\n        n: usize,\n        q: usize,\n\
+    \        a_b_c_d_e_f: [(i64, i64, i64, i64, i64, i64); n],\n    }\n    let mut\
+    \ queries = a_b_c_d_e_f.into_iter().map(l_r_area).collect::<Vec<_>>();\n    for\
+    \ _ in 0..q {\n        input! {\n            query_type: i64,\n        }\n   \
+    \     if query_type == 1 {\n            input! {\n                add: (i64, i64,\
+    \ i64, i64, i64, i64)\n            }\n            queries.push(l_r_area(add));\n\
     \        } else {\n            input! {\n                l: i64,\n           \
     \     r: i64,\n            }\n            queries.push(Query::Get(l, r));\n  \
     \      }\n    }\n    let queries = queries;\n    let update_queries = queries\n\
@@ -55,7 +56,7 @@ data:
   isVerificationFile: true
   path: verify/yukicoder/no_1625/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-03 21:58:01+09:00'
+  timestamp: '2024-04-03 22:04:34+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yukicoder/no_1625/src/main.rs

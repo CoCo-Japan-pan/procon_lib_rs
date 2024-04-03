@@ -30,17 +30,17 @@ data:
     \u66F4\u65B0query\u3092\u5148\u8AAD\u307F\u3057\u3066\u5EA7\u6A19\u5727\u7E2E\u3059\
     \u308B  \n//! \u3082\u3068\u3082\u3068\u5358\u4F4D\u5143\u3067\u521D\u671F\u5316\
     \u3055\u308C\u3066\u3044\u308B\u3068\u4EEE\u5B9A\u3059\u308B  \n//! <https://drive.google.com/file/d/1bSjYiA-nSsHzBbCnLq1GeTpRzs2Ucm0q/view>\u3067\
-    \u5B66\u3073\u307E\u3057\u305F  \n\nuse algebra::Monoid;\nuse internal_type_traits::Integral;\n\
+    \u5B66\u3073\u307E\u3057\u305F  \n\nuse algebra::{Commutative, Monoid};\nuse internal_type_traits::Integral;\n\
     use segtree::SegTree;\nuse std::ops::{Range, RangeBounds};\n\n/// T\u306F\u5EA7\
     \u6A19\u5727\u7E2E\u3059\u308B\u578B  \n#[derive(Debug)]\npub struct SegTree2DCompressed<M:\
-    \ Monoid, T: Integral> {\n    height_compressed: Vec<T>,\n    width_compressed:\
-    \ Vec<Vec<T>>,\n    data: Vec<SegTree<M>>,\n}\n\nimpl<M: Monoid, T: Integral>\
-    \ SegTree2DCompressed<M, T> {\n    pub fn new(update_queries: &[(T, T)]) -> Self\
-    \ {\n        let height_compressed = {\n            let mut tmp = update_queries.iter().map(|&(h,\
-    \ _)| h).collect::<Vec<_>>();\n            tmp.sort();\n            tmp.dedup();\n\
-    \            tmp\n        };\n        let width_compressed = {\n            let\
-    \ mut tmp = vec![vec![]; height_compressed.len() * 2];\n            for &(h, w)\
-    \ in update_queries.iter() {\n                let h = height_compressed.binary_search(&h).unwrap()\
+    \ Monoid + Commutative, T: Integral> {\n    height_compressed: Vec<T>,\n    width_compressed:\
+    \ Vec<Vec<T>>,\n    data: Vec<SegTree<M>>,\n}\n\nimpl<M: Monoid + Commutative,\
+    \ T: Integral> SegTree2DCompressed<M, T> {\n    pub fn new(update_queries: &[(T,\
+    \ T)]) -> Self {\n        let height_compressed = {\n            let mut tmp =\
+    \ update_queries.iter().map(|&(h, _)| h).collect::<Vec<_>>();\n            tmp.sort();\n\
+    \            tmp.dedup();\n            tmp\n        };\n        let width_compressed\
+    \ = {\n            let mut tmp = vec![vec![]; height_compressed.len() * 2];\n\
+    \            for &(h, w) in update_queries.iter() {\n                let h = height_compressed.binary_search(&h).unwrap()\
     \ + height_compressed.len();\n                tmp[h].push(w);\n            }\n\
     \            for v in tmp.iter_mut() {\n                v.sort();\n          \
     \      v.dedup();\n            }\n            for h in (1..height_compressed.len()).rev()\
@@ -98,7 +98,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/segtree_2d_compressed/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-03 21:58:01+09:00'
+  timestamp: '2024-04-03 22:04:34+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_1625/src/main.rs

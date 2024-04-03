@@ -27,12 +27,12 @@ data:
     \u3066\u3044\u308B  \n//! \u3064\u307E\u308A\u30AF\u30A8\u30EA\u306Blog\u304C\u4E00\
     \u3064\u304B\u304B\u308B\u4EE3\u308F\u308A\u306B\u3001\u69CB\u7BC9\u306Elog\u304C\
     \u4E00\u3064\u6E1B\u308B  \n//! <https://maspypy.github.io/library/ds/sparse_table/sparse_table_on_segtree.hpp>\
-    \ \u3067\u77E5\u308A\u307E\u3057\u305F  \n\nuse algebra::IdempotentMonoid;\nuse\
-    \ sparse_table::SparseTable;\nuse std::ops::RangeBounds;\n\n#[derive(Debug)]\n\
-    pub struct SparseTableOnSegTree<M: IdempotentMonoid + Clone> {\n    range_height:\
-    \ usize,\n    data: Vec<SparseTable<M>>,\n}\n\nimpl<M: IdempotentMonoid + Clone>\
-    \ SparseTableOnSegTree<M> {\n    pub fn new(v: Vec<Vec<M::Target>>) -> Self {\n\
-    \        let range_height = v.len();\n        let range_width = v[0].len();\n\
+    \ \u3067\u77E5\u308A\u307E\u3057\u305F  \n\nuse algebra::{Commutative, IdempotentMonoid};\n\
+    use sparse_table::SparseTable;\nuse std::ops::RangeBounds;\n\n#[derive(Debug)]\n\
+    pub struct SparseTableOnSegTree<M: IdempotentMonoid + Commutative + Clone> {\n\
+    \    range_height: usize,\n    data: Vec<SparseTable<M>>,\n}\n\nimpl<M: IdempotentMonoid\
+    \ + Commutative + Clone> SparseTableOnSegTree<M> {\n    pub fn new(v: Vec<Vec<M::Target>>)\
+    \ -> Self {\n        let range_height = v.len();\n        let range_width = v[0].len();\n\
     \        let mut data = vec![SparseTable::<M>::new(vec![]); range_height * 2];\n\
     \        for (i, v) in v.into_iter().enumerate() {\n            data[range_height\
     \ + i] = SparseTable::<M>::new(v);\n        }\n        for i in (1..range_height).rev()\
@@ -64,7 +64,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/sparse_table_on_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-03 21:58:01+09:00'
+  timestamp: '2024-04-03 22:04:34+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/no1068/src/main.rs

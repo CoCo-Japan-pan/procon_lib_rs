@@ -21,15 +21,16 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/problems/2842\n\
-    \nuse algebra::Monoid;\nuse proconio::{fastout, input, marker::Usize1};\nuse segtree_2d::SegTree2D;\n\
-    use std::collections::VecDeque;\n\npub enum AddMonoid {}\nimpl Monoid for AddMonoid\
-    \ {\n    type Target = u32;\n    fn id_element() -> Self::Target {\n        0\n\
-    \    }\n    fn binary_operation(a: &Self::Target, b: &Self::Target) -> Self::Target\
-    \ {\n        *a + *b\n    }\n}\n\n#[fastout]\nfn main() {\n    input! {\n    \
-    \    h: usize,\n        w: usize,\n        t: usize,\n        q: usize,\n    }\n\
-    \    let mut queue = VecDeque::new();\n    let mut nama_yake = SegTree2D::<AddMonoid>::new(h,\
-    \ w);\n    let mut tabereru = SegTree2D::<AddMonoid>::new(h, w);\n    for _ in\
-    \ 0..q {\n        input! {\n            cur_time: usize,\n            ci: usize,\n\
+    \nuse algebra::{Commutative, Monoid};\nuse proconio::{fastout, input, marker::Usize1};\n\
+    use segtree_2d::SegTree2D;\nuse std::collections::VecDeque;\n\npub enum AddMonoid\
+    \ {}\nimpl Monoid for AddMonoid {\n    type Target = u32;\n    fn id_element()\
+    \ -> Self::Target {\n        0\n    }\n    fn binary_operation(a: &Self::Target,\
+    \ b: &Self::Target) -> Self::Target {\n        *a + *b\n    }\n}\nimpl Commutative\
+    \ for AddMonoid {}\n\n#[fastout]\nfn main() {\n    input! {\n        h: usize,\n\
+    \        w: usize,\n        t: usize,\n        q: usize,\n    }\n    let mut queue\
+    \ = VecDeque::new();\n    let mut nama_yake = SegTree2D::<AddMonoid>::new(h, w);\n\
+    \    let mut tabereru = SegTree2D::<AddMonoid>::new(h, w);\n    for _ in 0..q\
+    \ {\n        input! {\n            cur_time: usize,\n            ci: usize,\n\
     \            h1: Usize1,\n            w1: Usize1,\n        }\n        // \u4E00\
     \u5EA6\u713C\u304D\u3042\u304C\u3063\u305F\u3089\u3001\u305D\u306E\u305F\u3044\
     \u713C\u304D\u306F\u3082\u3046\u898B\u308B\u5FC5\u8981\u7121\u3057\n        //\
@@ -56,7 +57,7 @@ data:
   isVerificationFile: true
   path: verify/AOJ/no2842/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-03 21:58:01+09:00'
+  timestamp: '2024-04-03 22:04:34+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/no2842/src/main.rs
