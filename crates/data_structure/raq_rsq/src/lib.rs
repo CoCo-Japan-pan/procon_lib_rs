@@ -40,6 +40,13 @@ where
         }
     }
 
+    /// 1点加算
+    pub fn add_point(&mut self, idx: usize, val: T) {
+        assert!(idx < self.range_size);
+        self.ft1.add(idx, val);
+    }
+
+    /// 区間加算
     pub fn add<R: RangeBounds<usize>>(&mut self, range: R, val: T) {
         let left = match range.start_bound() {
             std::ops::Bound::Included(&s) => s,
