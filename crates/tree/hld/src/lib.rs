@@ -86,7 +86,7 @@ impl HLD {
     pub fn path(&self, u: usize, v: usize, vertex: bool) -> Vec<Path> {
         let l = self.lca(u, v);
         if vertex {
-            self.ascending(l, v)
+            self.ascending(l, u)
                 .into_iter()
                 .chain(std::iter::once(Path::Descending(
                     self.hld_in[l],
@@ -95,7 +95,7 @@ impl HLD {
                 .chain(self.ascending(l, v).into_iter().map(Path::reverse).rev())
                 .collect()
         } else {
-            self.ascending(l, v)
+            self.ascending(l, u)
                 .into_iter()
                 .chain(self.ascending(l, v).into_iter().map(Path::reverse).rev())
                 .collect()
