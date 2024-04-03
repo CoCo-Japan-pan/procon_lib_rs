@@ -13,6 +13,9 @@ data:
     path: verify/yosupo/vertex_add_path_sum/src/main.rs
     title: verify/yosupo/vertex_add_path_sum/src/main.rs
   - icon: ':heavy_check_mark:'
+    path: verify/yosupo/vertex_add_subtree_sum/src/main.rs
+    title: verify/yosupo/vertex_add_subtree_sum/src/main.rs
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/vertex_set_path_composite/src/main.rs
     title: verify/yosupo/vertex_set_path_composite/src/main.rs
   _isVerificationFailed: false
@@ -132,10 +135,11 @@ data:
   timestamp: '2024-04-04 01:41:20+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - verify/AOJ/no_2667/src/main.rs
+  - verify/yosupo/vertex_add_subtree_sum/src/main.rs
   - verify/yosupo/lca/src/main.rs
   - verify/yosupo/vertex_set_path_composite/src/main.rs
   - verify/yosupo/vertex_add_path_sum/src/main.rs
-  - verify/AOJ/no_2667/src/main.rs
 documentation_of: crates/tree/hld/src/lib.rs
 layout: document
 redirect_from:

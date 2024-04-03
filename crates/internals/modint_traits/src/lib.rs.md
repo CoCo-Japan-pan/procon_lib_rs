@@ -66,9 +66,9 @@ data:
   isVerificationFile: false
   path: crates/internals/modint_traits/src/lib.rs
   requiredBy:
+  - crates/fps/ntt_arbitrary_mod/src/lib.rs
   - crates/modint/static_modint/src/lib.rs
   - crates/modint/dynamic_modint/src/lib.rs
-  - crates/fps/ntt_arbitrary_mod/src/lib.rs
   timestamp: '2024-03-21 12:12:54+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
