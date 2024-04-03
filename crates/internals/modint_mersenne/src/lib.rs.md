@@ -53,24 +53,22 @@ data:
     \       }\n        }\n    }\n}\n\nimpl AddAssign for ModIntMersenne {\n    fn\
     \ add_assign(&mut self, rhs: Self) {\n        self.value += rhs.value;\n     \
     \   if self.value >= MOD {\n            self.value -= MOD;\n        }\n    }\n\
-    }\n\nimpl Add for ModIntMersenne {\n    type Output = Self;\n    fn add(self,\
-    \ rhs: Self) -> Self {\n        let mut tmp = self;\n        tmp += rhs;\n   \
-    \     tmp\n    }\n}\n\nimpl SubAssign for ModIntMersenne {\n    fn sub_assign(&mut\
-    \ self, rhs: Self) {\n        if self.value < rhs.value {\n            self.value\
-    \ += MOD;\n        }\n        self.value -= rhs.value;\n    }\n}\n\nimpl Sub for\
-    \ ModIntMersenne {\n    type Output = Self;\n    fn sub(self, rhs: Self) -> Self\
-    \ {\n        let mut tmp = self;\n        tmp -= rhs;\n        tmp\n    }\n}\n\
-    \nimpl MulAssign for ModIntMersenne {\n    fn mul_assign(&mut self, rhs: Self)\
-    \ {\n        self.value = Self::mul(self.value, rhs.value);\n    }\n}\n\nimpl\
-    \ Mul for ModIntMersenne {\n    type Output = Self;\n    fn mul(self, rhs: Self)\
-    \ -> Self {\n        let mut tmp = self;\n        tmp *= rhs;\n        tmp\n \
-    \   }\n}\n"
+    }\n\nimpl Add for ModIntMersenne {\n    type Output = Self;\n    fn add(mut self,\
+    \ rhs: Self) -> Self {\n        self += rhs;\n        self\n    }\n}\n\nimpl SubAssign\
+    \ for ModIntMersenne {\n    fn sub_assign(&mut self, rhs: Self) {\n        if\
+    \ self.value < rhs.value {\n            self.value += MOD;\n        }\n      \
+    \  self.value -= rhs.value;\n    }\n}\n\nimpl Sub for ModIntMersenne {\n    type\
+    \ Output = Self;\n    fn sub(mut self, rhs: Self) -> Self {\n        self -= rhs;\n\
+    \        self\n    }\n}\n\nimpl MulAssign for ModIntMersenne {\n    fn mul_assign(&mut\
+    \ self, rhs: Self) {\n        self.value = Self::mul(self.value, rhs.value);\n\
+    \    }\n}\n\nimpl Mul for ModIntMersenne {\n    type Output = Self;\n    fn mul(mut\
+    \ self, rhs: Self) -> Self {\n        self *= rhs;\n        self\n    }\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/internals/modint_mersenne/src/lib.rs
   requiredBy:
   - crates/string/rolling_hash/src/lib.rs
-  timestamp: '2024-03-14 19:10:07+09:00'
+  timestamp: '2024-04-04 01:49:55+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/internals/modint_mersenne/src/lib.rs

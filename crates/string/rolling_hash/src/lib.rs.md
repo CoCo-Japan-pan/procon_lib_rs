@@ -69,7 +69,7 @@ data:
   isVerificationFile: false
   path: crates/string/rolling_hash/src/lib.rs
   requiredBy: []
-  timestamp: '2024-03-15 19:04:26+09:00'
+  timestamp: '2024-04-04 01:49:55+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/zalgorithm_rolling_hash/src/main.rs
