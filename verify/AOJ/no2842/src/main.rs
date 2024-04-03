@@ -1,6 +1,6 @@
 // verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/problems/2842
 
-use algebra::Monoid;
+use algebra::{Commutative, Monoid};
 use proconio::{fastout, input, marker::Usize1};
 use segtree_2d::SegTree2D;
 use std::collections::VecDeque;
@@ -15,6 +15,7 @@ impl Monoid for AddMonoid {
         *a + *b
     }
 }
+impl Commutative for AddMonoid {}
 
 #[fastout]
 fn main() {

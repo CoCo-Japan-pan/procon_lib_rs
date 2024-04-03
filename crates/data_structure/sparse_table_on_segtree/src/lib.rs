@@ -2,17 +2,17 @@
 //! つまりクエリにlogが一つかかる代わりに、構築のlogが一つ減る  
 //! <https://maspypy.github.io/library/ds/sparse_table/sparse_table_on_segtree.hpp> で知りました  
 
-use algebra::IdempotentMonoid;
+use algebra::{Commutative, IdempotentMonoid};
 use sparse_table::SparseTable;
 use std::ops::RangeBounds;
 
 #[derive(Debug)]
-pub struct SparseTableOnSegTree<M: IdempotentMonoid + Clone> {
+pub struct SparseTableOnSegTree<M: IdempotentMonoid + Commutative + Clone> {
     range_height: usize,
     data: Vec<SparseTable<M>>,
 }
 
-impl<M: IdempotentMonoid + Clone> SparseTableOnSegTree<M> {
+impl<M: IdempotentMonoid + Commutative + Clone> SparseTableOnSegTree<M> {
     pub fn new(v: Vec<Vec<M::Target>>) -> Self {
         let range_height = v.len();
         let range_width = v[0].len();

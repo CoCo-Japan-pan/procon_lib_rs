@@ -2,20 +2,20 @@
 //! もともと単位元で初期化されていると仮定する  
 //! <https://drive.google.com/file/d/1bSjYiA-nSsHzBbCnLq1GeTpRzs2Ucm0q/view>で学びました  
 
-use algebra::Monoid;
+use algebra::{Commutative, Monoid};
 use internal_type_traits::Integral;
 use segtree::SegTree;
 use std::ops::{Range, RangeBounds};
 
 /// Tは座標圧縮する型  
 #[derive(Debug)]
-pub struct SegTree2DCompressed<M: Monoid, T: Integral> {
+pub struct SegTree2DCompressed<M: Monoid + Commutative, T: Integral> {
     height_compressed: Vec<T>,
     width_compressed: Vec<Vec<T>>,
     data: Vec<SegTree<M>>,
 }
 
-impl<M: Monoid, T: Integral> SegTree2DCompressed<M, T> {
+impl<M: Monoid + Commutative, T: Integral> SegTree2DCompressed<M, T> {
     pub fn new(update_queries: &[(T, T)]) -> Self {
         let height_compressed = {
             let mut tmp = update_queries.iter().map(|&(h, _)| h).collect::<Vec<_>>();

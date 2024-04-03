@@ -1,6 +1,6 @@
 // verification-helper: PROBLEM https://yukicoder.me/problems/no/1625
 
-use algebra::Monoid;
+use algebra::{Commutative, Monoid};
 use proconio::{fastout, input};
 use segtree_2d_compressed::SegTree2DCompressed;
 
@@ -21,6 +21,7 @@ impl Monoid for MaxMonoid {
         -1
     }
 }
+impl Commutative for MaxMonoid {}
 
 #[fastout]
 fn main() {

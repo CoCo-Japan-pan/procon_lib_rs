@@ -1,6 +1,6 @@
 // verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/problems/1068
 
-use algebra::{IdempotentMonoid, Monoid};
+use algebra::{Commutative, IdempotentMonoid, Monoid};
 use proconio::{fastout, input};
 use sparse_table_on_segtree::SparseTableOnSegTree;
 
@@ -16,6 +16,7 @@ impl Monoid for MinMonoid {
     }
 }
 impl IdempotentMonoid for MinMonoid {}
+impl Commutative for MinMonoid {}
 
 #[fastout]
 fn main() {

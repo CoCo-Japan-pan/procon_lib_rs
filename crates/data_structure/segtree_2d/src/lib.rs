@@ -3,11 +3,11 @@
 //! 矩形領域の区間和なので、可換を仮定している(非可換だと演算順序が曖昧では?)  
 //! <https://nasubi-blog.hatenablog.com/entry/2021/11/27/185818>の図が分かりやすかったです  
 
-use algebra::Monoid;
+use algebra::{Commutative, Monoid};
 use std::ops::RangeBounds;
 
 #[derive(Debug)]
-pub struct SegTree2D<M: Monoid> {
+pub struct SegTree2D<M: Monoid + Commutative> {
     height: usize,
     width: usize,
     ceil_log_h: usize,
@@ -23,7 +23,7 @@ macro_rules! index {
     };
 }
 
-impl<M: Monoid> From<&Vec<Vec<M::Target>>> for SegTree2D<M> {
+impl<M: Monoid + Commutative> From<&Vec<Vec<M::Target>>> for SegTree2D<M> {
     fn from(v: &Vec<Vec<M::Target>>) -> Self {
         let height = v.len();
         let width = v[0].len();
@@ -59,7 +59,7 @@ impl<M: Monoid> From<&Vec<Vec<M::Target>>> for SegTree2D<M> {
     }
 }
 
-impl<M: Monoid> SegTree2D<M> {
+impl<M: Monoid + Commutative> SegTree2D<M> {
     pub fn new(height: usize, width: usize) -> Self {
         (&vec![vec![M::id_element(); width]; height]).into()
     }
@@ -139,7 +139,7 @@ impl<M: Monoid> SegTree2D<M> {
     }
 }
 
-impl<M: Monoid> SegTree2D<M> {
+impl<M: Monoid + Commutative> SegTree2D<M> {
     fn update_from_col_leaf(&mut self, h: usize, w: usize) {
         self.data[index!(self, h, w)] = M::binary_operation(
             &self.data[index!(self, h * 2, w)],
