@@ -108,7 +108,7 @@ data:
       title: crates/string/rolling_hash/src/lib.rs
   - name: crates/tree/hld/src
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: crates/tree/hld/src/lib.rs
       title: crates/tree/hld/src/lib.rs
   verificationCategories:
@@ -162,6 +162,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yosupo/convolution_ntt/src/main.rs
       title: verify/yosupo/convolution_ntt/src/main.rs
+  - name: verify/yosupo/lca/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yosupo/lca/src/main.rs
+      title: verify/yosupo/lca/src/main.rs
   - name: verify/yosupo/point_set_range_composite/src
     pages:
     - icon: ':heavy_check_mark:'
