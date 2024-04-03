@@ -23,7 +23,9 @@ pub struct HLD {
 
 #[derive(Debug, Clone, Copy)]
 pub enum Path {
+    /// hldの上では右から左に進む
     Ascending(usize, usize),
+    /// hldの上では左から右に進む
     Descending(usize, usize),
 }
 
@@ -76,7 +78,7 @@ impl HLD {
     /// heavy pathを並べた配列における、vのindexを返す  
     /// この配列において、各頂点についてその頂点とその親との間の辺を対応させた配列を用いれば、
     /// 以下のpathやsubtree関数で得られたindexを使うことができる
-    pub fn hld_in(&self, v: usize) -> usize {
+    pub fn get_in(&self, v: usize) -> usize {
         self.hld_in[v]
     }
 
