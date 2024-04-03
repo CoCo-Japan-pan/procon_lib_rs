@@ -25,7 +25,7 @@ impl algebra::Map for RUQ {
     }
 }
 
-impl algebra::NonCommutativeMap for RUQ {}
+impl algebra::NonCommutative for RUQ {}
 
 #[fastout]
 fn main() {

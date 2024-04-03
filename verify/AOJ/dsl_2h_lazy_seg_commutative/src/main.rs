@@ -1,6 +1,5 @@
 // verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/all/DSL_2_H
 
-use algebra::CommutativeMapMonoid;
 use lazy_segtree::LazySegTree;
 use proconio::{fastout, input};
 
@@ -30,12 +29,12 @@ impl algebra::Map for AddMap {
         *target += self.add_val;
     }
 }
+impl algebra::Commutative for AddMap {}
 struct RmqRaq {}
 impl algebra::MapMonoid for RmqRaq {
     type Monoid = MinMonoid;
     type Map = AddMap;
 }
-impl CommutativeMapMonoid for RmqRaq {}
 
 #[fastout]
 fn main() {

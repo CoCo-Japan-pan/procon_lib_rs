@@ -68,13 +68,12 @@ impl algebra::Map for FlipMap {
         }
     }
 }
+impl algebra::Commutative for FlipMap {}
 struct MyMapMonoid;
 impl algebra::MapMonoid for MyMapMonoid {
     type Monoid = InvNum;
     type Map = FlipMap;
 }
-
-impl algebra::CommutativeMapMonoid for MyMapMonoid {}
 
 #[fastout]
 fn main() {

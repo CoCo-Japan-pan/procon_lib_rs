@@ -23,6 +23,7 @@ impl algebra::Map for MyMap {
         }
     }
 }
+impl algebra::NonCommutative for MyMap {}
 
 struct MinMonoid {}
 impl algebra::Monoid for MinMonoid {
@@ -40,7 +41,6 @@ impl algebra::MapMonoid for RmqRuq {
     type Monoid = MinMonoid;
     type Map = MyMap;
 }
-impl algebra::NonCommutativeMapMonoid for RmqRuq {}
 
 #[fastout]
 fn main() {

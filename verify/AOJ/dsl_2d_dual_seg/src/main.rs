@@ -30,7 +30,7 @@ impl algebra::Map for RUQ {
     }
 }
 
-impl algebra::CommutativeMap for RUQ {}
+impl algebra::Commutative for RUQ {}
 
 #[fastout]
 fn main() {

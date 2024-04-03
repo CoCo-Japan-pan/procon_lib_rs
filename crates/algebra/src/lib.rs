@@ -1,6 +1,11 @@
 //! `Algrebra`では、データ構造に乗せる代数構造のtraitを提供します。
 use std::fmt::Debug;
 
+/// 可換  
+pub trait Commutative {}
+/// 非可換
+pub trait NonCommutative {}
+
 /// 作用  
 /// 作用自体もモノイドであることを要求  
 /// 作用素を合成させてから作用させるのと、作用素を一つ一つ作用させる結果が同じであることを要求
@@ -14,12 +19,6 @@ pub trait Map: Clone {
     /// 作用の適用
     fn mapping(&self, target: &mut Self::Target);
 }
-
-/// 可換な作用
-pub trait CommutativeMap: Map {}
-
-/// 非可換な作用
-pub trait NonCommutativeMap: Map {}
 
 /// モノイド
 pub trait Monoid {
@@ -62,12 +61,6 @@ pub trait MapMonoid {
         f.mapping(x)
     }
 }
-
-/// 可換な作用を持つMapMonoid
-pub trait CommutativeMapMonoid: MapMonoid {}
-
-/// 非可換な作用を持つMapMonoid
-pub trait NonCommutativeMapMonoid: MapMonoid {}
 
 /// 冪等なモノイド  
 /// つまり x = x op x が成り立つようなモノイド  
