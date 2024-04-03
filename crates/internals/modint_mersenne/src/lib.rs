@@ -123,10 +123,9 @@ impl AddAssign for ModIntMersenne {
 
 impl Add for ModIntMersenne {
     type Output = Self;
-    fn add(self, rhs: Self) -> Self {
-        let mut tmp = self;
-        tmp += rhs;
-        tmp
+    fn add(mut self, rhs: Self) -> Self {
+        self += rhs;
+        self
     }
 }
 
@@ -141,10 +140,9 @@ impl SubAssign for ModIntMersenne {
 
 impl Sub for ModIntMersenne {
     type Output = Self;
-    fn sub(self, rhs: Self) -> Self {
-        let mut tmp = self;
-        tmp -= rhs;
-        tmp
+    fn sub(mut self, rhs: Self) -> Self {
+        self -= rhs;
+        self
     }
 }
 
@@ -156,9 +154,8 @@ impl MulAssign for ModIntMersenne {
 
 impl Mul for ModIntMersenne {
     type Output = Self;
-    fn mul(self, rhs: Self) -> Self {
-        let mut tmp = self;
-        tmp *= rhs;
-        tmp
+    fn mul(mut self, rhs: Self) -> Self {
+        self *= rhs;
+        self
     }
 }
