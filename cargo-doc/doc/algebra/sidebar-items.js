@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"trait":["CommutativeMap","CommutativeMapMonoid","IdempotentMonoid","Map","MapMonoid","Monoid","NonCommutativeMap","NonCommutativeMapMonoid"]};

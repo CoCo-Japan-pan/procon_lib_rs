@@ -4,7 +4,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: crates/data_structure/segtree_2d_compressed/src/lib.rs
+    title: crates/data_structure/segtree_2d_compressed/src/lib.rs
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/point_set_range_composite/src/main.rs
@@ -84,7 +87,8 @@ data:
   - crates/algebra/src/lib.rs
   isVerificationFile: false
   path: crates/data_structure/segtree/src/lib.rs
-  requiredBy: []
+  requiredBy:
+  - crates/data_structure/segtree_2d_compressed/src/lib.rs
   timestamp: '2024-04-02 12:50:14+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

@@ -31,6 +31,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/data_structure/segtree_2d/src/lib.rs
       title: crates/data_structure/segtree_2d/src/lib.rs
+  - name: crates/data_structure/segtree_2d_compressed/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: crates/data_structure/segtree_2d_compressed/src/lib.rs
+      title: crates/data_structure/segtree_2d_compressed/src/lib.rs
   - name: crates/data_structure/sparse_table/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -187,6 +192,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yukicoder/no_1092_modint_dynamic/src/main.rs
       title: verify/yukicoder/no_1092_modint_dynamic/src/main.rs
+  - name: verify/yukicoder/no_1625/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yukicoder/no_1625/src/main.rs
+      title: verify/yukicoder/no_1625/src/main.rs
   - name: verify/yukicoder/no_649_fenwick_tree/src
     pages:
     - icon: ':heavy_check_mark:'

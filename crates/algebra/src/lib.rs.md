@@ -15,6 +15,9 @@ data:
     path: crates/data_structure/segtree_2d/src/lib.rs
     title: crates/data_structure/segtree_2d/src/lib.rs
   - icon: ':heavy_check_mark:'
+    path: crates/data_structure/segtree_2d_compressed/src/lib.rs
+    title: crates/data_structure/segtree_2d_compressed/src/lib.rs
+  - icon: ':heavy_check_mark:'
     path: crates/data_structure/sparse_table/src/lib.rs
     title: crates/data_structure/sparse_table/src/lib.rs
   - icon: ':heavy_check_mark:'
@@ -51,6 +54,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/staticrmq_sparse_table/src/main.rs
     title: verify/yosupo/staticrmq_sparse_table/src/main.rs
+  - icon: ':heavy_check_mark:'
+    path: verify/yukicoder/no_1625/src/main.rs
+    title: verify/yukicoder/no_1625/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -105,25 +111,27 @@ data:
   isVerificationFile: false
   path: crates/algebra/src/lib.rs
   requiredBy:
-  - crates/data_structure/sparse_table/src/lib.rs
-  - crates/data_structure/sparse_table_on_segtree/src/lib.rs
   - crates/data_structure/segtree/src/lib.rs
-  - crates/data_structure/dual_segtree/src/lib.rs
-  - crates/data_structure/lazy_segtree/src/lib.rs
   - crates/data_structure/segtree_2d/src/lib.rs
+  - crates/data_structure/dual_segtree/src/lib.rs
+  - crates/data_structure/sparse_table/src/lib.rs
+  - crates/data_structure/segtree_2d_compressed/src/lib.rs
+  - crates/data_structure/lazy_segtree/src/lib.rs
+  - crates/data_structure/sparse_table_on_segtree/src/lib.rs
   timestamp: '2024-04-02 12:32:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
-  - verify/yosupo/point_set_range_composite/src/main.rs
-  - verify/yosupo/staticrmq_sparse_table/src/main.rs
-  - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
   - verify/AOJ/no1068/src/main.rs
-  - verify/AOJ/no2842/src/main.rs
-  - verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
   - verify/AOJ/dsl_2d_dual_seg/src/main.rs
+  - verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
+  - verify/AOJ/no2842/src/main.rs
   - verify/AOJ/dsl_2d_dual_seg_non_commutative/src/main.rs
   - verify/AOJ/dsl_2f_lazy_seg/src/main.rs
+  - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
+  - verify/yukicoder/no_1625/src/main.rs
+  - verify/yosupo/point_set_range_composite/src/main.rs
+  - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
+  - verify/yosupo/staticrmq_sparse_table/src/main.rs
 documentation_of: crates/algebra/src/lib.rs
 layout: document
 redirect_from:
