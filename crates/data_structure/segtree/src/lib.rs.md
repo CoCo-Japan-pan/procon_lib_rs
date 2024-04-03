@@ -12,6 +12,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/point_set_range_composite/src/main.rs
     title: verify/yosupo/point_set_range_composite/src/main.rs
+  - icon: ':heavy_check_mark:'
+    path: verify/yosupo/vertex_set_path_composite/src/main.rs
+    title: verify/yosupo/vertex_set_path_composite/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -93,6 +96,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/point_set_range_composite/src/main.rs
+  - verify/yosupo/vertex_set_path_composite/src/main.rs
 documentation_of: crates/data_structure/segtree/src/lib.rs
 layout: document
 redirect_from:

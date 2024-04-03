@@ -12,6 +12,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/vertex_add_path_sum/src/main.rs
     title: verify/yosupo/vertex_add_path_sum/src/main.rs
+  - icon: ':heavy_check_mark:'
+    path: verify/yosupo/vertex_set_path_composite/src/main.rs
+    title: verify/yosupo/vertex_set_path_composite/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -40,9 +43,11 @@ data:
     \u5206\u6728\u306B\u5C5E\u3059\u308B\u9802\u70B9\u304C\u51FA\u3066\u3053\u306A\
     \u304F\u306A\u308B\u6700\u521D\u306Eindex\n    hld_out: Vec<usize>,\n    /// \u9802\
     \u70B9\u306E\u6570\n    vertex_cnt: usize,\n}\n\n#[derive(Debug, Clone, Copy)]\n\
-    pub enum Path {\n    Ascending(usize, usize),\n    Descending(usize, usize),\n\
-    }\n\nimpl Path {\n    fn reverse(self) -> Self {\n        match self {\n     \
-    \       Path::Ascending(l, r) => Path::Descending(l, r),\n            Path::Descending(l,\
+    pub enum Path {\n    /// hld\u306E\u4E0A\u3067\u306F\u53F3\u304B\u3089\u5DE6\u306B\
+    \u9032\u3080\n    Ascending(usize, usize),\n    /// hld\u306E\u4E0A\u3067\u306F\
+    \u5DE6\u304B\u3089\u53F3\u306B\u9032\u3080\n    Descending(usize, usize),\n}\n\
+    \nimpl Path {\n    fn reverse(self) -> Self {\n        match self {\n        \
+    \    Path::Ascending(l, r) => Path::Descending(l, r),\n            Path::Descending(l,\
     \ r) => Path::Ascending(l, r),\n        }\n    }\n}\n\nimpl HLD {\n    pub fn\
     \ new(graph: &[Vec<usize>], root: usize) -> Self {\n        let mut ret = Self\
     \ {\n            sorted_graph: graph.to_vec(),\n            subtree_size: vec![0;\
@@ -68,7 +73,7 @@ data:
     \u5BFE\u5FDC\u3055\u305B\u305F\u914D\u5217\u3092\u7528\u3044\u308C\u3070\u3001\
     \n    /// \u4EE5\u4E0B\u306Epath\u3084subtree\u95A2\u6570\u3067\u5F97\u3089\u308C\
     \u305Findex\u3092\u4F7F\u3046\u3053\u3068\u304C\u3067\u304D\u308B\n    pub fn\
-    \ hld_in(&self, v: usize) -> usize {\n        self.hld_in[v]\n    }\n\n    ///\
+    \ get_in(&self, v: usize) -> usize {\n        self.hld_in[v]\n    }\n\n    ///\
     \ u\u304B\u3089v\u3078\u306E\u30D1\u30B9\u3092\u5217\u6319\u3059\u308B(\u3053\u308C\
     \u3089\u306Fheavy path\u3092\u4E26\u3079\u305F\u914D\u5217\u306B\u304A\u3044\u3066\
     \u9023\u7D9A\u3059\u308B\u533A\u9593\u3068\u306A\u3063\u3066\u3044\u308B)  \n\
@@ -123,12 +128,13 @@ data:
   isVerificationFile: false
   path: crates/tree/hld/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-04 00:38:25+09:00'
+  timestamp: '2024-04-04 01:25:55+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/yosupo/lca/src/main.rs
-  - verify/yosupo/vertex_add_path_sum/src/main.rs
   - verify/AOJ/no_2667/src/main.rs
+  - verify/yosupo/lca/src/main.rs
+  - verify/yosupo/vertex_set_path_composite/src/main.rs
+  - verify/yosupo/vertex_add_path_sum/src/main.rs
 documentation_of: crates/tree/hld/src/lib.rs
 layout: document
 redirect_from:

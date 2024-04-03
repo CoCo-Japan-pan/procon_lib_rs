@@ -29,7 +29,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/lca/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-04 00:38:25+09:00'
+  timestamp: '2024-04-04 01:25:55+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/lca/src/main.rs
