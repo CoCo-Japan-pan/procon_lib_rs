@@ -19,9 +19,9 @@ data:
     - https://gist.github.com/MiSawa/47b1d99c372daffb6891662db1a2b686
     - https://github.com/atcoder/ac-library/issues/5
     - https://github.com/rust-lang-ja/ac-library-rs/pull/24#discussion_r485343451
-  bundledCode: "Traceback (most recent call last):\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
-    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! ac-library-rs \u3068\u540C\u3058\u3067\u3059\u3002\n\nuse internal_type_traits::Integral;\n\
     use std::cmp::min;\nuse std::iter;\n\n#[derive(Default, Debug, Clone, PartialEq,\

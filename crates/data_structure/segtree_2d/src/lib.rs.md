@@ -16,16 +16,14 @@ data:
     links:
     - "https://nasubi-blog.hatenablog.com/entry/2021/11/27/185818>\u306E\u56F3\u304C\
       \u5206\u304B\u308A\u3084\u3059\u304B\u3063\u305F\u3067\u3059"
-  bundledCode: "Traceback (most recent call last):\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
-    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! \u5185\u90E8\u30672\u6B21\u5143\u914D\u5217\u3092\u6301\u3064\u30BB\u30B0\
     \u30E1\u30F3\u30C8\u6728  \n//! `O(HW)`\u306E\u30E1\u30E2\u30EA\u3092\u4F7F\u3046\
-    \u306E\u3067\u6CE8\u610F  \n//! \u77E9\u5F62\u9818\u57DF\u306E\u533A\u9593\u548C\
-    \u306A\u306E\u3067\u3001\u53EF\u63DB\u3092\u4EEE\u5B9A\u3057\u3066\u3044\u308B\
-    (\u975E\u53EF\u63DB\u3060\u3068\u6F14\u7B97\u9806\u5E8F\u304C\u66D6\u6627\u3067\
-    \u306F?)  \n//! <https://nasubi-blog.hatenablog.com/entry/2021/11/27/185818>\u306E\
+    \u306E\u3067\u6CE8\u610F  \n//! 2\u6B21\u5143\u306A\u306E\u3067\u53EF\u63DB\u6027\
+    \u3092\u8981\u6C42    \n//! <https://nasubi-blog.hatenablog.com/entry/2021/11/27/185818>\u306E\
     \u56F3\u304C\u5206\u304B\u308A\u3084\u3059\u304B\u3063\u305F\u3067\u3059  \n\n\
     use algebra::{Commutative, Monoid};\nuse std::ops::RangeBounds;\n\n#[derive(Debug)]\n\
     pub struct SegTree2D<M: Monoid + Commutative> {\n    height: usize,\n    width:\
@@ -106,7 +104,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/segtree_2d/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-03 22:04:34+09:00'
+  timestamp: '2024-04-03 22:12:27+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/no2842/src/main.rs

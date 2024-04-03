@@ -10,9 +10,9 @@ data:
     links:
     - https://codeforces.com/blog/entry/53170)
     - https://hcpc-hokudai.github.io/archive/graph_tree_001.pdf)
-  bundledCode: "Traceback (most recent call last):\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
-    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/home/runner/.local/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! [HCPC\u306E\u8CC7\u6599](https://hcpc-hokudai.github.io/archive/graph_tree_001.pdf)\
     \  \n//! [HLD\u306E\u4E2D\u306Bsubtree\u30AF\u30A8\u30EA\u3082\u5BFE\u5FDC\u3055\
