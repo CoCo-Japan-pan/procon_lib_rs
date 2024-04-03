@@ -50,7 +50,8 @@ jobs:
 
     - name: generate docs
       run: |
-        git switch main 
+        git switch main
+        rm -rf cargo-doc/doc/*
         cargo clean
         cargo update
         cargo doc --lib
