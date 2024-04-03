@@ -49,43 +49,44 @@ data:
     \nimpl Path {\n    fn reverse(self) -> Self {\n        match self {\n        \
     \    Path::Ascending(l, r) => Path::Descending(l, r),\n            Path::Descending(l,\
     \ r) => Path::Ascending(l, r),\n        }\n    }\n}\n\nimpl HLD {\n    pub fn\
-    \ new(graph: &[Vec<usize>], root: usize) -> Self {\n        let mut ret = Self\
-    \ {\n            sorted_graph: graph.to_vec(),\n            subtree_size: vec![0;\
-    \ graph.len()],\n            depth: vec![0; graph.len()],\n            parent:\
-    \ vec![usize::MAX; graph.len()],\n            heavy_path_lowest: vec![root; graph.len()],\n\
-    \            hld_in: vec![0; graph.len()],\n            hld_out: vec![0; graph.len()],\n\
-    \            vertex_cnt: graph.len(),\n        };\n        ret.dfs_sz(root, usize::MAX);\n\
-    \        let mut id = 0;\n        ret.dfs_hld(root, &mut id);\n        ret\n \
-    \   }\n\n    pub fn lca(&self, mut u: usize, mut v: usize) -> usize {\n      \
-    \  assert!(u < self.vertex_cnt && v < self.vertex_cnt);\n        // \u540C\u3058\
-    heavy_path\u4E0A\u306B\u4E57\u308B\u307E\u3067\u4E0A\u308B\n        while self.heavy_path_lowest[u]\
-    \ != self.heavy_path_lowest[v] {\n            // \u77ED\u3044heavy_path\u306E\u65B9\
-    \u3092\u4E0A\u308B\n            if self.hld_in[u] < self.hld_in[v] {\n       \
-    \         v = self.parent[self.heavy_path_lowest[v]];\n            } else {\n\
-    \                u = self.parent[self.heavy_path_lowest[u]];\n            }\n\
-    \        }\n        // \u540C\u3058heavy_path\u4E0A\u306B\u4E57\u3063\u305F\u306E\
-    \u3067\u3001\u6D45\u3044\u307B\u3046\u3092\u8FD4\u3059\n        if self.depth[u]\
-    \ < self.depth[v] {\n            u\n        } else {\n            v\n        }\n\
-    \    }\n\n    /// heavy path\u3092\u4E26\u3079\u305F\u914D\u5217\u306B\u304A\u3051\
-    \u308B\u3001v\u306Eindex\u3092\u8FD4\u3059  \n    /// \u3053\u306E\u914D\u5217\
-    \u306B\u304A\u3044\u3066\u3001\u5404\u9802\u70B9\u306B\u3064\u3044\u3066\u305D\
-    \u306E\u9802\u70B9\u3068\u305D\u306E\u89AA\u3068\u306E\u9593\u306E\u8FBA\u3092\
-    \u5BFE\u5FDC\u3055\u305B\u305F\u914D\u5217\u3092\u7528\u3044\u308C\u3070\u3001\
-    \n    /// \u4EE5\u4E0B\u306Epath\u3084subtree\u95A2\u6570\u3067\u5F97\u3089\u308C\
-    \u305Findex\u3092\u4F7F\u3046\u3053\u3068\u304C\u3067\u304D\u308B\n    pub fn\
-    \ get_in(&self, v: usize) -> usize {\n        self.hld_in[v]\n    }\n\n    ///\
-    \ u\u304B\u3089v\u3078\u306E\u30D1\u30B9\u3092\u5217\u6319\u3059\u308B(\u3053\u308C\
-    \u3089\u306Fheavy path\u3092\u4E26\u3079\u305F\u914D\u5217\u306B\u304A\u3044\u3066\
-    \u9023\u7D9A\u3059\u308B\u533A\u9593\u3068\u306A\u3063\u3066\u3044\u308B)  \n\
-    \    /// \u4E0A\u308A\u3068\u4E0B\u308A\u3092\u533A\u5225\u3057\u3066\u3001\u975E\
-    \u53EF\u63DB\u306B\u5BFE\u5FDC\u3057\u3066\u3044\u308B  \n    /// \u534A\u958B\
-    \u533A\u9593  \n    pub fn path(&self, u: usize, v: usize, vertex: bool) -> Vec<Path>\
-    \ {\n        let l = self.lca(u, v);\n        if vertex {\n            self.ascending(l,\
-    \ u)\n                .into_iter()\n                .chain(std::iter::once(Path::Descending(\n\
-    \                    self.hld_in[l],\n                    self.hld_in[l] + 1,\n\
-    \                )))\n                .chain(self.ascending(l, v).into_iter().map(Path::reverse).rev())\n\
-    \                .collect()\n        } else {\n            self.ascending(l, u)\n\
-    \                .into_iter()\n                .chain(self.ascending(l, v).into_iter().map(Path::reverse).rev())\n\
+    \ new(graph: Vec<Vec<usize>>, root: usize) -> Self {\n        let len = graph.len();\n\
+    \        let mut ret = Self {\n            sorted_graph: graph,\n            subtree_size:\
+    \ vec![0; len],\n            depth: vec![0; len],\n            parent: vec![usize::MAX;\
+    \ len],\n            heavy_path_lowest: vec![root; len],\n            hld_in:\
+    \ vec![0; len],\n            hld_out: vec![0; len],\n            vertex_cnt: len,\n\
+    \        };\n        ret.dfs_sz(root, usize::MAX);\n        let mut id = 0;\n\
+    \        ret.dfs_hld(root, &mut id);\n        ret\n    }\n\n    pub fn lca(&self,\
+    \ mut u: usize, mut v: usize) -> usize {\n        assert!(u < self.vertex_cnt\
+    \ && v < self.vertex_cnt);\n        // \u540C\u3058heavy_path\u4E0A\u306B\u4E57\
+    \u308B\u307E\u3067\u4E0A\u308B\n        while self.heavy_path_lowest[u] != self.heavy_path_lowest[v]\
+    \ {\n            // \u77ED\u3044heavy_path\u306E\u65B9\u3092\u4E0A\u308B\n   \
+    \         if self.hld_in[u] < self.hld_in[v] {\n                v = self.parent[self.heavy_path_lowest[v]];\n\
+    \            } else {\n                u = self.parent[self.heavy_path_lowest[u]];\n\
+    \            }\n        }\n        // \u540C\u3058heavy_path\u4E0A\u306B\u4E57\
+    \u3063\u305F\u306E\u3067\u3001\u6D45\u3044\u307B\u3046\u3092\u8FD4\u3059\n   \
+    \     if self.depth[u] < self.depth[v] {\n            u\n        } else {\n  \
+    \          v\n        }\n    }\n\n    /// heavy path\u3092\u4E26\u3079\u305F\u914D\
+    \u5217\u306B\u304A\u3051\u308B\u3001v\u306Eindex\u3092\u8FD4\u3059  \n    ///\
+    \ \u3053\u306E\u914D\u5217\u306B\u304A\u3044\u3066\u3001\u5404\u9802\u70B9\u306B\
+    \u3064\u3044\u3066\u305D\u306E\u9802\u70B9\u3068\u305D\u306E\u89AA\u3068\u306E\
+    \u9593\u306E\u8FBA\u3092\u5BFE\u5FDC\u3055\u305B\u305F\u914D\u5217\u3092\u7528\
+    \u3044\u308C\u3070\u3001\n    /// \u4EE5\u4E0B\u306Epath\u3084subtree\u95A2\u6570\
+    \u3067\u5F97\u3089\u308C\u305Findex\u3092\u4F7F\u3046\u3053\u3068\u304C\u3067\u304D\
+    \u308B\n    pub fn get_in(&self, v: usize) -> usize {\n        assert!(v < self.vertex_cnt);\n\
+    \        self.hld_in[v]\n    }\n\n    /// u\u304B\u3089v\u3078\u306E\u30D1\u30B9\
+    \u3092\u5217\u6319\u3059\u308B(\u3053\u308C\u3089\u306Fheavy path\u3092\u4E26\u3079\
+    \u305F\u914D\u5217\u306B\u304A\u3044\u3066\u9023\u7D9A\u3059\u308B\u533A\u9593\
+    \u3068\u306A\u3063\u3066\u3044\u308B)  \n    /// \u4E0A\u308A\u3068\u4E0B\u308A\
+    \u3092\u533A\u5225\u3057\u3066\u3001\u975E\u53EF\u63DB\u306B\u5BFE\u5FDC\u3057\
+    \u3066\u3044\u308B  \n    /// \u534A\u958B\u533A\u9593  \n    pub fn path(&self,\
+    \ u: usize, v: usize, vertex: bool) -> Vec<Path> {\n        assert!(u < self.vertex_cnt\
+    \ && v < self.vertex_cnt);\n        let l = self.lca(u, v);\n        if vertex\
+    \ {\n            self.ascending(l, u)\n                .into_iter()\n        \
+    \        .chain(std::iter::once(Path::Descending(\n                    self.hld_in[l],\n\
+    \                    self.hld_in[l] + 1,\n                )))\n              \
+    \  .chain(self.ascending(l, v).into_iter().map(Path::reverse).rev())\n       \
+    \         .collect()\n        } else {\n            self.ascending(l, u)\n   \
+    \             .into_iter()\n                .chain(self.ascending(l, v).into_iter().map(Path::reverse).rev())\n\
     \                .collect()\n        }\n    }\n\n    /// \u9802\u70B9v\u3092\u6839\
     \u3068\u3059\u308B\u90E8\u5206\u6728\u3092\u3061\u3087\u3046\u3069\u542B\u3080\
     \u533A\u9593\u306Eindex\u3092\u8FD4\u3059 \u53EF\u63DB\u3092\u4EEE\u5B9A  \n \
@@ -128,7 +129,7 @@ data:
   isVerificationFile: false
   path: crates/tree/hld/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-04 01:25:55+09:00'
+  timestamp: '2024-04-04 01:41:20+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/no_2667/src/main.rs

@@ -25,7 +25,7 @@ data:
     fn main() {\n    input! {\n        n: usize,\n        q: usize,\n        a_b:\
     \ [(usize, usize); n - 1],\n    }\n    let mut graph = vec![vec![]; n];\n    for\
     \ (a, b) in a_b {\n        graph[a].push(b);\n        graph[b].push(a);\n    }\n\
-    \    let hld = HLD::new(&graph, 0);\n    let mut ft = RAQRSQ::new(n, 0_i64);\n\
+    \    let hld = HLD::new(graph, 0);\n    let mut ft = RAQRSQ::new(n, 0_i64);\n\
     \    for _ in 0..q {\n        input! {\n            t: usize,\n            a:\
     \ usize,\n            b: usize,\n        }\n        if t == 0 {\n            let\
     \ mut sum = 0;\n            for path in hld.path(a, b, false) {\n            \
@@ -41,7 +41,7 @@ data:
   isVerificationFile: true
   path: verify/AOJ/no_2667/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-04 01:25:55+09:00'
+  timestamp: '2024-04-04 01:41:20+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/no_2667/src/main.rs

@@ -22,14 +22,14 @@ data:
     \ {\n        n: usize,\n        q: usize,\n        p: [usize; n - 1],\n    }\n\
     \    let mut graph = vec![vec![]; n];\n    for (i, p) in p.into_iter().enumerate()\
     \ {\n        graph[p].push(i + 1);\n        graph[i + 1].push(p);\n    }\n   \
-    \ let hld = HLD::new(&graph, 0);\n    for _ in 0..q {\n        input! { u: usize,\
+    \ let hld = HLD::new(graph, 0);\n    for _ in 0..q {\n        input! { u: usize,\
     \ v: usize }\n        println!(\"{}\", hld.lca(u, v));\n    }\n}\n"
   dependsOn:
   - crates/tree/hld/src/lib.rs
   isVerificationFile: true
   path: verify/yosupo/lca/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-04 01:25:55+09:00'
+  timestamp: '2024-04-04 01:41:20+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/lca/src/main.rs

@@ -43,7 +43,7 @@ data:
     \  q: usize,\n        a_b: [(ModInt998244353, ModInt998244353); n],\n        u_v:\
     \ [(usize, usize); n - 1],\n    }\n    let mut graph = vec![vec![]; n];\n    for\
     \ (u, v) in u_v {\n        graph[u].push(v);\n        graph[v].push(u);\n    }\n\
-    \    let hld = HLD::new(&graph, 0);\n    let mut affine_vec = vec![AffineLeftMonoid::id_element();\
+    \    let hld = HLD::new(graph, 0);\n    let mut affine_vec = vec![AffineLeftMonoid::id_element();\
     \ n];\n    for i in 0..n {\n        affine_vec[hld.get_in(i)] = Affine {\n   \
     \         a: a_b[i].0,\n            b: a_b[i].1,\n        };\n    }\n    let mut\
     \ seg_left = SegTree::<AffineLeftMonoid>::from(&affine_vec);\n    let mut seg_right\
@@ -71,7 +71,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/vertex_set_path_composite/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-04 01:25:55+09:00'
+  timestamp: '2024-04-04 01:41:20+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/vertex_set_path_composite/src/main.rs
