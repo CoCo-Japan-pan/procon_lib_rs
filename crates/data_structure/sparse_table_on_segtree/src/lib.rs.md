@@ -10,8 +10,8 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: verify/AOJ/no1068/src/main.rs
-    title: verify/AOJ/no1068/src/main.rs
+    path: verify/AOJ/no_1068/src/main.rs
+    title: verify/AOJ/no_1068/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -26,8 +26,8 @@ data:
     \u3060\u304C\u3001SegmentTree\u3068SparseTable\u3092\u7D44\u307F\u5408\u308F\u305B\
     \u3066\u3044\u308B  \n//! \u3064\u307E\u308A\u30AF\u30A8\u30EA\u306Blog\u304C\u4E00\
     \u3064\u304B\u304B\u308B\u4EE3\u308F\u308A\u306B\u3001\u69CB\u7BC9\u306Elog\u304C\
-    \u4E00\u3064\u6E1B\u308B  \n//! //! 2\u6B21\u5143\u306A\u306E\u3067\u53EF\u63DB\
-    \u6027\u3092\u8981\u6C42  \n//! <https://maspypy.github.io/library/ds/sparse_table/sparse_table_on_segtree.hpp>\
+    \u4E00\u3064\u6E1B\u308B  \n//! 2\u6B21\u5143\u306A\u306E\u3067\u53EF\u63DB\u6027\
+    \u3092\u8981\u6C42  \n//! <https://maspypy.github.io/library/ds/sparse_table/sparse_table_on_segtree.hpp>\
     \ \u3067\u77E5\u308A\u307E\u3057\u305F  \n\nuse algebra::{Commutative, IdempotentMonoid};\n\
     use sparse_table::SparseTable;\nuse std::ops::RangeBounds;\n\n#[derive(Debug)]\n\
     pub struct SparseTableOnSegTree<M: IdempotentMonoid + Commutative + Clone> {\n\
@@ -66,10 +66,10 @@ data:
   isVerificationFile: false
   path: crates/data_structure/sparse_table_on_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-03 22:12:27+09:00'
+  timestamp: '2024-04-03 23:13:26+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/AOJ/no1068/src/main.rs
+  - verify/AOJ/no_1068/src/main.rs
 documentation_of: crates/data_structure/sparse_table_on_segtree/src/lib.rs
 layout: document
 redirect_from:

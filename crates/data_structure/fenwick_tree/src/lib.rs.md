@@ -1,7 +1,10 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: crates/data_structure/raq_rsq/src/lib.rs
+    title: crates/data_structure/raq_rsq/src/lib.rs
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: verify/yukicoder/no_649_fenwick_tree/src/main.rs
@@ -56,7 +59,8 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: crates/data_structure/fenwick_tree/src/lib.rs
-  requiredBy: []
+  requiredBy:
+  - crates/data_structure/raq_rsq/src/lib.rs
   timestamp: '2024-03-21 10:45:53+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

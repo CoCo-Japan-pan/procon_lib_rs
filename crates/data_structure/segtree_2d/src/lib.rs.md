@@ -7,8 +7,8 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: verify/AOJ/no2842/src/main.rs
-    title: verify/AOJ/no2842/src/main.rs
+    path: verify/AOJ/no_2842/src/main.rs
+    title: verify/AOJ/no_2842/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -107,7 +107,7 @@ data:
   timestamp: '2024-04-03 22:12:27+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/AOJ/no2842/src/main.rs
+  - verify/AOJ/no_2842/src/main.rs
 documentation_of: crates/data_structure/segtree_2d/src/lib.rs
 layout: document
 redirect_from:

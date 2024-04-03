@@ -21,6 +21,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/data_structure/lazy_segtree/src/lib.rs
       title: crates/data_structure/lazy_segtree/src/lib.rs
+  - name: crates/data_structure/raq_rsq/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: crates/data_structure/raq_rsq/src/lib.rs
+      title: crates/data_structure/raq_rsq/src/lib.rs
   - name: crates/data_structure/segtree/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -132,16 +137,21 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
       title: verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
-  - name: verify/AOJ/no1068/src
+  - name: verify/AOJ/no_1068/src
     pages:
     - icon: ':heavy_check_mark:'
-      path: verify/AOJ/no1068/src/main.rs
-      title: verify/AOJ/no1068/src/main.rs
-  - name: verify/AOJ/no2842/src
+      path: verify/AOJ/no_1068/src/main.rs
+      title: verify/AOJ/no_1068/src/main.rs
+  - name: verify/AOJ/no_2667/src
     pages:
     - icon: ':heavy_check_mark:'
-      path: verify/AOJ/no2842/src/main.rs
-      title: verify/AOJ/no2842/src/main.rs
+      path: verify/AOJ/no_2667/src/main.rs
+      title: verify/AOJ/no_2667/src/main.rs
+  - name: verify/AOJ/no_2842/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/AOJ/no_2842/src/main.rs
+      title: verify/AOJ/no_2842/src/main.rs
   - name: verify/AtCoder/abc285g/src
     pages:
     - icon: ':heavy_check_mark:'
