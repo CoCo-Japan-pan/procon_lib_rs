@@ -51,7 +51,7 @@ fn main() {
         graph[u].push(v);
         graph[v].push(u);
     }
-    let hld = HLD::new(&graph, 0);
+    let hld = HLD::new(graph, 0);
     let mut affine_vec = vec![AffineLeftMonoid::id_element(); n];
     for i in 0..n {
         affine_vec[hld.get_in(i)] = Affine {

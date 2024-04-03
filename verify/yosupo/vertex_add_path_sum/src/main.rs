@@ -17,7 +17,7 @@ fn main() {
         graph[u].push(v);
         graph[v].push(u);
     }
-    let hld = HLD::new(&graph, 0);
+    let hld = HLD::new(graph, 0);
     let mut ft = FenwickTree::new(n, 0_u64);
     for i in 0..n {
         ft.add(hld.get_in(i), a[i]);

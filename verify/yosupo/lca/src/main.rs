@@ -15,7 +15,7 @@ fn main() {
         graph[p].push(i + 1);
         graph[i + 1].push(p);
     }
-    let hld = HLD::new(&graph, 0);
+    let hld = HLD::new(graph, 0);
     for _ in 0..q {
         input! { u: usize, v: usize }
         println!("{}", hld.lca(u, v));

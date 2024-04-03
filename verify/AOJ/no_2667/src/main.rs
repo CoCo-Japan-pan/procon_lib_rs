@@ -16,7 +16,7 @@ fn main() {
         graph[a].push(b);
         graph[b].push(a);
     }
-    let hld = HLD::new(&graph, 0);
+    let hld = HLD::new(graph, 0);
     let mut ft = RAQRSQ::new(n, 0_i64);
     for _ in 0..q {
         input! {

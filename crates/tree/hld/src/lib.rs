@@ -39,16 +39,17 @@ impl Path {
 }
 
 impl HLD {
-    pub fn new(graph: &[Vec<usize>], root: usize) -> Self {
+    pub fn new(graph: Vec<Vec<usize>>, root: usize) -> Self {
+        let len = graph.len();
         let mut ret = Self {
-            sorted_graph: graph.to_vec(),
-            subtree_size: vec![0; graph.len()],
-            depth: vec![0; graph.len()],
-            parent: vec![usize::MAX; graph.len()],
-            heavy_path_lowest: vec![root; graph.len()],
-            hld_in: vec![0; graph.len()],
-            hld_out: vec![0; graph.len()],
-            vertex_cnt: graph.len(),
+            sorted_graph: graph,
+            subtree_size: vec![0; len],
+            depth: vec![0; len],
+            parent: vec![usize::MAX; len],
+            heavy_path_lowest: vec![root; len],
+            hld_in: vec![0; len],
+            hld_out: vec![0; len],
+            vertex_cnt: len,
         };
         ret.dfs_sz(root, usize::MAX);
         let mut id = 0;
@@ -79,6 +80,7 @@ impl HLD {
     /// この配列において、各頂点についてその頂点とその親との間の辺を対応させた配列を用いれば、
     /// 以下のpathやsubtree関数で得られたindexを使うことができる
     pub fn get_in(&self, v: usize) -> usize {
+        assert!(v < self.vertex_cnt);
         self.hld_in[v]
     }
 
@@ -86,6 +88,7 @@ impl HLD {
     /// 上りと下りを区別して、非可換に対応している  
     /// 半開区間  
     pub fn path(&self, u: usize, v: usize, vertex: bool) -> Vec<Path> {
+        assert!(u < self.vertex_cnt && v < self.vertex_cnt);
         let l = self.lca(u, v);
         if vertex {
             self.ascending(l, u)
