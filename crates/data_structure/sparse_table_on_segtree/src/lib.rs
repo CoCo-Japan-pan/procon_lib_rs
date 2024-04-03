@@ -1,5 +1,6 @@
 //! 2D Sparse Tableとできることは同じだが、SegmentTreeとSparseTableを組み合わせている  
 //! つまりクエリにlogが一つかかる代わりに、構築のlogが一つ減る  
+//! //! 2次元なので可換性を要求  
 //! <https://maspypy.github.io/library/ds/sparse_table/sparse_table_on_segtree.hpp> で知りました  
 
 use algebra::{Commutative, IdempotentMonoid};
@@ -13,6 +14,7 @@ pub struct SparseTableOnSegTree<M: IdempotentMonoid + Commutative + Clone> {
 }
 
 impl<M: IdempotentMonoid + Commutative + Clone> SparseTableOnSegTree<M> {
+    /// `O(HWlogH)`
     pub fn new(v: Vec<Vec<M::Target>>) -> Self {
         let range_height = v.len();
         let range_width = v[0].len();
@@ -35,6 +37,7 @@ impl<M: IdempotentMonoid + Commutative + Clone> SparseTableOnSegTree<M> {
         Self { range_height, data }
     }
 
+    /// `O(logH)`
     pub fn prod<R1: RangeBounds<usize>, R2: RangeBounds<usize> + Clone>(
         &self,
         height_range: R1,

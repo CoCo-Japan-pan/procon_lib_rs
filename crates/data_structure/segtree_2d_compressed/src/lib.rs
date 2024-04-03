@@ -1,5 +1,6 @@
 //! Sparseな場合に対応するため、更新queryを先読みして座標圧縮する  
 //! もともと単位元で初期化されていると仮定する  
+//! 2次元なので可換性を要求  
 //! <https://drive.google.com/file/d/1bSjYiA-nSsHzBbCnLq1GeTpRzs2Ucm0q/view>で学びました  
 
 use algebra::{Commutative, Monoid};
