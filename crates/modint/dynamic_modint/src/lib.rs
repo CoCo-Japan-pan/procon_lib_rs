@@ -145,11 +145,15 @@ impl<MOD: ModContainer> Neg for DynamicModInt<MOD> {
     }
 }
 
-impl<MOD: ModContainer> Add for DynamicModInt<MOD> {
+impl<MOD: ModContainer, T> Add<T> for DynamicModInt<MOD>
+where
+    Self: AddAssign<T>,
+{
     type Output = Self;
-    fn add(mut self, rhs: Self) -> Self {
-        self += rhs;
-        self
+    fn add(self, rhs: T) -> Self {
+        let mut res = self;
+        res += rhs;
+        res
     }
 }
 
@@ -162,9 +166,18 @@ impl<MOD: ModContainer> AddAssign for DynamicModInt<MOD> {
     }
 }
 
-impl<MOD: ModContainer> Sub for DynamicModInt<MOD> {
+impl<MOD: ModContainer, T: RemEuclidU32> AddAssign<T> for DynamicModInt<MOD> {
+    fn add_assign(&mut self, rhs: T) {
+        *self += DynamicModInt::<MOD>::new(rhs);
+    }
+}
+
+impl<MOD: ModContainer, T> Sub<T> for DynamicModInt<MOD>
+where
+    Self: SubAssign<T>,
+{
     type Output = Self;
-    fn sub(mut self, rhs: Self) -> Self {
+    fn sub(mut self, rhs: T) -> Self {
         self -= rhs;
         self
     }
@@ -179,9 +192,18 @@ impl<MOD: ModContainer> SubAssign for DynamicModInt<MOD> {
     }
 }
 
-impl<MOD: ModContainer> Mul for DynamicModInt<MOD> {
+impl<MOD: ModContainer, T: RemEuclidU32> SubAssign<T> for DynamicModInt<MOD> {
+    fn sub_assign(&mut self, rhs: T) {
+        *self -= DynamicModInt::<MOD>::new(rhs);
+    }
+}
+
+impl<MOD: ModContainer, T> Mul<T> for DynamicModInt<MOD>
+where
+    Self: MulAssign<T>,
+{
     type Output = Self;
-    fn mul(mut self, rhs: Self) -> Self {
+    fn mul(mut self, rhs: T) -> Self {
         self *= rhs;
         self
     }
@@ -194,11 +216,21 @@ impl<MOD: ModContainer> MulAssign for DynamicModInt<MOD> {
     }
 }
 
-impl<MOD: ModContainer> Div for DynamicModInt<MOD> {
+impl<MOD: ModContainer, T: RemEuclidU32> MulAssign<T> for DynamicModInt<MOD> {
+    fn mul_assign(&mut self, rhs: T) {
+        *self *= DynamicModInt::<MOD>::new(rhs);
+    }
+}
+
+impl<MOD: ModContainer, T> Div<T> for DynamicModInt<MOD>
+where
+    Self: DivAssign<T>,
+{
     type Output = Self;
-    fn div(mut self, rhs: Self) -> Self {
-        self /= rhs;
-        self
+    fn div(self, rhs: T) -> Self {
+        let mut res = self;
+        res /= rhs;
+        res
     }
 }
 
@@ -209,58 +241,11 @@ impl<MOD: ModContainer> DivAssign for DynamicModInt<MOD> {
     }
 }
 
-macro_rules! impl_binop_to_primitive {
-    ($($t:ty),*) => {
-        $(
-            impl<MOD: ModContainer> Add<$t> for DynamicModInt<MOD> {
-                type Output = Self;
-                fn add(self, rhs: $t) -> Self {
-                    self + DynamicModInt::new(rhs)
-                }
-            }
-            impl<MOD: ModContainer> AddAssign<$t> for DynamicModInt<MOD> {
-                fn add_assign(&mut self, rhs: $t) {
-                    *self += DynamicModInt::new(rhs);
-                }
-            }
-            impl<MOD: ModContainer> Sub<$t> for DynamicModInt<MOD> {
-                type Output = Self;
-                fn sub(self, rhs: $t) -> Self {
-                    self - DynamicModInt::new(rhs)
-                }
-            }
-            impl<MOD: ModContainer> SubAssign<$t> for DynamicModInt<MOD> {
-                fn sub_assign(&mut self, rhs: $t) {
-                    *self -= DynamicModInt::new(rhs);
-                }
-            }
-            impl<MOD: ModContainer> Mul<$t> for DynamicModInt<MOD> {
-                type Output = Self;
-                fn mul(self, rhs: $t) -> Self {
-                    self * DynamicModInt::new(rhs)
-                }
-            }
-            impl<MOD: ModContainer> MulAssign<$t> for DynamicModInt<MOD> {
-                fn mul_assign(&mut self, rhs: $t) {
-                    *self *= DynamicModInt::new(rhs);
-                }
-            }
-            impl<MOD: ModContainer> Div<$t> for DynamicModInt<MOD> {
-                type Output = Self;
-                fn div(self, rhs: $t) -> Self {
-                    self / DynamicModInt::new(rhs)
-                }
-            }
-            impl<MOD: ModContainer> DivAssign<$t> for DynamicModInt<MOD> {
-                fn div_assign(&mut self, rhs: $t) {
-                    *self /= DynamicModInt::new(rhs);
-                }
-            }
-        )*
+impl<MOD: ModContainer, T: RemEuclidU32> DivAssign<T> for DynamicModInt<MOD> {
+    fn div_assign(&mut self, rhs: T) {
+        *self /= DynamicModInt::<MOD>::new(rhs);
     }
 }
-
-impl_binop_to_primitive!(i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, usize, u128);
 
 macro_rules! impl_from_primitive {
     ($($t:ty),*) => {

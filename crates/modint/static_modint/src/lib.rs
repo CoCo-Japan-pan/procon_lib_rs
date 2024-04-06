@@ -105,9 +105,12 @@ impl<const MOD: u32> Neg for StaticModInt<MOD> {
     }
 }
 
-impl<const MOD: u32> Add for StaticModInt<MOD> {
+impl<const MOD: u32, T> Add<T> for StaticModInt<MOD>
+where
+    Self: AddAssign<T>,
+{
     type Output = Self;
-    fn add(mut self, rhs: Self) -> Self {
+    fn add(mut self, rhs: T) -> Self {
         self += rhs;
         self
     }
@@ -122,9 +125,18 @@ impl<const MOD: u32> AddAssign for StaticModInt<MOD> {
     }
 }
 
-impl<const MOD: u32> Sub for StaticModInt<MOD> {
+impl<const MOD: u32, T: RemEuclidU32> AddAssign<T> for StaticModInt<MOD> {
+    fn add_assign(&mut self, rhs: T) {
+        *self += Self::new(rhs);
+    }
+}
+
+impl<const MOD: u32, T> Sub<T> for StaticModInt<MOD>
+where
+    Self: SubAssign<T>,
+{
     type Output = Self;
-    fn sub(mut self, rhs: Self) -> Self {
+    fn sub(mut self, rhs: T) -> Self {
         self -= rhs;
         self
     }
@@ -139,9 +151,18 @@ impl<const MOD: u32> SubAssign for StaticModInt<MOD> {
     }
 }
 
-impl<const MOD: u32> Mul for StaticModInt<MOD> {
+impl<const MOD: u32, T: RemEuclidU32> SubAssign<T> for StaticModInt<MOD> {
+    fn sub_assign(&mut self, rhs: T) {
+        *self -= Self::new(rhs);
+    }
+}
+
+impl<const MOD: u32, T> Mul<T> for StaticModInt<MOD>
+where
+    Self: MulAssign<T>,
+{
     type Output = Self;
-    fn mul(mut self, rhs: Self) -> Self {
+    fn mul(mut self, rhs: T) -> Self {
         self *= rhs;
         self
     }
@@ -153,9 +174,18 @@ impl<const MOD: u32> MulAssign for StaticModInt<MOD> {
     }
 }
 
-impl<const MOD: u32> Div for StaticModInt<MOD> {
+impl<const MOD: u32, T: RemEuclidU32> MulAssign<T> for StaticModInt<MOD> {
+    fn mul_assign(&mut self, rhs: T) {
+        *self *= Self::new(rhs);
+    }
+}
+
+impl<const MOD: u32, T> Div<T> for StaticModInt<MOD>
+where
+    Self: DivAssign<T>,
+{
     type Output = Self;
-    fn div(mut self, rhs: Self) -> Self {
+    fn div(mut self, rhs: T) -> Self {
         self /= rhs;
         self
     }
@@ -168,58 +198,11 @@ impl<const MOD: u32> DivAssign for StaticModInt<MOD> {
     }
 }
 
-macro_rules! impl_binop_to_primitive {
-    ($($t:ty),*) => {
-        $(
-            impl<const MOD: u32> Add<$t> for StaticModInt<MOD> {
-                type Output = Self;
-                fn add(self, rhs: $t) -> Self {
-                    self + Self::new(rhs)
-                }
-            }
-            impl<const MOD: u32> AddAssign<$t> for StaticModInt<MOD> {
-                fn add_assign(&mut self, rhs: $t) {
-                    *self += Self::new(rhs);
-                }
-            }
-            impl<const MOD: u32> Sub<$t> for StaticModInt<MOD> {
-                type Output = Self;
-                fn sub(self, rhs: $t) -> Self {
-                    self - Self::new(rhs)
-                }
-            }
-            impl<const MOD: u32> SubAssign<$t> for StaticModInt<MOD> {
-                fn sub_assign(&mut self, rhs: $t) {
-                    *self -= Self::new(rhs);
-                }
-            }
-            impl<const MOD: u32> Mul<$t> for StaticModInt<MOD> {
-                type Output = Self;
-                fn mul(self, rhs: $t) -> Self {
-                    self * Self::new(rhs)
-                }
-            }
-            impl<const MOD: u32> MulAssign<$t> for StaticModInt<MOD> {
-                fn mul_assign(&mut self, rhs: $t) {
-                    *self *= Self::new(rhs);
-                }
-            }
-            impl<const MOD: u32> Div<$t> for StaticModInt<MOD> {
-                type Output = Self;
-                fn div(self, rhs: $t) -> Self {
-                    self / Self::new(rhs)
-                }
-            }
-            impl<const MOD: u32> DivAssign<$t> for StaticModInt<MOD> {
-                fn div_assign(&mut self, rhs: $t) {
-                    *self /= Self::new(rhs);
-                }
-            }
-        )*
-    };
+impl<const MOD: u32, T: RemEuclidU32> DivAssign<T> for StaticModInt<MOD> {
+    fn div_assign(&mut self, rhs: T) {
+        *self /= Self::new(rhs);
+    }
 }
-
-impl_binop_to_primitive!(u8, u16, u32, u64, usize, u128, i8, i16, i32, i64, isize, i128);
 
 macro_rules! impl_from_primitive {
     ($($t:ty),*) => {
