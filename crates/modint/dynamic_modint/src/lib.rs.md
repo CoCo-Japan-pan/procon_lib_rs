@@ -118,21 +118,26 @@ data:
     \ {\n                fn div_assign(&mut self, rhs: $t) {\n                   \
     \ *self /= DynamicModInt::new(rhs);\n                }\n            }\n      \
     \  )*\n    }\n}\n\nimpl_binop_to_primitive!(i8, i16, i32, i64, isize, i128, u8,\
-    \ u16, u32, u64, usize, u128);\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\
-    \n    #[test]\n    fn test_modint() {\n        define_modint!(MOD7, 7);\n    \
-    \    define_modint!(MOD11, 11);\n        let a = DynamicModInt::<MOD7>::new(3);\n\
-    \        let b = DynamicModInt::<MOD7>::new(4);\n        let c = DynamicModInt::<MOD11>::new(3);\n\
-    \        let d = DynamicModInt::<MOD11>::new(4);\n        assert_eq!((a + b).value(),\
-    \ 0);\n        assert_eq!((a - b).value(), 6);\n        assert_eq!((c + d).value(),\
-    \ 7);\n        assert_eq!((c - d).value(), 10);\n        assert_eq!((a * b).value(),\
-    \ 5);\n        assert_eq!((a / b).value(), 6);\n        assert_eq!((c * d).value(),\
-    \ 1);\n        assert_eq!((c / d).value(), 9);\n    }\n}\n"
+    \ u16, u32, u64, usize, u128);\n\nmacro_rules! impl_from_primitive {\n    ($($t:ty),*)\
+    \ => {\n        $(\n            impl<MOD: ModContainer> From<$t> for DynamicModInt<MOD>\
+    \ {\n                fn from(x: $t) -> Self {\n                    DynamicModInt::new(x)\n\
+    \                }\n            }\n        )*\n    }\n}\n\nimpl_from_primitive!(i8,\
+    \ i16, i32, i64, isize, i128, u8, u16, u32, u64, usize, u128);\n\n#[cfg(test)]\n\
+    mod tests {\n    use super::*;\n\n    #[test]\n    fn test_modint() {\n      \
+    \  define_modint!(MOD7, 7);\n        define_modint!(MOD11, 11);\n        let a\
+    \ = DynamicModInt::<MOD7>::new(3);\n        let b = DynamicModInt::<MOD7>::new(4);\n\
+    \        let c = DynamicModInt::<MOD11>::new(3);\n        let d = DynamicModInt::<MOD11>::new(4);\n\
+    \        assert_eq!((a + b).value(), 0);\n        assert_eq!((a - b).value(),\
+    \ 6);\n        assert_eq!((c + d).value(), 7);\n        assert_eq!((c - d).value(),\
+    \ 10);\n        assert_eq!((a * b).value(), 5);\n        assert_eq!((a / b).value(),\
+    \ 6);\n        assert_eq!((c * d).value(), 1);\n        assert_eq!((c / d).value(),\
+    \ 9);\n    }\n}\n"
   dependsOn:
   - crates/internals/modint_traits/src/lib.rs
   isVerificationFile: false
   path: crates/modint/dynamic_modint/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-03 00:05:02+09:00'
+  timestamp: '2024-04-06 17:23:28+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_1092_modint_dynamic/src/main.rs

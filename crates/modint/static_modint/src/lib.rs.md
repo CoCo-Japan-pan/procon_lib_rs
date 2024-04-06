@@ -109,22 +109,26 @@ data:
     \                fn div_assign(&mut self, rhs: $t) {\n                    *self\
     \ /= Self::new(rhs);\n                }\n            }\n        )*\n    };\n}\n\
     \nimpl_binop_to_primitive!(u8, u16, u32, u64, usize, u128, i8, i16, i32, i64,\
-    \ isize, i128);\n\n#[cfg(test)]\nmod tests {\n    use super::ModInt1000000007;\n\
-    \n    #[test]\n    fn static_modint_new() {\n        assert_eq!(0, ModInt1000000007::new(0u32).value);\n\
-    \        assert_eq!(1, ModInt1000000007::new(1u32).value);\n        assert_eq!(1,\
-    \ ModInt1000000007::new(1_000_000_008u32).value);\n\n        assert_eq!(0, ModInt1000000007::new(0u64).value);\n\
-    \        assert_eq!(1, ModInt1000000007::new(1u64).value);\n        assert_eq!(1,\
-    \ ModInt1000000007::new(1_000_000_008u64).value);\n\n        assert_eq!(0, ModInt1000000007::new(0usize).value);\n\
-    \        assert_eq!(1, ModInt1000000007::new(1usize).value);\n        assert_eq!(1,\
-    \ ModInt1000000007::new(1_000_000_008usize).value);\n\n        assert_eq!(0, ModInt1000000007::new(0i64).value);\n\
-    \        assert_eq!(1, ModInt1000000007::new(1i64).value);\n        assert_eq!(1,\
-    \ ModInt1000000007::new(1_000_000_008i64).value);\n        assert_eq!(1_000_000_006,\
-    \ ModInt1000000007::new(-1i64).value);\n    }\n\n    #[test]\n    fn static_modint_add()\
-    \ {\n        fn add(lhs: u32, rhs: u32) -> u32 {\n            (ModInt1000000007::new(lhs)\
-    \ + ModInt1000000007::new(rhs)).value\n        }\n\n        assert_eq!(2, add(1,\
-    \ 1));\n        assert_eq!(1, add(1_000_000_006, 2));\n    }\n\n    #[test]\n\
-    \    fn static_modint_sub() {\n        fn sub(lhs: u32, rhs: u32) -> u32 {\n \
-    \           (ModInt1000000007::new(lhs) - ModInt1000000007::new(rhs)).value\n\
+    \ isize, i128);\n\nmacro_rules! impl_from_primitive {\n    ($($t:ty),*) => {\n\
+    \        $(\n            impl<const MOD: u32> From<$t> for StaticModInt<MOD> {\n\
+    \                fn from(x: $t) -> Self {\n                    Self::new(x)\n\
+    \                }\n            }\n        )*\n    };\n}\n\nimpl_from_primitive!(u8,\
+    \ u16, u32, u64, usize, u128, i8, i16, i32, i64, isize, i128);\n\n#[cfg(test)]\n\
+    mod tests {\n    use super::ModInt1000000007;\n\n    #[test]\n    fn static_modint_new()\
+    \ {\n        assert_eq!(0, ModInt1000000007::new(0u32).value);\n        assert_eq!(1,\
+    \ ModInt1000000007::new(1u32).value);\n        assert_eq!(1, ModInt1000000007::new(1_000_000_008u32).value);\n\
+    \n        assert_eq!(0, ModInt1000000007::new(0u64).value);\n        assert_eq!(1,\
+    \ ModInt1000000007::new(1u64).value);\n        assert_eq!(1, ModInt1000000007::new(1_000_000_008u64).value);\n\
+    \n        assert_eq!(0, ModInt1000000007::new(0usize).value);\n        assert_eq!(1,\
+    \ ModInt1000000007::new(1usize).value);\n        assert_eq!(1, ModInt1000000007::new(1_000_000_008usize).value);\n\
+    \n        assert_eq!(0, ModInt1000000007::new(0i64).value);\n        assert_eq!(1,\
+    \ ModInt1000000007::new(1i64).value);\n        assert_eq!(1, ModInt1000000007::new(1_000_000_008i64).value);\n\
+    \        assert_eq!(1_000_000_006, ModInt1000000007::new(-1i64).value);\n    }\n\
+    \n    #[test]\n    fn static_modint_add() {\n        fn add(lhs: u32, rhs: u32)\
+    \ -> u32 {\n            (ModInt1000000007::new(lhs) + ModInt1000000007::new(rhs)).value\n\
+    \        }\n\n        assert_eq!(2, add(1, 1));\n        assert_eq!(1, add(1_000_000_006,\
+    \ 2));\n    }\n\n    #[test]\n    fn static_modint_sub() {\n        fn sub(lhs:\
+    \ u32, rhs: u32) -> u32 {\n            (ModInt1000000007::new(lhs) - ModInt1000000007::new(rhs)).value\n\
     \        }\n\n        assert_eq!(1, sub(2, 1));\n        assert_eq!(1_000_000_006,\
     \ sub(0, 1));\n    }\n\n    #[test]\n    fn static_modint_mul() {\n        fn\
     \ mul(lhs: u32, rhs: u32) -> u32 {\n            (ModInt1000000007::new(lhs) *\
@@ -157,7 +161,7 @@ data:
   requiredBy:
   - crates/fps/ntt/src/lib.rs
   - crates/fps/ntt_arbitrary_mod/src/lib.rs
-  timestamp: '2024-03-21 12:12:54+09:00'
+  timestamp: '2024-04-06 17:23:28+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/point_set_range_composite/src/main.rs
