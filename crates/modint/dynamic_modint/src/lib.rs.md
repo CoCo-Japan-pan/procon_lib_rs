@@ -44,29 +44,29 @@ data:
     \ ModContainer> {\n    value: u32,\n    phantom: PhantomData<MOD>,\n}\n\nimpl<MOD:\
     \ ModContainer> Display for DynamicModInt<MOD> {\n    fn fmt(&self, f: &mut std::fmt::Formatter<'_>)\
     \ -> std::fmt::Result {\n        write!(f, \"{}\", self.value)\n    }\n}\n\nimpl<MOD:\
-    \ ModContainer> Sum for DynamicModInt<MOD> {\n    fn sum<I: Iterator<Item = Self>>(iter:\
-    \ I) -> Self {\n        iter.fold(Self::raw(0), Add::add)\n    }\n}\n\nimpl<MOD:\
-    \ ModContainer> Product for DynamicModInt<MOD> {\n    fn product<I: Iterator<Item\
-    \ = Self>>(iter: I) -> Self {\n        iter.fold(Self::raw(1), Mul::mul)\n   \
-    \ }\n}\n\nimpl<MOD: ModContainer> FromStr for DynamicModInt<MOD> {\n    type Err\
-    \ = ParseIntError;\n    fn from_str(s: &str) -> Result<Self, ParseIntError> {\n\
-    \        i64::from_str(s).map(Self::new)\n    }\n}\n\nimpl<MOD: ModContainer>\
-    \ DynamicModInt<MOD> {\n    /// define_modint!\u306E\u4E2D\u3067\u547C\u3070\u308C\
-    \u308B\u306E\u3067\u3001\u30DE\u30AF\u30ED\u3092\u4F7F\u3046\u5834\u5408\u306F\
-    \u547C\u3070\u306A\u3044\u3067\u3088\u3044\n    pub fn set_modulus(modulus: u32)\
-    \ {\n        MOD::set_modulus(modulus);\n    }\n    pub fn new<T: RemEuclidU32>(x:\
-    \ T) -> Self {\n        ModInt::new(x)\n    }\n    pub fn raw(x: u32) -> Self\
+    \ ModContainer, T> Sum<T> for DynamicModInt<MOD>\nwhere\n    Self: Add<T, Output\
+    \ = Self>,\n{\n    fn sum<I: Iterator<Item = T>>(iter: I) -> Self {\n        iter.fold(Self::raw(0),\
+    \ Add::add)\n    }\n}\n\nimpl<MOD: ModContainer, T> Product<T> for DynamicModInt<MOD>\n\
+    where\n    Self: Mul<T, Output = Self>,\n{\n    fn product<I: Iterator<Item =\
+    \ T>>(iter: I) -> Self {\n        iter.fold(Self::raw(1), Mul::mul)\n    }\n}\n\
+    \nimpl<MOD: ModContainer> FromStr for DynamicModInt<MOD> {\n    type Err = ParseIntError;\n\
+    \    fn from_str(s: &str) -> Result<Self, ParseIntError> {\n        i64::from_str(s).map(Self::new)\n\
+    \    }\n}\n\nimpl<MOD: ModContainer> DynamicModInt<MOD> {\n    /// define_modint!\u306E\
+    \u4E2D\u3067\u547C\u3070\u308C\u308B\u306E\u3067\u3001\u30DE\u30AF\u30ED\u3092\
+    \u4F7F\u3046\u5834\u5408\u306F\u547C\u3070\u306A\u3044\u3067\u3088\u3044\n   \
+    \ pub fn set_modulus(modulus: u32) {\n        MOD::set_modulus(modulus);\n   \
+    \ }\n    pub fn new<T: RemEuclidU32>(x: T) -> Self {\n        ModInt::new(x)\n\
+    \    }\n    pub fn raw(x: u32) -> Self {\n        Self {\n            value: x,\n\
+    \            phantom: PhantomData,\n        }\n    }\n    pub fn value(&self)\
+    \ -> u32 {\n        self.value\n    }\n    pub fn modulus() -> u32 {\n       \
+    \ MOD::modulus()\n    }\n    pub fn pow(&self, n: u64) -> Self {\n        ModInt::pow(self,\
+    \ n)\n    }\n    pub fn inv(&self) -> Self {\n        ModInt::inv(self)\n    }\n\
+    }\n\nimpl<MOD: ModContainer> ModInt for DynamicModInt<MOD> {\n    fn new<T: RemEuclidU32>(x:\
+    \ T) -> Self {\n        Self {\n            value: x.rem_euclid_u32(MOD::modulus()),\n\
+    \            phantom: PhantomData,\n        }\n    }\n    fn raw(x: u32) -> Self\
     \ {\n        Self {\n            value: x,\n            phantom: PhantomData,\n\
-    \        }\n    }\n    pub fn value(&self) -> u32 {\n        self.value\n    }\n\
-    \    pub fn modulus() -> u32 {\n        MOD::modulus()\n    }\n    pub fn pow(&self,\
-    \ n: u64) -> Self {\n        ModInt::pow(self, n)\n    }\n    pub fn inv(&self)\
-    \ -> Self {\n        ModInt::inv(self)\n    }\n}\n\nimpl<MOD: ModContainer> ModInt\
-    \ for DynamicModInt<MOD> {\n    fn new<T: RemEuclidU32>(x: T) -> Self {\n    \
-    \    Self {\n            value: x.rem_euclid_u32(MOD::modulus()),\n          \
-    \  phantom: PhantomData,\n        }\n    }\n    fn raw(x: u32) -> Self {\n   \
-    \     Self {\n            value: x,\n            phantom: PhantomData,\n     \
-    \   }\n    }\n    fn value(&self) -> u32 {\n        self.value\n    }\n    fn\
-    \ modulus() -> u32 {\n        MOD::modulus()\n    }\n}\n\nimpl<MOD: ModContainer>\
+    \        }\n    }\n    fn value(&self) -> u32 {\n        self.value\n    }\n \
+    \   fn modulus() -> u32 {\n        MOD::modulus()\n    }\n}\n\nimpl<MOD: ModContainer>\
     \ Neg for DynamicModInt<MOD> {\n    type Output = Self;\n    fn neg(self) -> Self\
     \ {\n        if self.value == 0 {\n            Self {\n                value:\
     \ 0,\n                phantom: PhantomData,\n            }\n        } else {\n\
@@ -137,7 +137,7 @@ data:
   isVerificationFile: false
   path: crates/modint/dynamic_modint/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-06 17:23:28+09:00'
+  timestamp: '2024-04-06 18:33:20+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_1092_modint_dynamic/src/main.rs
