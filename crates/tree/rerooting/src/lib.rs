@@ -1,3 +1,5 @@
+//! 全方位木DP  
+
 use algebra::{Commutative, Monoid};
 
 pub trait Rerootable {
@@ -43,7 +45,7 @@ impl<T: Rerootable> Rerooting<T> {
             graph,
             0,
             std::usize::MAX,
-            T::leaf(0),
+            <T::DPMonoid as Monoid>::id_element(),
         );
         ret
     }
@@ -104,15 +106,23 @@ impl<T: Rerootable> Rerooting<T> {
 
         // 子に伝播
         for (i, &to) in graph[v].iter().filter(|v| **v != p).enumerate() {
+            let propagate = {
+                // 一つも部分木をmergeしないなら、leafを用いる
+                if buf.len() == 1 && p == usize::MAX {
+                    T::leaf(v)
+                } else {
+                    <T::DPMonoid as Monoid>::binary_operation(
+                        &par_val,
+                        &<T::DPMonoid as Monoid>::binary_operation(&left_sum[i], &right_sum[i + 1]),
+                    )
+                }
+            };
             self.bfs(
                 graph,
                 to,
                 v,
                 T::add_root(
-                    &<T::DPMonoid as Monoid>::binary_operation(
-                        &par_val,
-                        &<T::DPMonoid as Monoid>::binary_operation(&left_sum[i], &right_sum[i + 1]),
-                    ),
+                    &propagate,
                     v,
                     to,
                 ),
