@@ -256,6 +256,20 @@ macro_rules! impl_binop_to_primitive {
 
 impl_binop_to_primitive!(i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, usize, u128);
 
+macro_rules! impl_from_primitive {
+    ($($t:ty),*) => {
+        $(
+            impl<MOD: ModContainer> From<$t> for DynamicModInt<MOD> {
+                fn from(x: $t) -> Self {
+                    DynamicModInt::new(x)
+                }
+            }
+        )*
+    }
+}
+
+impl_from_primitive!(i8, i16, i32, i64, isize, i128, u8, u16, u32, u64, usize, u128);
+
 #[cfg(test)]
 mod tests {
     use super::*;
