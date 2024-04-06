@@ -178,10 +178,10 @@ data:
   timestamp: '2024-04-03 21:58:01+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
-  - verify/AOJ/dsl_2f_lazy_seg/src/main.rs
   - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
+  - verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
+  - verify/AOJ/dsl_2f_lazy_seg/src/main.rs
 documentation_of: crates/data_structure/lazy_segtree/src/lib.rs
 layout: document
 redirect_from:

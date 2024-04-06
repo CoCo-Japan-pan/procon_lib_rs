@@ -7,6 +7,9 @@ data:
     path: verify/AOJ/no_2667/src/main.rs
     title: verify/AOJ/no_2667/src/main.rs
   - icon: ':heavy_check_mark:'
+    path: verify/AtCoder/abc294g/src/main.rs
+    title: verify/AtCoder/abc294g/src/main.rs
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/lca/src/main.rs
     title: verify/yosupo/lca/src/main.rs
   - icon: ':heavy_check_mark:'
@@ -76,7 +79,9 @@ data:
     \u3044\u308C\u3070\u3001\n    /// \u4EE5\u4E0B\u306Epath\u3084subtree\u95A2\u6570\
     \u3067\u5F97\u3089\u308C\u305Findex\u3092\u4F7F\u3046\u3053\u3068\u304C\u3067\u304D\
     \u308B\n    pub fn get_in(&self, v: usize) -> usize {\n        assert!(v < self.vertex_cnt);\n\
-    \        self.hld_in[v]\n    }\n\n    /// u\u304B\u3089v\u3078\u306E\u30D1\u30B9\
+    \        self.hld_in[v]\n    }\n\n    /// \u89AA\u3092\u8FD4\u3059\n    pub fn\
+    \ get_parent(&self, v: usize) -> usize {\n        assert!(v < self.vertex_cnt);\n\
+    \        self.parent[v]\n    }\n\n    /// u\u304B\u3089v\u3078\u306E\u30D1\u30B9\
     \u3092\u5217\u6319\u3059\u308B(\u3053\u308C\u3089\u306Fheavy path\u3092\u4E26\u3079\
     \u305F\u914D\u5217\u306B\u304A\u3044\u3066\u9023\u7D9A\u3059\u308B\u533A\u9593\
     \u3068\u306A\u3063\u3066\u3044\u308B)  \n    /// \u4E0A\u308A\u3068\u4E0B\u308A\
@@ -132,14 +137,15 @@ data:
   isVerificationFile: false
   path: crates/tree/hld/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-04 01:41:20+09:00'
+  timestamp: '2024-04-06 13:45:18+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/AOJ/no_2667/src/main.rs
-  - verify/yosupo/vertex_add_subtree_sum/src/main.rs
+  - verify/AtCoder/abc294g/src/main.rs
   - verify/yosupo/lca/src/main.rs
   - verify/yosupo/vertex_set_path_composite/src/main.rs
   - verify/yosupo/vertex_add_path_sum/src/main.rs
+  - verify/yosupo/vertex_add_subtree_sum/src/main.rs
+  - verify/AOJ/no_2667/src/main.rs
 documentation_of: crates/tree/hld/src/lib.rs
 layout: document
 redirect_from:
