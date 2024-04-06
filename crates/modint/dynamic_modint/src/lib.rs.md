@@ -72,55 +72,41 @@ data:
     \ 0,\n                phantom: PhantomData,\n            }\n        } else {\n\
     \            Self {\n                value: DynamicModInt::<MOD>::modulus() -\
     \ self.value,\n                phantom: PhantomData,\n            }\n        }\n\
-    \    }\n}\n\nimpl<MOD: ModContainer> Add for DynamicModInt<MOD> {\n    type Output\
-    \ = Self;\n    fn add(mut self, rhs: Self) -> Self {\n        self += rhs;\n \
-    \       self\n    }\n}\n\nimpl<MOD: ModContainer> AddAssign for DynamicModInt<MOD>\
-    \ {\n    fn add_assign(&mut self, rhs: Self) {\n        self.value += rhs.value;\n\
-    \        if self.value >= DynamicModInt::<MOD>::modulus() {\n            self.value\
-    \ -= DynamicModInt::<MOD>::modulus();\n        }\n    }\n}\n\nimpl<MOD: ModContainer>\
-    \ Sub for DynamicModInt<MOD> {\n    type Output = Self;\n    fn sub(mut self,\
-    \ rhs: Self) -> Self {\n        self -= rhs;\n        self\n    }\n}\n\nimpl<MOD:\
-    \ ModContainer> SubAssign for DynamicModInt<MOD> {\n    fn sub_assign(&mut self,\
-    \ rhs: Self) {\n        if self.value < rhs.value {\n            self.value +=\
-    \ DynamicModInt::<MOD>::modulus();\n        }\n        self.value -= rhs.value;\n\
-    \    }\n}\n\nimpl<MOD: ModContainer> Mul for DynamicModInt<MOD> {\n    type Output\
-    \ = Self;\n    fn mul(mut self, rhs: Self) -> Self {\n        self *= rhs;\n \
-    \       self\n    }\n}\n\nimpl<MOD: ModContainer> MulAssign for DynamicModInt<MOD>\
+    \    }\n}\n\nimpl<MOD: ModContainer, T> Add<T> for DynamicModInt<MOD>\nwhere\n\
+    \    Self: AddAssign<T>,\n{\n    type Output = Self;\n    fn add(self, rhs: T)\
+    \ -> Self {\n        let mut res = self;\n        res += rhs;\n        res\n \
+    \   }\n}\n\nimpl<MOD: ModContainer> AddAssign for DynamicModInt<MOD> {\n    fn\
+    \ add_assign(&mut self, rhs: Self) {\n        self.value += rhs.value;\n     \
+    \   if self.value >= DynamicModInt::<MOD>::modulus() {\n            self.value\
+    \ -= DynamicModInt::<MOD>::modulus();\n        }\n    }\n}\n\nimpl<MOD: ModContainer,\
+    \ T: RemEuclidU32> AddAssign<T> for DynamicModInt<MOD> {\n    fn add_assign(&mut\
+    \ self, rhs: T) {\n        *self += DynamicModInt::<MOD>::new(rhs);\n    }\n}\n\
+    \nimpl<MOD: ModContainer, T> Sub<T> for DynamicModInt<MOD>\nwhere\n    Self: SubAssign<T>,\n\
+    {\n    type Output = Self;\n    fn sub(mut self, rhs: T) -> Self {\n        self\
+    \ -= rhs;\n        self\n    }\n}\n\nimpl<MOD: ModContainer> SubAssign for DynamicModInt<MOD>\
+    \ {\n    fn sub_assign(&mut self, rhs: Self) {\n        if self.value < rhs.value\
+    \ {\n            self.value += DynamicModInt::<MOD>::modulus();\n        }\n \
+    \       self.value -= rhs.value;\n    }\n}\n\nimpl<MOD: ModContainer, T: RemEuclidU32>\
+    \ SubAssign<T> for DynamicModInt<MOD> {\n    fn sub_assign(&mut self, rhs: T)\
+    \ {\n        *self -= DynamicModInt::<MOD>::new(rhs);\n    }\n}\n\nimpl<MOD: ModContainer,\
+    \ T> Mul<T> for DynamicModInt<MOD>\nwhere\n    Self: MulAssign<T>,\n{\n    type\
+    \ Output = Self;\n    fn mul(mut self, rhs: T) -> Self {\n        self *= rhs;\n\
+    \        self\n    }\n}\n\nimpl<MOD: ModContainer> MulAssign for DynamicModInt<MOD>\
     \ {\n    fn mul_assign(&mut self, rhs: Self) {\n        self.value =\n       \
     \     (self.value as u64 * rhs.value as u64 % DynamicModInt::<MOD>::modulus()\
-    \ as u64) as u32;\n    }\n}\n\nimpl<MOD: ModContainer> Div for DynamicModInt<MOD>\
-    \ {\n    type Output = Self;\n    fn div(mut self, rhs: Self) -> Self {\n    \
-    \    self /= rhs;\n        self\n    }\n}\n\n#[allow(clippy::suspicious_op_assign_impl)]\n\
+    \ as u64) as u32;\n    }\n}\n\nimpl<MOD: ModContainer, T: RemEuclidU32> MulAssign<T>\
+    \ for DynamicModInt<MOD> {\n    fn mul_assign(&mut self, rhs: T) {\n        *self\
+    \ *= DynamicModInt::<MOD>::new(rhs);\n    }\n}\n\nimpl<MOD: ModContainer, T> Div<T>\
+    \ for DynamicModInt<MOD>\nwhere\n    Self: DivAssign<T>,\n{\n    type Output =\
+    \ Self;\n    fn div(self, rhs: T) -> Self {\n        let mut res = self;\n   \
+    \     res /= rhs;\n        res\n    }\n}\n\n#[allow(clippy::suspicious_op_assign_impl)]\n\
     impl<MOD: ModContainer> DivAssign for DynamicModInt<MOD> {\n    fn div_assign(&mut\
-    \ self, rhs: Self) {\n        *self *= rhs.inv();\n    }\n}\n\nmacro_rules! impl_binop_to_primitive\
-    \ {\n    ($($t:ty),*) => {\n        $(\n            impl<MOD: ModContainer> Add<$t>\
-    \ for DynamicModInt<MOD> {\n                type Output = Self;\n            \
-    \    fn add(self, rhs: $t) -> Self {\n                    self + DynamicModInt::new(rhs)\n\
-    \                }\n            }\n            impl<MOD: ModContainer> AddAssign<$t>\
-    \ for DynamicModInt<MOD> {\n                fn add_assign(&mut self, rhs: $t)\
-    \ {\n                    *self += DynamicModInt::new(rhs);\n                }\n\
-    \            }\n            impl<MOD: ModContainer> Sub<$t> for DynamicModInt<MOD>\
-    \ {\n                type Output = Self;\n                fn sub(self, rhs: $t)\
-    \ -> Self {\n                    self - DynamicModInt::new(rhs)\n            \
-    \    }\n            }\n            impl<MOD: ModContainer> SubAssign<$t> for DynamicModInt<MOD>\
-    \ {\n                fn sub_assign(&mut self, rhs: $t) {\n                   \
-    \ *self -= DynamicModInt::new(rhs);\n                }\n            }\n      \
-    \      impl<MOD: ModContainer> Mul<$t> for DynamicModInt<MOD> {\n            \
-    \    type Output = Self;\n                fn mul(self, rhs: $t) -> Self {\n  \
-    \                  self * DynamicModInt::new(rhs)\n                }\n       \
-    \     }\n            impl<MOD: ModContainer> MulAssign<$t> for DynamicModInt<MOD>\
-    \ {\n                fn mul_assign(&mut self, rhs: $t) {\n                   \
-    \ *self *= DynamicModInt::new(rhs);\n                }\n            }\n      \
-    \      impl<MOD: ModContainer> Div<$t> for DynamicModInt<MOD> {\n            \
-    \    type Output = Self;\n                fn div(self, rhs: $t) -> Self {\n  \
-    \                  self / DynamicModInt::new(rhs)\n                }\n       \
-    \     }\n            impl<MOD: ModContainer> DivAssign<$t> for DynamicModInt<MOD>\
-    \ {\n                fn div_assign(&mut self, rhs: $t) {\n                   \
-    \ *self /= DynamicModInt::new(rhs);\n                }\n            }\n      \
-    \  )*\n    }\n}\n\nimpl_binop_to_primitive!(i8, i16, i32, i64, isize, i128, u8,\
-    \ u16, u32, u64, usize, u128);\n\nmacro_rules! impl_from_primitive {\n    ($($t:ty),*)\
-    \ => {\n        $(\n            impl<MOD: ModContainer> From<$t> for DynamicModInt<MOD>\
-    \ {\n                fn from(x: $t) -> Self {\n                    DynamicModInt::new(x)\n\
+    \ self, rhs: Self) {\n        *self *= rhs.inv();\n    }\n}\n\nimpl<MOD: ModContainer,\
+    \ T: RemEuclidU32> DivAssign<T> for DynamicModInt<MOD> {\n    fn div_assign(&mut\
+    \ self, rhs: T) {\n        *self /= DynamicModInt::<MOD>::new(rhs);\n    }\n}\n\
+    \nmacro_rules! impl_from_primitive {\n    ($($t:ty),*) => {\n        $(\n    \
+    \        impl<MOD: ModContainer> From<$t> for DynamicModInt<MOD> {\n         \
+    \       fn from(x: $t) -> Self {\n                    DynamicModInt::new(x)\n\
     \                }\n            }\n        )*\n    }\n}\n\nimpl_from_primitive!(i8,\
     \ i16, i32, i64, isize, i128, u8, u16, u32, u64, usize, u128);\n\n#[cfg(test)]\n\
     mod tests {\n    use super::*;\n\n    #[test]\n    fn test_modint() {\n      \
@@ -137,7 +123,7 @@ data:
   isVerificationFile: false
   path: crates/modint/dynamic_modint/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-06 18:33:20+09:00'
+  timestamp: '2024-04-07 00:06:32+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_1092_modint_dynamic/src/main.rs
