@@ -18,14 +18,20 @@ impl<const MOD: u32> Display for StaticModInt<MOD> {
     }
 }
 
-impl<const MOD: u32> Sum for StaticModInt<MOD> {
-    fn sum<I: Iterator<Item = Self>>(iter: I) -> Self {
+impl<const MOD: u32, T> Sum<T> for StaticModInt<MOD>
+where
+    Self: Add<T, Output = Self>,
+{
+    fn sum<I: Iterator<Item = T>>(iter: I) -> Self {
         iter.fold(Self::raw(0), Add::add)
     }
 }
 
-impl<const MOD: u32> Product for StaticModInt<MOD> {
-    fn product<I: Iterator<Item = Self>>(iter: I) -> Self {
+impl<const MOD: u32, T> Product<T> for StaticModInt<MOD>
+where
+    Self: Mul<T, Output = Self>,
+{
+    fn product<I: Iterator<Item = T>>(iter: I) -> Self {
         iter.fold(Self::raw(1), Mul::mul)
     }
 }
@@ -232,6 +238,15 @@ impl_from_primitive!(u8, u16, u32, u64, usize, u128, i8, i16, i32, i64, isize, i
 #[cfg(test)]
 mod tests {
     use super::ModInt1000000007;
+    use super::ModInt998244353;
+
+    #[test]
+    fn into() {
+        let a: ModInt998244353 = 0_usize.into();
+        assert_eq!(0, a.value);
+        let b: ModInt998244353 = 998244354_usize.into();
+        assert_eq!(1, b.value);
+    }
 
     #[test]
     fn static_modint_new() {
@@ -298,20 +313,18 @@ mod tests {
 
     #[test]
     fn static_modint_sum() {
-        fn sum(values: &[i64]) -> ModInt1000000007 {
-            values.iter().copied().map(ModInt1000000007::new).sum()
-        }
-
-        assert_eq!(ModInt1000000007::new(-3), sum(&[-1, 2, -3, 4, -5]));
+        assert_eq!(
+            ModInt1000000007::new(-3),
+            [-1, 2, -3, 4, -5].into_iter().sum()
+        );
     }
 
     #[test]
     fn static_modint_product() {
-        fn product(values: &[i64]) -> ModInt1000000007 {
-            values.iter().copied().map(ModInt1000000007::new).product()
-        }
-
-        assert_eq!(ModInt1000000007::new(-120), product(&[-1, 2, -3, 4, -5]));
+        assert_eq!(
+            ModInt1000000007::new(-120),
+            [-1, 2, -3, 4, -5].into_iter().product()
+        );
     }
 
     #[test]

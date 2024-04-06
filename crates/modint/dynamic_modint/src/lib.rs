@@ -54,14 +54,20 @@ impl<MOD: ModContainer> Display for DynamicModInt<MOD> {
     }
 }
 
-impl<MOD: ModContainer> Sum for DynamicModInt<MOD> {
-    fn sum<I: Iterator<Item = Self>>(iter: I) -> Self {
+impl<MOD: ModContainer, T> Sum<T> for DynamicModInt<MOD>
+where
+    Self: Add<T, Output = Self>,
+{
+    fn sum<I: Iterator<Item = T>>(iter: I) -> Self {
         iter.fold(Self::raw(0), Add::add)
     }
 }
 
-impl<MOD: ModContainer> Product for DynamicModInt<MOD> {
-    fn product<I: Iterator<Item = Self>>(iter: I) -> Self {
+impl<MOD: ModContainer, T> Product<T> for DynamicModInt<MOD>
+where
+    Self: Mul<T, Output = Self>,
+{
+    fn product<I: Iterator<Item = T>>(iter: I) -> Self {
         iter.fold(Self::raw(1), Mul::mul)
     }
 }
