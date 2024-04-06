@@ -10,7 +10,7 @@ pub trait Rerootable {
     fn leaf(vertex: usize) -> <Self::DPMonoid as Monoid>::Target {
         <Self::DPMonoid as Monoid>::id_element()
     }
-    /// 部分木に頂点v→pの辺を追加する
+    /// 部分木に頂点 subtree_root → new_root の辺を追加する
     #[allow(unused_variables)]
     fn add_root(
         subtree: &<Self::DPMonoid as Monoid>::Target,
@@ -31,7 +31,7 @@ pub struct Rerooting<T: Rerootable> {
 impl<T: Rerootable> Rerooting<T> {
     pub fn new(graph: &Vec<Vec<usize>>) -> Self {
         let vertex_cnt = graph.len();
-        let subtree_memo = (0..vertex_cnt).map(|v| T::leaf(v)).collect::<Vec<_>>();
+        let subtree_memo = vec![<T::DPMonoid as Monoid>::id_element(); vertex_cnt];
         let ans = vec![<T::DPMonoid as Monoid>::id_element(); vertex_cnt];
         let mut ret = Self {
             vertex_cnt,
@@ -54,6 +54,7 @@ impl<T: Rerootable> Rerooting<T> {
     }
 
     fn dfs(&mut self, graph: &Vec<Vec<usize>>, v: usize, p: usize) {
+        let mut updated = false;
         for &to in &graph[v] {
             if to == p {
                 continue;
@@ -63,6 +64,10 @@ impl<T: Rerootable> Rerooting<T> {
                 &self.subtree_memo[v],
                 &T::add_root(&self.subtree_memo[to], to, v),
             );
+            updated = true;
+        }
+        if !updated {
+            self.subtree_memo[v] = T::leaf(v);
         }
     }
 
