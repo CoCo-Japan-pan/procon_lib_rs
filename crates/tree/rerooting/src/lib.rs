@@ -98,10 +98,7 @@ impl<T: Rerootable> Rerooting<T> {
         }
 
         // 子に伝播
-        for (i, &to) in graph[v].iter().enumerate() {
-            if to == p {
-                continue;
-            }
+        for (i, &to) in graph[v].iter().filter(|v| **v != p).enumerate() {
             self.bfs(
                 graph,
                 to,
