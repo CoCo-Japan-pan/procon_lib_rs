@@ -65,11 +65,11 @@ data:
     \       }\n        if p == usize::MAX {\n            self.ans[v] = left_sum.last().unwrap().clone();\n\
     \        } else {\n            self.ans[v] =\n                <T::DPMonoid as\
     \ Monoid>::binary_operation(left_sum.last().unwrap(), &par_val);\n        }\n\n\
-    \        // \u5B50\u306B\u4F1D\u64AD\n        for (i, &to) in graph[v].iter().enumerate()\
-    \ {\n            if to == p {\n                continue;\n            }\n    \
-    \        self.bfs(\n                graph,\n                to,\n            \
-    \    v,\n                T::add_root(\n                    &<T::DPMonoid as Monoid>::binary_operation(\n\
-    \                        &par_val,\n                        &<T::DPMonoid as Monoid>::binary_operation(&left_sum[i],\
+    \        // \u5B50\u306B\u4F1D\u64AD\n        for (i, &to) in graph[v].iter().filter(|v|\
+    \ **v != p).enumerate() {\n            self.bfs(\n                graph,\n   \
+    \             to,\n                v,\n                T::add_root(\n        \
+    \            &<T::DPMonoid as Monoid>::binary_operation(\n                   \
+    \     &par_val,\n                        &<T::DPMonoid as Monoid>::binary_operation(&left_sum[i],\
     \ &right_sum[i + 1]),\n                    ),\n                    v,\n      \
     \              to,\n                ),\n            );\n        }\n    }\n}\n"
   dependsOn:
@@ -77,7 +77,7 @@ data:
   isVerificationFile: false
   path: crates/tree/rerooting/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-07 00:57:53+09:00'
+  timestamp: '2024-04-07 01:12:39+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/tree/rerooting/src/lib.rs
