@@ -23,6 +23,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/sparse_table_on_segtree/src/lib.rs
     title: crates/data_structure/sparse_table_on_segtree/src/lib.rs
+  - icon: ':warning:'
+    path: crates/tree/rerooting/src/lib.rs
+    title: crates/tree/rerooting/src/lib.rs
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: verify/AOJ/dsl_2d_dual_seg/src/main.rs
@@ -89,23 +92,26 @@ data:
     \ &Self::Target) -> Self::Target;\n}\n\n/// \u81EA\u5DF1\u6E96\u540C\u578B\u6027\
     \u3092\u8981\u6C42  \n/// \u3064\u307E\u308A\u533A\u9593\u548C\u3078\u306E\u9069\
     \u7528\u3068\u3001\u5404\u8981\u7D20\u3078\u306E\u9069\u7528\u306E\u533A\u9593\
-    \u548C\u304C\u4E00\u81F4\u3059\u308B\u3053\u3068\u3092\u8981\u6C42\npub trait\
-    \ MapMonoid {\n    /// \u4F5C\u7528\u306E\u5BFE\u8C61\u306E\u30E2\u30CE\u30A4\u30C9\
-    \n    type Monoid: Monoid;\n    /// \u4F5C\u7528\u7D20\u306E\u30E2\u30CE\u30A4\
-    \u30C9\n    type Map: Map<Target = <Self::Monoid as Monoid>::Target>;\n    ///\
-    \ \u5358\u4F4D\u5143\n    fn id_element() -> <Self::Monoid as Monoid>::Target\
-    \ {\n        Self::Monoid::id_element()\n    }\n    /// \u4E8C\u9805\u6F14\u7B97\
-    \n    fn binary_operation(\n        a: &<Self::Monoid as Monoid>::Target,\n  \
-    \      b: &<Self::Monoid as Monoid>::Target,\n    ) -> <Self::Monoid as Monoid>::Target\
-    \ {\n        Self::Monoid::binary_operation(a, b)\n    }\n    /// \u6052\u7B49\
-    \u5199\u50CF\n    fn id_map() -> Self::Map {\n        Self::Map::id_map()\n  \
-    \  }\n    /// \u4F5C\u7528\u306E\u5408\u6210(f\u304C\u5148\u3001g\u304C\u5F8C\
-    )\n    fn composition(f: &mut Self::Map, g: &Self::Map) {\n        f.composition(g)\n\
-    \    }\n    /// \u4F5C\u7528\u306E\u9069\u7528\n    fn mapping(x: &mut <Self::Monoid\
-    \ as Monoid>::Target, f: &Self::Map) {\n        f.mapping(x)\n    }\n}\n\n///\
-    \ \u51AA\u7B49\u306A\u30E2\u30CE\u30A4\u30C9  \n/// \u3064\u307E\u308A x = x op\
-    \ x \u304C\u6210\u308A\u7ACB\u3064\u3088\u3046\u306A\u30E2\u30CE\u30A4\u30C9 \
-    \ \n/// SparseTable\u306B\u4E57\u308B\npub trait IdempotentMonoid: Monoid {}\n"
+    \u548C\u304C\u4E00\u81F4\u3059\u308B\u3053\u3068\u3092\u8981\u6C42  \n/// type\u306E\
+    Monoid,Map\u3060\u3051\u6307\u5B9A\u3059\u308B\u3053\u3068\u3092\u60F3\u5B9A(\u30E1\
+    \u30BD\u30C3\u30C9\u306E\u30AA\u30FC\u30D0\u30FC\u30E9\u30A4\u30C9\u306F\u3057\
+    \u306A\u3044\u3067\u304F\u3060\u3055\u3044)  \npub trait MapMonoid {\n    ///\
+    \ \u4F5C\u7528\u306E\u5BFE\u8C61\u306E\u30E2\u30CE\u30A4\u30C9\n    type Monoid:\
+    \ Monoid;\n    /// \u4F5C\u7528\u7D20\u306E\u30E2\u30CE\u30A4\u30C9\n    type\
+    \ Map: Map<Target = <Self::Monoid as Monoid>::Target>;\n    /// \u5358\u4F4D\u5143\
+    \n    fn id_element() -> <Self::Monoid as Monoid>::Target {\n        Self::Monoid::id_element()\n\
+    \    }\n    /// \u4E8C\u9805\u6F14\u7B97\n    fn binary_operation(\n        a:\
+    \ &<Self::Monoid as Monoid>::Target,\n        b: &<Self::Monoid as Monoid>::Target,\n\
+    \    ) -> <Self::Monoid as Monoid>::Target {\n        Self::Monoid::binary_operation(a,\
+    \ b)\n    }\n    /// \u6052\u7B49\u5199\u50CF\n    fn id_map() -> Self::Map {\n\
+    \        Self::Map::id_map()\n    }\n    /// \u4F5C\u7528\u306E\u5408\u6210(f\u304C\
+    \u5148\u3001g\u304C\u5F8C)\n    fn composition(f: &mut Self::Map, g: &Self::Map)\
+    \ {\n        f.composition(g)\n    }\n    /// \u4F5C\u7528\u306E\u9069\u7528\n\
+    \    fn mapping(x: &mut <Self::Monoid as Monoid>::Target, f: &Self::Map) {\n \
+    \       f.mapping(x)\n    }\n}\n\n/// \u51AA\u7B49\u306A\u30E2\u30CE\u30A4\u30C9\
+    \  \n/// \u3064\u307E\u308A x = x op x \u304C\u6210\u308A\u7ACB\u3064\u3088\u3046\
+    \u306A\u30E2\u30CE\u30A4\u30C9  \n/// SparseTable\u306B\u4E57\u308B\npub trait\
+    \ IdempotentMonoid: Monoid {}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/algebra/src/lib.rs
@@ -117,7 +123,8 @@ data:
   - crates/data_structure/lazy_segtree/src/lib.rs
   - crates/data_structure/segtree_2d_compressed/src/lib.rs
   - crates/data_structure/segtree_2d/src/lib.rs
-  timestamp: '2024-04-03 21:58:01+09:00'
+  - crates/tree/rerooting/src/lib.rs
+  timestamp: '2024-04-07 00:32:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/alpc_l_lazy_seg/src/main.rs

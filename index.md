@@ -116,6 +116,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/tree/hld/src/lib.rs
       title: crates/tree/hld/src/lib.rs
+  - name: crates/tree/rerooting/src
+    pages:
+    - icon: ':warning:'
+      path: crates/tree/rerooting/src/lib.rs
+      title: crates/tree/rerooting/src/lib.rs
   verificationCategories:
   - name: verify/AOJ/dsl_2d_dual_seg/src
     pages:

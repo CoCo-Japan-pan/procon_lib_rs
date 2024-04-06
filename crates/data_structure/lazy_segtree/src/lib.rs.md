@@ -175,7 +175,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/lazy_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-03 21:58:01+09:00'
+  timestamp: '2024-04-07 00:32:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
