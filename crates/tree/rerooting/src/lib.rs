@@ -43,7 +43,7 @@ impl<T: Rerootable> Rerooting<T> {
             graph,
             0,
             std::usize::MAX,
-            <T::DPMonoid as Monoid>::id_element(),
+            T::leaf(0),
         );
         ret
     }
