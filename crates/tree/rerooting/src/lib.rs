@@ -1,4 +1,5 @@
 //! 全方位木DP  
+//! leafが単位元じゃないときの処理がバグってるかもしれないので注意  
 
 use algebra::{Commutative, Monoid};
 
