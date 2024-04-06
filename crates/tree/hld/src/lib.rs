@@ -84,6 +84,12 @@ impl HLD {
         self.hld_in[v]
     }
 
+    /// 親を返す
+    pub fn get_parent(&self, v: usize) -> usize {
+        assert!(v < self.vertex_cnt);
+        self.parent[v]
+    }
+
     /// uからvへのパスを列挙する(これらはheavy pathを並べた配列において連続する区間となっている)  
     /// 上りと下りを区別して、非可換に対応している  
     /// 半開区間  
