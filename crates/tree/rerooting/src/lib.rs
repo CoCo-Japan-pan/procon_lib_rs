@@ -1,5 +1,6 @@
 //! 全方位木DP  
-//! leafが単位元じゃないときの処理がバグってるかもしれないので注意  
+//! 辺が向きつきで行きと帰りで異なる場合に対応しづらいので、ここでは頂点を用いて表している  
+//! 従って辺のコストとかは外でhashmap等で管理することになる  
 
 use algebra::{Commutative, Monoid};
 
@@ -41,13 +42,8 @@ impl<T: Rerootable> Rerooting<T> {
             subtree_memo,
             ans,
         };
-        ret.dfs(graph, 0, std::usize::MAX);
-        ret.bfs(
-            graph,
-            0,
-            std::usize::MAX,
-            <T::DPMonoid as Monoid>::id_element(),
-        );
+        ret.dfs(graph, 0, usize::MAX);
+        ret.bfs(graph, 0, usize::MAX, <T::DPMonoid as Monoid>::id_element());
         ret
     }
 
