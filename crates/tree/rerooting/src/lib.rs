@@ -118,16 +118,7 @@ impl<T: Rerootable> Rerooting<T> {
                     )
                 }
             };
-            self.bfs(
-                graph,
-                to,
-                v,
-                T::add_root(
-                    &propagate,
-                    v,
-                    to,
-                ),
-            );
+            self.bfs(graph, to, v, T::add_root(&propagate, v, to));
         }
     }
 }
