@@ -34,23 +34,22 @@ data:
     \ as Monoid>::Target {\n        let min_v = subtree_root.min(new_root);\n    \
     \    let max_v = subtree_root.max(new_root);\n        let edge_cost = EDGE_COST.get().unwrap().get(&(min_v,\
     \ max_v)).unwrap();\n        subtree.max(&VERTEX_COST.get().unwrap()[subtree_root])\
-    \ + edge_cost\n    }\n    fn leaf(vertex: usize) -> <Self::DPMonoid as Monoid>::Target\
-    \ {\n        VERTEX_COST.get().unwrap()[vertex]\n    }\n}\n\n#[fastout]\nfn main()\
-    \ {\n    input! {\n        n: usize,\n        a_b_c: [(Usize1, Usize1, u64); n\
-    \ - 1],\n        d: [u64; n],\n    }\n    let mut graph = vec![vec![]; n];\n \
-    \   for (a, b, _) in &a_b_c {\n        graph[*a].push(*b);\n        graph[*b].push(*a);\n\
-    \    }\n    EDGE_COST\n        .set(\n            a_b_c\n                .into_iter()\n\
-    \                .map(|(a, b, c)| ((a.min(b), a.max(b)), c))\n               \
-    \ .collect(),\n        )\n        .unwrap();\n    VERTEX_COST.set(d).unwrap();\n\
-    \    let rerooted = Rerooting::<DP>::new(&graph);\n    for i in 0..n {\n     \
-    \   println!(\"{}\", rerooted.get_ans(i));\n    }\n}\n"
+    \ + edge_cost\n    }\n}\n\n#[fastout]\nfn main() {\n    input! {\n        n: usize,\n\
+    \        a_b_c: [(Usize1, Usize1, u64); n - 1],\n        d: [u64; n],\n    }\n\
+    \    let mut graph = vec![vec![]; n];\n    for (a, b, _) in &a_b_c {\n       \
+    \ graph[*a].push(*b);\n        graph[*b].push(*a);\n    }\n    EDGE_COST\n   \
+    \     .set(\n            a_b_c\n                .into_iter()\n               \
+    \ .map(|(a, b, c)| ((a.min(b), a.max(b)), c))\n                .collect(),\n \
+    \       )\n        .unwrap();\n    VERTEX_COST.set(d).unwrap();\n    let rerooted\
+    \ = Rerooting::<DP>::new(&graph);\n    for i in 0..n {\n        println!(\"{}\"\
+    , rerooted.get_ans(i));\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
   - crates/tree/rerooting/src/lib.rs
   isVerificationFile: true
   path: verify/AtCoder/abc222f/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-07 16:49:29+09:00'
+  timestamp: '2024-04-07 16:55:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AtCoder/abc222f/src/main.rs
