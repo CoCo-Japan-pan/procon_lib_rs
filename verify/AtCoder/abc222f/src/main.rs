@@ -33,9 +33,6 @@ impl Rerootable for DP {
         let edge_cost = EDGE_COST.get().unwrap().get(&(min_v, max_v)).unwrap();
         subtree.max(&VERTEX_COST.get().unwrap()[subtree_root]) + edge_cost
     }
-    fn leaf(vertex: usize) -> <Self::DPMonoid as Monoid>::Target {
-        VERTEX_COST.get().unwrap()[vertex]
-    }
 }
 
 #[fastout]
