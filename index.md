@@ -157,6 +157,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/AOJ/no_2842/src/main.rs
       title: verify/AOJ/no_2842/src/main.rs
+  - name: verify/AtCoder/abc222f/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/AtCoder/abc222f/src/main.rs
+      title: verify/AtCoder/abc222f/src/main.rs
   - name: verify/AtCoder/abc285g/src
     pages:
     - icon: ':heavy_check_mark:'

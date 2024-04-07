@@ -46,6 +46,9 @@ data:
     path: verify/AOJ/no_2842/src/main.rs
     title: verify/AOJ/no_2842/src/main.rs
   - icon: ':heavy_check_mark:'
+    path: verify/AtCoder/abc222f/src/main.rs
+    title: verify/AtCoder/abc222f/src/main.rs
+  - icon: ':heavy_check_mark:'
     path: verify/AtCoder/abc312g/src/main.rs
     title: verify/AtCoder/abc312g/src/main.rs
   - icon: ':heavy_check_mark:'
@@ -131,6 +134,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc312g/src/main.rs
+  - verify/AtCoder/abc222f/src/main.rs
   - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   - verify/yosupo/point_set_range_composite/src/main.rs
   - verify/yosupo/vertex_set_path_composite/src/main.rs

@@ -7,6 +7,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: verify/AtCoder/abc222f/src/main.rs
+    title: verify/AtCoder/abc222f/src/main.rs
+  - icon: ':heavy_check_mark:'
     path: verify/AtCoder/abc312g/src/main.rs
     title: verify/AtCoder/abc312g/src/main.rs
   _isVerificationFailed: false
@@ -18,9 +21,12 @@ data:
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "//! \u5168\u65B9\u4F4D\u6728DP  \n//! leaf\u304C\u5358\u4F4D\u5143\u3058\u3083\
-    \u306A\u3044\u3068\u304D\u306E\u51E6\u7406\u304C\u30D0\u30B0\u3063\u3066\u308B\
-    \u304B\u3082\u3057\u308C\u306A\u3044\u306E\u3067\u6CE8\u610F  \n\nuse algebra::{Commutative,\
+  code: "//! \u5168\u65B9\u4F4D\u6728DP  \n//! \u8FBA\u304C\u5411\u304D\u3064\u304D\
+    \u3067\u884C\u304D\u3068\u5E30\u308A\u3067\u7570\u306A\u308B\u5834\u5408\u306B\
+    \u5BFE\u5FDC\u3057\u3065\u3089\u3044\u306E\u3067\u3001\u3053\u3053\u3067\u306F\
+    \u9802\u70B9\u3092\u7528\u3044\u3066\u8868\u3057\u3066\u3044\u308B  \n//! \u5F93\
+    \u3063\u3066\u8FBA\u306E\u30B3\u30B9\u30C8\u3068\u304B\u306F\u5916\u3067hashmap\u7B49\
+    \u3067\u7BA1\u7406\u3059\u308B\u3053\u3068\u306B\u306A\u308B  \n\nuse algebra::{Commutative,\
     \ Monoid};\n\npub trait Rerootable {\n    /// DP\u30C6\u30FC\u30D6\u30EB\u306B\
     \u8F09\u305B\u308B\u53EF\u63DB\u30E2\u30CE\u30A4\u30C9  \n    /// add_root\u306B\
     \u3088\u308A\u3067\u304D\u305F\u300C\u90E8\u5206\u6728+\u4E00\u8FBA\u300D\u540C\
@@ -46,10 +52,9 @@ data:
     \ vec![<T::DPMonoid as Monoid>::id_element(); vertex_cnt];\n        let ans =\
     \ vec![<T::DPMonoid as Monoid>::id_element(); vertex_cnt];\n        let mut ret\
     \ = Self {\n            vertex_cnt,\n            subtree_memo,\n            ans,\n\
-    \        };\n        ret.dfs(graph, 0, std::usize::MAX);\n        ret.bfs(\n \
-    \           graph,\n            0,\n            std::usize::MAX,\n           \
-    \ <T::DPMonoid as Monoid>::id_element(),\n        );\n        ret\n    }\n\n \
-    \   pub fn get_ans(&self, root: usize) -> <T::DPMonoid as Monoid>::Target {\n\
+    \        };\n        ret.dfs(graph, 0, usize::MAX);\n        ret.bfs(graph, 0,\
+    \ usize::MAX, <T::DPMonoid as Monoid>::id_element());\n        ret\n    }\n\n\
+    \    pub fn get_ans(&self, root: usize) -> <T::DPMonoid as Monoid>::Target {\n\
     \        assert!(root < self.vertex_cnt);\n        self.ans[root].clone()\n  \
     \  }\n\n    fn dfs(&mut self, graph: &Vec<Vec<usize>>, v: usize, p: usize) {\n\
     \        let mut updated = false;\n        for &to in &graph[v] {\n          \
@@ -86,10 +91,11 @@ data:
   isVerificationFile: false
   path: crates/tree/rerooting/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-07 13:23:16+09:00'
+  timestamp: '2024-04-07 16:49:29+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc312g/src/main.rs
+  - verify/AtCoder/abc222f/src/main.rs
 documentation_of: crates/tree/rerooting/src/lib.rs
 layout: document
 redirect_from:
