@@ -5,10 +5,13 @@ data:
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: verify/AtCoder/abc312g/src/main.rs
+    title: verify/AtCoder/abc312g/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -71,23 +74,22 @@ data:
     \        } else {\n            self.ans[v] =\n                <T::DPMonoid as\
     \ Monoid>::binary_operation(left_sum.last().unwrap(), &par_val);\n        }\n\n\
     \        // \u5B50\u306B\u4F1D\u64AD\n        for (i, &to) in graph[v].iter().filter(|v|\
-    \ **v != p).enumerate() {\n            let propagate = {\n                // \u4E00\
-    \u3064\u3082\u90E8\u5206\u6728\u3092merge\u3057\u306A\u3044\u306A\u3089\u3001\
-    leaf\u3092\u7528\u3044\u308B\n                if buf.len() == 1 && p == usize::MAX\
-    \ {\n                    T::leaf(v)\n                } else {\n              \
-    \      <T::DPMonoid as Monoid>::binary_operation(\n                        &par_val,\n\
-    \                        &<T::DPMonoid as Monoid>::binary_operation(&left_sum[i],\
-    \ &right_sum[i + 1]),\n                    )\n                }\n            };\n\
-    \            self.bfs(graph, to, v, T::add_root(&propagate, v, to));\n       \
-    \ }\n    }\n}\n"
+    \ **v != p).enumerate() {\n            // \u4E00\u3064\u3082\u90E8\u5206\u6728\
+    \u3092merge\u3057\u306A\u3044\u306A\u3089\u3001leaf\u3092\u7528\u3044\u308B\n\
+    \            let propagate = if buf.len() == 1 && p == usize::MAX {\n        \
+    \        T::leaf(v)\n            } else {\n                <T::DPMonoid as Monoid>::binary_operation(\n\
+    \                    &par_val,\n                    &<T::DPMonoid as Monoid>::binary_operation(&left_sum[i],\
+    \ &right_sum[i + 1]),\n                )\n            };\n            self.bfs(graph,\
+    \ to, v, T::add_root(&propagate, v, to));\n        }\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
   isVerificationFile: false
   path: crates/tree/rerooting/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-07 12:10:19+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  timestamp: '2024-04-07 13:23:16+09:00'
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - verify/AtCoder/abc312g/src/main.rs
 documentation_of: crates/tree/rerooting/src/lib.rs
 layout: document
 redirect_from:

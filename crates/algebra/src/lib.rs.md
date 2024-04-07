@@ -23,7 +23,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/sparse_table_on_segtree/src/lib.rs
     title: crates/data_structure/sparse_table_on_segtree/src/lib.rs
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: crates/tree/rerooting/src/lib.rs
     title: crates/tree/rerooting/src/lib.rs
   _extendedVerifiedWith:
@@ -45,6 +45,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/AOJ/no_2842/src/main.rs
     title: verify/AOJ/no_2842/src/main.rs
+  - icon: ':heavy_check_mark:'
+    path: verify/AtCoder/abc312g/src/main.rs
+    title: verify/AtCoder/abc312g/src/main.rs
   - icon: ':heavy_check_mark:'
     path: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
     title: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
@@ -127,6 +130,7 @@ data:
   timestamp: '2024-04-07 00:32:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - verify/AtCoder/abc312g/src/main.rs
   - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   - verify/yosupo/point_set_range_composite/src/main.rs
   - verify/yosupo/vertex_set_path_composite/src/main.rs

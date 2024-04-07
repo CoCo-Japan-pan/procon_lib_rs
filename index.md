@@ -118,7 +118,7 @@ data:
       title: crates/tree/hld/src/lib.rs
   - name: crates/tree/rerooting/src
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: crates/tree/rerooting/src/lib.rs
       title: crates/tree/rerooting/src/lib.rs
   verificationCategories:
@@ -167,6 +167,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/AtCoder/abc294g/src/main.rs
       title: verify/AtCoder/abc294g/src/main.rs
+  - name: verify/AtCoder/abc312g/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/AtCoder/abc312g/src/main.rs
+      title: verify/AtCoder/abc312g/src/main.rs
   - name: verify/AtCoder/alpc_l_lazy_seg/src
     pages:
     - icon: ':heavy_check_mark:'
