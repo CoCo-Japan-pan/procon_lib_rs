@@ -1,51 +1,65 @@
 //! merge以外は(意味的に)&selfにしたいので、RefCellを使用している
-
 use std::cell::RefCell;
+use ParentOrSize::*;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum ParentOrSize {
+    /// 親のノード番号
+    Parent(usize),
+    /// 自身が親なら、その集合のサイズを持つ
+    Size(usize),
+}
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct UnionFind {
     n: usize,
-    /// rootなら、その集合のサイズを負の値で持つ
-    /// それ以外なら、親のノード番号を持つ
-    parent_or_size: RefCell<Vec<i32>>,
+    parent_or_size: RefCell<Vec<ParentOrSize>>,
 }
 
 impl UnionFind {
     pub fn new(size: usize) -> Self {
         UnionFind {
             n: size,
-            parent_or_size: RefCell::new(vec![-1; size]),
+            parent_or_size: RefCell::new(vec![Size(1); size]),
         }
     }
 
+    /// 合併しつつ、合併した集合の代表元を返す
     pub fn merge(&mut self, a: usize, b: usize) -> usize {
         assert!(a < self.n);
         assert!(b < self.n);
-        let (mut x, mut y) = (self.leader(a), self.leader(b));
+        let (x, y) = (self.leader(a), self.leader(b));
         if x == y {
             return x;
         }
         let mut par = self.parent_or_size.borrow_mut();
-        if -par[x] < -par[y] {
-            std::mem::swap(&mut x, &mut y);
-        }
-        par[x] += par[y];
-        par[y] = x as i32;
-        x
+        let (bigger, smaller, size_sum) = {
+            if let (Size(x_size), Size(y_size)) = (par[x], par[y]) {
+                if x_size < y_size {
+                    (y, x, x_size + y_size)
+                } else {
+                    (x, y, x_size + y_size)
+                }
+            } else {
+                unreachable!()
+            }
+        };
+        par[bigger] = Size(size_sum);
+        par[smaller] = Parent(bigger);
+        bigger
     }
 
     pub fn leader(&self, mut a: usize) -> usize {
         assert!(a < self.n);
         let mut par = self.parent_or_size.borrow_mut();
         let mut leader = a;
-        while par[leader] >= 0 {
-            leader = par[leader] as usize;
+        while let Parent(p) = par[leader] {
+            leader = p;
         }
         // 経路圧縮
-        while par[a] >= 0 {
-            let next = par[a] as usize;
-            par[a] = leader as i32;
-            a = next;
+        while let Parent(p) = par[a] {
+            par[a] = Parent(leader);
+            a = p;
         }
         leader
     }
@@ -59,7 +73,11 @@ impl UnionFind {
     pub fn size(&self, a: usize) -> usize {
         assert!(a < self.n);
         let leader = self.leader(a);
-        -self.parent_or_size.borrow()[leader] as usize
+        if let Size(size) = self.parent_or_size.borrow()[leader] {
+            size
+        } else {
+            unreachable!()
+        }
     }
 
     pub fn groups(&self) -> Vec<Vec<usize>> {
