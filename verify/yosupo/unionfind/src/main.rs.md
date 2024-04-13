@@ -30,7 +30,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/unionfind/src/main.rs
   requiredBy: []
-  timestamp: '2024-03-15 23:50:00+09:00'
+  timestamp: '2024-04-13 18:41:44+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/unionfind/src/main.rs
