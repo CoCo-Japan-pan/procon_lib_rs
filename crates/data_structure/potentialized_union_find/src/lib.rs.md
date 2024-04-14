@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/AtCoder/abc328f/src/main.rs
     title: verify/AtCoder/abc328f/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -71,14 +71,19 @@ data:
     \       assert!(y < self.n);\n        let (x, x_diff) = self.root_and_diff(x);\n\
     \        let (y, y_diff) = self.root_and_diff(y);\n        if x == y {\n     \
     \       Some(M::binary_operation(&M::inverse(&x_diff), &y_diff))\n        } else\
-    \ {\n            None\n        }\n    }\n}\n"
+    \ {\n            None\n        }\n    }\n\n    /// x\u3068\u306E\u5DEE\u5206\u304C\
+    \u5B9A\u7FA9\u3055\u308C\u3066\u3044\u308B\u30CE\u30FC\u30C9\u306E\u6570\u3092\
+    \u8FD4\u3059\n    pub fn size(&self, x: usize) -> usize {\n        assert!(x <\
+    \ self.n);\n        let (x, _) = self.root_and_diff(x);\n        if let Size(size)\
+    \ = self.potential.borrow()[x] {\n            size\n        } else {\n       \
+    \     unreachable!()\n        }\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
   isVerificationFile: false
   path: crates/data_structure/potentialized_union_find/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-14 13:25:19+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2024-04-14 13:50:30+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - verify/AtCoder/abc328f/src/main.rs
 documentation_of: crates/data_structure/potentialized_union_find/src/lib.rs

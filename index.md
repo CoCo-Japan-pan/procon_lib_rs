@@ -3,7 +3,7 @@ data:
   libraryCategories:
   - name: crates/algebra/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/algebra/src/lib.rs
       title: crates/algebra/src/lib.rs
   - name: crates/data_structure/dual_segtree/src
@@ -23,7 +23,7 @@ data:
       title: crates/data_structure/lazy_segtree/src/lib.rs
   - name: crates/data_structure/potentialized_union_find/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: crates/data_structure/potentialized_union_find/src/lib.rs
       title: crates/data_structure/potentialized_union_find/src/lib.rs
   - name: crates/data_structure/raq_rsq/src
@@ -184,7 +184,7 @@ data:
       title: verify/AtCoder/abc312g/src/main.rs
   - name: verify/AtCoder/abc328f/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/AtCoder/abc328f/src/main.rs
       title: verify/AtCoder/abc328f/src/main.rs
   - name: verify/AtCoder/alpc_l_lazy_seg/src
