@@ -16,13 +16,11 @@ pub fn calc_mo_friendly_order(range_size: usize, query_ranges: &Vec<(usize, usiz
         let (l2, r2) = query_ranges[b];
         let block1 = l1 / block_size;
         let block2 = l2 / block_size;
-        if block1 != block2 {
-            block1.cmp(&block2)
-        } else if (block1 & 1) == 0 {
+        block1.cmp(&block2).then(if (block1 & 1) == 0 {
             r1.cmp(&r2)
         } else {
             r2.cmp(&r1)
-        }
+        })
     });
     order
 }
