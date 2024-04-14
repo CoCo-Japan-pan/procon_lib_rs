@@ -22,13 +22,13 @@ data:
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://atcoder.jp/contests/abc312/tasks/abc312_g\n\
     \nuse algebra::{Commutative, Monoid};\nuse proconio::{fastout, input, marker::Usize1};\n\
-    use rerooting::{Rerootable, Rerooting};\n\n#[derive(Debug, Clone, Copy)]\nstruct\
-    \ DP {\n    prod: i64,\n    sum: i64,\n}\nimpl Monoid for DP {\n    type Target\
-    \ = Self;\n    fn id_element() -> Self::Target {\n        DP { prod: 0, sum: 0\
-    \ }\n    }\n    fn binary_operation(a: &Self::Target, b: &Self::Target) -> Self::Target\
-    \ {\n        DP {\n            prod: a.prod + b.prod + a.sum * b.sum,\n      \
-    \      sum: a.sum + b.sum,\n        }\n    }\n}\nimpl Commutative for DP {}\n\
-    impl Rerootable for DP {\n    type DPMonoid = DP;\n    #[allow(unused_variables)]\n\
+    use rerooting::{Rerootable, Rerooting};\n\n#[derive(Debug, Clone, Copy, PartialEq,\
+    \ Eq)]\nstruct DP {\n    prod: i64,\n    sum: i64,\n}\nimpl Monoid for DP {\n\
+    \    type Target = Self;\n    fn id_element() -> Self::Target {\n        DP {\
+    \ prod: 0, sum: 0 }\n    }\n    fn binary_operation(a: &Self::Target, b: &Self::Target)\
+    \ -> Self::Target {\n        DP {\n            prod: a.prod + b.prod + a.sum *\
+    \ b.sum,\n            sum: a.sum + b.sum,\n        }\n    }\n}\nimpl Commutative\
+    \ for DP {}\nimpl Rerootable for DP {\n    type DPMonoid = DP;\n    #[allow(unused_variables)]\n\
     \    fn add_root(\n        subtree: &<Self::DPMonoid as Monoid>::Target,\n   \
     \     subtree_root: usize,\n        new_root: usize,\n    ) -> <Self::DPMonoid\
     \ as Monoid>::Target {\n        DP {\n            prod: 0,\n            sum: subtree.sum\
@@ -45,7 +45,7 @@ data:
   isVerificationFile: true
   path: verify/AtCoder/abc312g/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-07 16:49:29+09:00'
+  timestamp: '2024-04-14 12:28:09+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AtCoder/abc312g/src/main.rs

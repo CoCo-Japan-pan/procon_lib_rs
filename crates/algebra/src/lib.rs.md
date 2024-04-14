@@ -8,6 +8,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/lazy_segtree/src/lib.rs
     title: crates/data_structure/lazy_segtree/src/lib.rs
+  - icon: ':warning:'
+    path: crates/data_structure/potentialized_union_find/src/lib.rs
+    title: crates/data_structure/potentialized_union_find/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/segtree/src/lib.rs
     title: crates/data_structure/segtree/src/lib.rs
@@ -93,7 +96,7 @@ data:
     \ self, rhs: &Self);\n    /// \u4F5C\u7528\u306E\u9069\u7528\n    fn mapping(&self,\
     \ target: &mut Self::Target);\n}\n\n/// \u30E2\u30CE\u30A4\u30C9\npub trait Monoid\
     \ {\n    /// \u30E2\u30CE\u30A4\u30C9\u306E\u8981\u7D20\n    type Target: Debug\
-    \ + Clone;\n    /// \u5358\u4F4D\u5143\n    fn id_element() -> Self::Target;\n\
+    \ + Clone + Eq;\n    /// \u5358\u4F4D\u5143\n    fn id_element() -> Self::Target;\n\
     \    /// \u4E8C\u9805\u6F14\u7B97\n    fn binary_operation(a: &Self::Target, b:\
     \ &Self::Target) -> Self::Target;\n}\n\n/// \u81EA\u5DF1\u6E96\u540C\u578B\u6027\
     \u3092\u8981\u6C42  \n/// \u3064\u307E\u308A\u533A\u9593\u548C\u3078\u306E\u9069\
@@ -117,7 +120,9 @@ data:
     \       f.mapping(x)\n    }\n}\n\n/// \u51AA\u7B49\u306A\u30E2\u30CE\u30A4\u30C9\
     \  \n/// \u3064\u307E\u308A x = x op x \u304C\u6210\u308A\u7ACB\u3064\u3088\u3046\
     \u306A\u30E2\u30CE\u30A4\u30C9  \n/// SparseTable\u306B\u4E57\u308B\npub trait\
-    \ IdempotentMonoid: Monoid {}\n"
+    \ IdempotentMonoid: Monoid {}\n\n/// \u7FA4   \n/// \u30E2\u30CE\u30A4\u30C9\u306B\
+    \u52A0\u3048\u3066\u3001\u9006\u5143\u3092\u6301\u3064  \npub trait Group: Monoid\
+    \ {\n    fn inverse(a: &Self::Target) -> Self::Target;\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/algebra/src/lib.rs
@@ -125,12 +130,13 @@ data:
   - crates/data_structure/sparse_table/src/lib.rs
   - crates/data_structure/sparse_table_on_segtree/src/lib.rs
   - crates/data_structure/segtree/src/lib.rs
+  - crates/data_structure/potentialized_union_find/src/lib.rs
   - crates/data_structure/dual_segtree/src/lib.rs
   - crates/data_structure/lazy_segtree/src/lib.rs
   - crates/data_structure/segtree_2d_compressed/src/lib.rs
   - crates/data_structure/segtree_2d/src/lib.rs
   - crates/tree/rerooting/src/lib.rs
-  timestamp: '2024-04-07 00:32:51+09:00'
+  timestamp: '2024-04-14 12:28:09+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc312g/src/main.rs

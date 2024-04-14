@@ -21,6 +21,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/data_structure/lazy_segtree/src/lib.rs
       title: crates/data_structure/lazy_segtree/src/lib.rs
+  - name: crates/data_structure/potentialized_union_find/src
+    pages:
+    - icon: ':warning:'
+      path: crates/data_structure/potentialized_union_find/src/lib.rs
+      title: crates/data_structure/potentialized_union_find/src/lib.rs
   - name: crates/data_structure/raq_rsq/src
     pages:
     - icon: ':heavy_check_mark:'

@@ -58,7 +58,7 @@ data:
   isVerificationFile: true
   path: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-07 00:32:51+09:00'
+  timestamp: '2024-04-14 12:28:09+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
