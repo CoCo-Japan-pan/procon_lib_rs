@@ -22,24 +22,25 @@ data:
   _pathExtension: rs
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    links: []
+    links:
+    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/lazysegtree.rs)
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "//! \u57FA\u672C\u7684\u306Bac-library-rs\u3068\u540C\u3058\n//! composition\u3084\
-    mapping\u306B\u53EF\u5909\u53C2\u7167\u3092\u7528\u3044\u3066\u3044\u308B\u3068\
-    \u3053\u308D\u3068\u3001\u4F5C\u7528\u304C\u53EF\u5909\u306A\u3089\u4F1D\u64AD\
-    \u3092\u4E00\u90E8\u30B5\u30DC\u308B\u90E8\u5206\u304C\u7570\u306A\u308B\n\nuse\
-    \ algebra::{Commutative, MapMonoid, Monoid, NonCommutative};\nuse std::ops::RangeBounds;\n\
-    \n#[derive(Debug)]\npub struct LazySegTree<F: MapMonoid> {\n    range_size: usize,\n\
-    \    leaf_size: usize,\n    log: usize,\n    data: Vec<<F::Monoid as Monoid>::Target>,\n\
-    \    lazy: Vec<F::Map>,\n}\n\nimpl<F: MapMonoid> From<Vec<<F::Monoid as Monoid>::Target>>\
-    \ for LazySegTree<F> {\n    fn from(v: Vec<<F::Monoid as Monoid>::Target>) ->\
-    \ Self {\n        let range_size = v.len();\n        let log = (32 - (range_size\
-    \ as u32).saturating_sub(1).leading_zeros()) as usize;\n        let leaf_size\
-    \ = 1 << log;\n        let mut data = vec![F::id_element(); 2 * leaf_size];\n\
-    \        let lazy = vec![F::id_map(); leaf_size];\n        data[leaf_size..(leaf_size\
+  code: "//! [Reference](https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/lazysegtree.rs)\
+    \  \n//! composition\u3084mapping\u306B\u53EF\u5909\u53C2\u7167\u3092\u7528\u3044\
+    \u3066\u3044\u308B\u3068\u3053\u308D\u3068\u3001\u4F5C\u7528\u304C\u53EF\u5909\
+    \u306A\u3089\u4F1D\u64AD\u3092\u4E00\u90E8\u30B5\u30DC\u308B\u90E8\u5206\u304C\
+    \u7570\u306A\u308B\n\nuse algebra::{Commutative, MapMonoid, Monoid, NonCommutative};\n\
+    use std::ops::RangeBounds;\n\n#[derive(Debug)]\npub struct LazySegTree<F: MapMonoid>\
+    \ {\n    range_size: usize,\n    leaf_size: usize,\n    log: usize,\n    data:\
+    \ Vec<<F::Monoid as Monoid>::Target>,\n    lazy: Vec<F::Map>,\n}\n\nimpl<F: MapMonoid>\
+    \ From<Vec<<F::Monoid as Monoid>::Target>> for LazySegTree<F> {\n    fn from(v:\
+    \ Vec<<F::Monoid as Monoid>::Target>) -> Self {\n        let range_size = v.len();\n\
+    \        let log = (32 - (range_size as u32).saturating_sub(1).leading_zeros())\
+    \ as usize;\n        let leaf_size = 1 << log;\n        let mut data = vec![F::id_element();\
+    \ 2 * leaf_size];\n        let lazy = vec![F::id_map(); leaf_size];\n        data[leaf_size..(leaf_size\
     \ + range_size)].clone_from_slice(&v);\n        let mut ret = Self {\n       \
     \     range_size,\n            leaf_size,\n            log,\n            data,\n\
     \            lazy,\n        };\n        for i in (1..leaf_size).rev() {\n    \
@@ -175,7 +176,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/lazy_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-14 12:28:09+09:00'
+  timestamp: '2024-04-14 12:40:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/alpc_l_lazy_seg/src/main.rs

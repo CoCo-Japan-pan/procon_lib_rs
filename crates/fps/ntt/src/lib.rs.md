@@ -17,6 +17,7 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
+    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/convolution.rs)
     - https://tayu0110.hatenablog.com/entry/2023/05/06/023244)
     - https://www.creativ.xyz/fast-fourier-transform/)
     - https://www.mathenachia.blog/ntt-mod-list-01/)
@@ -27,10 +28,10 @@ data:
   code: "//! [FFT](https://www.creativ.xyz/fast-fourier-transform/)  \n//! [\u539F\
     \u59CB\u6839, NTT friendly MOD](https://www.mathenachia.blog/ntt-mod-list-01/)\
     \  \n//! [\u9AD8\u901F\u5316](https://tayu0110.hatenablog.com/entry/2023/05/06/023244)\
-    \  \n//! \u7D50\u5C40ac-library-rs\u3068\u307B\u3068\u3093\u3069\u540C\u3058\u5B9F\
-    \u88C5\u3067\u3059(\u30B8\u30A7\u30CD\u30EA\u30C3\u30AF\u306B\u7D10\u3065\u304F\
-    static\u306E\u5B9F\u73FE\u304C\u3080\u305A\u304F\u3066\u30AD\u30E3\u30C3\u30B7\
-    \u30E5\u306F\u6BCE\u56DE\u3068\u308B\u3053\u3068\u306B...)\n\nuse static_modint::{ModInt998244353,\
+    \  \n//! [Reference](https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/convolution.rs)\
+    \  \n//! \u30B8\u30A7\u30CD\u30EA\u30C3\u30AF\u306B\u7D10\u3065\u304Fstatic\u306E\
+    \u5B9F\u73FE\u304C\u3080\u305A\u304F\u3066\u30AD\u30E3\u30C3\u30B7\u30E5\u306F\
+    \u6BCE\u56DE\u3068\u308B\u3053\u3068\u306B\u3057\u305F...  \n\nuse static_modint::{ModInt998244353,\
     \ StaticModInt};\n\nfn prepare<const NTT_MOD: u32, const PRIMITIVE_ROOT: u32>(\n\
     ) -> ([StaticModInt<NTT_MOD>; 30], [StaticModInt<NTT_MOD>; 30]) {\n    let g =\
     \ StaticModInt::<NTT_MOD>::raw(PRIMITIVE_ROOT);\n    let mut es = [StaticModInt::<NTT_MOD>::raw(0);\
@@ -81,7 +82,7 @@ data:
   path: crates/fps/ntt/src/lib.rs
   requiredBy:
   - crates/fps/ntt_arbitrary_mod/src/lib.rs
-  timestamp: '2024-04-07 00:06:32+09:00'
+  timestamp: '2024-04-14 12:40:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/convolution_ntt/src/main.rs

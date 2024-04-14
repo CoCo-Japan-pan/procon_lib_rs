@@ -18,25 +18,27 @@ data:
     - https://creativecommons.org/licenses/by-sa/3.0/deed.en
     - https://gist.github.com/MiSawa/47b1d99c372daffb6891662db1a2b686
     - https://github.com/atcoder/ac-library/issues/5
+    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/maxflow.rs)
     - https://github.com/rust-lang-ja/ac-library-rs/pull/24#discussion_r485343451
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "//! ac-library-rs \u3068\u540C\u3058\u3067\u3059\u3002\n\nuse internal_type_traits::Integral;\n\
-    use std::cmp::min;\nuse std::iter;\n\n#[derive(Default, Debug, Clone, PartialEq,\
-    \ Eq)]\nstruct SimpleQueue<T> {\n    payload: Vec<T>,\n    pos: usize,\n}\n\n\
-    impl<T> SimpleQueue<T> {\n    fn empty(&self) -> bool {\n        self.pos == self.payload.len()\n\
-    \    }\n\n    fn push(&mut self, t: T) {\n        self.payload.push(t);\n    }\n\
-    \n    // Do we need mutable version?\n    fn front(&self) -> Option<&T> {\n  \
-    \      if self.pos < self.payload.len() {\n            Some(&self.payload[self.pos])\n\
-    \        } else {\n            None\n        }\n    }\n\n    fn clear(&mut self)\
-    \ {\n        self.payload.clear();\n        self.pos = 0;\n    }\n\n    fn pop(&mut\
-    \ self) -> Option<&T> {\n        if self.pos < self.payload.len() {\n        \
-    \    self.pos += 1;\n            Some(&self.payload[self.pos - 1])\n        }\
-    \ else {\n            None\n        }\n    }\n}\n\nimpl<Cap> MaxFlow<Cap>\nwhere\n\
-    \    Cap: Integral,\n{\n    pub fn new(n: usize) -> MaxFlow<Cap> {\n        MaxFlow\
-    \ {\n            _n: n,\n            pos: Vec::new(),\n            g: iter::repeat_with(Vec::new).take(n).collect(),\n\
+  code: "//! [Reference](https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/maxflow.rs)\n\
+    \nuse internal_type_traits::Integral;\nuse std::cmp::min;\nuse std::iter;\n\n\
+    #[derive(Default, Debug, Clone, PartialEq, Eq)]\nstruct SimpleQueue<T> {\n   \
+    \ payload: Vec<T>,\n    pos: usize,\n}\n\nimpl<T> SimpleQueue<T> {\n    fn empty(&self)\
+    \ -> bool {\n        self.pos == self.payload.len()\n    }\n\n    fn push(&mut\
+    \ self, t: T) {\n        self.payload.push(t);\n    }\n\n    // Do we need mutable\
+    \ version?\n    fn front(&self) -> Option<&T> {\n        if self.pos < self.payload.len()\
+    \ {\n            Some(&self.payload[self.pos])\n        } else {\n           \
+    \ None\n        }\n    }\n\n    fn clear(&mut self) {\n        self.payload.clear();\n\
+    \        self.pos = 0;\n    }\n\n    fn pop(&mut self) -> Option<&T> {\n     \
+    \   if self.pos < self.payload.len() {\n            self.pos += 1;\n         \
+    \   Some(&self.payload[self.pos - 1])\n        } else {\n            None\n  \
+    \      }\n    }\n}\n\nimpl<Cap> MaxFlow<Cap>\nwhere\n    Cap: Integral,\n{\n \
+    \   pub fn new(n: usize) -> MaxFlow<Cap> {\n        MaxFlow {\n            _n:\
+    \ n,\n            pos: Vec::new(),\n            g: iter::repeat_with(Vec::new).take(n).collect(),\n\
     \        }\n    }\n\n    pub fn add_edge(&mut self, from: usize, to: usize, cap:\
     \ Cap) -> usize {\n        assert!(from < self._n);\n        assert!(to < self._n);\n\
     \        assert!(Cap::zero() <= cap);\n        let m = self.pos.len();\n     \
@@ -163,7 +165,7 @@ data:
   path: crates/flow/maxflow/src/lib.rs
   requiredBy:
   - crates/flow/maxflow_lower_bound/src/lib.rs
-  timestamp: '2024-04-03 19:47:00+09:00'
+  timestamp: '2024-04-14 12:40:51+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/flow/maxflow/src/lib.rs

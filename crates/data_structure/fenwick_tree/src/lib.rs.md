@@ -22,7 +22,8 @@ data:
   _pathExtension: rs
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    links: []
+    links:
+    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/fenwicktree.rs
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
@@ -57,8 +58,9 @@ data:
     \ mut idx: usize) -> T {\n        assert!(idx <= self.size);\n        let mut\
     \ sum = self.zero.clone();\n        while idx > 0 {\n            sum += self.data[idx].clone();\n\
     \            idx -= idx & idx.wrapping_neg();\n        }\n        sum\n    }\n\
-    }\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n    use std::ops::Bound::*;\n\
-    \n    #[test]\n    fn fenwick_tree_works() {\n        let mut bit = FenwickTree::<i64>::new(5,\
+    }\n\n/// From https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/fenwicktree.rs\n\
+    #[cfg(test)]\nmod tests {\n    use super::*;\n    use std::ops::Bound::*;\n\n\
+    \    #[test]\n    fn fenwick_tree_works() {\n        let mut bit = FenwickTree::<i64>::new(5,\
     \ 0i64);\n        // [1, 2, 3, 4, 5]\n        for i in 0..5 {\n            bit.add(i,\
     \ i as i64 + 1);\n        }\n        assert_eq!(bit.sum(0..5), 15);\n        assert_eq!(bit.sum(0..4),\
     \ 10);\n        assert_eq!(bit.sum(1..3), 5);\n\n        assert_eq!(bit.sum(..),\
@@ -70,7 +72,7 @@ data:
   path: crates/data_structure/fenwick_tree/src/lib.rs
   requiredBy:
   - crates/data_structure/raq_rsq/src/lib.rs
-  timestamp: '2024-03-21 10:45:53+09:00'
+  timestamp: '2024-04-14 12:40:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc294g/src/main.rs

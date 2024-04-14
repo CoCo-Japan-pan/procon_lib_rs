@@ -19,15 +19,16 @@ data:
   _pathExtension: rs
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    links: []
+    links:
+    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs)
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "//! ac_library_rs\u3068\u540C\u3058\u3067\u3059\u3002\n\nuse algebra::Monoid;\n\
-    use std::ops::RangeBounds;\n\n#[derive(Debug, Clone, PartialEq, Eq)]\npub struct\
-    \ SegTree<M: Monoid> {\n    range_size: usize,\n    leaf_size: usize,\n    log:\
-    \ usize,\n    data: Vec<M::Target>,\n}\n\nimpl<M: Monoid> From<&Vec<M::Target>>\
+  code: "//! [Reference](https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs)\n\
+    \nuse algebra::Monoid;\nuse std::ops::RangeBounds;\n\n#[derive(Debug, Clone, PartialEq,\
+    \ Eq)]\npub struct SegTree<M: Monoid> {\n    range_size: usize,\n    leaf_size:\
+    \ usize,\n    log: usize,\n    data: Vec<M::Target>,\n}\n\nimpl<M: Monoid> From<&Vec<M::Target>>\
     \ for SegTree<M> {\n    fn from(v: &Vec<M::Target>) -> Self {\n        let range_size\
     \ = v.len();\n        let log = (32 - (range_size as u32).saturating_sub(1).leading_zeros())\
     \ as usize;\n        let leaf_size = 1 << log;\n        let mut data = vec![M::id_element();\
@@ -92,7 +93,7 @@ data:
   path: crates/data_structure/segtree/src/lib.rs
   requiredBy:
   - crates/data_structure/segtree_2d_compressed/src/lib.rs
-  timestamp: '2024-04-14 12:28:09+09:00'
+  timestamp: '2024-04-14 12:40:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/point_set_range_composite/src/main.rs

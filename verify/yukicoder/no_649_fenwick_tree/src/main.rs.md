@@ -44,7 +44,7 @@ data:
   isVerificationFile: true
   path: verify/yukicoder/no_649_fenwick_tree/src/main.rs
   requiredBy: []
-  timestamp: '2024-03-21 10:45:53+09:00'
+  timestamp: '2024-04-14 12:40:51+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yukicoder/no_649_fenwick_tree/src/main.rs

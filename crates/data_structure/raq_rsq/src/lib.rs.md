@@ -18,9 +18,10 @@ data:
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "//! fenwick tree \u3092\u4E8C\u3064\u7528\u3044\u3066\u3001\u533A\u9593\u52A0\
-    \u7B97\u3001\u533A\u9593\u548C\u30AF\u30A8\u30EA\u3092\u51E6\u7406\u3057\u307E\
-    \u3059  \n\nuse fenwick_tree::FenwickTree;\nuse std::fmt::Debug;\nuse std::ops::{Add,\
+  code: "//! \u87FB\u672Cp165\u3092\u3082\u3068\u306B\u3057\u3066\u3044\u308B  \n\
+    //! fenwick tree \u3092\u4E8C\u3064\u7528\u3044\u3066\u3001\u533A\u9593\u52A0\u7B97\
+    \u3001\u533A\u9593\u548C\u30AF\u30A8\u30EA\u3092\u51E6\u7406\u3057\u307E\u3059\
+    \  \n\nuse fenwick_tree::FenwickTree;\nuse std::fmt::Debug;\nuse std::ops::{Add,\
     \ AddAssign, Mul, Neg, RangeBounds, Sub};\n\npub struct RAQRSQ<\n    T: Clone\n\
     \        + Add<Output = T>\n        + AddAssign\n        + Sub<Output = T>\n \
     \       + Neg<Output = T>\n        + TryFrom<usize>\n        + Mul<Output = T>,\n\
@@ -58,7 +59,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/raq_rsq/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-04 01:54:42+09:00'
+  timestamp: '2024-04-14 12:40:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/no_2667/src/main.rs
