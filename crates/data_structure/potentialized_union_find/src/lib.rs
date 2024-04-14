@@ -101,4 +101,15 @@ impl<M: Group + Commutative> PotentializedUnionFind<M> {
             None
         }
     }
+
+    /// xとの差分が定義されているノードの数を返す
+    pub fn size(&self, x: usize) -> usize {
+        assert!(x < self.n);
+        let (x, _) = self.root_and_diff(x);
+        if let Size(size) = self.potential.borrow()[x] {
+            size
+        } else {
+            unreachable!()
+        }
+    }
 }
