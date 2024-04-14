@@ -43,18 +43,13 @@ impl<M: Group + Commutative> PotentializedUnionFind<M> {
         } else {
             let mut pot = self.potential.borrow_mut();
             if let (&Size(x_size), &Size(y_size)) = (&pot[x], &pot[y]) {
+                let x_root_to_y = M::binary_operation(&x_diff, &diff);
                 if x_size > y_size {
-                    let diff = M::binary_operation(
-                        &M::binary_operation(&x_diff, &diff),
-                        &M::inverse(&y_diff),
-                    );
+                    let diff = M::binary_operation(&x_root_to_y, &M::inverse(&y_diff));
                     pot[x] = Size(x_size + y_size);
                     pot[y] = Diff(x, diff);
                 } else {
-                    let diff = M::binary_operation(
-                        &M::binary_operation(&y_diff, &diff),
-                        &M::inverse(&x_diff),
-                    );
+                    let diff = M::binary_operation(&y_diff, &M::inverse(&x_root_to_y));
                     pot[y] = Size(x_size + y_size);
                     pot[x] = Diff(y, diff);
                 }
@@ -66,15 +61,16 @@ impl<M: Group + Commutative> PotentializedUnionFind<M> {
     }
 
     /// 代表元と、それから見た差分を求める
-    pub fn root_and_diff(&self, mut x: usize) -> (usize, M::Target) {
+    pub fn root_and_diff(&self, x: usize) -> (usize, M::Target) {
         assert!(x < self.n);
         let mut pot = self.potential.borrow_mut();
         let mut buf = vec![];
-        while let Diff(par, diff) = &pot[x] {
-            buf.push((x, diff.clone()));
-            x = *par;
+        let mut leader = x;
+        while let Diff(par, diff) = &pot[leader] {
+            buf.push((leader, diff.clone()));
+            leader = *par;
         }
-        buf.push((x, M::id_element()));
+        buf.push((leader, M::id_element()));
         buf.reverse();
         for i in 1..buf.len() {
             let (v, ref diff) = buf[i];
@@ -85,9 +81,12 @@ impl<M: Group + Commutative> PotentializedUnionFind<M> {
                 &buf[0].1
             };
             let new_diff = M::binary_operation(diff, par_pot);
-            pot[v] = Diff(par, new_diff);
+            pot[v] = Diff(leader, new_diff);
         }
-        buf.last().unwrap().clone()
+        match pot[x] {
+            Diff(par, ref diff) => (par, diff.clone()),
+            Size(_) => (x, M::id_element()),
+        }
     }
 
     /// xから見たyの差分が定義されていれば返す
