@@ -33,14 +33,13 @@ data:
     \u3092\u4EA4\u4E92\u306B\u3059\u308B\n    order.sort_by(|&a, &b| {\n        let\
     \ (l1, r1) = query_ranges[a];\n        let (l2, r2) = query_ranges[b];\n     \
     \   let block1 = l1 / block_size;\n        let block2 = l2 / block_size;\n   \
-    \     if block1 != block2 {\n            block1.cmp(&block2)\n        } else if\
-    \ (block1 & 1) == 0 {\n            r1.cmp(&r2)\n        } else {\n           \
-    \ r2.cmp(&r1)\n        }\n    });\n    order\n}\n"
+    \     block1.cmp(&block2).then(if (block1 & 1) == 0 {\n            r1.cmp(&r2)\n\
+    \        } else {\n            r2.cmp(&r1)\n        })\n    });\n    order\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/misc/mo/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-14 18:37:21+09:00'
+  timestamp: '2024-04-14 18:44:32+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/static_range_inversions_query/src/main.rs
