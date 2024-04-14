@@ -98,7 +98,7 @@ data:
       title: crates/internals/modint_traits/src/lib.rs
   - name: crates/misc/mo/src
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: crates/misc/mo/src/lib.rs
       title: crates/misc/mo/src/lib.rs
   - name: crates/misc/top2/src
@@ -222,6 +222,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
       title: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
+  - name: verify/yosupo/static_range_inversions_query/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yosupo/static_range_inversions_query/src/main.rs
+      title: verify/yosupo/static_range_inversions_query/src/main.rs
   - name: verify/yosupo/staticrmq_sparse_table/src
     pages:
     - icon: ':heavy_check_mark:'

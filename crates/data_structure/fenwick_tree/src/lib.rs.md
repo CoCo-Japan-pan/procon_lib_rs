@@ -10,6 +10,9 @@ data:
     path: verify/AtCoder/abc294g/src/main.rs
     title: verify/AtCoder/abc294g/src/main.rs
   - icon: ':heavy_check_mark:'
+    path: verify/yosupo/static_range_inversions_query/src/main.rs
+    title: verify/yosupo/static_range_inversions_query/src/main.rs
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/vertex_add_path_sum/src/main.rs
     title: verify/yosupo/vertex_add_path_sum/src/main.rs
   - icon: ':heavy_check_mark:'
@@ -76,6 +79,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc294g/src/main.rs
+  - verify/yosupo/static_range_inversions_query/src/main.rs
   - verify/yosupo/vertex_add_path_sum/src/main.rs
   - verify/yosupo/vertex_add_subtree_sum/src/main.rs
   - verify/yukicoder/no_649_fenwick_tree/src/main.rs
