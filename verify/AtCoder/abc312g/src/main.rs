@@ -4,7 +4,7 @@ use algebra::{Commutative, Monoid};
 use proconio::{fastout, input, marker::Usize1};
 use rerooting::{Rerootable, Rerooting};
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 struct DP {
     prod: i64,
     sum: i64,

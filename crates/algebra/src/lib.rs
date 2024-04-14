@@ -23,7 +23,7 @@ pub trait Map: Clone {
 /// モノイド
 pub trait Monoid {
     /// モノイドの要素
-    type Target: Debug + Clone;
+    type Target: Debug + Clone + Eq;
     /// 単位元
     fn id_element() -> Self::Target;
     /// 二項演算
@@ -67,3 +67,9 @@ pub trait MapMonoid {
 /// つまり x = x op x が成り立つようなモノイド  
 /// SparseTableに乗る
 pub trait IdempotentMonoid: Monoid {}
+
+/// 群   
+/// モノイドに加えて、逆元を持つ  
+pub trait Group: Monoid {
+    fn inverse(a: &Self::Target) -> Self::Target;
+}

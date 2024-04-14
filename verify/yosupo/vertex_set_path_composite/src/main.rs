@@ -6,7 +6,7 @@ use proconio::{fastout, input};
 use segtree::SegTree;
 use static_modint::ModInt998244353;
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 struct Affine {
     a: ModInt998244353,
     b: ModInt998244353,
