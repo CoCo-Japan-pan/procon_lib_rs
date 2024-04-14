@@ -29,6 +29,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/tree/rerooting/src/lib.rs
     title: crates/tree/rerooting/src/lib.rs
+  - icon: ':warning:'
+    path: verify/AtCoder/abc328f/src/main.rs
+    title: verify/AtCoder/abc328f/src/main.rs
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: verify/AOJ/dsl_2d_dual_seg/src/main.rs
@@ -136,6 +139,7 @@ data:
   - crates/data_structure/segtree_2d_compressed/src/lib.rs
   - crates/data_structure/segtree_2d/src/lib.rs
   - crates/tree/rerooting/src/lib.rs
+  - verify/AtCoder/abc328f/src/main.rs
   timestamp: '2024-04-14 12:28:09+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

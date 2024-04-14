@@ -4,7 +4,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: verify/AtCoder/abc328f/src/main.rs
+    title: verify/AtCoder/abc328f/src/main.rs
   _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: rs
@@ -41,39 +44,41 @@ data:
     \ {\n                Ok(false)\n            } else {\n                Err(M::binary_operation(&M::inverse(&x_diff),\
     \ &y_diff))\n            }\n        } else {\n            let mut pot = self.potential.borrow_mut();\n\
     \            if let (&Size(x_size), &Size(y_size)) = (&pot[x], &pot[y]) {\n  \
-    \              if x_size > y_size {\n                    let diff = M::binary_operation(\n\
-    \                        &M::binary_operation(&x_diff, &diff),\n             \
-    \           &M::inverse(&y_diff),\n                    );\n                  \
-    \  pot[x] = Size(x_size + y_size);\n                    pot[y] = Diff(x, diff);\n\
-    \                } else {\n                    let diff = M::binary_operation(\n\
-    \                        &M::binary_operation(&y_diff, &diff),\n             \
-    \           &M::inverse(&x_diff),\n                    );\n                  \
-    \  pot[y] = Size(x_size + y_size);\n                    pot[x] = Diff(y, diff);\n\
-    \                }\n                Ok(true)\n            } else {\n         \
-    \       unreachable!()\n            }\n        }\n    }\n\n    /// \u4EE3\u8868\
-    \u5143\u3068\u3001\u305D\u308C\u304B\u3089\u898B\u305F\u5DEE\u5206\u3092\u6C42\
-    \u3081\u308B\n    pub fn root_and_diff(&self, mut x: usize) -> (usize, M::Target)\
-    \ {\n        assert!(x < self.n);\n        let mut pot = self.potential.borrow_mut();\n\
-    \        let mut buf = vec![];\n        while let Diff(par, diff) = &pot[x] {\n\
-    \            buf.push((x, diff.clone()));\n            x = *par;\n        }\n\
-    \        buf.push((x, M::id_element()));\n        buf.reverse();\n        for\
-    \ i in 1..buf.len() {\n            let (v, ref diff) = buf[i];\n            let\
-    \ (par, _) = buf[i - 1];\n            let par_pot = if let Diff(_, par_pot) =\
-    \ &pot[par] {\n                par_pot\n            } else {\n               \
-    \ &buf[0].1\n            };\n            let new_diff = M::binary_operation(diff,\
-    \ par_pot);\n            pot[v] = Diff(par, new_diff);\n        }\n        buf.last().unwrap().clone()\n\
-    \    }\n\n    /// x\u304B\u3089\u898B\u305Fy\u306E\u5DEE\u5206\u304C\u5B9A\u7FA9\
-    \u3055\u308C\u3066\u3044\u308C\u3070\u8FD4\u3059\n    pub fn diff(&self, x: usize,\
-    \ y: usize) -> Option<M::Target> {\n        assert!(x < self.n);\n        assert!(y\
-    \ < self.n);\n        let (x, x_diff) = self.root_and_diff(x);\n        let (y,\
-    \ y_diff) = self.root_and_diff(y);\n        if x == y {\n            Some(M::binary_operation(&M::inverse(&x_diff),\
-    \ &y_diff))\n        } else {\n            None\n        }\n    }\n}\n"
+    \              let x_root_to_y = M::binary_operation(&x_diff, &diff);\n      \
+    \          if x_size > y_size {\n                    let diff = M::binary_operation(&x_root_to_y,\
+    \ &M::inverse(&y_diff));\n                    pot[x] = Size(x_size + y_size);\n\
+    \                    pot[y] = Diff(x, diff);\n                } else {\n     \
+    \               let diff = M::binary_operation(&y_diff, &M::inverse(&x_root_to_y));\n\
+    \                    pot[y] = Size(x_size + y_size);\n                    pot[x]\
+    \ = Diff(y, diff);\n                }\n                Ok(true)\n            }\
+    \ else {\n                unreachable!()\n            }\n        }\n    }\n\n\
+    \    /// \u4EE3\u8868\u5143\u3068\u3001\u305D\u308C\u304B\u3089\u898B\u305F\u5DEE\
+    \u5206\u3092\u6C42\u3081\u308B\n    pub fn root_and_diff(&self, x: usize) -> (usize,\
+    \ M::Target) {\n        assert!(x < self.n);\n        let mut pot = self.potential.borrow_mut();\n\
+    \        let mut buf = vec![];\n        let mut leader = x;\n        while let\
+    \ Diff(par, diff) = &pot[leader] {\n            buf.push((leader, diff.clone()));\n\
+    \            leader = *par;\n        }\n        buf.push((leader, M::id_element()));\n\
+    \        buf.reverse();\n        for i in 1..buf.len() {\n            let (v,\
+    \ ref diff) = buf[i];\n            let (par, _) = buf[i - 1];\n            let\
+    \ par_pot = if let Diff(_, par_pot) = &pot[par] {\n                par_pot\n \
+    \           } else {\n                &buf[0].1\n            };\n            let\
+    \ new_diff = M::binary_operation(diff, par_pot);\n            pot[v] = Diff(leader,\
+    \ new_diff);\n        }\n        match pot[x] {\n            Diff(par, ref diff)\
+    \ => (par, diff.clone()),\n            Size(_) => (x, M::id_element()),\n    \
+    \    }\n    }\n\n    /// x\u304B\u3089\u898B\u305Fy\u306E\u5DEE\u5206\u304C\u5B9A\
+    \u7FA9\u3055\u308C\u3066\u3044\u308C\u3070\u8FD4\u3059\n    pub fn diff(&self,\
+    \ x: usize, y: usize) -> Option<M::Target> {\n        assert!(x < self.n);\n \
+    \       assert!(y < self.n);\n        let (x, x_diff) = self.root_and_diff(x);\n\
+    \        let (y, y_diff) = self.root_and_diff(y);\n        if x == y {\n     \
+    \       Some(M::binary_operation(&M::inverse(&x_diff), &y_diff))\n        } else\
+    \ {\n            None\n        }\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
   isVerificationFile: false
   path: crates/data_structure/potentialized_union_find/src/lib.rs
-  requiredBy: []
-  timestamp: '2024-04-14 12:28:09+09:00'
+  requiredBy:
+  - verify/AtCoder/abc328f/src/main.rs
+  timestamp: '2024-04-14 13:25:19+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/data_structure/potentialized_union_find/src/lib.rs

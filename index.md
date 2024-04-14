@@ -126,6 +126,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/tree/rerooting/src/lib.rs
       title: crates/tree/rerooting/src/lib.rs
+  - name: verify/AtCoder/abc328f/src
+    pages:
+    - icon: ':warning:'
+      path: verify/AtCoder/abc328f/src/main.rs
+      title: verify/AtCoder/abc328f/src/main.rs
   verificationCategories:
   - name: verify/AOJ/dsl_2d_dual_seg/src
     pages:
