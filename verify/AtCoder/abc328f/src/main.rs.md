@@ -4,22 +4,23 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: crates/data_structure/potentialized_union_find/src/lib.rs
     title: crates/data_structure/potentialized_union_find/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
+    PROBLEM: https://atcoder.jp/contests/abc328/tasks/abc328_f
     links:
     - https://atcoder.jp/contests/abc328/tasks/abc328_f
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "// verification-helper: PROBLEM: https://atcoder.jp/contests/abc328/tasks/abc328_f\n\
+  code: "// verification-helper: PROBLEM https://atcoder.jp/contests/abc328/tasks/abc328_f\n\
     \nuse algebra::{Commutative, Group, Monoid};\nuse itertools::Itertools;\nuse potentialized_union_find::PotentializedUnionFind;\n\
     use proconio::{fastout, input, marker::Usize1};\n\n#[derive(Debug)]\nstruct AddGroup\
     \ {}\nimpl Monoid for AddGroup {\n    type Target = i64;\n    fn binary_operation(a:\
@@ -35,16 +36,16 @@ data:
   dependsOn:
   - crates/algebra/src/lib.rs
   - crates/data_structure/potentialized_union_find/src/lib.rs
-  isVerificationFile: false
+  isVerificationFile: true
   path: verify/AtCoder/abc328f/src/main.rs
   requiredBy: []
   timestamp: '2024-04-14 13:25:19+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AtCoder/abc328f/src/main.rs
 layout: document
 redirect_from:
-- /library/verify/AtCoder/abc328f/src/main.rs
-- /library/verify/AtCoder/abc328f/src/main.rs.html
+- /verify/verify/AtCoder/abc328f/src/main.rs
+- /verify/verify/AtCoder/abc328f/src/main.rs.html
 title: verify/AtCoder/abc328f/src/main.rs
 ---

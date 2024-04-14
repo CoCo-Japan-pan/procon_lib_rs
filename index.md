@@ -23,7 +23,7 @@ data:
       title: crates/data_structure/lazy_segtree/src/lib.rs
   - name: crates/data_structure/potentialized_union_find/src
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: crates/data_structure/potentialized_union_find/src/lib.rs
       title: crates/data_structure/potentialized_union_find/src/lib.rs
   - name: crates/data_structure/raq_rsq/src
@@ -126,11 +126,6 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/tree/rerooting/src/lib.rs
       title: crates/tree/rerooting/src/lib.rs
-  - name: verify/AtCoder/abc328f/src
-    pages:
-    - icon: ':warning:'
-      path: verify/AtCoder/abc328f/src/main.rs
-      title: verify/AtCoder/abc328f/src/main.rs
   verificationCategories:
   - name: verify/AOJ/dsl_2d_dual_seg/src
     pages:
@@ -187,6 +182,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/AtCoder/abc312g/src/main.rs
       title: verify/AtCoder/abc312g/src/main.rs
+  - name: verify/AtCoder/abc328f/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/AtCoder/abc328f/src/main.rs
+      title: verify/AtCoder/abc328f/src/main.rs
   - name: verify/AtCoder/alpc_l_lazy_seg/src
     pages:
     - icon: ':heavy_check_mark:'

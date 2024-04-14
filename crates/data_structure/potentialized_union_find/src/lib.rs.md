@@ -4,14 +4,14 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  _extendedRequiredBy:
-  - icon: ':warning:'
+  _extendedRequiredBy: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
     path: verify/AtCoder/abc328f/src/main.rs
     title: verify/AtCoder/abc328f/src/main.rs
-  _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -76,11 +76,11 @@ data:
   - crates/algebra/src/lib.rs
   isVerificationFile: false
   path: crates/data_structure/potentialized_union_find/src/lib.rs
-  requiredBy:
-  - verify/AtCoder/abc328f/src/main.rs
+  requiredBy: []
   timestamp: '2024-04-14 13:25:19+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - verify/AtCoder/abc328f/src/main.rs
 documentation_of: crates/data_structure/potentialized_union_find/src/lib.rs
 layout: document
 redirect_from:
