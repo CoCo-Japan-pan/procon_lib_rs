@@ -1,7 +1,8 @@
 //! [FFT](https://www.creativ.xyz/fast-fourier-transform/)  
 //! [原始根, NTT friendly MOD](https://www.mathenachia.blog/ntt-mod-list-01/)  
 //! [高速化](https://tayu0110.hatenablog.com/entry/2023/05/06/023244)  
-//! 結局ac-library-rsとほとんど同じ実装です(ジェネリックに紐づくstaticの実現がむずくてキャッシュは毎回とることに...)
+//! [Reference](https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/convolution.rs)  
+//! ジェネリックに紐づくstaticの実現がむずくてキャッシュは毎回とることにした...  
 
 use static_modint::{ModInt998244353, StaticModInt};
 

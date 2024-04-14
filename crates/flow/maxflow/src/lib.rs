@@ -1,4 +1,4 @@
-//! ac-library-rs と同じです。
+//! [Reference](https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/maxflow.rs)
 
 use internal_type_traits::Integral;
 use std::cmp::min;

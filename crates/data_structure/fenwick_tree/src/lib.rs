@@ -79,6 +79,7 @@ impl<T: Clone + AddAssign + Sub<Output = T>> FenwickTree<T> {
     }
 }
 
+/// From https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/fenwicktree.rs
 #[cfg(test)]
 mod tests {
     use super::*;

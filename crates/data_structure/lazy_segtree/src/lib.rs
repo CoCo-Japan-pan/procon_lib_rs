@@ -1,4 +1,4 @@
-//! 基本的にac-library-rsと同じ
+//! [Reference](https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/lazysegtree.rs)  
 //! compositionやmappingに可変参照を用いているところと、作用が可変なら伝播を一部サボる部分が異なる
 
 use algebra::{Commutative, MapMonoid, Monoid, NonCommutative};

@@ -1,3 +1,4 @@
+//! 蟻本p165をもとにしている  
 //! fenwick tree を二つ用いて、区間加算、区間和クエリを処理します  
 
 use fenwick_tree::FenwickTree;

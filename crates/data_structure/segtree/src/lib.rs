@@ -1,4 +1,4 @@
-//! ac_library_rsと同じです。
+//! [Reference](https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs)
 
 use algebra::Monoid;
 use std::ops::RangeBounds;
