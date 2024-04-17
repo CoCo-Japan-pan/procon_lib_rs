@@ -9,15 +9,15 @@ data:
     title: crates/internals/modint_traits/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/AtCoder/abc293e/src/main.rs
     title: verify/AtCoder/abc293e/src/main.rs
   - icon: ':heavy_check_mark:'
     path: verify/yukicoder/no_1092_modint_dynamic/src/main.rs
     title: verify/yukicoder/no_1092_modint_dynamic/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -27,9 +27,9 @@ data:
   code: "//! \u52D5\u7684\u306B\u6C7A\u5B9A\u3059\u308BMod\u3092\u6301\u3064ModInt\
     \  \n//! define_modint!\u3092\u7528\u3044\u3066ModContainer\u3092\u5B9A\u7FA9\u3057\
     \u3001\u305D\u308C\u3092\u30B8\u30A7\u30CD\u30EA\u30C3\u30AF\u5F15\u6570\u3068\
-    \u3059\u308B  \n//! DynamicModInt::<MOD>::set_modulus(mod)\u3092\u547C\u3073\u51FA\
-    \u3057\u3066\u304B\u3089\u4F7F\u3046  \n//! \u8907\u6570\u306EMod\u3092\u4F7F\u3044\
-    \u305F\u3044\u306A\u3089\u3001\u305D\u308C\u305E\u308C\u306EModContainer\u3092\
+    \u3059\u308B  \n//! `DynamicModInt::<MOD>::set_modulus(mod)`\u3092\u547C\u3073\
+    \u51FA\u3057\u3066\u304B\u3089\u4F7F\u3046  \n//! \u8907\u6570\u306EMod\u3092\u4F7F\
+    \u3044\u305F\u3044\u306A\u3089\u3001\u305D\u308C\u305E\u308C\u306EModContainer\u3092\
     \u5B9A\u7FA9\u3059\u308B  \n\nuse internal_type_traits::{One, Zero};\nuse modint_traits::{ModInt,\
     \ RemEuclidU32};\nuse std::fmt::Debug;\nuse std::fmt::Display;\nuse std::iter::{Product,\
     \ Sum};\nuse std::marker::PhantomData;\nuse std::num::ParseIntError;\nuse std::ops::{Add,\
@@ -41,7 +41,7 @@ data:
     \ u32) {\n        Self::get_static_modulus()\n            .set(modulus)\n    \
     \        .expect(\"already set modulus\")\n    }\n}\n\n/// ModContainer\u3092\u5B9A\
     \u7FA9\u3059\u308B\u30DE\u30AF\u30ED \u3053\u308C\u3092DynamicModInt\u306E\u30B8\
-    \u30A7\u30CD\u30EA\u30C3\u30AF\u5F15\u6570\u306B\u5165\u308C\u308B\n/// \u5F8C\
+    \u30A7\u30CD\u30EA\u30C3\u30AF\u5F15\u6570\u306B\u5165\u308C\u308B  \n/// \u5F8C\
     \u3067set_modulus\u3092\u547C\u3076\u306E\u3092\u5FD8\u308C\u306A\u3044\u3088\u3046\
     \u306B!\n#[macro_export]\nmacro_rules! define_modint {\n    ($name:ident) => {\n\
     \        #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]\n       \
@@ -135,8 +135,8 @@ data:
   isVerificationFile: false
   path: crates/modint/dynamic_modint/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-17 21:16:31+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2024-04-17 21:26:36+09:00'
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - verify/AtCoder/abc293e/src/main.rs
   - verify/yukicoder/no_1092_modint_dynamic/src/main.rs

@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: crates/math/matrix/src/lib.rs
     title: crates/math/matrix/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/modint/dynamic_modint/src/lib.rs
     title: crates/modint/dynamic_modint/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     PROBLEM: https://atcoder.jp/contests/abc293/tasks/abc293_e
     links:
@@ -34,8 +34,8 @@ data:
   isVerificationFile: true
   path: verify/AtCoder/abc293e/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-17 21:16:31+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2024-04-17 21:26:36+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: verify/AtCoder/abc293e/src/main.rs
 layout: document
