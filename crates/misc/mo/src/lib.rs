@@ -7,7 +7,7 @@ pub trait MoFuncs {
     fn add_right(&mut self, idx: usize);
     fn remove_left(&mut self, idx: usize);
     fn remove_right(&mut self, idx: usize);
-    fn memo(&mut self, idxx: usize);
+    fn memo(&mut self, idx: usize);
 }
 
 #[derive(Debug)]

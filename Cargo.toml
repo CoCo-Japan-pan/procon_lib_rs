@@ -9,6 +9,7 @@ members = [
     "crates/flow/*",
     "crates/tree/*",
     "crates/misc/*",
+    "crates/math/*",
     "verify/yosupo/*",
     "verify/AOJ/*",
     "verify/AtCoder/*",
