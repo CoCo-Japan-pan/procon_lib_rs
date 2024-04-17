@@ -4,6 +4,7 @@ use std::str::FromStr;
 
 pub trait ModInt:
     Debug
+    + Default
     + Clone
     + PartialEq
     + Eq

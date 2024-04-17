@@ -1,3 +1,4 @@
+use internal_type_traits::{One, Zero};
 use modint_traits::{ModInt, RemEuclidU32};
 use std::fmt::Display;
 use std::iter::{Product, Sum};
@@ -7,9 +8,21 @@ use std::str::FromStr;
 pub type ModInt998244353 = StaticModInt<998244353>;
 pub type ModInt1000000007 = StaticModInt<1000000007>;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
 pub struct StaticModInt<const MOD: u32> {
     value: u32,
+}
+
+impl<const MOD: u32> Zero for StaticModInt<MOD> {
+    fn zero() -> Self {
+        Self::raw(0)
+    }
+}
+
+impl<const MOD: u32> One for StaticModInt<MOD> {
+    fn one() -> Self {
+        Self::raw(1)
+    }
 }
 
 impl<const MOD: u32> Display for StaticModInt<MOD> {

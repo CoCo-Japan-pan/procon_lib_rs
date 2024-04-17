@@ -2,6 +2,7 @@
 //! define_modint!を用いてModContainerを定義し、それをジェネリック引数とする  
 //! 複数のModを使いたいなら、それぞれのModContainerを定義して使う  
 
+use internal_type_traits::{One, Zero};
 use modint_traits::{ModInt, RemEuclidU32};
 use std::fmt::Debug;
 use std::fmt::Display;
@@ -12,7 +13,7 @@ use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssi
 use std::str::FromStr;
 use std::sync::OnceLock;
 
-pub trait ModContainer: 'static + Debug + Clone + Copy + PartialEq + Eq {
+pub trait ModContainer: 'static + Debug + Clone + Copy + PartialEq + Eq + Default {
     fn get_static_modulus() -> &'static OnceLock<u32>;
     fn modulus() -> u32 {
         *Self::get_static_modulus()
@@ -30,8 +31,8 @@ pub trait ModContainer: 'static + Debug + Clone + Copy + PartialEq + Eq {
 #[macro_export]
 macro_rules! define_modint {
     ($name:ident, $modulus:expr) => {
-        #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-        pub enum $name {}
+        #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
+        pub struct $name {}
         impl $crate::ModContainer for $name {
             fn get_static_modulus() -> &'static std::sync::OnceLock<u32> {
                 static ONCE: std::sync::OnceLock<u32> = std::sync::OnceLock::new();
@@ -42,10 +43,22 @@ macro_rules! define_modint {
     };
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
 pub struct DynamicModInt<MOD: ModContainer> {
     value: u32,
     phantom: PhantomData<MOD>,
+}
+
+impl<MOD: ModContainer> Zero for DynamicModInt<MOD> {
+    fn zero() -> Self {
+        Self::raw(0)
+    }
+}
+
+impl<MOD: ModContainer> One for DynamicModInt<MOD> {
+    fn one() -> Self {
+        Self::raw(1)
+    }
 }
 
 impl<MOD: ModContainer> Display for DynamicModInt<MOD> {
