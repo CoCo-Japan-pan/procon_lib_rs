@@ -22,9 +22,9 @@ data:
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://atcoder.jp/contests/abc293/tasks/abc293_e\n\
     \nuse dynamic_modint::{define_modint, DynamicModInt};\nuse matrix::Matrix;\nuse\
-    \ proconio::input;\n\nfn main() {\n    input! {\n        a: u32, x: u64, m: u32,\n\
-    \    }\n    define_modint!(MOD, m);\n    type MInt = DynamicModInt<MOD>;\n   \
-    \ let keisuu = vec![\n        vec![MInt::new(a), MInt::new(1)],\n        vec![MInt::new(0),\
+    \ proconio::input;\n\ndefine_modint!(MOD);\ntype MInt = DynamicModInt<MOD>;\n\n\
+    fn main() {\n    input! {\n        a: u32, x: u64, m: u32,\n    }\n    MInt::set_modulus(m);\n\
+    \    let keisuu = vec![\n        vec![MInt::new(a), MInt::new(1)],\n        vec![MInt::new(0),\
     \ MInt::new(1)],\n    ];\n    let keisuu = Matrix::from(keisuu);\n    let keisuu\
     \ = keisuu.pow(x - 1);\n    let ans = keisuu * &Matrix::from(vec![vec![MInt::new(1)],\
     \ vec![MInt::new(1)]]);\n    println!(\"{}\", ans.get(0, 0));\n}\n"
@@ -34,7 +34,7 @@ data:
   isVerificationFile: true
   path: verify/AtCoder/abc293e/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-17 18:38:53+09:00'
+  timestamp: '2024-04-17 21:16:31+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AtCoder/abc293e/src/main.rs
