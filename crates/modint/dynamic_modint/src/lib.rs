@@ -57,7 +57,7 @@ impl<MOD: ModContainer> Zero for DynamicModInt<MOD> {
 
 impl<MOD: ModContainer> One for DynamicModInt<MOD> {
     fn one() -> Self {
-        Self::raw(1)
+        Self::new(1)
     }
 }
 
@@ -81,7 +81,7 @@ where
     Self: Mul<T, Output = Self>,
 {
     fn product<I: Iterator<Item = T>>(iter: I) -> Self {
-        iter.fold(Self::raw(1), Mul::mul)
+        iter.fold(Self::new(1), Mul::mul)
     }
 }
 

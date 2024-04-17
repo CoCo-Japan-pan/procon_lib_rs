@@ -26,7 +26,7 @@ pub trait ModInt:
     fn value(&self) -> u32;
     fn modulus() -> u32;
     fn pow(&self, mut n: u64) -> Self {
-        let mut ret = Self::raw(1);
+        let mut ret = Self::new(1);
         let mut base = *self;
         while n > 0 {
             if n & 1 == 1 {

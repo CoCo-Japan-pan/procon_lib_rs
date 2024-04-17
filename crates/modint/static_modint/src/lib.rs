@@ -21,7 +21,7 @@ impl<const MOD: u32> Zero for StaticModInt<MOD> {
 
 impl<const MOD: u32> One for StaticModInt<MOD> {
     fn one() -> Self {
-        Self::raw(1)
+        Self::new(1)
     }
 }
 
@@ -45,7 +45,7 @@ where
     Self: Mul<T, Output = Self>,
 {
     fn product<I: Iterator<Item = T>>(iter: I) -> Self {
-        iter.fold(Self::raw(1), Mul::mul)
+        iter.fold(Self::new(1), Mul::mul)
     }
 }
 
