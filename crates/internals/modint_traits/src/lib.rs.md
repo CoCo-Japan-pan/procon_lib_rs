@@ -5,7 +5,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/fps/ntt_arbitrary_mod/src/lib.rs
     title: crates/fps/ntt_arbitrary_mod/src/lib.rs
-  - icon: ':question:'
+  - icon: ':warning:'
+    path: crates/math/binom/src/lib.rs
+    title: crates/math/binom/src/lib.rs
+  - icon: ':heavy_check_mark:'
     path: crates/modint/dynamic_modint/src/lib.rs
     title: crates/modint/dynamic_modint/src/lib.rs
   - icon: ':heavy_check_mark:'
@@ -69,6 +72,7 @@ data:
   - crates/modint/static_modint/src/lib.rs
   - crates/modint/dynamic_modint/src/lib.rs
   - crates/fps/ntt_arbitrary_mod/src/lib.rs
+  - crates/math/binom/src/lib.rs
   timestamp: '2024-04-17 18:38:53+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

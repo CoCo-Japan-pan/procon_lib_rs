@@ -11,10 +11,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/flow/maxflow_lower_bound/src/lib.rs
     title: crates/flow/maxflow_lower_bound/src/lib.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: crates/math/matrix/src/lib.rs
     title: crates/math/matrix/src/lib.rs
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/modint/dynamic_modint/src/lib.rs
     title: crates/modint/dynamic_modint/src/lib.rs
   - icon: ':heavy_check_mark:'

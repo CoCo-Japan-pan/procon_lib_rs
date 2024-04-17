@@ -65,24 +65,25 @@ data:
     \   a: &[StaticModInt<NTT_MOD>],\n    b: &[StaticModInt<NTT_MOD>],\n) -> Vec<StaticModInt<NTT_MOD>>\
     \ {\n    if a.is_empty() || b.is_empty() {\n        return vec![];\n    }\n  \
     \  let n = a.len() + b.len() - 1;\n    let size = n.next_power_of_two();\n   \
-    \ let mut a = a.to_owned();\n    a.resize(size, StaticModInt::<NTT_MOD>::raw(0));\n\
-    \    let (sum_e, sum_ie) = prepare::<NTT_MOD, PRIMITIVE_ROOT>();\n    ntt::<NTT_MOD,\
-    \ PRIMITIVE_ROOT>(&mut a, &sum_e);\n    let mut b = b.to_owned();\n    b.resize(size,\
-    \ StaticModInt::<NTT_MOD>::raw(0));\n    ntt::<NTT_MOD, PRIMITIVE_ROOT>(&mut b,\
-    \ &sum_e);\n    for (a, b) in a.iter_mut().zip(b) {\n        *a *= b;\n    }\n\
-    \    intt::<NTT_MOD, PRIMITIVE_ROOT>(&mut a, &sum_ie);\n    a.resize(n, StaticModInt::<NTT_MOD>::raw(0));\n\
-    \    let inv_size = StaticModInt::<NTT_MOD>::raw(size as u32).inv();\n    for\
-    \ a in a.iter_mut() {\n        *a *= inv_size;\n    }\n    a\n}\n\n/// 998244353\
-    \ = 119 * 2^23 + 1 \u3067\u539F\u59CB\u68393\u3092\u6301\u3064\npub fn convolution_998244353(a:\
-    \ &[ModInt998244353], b: &[ModInt998244353]) -> Vec<ModInt998244353> {\n    convolution::<998244353,\
-    \ 3>(a, b)\n}\n"
+    \ // NTT_MOD\u306F1\u306Esize\u4E57\u6839\u3092\u6301\u3064\u306F\u305A\n    assert!((NTT_MOD\
+    \ - 1) % size as u32 == 0);\n    let mut a = a.to_owned();\n    a.resize(size,\
+    \ StaticModInt::<NTT_MOD>::raw(0));\n    let (sum_e, sum_ie) = prepare::<NTT_MOD,\
+    \ PRIMITIVE_ROOT>();\n    ntt::<NTT_MOD, PRIMITIVE_ROOT>(&mut a, &sum_e);\n  \
+    \  let mut b = b.to_owned();\n    b.resize(size, StaticModInt::<NTT_MOD>::raw(0));\n\
+    \    ntt::<NTT_MOD, PRIMITIVE_ROOT>(&mut b, &sum_e);\n    for (a, b) in a.iter_mut().zip(b)\
+    \ {\n        *a *= b;\n    }\n    intt::<NTT_MOD, PRIMITIVE_ROOT>(&mut a, &sum_ie);\n\
+    \    a.resize(n, StaticModInt::<NTT_MOD>::raw(0));\n    let inv_size = StaticModInt::<NTT_MOD>::raw(size\
+    \ as u32).inv();\n    for a in a.iter_mut() {\n        *a *= inv_size;\n    }\n\
+    \    a\n}\n\n/// 998244353 = 119 * 2^23 + 1 \u3067\u539F\u59CB\u68393\u3092\u6301\
+    \u3064\npub fn convolution_998244353(a: &[ModInt998244353], b: &[ModInt998244353])\
+    \ -> Vec<ModInt998244353> {\n    convolution::<998244353, 3>(a, b)\n}\n"
   dependsOn:
   - crates/modint/static_modint/src/lib.rs
   isVerificationFile: false
   path: crates/fps/ntt/src/lib.rs
   requiredBy:
   - crates/fps/ntt_arbitrary_mod/src/lib.rs
-  timestamp: '2024-04-17 18:38:53+09:00'
+  timestamp: '2024-04-17 21:40:49+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/convolution_ntt/src/main.rs
