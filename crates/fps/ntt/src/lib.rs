@@ -85,6 +85,8 @@ pub fn convolution<const NTT_MOD: u32, const PRIMITIVE_ROOT: u32>(
     }
     let n = a.len() + b.len() - 1;
     let size = n.next_power_of_two();
+    // NTT_MODは1のsize乗根を持つはず
+    assert!((NTT_MOD - 1) % size as u32 == 0);
     let mut a = a.to_owned();
     a.resize(size, StaticModInt::<NTT_MOD>::raw(0));
     let (sum_e, sum_ie) = prepare::<NTT_MOD, PRIMITIVE_ROOT>();
