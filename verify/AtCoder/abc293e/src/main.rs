@@ -4,12 +4,14 @@ use dynamic_modint::{define_modint, DynamicModInt};
 use matrix::Matrix;
 use proconio::input;
 
+define_modint!(MOD);
+type MInt = DynamicModInt<MOD>;
+
 fn main() {
     input! {
         a: u32, x: u64, m: u32,
     }
-    define_modint!(MOD, m);
-    type MInt = DynamicModInt<MOD>;
+    MInt::set_modulus(m);
     let keisuu = vec![
         vec![MInt::new(a), MInt::new(1)],
         vec![MInt::new(0), MInt::new(1)],

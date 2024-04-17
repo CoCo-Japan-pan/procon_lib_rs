@@ -11,7 +11,8 @@ fn main() {
         a: [u32; n],
         s: Chars,
     }
-    define_modint!(MOD, p);
+    define_modint!(MOD);
+    DynamicModInt::<MOD>::set_modulus(p);
     let a = a
         .into_iter()
         .map(DynamicModInt::<MOD>::raw)

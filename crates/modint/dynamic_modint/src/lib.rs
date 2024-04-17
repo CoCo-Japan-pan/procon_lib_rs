@@ -1,6 +1,7 @@
 //! 動的に決定するModを持つModInt  
 //! define_modint!を用いてModContainerを定義し、それをジェネリック引数とする  
-//! 複数のModを使いたいなら、それぞれのModContainerを定義して使う  
+//! DynamicModInt::<MOD>::set_modulus(mod)を呼び出してから使う  
+//! 複数のModを使いたいなら、それぞれのModContainerを定義する  
 
 use internal_type_traits::{One, Zero};
 use modint_traits::{ModInt, RemEuclidU32};
@@ -28,9 +29,10 @@ pub trait ModContainer: 'static + Debug + Clone + Copy + PartialEq + Eq + Defaul
 }
 
 /// ModContainerを定義するマクロ これをDynamicModIntのジェネリック引数に入れる
+/// 後でset_modulusを呼ぶのを忘れないように!
 #[macro_export]
 macro_rules! define_modint {
-    ($name:ident, $modulus:expr) => {
+    ($name:ident) => {
         #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
         pub struct $name {}
         impl $crate::ModContainer for $name {
@@ -39,7 +41,6 @@ macro_rules! define_modint {
                 &ONCE
             }
         }
-        DynamicModInt::<$name>::set_modulus($modulus);
     };
 }
 
@@ -93,7 +94,6 @@ impl<MOD: ModContainer> FromStr for DynamicModInt<MOD> {
 }
 
 impl<MOD: ModContainer> DynamicModInt<MOD> {
-    /// define_modint!の中で呼ばれるので、マクロを使う場合は呼ばないでよい
     pub fn set_modulus(modulus: u32) {
         MOD::set_modulus(modulus);
     }
@@ -280,12 +280,16 @@ mod tests {
 
     #[test]
     fn test_modint() {
-        define_modint!(MOD7, 7);
-        define_modint!(MOD11, 11);
-        let a = DynamicModInt::<MOD7>::new(3);
-        let b = DynamicModInt::<MOD7>::new(4);
-        let c = DynamicModInt::<MOD11>::new(3);
-        let d = DynamicModInt::<MOD11>::new(4);
+        define_modint!(MOD7);
+        type MInt7 = DynamicModInt<MOD7>;
+        MInt7::set_modulus(7);
+        define_modint!(MOD11);
+        type MInt11 = DynamicModInt<MOD11>;
+        MInt11::set_modulus(11);
+        let a = MInt7::new(3);
+        let b = MInt7::new(4);
+        let c = MInt11::new(3);
+        let d = MInt11::new(4);
         assert_eq!((a + b).value(), 0);
         assert_eq!((a - b).value(), 6);
         assert_eq!((c + d).value(), 7);
