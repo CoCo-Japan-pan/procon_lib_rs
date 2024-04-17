@@ -1,8 +1,41 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/static_range_inversions_query
 
 use fenwick_tree::FenwickTree;
-use mo::calc_mo_friendly_order;
+use mo::{MoFuncs, MoRunner};
 use proconio::{fastout, input};
+
+struct MoStates {
+    compressed_a: Vec<usize>,
+    ft: FenwickTree<i64>,
+    ans: Vec<i64>,
+    cur_inv: i64,
+}
+
+impl MoFuncs for MoStates {
+    fn add_left(&mut self, left: usize) {
+        let num = self.compressed_a[left];
+        self.cur_inv += self.ft.sum(..num);
+        self.ft.add(num, 1);
+    }
+    fn add_right(&mut self, right: usize) {
+        let num = self.compressed_a[right];
+        self.cur_inv += self.ft.sum(num + 1..);
+        self.ft.add(num, 1);
+    }
+    fn remove_left(&mut self, left: usize) {
+        let num = self.compressed_a[left];
+        self.cur_inv -= self.ft.sum(..num);
+        self.ft.add(num, -1);
+    }
+    fn remove_right(&mut self, right: usize) {
+        let num = self.compressed_a[right];
+        self.cur_inv -= self.ft.sum(num + 1..);
+        self.ft.add(num, -1);
+    }
+    fn memo(&mut self, id: usize) {
+        self.ans[id] = self.cur_inv;
+    }
+}
 
 #[fastout]
 fn main() {
@@ -22,49 +55,15 @@ fn main() {
         }
         ret
     };
-    let mut ft = FenwickTree::new(a.len(), 0_i64);
-    let order = calc_mo_friendly_order(n, &l_r);
-    let mut ans = vec![0; q];
-    let mut left = 0;
-    let mut right = 0;
-    let mut cur_inv = 0;
-    for id in order {
-        let (l, r) = l_r[id];
-        while left > l {
-            left -= 1;
-
-            // Add left
-            let num = a[left];
-            cur_inv += ft.sum(..num);
-            ft.add(num, 1);
-        }
-        while right < r {
-            // Add right
-            let num = a[right];
-            cur_inv += ft.sum(num + 1..);
-            ft.add(num, 1);
-
-            right += 1;
-        }
-        while left < l {
-            // Remove left
-            let num = a[left];
-            cur_inv -= ft.sum(..num);
-            ft.add(num, -1);
-
-            left += 1;
-        }
-        while right > r {
-            right -= 1;
-
-            // Remove right
-            let num = a[right];
-            cur_inv -= ft.sum(num + 1..);
-            ft.add(num, -1);
-        }
-        ans[id] = cur_inv;
-    }
-    for a in ans {
-        println!("{}", a);
+    let mut mo_state = MoStates {
+        ft: FenwickTree::new(a.len(), 0),
+        compressed_a: a,
+        ans: vec![0; q],
+        cur_inv: 0,
+    };
+    let mo_runner = MoRunner::new(n, l_r);
+    mo_runner.run(&mut mo_state);
+    for ans in mo_state.ans {
+        println!("{}", ans);
     }
 }
