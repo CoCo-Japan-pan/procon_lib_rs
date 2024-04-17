@@ -11,6 +11,15 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/flow/maxflow_lower_bound/src/lib.rs
     title: crates/flow/maxflow_lower_bound/src/lib.rs
+  - icon: ':heavy_check_mark:'
+    path: crates/math/matrix/src/lib.rs
+    title: crates/math/matrix/src/lib.rs
+  - icon: ':heavy_check_mark:'
+    path: crates/modint/dynamic_modint/src/lib.rs
+    title: crates/modint/dynamic_modint/src/lib.rs
+  - icon: ':heavy_check_mark:'
+    path: crates/modint/static_modint/src/lib.rs
+    title: crates/modint/static_modint/src/lib.rs
   _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: rs
@@ -48,6 +57,9 @@ data:
   path: crates/internals/internal_type_traits/src/lib.rs
   requiredBy:
   - crates/data_structure/segtree_2d_compressed/src/lib.rs
+  - crates/modint/static_modint/src/lib.rs
+  - crates/modint/dynamic_modint/src/lib.rs
+  - crates/math/matrix/src/lib.rs
   - crates/flow/maxflow_lower_bound/src/lib.rs
   - crates/flow/maxflow/src/lib.rs
   timestamp: '2024-04-03 19:47:00+09:00'

@@ -23,13 +23,13 @@ data:
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "use std::fmt::{Debug, Display};\nuse std::ops::{Add, AddAssign, Div, DivAssign,\
     \ Mul, MulAssign, Neg, Sub, SubAssign};\nuse std::str::FromStr;\n\npub trait ModInt:\n\
-    \    Debug\n    + Clone\n    + PartialEq\n    + Eq\n    + Display\n    + Copy\n\
-    \    + Add<Output = Self>\n    + Sub<Output = Self>\n    + Mul<Output = Self>\n\
-    \    + Div<Output = Self>\n    + AddAssign\n    + SubAssign\n    + MulAssign\n\
+    \    Debug\n    + Default\n    + Clone\n    + PartialEq\n    + Eq\n    + Display\n\
+    \    + Copy\n    + Add<Output = Self>\n    + Sub<Output = Self>\n    + Mul<Output\
+    \ = Self>\n    + Div<Output = Self>\n    + AddAssign\n    + SubAssign\n    + MulAssign\n\
     \    + DivAssign\n    + Neg<Output = Self>\n    + FromStr\n{\n    fn new<T: RemEuclidU32>(x:\
     \ T) -> Self;\n    fn raw(x: u32) -> Self;\n    fn value(&self) -> u32;\n    fn\
     \ modulus() -> u32;\n    fn pow(&self, mut n: u64) -> Self {\n        let mut\
-    \ ret = Self::raw(1);\n        let mut base = *self;\n        while n > 0 {\n\
+    \ ret = Self::new(1);\n        let mut base = *self;\n        while n > 0 {\n\
     \            if n & 1 == 1 {\n                ret *= base;\n            }\n  \
     \          base *= base;\n            n >>= 1;\n        }\n        ret\n    }\n\
     \    #[inline]\n    fn inv(&self) -> Self {\n        let (g, x) = inv_gcd(self.value(),\
@@ -69,7 +69,7 @@ data:
   - crates/modint/static_modint/src/lib.rs
   - crates/modint/dynamic_modint/src/lib.rs
   - crates/fps/ntt_arbitrary_mod/src/lib.rs
-  timestamp: '2024-03-21 12:12:54+09:00'
+  timestamp: '2024-04-17 18:38:53+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/internals/modint_traits/src/lib.rs

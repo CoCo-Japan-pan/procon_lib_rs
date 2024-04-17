@@ -23,7 +23,7 @@ data:
     \u30A8\u30EA\u5148\u8AAD\u307F\u304C\u5FC5\u8981  \n\npub trait MoFuncs {\n  \
     \  fn add_left(&mut self, idx: usize);\n    fn add_right(&mut self, idx: usize);\n\
     \    fn remove_left(&mut self, idx: usize);\n    fn remove_right(&mut self, idx:\
-    \ usize);\n    fn memo(&mut self, idxx: usize);\n}\n\n#[derive(Debug)]\npub struct\
+    \ usize);\n    fn memo(&mut self, idx: usize);\n}\n\n#[derive(Debug)]\npub struct\
     \ MoRunner {\n    query_ranges: Vec<(usize, usize)>,\n    order: Vec<usize>,\n\
     }\n\nimpl MoRunner {\n    pub fn new(range_size: usize, query_ranges: Vec<(usize,\
     \ usize)>) -> Self {\n        let order = calc_mo_friendly_order(range_size, &query_ranges);\n\
@@ -55,7 +55,7 @@ data:
   isVerificationFile: false
   path: crates/misc/mo/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-17 17:11:59+09:00'
+  timestamp: '2024-04-17 17:20:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/static_range_inversions_query/src/main.rs

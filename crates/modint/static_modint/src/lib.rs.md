@@ -2,6 +2,9 @@
 data:
   _extendedDependsOn:
   - icon: ':warning:'
+    path: crates/internals/internal_type_traits/src/lib.rs
+    title: crates/internals/internal_type_traits/src/lib.rs
+  - icon: ':warning:'
     path: crates/internals/modint_traits/src/lib.rs
     title: crates/internals/modint_traits/src/lib.rs
   _extendedRequiredBy:
@@ -36,29 +39,32 @@ data:
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "use modint_traits::{ModInt, RemEuclidU32};\nuse std::fmt::Display;\nuse std::iter::{Product,\
-    \ Sum};\nuse std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub,\
-    \ SubAssign};\nuse std::str::FromStr;\n\npub type ModInt998244353 = StaticModInt<998244353>;\n\
-    pub type ModInt1000000007 = StaticModInt<1000000007>;\n\n#[derive(Debug, Clone,\
-    \ Copy, PartialEq, Eq, Hash)]\npub struct StaticModInt<const MOD: u32> {\n   \
-    \ value: u32,\n}\n\nimpl<const MOD: u32> Display for StaticModInt<MOD> {\n   \
-    \ fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {\n     \
-    \   write!(f, \"{}\", self.value)\n    }\n}\n\nimpl<const MOD: u32, T> Sum<T>\
-    \ for StaticModInt<MOD>\nwhere\n    Self: Add<T, Output = Self>,\n{\n    fn sum<I:\
-    \ Iterator<Item = T>>(iter: I) -> Self {\n        iter.fold(Self::raw(0), Add::add)\n\
-    \    }\n}\n\nimpl<const MOD: u32, T> Product<T> for StaticModInt<MOD>\nwhere\n\
-    \    Self: Mul<T, Output = Self>,\n{\n    fn product<I: Iterator<Item = T>>(iter:\
-    \ I) -> Self {\n        iter.fold(Self::raw(1), Mul::mul)\n    }\n}\n\nimpl<const\
-    \ MOD: u32> FromStr for StaticModInt<MOD> {\n    type Err = <i64 as FromStr>::Err;\n\
-    \    fn from_str(s: &str) -> Result<Self, Self::Err> {\n        i64::from_str(s).map(Self::new)\n\
-    \    }\n}\n\nimpl<const MOD: u32> StaticModInt<MOD> {\n    #[inline]\n    pub\
-    \ fn value(&self) -> u32 {\n        self.value\n    }\n    #[inline]\n    pub\
-    \ fn modulus() -> u32 {\n        MOD\n    }\n    #[inline]\n    pub fn new<T:\
-    \ RemEuclidU32>(x: T) -> Self {\n        ModInt::new(x)\n    }\n    #[inline]\n\
-    \    pub fn raw(x: u32) -> Self {\n        Self { value: x }\n    }\n    #[inline]\n\
-    \    pub fn pow(&self, n: u64) -> Self {\n        ModInt::pow(self, n)\n    }\n\
-    \    #[inline]\n    pub fn inv(&self) -> Self {\n        ModInt::inv(self)\n \
-    \   }\n}\n\nimpl<const MOD: u32> ModInt for StaticModInt<MOD> {\n    #[inline]\n\
+  code: "use internal_type_traits::{One, Zero};\nuse modint_traits::{ModInt, RemEuclidU32};\n\
+    use std::fmt::Display;\nuse std::iter::{Product, Sum};\nuse std::ops::{Add, AddAssign,\
+    \ Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};\nuse std::str::FromStr;\n\
+    \npub type ModInt998244353 = StaticModInt<998244353>;\npub type ModInt1000000007\
+    \ = StaticModInt<1000000007>;\n\n#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash,\
+    \ Default)]\npub struct StaticModInt<const MOD: u32> {\n    value: u32,\n}\n\n\
+    impl<const MOD: u32> Zero for StaticModInt<MOD> {\n    fn zero() -> Self {\n \
+    \       Self::raw(0)\n    }\n}\n\nimpl<const MOD: u32> One for StaticModInt<MOD>\
+    \ {\n    fn one() -> Self {\n        Self::new(1)\n    }\n}\n\nimpl<const MOD:\
+    \ u32> Display for StaticModInt<MOD> {\n    fn fmt(&self, f: &mut std::fmt::Formatter<'_>)\
+    \ -> std::fmt::Result {\n        write!(f, \"{}\", self.value)\n    }\n}\n\nimpl<const\
+    \ MOD: u32, T> Sum<T> for StaticModInt<MOD>\nwhere\n    Self: Add<T, Output =\
+    \ Self>,\n{\n    fn sum<I: Iterator<Item = T>>(iter: I) -> Self {\n        iter.fold(Self::raw(0),\
+    \ Add::add)\n    }\n}\n\nimpl<const MOD: u32, T> Product<T> for StaticModInt<MOD>\n\
+    where\n    Self: Mul<T, Output = Self>,\n{\n    fn product<I: Iterator<Item =\
+    \ T>>(iter: I) -> Self {\n        iter.fold(Self::new(1), Mul::mul)\n    }\n}\n\
+    \nimpl<const MOD: u32> FromStr for StaticModInt<MOD> {\n    type Err = <i64 as\
+    \ FromStr>::Err;\n    fn from_str(s: &str) -> Result<Self, Self::Err> {\n    \
+    \    i64::from_str(s).map(Self::new)\n    }\n}\n\nimpl<const MOD: u32> StaticModInt<MOD>\
+    \ {\n    #[inline]\n    pub fn value(&self) -> u32 {\n        self.value\n   \
+    \ }\n    #[inline]\n    pub fn modulus() -> u32 {\n        MOD\n    }\n    #[inline]\n\
+    \    pub fn new<T: RemEuclidU32>(x: T) -> Self {\n        ModInt::new(x)\n   \
+    \ }\n    #[inline]\n    pub fn raw(x: u32) -> Self {\n        Self { value: x\
+    \ }\n    }\n    #[inline]\n    pub fn pow(&self, n: u64) -> Self {\n        ModInt::pow(self,\
+    \ n)\n    }\n    #[inline]\n    pub fn inv(&self) -> Self {\n        ModInt::inv(self)\n\
+    \    }\n}\n\nimpl<const MOD: u32> ModInt for StaticModInt<MOD> {\n    #[inline]\n\
     \    fn value(&self) -> u32 {\n        self.value\n    }\n    #[inline]\n    fn\
     \ modulus() -> u32 {\n        MOD\n    }\n    #[inline]\n    fn raw(x: u32) ->\
     \ Self {\n        Self { value: x }\n    }\n    #[inline]\n    fn new<T: RemEuclidU32>(x:\
@@ -143,13 +149,14 @@ data:
     \ b) / b;\n        let mut c = a;\n        c += b;\n        c *= b;\n        c\
     \ -= b;\n        c /= b;\n        assert_eq!(expected, c);\n    }\n}\n"
   dependsOn:
+  - crates/internals/internal_type_traits/src/lib.rs
   - crates/internals/modint_traits/src/lib.rs
   isVerificationFile: false
   path: crates/modint/static_modint/src/lib.rs
   requiredBy:
   - crates/fps/ntt/src/lib.rs
   - crates/fps/ntt_arbitrary_mod/src/lib.rs
-  timestamp: '2024-04-07 00:06:32+09:00'
+  timestamp: '2024-04-17 18:38:53+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/point_set_range_composite/src/main.rs

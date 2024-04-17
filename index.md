@@ -96,6 +96,16 @@ data:
     - icon: ':warning:'
       path: crates/internals/modint_traits/src/lib.rs
       title: crates/internals/modint_traits/src/lib.rs
+  - name: crates/math/binom/src
+    pages:
+    - icon: ':warning:'
+      path: crates/math/binom/src/lib.rs
+      title: crates/math/binom/src/lib.rs
+  - name: crates/math/matrix/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: crates/math/matrix/src/lib.rs
+      title: crates/math/matrix/src/lib.rs
   - name: crates/misc/mo/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -177,6 +187,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/AtCoder/abc285g/src/main.rs
       title: verify/AtCoder/abc285g/src/main.rs
+  - name: verify/AtCoder/abc293e/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/AtCoder/abc293e/src/main.rs
+      title: verify/AtCoder/abc293e/src/main.rs
   - name: verify/AtCoder/abc294g/src
     pages:
     - icon: ':heavy_check_mark:'
