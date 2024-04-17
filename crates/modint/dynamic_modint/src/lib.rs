@@ -1,6 +1,6 @@
 //! 動的に決定するModを持つModInt  
 //! define_modint!を用いてModContainerを定義し、それをジェネリック引数とする  
-//! DynamicModInt::<MOD>::set_modulus(mod)を呼び出してから使う  
+//! `DynamicModInt::<MOD>::set_modulus(mod)`を呼び出してから使う  
 //! 複数のModを使いたいなら、それぞれのModContainerを定義する  
 
 use internal_type_traits::{One, Zero};
@@ -28,7 +28,7 @@ pub trait ModContainer: 'static + Debug + Clone + Copy + PartialEq + Eq + Defaul
     }
 }
 
-/// ModContainerを定義するマクロ これをDynamicModIntのジェネリック引数に入れる
+/// ModContainerを定義するマクロ これをDynamicModIntのジェネリック引数に入れる  
 /// 後でset_modulusを呼ぶのを忘れないように!
 #[macro_export]
 macro_rules! define_modint {
