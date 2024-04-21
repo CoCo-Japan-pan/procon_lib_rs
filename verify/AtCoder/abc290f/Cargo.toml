@@ -1,0 +1,11 @@
+[package]
+name = "abc290f"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+proconio = { version = "=0.4.5", features = ["derive"] }
+static_modint = { path = "../../../crates/modint/static_modint" }
+binom = { path = "../../../crates/math/binom" }
