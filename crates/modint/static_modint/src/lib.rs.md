@@ -16,6 +16,9 @@ data:
     title: crates/fps/ntt_arbitrary_mod/src/lib.rs
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: verify/AtCoder/abc290f/src/main.rs
+    title: verify/AtCoder/abc290f/src/main.rs
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/convolution_mod_1000000007_ntt/src/main.rs
     title: verify/yosupo/convolution_mod_1000000007_ntt/src/main.rs
   - icon: ':heavy_check_mark:'
@@ -164,6 +167,7 @@ data:
   - verify/yosupo/convolution_mod_1000000007_ntt/src/main.rs
   - verify/yosupo/vertex_set_path_composite/src/main.rs
   - verify/yosupo/convolution_ntt/src/main.rs
+  - verify/AtCoder/abc290f/src/main.rs
 documentation_of: crates/modint/static_modint/src/lib.rs
 layout: document
 redirect_from:

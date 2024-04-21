@@ -5,10 +5,13 @@ data:
     path: crates/internals/modint_traits/src/lib.rs
     title: crates/internals/modint_traits/src/lib.rs
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: verify/AtCoder/abc290f/src/main.rs
+    title: verify/AtCoder/abc290f/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -33,8 +36,9 @@ data:
   path: crates/math/binom/src/lib.rs
   requiredBy: []
   timestamp: '2024-04-17 21:52:17+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - verify/AtCoder/abc290f/src/main.rs
 documentation_of: crates/math/binom/src/lib.rs
 layout: document
 redirect_from:

@@ -5,7 +5,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/fps/ntt_arbitrary_mod/src/lib.rs
     title: crates/fps/ntt_arbitrary_mod/src/lib.rs
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: crates/math/binom/src/lib.rs
     title: crates/math/binom/src/lib.rs
   - icon: ':heavy_check_mark:'
