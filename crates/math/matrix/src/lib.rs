@@ -44,6 +44,10 @@ impl<T: Copy + AddAssign + Mul<Output = T> + Zero + One> Matrix<T> {
         self.data[h * self.width + w]
     }
 
+    pub fn get_mut(&mut self, h: usize, w: usize) -> &mut T {
+        &mut self.data[h * self.width + w]
+    }
+
     pub fn pow(&self, mut n: u64) -> Self {
         assert_eq!(self.height, self.width);
         let mut res = Self::unit(self.height);
