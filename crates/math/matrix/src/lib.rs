@@ -23,6 +23,21 @@ impl<T: Copy + AddAssign + Mul<Output = T> + Zero + One> From<Vec<Vec<T>>> for M
     }
 }
 
+impl<T: Copy + AddAssign + Mul<Output = T> + Zero + One, const H: usize, const W: usize>
+    From<[[T; W]; H]> for Matrix<T>
+{
+    fn from(v: [[T; W]; H]) -> Self {
+        let height = H;
+        let width = W;
+        let data = v.into_iter().flatten().collect();
+        Self {
+            height,
+            width,
+            data,
+        }
+    }
+}
+
 impl<T: Copy + AddAssign + Mul<Output = T> + Zero + One> Matrix<T> {
     pub fn new(height: usize, width: usize, default_val: T) -> Self {
         Self {
