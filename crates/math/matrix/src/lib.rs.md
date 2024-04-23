@@ -39,13 +39,14 @@ data:
     \ usize) -> Self {\n        let mut res = Self::new(n, n, T::zero());\n      \
     \  for i in 0..n {\n            res.data[i * n + i] = T::one();\n        }\n \
     \       res\n    }\n\n    pub fn get(&self, h: usize, w: usize) -> T {\n     \
-    \   self.data[h * self.width + w]\n    }\n\n    pub fn get_mut(&mut self, h: usize,\
-    \ w: usize) -> &mut T {\n        &mut self.data[h * self.width + w]\n    }\n\n\
-    \    pub fn pow(&self, mut n: u64) -> Self {\n        assert_eq!(self.height,\
-    \ self.width);\n        let mut res = Self::unit(self.height);\n        let mut\
-    \ a = self.clone();\n        while n > 0 {\n            if (n & 1) == 1 {\n  \
-    \              res *= &a;\n            }\n            a *= &a.clone();\n     \
-    \       n >>= 1;\n        }\n        res\n    }\n}\n\nimpl<T: Copy + AddAssign\
+    \   assert!(h < self.height && w < self.width);\n        self.data[h * self.width\
+    \ + w]\n    }\n\n    pub fn get_mut(&mut self, h: usize, w: usize) -> &mut T {\n\
+    \        assert!(h < self.height && w < self.width);\n        &mut self.data[h\
+    \ * self.width + w]\n    }\n\n    pub fn pow(&self, mut n: u64) -> Self {\n  \
+    \      assert_eq!(self.height, self.width);\n        let mut res = Self::unit(self.height);\n\
+    \        let mut a = self.clone();\n        while n > 0 {\n            if (n &\
+    \ 1) == 1 {\n                res *= &a;\n            }\n            a *= &a.clone();\n\
+    \            n >>= 1;\n        }\n        res\n    }\n}\n\nimpl<T: Copy + AddAssign\
     \ + Mul<Output = T> + Zero + One> MulAssign<&Self> for Matrix<T> {\n    fn mul_assign(&mut\
     \ self, rhs: &Self) {\n        assert_eq!(self.width, rhs.height);\n        let\
     \ mut res = Matrix::new(self.height, rhs.width, T::zero());\n        for i in\
@@ -84,7 +85,7 @@ data:
   isVerificationFile: false
   path: crates/math/matrix/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-24 01:09:06+09:00'
+  timestamp: '2024-04-24 02:01:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc293e/src/main.rs
