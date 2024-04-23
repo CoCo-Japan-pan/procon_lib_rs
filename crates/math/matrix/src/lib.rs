@@ -56,10 +56,12 @@ impl<T: Copy + AddAssign + Mul<Output = T> + Zero + One> Matrix<T> {
     }
 
     pub fn get(&self, h: usize, w: usize) -> T {
+        assert!(h < self.height && w < self.width);
         self.data[h * self.width + w]
     }
 
     pub fn get_mut(&mut self, h: usize, w: usize) -> &mut T {
+        assert!(h < self.height && w < self.width);
         &mut self.data[h * self.width + w]
     }
 
