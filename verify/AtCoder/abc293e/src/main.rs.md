@@ -34,7 +34,7 @@ data:
   isVerificationFile: true
   path: verify/AtCoder/abc293e/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-24 00:29:09+09:00'
+  timestamp: '2024-04-24 01:09:06+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AtCoder/abc293e/src/main.rs
