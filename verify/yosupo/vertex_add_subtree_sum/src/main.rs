@@ -20,14 +20,14 @@ fn main() {
     let hld = HLD::new(graph, 0);
     let mut ft = FenwickTree::new(n, 0);
     for (i, &x) in a.iter().enumerate() {
-        ft.add(hld.get_in(i), x);
+        ft.add(hld.hld_in[i], x);
     }
     for _ in 0..q {
         input! { t: usize }
         match t {
             0 => {
                 input! { u: usize, x: i64 }
-                ft.add(hld.get_in(u), x);
+                ft.add(hld.hld_in[u], x);
             }
             1 => {
                 input! { u: usize }

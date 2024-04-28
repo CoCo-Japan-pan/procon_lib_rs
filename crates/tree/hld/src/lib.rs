@@ -4,17 +4,19 @@
 #[derive(Debug)]
 pub struct HLD {
     /// 各頂点について、heavypath(descending)が最初に来るようswapされている
-    sorted_graph: Vec<Vec<usize>>,
+    pub sorted_graph: Vec<Vec<usize>>,
     /// 各頂点についてそれを根とする部分木のサイズ
-    subtree_size: Vec<usize>,
+    pub subtree_size: Vec<usize>,
     /// 各頂点の深さ(根は0とする)
-    depth: Vec<usize>,
+    pub depth: Vec<usize>,
     /// 各頂点の親(根にはusize::MAXを入れる)
-    parent: Vec<usize>,
+    pub parent: Vec<usize>,
     /// 各頂点の属するheavy pathの先頭
     heavy_path_lowest: Vec<usize>,
-    /// heavy pathを並べた配列における各頂点のindex
-    hld_in: Vec<usize>,
+    /// heavy pathを並べた配列における各頂点のindex  
+    /// この配列において、各頂点についてその頂点とその親との間の辺を対応させた配列を用いれば、
+    /// pathやsubtree関数で得られたindexを使うことができる
+    pub hld_in: Vec<usize>,
     /// 各頂点の部分木に属する頂点が出てこなくなる最初のindex
     hld_out: Vec<usize>,
     /// 頂点の数
@@ -74,20 +76,6 @@ impl HLD {
         } else {
             v
         }
-    }
-
-    /// heavy pathを並べた配列における、vのindexを返す  
-    /// この配列において、各頂点についてその頂点とその親との間の辺を対応させた配列を用いれば、
-    /// 以下のpathやsubtree関数で得られたindexを使うことができる
-    pub fn get_in(&self, v: usize) -> usize {
-        assert!(v < self.vertex_cnt);
-        self.hld_in[v]
-    }
-
-    /// 親を返す
-    pub fn get_parent(&self, v: usize) -> usize {
-        assert!(v < self.vertex_cnt);
-        self.parent[v]
     }
 
     /// uからvへのパスを列挙する(これらはheavy pathを並べた配列において連続する区間となっている)  

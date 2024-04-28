@@ -54,7 +54,7 @@ fn main() {
     let hld = HLD::new(graph, 0);
     let mut affine_vec = vec![AffineLeftMonoid::id_element(); n];
     for i in 0..n {
-        affine_vec[hld.get_in(i)] = Affine {
+        affine_vec[hld.hld_in[i]] = Affine {
             a: a_b[i].0,
             b: a_b[i].1,
         };
@@ -66,7 +66,7 @@ fn main() {
         match t {
             0 => {
                 input! { p: usize, c: ModInt998244353, d: ModInt998244353 }
-                let p = hld.get_in(p);
+                let p = hld.hld_in[p];
                 seg_left.set(p, Affine { a: c, b: d });
                 seg_right.set(p, Affine { a: c, b: d });
             }

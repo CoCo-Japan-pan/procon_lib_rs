@@ -21,10 +21,10 @@ fn main() {
         let mut ret = vec![0; n - 1];
         for i in 0..n - 1 {
             let (u, v, _) = u_v_w[i];
-            if hld.get_parent(u) == v {
-                ret[i] = hld.get_in(u);
+            if hld.parent[u] == v {
+                ret[i] = hld.hld_in[u];
             } else {
-                ret[i] = hld.get_in(v);
+                ret[i] = hld.hld_in[v];
             }
         }
         ret
