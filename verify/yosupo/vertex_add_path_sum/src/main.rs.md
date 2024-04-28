@@ -26,10 +26,10 @@ data:
     \  q: usize,\n        a: [u64; n],\n        u_v: [(usize, usize); n - 1],\n  \
     \  }\n    let mut graph = vec![vec![]; n];\n    for (u, v) in u_v {\n        graph[u].push(v);\n\
     \        graph[v].push(u);\n    }\n    let hld = HLD::new(graph, 0);\n    let\
-    \ mut ft = FenwickTree::new(n, 0_u64);\n    for i in 0..n {\n        ft.add(hld.get_in(i),\
+    \ mut ft = FenwickTree::new(n, 0_u64);\n    for i in 0..n {\n        ft.add(hld.hld_in[i],\
     \ a[i]);\n    }\n    for _ in 0..q {\n        input! {\n            t: usize,\n\
     \        }\n        if t == 0 {\n            input! {\n                p: usize,\n\
-    \                x: u64,\n            }\n            ft.add(hld.get_in(p), x);\n\
+    \                x: u64,\n            }\n            ft.add(hld.hld_in[p], x);\n\
     \        } else {\n            input! {\n                u: usize,\n         \
     \       v: usize,\n            }\n            let mut ans = 0;\n            for\
     \ path in hld.path(u, v, true) {\n                match path {\n             \
@@ -42,7 +42,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/vertex_add_path_sum/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-14 12:40:51+09:00'
+  timestamp: '2024-04-28 21:22:52+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/vertex_add_path_sum/src/main.rs

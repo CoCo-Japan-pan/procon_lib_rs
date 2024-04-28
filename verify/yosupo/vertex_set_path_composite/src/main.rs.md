@@ -44,13 +44,13 @@ data:
     \ [(usize, usize); n - 1],\n    }\n    let mut graph = vec![vec![]; n];\n    for\
     \ (u, v) in u_v {\n        graph[u].push(v);\n        graph[v].push(u);\n    }\n\
     \    let hld = HLD::new(graph, 0);\n    let mut affine_vec = vec![AffineLeftMonoid::id_element();\
-    \ n];\n    for i in 0..n {\n        affine_vec[hld.get_in(i)] = Affine {\n   \
+    \ n];\n    for i in 0..n {\n        affine_vec[hld.hld_in[i]] = Affine {\n   \
     \         a: a_b[i].0,\n            b: a_b[i].1,\n        };\n    }\n    let mut\
     \ seg_left = SegTree::<AffineLeftMonoid>::from(&affine_vec);\n    let mut seg_right\
     \ = SegTree::<AffineRightMonoid>::from(&affine_vec);\n    for _ in 0..q {\n  \
     \      input! { t: usize }\n        match t {\n            0 => {\n          \
     \      input! { p: usize, c: ModInt998244353, d: ModInt998244353 }\n         \
-    \       let p = hld.get_in(p);\n                seg_left.set(p, Affine { a: c,\
+    \       let p = hld.hld_in[p];\n                seg_left.set(p, Affine { a: c,\
     \ b: d });\n                seg_right.set(p, Affine { a: c, b: d });\n       \
     \     }\n            1 => {\n                input! { u: usize, v: usize, x: ModInt998244353\
     \ }\n                let mut ret = AffineLeftMonoid::id_element();\n         \
@@ -71,7 +71,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/vertex_set_path_composite/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-17 18:38:53+09:00'
+  timestamp: '2024-04-28 21:22:52+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/vertex_set_path_composite/src/main.rs

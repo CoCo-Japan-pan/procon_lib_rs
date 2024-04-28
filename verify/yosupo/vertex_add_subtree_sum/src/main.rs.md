@@ -27,9 +27,9 @@ data:
     \ vec![vec![]; n];\n    for (i, &j) in p.iter().enumerate() {\n        graph[i\
     \ + 1].push(j);\n        graph[j].push(i + 1);\n    }\n    let hld = HLD::new(graph,\
     \ 0);\n    let mut ft = FenwickTree::new(n, 0);\n    for (i, &x) in a.iter().enumerate()\
-    \ {\n        ft.add(hld.get_in(i), x);\n    }\n    for _ in 0..q {\n        input!\
+    \ {\n        ft.add(hld.hld_in[i], x);\n    }\n    for _ in 0..q {\n        input!\
     \ { t: usize }\n        match t {\n            0 => {\n                input!\
-    \ { u: usize, x: i64 }\n                ft.add(hld.get_in(u), x);\n          \
+    \ { u: usize, x: i64 }\n                ft.add(hld.hld_in[u], x);\n          \
     \  }\n            1 => {\n                input! { u: usize }\n              \
     \  let (l, r) = hld.subtree(u, true);\n                println!(\"{}\", ft.sum(l..r));\n\
     \            }\n            _ => unreachable!(),\n        }\n    }\n}\n"
@@ -39,7 +39,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/vertex_add_subtree_sum/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-14 12:40:51+09:00'
+  timestamp: '2024-04-28 21:22:52+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/vertex_add_subtree_sum/src/main.rs
