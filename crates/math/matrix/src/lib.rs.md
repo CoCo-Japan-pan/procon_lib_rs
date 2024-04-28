@@ -38,15 +38,19 @@ data:
     \  data: vec![default_val; height * width],\n        }\n    }\n\n    pub fn unit(n:\
     \ usize) -> Self {\n        let mut res = Self::new(n, n, T::zero());\n      \
     \  for i in 0..n {\n            res.data[i * n + i] = T::one();\n        }\n \
-    \       res\n    }\n\n    pub fn get(&self, h: usize, w: usize) -> T {\n     \
-    \   assert!(h < self.height && w < self.width);\n        self.data[h * self.width\
-    \ + w]\n    }\n\n    pub fn get_mut(&mut self, h: usize, w: usize) -> &mut T {\n\
-    \        assert!(h < self.height && w < self.width);\n        &mut self.data[h\
-    \ * self.width + w]\n    }\n\n    pub fn pow(&self, mut n: u64) -> Self {\n  \
-    \      assert_eq!(self.height, self.width);\n        let mut res = Self::unit(self.height);\n\
-    \        let mut a = self.clone();\n        while n > 0 {\n            if (n &\
-    \ 1) == 1 {\n                res *= &a;\n            }\n            a *= &a.clone();\n\
-    \            n >>= 1;\n        }\n        res\n    }\n}\n\nimpl<T: Copy + AddAssign\
+    \       res\n    }\n\n    pub fn transpose(&self) -> Self {\n        let mut res\
+    \ = Self::new(self.width, self.height, T::zero());\n        for i in 0..self.height\
+    \ {\n            for j in 0..self.width {\n                res.data[j * self.height\
+    \ + i] = self.data[i * self.width + j];\n            }\n        }\n        res\n\
+    \    }\n\n    pub fn get(&self, h: usize, w: usize) -> T {\n        assert!(h\
+    \ < self.height && w < self.width);\n        self.data[h * self.width + w]\n \
+    \   }\n\n    pub fn get_mut(&mut self, h: usize, w: usize) -> &mut T {\n     \
+    \   assert!(h < self.height && w < self.width);\n        &mut self.data[h * self.width\
+    \ + w]\n    }\n\n    pub fn pow(&self, mut n: u64) -> Self {\n        assert_eq!(self.height,\
+    \ self.width);\n        let mut res = Self::unit(self.height);\n        let mut\
+    \ a = self.clone();\n        while n > 0 {\n            if (n & 1) == 1 {\n  \
+    \              res *= &a;\n            }\n            a *= &a.clone();\n     \
+    \       n >>= 1;\n        }\n        res\n    }\n}\n\nimpl<T: Copy + AddAssign\
     \ + Mul<Output = T> + Zero + One> MulAssign<&Self> for Matrix<T> {\n    fn mul_assign(&mut\
     \ self, rhs: &Self) {\n        assert_eq!(self.width, rhs.height);\n        let\
     \ mut res = Matrix::new(self.height, rhs.width, T::zero());\n        for i in\
@@ -79,13 +83,16 @@ data:
     \ 22], vec![43, 50]]);\n        assert_eq!(a * &b, c);\n    }\n\n    #[test]\n\
     \    fn test_matrix_pow() {\n        let a = Matrix::<i32>::from(vec![vec![2,\
     \ 0], vec![0, 3]]);\n        let b = Matrix::<i32>::from(vec![vec![32, 0], vec![0,\
-    \ 243]]);\n        assert_eq!(a.pow(5), b);\n    }\n}\n"
+    \ 243]]);\n        assert_eq!(a.pow(5), b);\n    }\n\n    #[test]\n    fn test_transpose()\
+    \ {\n        let a = Matrix::<i32>::from(vec![vec![1, 2, 3], vec![4, 5, 6]]);\n\
+    \        let b = Matrix::<i32>::from(vec![vec![1, 4], vec![2, 5], vec![3, 6]]);\n\
+    \        assert_eq!(a.transpose(), b);\n    }\n}\n"
   dependsOn:
   - crates/internals/internal_type_traits/src/lib.rs
   isVerificationFile: false
   path: crates/math/matrix/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-24 02:01:21+09:00'
+  timestamp: '2024-04-28 21:15:48+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc293e/src/main.rs
