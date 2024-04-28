@@ -55,6 +55,16 @@ impl<T: Copy + AddAssign + Mul<Output = T> + Zero + One> Matrix<T> {
         res
     }
 
+    pub fn transpose(&self) -> Self {
+        let mut res = Self::new(self.width, self.height, T::zero());
+        for i in 0..self.height {
+            for j in 0..self.width {
+                res.data[j * self.height + i] = self.data[i * self.width + j];
+            }
+        }
+        res
+    }
+
     pub fn get(&self, h: usize, w: usize) -> T {
         assert!(h < self.height && w < self.width);
         self.data[h * self.width + w]
@@ -165,5 +175,12 @@ mod test {
         let a = Matrix::<i32>::from(vec![vec![2, 0], vec![0, 3]]);
         let b = Matrix::<i32>::from(vec![vec![32, 0], vec![0, 243]]);
         assert_eq!(a.pow(5), b);
+    }
+
+    #[test]
+    fn test_transpose() {
+        let a = Matrix::<i32>::from(vec![vec![1, 2, 3], vec![4, 5, 6]]);
+        let b = Matrix::<i32>::from(vec![vec![1, 4], vec![2, 5], vec![3, 6]]);
+        assert_eq!(a.transpose(), b);
     }
 }
