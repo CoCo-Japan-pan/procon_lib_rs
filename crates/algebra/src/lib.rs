@@ -73,3 +73,16 @@ pub trait IdempotentMonoid: Monoid {}
 pub trait Group: Monoid {
     fn inverse(a: &Self::Target) -> Self::Target;
 }
+
+/// 半環  
+/// 加算は可換モノイド  
+/// 乗算はモノイド  
+/// 乗算は加法に対して分配法則を満たす a*(b+c) = a*b + a*c, (a+b)*c = a*c + b*c  
+/// 加算の単位元は乗算の零元 0*a=a*0=0
+pub trait Semiring: Debug + Clone + Eq {
+    type Target: Debug + Clone + Eq;
+    fn zero() -> Self::Target;
+    fn one() -> Self::Target;
+    fn add_assign(a: &mut Self::Target, b: &Self::Target);
+    fn mul(a: &Self::Target, b: &Self::Target) -> Self::Target;
+}

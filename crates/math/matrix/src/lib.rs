@@ -1,17 +1,17 @@
 //! 行列ライブラリ 行列積は普通に`O(d^3)`で計算される
 
-use internal_type_traits::{One, Zero};
+use algebra::Semiring;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct Matrix<T: Copy + AddAssign + Mul<Output = T> + Zero + One> {
+pub struct Matrix<T: Semiring> {
     height: usize,
     width: usize,
-    data: Vec<T>,
+    data: Vec<T::Target>,
 }
 
-impl<T: Copy + AddAssign + Mul<Output = T> + Zero + One> From<Vec<Vec<T>>> for Matrix<T> {
-    fn from(v: Vec<Vec<T>>) -> Self {
+impl<T: Semiring> From<Vec<Vec<T::Target>>> for Matrix<T> {
+    fn from(v: Vec<Vec<T::Target>>) -> Self {
         let height = v.len();
         let width = v[0].len();
         let data = v.into_iter().flatten().collect();
@@ -23,10 +23,8 @@ impl<T: Copy + AddAssign + Mul<Output = T> + Zero + One> From<Vec<Vec<T>>> for M
     }
 }
 
-impl<T: Copy + AddAssign + Mul<Output = T> + Zero + One, const H: usize, const W: usize>
-    From<[[T; W]; H]> for Matrix<T>
-{
-    fn from(v: [[T; W]; H]) -> Self {
+impl<T: Semiring, const H: usize, const W: usize> From<[[T::Target; W]; H]> for Matrix<T> {
+    fn from(v: [[T::Target; W]; H]) -> Self {
         let height = H;
         let width = W;
         let data = v.into_iter().flatten().collect();
@@ -38,8 +36,8 @@ impl<T: Copy + AddAssign + Mul<Output = T> + Zero + One, const H: usize, const W
     }
 }
 
-impl<T: Copy + AddAssign + Mul<Output = T> + Zero + One> Matrix<T> {
-    pub fn new(height: usize, width: usize, default_val: T) -> Self {
+impl<T: Semiring> Matrix<T> {
+    pub fn new(height: usize, width: usize, default_val: T::Target) -> Self {
         Self {
             height,
             width,
@@ -59,18 +57,18 @@ impl<T: Copy + AddAssign + Mul<Output = T> + Zero + One> Matrix<T> {
         let mut res = Self::new(self.width, self.height, T::zero());
         for i in 0..self.height {
             for j in 0..self.width {
-                res.data[j * self.height + i] = self.data[i * self.width + j];
+                res.data[j * self.height + i] = self.data[i * self.width + j].clone();
             }
         }
         res
     }
 
-    pub fn get(&self, h: usize, w: usize) -> T {
+    pub fn get(&self, h: usize, w: usize) -> T::Target {
         assert!(h < self.height && w < self.width);
-        self.data[h * self.width + w]
+        self.data[h * self.width + w].clone()
     }
 
-    pub fn get_mut(&mut self, h: usize, w: usize) -> &mut T {
+    pub fn get_mut(&mut self, h: usize, w: usize) -> &mut T::Target {
         assert!(h < self.height && w < self.width);
         &mut self.data[h * self.width + w]
     }
@@ -90,15 +88,17 @@ impl<T: Copy + AddAssign + Mul<Output = T> + Zero + One> Matrix<T> {
     }
 }
 
-impl<T: Copy + AddAssign + Mul<Output = T> + Zero + One> MulAssign<&Self> for Matrix<T> {
+impl<T: Semiring> MulAssign<&Self> for Matrix<T> {
     fn mul_assign(&mut self, rhs: &Self) {
         assert_eq!(self.width, rhs.height);
         let mut res = Matrix::new(self.height, rhs.width, T::zero());
         for i in 0..self.height {
             for k in 0..self.width {
                 for j in 0..rhs.width {
-                    res.data[i * res.width + j] +=
-                        self.data[i * self.width + k] * rhs.data[k * rhs.width + j];
+                    T::add_assign(
+                        &mut res.data[i * res.width + j],
+                        &T::mul(&self.data[i * self.width + k], &rhs.data[k * rhs.width + j]),
+                    );
                 }
             }
         }
@@ -106,7 +106,7 @@ impl<T: Copy + AddAssign + Mul<Output = T> + Zero + One> MulAssign<&Self> for Ma
     }
 }
 
-impl<T: Copy + AddAssign + Mul<Output = T> + Default + Zero + One> Mul<&Self> for Matrix<T> {
+impl<T: Semiring> Mul<&Self> for Matrix<T> {
     type Output = Self;
     fn mul(mut self, rhs: &Self) -> Self {
         self *= rhs;
@@ -114,19 +114,22 @@ impl<T: Copy + AddAssign + Mul<Output = T> + Default + Zero + One> Mul<&Self> fo
     }
 }
 
-impl<T: Copy + AddAssign + Mul<Output = T> + Default + Zero + One> AddAssign<&Self> for Matrix<T> {
+impl<T: Semiring> AddAssign<&Self> for Matrix<T> {
     fn add_assign(&mut self, rhs: &Self) {
         assert_eq!(self.height, rhs.height);
         assert_eq!(self.width, rhs.width);
         for i in 0..self.height {
             for j in 0..self.width {
-                self.data[i * self.width + j] += rhs.data[i * self.width + j];
+                T::add_assign(
+                    &mut self.data[i * self.width + j],
+                    &rhs.data[i * self.width + j],
+                );
             }
         }
     }
 }
 
-impl<T: Copy + AddAssign + Mul<Output = T> + Default + Zero + One> Add<&Self> for Matrix<T> {
+impl<T: Semiring> Add<&Self> for Matrix<T> {
     type Output = Self;
     fn add(mut self, rhs: &Self) -> Self {
         self += rhs;
@@ -134,22 +137,24 @@ impl<T: Copy + AddAssign + Mul<Output = T> + Default + Zero + One> Add<&Self> fo
     }
 }
 
-impl<T: Copy + AddAssign + Mul<Output = T> + Default + SubAssign + Zero + One> SubAssign<&Self>
-    for Matrix<T>
+impl<T: Semiring> SubAssign<&Self> for Matrix<T>
+where
+    T::Target: SubAssign,
 {
     fn sub_assign(&mut self, rhs: &Self) {
         assert_eq!(self.height, rhs.height);
         assert_eq!(self.width, rhs.width);
         for i in 0..self.height {
             for j in 0..self.width {
-                self.data[i * self.width + j] -= rhs.data[i * self.width + j];
+                self.data[i * self.width + j] -= rhs.data[i * self.width + j].clone();
             }
         }
     }
 }
 
-impl<T: Copy + AddAssign + Mul<Output = T> + Default + SubAssign + Zero + One> Sub<&Self>
-    for Matrix<T>
+impl<T: Semiring> Sub<&Self> for Matrix<T>
+where
+    T::Target: SubAssign,
 {
     type Output = Self;
     fn sub(mut self, rhs: &Self) -> Self {
@@ -162,25 +167,43 @@ impl<T: Copy + AddAssign + Mul<Output = T> + Default + SubAssign + Zero + One> S
 mod test {
     use super::*;
 
+    #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+    pub struct UsualSemiring;
+    impl Semiring for UsualSemiring {
+        type Target = i32;
+        fn zero() -> Self::Target {
+            0
+        }
+        fn one() -> Self::Target {
+            1
+        }
+        fn add_assign(a: &mut Self::Target, b: &Self::Target) {
+            *a += b;
+        }
+        fn mul(a: &Self::Target, b: &Self::Target) -> Self::Target {
+            a * b
+        }
+    }
+
     #[test]
     fn test_matrix() {
-        let a = Matrix::<i32>::from(vec![vec![1, 2], vec![3, 4]]);
-        let b = Matrix::<i32>::from(vec![vec![5, 6], vec![7, 8]]);
-        let c = Matrix::<i32>::from(vec![vec![19, 22], vec![43, 50]]);
+        let a = Matrix::<UsualSemiring>::from(vec![vec![1, 2], vec![3, 4]]);
+        let b = Matrix::<UsualSemiring>::from(vec![vec![5, 6], vec![7, 8]]);
+        let c = Matrix::<UsualSemiring>::from(vec![vec![19, 22], vec![43, 50]]);
         assert_eq!(a * &b, c);
     }
 
     #[test]
     fn test_matrix_pow() {
-        let a = Matrix::<i32>::from(vec![vec![2, 0], vec![0, 3]]);
-        let b = Matrix::<i32>::from(vec![vec![32, 0], vec![0, 243]]);
+        let a = Matrix::<UsualSemiring>::from(vec![vec![2, 0], vec![0, 3]]);
+        let b = Matrix::<UsualSemiring>::from(vec![vec![32, 0], vec![0, 243]]);
         assert_eq!(a.pow(5), b);
     }
 
     #[test]
     fn test_transpose() {
-        let a = Matrix::<i32>::from(vec![vec![1, 2, 3], vec![4, 5, 6]]);
-        let b = Matrix::<i32>::from(vec![vec![1, 4], vec![2, 5], vec![3, 6]]);
+        let a = Matrix::<UsualSemiring>::from(vec![vec![1, 2, 3], vec![4, 5, 6]]);
+        let b = Matrix::<UsualSemiring>::from(vec![vec![1, 4], vec![2, 5], vec![3, 6]]);
         assert_eq!(a.transpose(), b);
     }
 }
