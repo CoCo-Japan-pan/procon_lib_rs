@@ -2,7 +2,32 @@
 //! 半環に一般化している  
 
 use algebra::Semiring;
+use internal_type_traits::{One, Zero};
+use std::fmt::Debug;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
+
+/// 通常の足し算、掛け算による半環
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct UsualSemiring<T: Debug + Clone + Eq + Zero + One + AddAssign + Mul<Output = T>> {
+    _phantom: std::marker::PhantomData<T>,
+}
+impl<T: Debug + Clone + Eq + Zero + One + AddAssign + Mul<Output = T>> Semiring
+    for UsualSemiring<T>
+{
+    type Target = T;
+    fn zero() -> Self::Target {
+        T::zero()
+    }
+    fn one() -> Self::Target {
+        T::one()
+    }
+    fn add_assign(a: &mut Self::Target, b: &Self::Target) {
+        *a += b.clone();
+    }
+    fn mul(a: &Self::Target, b: &Self::Target) -> Self::Target {
+        a.clone() * b.clone()
+    }
+}
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Matrix<T: Semiring> {
@@ -168,43 +193,27 @@ where
 mod test {
     use super::*;
 
-    #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-    pub struct UsualSemiring;
-    impl Semiring for UsualSemiring {
-        type Target = i32;
-        fn zero() -> Self::Target {
-            0
-        }
-        fn one() -> Self::Target {
-            1
-        }
-        fn add_assign(a: &mut Self::Target, b: &Self::Target) {
-            *a += b;
-        }
-        fn mul(a: &Self::Target, b: &Self::Target) -> Self::Target {
-            a * b
-        }
-    }
+    type Rig = UsualSemiring<i32>;
 
     #[test]
     fn test_matrix() {
-        let a = Matrix::<UsualSemiring>::from(vec![vec![1, 2], vec![3, 4]]);
-        let b = Matrix::<UsualSemiring>::from(vec![vec![5, 6], vec![7, 8]]);
-        let c = Matrix::<UsualSemiring>::from(vec![vec![19, 22], vec![43, 50]]);
+        let a = Matrix::<Rig>::from(vec![vec![1, 2], vec![3, 4]]);
+        let b = Matrix::<Rig>::from(vec![vec![5, 6], vec![7, 8]]);
+        let c = Matrix::<Rig>::from(vec![vec![19, 22], vec![43, 50]]);
         assert_eq!(a * &b, c);
     }
 
     #[test]
     fn test_matrix_pow() {
-        let a = Matrix::<UsualSemiring>::from(vec![vec![2, 0], vec![0, 3]]);
-        let b = Matrix::<UsualSemiring>::from(vec![vec![32, 0], vec![0, 243]]);
+        let a = Matrix::<Rig>::from(vec![vec![2, 0], vec![0, 3]]);
+        let b = Matrix::<Rig>::from(vec![vec![32, 0], vec![0, 243]]);
         assert_eq!(a.pow(5), b);
     }
 
     #[test]
     fn test_transpose() {
-        let a = Matrix::<UsualSemiring>::from(vec![vec![1, 2, 3], vec![4, 5, 6]]);
-        let b = Matrix::<UsualSemiring>::from(vec![vec![1, 4], vec![2, 5], vec![3, 6]]);
+        let a = Matrix::<Rig>::from(vec![vec![1, 2, 3], vec![4, 5, 6]]);
+        let b = Matrix::<Rig>::from(vec![vec![1, 4], vec![2, 5], vec![3, 6]]);
         assert_eq!(a.transpose(), b);
     }
 }
