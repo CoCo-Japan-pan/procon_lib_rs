@@ -55,9 +55,6 @@ data:
     path: verify/AtCoder/abc222f/src/main.rs
     title: verify/AtCoder/abc222f/src/main.rs
   - icon: ':heavy_check_mark:'
-    path: verify/AtCoder/abc293e/src/main.rs
-    title: verify/AtCoder/abc293e/src/main.rs
-  - icon: ':heavy_check_mark:'
     path: verify/AtCoder/abc312g/src/main.rs
     title: verify/AtCoder/abc312g/src/main.rs
   - icon: ':heavy_check_mark:'
@@ -162,7 +159,6 @@ data:
   - verify/yosupo/staticrmq_sparse_table/src/main.rs
   - verify/yosupo/vertex_set_path_composite/src/main.rs
   - verify/AtCoder/abc328f/src/main.rs
-  - verify/AtCoder/abc293e/src/main.rs
   - verify/AtCoder/abc222f/src/main.rs
   - verify/AtCoder/abc312g/src/main.rs
   - verify/AtCoder/alpc_l_lazy_seg/src/main.rs

@@ -12,6 +12,9 @@ data:
     path: crates/flow/maxflow_lower_bound/src/lib.rs
     title: crates/flow/maxflow_lower_bound/src/lib.rs
   - icon: ':heavy_check_mark:'
+    path: crates/math/matrix/src/lib.rs
+    title: crates/math/matrix/src/lib.rs
+  - icon: ':heavy_check_mark:'
     path: crates/modint/dynamic_modint/src/lib.rs
     title: crates/modint/dynamic_modint/src/lib.rs
   - icon: ':heavy_check_mark:'
@@ -58,6 +61,7 @@ data:
   - crates/modint/static_modint/src/lib.rs
   - crates/modint/dynamic_modint/src/lib.rs
   - crates/data_structure/segtree_2d_compressed/src/lib.rs
+  - crates/math/matrix/src/lib.rs
   timestamp: '2024-04-03 19:47:00+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

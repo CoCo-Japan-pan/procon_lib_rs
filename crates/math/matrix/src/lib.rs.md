@@ -4,6 +4,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
+  - icon: ':warning:'
+    path: crates/internals/internal_type_traits/src/lib.rs
+    title: crates/internals/internal_type_traits/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
@@ -20,8 +23,18 @@ data:
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! \u884C\u5217\u30E9\u30A4\u30D6\u30E9\u30EA \u884C\u5217\u7A4D\u306F\u666E\
     \u901A\u306B`O(d^3)`\u3067\u8A08\u7B97\u3055\u308C\u308B  \n//! \u534A\u74B0\u306B\
-    \u4E00\u822C\u5316\u3057\u3066\u3044\u308B  \n\nuse algebra::Semiring;\nuse std::ops::{Add,\
-    \ AddAssign, Mul, MulAssign, Sub, SubAssign};\n\n#[derive(Debug, Clone, PartialEq,\
+    \u4E00\u822C\u5316\u3057\u3066\u3044\u308B  \n\nuse algebra::Semiring;\nuse internal_type_traits::{One,\
+    \ Zero};\nuse std::fmt::Debug;\nuse std::ops::{Add, AddAssign, Mul, MulAssign,\
+    \ Sub, SubAssign};\n\n/// \u901A\u5E38\u306E\u8DB3\u3057\u7B97\u3001\u639B\u3051\
+    \u7B97\u306B\u3088\u308B\u534A\u74B0\n#[derive(Debug, Clone, Copy, PartialEq,\
+    \ Eq)]\npub struct UsualSemiring<T: Debug + Clone + Eq + Zero + One + AddAssign\
+    \ + Mul<Output = T>> {\n    _phantom: std::marker::PhantomData<T>,\n}\nimpl<T:\
+    \ Debug + Clone + Eq + Zero + One + AddAssign + Mul<Output = T>> Semiring\n  \
+    \  for UsualSemiring<T>\n{\n    type Target = T;\n    fn zero() -> Self::Target\
+    \ {\n        T::zero()\n    }\n    fn one() -> Self::Target {\n        T::one()\n\
+    \    }\n    fn add_assign(a: &mut Self::Target, b: &Self::Target) {\n        *a\
+    \ += b.clone();\n    }\n    fn mul(a: &Self::Target, b: &Self::Target) -> Self::Target\
+    \ {\n        a.clone() * b.clone()\n    }\n}\n\n#[derive(Debug, Clone, PartialEq,\
     \ Eq)]\npub struct Matrix<T: Semiring> {\n    height: usize,\n    width: usize,\n\
     \    data: Vec<T::Target>,\n}\n\nimpl<T: Semiring> From<Vec<Vec<T::Target>>> for\
     \ Matrix<T> {\n    fn from(v: Vec<Vec<T::Target>>) -> Self {\n        let height\
@@ -75,29 +88,23 @@ data:
     \  }\n}\n\nimpl<T: Semiring> Sub<&Self> for Matrix<T>\nwhere\n    T::Target: SubAssign,\n\
     {\n    type Output = Self;\n    fn sub(mut self, rhs: &Self) -> Self {\n     \
     \   self -= rhs;\n        self\n    }\n}\n\n#[cfg(test)]\nmod test {\n    use\
-    \ super::*;\n\n    #[derive(Debug, Clone, Copy, PartialEq, Eq)]\n    pub struct\
-    \ UsualSemiring;\n    impl Semiring for UsualSemiring {\n        type Target =\
-    \ i32;\n        fn zero() -> Self::Target {\n            0\n        }\n      \
-    \  fn one() -> Self::Target {\n            1\n        }\n        fn add_assign(a:\
-    \ &mut Self::Target, b: &Self::Target) {\n            *a += b;\n        }\n  \
-    \      fn mul(a: &Self::Target, b: &Self::Target) -> Self::Target {\n        \
-    \    a * b\n        }\n    }\n\n    #[test]\n    fn test_matrix() {\n        let\
-    \ a = Matrix::<UsualSemiring>::from(vec![vec![1, 2], vec![3, 4]]);\n        let\
-    \ b = Matrix::<UsualSemiring>::from(vec![vec![5, 6], vec![7, 8]]);\n        let\
-    \ c = Matrix::<UsualSemiring>::from(vec![vec![19, 22], vec![43, 50]]);\n     \
-    \   assert_eq!(a * &b, c);\n    }\n\n    #[test]\n    fn test_matrix_pow() {\n\
-    \        let a = Matrix::<UsualSemiring>::from(vec![vec![2, 0], vec![0, 3]]);\n\
-    \        let b = Matrix::<UsualSemiring>::from(vec![vec![32, 0], vec![0, 243]]);\n\
-    \        assert_eq!(a.pow(5), b);\n    }\n\n    #[test]\n    fn test_transpose()\
-    \ {\n        let a = Matrix::<UsualSemiring>::from(vec![vec![1, 2, 3], vec![4,\
-    \ 5, 6]]);\n        let b = Matrix::<UsualSemiring>::from(vec![vec![1, 4], vec![2,\
+    \ super::*;\n\n    type Rig = UsualSemiring<i32>;\n\n    #[test]\n    fn test_matrix()\
+    \ {\n        let a = Matrix::<Rig>::from(vec![vec![1, 2], vec![3, 4]]);\n    \
+    \    let b = Matrix::<Rig>::from(vec![vec![5, 6], vec![7, 8]]);\n        let c\
+    \ = Matrix::<Rig>::from(vec![vec![19, 22], vec![43, 50]]);\n        assert_eq!(a\
+    \ * &b, c);\n    }\n\n    #[test]\n    fn test_matrix_pow() {\n        let a =\
+    \ Matrix::<Rig>::from(vec![vec![2, 0], vec![0, 3]]);\n        let b = Matrix::<Rig>::from(vec![vec![32,\
+    \ 0], vec![0, 243]]);\n        assert_eq!(a.pow(5), b);\n    }\n\n    #[test]\n\
+    \    fn test_transpose() {\n        let a = Matrix::<Rig>::from(vec![vec![1, 2,\
+    \ 3], vec![4, 5, 6]]);\n        let b = Matrix::<Rig>::from(vec![vec![1, 4], vec![2,\
     \ 5], vec![3, 6]]);\n        assert_eq!(a.transpose(), b);\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
+  - crates/internals/internal_type_traits/src/lib.rs
   isVerificationFile: false
   path: crates/math/matrix/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-30 15:13:22+09:00'
+  timestamp: '2024-04-30 16:04:38+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc293e/src/main.rs

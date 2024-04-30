@@ -2,9 +2,6 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: crates/algebra/src/lib.rs
-    title: crates/algebra/src/lib.rs
-  - icon: ':heavy_check_mark:'
     path: crates/math/matrix/src/lib.rs
     title: crates/math/matrix/src/lib.rs
   - icon: ':heavy_check_mark:'
@@ -24,27 +21,20 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://atcoder.jp/contests/abc293/tasks/abc293_e\n\
-    \nuse algebra::Semiring;\nuse dynamic_modint::{define_modint, DynamicModInt};\n\
-    use matrix::Matrix;\nuse proconio::input;\n\ndefine_modint!(MOD);\ntype MInt =\
-    \ DynamicModInt<MOD>;\n\n#[derive(Debug, Clone, Copy, PartialEq, Eq)]\nstruct\
-    \ UsualSemiring;\nimpl Semiring for UsualSemiring {\n    type Target = MInt;\n\
-    \    fn zero() -> Self::Target {\n        MInt::raw(0)\n    }\n    fn one() ->\
-    \ Self::Target {\n        MInt::new(1)\n    }\n    fn add_assign(a: &mut Self::Target,\
-    \ b: &Self::Target) {\n        *a += *b;\n    }\n    fn mul(a: &Self::Target,\
-    \ b: &Self::Target) -> Self::Target {\n        *a * *b\n    }\n}\n\nfn main()\
-    \ {\n    input! {\n        a: u32, x: u64, m: u32,\n    }\n    MInt::set_modulus(m);\n\
+    \nuse dynamic_modint::{define_modint, DynamicModInt};\nuse matrix::{Matrix, UsualSemiring};\n\
+    use proconio::input;\n\ndefine_modint!(MOD);\ntype MInt = DynamicModInt<MOD>;\n\
+    \nfn main() {\n    input! {\n        a: u32, x: u64, m: u32,\n    }\n    MInt::set_modulus(m);\n\
     \    let keisuu = vec![\n        vec![MInt::new(a), MInt::new(1)],\n        vec![MInt::new(0),\
-    \ MInt::new(1)],\n    ];\n    let keisuu = Matrix::<UsualSemiring>::from(keisuu);\n\
+    \ MInt::new(1)],\n    ];\n    let keisuu = Matrix::<UsualSemiring<MInt>>::from(keisuu);\n\
     \    let keisuu = keisuu.pow(x - 1);\n    let ans = keisuu * &Matrix::from(vec![vec![MInt::new(1)],\
     \ vec![MInt::new(1)]]);\n    println!(\"{}\", ans.get(0, 0));\n}\n"
   dependsOn:
-  - crates/algebra/src/lib.rs
   - crates/math/matrix/src/lib.rs
   - crates/modint/dynamic_modint/src/lib.rs
   isVerificationFile: true
   path: verify/AtCoder/abc293e/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-30 15:13:22+09:00'
+  timestamp: '2024-04-30 16:04:38+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AtCoder/abc293e/src/main.rs
