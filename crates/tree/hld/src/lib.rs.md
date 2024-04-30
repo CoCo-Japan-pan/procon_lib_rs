@@ -18,12 +18,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/vertex_add_subtree_sum/src/main.rs
     title: verify/yosupo/vertex_add_subtree_sum/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/vertex_set_path_composite/src/main.rs
     title: verify/yosupo/vertex_set_path_composite/src/main.rs
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
     - https://codeforces.com/blog/entry/53170)
@@ -133,7 +133,7 @@ data:
   path: crates/tree/hld/src/lib.rs
   requiredBy: []
   timestamp: '2024-04-28 21:22:52+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/vertex_add_subtree_sum/src/main.rs
   - verify/yosupo/vertex_set_path_composite/src/main.rs

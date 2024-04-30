@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   _extendedRequiredBy: []
@@ -19,12 +19,13 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! \u884C\u5217\u30E9\u30A4\u30D6\u30E9\u30EA \u884C\u5217\u7A4D\u306F\u666E\
-    \u901A\u306B`O(d^3)`\u3067\u8A08\u7B97\u3055\u308C\u308B\n\nuse algebra::Semiring;\n\
-    use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};\n\n#[derive(Debug,\
-    \ Clone, PartialEq, Eq)]\npub struct Matrix<T: Semiring> {\n    height: usize,\n\
-    \    width: usize,\n    data: Vec<T::Target>,\n}\n\nimpl<T: Semiring> From<Vec<Vec<T::Target>>>\
-    \ for Matrix<T> {\n    fn from(v: Vec<Vec<T::Target>>) -> Self {\n        let\
-    \ height = v.len();\n        let width = v[0].len();\n        let data = v.into_iter().flatten().collect();\n\
+    \u901A\u306B`O(d^3)`\u3067\u8A08\u7B97\u3055\u308C\u308B  \n//! \u534A\u74B0\u306B\
+    \u4E00\u822C\u5316\u3057\u3066\u3044\u308B  \n\nuse algebra::Semiring;\nuse std::ops::{Add,\
+    \ AddAssign, Mul, MulAssign, Sub, SubAssign};\n\n#[derive(Debug, Clone, PartialEq,\
+    \ Eq)]\npub struct Matrix<T: Semiring> {\n    height: usize,\n    width: usize,\n\
+    \    data: Vec<T::Target>,\n}\n\nimpl<T: Semiring> From<Vec<Vec<T::Target>>> for\
+    \ Matrix<T> {\n    fn from(v: Vec<Vec<T::Target>>) -> Self {\n        let height\
+    \ = v.len();\n        let width = v[0].len();\n        let data = v.into_iter().flatten().collect();\n\
     \        Self {\n            height,\n            width,\n            data,\n\
     \        }\n    }\n}\n\nimpl<T: Semiring, const H: usize, const W: usize> From<[[T::Target;\
     \ W]; H]> for Matrix<T> {\n    fn from(v: [[T::Target; W]; H]) -> Self {\n   \
@@ -96,7 +97,7 @@ data:
   isVerificationFile: false
   path: crates/math/matrix/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-30 14:58:07+09:00'
+  timestamp: '2024-04-30 15:13:22+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc293e/src/main.rs

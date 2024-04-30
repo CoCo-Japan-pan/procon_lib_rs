@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/fps/ntt_arbitrary_mod/src/lib.rs
     title: crates/fps/ntt_arbitrary_mod/src/lib.rs
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/modint/static_modint/src/lib.rs
     title: crates/modint/static_modint/src/lib.rs
   _extendedRequiredBy: []
