@@ -7,7 +7,7 @@ data:
   - icon: ':warning:'
     path: crates/internals/modint_traits/src/lib.rs
     title: crates/internals/modint_traits/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/modint/static_modint/src/lib.rs
     title: crates/modint/static_modint/src/lib.rs
   _extendedRequiredBy: []

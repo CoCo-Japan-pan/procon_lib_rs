@@ -2,7 +2,7 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: crates/data_structure/segtree_2d_compressed/src/lib.rs
     title: crates/data_structure/segtree_2d_compressed/src/lib.rs
   - icon: ':warning:'
@@ -12,12 +12,9 @@ data:
     path: crates/flow/maxflow_lower_bound/src/lib.rs
     title: crates/flow/maxflow_lower_bound/src/lib.rs
   - icon: ':heavy_check_mark:'
-    path: crates/math/matrix/src/lib.rs
-    title: crates/math/matrix/src/lib.rs
-  - icon: ':heavy_check_mark:'
     path: crates/modint/dynamic_modint/src/lib.rs
     title: crates/modint/dynamic_modint/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/modint/static_modint/src/lib.rs
     title: crates/modint/static_modint/src/lib.rs
   _extendedVerifiedWith: []
@@ -61,7 +58,6 @@ data:
   - crates/modint/static_modint/src/lib.rs
   - crates/modint/dynamic_modint/src/lib.rs
   - crates/data_structure/segtree_2d_compressed/src/lib.rs
-  - crates/math/matrix/src/lib.rs
   timestamp: '2024-04-03 19:47:00+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
