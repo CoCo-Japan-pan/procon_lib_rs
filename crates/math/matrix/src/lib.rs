@@ -1,4 +1,5 @@
-//! 行列ライブラリ 行列積は普通に`O(d^3)`で計算される
+//! 行列ライブラリ 行列積は普通に`O(d^3)`で計算される  
+//! 半環に一般化している  
 
 use algebra::Semiring;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
