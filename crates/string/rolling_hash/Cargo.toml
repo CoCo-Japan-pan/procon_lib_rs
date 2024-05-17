@@ -8,4 +8,4 @@ repository = "ssh://git@github.com/CoCo-Japan-pan/procon_lib_rs.git"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-modint_mersenne = { path = "../../internals/modint_mersenne" }
+modint_mersenne = { path = "../../hash/modint_mersenne" }
