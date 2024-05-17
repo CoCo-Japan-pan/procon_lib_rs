@@ -2,8 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':warning:'
-    path: crates/internals/modint_mersenne/src/lib.rs
-    title: crates/internals/modint_mersenne/src/lib.rs
+    path: crates/hash/modint_mersenne/src/lib.rs
+    title: crates/hash/modint_mersenne/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
@@ -65,11 +65,11 @@ data:
     )\n    pub fn get_prefix_hash(&self, i: usize) -> ModIntMersenne {\n        assert!(i\
     \ <= self.len);\n        self.prefix_hash_table[i]\n    }\n}\n"
   dependsOn:
-  - crates/internals/modint_mersenne/src/lib.rs
+  - crates/hash/modint_mersenne/src/lib.rs
   isVerificationFile: false
   path: crates/string/rolling_hash/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-04 01:49:55+09:00'
+  timestamp: '2024-05-17 22:46:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/zalgorithm_rolling_hash/src/main.rs

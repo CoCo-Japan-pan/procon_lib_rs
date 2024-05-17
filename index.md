@@ -81,16 +81,16 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/fps/ntt_arbitrary_mod/src/lib.rs
       title: crates/fps/ntt_arbitrary_mod/src/lib.rs
+  - name: crates/hash/modint_mersenne/src
+    pages:
+    - icon: ':warning:'
+      path: crates/hash/modint_mersenne/src/lib.rs
+      title: crates/hash/modint_mersenne/src/lib.rs
   - name: crates/internals/internal_type_traits/src
     pages:
     - icon: ':warning:'
       path: crates/internals/internal_type_traits/src/lib.rs
       title: crates/internals/internal_type_traits/src/lib.rs
-  - name: crates/internals/modint_mersenne/src
-    pages:
-    - icon: ':warning:'
-      path: crates/internals/modint_mersenne/src/lib.rs
-      title: crates/internals/modint_mersenne/src/lib.rs
   - name: crates/internals/modint_traits/src
     pages:
     - icon: ':warning:'
