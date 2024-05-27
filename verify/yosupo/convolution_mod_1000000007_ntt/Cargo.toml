@@ -8,4 +8,4 @@ edition = "2021"
 [dependencies]
 proconio = { version = "=0.4.5", features = ["derive"] }
 static_modint = { path = "../../../crates/modint/static_modint" }
-ntt_arbitrary_mod = { path = "../../../crates/fps/ntt_arbitrary_mod" }
+ntt = { path = "../../../crates/fps/ntt" }

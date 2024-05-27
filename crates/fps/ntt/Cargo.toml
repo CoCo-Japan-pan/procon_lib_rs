@@ -8,4 +8,6 @@ repository = "ssh://git@github.com/CoCo-Japan-pan/procon_lib_rs.git"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+modint_traits = { path = "../../internals/modint_traits" }
 static_modint = { path = "../../modint/static_modint" }
+dynamic_modint = { path = "../../modint/dynamic_modint" }

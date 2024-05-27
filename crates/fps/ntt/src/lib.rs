@@ -4,7 +4,9 @@
 //! [Reference](https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/convolution.rs)  
 //! ジェネリックに紐づくstaticの実現がむずくてキャッシュは毎回とることにした...  
 
-use static_modint::{ModInt998244353, StaticModInt};
+use dynamic_modint::{DynamicModInt, ModContainer};
+use modint_traits::ModInt;
+use static_modint::StaticModInt;
 
 fn prepare<const NTT_MOD: u32, const PRIMITIVE_ROOT: u32>(
 ) -> ([StaticModInt<NTT_MOD>; 30], [StaticModInt<NTT_MOD>; 30]) {
@@ -76,7 +78,7 @@ fn intt<const NTT_MOD: u32, const PRIMITIVE_ROOT: u32>(
 }
 
 /// NTTによる畳み込み
-pub fn convolution<const NTT_MOD: u32, const PRIMITIVE_ROOT: u32>(
+fn convolution_ntt_friendly<const NTT_MOD: u32, const PRIMITIVE_ROOT: u32>(
     a: &[StaticModInt<NTT_MOD>],
     b: &[StaticModInt<NTT_MOD>],
 ) -> Vec<StaticModInt<NTT_MOD>> {
@@ -106,7 +108,84 @@ pub fn convolution<const NTT_MOD: u32, const PRIMITIVE_ROOT: u32>(
     a
 }
 
-/// 998244353 = 119 * 2^23 + 1 で原始根3を持つ
-pub fn convolution_998244353(a: &[ModInt998244353], b: &[ModInt998244353]) -> Vec<ModInt998244353> {
-    convolution::<998244353, 3>(a, b)
+/// 取りうる最大値を超えるmodを表現できるようなmodの組を選んで畳み込み、Garnerで復元
+fn convolution_aribtrary_u32_mod<M: ModInt>(a: &[M], b: &[M]) -> Vec<M> {
+    // どれも原子根3で、2^24乗根がある
+    const MOD1: u32 = 167772161;
+    const MOD2: u32 = 469762049;
+    const MOD3: u32 = 1224736769;
+    let x = convolution_ntt_friendly::<MOD1, 3>(
+        a.iter()
+            .map(|x| StaticModInt::<MOD1>::new(x.value()))
+            .collect::<Vec<_>>()
+            .as_slice(),
+        b.iter()
+            .map(|x| StaticModInt::<MOD1>::new(x.value()))
+            .collect::<Vec<_>>()
+            .as_slice(),
+    );
+    let y = convolution_ntt_friendly::<MOD2, 3>(
+        a.iter()
+            .map(|x| StaticModInt::<MOD2>::new(x.value()))
+            .collect::<Vec<_>>()
+            .as_slice(),
+        b.iter()
+            .map(|x| StaticModInt::<MOD2>::new(x.value()))
+            .collect::<Vec<_>>()
+            .as_slice(),
+    );
+    let z = convolution_ntt_friendly::<MOD3, 3>(
+        a.iter()
+            .map(|x| StaticModInt::<MOD3>::new(x.value()))
+            .collect::<Vec<_>>()
+            .as_slice(),
+        b.iter()
+            .map(|x| StaticModInt::<MOD3>::new(x.value()))
+            .collect::<Vec<_>>()
+            .as_slice(),
+    );
+
+    let m1_inv_m2 = StaticModInt::<MOD2>::new(MOD1).inv();
+    let m12_inv_m3 = StaticModInt::<MOD3>::new(MOD1 as u64 * MOD2 as u64).inv();
+    let m12_mod = M::new(MOD1 as u64 * MOD2 as u64);
+    let mut ret = vec![M::raw(0); x.len()];
+    for (i, r) in ret.iter_mut().enumerate() {
+        let v1 = ((StaticModInt::<MOD2>::new(y[i].value())
+            - StaticModInt::<MOD2>::new(x[i].value()))
+            * m1_inv_m2)
+            .value();
+        let v2 = ((StaticModInt::<MOD3>::new(z[i].value())
+            - StaticModInt::<MOD3>::new(x[i].value())
+            - StaticModInt::<MOD3>::new(MOD1) * StaticModInt::<MOD3>::new(v1))
+            * m12_inv_m3)
+            .value();
+        let constants = M::new(x[i].value()) + M::new(MOD1) * M::new(v1) + m12_mod * M::new(v2);
+        *r = constants;
+    }
+    ret
+}
+
+/// ModIntに畳み込みも追加しかトレイト
+pub trait ConvHelper: ModInt {
+    fn convolution(a: &[Self], b: &[Self]) -> Vec<Self>;
+}
+
+impl<const MOD: u32> ConvHelper for StaticModInt<MOD> {
+    fn convolution(a: &[Self], b: &[Self]) -> Vec<Self> {
+        if MOD == 998244353 {
+            convolution_ntt_friendly::<MOD, 3>(a, b)
+        } else {
+            convolution_aribtrary_u32_mod(a, b)
+        }
+    }
+}
+
+impl<MOD: ModContainer> ConvHelper for DynamicModInt<MOD> {
+    fn convolution(a: &[Self], b: &[Self]) -> Vec<Self> {
+        convolution_aribtrary_u32_mod(a, b)
+    }
+}
+
+pub fn convolution<M: ConvHelper>(a: &[M], b: &[M]) -> Vec<M> {
+    M::convolution(a, b)
 }
