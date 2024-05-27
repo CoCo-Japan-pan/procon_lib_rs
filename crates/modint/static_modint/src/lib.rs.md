@@ -11,9 +11,6 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/fps/ntt/src/lib.rs
     title: crates/fps/ntt/src/lib.rs
-  - icon: ':heavy_check_mark:'
-    path: crates/fps/ntt_arbitrary_mod/src/lib.rs
-    title: crates/fps/ntt_arbitrary_mod/src/lib.rs
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: verify/AtCoder/abc290f/src/main.rs
@@ -157,7 +154,6 @@ data:
   isVerificationFile: false
   path: crates/modint/static_modint/src/lib.rs
   requiredBy:
-  - crates/fps/ntt_arbitrary_mod/src/lib.rs
   - crates/fps/ntt/src/lib.rs
   timestamp: '2024-04-17 18:38:53+09:00'
   verificationStatus: LIBRARY_ALL_AC

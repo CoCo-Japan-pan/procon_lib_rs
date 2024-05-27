@@ -71,16 +71,16 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/flow/maxflow_lower_bound/src/lib.rs
       title: crates/flow/maxflow_lower_bound/src/lib.rs
+  - name: crates/fps/fps_utils/src
+    pages:
+    - icon: ':warning:'
+      path: crates/fps/fps_utils/src/lib.rs
+      title: crates/fps/fps_utils/src/lib.rs
   - name: crates/fps/ntt/src
     pages:
     - icon: ':heavy_check_mark:'
       path: crates/fps/ntt/src/lib.rs
       title: crates/fps/ntt/src/lib.rs
-  - name: crates/fps/ntt_arbitrary_mod/src
-    pages:
-    - icon: ':heavy_check_mark:'
-      path: crates/fps/ntt_arbitrary_mod/src/lib.rs
-      title: crates/fps/ntt_arbitrary_mod/src/lib.rs
   - name: crates/hash/modint_mersenne/src
     pages:
     - icon: ':warning:'

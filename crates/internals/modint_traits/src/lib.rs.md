@@ -3,8 +3,8 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
-    path: crates/fps/ntt_arbitrary_mod/src/lib.rs
-    title: crates/fps/ntt_arbitrary_mod/src/lib.rs
+    path: crates/fps/ntt/src/lib.rs
+    title: crates/fps/ntt/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/math/binom/src/lib.rs
     title: crates/math/binom/src/lib.rs
@@ -69,7 +69,7 @@ data:
   isVerificationFile: false
   path: crates/internals/modint_traits/src/lib.rs
   requiredBy:
-  - crates/fps/ntt_arbitrary_mod/src/lib.rs
+  - crates/fps/ntt/src/lib.rs
   - crates/math/binom/src/lib.rs
   - crates/modint/static_modint/src/lib.rs
   - crates/modint/dynamic_modint/src/lib.rs

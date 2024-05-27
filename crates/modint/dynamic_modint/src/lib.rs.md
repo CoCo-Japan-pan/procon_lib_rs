@@ -7,7 +7,10 @@ data:
   - icon: ':warning:'
     path: crates/internals/modint_traits/src/lib.rs
     title: crates/internals/modint_traits/src/lib.rs
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: crates/fps/ntt/src/lib.rs
+    title: crates/fps/ntt/src/lib.rs
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: verify/AtCoder/abc293e/src/main.rs
@@ -134,7 +137,8 @@ data:
   - crates/internals/modint_traits/src/lib.rs
   isVerificationFile: false
   path: crates/modint/dynamic_modint/src/lib.rs
-  requiredBy: []
+  requiredBy:
+  - crates/fps/ntt/src/lib.rs
   timestamp: '2024-04-17 21:26:36+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
