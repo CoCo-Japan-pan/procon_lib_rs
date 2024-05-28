@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"trait":["Commutative","Group","IdempotentMonoid","Map","MapMonoid","Monoid","NonCommutative","Semiring"]};
