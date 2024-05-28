@@ -4,6 +4,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
+  - icon: ':warning:'
+    path: crates/internals/internal_bits/src/lib.rs
+    title: crates/internals/internal_bits/src/lib.rs
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/segtree_2d_compressed/src/lib.rs
@@ -26,13 +29,13 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! [Reference](https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs)\n\
-    \nuse algebra::Monoid;\nuse std::ops::RangeBounds;\n\n#[derive(Debug, Clone, PartialEq,\
-    \ Eq)]\npub struct SegTree<M: Monoid> {\n    range_size: usize,\n    leaf_size:\
-    \ usize,\n    log: usize,\n    data: Vec<M::Target>,\n}\n\nimpl<M: Monoid> From<&Vec<M::Target>>\
-    \ for SegTree<M> {\n    fn from(v: &Vec<M::Target>) -> Self {\n        let range_size\
-    \ = v.len();\n        let log = (32 - (range_size as u32).saturating_sub(1).leading_zeros())\
-    \ as usize;\n        let leaf_size = 1 << log;\n        let mut data = vec![M::id_element();\
-    \ leaf_size * 2];\n        data[leaf_size..leaf_size + range_size].clone_from_slice(v);\n\
+    \nuse algebra::Monoid;\nuse internal_bits::ceil_log2;\nuse std::ops::RangeBounds;\n\
+    \n#[derive(Debug, Clone, PartialEq, Eq)]\npub struct SegTree<M: Monoid> {\n  \
+    \  range_size: usize,\n    leaf_size: usize,\n    log: usize,\n    data: Vec<M::Target>,\n\
+    }\n\nimpl<M: Monoid> From<&Vec<M::Target>> for SegTree<M> {\n    fn from(v: &Vec<M::Target>)\
+    \ -> Self {\n        let range_size = v.len();\n        let log = ceil_log2(range_size\
+    \ as u32) as usize;\n        let leaf_size = 1 << log;\n        let mut data =\
+    \ vec![M::id_element(); leaf_size * 2];\n        data[leaf_size..leaf_size + range_size].clone_from_slice(v);\n\
     \        let mut seg_tree = SegTree {\n            range_size,\n            leaf_size,\n\
     \            log,\n            data,\n        };\n        for i in (1..leaf_size).rev()\
     \ {\n            seg_tree.update(i);\n        }\n        seg_tree\n    }\n}\n\n\
@@ -89,11 +92,12 @@ data:
     \ * 2], &self.data[k * 2 + 1]);\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
+  - crates/internals/internal_bits/src/lib.rs
   isVerificationFile: false
   path: crates/data_structure/segtree/src/lib.rs
   requiredBy:
   - crates/data_structure/segtree_2d_compressed/src/lib.rs
-  timestamp: '2024-04-30 14:58:07+09:00'
+  timestamp: '2024-05-28 18:30:57+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/point_set_range_composite/src/main.rs

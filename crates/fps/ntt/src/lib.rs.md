@@ -112,7 +112,7 @@ data:
     \ * StaticModInt::<MOD3>::new(v1))\n            * m12_inv_m3)\n            .value();\n\
     \        let constants = M::new(x[i].value()) + M::new(MOD1) * M::new(v1) + m12_mod\
     \ * M::new(v2);\n        *r = constants;\n    }\n    ret\n}\n\n/// ModInt\u306B\
-    \u7573\u307F\u8FBC\u307F\u3082\u8FFD\u52A0\u3057\u304B\u30C8\u30EC\u30A4\u30C8\
+    \u7573\u307F\u8FBC\u307F\u3082\u8FFD\u52A0\u3057\u305F\u30C8\u30EC\u30A4\u30C8\
     \npub trait ConvHelper: ModInt {\n    fn convolution(a: &[Self], b: &[Self]) ->\
     \ Vec<Self>;\n}\n\nimpl<const MOD: u32> ConvHelper for StaticModInt<MOD> {\n \
     \   fn convolution(a: &[Self], b: &[Self]) -> Vec<Self> {\n        if MOD == 998244353\
@@ -120,8 +120,9 @@ data:
     \            convolution_aribtrary_u32_mod(a, b)\n        }\n    }\n}\n\nimpl<MOD:\
     \ ModContainer> ConvHelper for DynamicModInt<MOD> {\n    fn convolution(a: &[Self],\
     \ b: &[Self]) -> Vec<Self> {\n        convolution_aribtrary_u32_mod(a, b)\n  \
-    \  }\n}\n\npub fn convolution<M: ConvHelper>(a: &[M], b: &[M]) -> Vec<M> {\n \
-    \   M::convolution(a, b)\n}\n"
+    \  }\n}\n\n/// NTT-freindly\u306A\u5834\u5408\u3082\u305D\u3046\u3067\u306A\u3044\
+    \u5834\u5408\u3082\u5305\u62EC\u3059\u308B\npub fn convolution<M: ConvHelper>(a:\
+    \ &[M], b: &[M]) -> Vec<M> {\n    M::convolution(a, b)\n}\n"
   dependsOn:
   - crates/internals/modint_traits/src/lib.rs
   - crates/modint/dynamic_modint/src/lib.rs
@@ -130,7 +131,7 @@ data:
   path: crates/fps/ntt/src/lib.rs
   requiredBy:
   - crates/fps/fps_utils/src/lib.rs
-  timestamp: '2024-05-28 02:29:57+09:00'
+  timestamp: '2024-05-28 18:30:57+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/convolution_mod_1000000007_ntt/src/main.rs

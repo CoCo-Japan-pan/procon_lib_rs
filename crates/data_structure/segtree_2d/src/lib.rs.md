@@ -4,6 +4,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
+  - icon: ':warning:'
+    path: crates/internals/internal_bits/src/lib.rs
+    title: crates/internals/internal_bits/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
@@ -25,25 +28,24 @@ data:
     \u306E\u3067\u6CE8\u610F  \n//! 2\u6B21\u5143\u306A\u306E\u3067\u53EF\u63DB\u6027\
     \u3092\u8981\u6C42    \n//! <https://nasubi-blog.hatenablog.com/entry/2021/11/27/185818>\u306E\
     \u56F3\u304C\u5206\u304B\u308A\u3084\u3059\u304B\u3063\u305F\u3067\u3059  \n\n\
-    use algebra::{Commutative, Monoid};\nuse std::ops::RangeBounds;\n\n#[derive(Debug)]\n\
-    pub struct SegTree2D<M: Monoid + Commutative> {\n    height: usize,\n    width:\
-    \ usize,\n    ceil_log_h: usize,\n    ceil_log_w: usize,\n    leaf_height: usize,\n\
-    \    leaf_width: usize,\n    data: Vec<M::Target>,\n}\n\nmacro_rules! index {\n\
-    \    ($self: expr, $h:expr, $w:expr) => {\n        $h * $self.leaf_width * 2 +\
-    \ $w\n    };\n}\n\nimpl<M: Monoid + Commutative> From<&Vec<Vec<M::Target>>> for\
-    \ SegTree2D<M> {\n    fn from(v: &Vec<Vec<M::Target>>) -> Self {\n        let\
-    \ height = v.len();\n        let width = v[0].len();\n        let ceil_log_h =\
-    \ (32 - (height as u32).saturating_sub(1).leading_zeros()) as usize;\n       \
-    \ let ceil_log_w = (32 - (width as u32).saturating_sub(1).leading_zeros()) as\
-    \ usize;\n        let leaf_height = 1 << ceil_log_h;\n        let leaf_width =\
-    \ 1 << ceil_log_w;\n        let mut data = vec![M::id_element(); leaf_width *\
-    \ leaf_height * 4];\n        for (h, v) in v.iter().enumerate() {\n          \
-    \  let base = (leaf_height + h) * leaf_width * 2 + leaf_width;\n            data[base..base\
-    \ + width].clone_from_slice(v);\n        }\n        let mut ret = SegTree2D {\n\
-    \            height,\n            width,\n            ceil_log_h,\n          \
-    \  ceil_log_w,\n            leaf_height,\n            leaf_width,\n          \
-    \  data,\n        };\n        for h in (1..leaf_height).rev() {\n            for\
-    \ w in (leaf_width..leaf_width * 2).rev() {\n                ret.update_from_col_leaf(h,\
+    use algebra::{Commutative, Monoid};\nuse internal_bits::ceil_log2;\nuse std::ops::RangeBounds;\n\
+    \n#[derive(Debug)]\npub struct SegTree2D<M: Monoid + Commutative> {\n    height:\
+    \ usize,\n    width: usize,\n    ceil_log_h: usize,\n    ceil_log_w: usize,\n\
+    \    leaf_height: usize,\n    leaf_width: usize,\n    data: Vec<M::Target>,\n\
+    }\n\nmacro_rules! index {\n    ($self: expr, $h:expr, $w:expr) => {\n        $h\
+    \ * $self.leaf_width * 2 + $w\n    };\n}\n\nimpl<M: Monoid + Commutative> From<&Vec<Vec<M::Target>>>\
+    \ for SegTree2D<M> {\n    fn from(v: &Vec<Vec<M::Target>>) -> Self {\n       \
+    \ let height = v.len();\n        let width = v[0].len();\n        let ceil_log_h\
+    \ = ceil_log2(height as u32) as usize;\n        let ceil_log_w = ceil_log2(width\
+    \ as u32) as usize;\n        let leaf_height = 1 << ceil_log_h;\n        let leaf_width\
+    \ = 1 << ceil_log_w;\n        let mut data = vec![M::id_element(); leaf_width\
+    \ * leaf_height * 4];\n        for (h, v) in v.iter().enumerate() {\n        \
+    \    let base = (leaf_height + h) * leaf_width * 2 + leaf_width;\n           \
+    \ data[base..base + width].clone_from_slice(v);\n        }\n        let mut ret\
+    \ = SegTree2D {\n            height,\n            width,\n            ceil_log_h,\n\
+    \            ceil_log_w,\n            leaf_height,\n            leaf_width,\n\
+    \            data,\n        };\n        for h in (1..leaf_height).rev() {\n  \
+    \          for w in (leaf_width..leaf_width * 2).rev() {\n                ret.update_from_col_leaf(h,\
     \ w);\n            }\n        }\n        for h in (1..leaf_height * 2).rev() {\n\
     \            for w in (1..leaf_width).rev() {\n                ret.update_from_row_leaf(h,\
     \ w);\n            }\n        }\n        ret\n    }\n}\n\nimpl<M: Monoid + Commutative>\
@@ -101,10 +103,11 @@ data:
     \ w_right >>= 1;\n        }\n        ret\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
+  - crates/internals/internal_bits/src/lib.rs
   isVerificationFile: false
   path: crates/data_structure/segtree_2d/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-30 14:58:07+09:00'
+  timestamp: '2024-05-28 18:30:57+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/no_2842/src/main.rs

@@ -86,6 +86,11 @@ data:
     - icon: ':warning:'
       path: crates/hash/modint_mersenne/src/lib.rs
       title: crates/hash/modint_mersenne/src/lib.rs
+  - name: crates/internals/internal_bits/src
+    pages:
+    - icon: ':warning:'
+      path: crates/internals/internal_bits/src/lib.rs
+      title: crates/internals/internal_bits/src/lib.rs
   - name: crates/internals/internal_type_traits/src
     pages:
     - icon: ':warning:'
