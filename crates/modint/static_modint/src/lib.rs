@@ -118,16 +118,31 @@ impl<const MOD: u32> Neg for StaticModInt<MOD> {
     }
 }
 
-impl<const MOD: u32, T> Add<T> for StaticModInt<MOD>
-where
-    Self: AddAssign<T>,
-{
-    type Output = Self;
-    fn add(mut self, rhs: T) -> Self {
-        self += rhs;
-        self
-    }
+macro_rules! impl_ops {
+    ($trait:ident, $method:ident, $assign_trait:ident, $assign_method:ident) => {
+        impl<const MOD: u32, T> $trait<T> for StaticModInt<MOD>
+        where
+            Self: $assign_trait<T>,
+        {
+            type Output = Self;
+            fn $method(mut self, rhs: T) -> Self {
+                StaticModInt::<MOD>::$assign_method(&mut self, rhs);
+                self
+            }
+        }
+
+        impl<const MOD: u32, T: RemEuclidU32> $assign_trait<T> for StaticModInt<MOD> {
+            fn $assign_method(&mut self, rhs: T) {
+                StaticModInt::<MOD>::$assign_method(self, Self::new(rhs));
+            }
+        }
+    };
 }
+
+impl_ops!(Add, add, AddAssign, add_assign);
+impl_ops!(Sub, sub, SubAssign, sub_assign);
+impl_ops!(Mul, mul, MulAssign, mul_assign);
+impl_ops!(Div, div, DivAssign, div_assign);
 
 impl<const MOD: u32> AddAssign for StaticModInt<MOD> {
     fn add_assign(&mut self, rhs: Self) {
@@ -135,23 +150,6 @@ impl<const MOD: u32> AddAssign for StaticModInt<MOD> {
         if self.value >= MOD {
             self.value -= MOD;
         }
-    }
-}
-
-impl<const MOD: u32, T: RemEuclidU32> AddAssign<T> for StaticModInt<MOD> {
-    fn add_assign(&mut self, rhs: T) {
-        *self += Self::new(rhs);
-    }
-}
-
-impl<const MOD: u32, T> Sub<T> for StaticModInt<MOD>
-where
-    Self: SubAssign<T>,
-{
-    type Output = Self;
-    fn sub(mut self, rhs: T) -> Self {
-        self -= rhs;
-        self
     }
 }
 
@@ -164,43 +162,9 @@ impl<const MOD: u32> SubAssign for StaticModInt<MOD> {
     }
 }
 
-impl<const MOD: u32, T: RemEuclidU32> SubAssign<T> for StaticModInt<MOD> {
-    fn sub_assign(&mut self, rhs: T) {
-        *self -= Self::new(rhs);
-    }
-}
-
-impl<const MOD: u32, T> Mul<T> for StaticModInt<MOD>
-where
-    Self: MulAssign<T>,
-{
-    type Output = Self;
-    fn mul(mut self, rhs: T) -> Self {
-        self *= rhs;
-        self
-    }
-}
-
 impl<const MOD: u32> MulAssign for StaticModInt<MOD> {
     fn mul_assign(&mut self, rhs: Self) {
         self.value = (self.value as u64 * rhs.value as u64).rem_euclid_u32(MOD);
-    }
-}
-
-impl<const MOD: u32, T: RemEuclidU32> MulAssign<T> for StaticModInt<MOD> {
-    fn mul_assign(&mut self, rhs: T) {
-        *self *= Self::new(rhs);
-    }
-}
-
-impl<const MOD: u32, T> Div<T> for StaticModInt<MOD>
-where
-    Self: DivAssign<T>,
-{
-    type Output = Self;
-    fn div(mut self, rhs: T) -> Self {
-        self /= rhs;
-        self
     }
 }
 
@@ -208,12 +172,6 @@ where
 impl<const MOD: u32> DivAssign for StaticModInt<MOD> {
     fn div_assign(&mut self, rhs: Self) {
         *self *= rhs.inv();
-    }
-}
-
-impl<const MOD: u32, T: RemEuclidU32> DivAssign<T> for StaticModInt<MOD> {
-    fn div_assign(&mut self, rhs: T) {
-        *self /= Self::new(rhs);
     }
 }
 
