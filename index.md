@@ -108,7 +108,7 @@ data:
       title: crates/math/binom/src/lib.rs
   - name: crates/math/matrix/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: crates/math/matrix/src/lib.rs
       title: crates/math/matrix/src/lib.rs
   - name: crates/misc/mo/src
@@ -123,7 +123,7 @@ data:
       title: crates/misc/top2/src/lib.rs
   - name: crates/modint/dynamic_modint/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/modint/dynamic_modint/src/lib.rs
       title: crates/modint/dynamic_modint/src/lib.rs
   - name: crates/modint/static_modint/src
@@ -199,7 +199,7 @@ data:
       title: verify/AtCoder/abc290f/src/main.rs
   - name: verify/AtCoder/abc293e/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/AtCoder/abc293e/src/main.rs
       title: verify/AtCoder/abc293e/src/main.rs
   - name: verify/AtCoder/abc294g/src

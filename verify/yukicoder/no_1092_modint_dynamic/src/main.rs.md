@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/modint/dynamic_modint/src/lib.rs
     title: crates/modint/dynamic_modint/src/lib.rs
   _extendedRequiredBy: []
@@ -33,7 +33,7 @@ data:
   isVerificationFile: true
   path: verify/yukicoder/no_1092_modint_dynamic/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-17 21:26:36+09:00'
+  timestamp: '2024-05-28 23:13:55+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yukicoder/no_1092_modint_dynamic/src/main.rs

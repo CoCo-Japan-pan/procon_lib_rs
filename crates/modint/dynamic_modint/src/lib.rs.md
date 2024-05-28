@@ -12,15 +12,15 @@ data:
     path: crates/fps/ntt/src/lib.rs
     title: crates/fps/ntt/src/lib.rs
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/AtCoder/abc293e/src/main.rs
     title: verify/AtCoder/abc293e/src/main.rs
   - icon: ':heavy_check_mark:'
     path: verify/yukicoder/no_1092_modint_dynamic/src/main.rs
     title: verify/yukicoder/no_1092_modint_dynamic/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -85,53 +85,43 @@ data:
     \ 0,\n                phantom: PhantomData,\n            }\n        } else {\n\
     \            Self {\n                value: DynamicModInt::<MOD>::modulus() -\
     \ self.value,\n                phantom: PhantomData,\n            }\n        }\n\
-    \    }\n}\n\nimpl<MOD: ModContainer, T> Add<T> for DynamicModInt<MOD>\nwhere\n\
-    \    Self: AddAssign<T>,\n{\n    type Output = Self;\n    fn add(self, rhs: T)\
-    \ -> Self {\n        let mut res = self;\n        res += rhs;\n        res\n \
-    \   }\n}\n\nimpl<MOD: ModContainer> AddAssign for DynamicModInt<MOD> {\n    fn\
-    \ add_assign(&mut self, rhs: Self) {\n        self.value += rhs.value;\n     \
-    \   if self.value >= DynamicModInt::<MOD>::modulus() {\n            self.value\
-    \ -= DynamicModInt::<MOD>::modulus();\n        }\n    }\n}\n\nimpl<MOD: ModContainer,\
-    \ T: RemEuclidU32> AddAssign<T> for DynamicModInt<MOD> {\n    fn add_assign(&mut\
-    \ self, rhs: T) {\n        *self += DynamicModInt::<MOD>::new(rhs);\n    }\n}\n\
-    \nimpl<MOD: ModContainer, T> Sub<T> for DynamicModInt<MOD>\nwhere\n    Self: SubAssign<T>,\n\
-    {\n    type Output = Self;\n    fn sub(mut self, rhs: T) -> Self {\n        self\
-    \ -= rhs;\n        self\n    }\n}\n\nimpl<MOD: ModContainer> SubAssign for DynamicModInt<MOD>\
+    \    }\n}\n\nmacro_rules! impl_ops {\n    ($trait:ident, $method:ident, $assign_trait:ident,\
+    \ $assign_method:ident) => {\n        impl<MOD: ModContainer, T> $trait<T> for\
+    \ DynamicModInt<MOD>\n        where\n            Self: $assign_trait<T>,\n   \
+    \     {\n            type Output = Self;\n            fn $method(mut self, rhs:\
+    \ T) -> Self {\n                DynamicModInt::<MOD>::$assign_method(&mut self,\
+    \ rhs);\n                self\n            }\n        }\n\n        impl<MOD: ModContainer,\
+    \ T: RemEuclidU32> $assign_trait<T> for DynamicModInt<MOD> {\n            fn $assign_method(&mut\
+    \ self, rhs: T) {\n                DynamicModInt::<MOD>::$assign_method(self,\
+    \ Self::new(rhs));\n            }\n        }\n    };\n}\n\nimpl_ops!(Add, add,\
+    \ AddAssign, add_assign);\nimpl_ops!(Sub, sub, SubAssign, sub_assign);\nimpl_ops!(Mul,\
+    \ mul, MulAssign, mul_assign);\nimpl_ops!(Div, div, DivAssign, div_assign);\n\n\
+    impl<MOD: ModContainer> AddAssign for DynamicModInt<MOD> {\n    fn add_assign(&mut\
+    \ self, rhs: Self) {\n        self.value += rhs.value;\n        if self.value\
+    \ >= DynamicModInt::<MOD>::modulus() {\n            self.value -= DynamicModInt::<MOD>::modulus();\n\
+    \        }\n    }\n}\n\nimpl<MOD: ModContainer> SubAssign for DynamicModInt<MOD>\
     \ {\n    fn sub_assign(&mut self, rhs: Self) {\n        if self.value < rhs.value\
     \ {\n            self.value += DynamicModInt::<MOD>::modulus();\n        }\n \
-    \       self.value -= rhs.value;\n    }\n}\n\nimpl<MOD: ModContainer, T: RemEuclidU32>\
-    \ SubAssign<T> for DynamicModInt<MOD> {\n    fn sub_assign(&mut self, rhs: T)\
-    \ {\n        *self -= DynamicModInt::<MOD>::new(rhs);\n    }\n}\n\nimpl<MOD: ModContainer,\
-    \ T> Mul<T> for DynamicModInt<MOD>\nwhere\n    Self: MulAssign<T>,\n{\n    type\
-    \ Output = Self;\n    fn mul(mut self, rhs: T) -> Self {\n        self *= rhs;\n\
-    \        self\n    }\n}\n\nimpl<MOD: ModContainer> MulAssign for DynamicModInt<MOD>\
-    \ {\n    fn mul_assign(&mut self, rhs: Self) {\n        self.value =\n       \
-    \     (self.value as u64 * rhs.value as u64 % DynamicModInt::<MOD>::modulus()\
-    \ as u64) as u32;\n    }\n}\n\nimpl<MOD: ModContainer, T: RemEuclidU32> MulAssign<T>\
-    \ for DynamicModInt<MOD> {\n    fn mul_assign(&mut self, rhs: T) {\n        *self\
-    \ *= DynamicModInt::<MOD>::new(rhs);\n    }\n}\n\nimpl<MOD: ModContainer, T> Div<T>\
-    \ for DynamicModInt<MOD>\nwhere\n    Self: DivAssign<T>,\n{\n    type Output =\
-    \ Self;\n    fn div(self, rhs: T) -> Self {\n        let mut res = self;\n   \
-    \     res /= rhs;\n        res\n    }\n}\n\n#[allow(clippy::suspicious_op_assign_impl)]\n\
-    impl<MOD: ModContainer> DivAssign for DynamicModInt<MOD> {\n    fn div_assign(&mut\
-    \ self, rhs: Self) {\n        *self *= rhs.inv();\n    }\n}\n\nimpl<MOD: ModContainer,\
-    \ T: RemEuclidU32> DivAssign<T> for DynamicModInt<MOD> {\n    fn div_assign(&mut\
-    \ self, rhs: T) {\n        *self /= DynamicModInt::<MOD>::new(rhs);\n    }\n}\n\
-    \nmacro_rules! impl_from_primitive {\n    ($($t:ty),*) => {\n        $(\n    \
-    \        impl<MOD: ModContainer> From<$t> for DynamicModInt<MOD> {\n         \
-    \       fn from(x: $t) -> Self {\n                    DynamicModInt::new(x)\n\
-    \                }\n            }\n        )*\n    }\n}\n\nimpl_from_primitive!(i8,\
-    \ i16, i32, i64, isize, i128, u8, u16, u32, u64, usize, u128);\n\n#[cfg(test)]\n\
-    mod tests {\n    use super::*;\n\n    #[test]\n    fn test_modint() {\n      \
-    \  define_modint!(MOD7);\n        type MInt7 = DynamicModInt<MOD7>;\n        MInt7::set_modulus(7);\n\
-    \        define_modint!(MOD11);\n        type MInt11 = DynamicModInt<MOD11>;\n\
-    \        MInt11::set_modulus(11);\n        let a = MInt7::new(3);\n        let\
-    \ b = MInt7::new(4);\n        let c = MInt11::new(3);\n        let d = MInt11::new(4);\n\
-    \        assert_eq!((a + b).value(), 0);\n        assert_eq!((a - b).value(),\
-    \ 6);\n        assert_eq!((c + d).value(), 7);\n        assert_eq!((c - d).value(),\
-    \ 10);\n        assert_eq!((a * b).value(), 5);\n        assert_eq!((a / b).value(),\
-    \ 6);\n        assert_eq!((c * d).value(), 1);\n        assert_eq!((c / d).value(),\
-    \ 9);\n    }\n}\n"
+    \       self.value -= rhs.value;\n    }\n}\n\nimpl<MOD: ModContainer> MulAssign\
+    \ for DynamicModInt<MOD> {\n    fn mul_assign(&mut self, rhs: Self) {\n      \
+    \  self.value =\n            (self.value as u64 * rhs.value as u64 % DynamicModInt::<MOD>::modulus()\
+    \ as u64) as u32;\n    }\n}\n\n#[allow(clippy::suspicious_op_assign_impl)]\nimpl<MOD:\
+    \ ModContainer> DivAssign for DynamicModInt<MOD> {\n    fn div_assign(&mut self,\
+    \ rhs: Self) {\n        *self *= rhs.inv();\n    }\n}\n\nmacro_rules! impl_from_primitive\
+    \ {\n    ($($t:ty),*) => {\n        $(\n            impl<MOD: ModContainer> From<$t>\
+    \ for DynamicModInt<MOD> {\n                fn from(x: $t) -> Self {\n       \
+    \             DynamicModInt::new(x)\n                }\n            }\n      \
+    \  )*\n    }\n}\n\nimpl_from_primitive!(i8, i16, i32, i64, isize, i128, u8, u16,\
+    \ u32, u64, usize, u128);\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n\
+    \    #[test]\n    fn test_modint() {\n        define_modint!(MOD7);\n        type\
+    \ MInt7 = DynamicModInt<MOD7>;\n        MInt7::set_modulus(7);\n        define_modint!(MOD11);\n\
+    \        type MInt11 = DynamicModInt<MOD11>;\n        MInt11::set_modulus(11);\n\
+    \        let a = MInt7::new(3);\n        let b = MInt7::new(4);\n        let c\
+    \ = MInt11::new(3);\n        let d = MInt11::new(4);\n        assert_eq!((a +\
+    \ b).value(), 0);\n        assert_eq!((a - b).value(), 6);\n        assert_eq!((c\
+    \ + d).value(), 7);\n        assert_eq!((c - d).value(), 10);\n        assert_eq!((a\
+    \ * b).value(), 5);\n        assert_eq!((a / b).value(), 6);\n        assert_eq!((c\
+    \ * d).value(), 1);\n        assert_eq!((c / d).value(), 9);\n    }\n}\n"
   dependsOn:
   - crates/internals/internal_type_traits/src/lib.rs
   - crates/internals/modint_traits/src/lib.rs
@@ -139,8 +129,8 @@ data:
   path: crates/modint/dynamic_modint/src/lib.rs
   requiredBy:
   - crates/fps/ntt/src/lib.rs
-  timestamp: '2024-04-17 21:26:36+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2024-05-28 23:13:55+09:00'
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - verify/yukicoder/no_1092_modint_dynamic/src/main.rs
   - verify/AtCoder/abc293e/src/main.rs

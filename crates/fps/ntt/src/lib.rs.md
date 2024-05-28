@@ -4,7 +4,7 @@ data:
   - icon: ':warning:'
     path: crates/internals/modint_traits/src/lib.rs
     title: crates/internals/modint_traits/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/modint/dynamic_modint/src/lib.rs
     title: crates/modint/dynamic_modint/src/lib.rs
   - icon: ':heavy_check_mark:'
@@ -136,7 +136,7 @@ data:
   path: crates/fps/ntt/src/lib.rs
   requiredBy:
   - crates/fps/fps_utils/src/lib.rs
-  timestamp: '2024-05-28 22:35:33+09:00'
+  timestamp: '2024-05-28 23:13:55+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/convolution_mod_1000000007_ntt/src/main.rs

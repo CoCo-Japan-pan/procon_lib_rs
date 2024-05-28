@@ -34,7 +34,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/convolution_ntt/src/main.rs
   requiredBy: []
-  timestamp: '2024-05-28 22:35:33+09:00'
+  timestamp: '2024-05-28 23:13:55+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/convolution_ntt/src/main.rs

@@ -26,7 +26,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/sparse_table_on_segtree/src/lib.rs
     title: crates/data_structure/sparse_table_on_segtree/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: crates/math/matrix/src/lib.rs
     title: crates/math/matrix/src/lib.rs
   - icon: ':heavy_check_mark:'
