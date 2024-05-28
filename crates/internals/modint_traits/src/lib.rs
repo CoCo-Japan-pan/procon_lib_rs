@@ -143,3 +143,18 @@ macro_rules! impl_rem_euclid_u32_for_signed {
 }
 
 impl_rem_euclid_u32_for_signed!(i8, i16, i32, i64, isize, i128);
+
+macro_rules! impl_rem_for_borrow {
+    ($($t:ty),*) => {
+        $(
+            impl RemEuclidU32 for &$t {
+                #[inline]
+                fn rem_euclid_u32(self, modulus: u32) -> u32 {
+                    (*self).rem_euclid_u32(modulus)
+                }
+            }
+        )*
+    };
+}
+
+impl_rem_for_borrow!(u8, u16, u32, u64, usize, u128, i8, i16, i32, i64, isize, i128);

@@ -267,17 +267,14 @@ mod tests {
 
     #[test]
     fn static_modint_sum() {
-        assert_eq!(
-            ModInt1000000007::new(-3),
-            [-1, 2, -3, 4, -5].into_iter().sum()
-        );
+        assert_eq!(ModInt1000000007::new(-3), [-1, 2, -3, 4, -5].iter().sum());
     }
 
     #[test]
     fn static_modint_product() {
         assert_eq!(
             ModInt1000000007::new(-120),
-            [-1, 2, -3, 4, -5].into_iter().product()
+            [-1, 2, -3, 4, -5].iter().product()
         );
     }
 
