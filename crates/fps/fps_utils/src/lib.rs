@@ -109,29 +109,38 @@ impl<T: ConvHelper> Fps<T> {
     }
 }
 
-impl<T: ConvHelper> Add<&Self> for Fps<T> {
-    type Output = Fps<T>;
-    fn add(mut self, rhs: &Self) -> Self::Output {
-        self += rhs;
-        self
-    }
+macro_rules! impl_ops {
+    ($trait:ident, $method:ident, $assign_trait:ident, $assign_method:ident) => {
+        impl<T: ConvHelper, S> $trait<S> for Fps<T>
+        where
+            Self: $assign_trait<S>,
+        {
+            type Output = Fps<T>;
+            fn $method(mut self, rhs: S) -> Self::Output {
+                Fps::<T>::$assign_method(&mut self, rhs);
+                self
+            }
+        }
+        impl<T: ConvHelper, S> $trait<S> for &Fps<T>
+        where
+            Fps<T>: $trait<S, Output = Fps<T>>,
+        {
+            type Output = Fps<T>;
+            fn $method(self, rhs: S) -> Self::Output {
+                Fps::<T>::$method(self.clone(), rhs)
+            }
+        }
+        impl<T: ConvHelper> $assign_trait for Fps<T> {
+            fn $assign_method(&mut self, rhs: Self) {
+                Fps::<T>::$assign_method(self, &rhs)
+            }
+        }
+    };
 }
 
-impl<T: ConvHelper> Add for &Fps<T> {
-    type Output = Fps<T>;
-    fn add(self, rhs: Self) -> Self::Output {
-        let (big, small) = if self.len() < rhs.len() {
-            (rhs, self)
-        } else {
-            (self, rhs)
-        };
-        let mut data = big.data.clone();
-        for (idx, &s) in small.data.iter().enumerate() {
-            data[idx] += s;
-        }
-        Fps::from(data)
-    }
-}
+impl_ops!(Add, add, AddAssign, add_assign);
+impl_ops!(Sub, sub, SubAssign, sub_assign);
+impl_ops!(Mul, mul, MulAssign, mul_assign);
 
 impl<T: ConvHelper> AddAssign<&Self> for Fps<T> {
     fn add_assign(&mut self, rhs: &Self) {
@@ -140,30 +149,6 @@ impl<T: ConvHelper> AddAssign<&Self> for Fps<T> {
         for (idx, &r) in rhs.data.iter().enumerate() {
             self.data[idx] += r;
         }
-    }
-}
-
-impl<T: ConvHelper> Sub<&Self> for Fps<T> {
-    type Output = Fps<T>;
-    fn sub(mut self, rhs: &Self) -> Self::Output {
-        self -= rhs;
-        self
-    }
-}
-
-impl<T: ConvHelper> Sub for &Fps<T> {
-    type Output = Fps<T>;
-    fn sub(self, rhs: Self) -> Self::Output {
-        let (big, small) = if self.len() < rhs.len() {
-            (rhs, self)
-        } else {
-            (self, rhs)
-        };
-        let mut data = big.data.clone();
-        for (idx, &s) in small.data.iter().enumerate() {
-            data[idx] -= s;
-        }
-        Fps::from(data)
     }
 }
 
@@ -177,47 +162,9 @@ impl<T: ConvHelper> SubAssign<&Self> for Fps<T> {
     }
 }
 
-impl<T: ConvHelper> Mul for &Fps<T> {
-    type Output = Fps<T>;
-    fn mul(self, rhs: Self) -> Self::Output {
-        Fps::from(convolution(&self.data, &rhs.data))
-    }
-}
-
-impl<T: ConvHelper> Mul for Fps<T> {
-    type Output = Fps<T>;
-    fn mul(self, rhs: Self) -> Self::Output {
-        &self * &rhs
-    }
-}
-
-impl<T: ConvHelper> Mul<&Self> for Fps<T> {
-    type Output = Fps<T>;
-    fn mul(mut self, rhs: &Self) -> Self::Output {
-        self *= rhs;
-        self
-    }
-}
-
 impl<T: ConvHelper> MulAssign<&Self> for Fps<T> {
     fn mul_assign(&mut self, rhs: &Self) {
         self.data = convolution(&self.data, &rhs.data);
-    }
-}
-
-impl<T: ConvHelper> Mul<T> for Fps<T> {
-    type Output = Fps<T>;
-    fn mul(mut self, rhs: T) -> Self::Output {
-        self *= rhs;
-        self
-    }
-}
-
-impl<T: ConvHelper> Mul<T> for &Fps<T> {
-    type Output = Fps<T>;
-    fn mul(self, rhs: T) -> Self::Output {
-        let ret = self.clone();
-        ret * rhs
     }
 }
 
