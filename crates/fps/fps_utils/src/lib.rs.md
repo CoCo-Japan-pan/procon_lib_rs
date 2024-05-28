@@ -63,54 +63,41 @@ data:
     \ as u32) as usize;\n        // mod x^(2^i)\u3092\u6C42\u3081\u308B\n        for\
     \ i in 1..=log {\n            let mut f = self.truncate(1 << i);\n           \
     \ f.data[0] += T::new(1_u8);\n            g = (&g * &(f - &g.log(1 << i))).truncate(1\
-    \ << i);\n        }\n        g.truncate(deg)\n    }\n}\n\nimpl<T: ConvHelper>\
-    \ Add<&Self> for Fps<T> {\n    type Output = Fps<T>;\n    fn add(mut self, rhs:\
-    \ &Self) -> Self::Output {\n        self += rhs;\n        self\n    }\n}\n\nimpl<T:\
-    \ ConvHelper> Add for &Fps<T> {\n    type Output = Fps<T>;\n    fn add(self, rhs:\
-    \ Self) -> Self::Output {\n        let (big, small) = if self.len() < rhs.len()\
-    \ {\n            (rhs, self)\n        } else {\n            (self, rhs)\n    \
-    \    };\n        let mut data = big.data.clone();\n        for (idx, &s) in small.data.iter().enumerate()\
-    \ {\n            data[idx] += s;\n        }\n        Fps::from(data)\n    }\n\
-    }\n\nimpl<T: ConvHelper> AddAssign<&Self> for Fps<T> {\n    fn add_assign(&mut\
-    \ self, rhs: &Self) {\n        let n = self.len().max(rhs.len());\n        self.data.resize(n,\
-    \ T::raw(0));\n        for (idx, &r) in rhs.data.iter().enumerate() {\n      \
-    \      self.data[idx] += r;\n        }\n    }\n}\n\nimpl<T: ConvHelper> Sub<&Self>\
-    \ for Fps<T> {\n    type Output = Fps<T>;\n    fn sub(mut self, rhs: &Self) ->\
-    \ Self::Output {\n        self -= rhs;\n        self\n    }\n}\n\nimpl<T: ConvHelper>\
-    \ Sub for &Fps<T> {\n    type Output = Fps<T>;\n    fn sub(self, rhs: Self) ->\
-    \ Self::Output {\n        let (big, small) = if self.len() < rhs.len() {\n   \
-    \         (rhs, self)\n        } else {\n            (self, rhs)\n        };\n\
-    \        let mut data = big.data.clone();\n        for (idx, &s) in small.data.iter().enumerate()\
-    \ {\n            data[idx] -= s;\n        }\n        Fps::from(data)\n    }\n\
-    }\n\nimpl<T: ConvHelper> SubAssign<&Self> for Fps<T> {\n    fn sub_assign(&mut\
-    \ self, rhs: &Self) {\n        let n = self.len().max(rhs.len());\n        self.data.resize(n,\
-    \ T::raw(0));\n        for (idx, &r) in rhs.data.iter().enumerate() {\n      \
-    \      self.data[idx] -= r;\n        }\n    }\n}\n\nimpl<T: ConvHelper> Mul for\
-    \ &Fps<T> {\n    type Output = Fps<T>;\n    fn mul(self, rhs: Self) -> Self::Output\
-    \ {\n        Fps::from(convolution(&self.data, &rhs.data))\n    }\n}\n\nimpl<T:\
-    \ ConvHelper> Mul for Fps<T> {\n    type Output = Fps<T>;\n    fn mul(self, rhs:\
-    \ Self) -> Self::Output {\n        &self * &rhs\n    }\n}\n\nimpl<T: ConvHelper>\
-    \ Mul<&Self> for Fps<T> {\n    type Output = Fps<T>;\n    fn mul(mut self, rhs:\
-    \ &Self) -> Self::Output {\n        self *= rhs;\n        self\n    }\n}\n\nimpl<T:\
-    \ ConvHelper> MulAssign<&Self> for Fps<T> {\n    fn mul_assign(&mut self, rhs:\
-    \ &Self) {\n        self.data = convolution(&self.data, &rhs.data);\n    }\n}\n\
-    \nimpl<T: ConvHelper> Mul<T> for Fps<T> {\n    type Output = Fps<T>;\n    fn mul(mut\
-    \ self, rhs: T) -> Self::Output {\n        self *= rhs;\n        self\n    }\n\
-    }\n\nimpl<T: ConvHelper> Mul<T> for &Fps<T> {\n    type Output = Fps<T>;\n   \
-    \ fn mul(self, rhs: T) -> Self::Output {\n        let ret = self.clone();\n  \
-    \      ret * rhs\n    }\n}\n\nimpl<T: ConvHelper> MulAssign<T> for Fps<T> {\n\
-    \    fn mul_assign(&mut self, rhs: T) {\n        for x in self.data.iter_mut()\
-    \ {\n            *x *= rhs;\n        }\n    }\n}\n\nimpl<T: ConvHelper> Neg for\
-    \ Fps<T> {\n    type Output = Fps<T>;\n    fn neg(self) -> Self::Output {\n  \
-    \      Fps::from(self.data.into_iter().map(|x| -x).collect::<Vec<T>>())\n    }\n\
-    }\n"
+    \ << i);\n        }\n        g.truncate(deg)\n    }\n}\n\nmacro_rules! impl_ops\
+    \ {\n    ($trait:ident, $method:ident, $assign_trait:ident, $assign_method:ident)\
+    \ => {\n        impl<T: ConvHelper, S> $trait<S> for Fps<T>\n        where\n \
+    \           Self: $assign_trait<S>,\n        {\n            type Output = Fps<T>;\n\
+    \            fn $method(mut self, rhs: S) -> Self::Output {\n                Fps::<T>::$assign_method(&mut\
+    \ self, rhs);\n                self\n            }\n        }\n        impl<T:\
+    \ ConvHelper, S> $trait<S> for &Fps<T>\n        where\n            Fps<T>: $trait<S,\
+    \ Output = Fps<T>>,\n        {\n            type Output = Fps<T>;\n          \
+    \  fn $method(self, rhs: S) -> Self::Output {\n                Fps::<T>::$method(self.clone(),\
+    \ rhs)\n            }\n        }\n        impl<T: ConvHelper> $assign_trait for\
+    \ Fps<T> {\n            fn $assign_method(&mut self, rhs: Self) {\n          \
+    \      Fps::<T>::$assign_method(self, &rhs)\n            }\n        }\n    };\n\
+    }\n\nimpl_ops!(Add, add, AddAssign, add_assign);\nimpl_ops!(Sub, sub, SubAssign,\
+    \ sub_assign);\nimpl_ops!(Mul, mul, MulAssign, mul_assign);\n\nimpl<T: ConvHelper>\
+    \ AddAssign<&Self> for Fps<T> {\n    fn add_assign(&mut self, rhs: &Self) {\n\
+    \        let n = self.len().max(rhs.len());\n        self.data.resize(n, T::raw(0));\n\
+    \        for (idx, &r) in rhs.data.iter().enumerate() {\n            self.data[idx]\
+    \ += r;\n        }\n    }\n}\n\nimpl<T: ConvHelper> SubAssign<&Self> for Fps<T>\
+    \ {\n    fn sub_assign(&mut self, rhs: &Self) {\n        let n = self.len().max(rhs.len());\n\
+    \        self.data.resize(n, T::raw(0));\n        for (idx, &r) in rhs.data.iter().enumerate()\
+    \ {\n            self.data[idx] -= r;\n        }\n    }\n}\n\nimpl<T: ConvHelper>\
+    \ MulAssign<&Self> for Fps<T> {\n    fn mul_assign(&mut self, rhs: &Self) {\n\
+    \        self.data = convolution(&self.data, &rhs.data);\n    }\n}\n\nimpl<T:\
+    \ ConvHelper> MulAssign<T> for Fps<T> {\n    fn mul_assign(&mut self, rhs: T)\
+    \ {\n        for x in self.data.iter_mut() {\n            *x *= rhs;\n       \
+    \ }\n    }\n}\n\nimpl<T: ConvHelper> Neg for Fps<T> {\n    type Output = Fps<T>;\n\
+    \    fn neg(self) -> Self::Output {\n        Fps::from(self.data.into_iter().map(|x|\
+    \ -x).collect::<Vec<T>>())\n    }\n}\n"
   dependsOn:
   - crates/fps/ntt/src/lib.rs
   - crates/internals/internal_bits/src/lib.rs
   isVerificationFile: false
   path: crates/fps/fps_utils/src/lib.rs
   requiredBy: []
-  timestamp: '2024-05-28 22:35:33+09:00'
+  timestamp: '2024-05-28 23:57:40+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/inv_of_formal_power_series/src/main.rs
