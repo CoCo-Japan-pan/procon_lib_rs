@@ -59,10 +59,10 @@ data:
     \ -> Self {\n        assert_eq!(self.data[0].value(), 1);\n        let f = self.differential()\
     \ * self.inverse(deg);\n        f.truncate(deg - 1).integral()\n    }\n\n    ///\
     \ mod x^deg\n    pub fn exp(&self, deg: usize) -> Self {\n        assert_eq!(self.data[0].value(),\
-    \ 0);\n        let mut g = Fps::from(vec![T::new(1)]);\n        let log = ceil_log2(deg\
+    \ 0);\n        let mut g = Fps::from(vec![T::new(1_u8)]);\n        let log = ceil_log2(deg\
     \ as u32) as usize;\n        // mod x^(2^i)\u3092\u6C42\u3081\u308B\n        for\
     \ i in 1..=log {\n            let mut f = self.truncate(1 << i);\n           \
-    \ f.data[0] += T::new(1);\n            g = (&g * &(f - &g.log(1 << i))).truncate(1\
+    \ f.data[0] += T::new(1_u8);\n            g = (&g * &(f - &g.log(1 << i))).truncate(1\
     \ << i);\n        }\n        g.truncate(deg)\n    }\n}\n\nimpl<T: ConvHelper>\
     \ Add<&Self> for Fps<T> {\n    type Output = Fps<T>;\n    fn add(mut self, rhs:\
     \ &Self) -> Self::Output {\n        self += rhs;\n        self\n    }\n}\n\nimpl<T:\
@@ -110,7 +110,7 @@ data:
   isVerificationFile: false
   path: crates/fps/fps_utils/src/lib.rs
   requiredBy: []
-  timestamp: '2024-05-28 20:52:28+09:00'
+  timestamp: '2024-05-28 22:35:33+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/inv_of_formal_power_series/src/main.rs
