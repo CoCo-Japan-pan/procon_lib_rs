@@ -11,7 +11,7 @@ fn main() {
         n: usize,
         a: [MInt; n]
     }
-    let a = Fps::new(a);
+    let a = Fps::<MInt>::from(a);
     let b = a.inverse(n);
     println!("{}", b);
 }

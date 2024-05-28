@@ -21,9 +21,22 @@ impl<T: ConvHelper> Display for Fps<T> {
     }
 }
 
+impl<T: ConvHelper, S> From<Vec<S>> for Fps<T>
+where
+    T: From<S>,
+{
+    fn from(data: Vec<S>) -> Self {
+        Self {
+            data: data.into_iter().map(T::from).collect(),
+        }
+    }
+}
+
 impl<T: ConvHelper> Fps<T> {
-    pub fn new(data: Vec<T>) -> Self {
-        Self { data }
+    pub fn new(deg: usize) -> Self {
+        Self {
+            data: vec![T::raw(0); deg],
+        }
     }
     pub fn len(&self) -> usize {
         self.data.len()
@@ -49,7 +62,7 @@ impl<T: ConvHelper> Fps<T> {
         for i in 0..n - 1 {
             data[i] = self.data[i + 1] * T::new(i + 1);
         }
-        Fps::new(data)
+        Fps::from(data)
     }
 
     /// 積分
@@ -59,13 +72,13 @@ impl<T: ConvHelper> Fps<T> {
         for i in 1..n + 1 {
             data[i] = self.data[i - 1] / T::new(i);
         }
-        Fps::new(data)
+        Fps::from(data)
     }
 
     /// mod x^deg
     pub fn inverse(&self, deg: usize) -> Self {
         assert_ne!(self.data[0].value(), 0);
-        let mut g = Fps::new(vec![self.data[0].inv()]);
+        let mut g = Fps::from(vec![self.data[0].inv()]);
         let log = ceil_log2(deg as u32) as usize;
         // mod x^(2^i)を求める
         for i in 1..=log {
@@ -84,7 +97,7 @@ impl<T: ConvHelper> Fps<T> {
     /// mod x^deg
     pub fn exp(&self, deg: usize) -> Self {
         assert_eq!(self.data[0].value(), 0);
-        let mut g = Fps::new(vec![T::new(1)]);
+        let mut g = Fps::from(vec![T::new(1)]);
         let log = ceil_log2(deg as u32) as usize;
         // mod x^(2^i)を求める
         for i in 1..=log {
@@ -116,7 +129,7 @@ impl<T: ConvHelper> Add for &Fps<T> {
         for (idx, &s) in small.data.iter().enumerate() {
             data[idx] += s;
         }
-        Fps::new(data)
+        Fps::from(data)
     }
 }
 
@@ -150,7 +163,7 @@ impl<T: ConvHelper> Sub for &Fps<T> {
         for (idx, &s) in small.data.iter().enumerate() {
             data[idx] -= s;
         }
-        Fps::new(data)
+        Fps::from(data)
     }
 }
 
@@ -167,7 +180,7 @@ impl<T: ConvHelper> SubAssign<&Self> for Fps<T> {
 impl<T: ConvHelper> Mul for &Fps<T> {
     type Output = Fps<T>;
     fn mul(self, rhs: Self) -> Self::Output {
-        Fps::new(convolution(&self.data, &rhs.data))
+        Fps::from(convolution(&self.data, &rhs.data))
     }
 }
 
@@ -199,7 +212,7 @@ impl<T: ConvHelper> Mul<T> for &Fps<T> {
         for x in data.iter_mut() {
             *x *= rhs;
         }
-        Fps::new(data)
+        Fps::from(data)
     }
 }
 
@@ -214,6 +227,6 @@ impl<T: ConvHelper> MulAssign<T> for Fps<T> {
 impl<T: ConvHelper> Neg for Fps<T> {
     type Output = Fps<T>;
     fn neg(self) -> Self::Output {
-        Fps::new(self.data.into_iter().map(|x| -x).collect())
+        Fps::from(self.data.into_iter().map(|x| -x).collect::<Vec<T>>())
     }
 }

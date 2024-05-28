@@ -9,6 +9,6 @@ fn main() {
         n: usize,
         a: [MInt; n]
     }
-    let b = Fps::new(a).exp(n);
+    let b = Fps::<MInt>::from(a).exp(n);
     println!("{}", b);
 }
