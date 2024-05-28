@@ -11,7 +11,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/segtree_2d/src/lib.rs
     title: crates/data_structure/segtree_2d/src/lib.rs
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: crates/fps/fps_utils/src/lib.rs
     title: crates/fps/fps_utils/src/lib.rs
   _extendedVerifiedWith: []

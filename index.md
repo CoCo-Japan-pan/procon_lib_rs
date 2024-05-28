@@ -73,7 +73,7 @@ data:
       title: crates/flow/maxflow_lower_bound/src/lib.rs
   - name: crates/fps/fps_utils/src
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: crates/fps/fps_utils/src/lib.rs
       title: crates/fps/fps_utils/src/lib.rs
   - name: crates/fps/ntt/src
@@ -232,11 +232,26 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yosupo/convolution_ntt/src/main.rs
       title: verify/yosupo/convolution_ntt/src/main.rs
+  - name: verify/yosupo/exp_of_formal_power_series/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yosupo/exp_of_formal_power_series/src/main.rs
+      title: verify/yosupo/exp_of_formal_power_series/src/main.rs
+  - name: verify/yosupo/inv_of_formal_power_series/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yosupo/inv_of_formal_power_series/src/main.rs
+      title: verify/yosupo/inv_of_formal_power_series/src/main.rs
   - name: verify/yosupo/lca/src
     pages:
     - icon: ':heavy_check_mark:'
       path: verify/yosupo/lca/src/main.rs
       title: verify/yosupo/lca/src/main.rs
+  - name: verify/yosupo/log_of_formal_power_series/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yosupo/log_of_formal_power_series/src/main.rs
+      title: verify/yosupo/log_of_formal_power_series/src/main.rs
   - name: verify/yosupo/point_set_range_composite/src
     pages:
     - icon: ':heavy_check_mark:'

@@ -11,7 +11,7 @@ data:
     path: crates/modint/static_modint/src/lib.rs
     title: crates/modint/static_modint/src/lib.rs
   _extendedRequiredBy:
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: crates/fps/fps_utils/src/lib.rs
     title: crates/fps/fps_utils/src/lib.rs
   _extendedVerifiedWith:
