@@ -94,10 +94,11 @@ data:
     \ &Self) -> Self::Output {\n        self *= rhs;\n        self\n    }\n}\n\nimpl<T:\
     \ ConvHelper> MulAssign<&Self> for Fps<T> {\n    fn mul_assign(&mut self, rhs:\
     \ &Self) {\n        self.data = convolution(&self.data, &rhs.data);\n    }\n}\n\
-    \nimpl<T: ConvHelper> Mul<T> for &Fps<T> {\n    type Output = Fps<T>;\n    fn\
-    \ mul(self, rhs: T) -> Self::Output {\n        let mut data = self.data.clone();\n\
-    \        for x in data.iter_mut() {\n            *x *= rhs;\n        }\n     \
-    \   Fps::from(data)\n    }\n}\n\nimpl<T: ConvHelper> MulAssign<T> for Fps<T> {\n\
+    \nimpl<T: ConvHelper> Mul<T> for Fps<T> {\n    type Output = Fps<T>;\n    fn mul(mut\
+    \ self, rhs: T) -> Self::Output {\n        self *= rhs;\n        self\n    }\n\
+    }\n\nimpl<T: ConvHelper> Mul<T> for &Fps<T> {\n    type Output = Fps<T>;\n   \
+    \ fn mul(self, rhs: T) -> Self::Output {\n        let ret = self.clone();\n  \
+    \      ret * rhs\n    }\n}\n\nimpl<T: ConvHelper> MulAssign<T> for Fps<T> {\n\
     \    fn mul_assign(&mut self, rhs: T) {\n        for x in self.data.iter_mut()\
     \ {\n            *x *= rhs;\n        }\n    }\n}\n\nimpl<T: ConvHelper> Neg for\
     \ Fps<T> {\n    type Output = Fps<T>;\n    fn neg(self) -> Self::Output {\n  \
@@ -109,7 +110,7 @@ data:
   isVerificationFile: false
   path: crates/fps/fps_utils/src/lib.rs
   requiredBy: []
-  timestamp: '2024-05-28 19:58:54+09:00'
+  timestamp: '2024-05-28 20:52:28+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/inv_of_formal_power_series/src/main.rs
