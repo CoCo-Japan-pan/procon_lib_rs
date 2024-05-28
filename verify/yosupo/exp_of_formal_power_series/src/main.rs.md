@@ -23,14 +23,15 @@ data:
   code: "// verification-helper: PROBLEM https://judge.yosupo.jp/problem/exp_of_formal_power_series\n\
     \nuse fps_utils::Fps;\nuse proconio::input;\nuse static_modint::ModInt998244353\
     \ as MInt;\n\nfn main() {\n    input! {\n        n: usize,\n        a: [MInt;\
-    \ n]\n    }\n    let b = Fps::new(a).exp(n);\n    println!(\"{}\", b);\n}\n"
+    \ n]\n    }\n    let b = Fps::<MInt>::from(a).exp(n);\n    println!(\"{}\", b);\n\
+    }\n"
   dependsOn:
   - crates/fps/fps_utils/src/lib.rs
   - crates/modint/static_modint/src/lib.rs
   isVerificationFile: true
   path: verify/yosupo/exp_of_formal_power_series/src/main.rs
   requiredBy: []
-  timestamp: '2024-05-28 19:35:04+09:00'
+  timestamp: '2024-05-28 19:58:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/exp_of_formal_power_series/src/main.rs
