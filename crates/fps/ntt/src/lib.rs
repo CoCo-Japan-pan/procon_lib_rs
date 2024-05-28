@@ -8,6 +8,12 @@ use dynamic_modint::{DynamicModInt, ModContainer};
 use modint_traits::ModInt;
 use static_modint::StaticModInt;
 
+/// どれも原子根3で、2^24乗根がある
+const MOD_998244353: u32 = 998244353;
+const G_MOD1: u32 = 167772161;
+const G_MOD2: u32 = 469762049;
+const G_MOD3: u32 = 1224736769;
+
 fn prepare<const NTT_MOD: u32, const PRIMITIVE_ROOT: u32>(
 ) -> ([StaticModInt<NTT_MOD>; 30], [StaticModInt<NTT_MOD>; 30]) {
     let g = StaticModInt::<NTT_MOD>::raw(PRIMITIVE_ROOT);
@@ -77,6 +83,15 @@ fn intt<const NTT_MOD: u32, const PRIMITIVE_ROOT: u32>(
     }
 }
 
+fn convolution_naive<M: ModInt>(a: &[M], b: &[M]) -> Vec<M> {
+    let (n, m) = (a.len(), b.len());
+    let mut ret = vec![M::raw(0); n + m - 1];
+    for (i, j) in (0..n).flat_map(|i| (0..m).map(move |j| (i, j))) {
+        ret[i + j] += a[i] * b[j];
+    }
+    ret
+}
+
 /// NTTによる畳み込み
 fn convolution_ntt_friendly<const NTT_MOD: u32, const PRIMITIVE_ROOT: u32>(
     a: &[StaticModInt<NTT_MOD>],
@@ -84,6 +99,9 @@ fn convolution_ntt_friendly<const NTT_MOD: u32, const PRIMITIVE_ROOT: u32>(
 ) -> Vec<StaticModInt<NTT_MOD>> {
     if a.is_empty() || b.is_empty() {
         return vec![];
+    }
+    if a.len().min(b.len()) <= 60 {
+        return convolution_naive(a, b);
     }
     let n = a.len() + b.len() - 1;
     let size = n.next_power_of_two();
@@ -110,56 +128,52 @@ fn convolution_ntt_friendly<const NTT_MOD: u32, const PRIMITIVE_ROOT: u32>(
 
 /// 取りうる最大値を超えるmodを表現できるようなmodの組を選んで畳み込み、Garnerで復元
 fn convolution_aribtrary_u32_mod<M: ModInt>(a: &[M], b: &[M]) -> Vec<M> {
-    // どれも原子根3で、2^24乗根がある
-    const MOD1: u32 = 167772161;
-    const MOD2: u32 = 469762049;
-    const MOD3: u32 = 1224736769;
-    let x = convolution_ntt_friendly::<MOD1, 3>(
+    let x = convolution_ntt_friendly::<G_MOD1, 3>(
         a.iter()
-            .map(|x| StaticModInt::<MOD1>::new(x.value()))
+            .map(|x| StaticModInt::<G_MOD1>::new(x.value()))
             .collect::<Vec<_>>()
             .as_slice(),
         b.iter()
-            .map(|x| StaticModInt::<MOD1>::new(x.value()))
+            .map(|x| StaticModInt::<G_MOD1>::new(x.value()))
             .collect::<Vec<_>>()
             .as_slice(),
     );
-    let y = convolution_ntt_friendly::<MOD2, 3>(
+    let y = convolution_ntt_friendly::<G_MOD2, 3>(
         a.iter()
-            .map(|x| StaticModInt::<MOD2>::new(x.value()))
+            .map(|x| StaticModInt::<G_MOD2>::new(x.value()))
             .collect::<Vec<_>>()
             .as_slice(),
         b.iter()
-            .map(|x| StaticModInt::<MOD2>::new(x.value()))
+            .map(|x| StaticModInt::<G_MOD2>::new(x.value()))
             .collect::<Vec<_>>()
             .as_slice(),
     );
-    let z = convolution_ntt_friendly::<MOD3, 3>(
+    let z = convolution_ntt_friendly::<G_MOD3, 3>(
         a.iter()
-            .map(|x| StaticModInt::<MOD3>::new(x.value()))
+            .map(|x| StaticModInt::<G_MOD3>::new(x.value()))
             .collect::<Vec<_>>()
             .as_slice(),
         b.iter()
-            .map(|x| StaticModInt::<MOD3>::new(x.value()))
+            .map(|x| StaticModInt::<G_MOD3>::new(x.value()))
             .collect::<Vec<_>>()
             .as_slice(),
     );
 
-    let m1_inv_m2 = StaticModInt::<MOD2>::new(MOD1).inv();
-    let m12_inv_m3 = StaticModInt::<MOD3>::new(MOD1 as u64 * MOD2 as u64).inv();
-    let m12_mod = M::new(MOD1 as u64 * MOD2 as u64);
+    let m1_inv_m2 = StaticModInt::<G_MOD2>::new(G_MOD1).inv();
+    let m12_inv_m3 = StaticModInt::<G_MOD3>::new(G_MOD1 as u64 * G_MOD2 as u64).inv();
+    let m12_mod = M::new(G_MOD1 as u64 * G_MOD2 as u64);
     let mut ret = vec![M::raw(0); x.len()];
     for (i, r) in ret.iter_mut().enumerate() {
-        let v1 = ((StaticModInt::<MOD2>::new(y[i].value())
-            - StaticModInt::<MOD2>::new(x[i].value()))
+        let v1 = ((StaticModInt::<G_MOD2>::new(y[i].value())
+            - StaticModInt::<G_MOD2>::new(x[i].value()))
             * m1_inv_m2)
             .value();
-        let v2 = ((StaticModInt::<MOD3>::new(z[i].value())
-            - StaticModInt::<MOD3>::new(x[i].value())
-            - StaticModInt::<MOD3>::new(MOD1) * StaticModInt::<MOD3>::new(v1))
+        let v2 = ((StaticModInt::<G_MOD3>::new(z[i].value())
+            - StaticModInt::<G_MOD3>::new(x[i].value())
+            - StaticModInt::<G_MOD3>::new(G_MOD1) * StaticModInt::<G_MOD3>::new(v1))
             * m12_inv_m3)
             .value();
-        let constants = M::new(x[i].value()) + M::new(MOD1) * M::new(v1) + m12_mod * M::new(v2);
+        let constants = M::new(x[i].value()) + M::new(G_MOD1) * M::new(v1) + m12_mod * M::new(v2);
         *r = constants;
     }
     ret
@@ -172,10 +186,9 @@ pub trait ConvHelper: ModInt {
 
 impl<const MOD: u32> ConvHelper for StaticModInt<MOD> {
     fn convolution(a: &[Self], b: &[Self]) -> Vec<Self> {
-        if MOD == 998244353 {
-            convolution_ntt_friendly::<MOD, 3>(a, b)
-        } else {
-            convolution_aribtrary_u32_mod(a, b)
+        match MOD {
+            MOD_998244353 | G_MOD1 | G_MOD2 | G_MOD3 => convolution_ntt_friendly::<MOD, 3>(a, b),
+            _ => convolution_aribtrary_u32_mod(a, b),
         }
     }
 }

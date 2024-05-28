@@ -97,12 +97,12 @@ impl<T: ConvHelper> Fps<T> {
     /// mod x^deg
     pub fn exp(&self, deg: usize) -> Self {
         assert_eq!(self.data[0].value(), 0);
-        let mut g = Fps::from(vec![T::new(1)]);
+        let mut g = Fps::from(vec![T::new(1_u8)]);
         let log = ceil_log2(deg as u32) as usize;
         // mod x^(2^i)を求める
         for i in 1..=log {
             let mut f = self.truncate(1 << i);
-            f.data[0] += T::new(1);
+            f.data[0] += T::new(1_u8);
             g = (&g * &(f - &g.log(1 << i))).truncate(1 << i);
         }
         g.truncate(deg)
