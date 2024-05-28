@@ -1,10 +1,24 @@
 use internal_bits::ceil_log2;
 use ntt::{convolution, ConvHelper};
+use std::fmt::Display;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Fps<T: ConvHelper> {
     pub data: Vec<T>,
+}
+
+impl<T: ConvHelper> Display for Fps<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        if self.is_empty() {
+            return Ok(());
+        }
+        write!(f, "{}", self.data[0])?;
+        for x in self.data.iter().skip(1) {
+            write!(f, " {}", x)?;
+        }
+        Ok(())
+    }
 }
 
 impl<T: ConvHelper> Fps<T> {
@@ -48,16 +62,37 @@ impl<T: ConvHelper> Fps<T> {
         Fps::new(data)
     }
 
-    /// mod x^(self.len()) における逆元
-    pub fn inverse(&self) -> Self {
+    /// mod x^deg
+    pub fn inverse(&self, deg: usize) -> Self {
         assert_ne!(self.data[0].value(), 0);
         let mut g = Fps::new(vec![self.data[0].inv()]);
-        let log = ceil_log2(self.len() as u32) as usize;
+        let log = ceil_log2(deg as u32) as usize;
         // mod x^(2^i)を求める
         for i in 1..=log {
             g = (&g * T::new(2) - &(&g * &g * self.truncate(1 << i))).truncate(1 << i);
         }
-        g.truncate(self.len())
+        g.truncate(deg)
+    }
+
+    /// mod x^deg
+    pub fn log(&self, deg: usize) -> Self {
+        assert_eq!(self.data[0].value(), 1);
+        let f = self.differential() * self.inverse(deg);
+        f.truncate(deg - 1).integral()
+    }
+
+    /// mod x^deg
+    pub fn exp(&self, deg: usize) -> Self {
+        assert_eq!(self.data[0].value(), 0);
+        let mut g = Fps::new(vec![T::new(1)]);
+        let log = ceil_log2(deg as u32) as usize;
+        // mod x^(2^i)を求める
+        for i in 1..=log {
+            let mut f = self.truncate(1 << i);
+            f.data[0] += T::new(1);
+            g = (&g * &(f - &g.log(1 << i))).truncate(1 << i);
+        }
+        g.truncate(deg)
     }
 }
 
