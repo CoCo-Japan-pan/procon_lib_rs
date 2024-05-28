@@ -205,14 +205,19 @@ impl<T: ConvHelper> MulAssign<&Self> for Fps<T> {
     }
 }
 
+impl<T: ConvHelper> Mul<T> for Fps<T> {
+    type Output = Fps<T>;
+    fn mul(mut self, rhs: T) -> Self::Output {
+        self *= rhs;
+        self
+    }
+}
+
 impl<T: ConvHelper> Mul<T> for &Fps<T> {
     type Output = Fps<T>;
     fn mul(self, rhs: T) -> Self::Output {
-        let mut data = self.data.clone();
-        for x in data.iter_mut() {
-            *x *= rhs;
-        }
-        Fps::from(data)
+        let ret = self.clone();
+        ret * rhs
     }
 }
 
