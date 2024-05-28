@@ -165,7 +165,7 @@ fn convolution_aribtrary_u32_mod<M: ModInt>(a: &[M], b: &[M]) -> Vec<M> {
     ret
 }
 
-/// ModIntに畳み込みも追加しかトレイト
+/// ModIntに畳み込みも追加したトレイト
 pub trait ConvHelper: ModInt {
     fn convolution(a: &[Self], b: &[Self]) -> Vec<Self>;
 }
@@ -186,6 +186,7 @@ impl<MOD: ModContainer> ConvHelper for DynamicModInt<MOD> {
     }
 }
 
+/// NTT-freindlyな場合もそうでない場合も包括する
 pub fn convolution<M: ConvHelper>(a: &[M], b: &[M]) -> Vec<M> {
     M::convolution(a, b)
 }

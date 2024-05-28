@@ -2,6 +2,7 @@
 //! compositionやmappingに可変参照を用いているところと、作用が可変なら伝播を一部サボる部分が異なる
 
 use algebra::{Commutative, MapMonoid, Monoid, NonCommutative};
+use internal_bits::ceil_log2;
 use std::ops::RangeBounds;
 
 #[derive(Debug)]
@@ -16,7 +17,7 @@ pub struct LazySegTree<F: MapMonoid> {
 impl<F: MapMonoid> From<Vec<<F::Monoid as Monoid>::Target>> for LazySegTree<F> {
     fn from(v: Vec<<F::Monoid as Monoid>::Target>) -> Self {
         let range_size = v.len();
-        let log = (32 - (range_size as u32).saturating_sub(1).leading_zeros()) as usize;
+        let log = ceil_log2(range_size as u32) as usize;
         let leaf_size = 1 << log;
         let mut data = vec![F::id_element(); 2 * leaf_size];
         let lazy = vec![F::id_map(); leaf_size];

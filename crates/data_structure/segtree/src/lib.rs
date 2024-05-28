@@ -1,6 +1,7 @@
 //! [Reference](https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs)
 
 use algebra::Monoid;
+use internal_bits::ceil_log2;
 use std::ops::RangeBounds;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -14,7 +15,7 @@ pub struct SegTree<M: Monoid> {
 impl<M: Monoid> From<&Vec<M::Target>> for SegTree<M> {
     fn from(v: &Vec<M::Target>) -> Self {
         let range_size = v.len();
-        let log = (32 - (range_size as u32).saturating_sub(1).leading_zeros()) as usize;
+        let log = ceil_log2(range_size as u32) as usize;
         let leaf_size = 1 << log;
         let mut data = vec![M::id_element(); leaf_size * 2];
         data[leaf_size..leaf_size + range_size].clone_from_slice(v);

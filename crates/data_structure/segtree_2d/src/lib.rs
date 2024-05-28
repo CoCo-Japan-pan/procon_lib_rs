@@ -4,6 +4,7 @@
 //! <https://nasubi-blog.hatenablog.com/entry/2021/11/27/185818>の図が分かりやすかったです  
 
 use algebra::{Commutative, Monoid};
+use internal_bits::ceil_log2;
 use std::ops::RangeBounds;
 
 #[derive(Debug)]
@@ -27,8 +28,8 @@ impl<M: Monoid + Commutative> From<&Vec<Vec<M::Target>>> for SegTree2D<M> {
     fn from(v: &Vec<Vec<M::Target>>) -> Self {
         let height = v.len();
         let width = v[0].len();
-        let ceil_log_h = (32 - (height as u32).saturating_sub(1).leading_zeros()) as usize;
-        let ceil_log_w = (32 - (width as u32).saturating_sub(1).leading_zeros()) as usize;
+        let ceil_log_h = ceil_log2(height as u32) as usize;
+        let ceil_log_w = ceil_log2(width as u32) as usize;
         let leaf_height = 1 << ceil_log_h;
         let leaf_width = 1 << ceil_log_w;
         let mut data = vec![M::id_element(); leaf_width * leaf_height * 4];
