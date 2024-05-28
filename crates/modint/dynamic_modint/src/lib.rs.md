@@ -12,15 +12,15 @@ data:
     path: crates/fps/ntt/src/lib.rs
     title: crates/fps/ntt/src/lib.rs
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/AtCoder/abc293e/src/main.rs
     title: verify/AtCoder/abc293e/src/main.rs
   - icon: ':heavy_check_mark:'
     path: verify/yukicoder/no_1092_modint_dynamic/src/main.rs
     title: verify/yukicoder/no_1092_modint_dynamic/src/main.rs
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -129,8 +129,8 @@ data:
   path: crates/modint/dynamic_modint/src/lib.rs
   requiredBy:
   - crates/fps/ntt/src/lib.rs
-  timestamp: '2024-05-28 23:13:55+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  timestamp: '2024-05-28 23:22:35+09:00'
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_1092_modint_dynamic/src/main.rs
   - verify/AtCoder/abc293e/src/main.rs

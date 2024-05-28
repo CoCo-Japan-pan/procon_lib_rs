@@ -136,19 +136,19 @@ data:
     \ / ModInt1000000007::new(rhs)).value\n        }\n\n        assert_eq!(0, div(0,\
     \ 1));\n        assert_eq!(1, div(1, 1));\n        assert_eq!(1, div(2, 2));\n\
     \        assert_eq!(23_809_524, div(1, 42));\n    }\n\n    #[test]\n    fn static_modint_sum()\
-    \ {\n        assert_eq!(\n            ModInt1000000007::new(-3),\n           \
-    \ [-1, 2, -3, 4, -5].into_iter().sum()\n        );\n    }\n\n    #[test]\n   \
-    \ fn static_modint_product() {\n        assert_eq!(\n            ModInt1000000007::new(-120),\n\
-    \            [-1, 2, -3, 4, -5].into_iter().product()\n        );\n    }\n\n \
-    \   #[test]\n    fn static_modint_binop_coercion() {\n        let f = ModInt1000000007::new;\n\
-    \        let a = 10_293_812_usize;\n        let b = 9_083_240_982_usize;\n   \
-    \     assert_eq!(f(a) + f(b), f(a) + b);\n        assert_eq!(f(a) - f(b), f(a)\
-    \ - b);\n        assert_eq!(f(a) * f(b), f(a) * b);\n        assert_eq!(f(a) /\
-    \ f(b), f(a) / b);\n    }\n\n    #[test]\n    fn static_modint_assign_coercion()\
-    \ {\n        let f = ModInt1000000007::new;\n        let a = f(10_293_812_usize);\n\
-    \        let b = 9_083_240_982_usize;\n        let expected = (((a + b) * b) -\
-    \ b) / b;\n        let mut c = a;\n        c += b;\n        c *= b;\n        c\
-    \ -= b;\n        c /= b;\n        assert_eq!(expected, c);\n    }\n}\n"
+    \ {\n        assert_eq!(ModInt1000000007::new(-3), [-1, 2, -3, 4, -5].iter().sum());\n\
+    \    }\n\n    #[test]\n    fn static_modint_product() {\n        assert_eq!(\n\
+    \            ModInt1000000007::new(-120),\n            [-1, 2, -3, 4, -5].iter().product()\n\
+    \        );\n    }\n\n    #[test]\n    fn static_modint_binop_coercion() {\n \
+    \       let f = ModInt1000000007::new;\n        let a = 10_293_812_usize;\n  \
+    \      let b = 9_083_240_982_usize;\n        assert_eq!(f(a) + f(b), f(a) + b);\n\
+    \        assert_eq!(f(a) - f(b), f(a) - b);\n        assert_eq!(f(a) * f(b), f(a)\
+    \ * b);\n        assert_eq!(f(a) / f(b), f(a) / b);\n    }\n\n    #[test]\n  \
+    \  fn static_modint_assign_coercion() {\n        let f = ModInt1000000007::new;\n\
+    \        let a = f(10_293_812_usize);\n        let b = 9_083_240_982_usize;\n\
+    \        let expected = (((a + b) * b) - b) / b;\n        let mut c = a;\n   \
+    \     c += b;\n        c *= b;\n        c -= b;\n        c /= b;\n        assert_eq!(expected,\
+    \ c);\n    }\n}\n"
   dependsOn:
   - crates/internals/internal_type_traits/src/lib.rs
   - crates/internals/modint_traits/src/lib.rs
@@ -156,7 +156,7 @@ data:
   path: crates/modint/static_modint/src/lib.rs
   requiredBy:
   - crates/fps/ntt/src/lib.rs
-  timestamp: '2024-05-28 23:13:55+09:00'
+  timestamp: '2024-05-28 23:22:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc290f/src/main.rs

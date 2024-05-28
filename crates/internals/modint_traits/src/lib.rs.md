@@ -8,7 +8,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/math/binom/src/lib.rs
     title: crates/math/binom/src/lib.rs
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/modint/dynamic_modint/src/lib.rs
     title: crates/modint/dynamic_modint/src/lib.rs
   - icon: ':heavy_check_mark:'
@@ -64,7 +64,12 @@ data:
     \ -> u32 {\n                    if self < 0 {\n                        neg(self.unsigned_abs().rem_euclid_u32(modulus),\
     \ modulus)\n                    } else {\n                        self.unsigned_abs().rem_euclid_u32(modulus)\n\
     \                    }\n                }\n            }\n        )*\n    };\n\
-    }\n\nimpl_rem_euclid_u32_for_signed!(i8, i16, i32, i64, isize, i128);\n"
+    }\n\nimpl_rem_euclid_u32_for_signed!(i8, i16, i32, i64, isize, i128);\n\nmacro_rules!\
+    \ impl_rem_for_borrow {\n    ($($t:ty),*) => {\n        $(\n            impl RemEuclidU32\
+    \ for &$t {\n                #[inline]\n                fn rem_euclid_u32(self,\
+    \ modulus: u32) -> u32 {\n                    (*self).rem_euclid_u32(modulus)\n\
+    \                }\n            }\n        )*\n    };\n}\n\nimpl_rem_for_borrow!(u8,\
+    \ u16, u32, u64, usize, u128, i8, i16, i32, i64, isize, i128);\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/internals/modint_traits/src/lib.rs
@@ -73,7 +78,7 @@ data:
   - crates/math/binom/src/lib.rs
   - crates/modint/static_modint/src/lib.rs
   - crates/modint/dynamic_modint/src/lib.rs
-  timestamp: '2024-04-17 18:38:53+09:00'
+  timestamp: '2024-05-28 23:22:35+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/internals/modint_traits/src/lib.rs

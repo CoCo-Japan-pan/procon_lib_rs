@@ -35,7 +35,7 @@ data:
   isVerificationFile: false
   path: crates/math/binom/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-17 21:52:17+09:00'
+  timestamp: '2024-05-28 23:22:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc290f/src/main.rs
