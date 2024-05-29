@@ -3,6 +3,9 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
+    path: crates/fps/fps_utils/src/lib.rs
+    title: crates/fps/fps_utils/src/lib.rs
+  - icon: ':heavy_check_mark:'
     path: crates/fps/ntt/src/lib.rs
     title: crates/fps/ntt/src/lib.rs
   - icon: ':heavy_check_mark:'
@@ -74,6 +77,7 @@ data:
   isVerificationFile: false
   path: crates/internals/modint_traits/src/lib.rs
   requiredBy:
+  - crates/fps/fps_utils/src/lib.rs
   - crates/fps/ntt/src/lib.rs
   - crates/math/binom/src/lib.rs
   - crates/modint/static_modint/src/lib.rs

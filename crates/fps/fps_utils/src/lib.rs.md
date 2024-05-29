@@ -7,6 +7,9 @@ data:
   - icon: ':warning:'
     path: crates/internals/internal_bits/src/lib.rs
     title: crates/internals/internal_bits/src/lib.rs
+  - icon: ':warning:'
+    path: crates/internals/modint_traits/src/lib.rs
+    title: crates/internals/modint_traits/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
@@ -27,12 +30,13 @@ data:
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "use internal_bits::ceil_log2;\nuse ntt::{convolution, ConvHelper};\nuse std::fmt::Display;\n\
-    use std::ops::{Add, AddAssign, Mul, MulAssign, Neg, Sub, SubAssign};\n\n#[derive(Debug,\
-    \ Clone, PartialEq, Eq)]\npub struct Fps<T: ConvHelper> {\n    pub data: Vec<T>,\n\
-    }\n\nimpl<T: ConvHelper> Display for Fps<T> {\n    fn fmt(&self, f: &mut std::fmt::Formatter<'_>)\
-    \ -> std::fmt::Result {\n        if self.is_empty() {\n            return Ok(());\n\
-    \        }\n        write!(f, \"{}\", self.data[0])?;\n        for x in self.data.iter().skip(1)\
+  code: "use internal_bits::ceil_log2;\nuse modint_traits::ModInt;\nuse ntt::{convolution,\
+    \ ConvHelper};\nuse std::fmt::Display;\nuse std::ops::{Add, AddAssign, Mul, MulAssign,\
+    \ Neg, Sub, SubAssign};\n\n#[derive(Debug, Clone, PartialEq, Eq)]\npub struct\
+    \ Fps<T: ConvHelper> {\n    pub data: Vec<T>,\n}\n\nimpl<T: ConvHelper> Display\
+    \ for Fps<T> {\n    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result\
+    \ {\n        if self.is_empty() {\n            return Ok(());\n        }\n   \
+    \     write!(f, \"{}\", self.data[0])?;\n        for x in self.data.iter().skip(1)\
     \ {\n            write!(f, \" {}\", x)?;\n        }\n        Ok(())\n    }\n}\n\
     \nimpl<T: ConvHelper, S> From<Vec<S>> for Fps<T>\nwhere\n    T: From<S>,\n{\n\
     \    fn from(data: Vec<S>) -> Self {\n        Self {\n            data: data.into_iter().map(T::from).collect(),\n\
@@ -42,29 +46,38 @@ data:
     \    pub fn is_empty(&self) -> bool {\n        self.data.is_empty()\n    }\n \
     \   /// mod x^n\u3092\u53D6\u308B\n    pub fn truncate(&self, n: usize) -> Self\
     \ {\n        let size = self.len().min(n);\n        Self {\n            data:\
-    \ self.data[..size].to_vec(),\n        }\n    }\n}\n\n#[allow(clippy::needless_range_loop)]\n\
+    \ self.data[..size].to_vec(),\n        }\n    }\n}\n\n// [1, n)\u306Emod\u9006\
+    \u5143\u5217\u6319\nfn enumerate_invs<M: ModInt>(n: usize) -> Vec<M> {\n    assert!(n\
+    \ < M::modulus() as usize);\n    let mut invs = vec![M::raw(0); n];\n    if n\
+    \ <= 1 {\n        return invs;\n    }\n    invs[1] = M::raw(1);\n    for i in\
+    \ 2..n {\n        invs[i] = -invs[M::modulus() as usize % i] * M::raw(M::modulus()\
+    \ / i as u32);\n    }\n    invs\n}\n\n#[allow(clippy::needless_range_loop)]\n\
     impl<T: ConvHelper> Fps<T> {\n    /// \u5FAE\u5206\n    pub fn differential(&self)\
     \ -> Self {\n        let n = self.len();\n        let mut data = vec![T::raw(0);\
     \ n - 1];\n        for i in 0..n - 1 {\n            data[i] = self.data[i + 1]\
     \ * T::new(i + 1);\n        }\n        Fps::from(data)\n    }\n\n    /// \u7A4D\
     \u5206\n    pub fn integral(&self) -> Self {\n        let n = self.len();\n  \
-    \      let mut data = vec![T::raw(0); n + 1];\n        for i in 1..n + 1 {\n \
-    \           data[i] = self.data[i - 1] / T::new(i);\n        }\n        Fps::from(data)\n\
-    \    }\n\n    /// mod x^deg\n    pub fn inverse(&self, deg: usize) -> Self {\n\
-    \        assert_ne!(self.data[0].value(), 0);\n        let mut g = Fps::from(vec![self.data[0].inv()]);\n\
-    \        let log = ceil_log2(deg as u32) as usize;\n        // mod x^(2^i)\u3092\
-    \u6C42\u3081\u308B\n        for i in 1..=log {\n            g = (&g * T::new(2)\
-    \ - &(&g * &g * self.truncate(1 << i))).truncate(1 << i);\n        }\n       \
-    \ g.truncate(deg)\n    }\n\n    /// mod x^deg\n    pub fn log(&self, deg: usize)\
-    \ -> Self {\n        assert_eq!(self.data[0].value(), 1);\n        let f = self.differential()\
-    \ * self.inverse(deg);\n        f.truncate(deg - 1).integral()\n    }\n\n    ///\
-    \ mod x^deg\n    pub fn exp(&self, deg: usize) -> Self {\n        assert_eq!(self.data[0].value(),\
-    \ 0);\n        let mut g = Fps::from(vec![T::new(1_u8)]);\n        let log = ceil_log2(deg\
+    \      let mut data = vec![T::raw(0); n + 1];\n        if n + 1 < T::modulus()\
+    \ as usize {\n            let invs = enumerate_invs::<T>(n + 1);\n           \
+    \ for i in 1..n + 1 {\n                data[i] = self.data[i - 1] * invs[i];\n\
+    \            }\n        } else {\n            for i in 1..n + 1 {\n          \
+    \      data[i] = self.data[i - 1] / T::new(i);\n            }\n        }\n   \
+    \     Fps::from(data)\n    }\n\n    /// mod x^deg\n    pub fn inverse(&self, deg:\
+    \ usize) -> Self {\n        assert_ne!(self.data[0].value(), 0);\n        let\
+    \ mut g = Fps::from(vec![self.data[0].inv()]);\n        let log = ceil_log2(deg\
     \ as u32) as usize;\n        // mod x^(2^i)\u3092\u6C42\u3081\u308B\n        for\
+    \ i in 1..=log {\n            g = (&g * T::new(2) - &(&g * &g * self.truncate(1\
+    \ << i))).truncate(1 << i);\n        }\n        g.truncate(deg)\n    }\n\n   \
+    \ /// mod x^deg\n    pub fn log(&self, deg: usize) -> Self {\n        assert_eq!(self.data[0].value(),\
+    \ 1);\n        let f = self.differential() * self.inverse(deg);\n        f.truncate(deg\
+    \ - 1).integral()\n    }\n\n    /// mod x^deg\n    pub fn exp(&self, deg: usize)\
+    \ -> Self {\n        assert_eq!(self.data[0].value(), 0);\n        let one = T::new(1_u8);\n\
+    \        let mut g = Fps::from(vec![one]);\n        let log = ceil_log2(deg as\
+    \ u32) as usize;\n        // mod x^(2^i)\u3092\u6C42\u3081\u308B\n        for\
     \ i in 1..=log {\n            let mut f = self.truncate(1 << i);\n           \
-    \ f.data[0] += T::new(1_u8);\n            g = (&g * &(f - &g.log(1 << i))).truncate(1\
-    \ << i);\n        }\n        g.truncate(deg)\n    }\n}\n\nmacro_rules! impl_ops\
-    \ {\n    ($trait:ident, $method:ident, $assign_trait:ident, $assign_method:ident)\
+    \ f.data[0] += one;\n            g = (&g * &(f - &g.log(1 << i))).truncate(1 <<\
+    \ i);\n        }\n        g.truncate(deg)\n    }\n}\n\nmacro_rules! impl_ops {\n\
+    \    ($trait:ident, $method:ident, $assign_trait:ident, $assign_method:ident)\
     \ => {\n        impl<T: ConvHelper, S> $trait<S> for Fps<T>\n        where\n \
     \           Self: $assign_trait<S>,\n        {\n            type Output = Fps<T>;\n\
     \            fn $method(mut self, rhs: S) -> Self::Output {\n                Fps::<T>::$assign_method(&mut\
@@ -94,10 +107,11 @@ data:
   dependsOn:
   - crates/fps/ntt/src/lib.rs
   - crates/internals/internal_bits/src/lib.rs
+  - crates/internals/modint_traits/src/lib.rs
   isVerificationFile: false
   path: crates/fps/fps_utils/src/lib.rs
   requiredBy: []
-  timestamp: '2024-05-28 23:57:40+09:00'
+  timestamp: '2024-05-29 17:07:49+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/inv_of_formal_power_series/src/main.rs
