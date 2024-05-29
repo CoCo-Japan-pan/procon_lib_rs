@@ -10,3 +10,4 @@ repository = "ssh://git@github.com/CoCo-Japan-pan/procon_lib_rs.git"
 [dependencies]
 ntt = { path = "../ntt" }
 internal_bits = { path = "../../internals/internal_bits" }
+modint_traits = { path = "../../internals/modint_traits" }
