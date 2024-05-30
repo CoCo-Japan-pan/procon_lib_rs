@@ -106,6 +106,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/math/binom/src/lib.rs
       title: crates/math/binom/src/lib.rs
+  - name: crates/math/enumerate_inv_mods/src
+    pages:
+    - icon: ':warning:'
+      path: crates/math/enumerate_inv_mods/src/lib.rs
+      title: crates/math/enumerate_inv_mods/src/lib.rs
   - name: crates/math/matrix/src
     pages:
     - icon: ':heavy_check_mark:'

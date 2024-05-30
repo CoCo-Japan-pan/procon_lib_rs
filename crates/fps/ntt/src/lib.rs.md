@@ -136,7 +136,7 @@ data:
   path: crates/fps/ntt/src/lib.rs
   requiredBy:
   - crates/fps/fps_utils/src/lib.rs
-  timestamp: '2024-05-28 23:22:35+09:00'
+  timestamp: '2024-05-30 18:25:22+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/convolution_mod_1000000007_ntt/src/main.rs

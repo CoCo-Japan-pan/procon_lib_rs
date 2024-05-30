@@ -3,14 +3,14 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
-    path: crates/fps/fps_utils/src/lib.rs
-    title: crates/fps/fps_utils/src/lib.rs
-  - icon: ':heavy_check_mark:'
     path: crates/fps/ntt/src/lib.rs
     title: crates/fps/ntt/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/math/binom/src/lib.rs
     title: crates/math/binom/src/lib.rs
+  - icon: ':warning:'
+    path: crates/math/enumerate_inv_mods/src/lib.rs
+    title: crates/math/enumerate_inv_mods/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/modint/dynamic_modint/src/lib.rs
     title: crates/modint/dynamic_modint/src/lib.rs
@@ -77,9 +77,9 @@ data:
   isVerificationFile: false
   path: crates/internals/modint_traits/src/lib.rs
   requiredBy:
-  - crates/fps/fps_utils/src/lib.rs
   - crates/fps/ntt/src/lib.rs
   - crates/math/binom/src/lib.rs
+  - crates/math/enumerate_inv_mods/src/lib.rs
   - crates/modint/static_modint/src/lib.rs
   - crates/modint/dynamic_modint/src/lib.rs
   timestamp: '2024-05-28 23:22:35+09:00'
