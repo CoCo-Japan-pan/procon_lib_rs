@@ -33,7 +33,7 @@ impl ModIntMersenne {
             tmp
         }
     }
-    /// <https://qiita.com/keymoon/items/11fac5627672a6d6a9f6>
+    /// From <https://qiita.com/keymoon/items/11fac5627672a6d6a9f6>
     #[inline]
     fn mul(a: u64, b: u64) -> u64 {
         let au = a >> 31;
@@ -51,11 +51,21 @@ pub trait RemEuclidU64 {
     fn rem_euclid_u64(self) -> ModIntMersenne;
 }
 
-impl RemEuclidU64 for u32 {
-    fn rem_euclid_u64(self) -> ModIntMersenne {
-        ModIntMersenne { value: self as u64 }
-    }
+macro_rules! impl_rem_for_small_unsigned {
+    ($($t:ty), *) => {
+        $(
+            impl RemEuclidU64 for $t {
+                fn rem_euclid_u64(self) -> ModIntMersenne {
+                    ModIntMersenne {
+                        value: self as u64,
+                    }
+                }
+            }
+        )*
+    };
 }
+
+impl_rem_for_small_unsigned!(u8, u16, u32);
 
 impl RemEuclidU64 for u64 {
     fn rem_euclid_u64(self) -> ModIntMersenne {
@@ -72,32 +82,23 @@ impl RemEuclidU64 for usize {
     }
 }
 
-impl RemEuclidU64 for i32 {
-    fn rem_euclid_u64(self) -> ModIntMersenne {
-        if self < 0 {
-            -(self.unsigned_abs().rem_euclid_u64())
-        } else {
-            (self as u64).rem_euclid_u64()
-        }
-    }
+macro_rules! impl_rem_for_signed {
+    ($($t:ty),*) => {
+        $(
+            impl RemEuclidU64 for $t {
+                fn rem_euclid_u64(self) -> ModIntMersenne {
+                    if self < 0 {
+                        -(self.unsigned_abs().rem_euclid_u64())
+                    } else {
+                        self.unsigned_abs().rem_euclid_u64()
+                    }
+                }
+            }
+        )*
+    };
 }
 
-impl RemEuclidU64 for i64 {
-    fn rem_euclid_u64(self) -> ModIntMersenne {
-        if self < 0 {
-            -(self.unsigned_abs().rem_euclid_u64())
-        } else {
-            (self as u64).rem_euclid_u64()
-        }
-    }
-}
-
-impl RemEuclidU64 for isize {
-    fn rem_euclid_u64(self) -> ModIntMersenne {
-        let casted: i64 = self.try_into().unwrap();
-        casted.rem_euclid_u64()
-    }
-}
+impl_rem_for_signed!(i8, i16, i32, i64, isize);
 
 impl Neg for ModIntMersenne {
     type Output = Self;
@@ -121,14 +122,6 @@ impl AddAssign for ModIntMersenne {
     }
 }
 
-impl Add for ModIntMersenne {
-    type Output = Self;
-    fn add(mut self, rhs: Self) -> Self {
-        self += rhs;
-        self
-    }
-}
-
 impl SubAssign for ModIntMersenne {
     fn sub_assign(&mut self, rhs: Self) {
         if self.value < rhs.value {
@@ -138,24 +131,24 @@ impl SubAssign for ModIntMersenne {
     }
 }
 
-impl Sub for ModIntMersenne {
-    type Output = Self;
-    fn sub(mut self, rhs: Self) -> Self {
-        self -= rhs;
-        self
-    }
-}
-
 impl MulAssign for ModIntMersenne {
     fn mul_assign(&mut self, rhs: Self) {
         self.value = Self::mul(self.value, rhs.value);
     }
 }
 
-impl Mul for ModIntMersenne {
-    type Output = Self;
-    fn mul(mut self, rhs: Self) -> Self {
-        self *= rhs;
-        self
-    }
+macro_rules! impl_ops {
+    ($trait:ident, $method: ident, $assign_method:ident) => {
+        impl $trait for ModIntMersenne {
+            type Output = Self;
+            fn $method(mut self, rhs: Self) -> Self {
+                ModIntMersenne::$assign_method(&mut self, rhs);
+                self
+            }
+        }
+    };
 }
+
+impl_ops!(Add, add, add_assign);
+impl_ops!(Sub, sub, sub_assign);
+impl_ops!(Mul, mul, mul_assign);

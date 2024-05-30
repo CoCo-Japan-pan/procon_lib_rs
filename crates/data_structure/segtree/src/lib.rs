@@ -1,4 +1,4 @@
-//! [Reference](https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs)
+//! From <https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs>
 
 use algebra::Monoid;
 use internal_bits::ceil_log2;
