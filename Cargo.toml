@@ -11,6 +11,7 @@ members = [
     "crates/misc/*",
     "crates/math/*",
     "crates/hash/*",
+    "crates/graph/*",
     "verify/yosupo/*",
     "verify/AOJ/*",
     "verify/AtCoder/*",
