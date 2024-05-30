@@ -1,5 +1,5 @@
+use enumerate_inv_mods::enumerate_invs;
 use internal_bits::ceil_log2;
-use modint_traits::ModInt;
 use ntt::{convolution, ConvHelper};
 use std::fmt::Display;
 use std::ops::{Add, AddAssign, Mul, MulAssign, Neg, Sub, SubAssign};
@@ -27,6 +27,7 @@ where
     T: From<S>,
 {
     fn from(data: Vec<S>) -> Self {
+        assert!(data.len() < T::modulus() as usize);
         Self {
             data: data.into_iter().map(T::from).collect(),
         }
@@ -35,6 +36,7 @@ where
 
 impl<T: ConvHelper> Fps<T> {
     pub fn new(deg: usize) -> Self {
+        assert!(deg < T::modulus() as usize);
         Self {
             data: vec![T::raw(0); deg],
         }
@@ -54,20 +56,6 @@ impl<T: ConvHelper> Fps<T> {
     }
 }
 
-// [1, n)のmod逆元列挙
-fn enumerate_invs<M: ModInt>(n: usize) -> Vec<M> {
-    assert!(n < M::modulus() as usize);
-    let mut invs = vec![M::raw(0); n];
-    if n <= 1 {
-        return invs;
-    }
-    invs[1] = M::raw(1);
-    for i in 2..n {
-        invs[i] = -invs[M::modulus() as usize % i] * M::raw(M::modulus() / i as u32);
-    }
-    invs
-}
-
 #[allow(clippy::needless_range_loop)]
 impl<T: ConvHelper> Fps<T> {
     /// 微分
@@ -84,15 +72,9 @@ impl<T: ConvHelper> Fps<T> {
     pub fn integral(&self) -> Self {
         let n = self.len();
         let mut data = vec![T::raw(0); n + 1];
-        if n + 1 < T::modulus() as usize {
-            let invs = enumerate_invs::<T>(n + 1);
-            for i in 1..n + 1 {
-                data[i] = self.data[i - 1] * invs[i];
-            }
-        } else {
-            for i in 1..n + 1 {
-                data[i] = self.data[i - 1] / T::new(i);
-            }
+        let invs = enumerate_invs::<T>(n + 1);
+        for i in 1..n + 1 {
+            data[i] = self.data[i - 1] * invs[i];
         }
         Fps::from(data)
     }

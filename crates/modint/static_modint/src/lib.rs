@@ -189,6 +189,7 @@ macro_rules! impl_from_primitive {
 
 impl_from_primitive!(u8, u16, u32, u64, usize, u128, i8, i16, i32, i64, isize, i128);
 
+/// From <https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/modint.rs>
 #[cfg(test)]
 mod tests {
     use super::ModInt1000000007;
