@@ -23,12 +23,12 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
-    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs)
+    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs>
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "//! [Reference](https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs)\n\
+  code: "//! From <https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs>\n\
     \nuse algebra::Monoid;\nuse internal_bits::ceil_log2;\nuse std::ops::RangeBounds;\n\
     \n#[derive(Debug, Clone, PartialEq, Eq)]\npub struct SegTree<M: Monoid> {\n  \
     \  range_size: usize,\n    leaf_size: usize,\n    log: usize,\n    data: Vec<M::Target>,\n\
@@ -97,7 +97,7 @@ data:
   path: crates/data_structure/segtree/src/lib.rs
   requiredBy:
   - crates/data_structure/segtree_2d_compressed/src/lib.rs
-  timestamp: '2024-05-28 18:30:57+09:00'
+  timestamp: '2024-05-30 17:49:36+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/point_set_range_composite/src/main.rs

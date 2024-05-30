@@ -111,7 +111,7 @@ data:
   isVerificationFile: false
   path: crates/fps/fps_utils/src/lib.rs
   requiredBy: []
-  timestamp: '2024-05-29 17:07:49+09:00'
+  timestamp: '2024-05-30 17:49:36+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/inv_of_formal_power_series/src/main.rs

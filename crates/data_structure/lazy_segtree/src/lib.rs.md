@@ -26,12 +26,12 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
-    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/lazysegtree.rs)
+    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/lazysegtree.rs>
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "//! [Reference](https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/lazysegtree.rs)\
+  code: "//! From <https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/lazysegtree.rs>\
     \  \n//! composition\u3084mapping\u306B\u53EF\u5909\u53C2\u7167\u3092\u7528\u3044\
     \u3066\u3044\u308B\u3068\u3053\u308D\u3068\u3001\u4F5C\u7528\u304C\u53EF\u5909\
     \u306A\u3089\u4F1D\u64AD\u3092\u4E00\u90E8\u30B5\u30DC\u308B\u90E8\u5206\u304C\
@@ -181,7 +181,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/lazy_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-05-28 18:30:57+09:00'
+  timestamp: '2024-05-30 17:49:36+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/alpc_l_lazy_seg/src/main.rs

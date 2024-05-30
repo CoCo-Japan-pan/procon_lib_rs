@@ -71,7 +71,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/vertex_set_path_composite/src/main.rs
   requiredBy: []
-  timestamp: '2024-05-28 23:22:35+09:00'
+  timestamp: '2024-05-30 17:49:36+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/vertex_set_path_composite/src/main.rs

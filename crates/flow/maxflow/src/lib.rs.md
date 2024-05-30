@@ -18,13 +18,13 @@ data:
     - https://creativecommons.org/licenses/by-sa/3.0/deed.en
     - https://gist.github.com/MiSawa/47b1d99c372daffb6891662db1a2b686
     - https://github.com/atcoder/ac-library/issues/5
-    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/maxflow.rs)
+    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/maxflow.rs>
     - https://github.com/rust-lang-ja/ac-library-rs/pull/24#discussion_r485343451
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "//! [Reference](https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/maxflow.rs)\n\
+  code: "//! From <https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/maxflow.rs>\n\
     \nuse internal_type_traits::Integral;\nuse std::cmp::min;\nuse std::iter;\n\n\
     #[derive(Default, Debug, Clone, PartialEq, Eq)]\nstruct SimpleQueue<T> {\n   \
     \ payload: Vec<T>,\n    pos: usize,\n}\n\nimpl<T> SimpleQueue<T> {\n    fn empty(&self)\
@@ -165,7 +165,7 @@ data:
   path: crates/flow/maxflow/src/lib.rs
   requiredBy:
   - crates/flow/maxflow_lower_bound/src/lib.rs
-  timestamp: '2024-04-14 12:40:51+09:00'
+  timestamp: '2024-05-30 17:49:36+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/flow/maxflow/src/lib.rs
