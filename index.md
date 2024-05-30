@@ -81,6 +81,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/fps/ntt/src/lib.rs
       title: crates/fps/ntt/src/lib.rs
+  - name: crates/graph/scc/src
+    pages:
+    - icon: ':warning:'
+      path: crates/graph/scc/src/lib.rs
+      title: crates/graph/scc/src/lib.rs
   - name: crates/hash/modint_mersenne/src
     pages:
     - icon: ':warning:'
