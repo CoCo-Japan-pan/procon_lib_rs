@@ -81,6 +81,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/fps/ntt/src/lib.rs
       title: crates/fps/ntt/src/lib.rs
+  - name: crates/graph/eulerian_trail/src
+    pages:
+    - icon: ':warning:'
+      path: crates/graph/eulerian_trail/src/lib.rs
+      title: crates/graph/eulerian_trail/src/lib.rs
   - name: crates/graph/scc/src
     pages:
     - icon: ':warning:'
@@ -156,6 +161,21 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/tree/rerooting/src/lib.rs
       title: crates/tree/rerooting/src/lib.rs
+  - name: verify/yosupo/eulerian_trail_directed/src
+    pages:
+    - icon: ':warning:'
+      path: verify/yosupo/eulerian_trail_directed/src/main.rs
+      title: verify/yosupo/eulerian_trail_directed/src/main.rs
+  - name: verify/yosupo/eulerian_trail_undirected/src
+    pages:
+    - icon: ':warning:'
+      path: verify/yosupo/eulerian_trail_undirected/src/main.rs
+      title: verify/yosupo/eulerian_trail_undirected/src/main.rs
+  - name: verify/yosupo/strongly_connected_components/src
+    pages:
+    - icon: ':warning:'
+      path: verify/yosupo/strongly_connected_components/src/main.rs
+      title: verify/yosupo/strongly_connected_components/src/main.rs
   verificationCategories:
   - name: verify/AOJ/dsl_2d_dual_seg/src
     pages:

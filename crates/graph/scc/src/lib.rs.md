@@ -1,7 +1,10 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: verify/yosupo/strongly_connected_components/src/main.rs
+    title: verify/yosupo/strongly_connected_components/src/main.rs
   _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: rs
@@ -14,7 +17,9 @@ data:
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "#[derive(Debug, Clone)]\npub struct SccGraph {\n    graph: Vec<Vec<usize>>,\n\
+  code: "//! \u6709\u52B9\u30B0\u30E9\u30D5\u306E\u5F37\u9023\u7D50\u6210\u5206\u5206\
+    \u89E3\u3092\u884C\u3044\u307E\u3059\u3002  \n//! DFS\u3092\u4E8C\u56DE\u884C\u3046\
+    \u65B9\u91DD  \n\n#[derive(Debug, Clone)]\npub struct SccGraph {\n    graph: Vec<Vec<usize>>,\n\
     \    rev_graph: Vec<Vec<usize>>,\n    vertices: usize,\n}\n\nimpl From<Vec<Vec<usize>>>\
     \ for SccGraph {\n    fn from(graph: Vec<Vec<usize>>) -> Self {\n        let vertices\
     \ = graph.len();\n        let mut rev_graph = vec![vec![]; vertices];\n      \
@@ -56,8 +61,9 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: crates/graph/scc/src/lib.rs
-  requiredBy: []
-  timestamp: '2024-05-31 00:26:32+09:00'
+  requiredBy:
+  - verify/yosupo/strongly_connected_components/src/main.rs
+  timestamp: '2024-06-05 00:36:00+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/graph/scc/src/lib.rs
