@@ -1,10 +1,10 @@
 [package]
-name = "scc"
+name = "eulerian_trail_undirected"
 version = "0.1.0"
 edition = "2021"
-license = "CC0-1.0"
-repository = "ssh://git@github.com/CoCo-Japan-pan/procon_lib_rs.git"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+proconio = { version = "=0.4.5", features = ["derive"] }
+eulerian_trail = { path = "../../../crates/graph/eulerian_trail" }

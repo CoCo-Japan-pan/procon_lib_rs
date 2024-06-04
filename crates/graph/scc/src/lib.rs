@@ -1,3 +1,6 @@
+//! 有効グラフの強連結成分分解を行います。  
+//! DFSを二回行う方針  
+
 #[derive(Debug, Clone)]
 pub struct SccGraph {
     graph: Vec<Vec<usize>>,
