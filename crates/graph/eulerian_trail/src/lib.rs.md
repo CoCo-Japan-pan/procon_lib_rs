@@ -76,7 +76,11 @@ data:
     \            if adj_matrix[u][v] == 0 {\n                continue;\n         \
     \   }\n            adj_matrix[u][v] -= 1;\n            if !directed {\n      \
     \          adj_matrix[v][u] -= 1;\n            }\n            dfs(trail, v, adj_matrix,\
-    \ directed);\n        }\n        trail.push(u);\n    }\n    let mut trail = vec![];\n\
+    \ directed);\n        }\n        trail.push(u);\n    }\n    let edge_cnt = if\
+    \ directed {\n        adj_matrix\n            .iter()\n            .map(|x| x.iter().sum::<usize>())\n\
+    \            .sum::<usize>()\n    } else {\n        adj_matrix\n            .iter()\n\
+    \            .map(|x| x.iter().sum::<usize>())\n            .sum::<usize>()\n\
+    \            / 2\n    };\n    let mut trail = Vec::with_capacity(edge_cnt + 1);\n\
     \    dfs(&mut trail, start, &mut adj_matrix, directed);\n    trail.reverse();\n\
     \    trail\n}\n"
   dependsOn: []
@@ -85,7 +89,7 @@ data:
   requiredBy:
   - verify/yosupo/eulerian_trail_undirected/src/main.rs
   - verify/yosupo/eulerian_trail_directed/src/main.rs
-  timestamp: '2024-06-05 00:36:00+09:00'
+  timestamp: '2024-06-05 22:08:14+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/graph/eulerian_trail/src/lib.rs
