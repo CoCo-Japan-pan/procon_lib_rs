@@ -103,7 +103,19 @@ pub fn eulerian_trail_from_matrix(
         }
         trail.push(u);
     }
-    let mut trail = vec![];
+    let edge_cnt = if directed {
+        adj_matrix
+            .iter()
+            .map(|x| x.iter().sum::<usize>())
+            .sum::<usize>()
+    } else {
+        adj_matrix
+            .iter()
+            .map(|x| x.iter().sum::<usize>())
+            .sum::<usize>()
+            / 2
+    };
+    let mut trail = Vec::with_capacity(edge_cnt + 1);
     dfs(&mut trail, start, &mut adj_matrix, directed);
     trail.reverse();
     trail
