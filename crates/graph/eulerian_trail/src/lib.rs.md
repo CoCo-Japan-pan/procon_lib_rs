@@ -76,7 +76,8 @@ data:
     \        directed: bool,\n    ) {\n        // \u65E2\u306B\u6D88\u3048\u305F\u8FBA\
     \u3092\u30B9\u30AD\u30C3\u30D7\u3059\u308B\u305F\u3081\u306Bnon_zero\u3092\u5C0E\
     \u5165\n        let mut v = non_zero[u];\n        while v < adj_matrix.len() {\n\
-    \            for _ in 0..adj_matrix[u][v] {\n                adj_matrix[u][v]\
+    \            for _ in 0..adj_matrix[u][v] {\n                if adj_matrix[u][v]\
+    \ == 0 {\n                    continue;\n                }\n                adj_matrix[u][v]\
     \ -= 1;\n                if !directed {\n                    adj_matrix[v][u]\
     \ -= 1;\n                }\n                dfs(trail, non_zero, v, adj_matrix,\
     \ directed);\n            }\n            non_zero[u] = non_zero[u].max(v + 1);\n\
@@ -94,7 +95,7 @@ data:
   requiredBy:
   - verify/yosupo/eulerian_trail_undirected/src/main.rs
   - verify/yosupo/eulerian_trail_directed/src/main.rs
-  timestamp: '2024-06-06 18:11:38+09:00'
+  timestamp: '2024-06-06 18:13:26+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/graph/eulerian_trail/src/lib.rs

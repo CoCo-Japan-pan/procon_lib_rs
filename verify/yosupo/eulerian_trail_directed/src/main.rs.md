@@ -65,7 +65,7 @@ data:
   isVerificationFile: false
   path: verify/yosupo/eulerian_trail_directed/src/main.rs
   requiredBy: []
-  timestamp: '2024-06-06 18:11:38+09:00'
+  timestamp: '2024-06-06 18:13:26+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: verify/yosupo/eulerian_trail_directed/src/main.rs
