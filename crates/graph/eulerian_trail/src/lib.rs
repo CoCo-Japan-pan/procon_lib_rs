@@ -103,6 +103,9 @@ pub fn eulerian_trail_from_matrix(
         let mut v = non_zero[u];
         while v < adj_matrix.len() {
             for _ in 0..adj_matrix[u][v] {
+                if adj_matrix[u][v] == 0 {
+                    continue;
+                }
                 adj_matrix[u][v] -= 1;
                 if !directed {
                     adj_matrix[v][u] -= 1;
