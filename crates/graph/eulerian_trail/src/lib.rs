@@ -1,5 +1,7 @@
 //! [オイラー路の構築](https://kokiymgch.hatenablog.com/entry/2017/12/07/193238)
 
+use std::vec;
+
 /// 隣接リスト表現(行先頂点のみ)のグラフに対してオイラー路を求める。(疎なグラフを期待)  
 /// (孤立点を除いて)連結であり、オイラー路が存在することが前提  
 /// 頂点列を返す
@@ -90,16 +92,25 @@ pub fn eulerian_trail_from_matrix(
     mut adj_matrix: Vec<Vec<usize>>,
     directed: bool,
 ) -> Vec<usize> {
-    fn dfs(trail: &mut Vec<usize>, u: usize, adj_matrix: &mut Vec<Vec<usize>>, directed: bool) {
-        for v in 0..adj_matrix.len() {
-            if adj_matrix[u][v] == 0 {
-                continue;
+    fn dfs(
+        trail: &mut Vec<usize>,
+        non_zero: &mut [usize],
+        u: usize,
+        adj_matrix: &mut Vec<Vec<usize>>,
+        directed: bool,
+    ) {
+        // 既に消えた辺をスキップするためにnon_zeroを導入
+        let mut v = non_zero[u];
+        while v < adj_matrix.len() {
+            for _ in 0..adj_matrix[u][v] {
+                adj_matrix[u][v] -= 1;
+                if !directed {
+                    adj_matrix[v][u] -= 1;
+                }
+                dfs(trail, non_zero, v, adj_matrix, directed);
             }
-            adj_matrix[u][v] -= 1;
-            if !directed {
-                adj_matrix[v][u] -= 1;
-            }
-            dfs(trail, v, adj_matrix, directed);
+            non_zero[u] = non_zero[u].max(v + 1);
+            v = non_zero[u];
         }
         trail.push(u);
     }
@@ -116,7 +127,8 @@ pub fn eulerian_trail_from_matrix(
             / 2
     };
     let mut trail = Vec::with_capacity(edge_cnt + 1);
-    dfs(&mut trail, start, &mut adj_matrix, directed);
+    let mut non_zero = vec![0; adj_matrix.len()];
+    dfs(&mut trail, &mut non_zero, start, &mut adj_matrix, directed);
     trail.reverse();
     trail
 }
