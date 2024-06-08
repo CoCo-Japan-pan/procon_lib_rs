@@ -10,8 +10,8 @@ pub fn next_permutation<T: Ord>(a: &mut [T]) -> bool {
     true
 }
 
-pub fn permutations(n: usize) -> Permutations<usize> {
-    Permutations::new((0..n).collect())
+pub fn permutations<T: Ord + Clone>(start_vec: Vec<T>) -> Permutations<T> {
+    Permutations::new(start_vec)
 }
 
 pub struct Permutations<T: Ord + Clone> {
@@ -20,7 +20,7 @@ pub struct Permutations<T: Ord + Clone> {
 }
 
 impl<T: Ord + Clone> Permutations<T> {
-    pub fn new(data: Vec<T>) -> Self {
+    fn new(data: Vec<T>) -> Self {
         Permutations { data, first: true }
     }
 }
@@ -47,7 +47,7 @@ mod tests {
 
     #[test]
     fn test_permutations() {
-        let mut perms = permutations(3);
+        let mut perms = permutations((0..3).collect());
         assert_eq!(perms.next().unwrap(), vec![0, 1, 2]);
         assert_eq!(perms.next().unwrap(), vec![0, 2, 1]);
         assert_eq!(perms.next().unwrap(), vec![1, 0, 2]);
