@@ -111,6 +111,11 @@ data:
     - icon: ':warning:'
       path: crates/internals/modint_traits/src/lib.rs
       title: crates/internals/modint_traits/src/lib.rs
+  - name: crates/itertools/next_permutation/src
+    pages:
+    - icon: ':warning:'
+      path: crates/itertools/next_permutation/src/lib.rs
+      title: crates/itertools/next_permutation/src/lib.rs
   - name: crates/math/binom/src
     pages:
     - icon: ':heavy_check_mark:'
