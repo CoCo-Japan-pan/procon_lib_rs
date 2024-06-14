@@ -156,6 +156,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/string/rolling_hash/src/lib.rs
       title: crates/string/rolling_hash/src/lib.rs
+  - name: crates/string/sa_lcp_array/src
+    pages:
+    - icon: ':warning:'
+      path: crates/string/sa_lcp_array/src/lib.rs
+      title: crates/string/sa_lcp_array/src/lib.rs
   - name: crates/tree/hld/src
     pages:
     - icon: ':heavy_check_mark:'
