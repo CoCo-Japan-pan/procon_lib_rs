@@ -27,42 +27,42 @@ data:
     \u9802\u70B9\u3092\u7528\u3044\u3066\u8868\u3057\u3066\u3044\u308B  \n//! \u5F93\
     \u3063\u3066\u8FBA\u306E\u30B3\u30B9\u30C8\u3068\u304B\u306F\u5916\u3067hashmap\u7B49\
     \u3067\u7BA1\u7406\u3059\u308B\u3053\u3068\u306B\u306A\u308B  \n\nuse algebra::{Commutative,\
-    \ Monoid};\n\n#[derive(Debug)]\npub struct Rerooting<T: Monoid + Commutative>\
-    \ {\n    vertex_cnt: usize,\n    /// \u6839\u30920\u3068\u3057\u305F\u5834\u5408\
-    \u306E\u5404\u9802\u70B9\u3092\u6839\u3068\u3059\u308B\u90E8\u5206\u6728\u306E\
-    DP\u30C6\u30FC\u30D6\u30EB\n    subtree_memo: Vec<T::Target>,\n    /// \u5404\u9802\
-    \u70B9\u3092\u6839\u3068\u3057\u305F\u6728\u5168\u4F53\u306EDP\u30C6\u30FC\u30D6\
-    \u30EB\n    ans: Vec<T::Target>,\n}\n\nimpl<T: Monoid + Commutative> Rerooting<T>\
-    \ {\n    /// \u30E2\u30CE\u30A4\u30C9`T`\u306F`add_root`\u306B\u3088\u308A\u3067\
-    \u304D\u305F\u300C\u90E8\u5206\u6728+\u4E00\u8FBA\u300D\u540C\u58EB\u3092merge\u3059\
-    \u308B\u95A2\u6570\u3092\u4E8C\u9805\u6F14\u7B97\u3068\u3057\u3066\u6301\u3064\
-    \  \n    /// `add_root(subtree: T::Target, subtree_root: usize, new_root: usize)\
-    \ -> T::Target`  \n    /// \u90E8\u5206\u6728\u306B\u9802\u70B9 subtree_root \u2192\
-    \ new_root \u306E\u8FBA\u3092\u8FFD\u52A0\u3059\u308B\n    pub fn new(\n     \
-    \   graph: &Vec<Vec<usize>>,\n        add_root: &impl Fn(&T::Target, usize, usize)\
-    \ -> T::Target,\n    ) -> Self {\n        let vertex_cnt = graph.len();\n    \
-    \    let subtree_memo = vec![T::id_element(); vertex_cnt];\n        let ans =\
-    \ vec![T::id_element(); vertex_cnt];\n        let mut ret = Self {\n         \
-    \   vertex_cnt,\n            subtree_memo,\n            ans,\n        };\n   \
-    \     ret.dfs(graph, 0, usize::MAX, add_root);\n        ret.bfs(graph, 0, usize::MAX,\
-    \ T::id_element(), add_root);\n        ret\n    }\n\n    pub fn get_ans(&self,\
+    \ Monoid};\n\n#[derive(Debug)]\npub struct Rerooting<T: Monoid + Commutative,\
+    \ F: FnMut(&T::Target, usize, usize) -> T::Target> {\n    vertex_cnt: usize,\n\
+    \    /// \u6839\u30920\u3068\u3057\u305F\u5834\u5408\u306E\u5404\u9802\u70B9\u3092\
+    \u6839\u3068\u3059\u308B\u90E8\u5206\u6728\u306EDP\u30C6\u30FC\u30D6\u30EB\n \
+    \   subtree_memo: Vec<T::Target>,\n    /// \u5404\u9802\u70B9\u3092\u6839\u3068\
+    \u3057\u305F\u6728\u5168\u4F53\u306EDP\u30C6\u30FC\u30D6\u30EB\n    ans: Vec<T::Target>,\n\
+    \    add_root: F,\n}\n\nimpl<T: Monoid + Commutative, F: FnMut(&T::Target, usize,\
+    \ usize) -> T::Target> Rerooting<T, F> {\n    /// \u30E2\u30CE\u30A4\u30C9`T`\u306F\
+    `add_root`\u306B\u3088\u308A\u3067\u304D\u305F\u300C\u90E8\u5206\u6728+\u4E00\u8FBA\
+    \u300D\u540C\u58EB\u3092merge\u3059\u308B\u95A2\u6570\u3092\u4E8C\u9805\u6F14\u7B97\
+    \u3068\u3057\u3066\u6301\u3064  \n    /// `add_root(subtree: T::Target, subtree_root:\
+    \ usize, new_root: usize) -> T::Target`  \n    /// \u90E8\u5206\u6728\u306B\u9802\
+    \u70B9 subtree_root \u2192 new_root \u306E\u8FBA\u3092\u8FFD\u52A0\u3059\u308B\
+    \  \n    /// _monoid\u306F\u578B\u63A8\u8AD6\u306E\u305F\u3081\u3060\u3051\u306B\
+    \u4F7F\u3063\u3066\u3044\u307E\u3059  \n    pub fn new(graph: &Vec<Vec<usize>>,\
+    \ add_root: F, _monoid: T) -> Self {\n        let vertex_cnt = graph.len();\n\
+    \        let subtree_memo = vec![T::id_element(); vertex_cnt];\n        let ans\
+    \ = vec![T::id_element(); vertex_cnt];\n        let mut ret = Self {\n       \
+    \     vertex_cnt,\n            subtree_memo,\n            ans,\n            add_root,\n\
+    \        };\n        ret.dfs(graph, 0, usize::MAX);\n        ret.bfs(graph, 0,\
+    \ usize::MAX, T::id_element());\n        ret\n    }\n\n    pub fn get_ans(&self,\
     \ root: usize) -> T::Target {\n        assert!(root < self.vertex_cnt);\n    \
-    \    self.ans[root].clone()\n    }\n\n    fn dfs(\n        &mut self,\n      \
-    \  graph: &Vec<Vec<usize>>,\n        v: usize,\n        p: usize,\n        add_root:\
-    \ &impl Fn(&T::Target, usize, usize) -> T::Target,\n    ) {\n        for &to in\
-    \ &graph[v] {\n            if to == p {\n                continue;\n         \
-    \   }\n            self.dfs(graph, to, v, add_root);\n            let memo = add_root(&self.subtree_memo[to],\
-    \ to, v);\n            self.subtree_memo[v] = T::binary_operation(&self.subtree_memo[v],\
-    \ &memo);\n        }\n    }\n\n    fn bfs(\n        &mut self,\n        graph:\
-    \ &Vec<Vec<usize>>,\n        v: usize,\n        p: usize,\n        par_val: T::Target,\n\
-    \        add_root: &impl Fn(&T::Target, usize, usize) -> T::Target,\n    ) {\n\
-    \        // \u5DE6\u53F3\u304B\u3089\u7D2F\u7A4D\u548C\u3092\u53D6\u3063\u3066\
-    \u304A\u304F\n        let mut buf = Vec::with_capacity(graph[v].len());\n    \
-    \    for &to in &graph[v] {\n            if to == p {\n                continue;\n\
-    \            } else {\n                buf.push(add_root(&self.subtree_memo[to],\
-    \ to, v));\n            }\n        }\n        let mut left_sum = vec![T::id_element();\
-    \ buf.len() + 1];\n        let mut right_sum = vec![T::id_element(); buf.len()\
-    \ + 1];\n        for i in 0..buf.len() {\n            left_sum[i + 1] = T::binary_operation(&left_sum[i],\
+    \    self.ans[root].clone()\n    }\n\n    fn dfs(&mut self, graph: &Vec<Vec<usize>>,\
+    \ v: usize, p: usize) {\n        for &to in &graph[v] {\n            if to ==\
+    \ p {\n                continue;\n            }\n            self.dfs(graph, to,\
+    \ v);\n            let memo = (self.add_root)(&self.subtree_memo[to], to, v);\n\
+    \            self.subtree_memo[v] = T::binary_operation(&self.subtree_memo[v],\
+    \ &memo);\n        }\n    }\n\n    fn bfs(&mut self, graph: &Vec<Vec<usize>>,\
+    \ v: usize, p: usize, par_val: T::Target) {\n        // \u5DE6\u53F3\u304B\u3089\
+    \u7D2F\u7A4D\u548C\u3092\u53D6\u3063\u3066\u304A\u304F\n        let mut buf =\
+    \ Vec::with_capacity(graph[v].len());\n        for &to in &graph[v] {\n      \
+    \      if to == p {\n                continue;\n            } else {\n       \
+    \         buf.push((self.add_root)(&self.subtree_memo[to], to, v));\n        \
+    \    }\n        }\n        let mut left_sum = vec![T::id_element(); buf.len()\
+    \ + 1];\n        let mut right_sum = vec![T::id_element(); buf.len() + 1];\n \
+    \       for i in 0..buf.len() {\n            left_sum[i + 1] = T::binary_operation(&left_sum[i],\
     \ &buf[i]);\n        }\n        for i in (0..buf.len()).rev() {\n            right_sum[i]\
     \ = T::binary_operation(&buf[i], &right_sum[i + 1]);\n        }\n        if p\
     \ == usize::MAX {\n            self.ans[v] = left_sum.last().unwrap().clone();\n\
@@ -72,15 +72,14 @@ data:
     \u3064\u3082\u90E8\u5206\u6728\u3092merge\u3057\u306A\u3044\u306A\u3089\u3001\
     leaf\u3092\u7528\u3044\u308B\n            let propagate = T::binary_operation(\n\
     \                &par_val,\n                &T::binary_operation(&left_sum[i],\
-    \ &right_sum[i + 1]),\n            );\n            let par_val = add_root(&propagate,\
-    \ v, to);\n            self.bfs(graph, to, v, par_val, add_root);\n        }\n\
-    \    }\n}\n"
+    \ &right_sum[i + 1]),\n            );\n            let par_val = (self.add_root)(&propagate,\
+    \ v, to);\n            self.bfs(graph, to, v, par_val);\n        }\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
   isVerificationFile: false
   path: crates/tree/rerooting/src/lib.rs
   requiredBy: []
-  timestamp: '2024-06-14 22:39:01+09:00'
+  timestamp: '2024-06-14 23:09:03+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc312g/src/main.rs

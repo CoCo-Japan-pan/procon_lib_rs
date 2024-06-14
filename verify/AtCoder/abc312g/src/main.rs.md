@@ -23,26 +23,27 @@ data:
   code: "// verification-helper: PROBLEM https://atcoder.jp/contests/abc312/tasks/abc312_g\n\
     \nuse algebra::{Commutative, Monoid};\nuse proconio::{fastout, input, marker::Usize1};\n\
     use rerooting::Rerooting;\n\n#[derive(Debug, Clone, Copy, PartialEq, Eq)]\nstruct\
-    \ DP {\n    prod: i64,\n    sum: i64,\n}\nimpl Monoid for DP {\n    type Target\
-    \ = Self;\n    fn id_element() -> Self::Target {\n        DP { prod: 0, sum: 0\
-    \ }\n    }\n    fn binary_operation(a: &Self::Target, b: &Self::Target) -> Self::Target\
-    \ {\n        DP {\n            prod: a.prod + b.prod + a.sum * b.sum,\n      \
-    \      sum: a.sum + b.sum,\n        }\n    }\n}\nimpl Commutative for DP {}\n\n\
-    #[fastout]\nfn main() {\n    input! {\n        n: usize,\n        a_b: [(Usize1,\
-    \ Usize1); n - 1],\n    }\n    let mut graph = vec![vec![]; n];\n    for &(a,\
-    \ b) in &a_b {\n        graph[a].push(b);\n        graph[b].push(a);\n    }\n\
-    \    let add_root = |subtree: &DP, _subtree_root: usize, _new_root: usize| DP\
-    \ {\n        prod: 0,\n        sum: subtree.sum + 1,\n    };\n    let rerooted\
-    \ = Rerooting::<DP>::new(&graph, &add_root);\n    let path: i64 = (0..n).map(|i|\
-    \ rerooted.get_ans(i).prod).sum();\n    let ans = (n as i64) * (n as i64 - 1)\
-    \ * (n as i64 - 2) / 6 - path;\n    println!(\"{}\", ans);\n}\n"
+    \ DP {\n    prod: i64,\n    sum: i64,\n}\nstruct MyMonoid {}\nimpl Monoid for\
+    \ MyMonoid {\n    type Target = DP;\n    fn id_element() -> Self::Target {\n \
+    \       DP { prod: 0, sum: 0 }\n    }\n    fn binary_operation(a: &Self::Target,\
+    \ b: &Self::Target) -> Self::Target {\n        DP {\n            prod: a.prod\
+    \ + b.prod + a.sum * b.sum,\n            sum: a.sum + b.sum,\n        }\n    }\n\
+    }\nimpl Commutative for MyMonoid {}\n\n#[fastout]\nfn main() {\n    input! {\n\
+    \        n: usize,\n        a_b: [(Usize1, Usize1); n - 1],\n    }\n    let mut\
+    \ graph = vec![vec![]; n];\n    for &(a, b) in &a_b {\n        graph[a].push(b);\n\
+    \        graph[b].push(a);\n    }\n    let add_root = |subtree: &DP, _subtree_root:\
+    \ usize, _new_root: usize| DP {\n        prod: 0,\n        sum: subtree.sum +\
+    \ 1,\n    };\n    let rerooted = Rerooting::new(&graph, &add_root, MyMonoid {});\n\
+    \    let path: i64 = (0..n).map(|i| rerooted.get_ans(i).prod).sum();\n    let\
+    \ ans = (n as i64) * (n as i64 - 1) * (n as i64 - 2) / 6 - path;\n    println!(\"\
+    {}\", ans);\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
   - crates/tree/rerooting/src/lib.rs
   isVerificationFile: true
   path: verify/AtCoder/abc312g/src/main.rs
   requiredBy: []
-  timestamp: '2024-06-14 22:39:01+09:00'
+  timestamp: '2024-06-14 23:09:03+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AtCoder/abc312g/src/main.rs

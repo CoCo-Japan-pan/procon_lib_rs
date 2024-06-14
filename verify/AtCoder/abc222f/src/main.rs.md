@@ -35,7 +35,7 @@ data:
     \ &u64, subtree_root: usize, new_root: usize| {\n        let edge_cost = edge_cost\n\
     \            .get(&(subtree_root.min(new_root), subtree_root.max(new_root)))\n\
     \            .unwrap();\n        subtree.max(&d[subtree_root]) + edge_cost\n \
-    \   };\n    let rerooted = Rerooting::<MaxMonoid>::new(&graph, &add_root);\n \
+    \   };\n    let rerooted = Rerooting::new(&graph, add_root, MaxMonoid {});\n \
     \   for i in 0..n {\n        println!(\"{}\", rerooted.get_ans(i));\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
@@ -43,7 +43,7 @@ data:
   isVerificationFile: true
   path: verify/AtCoder/abc222f/src/main.rs
   requiredBy: []
-  timestamp: '2024-06-14 22:39:01+09:00'
+  timestamp: '2024-06-14 23:09:03+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AtCoder/abc222f/src/main.rs
