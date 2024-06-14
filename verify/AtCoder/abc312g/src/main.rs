@@ -9,9 +9,8 @@ struct DP {
     prod: i64,
     sum: i64,
 }
-struct MyMonoid {}
-impl Monoid for MyMonoid {
-    type Target = DP;
+impl Monoid for DP {
+    type Target = Self;
     fn id_element() -> Self::Target {
         DP { prod: 0, sum: 0 }
     }
@@ -22,7 +21,7 @@ impl Monoid for MyMonoid {
         }
     }
 }
-impl Commutative for MyMonoid {}
+impl Commutative for DP {}
 
 #[fastout]
 fn main() {
@@ -39,7 +38,7 @@ fn main() {
         prod: 0,
         sum: subtree.sum + 1,
     };
-    let rerooted = Rerooting::new(&graph, &add_root, MyMonoid {});
+    let rerooted = Rerooting::<DP, _>::new(&graph, &add_root);
     let path: i64 = (0..n).map(|i| rerooted.get_ans(i).prod).sum();
     let ans = (n as i64) * (n as i64 - 1) * (n as i64 - 2) / 6 - path;
     println!("{}", ans);

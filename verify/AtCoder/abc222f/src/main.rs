@@ -39,7 +39,7 @@ fn main() {
             .unwrap();
         subtree.max(&d[subtree_root]) + edge_cost
     };
-    let rerooted = Rerooting::new(&graph, add_root, MaxMonoid {});
+    let rerooted = Rerooting::<MaxMonoid, _>::new(&graph, add_root);
     for i in 0..n {
         println!("{}", rerooted.get_ans(i));
     }

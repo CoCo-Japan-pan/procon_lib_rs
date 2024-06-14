@@ -18,8 +18,8 @@ impl<M: Monoid + Commutative, F: FnMut(&M::Target, usize, usize) -> M::Target> R
     /// モノイド`M`は`add_root`によりできた「部分木+一辺」同士をmergeする関数を二項演算として持つ  
     /// `add_root(subtree: &M::Target, subtree_root: usize, new_root: usize) -> M::Target`  
     /// 部分木に頂点 `subtree_root → new_root` の辺を追加する  
-    /// `_monoid`は型推論のためだけに使っています  
-    pub fn new(graph: &Vec<Vec<usize>>, add_root: F, _monoid: M) -> Self {
+    /// モノイドの型指定のために、`Rerooting::<Monoid, _>::new(..)`として下さい  
+    pub fn new(graph: &Vec<Vec<usize>>, add_root: F) -> Self {
         let vertex_cnt = graph.len();
         let subtree_memo = vec![M::id_element(); vertex_cnt];
         let ans = vec![M::id_element(); vertex_cnt];
