@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/tree/rerooting/src/lib.rs
     title: crates/tree/rerooting/src/lib.rs
   _extendedRequiredBy: []
@@ -43,7 +43,7 @@ data:
   isVerificationFile: true
   path: verify/AtCoder/abc222f/src/main.rs
   requiredBy: []
-  timestamp: '2024-06-14 23:09:03+09:00'
+  timestamp: '2024-06-15 00:56:02+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AtCoder/abc222f/src/main.rs

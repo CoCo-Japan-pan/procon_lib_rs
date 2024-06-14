@@ -3,7 +3,7 @@ data:
   libraryCategories:
   - name: crates/algebra/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/algebra/src/lib.rs
       title: crates/algebra/src/lib.rs
   - name: crates/data_structure/dual_segtree/src
@@ -163,7 +163,7 @@ data:
       title: crates/tree/hld/src/lib.rs
   - name: crates/tree/rerooting/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/tree/rerooting/src/lib.rs
       title: crates/tree/rerooting/src/lib.rs
   - name: verify/yosupo/eulerian_trail_directed/src
@@ -244,7 +244,7 @@ data:
       title: verify/AtCoder/abc294g/src/main.rs
   - name: verify/AtCoder/abc312g/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/AtCoder/abc312g/src/main.rs
       title: verify/AtCoder/abc312g/src/main.rs
   - name: verify/AtCoder/abc328f/src
