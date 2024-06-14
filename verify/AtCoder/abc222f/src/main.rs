@@ -2,12 +2,8 @@
 
 use algebra::{Commutative, Monoid};
 use proconio::{fastout, input, marker::Usize1};
-use rerooting::{Rerootable, Rerooting};
+use rerooting::Rerooting;
 use rustc_hash::FxHashMap;
-use std::sync::OnceLock;
-
-static EDGE_COST: OnceLock<FxHashMap<(usize, usize), u64>> = OnceLock::new();
-static VERTEX_COST: OnceLock<Vec<u64>> = OnceLock::new();
 
 pub struct MaxMonoid {}
 impl Monoid for MaxMonoid {
@@ -20,20 +16,6 @@ impl Monoid for MaxMonoid {
     }
 }
 impl Commutative for MaxMonoid {}
-pub struct DP {}
-impl Rerootable for DP {
-    type DPMonoid = MaxMonoid;
-    fn add_root(
-        subtree: &<Self::DPMonoid as Monoid>::Target,
-        subtree_root: usize,
-        new_root: usize,
-    ) -> <Self::DPMonoid as Monoid>::Target {
-        let min_v = subtree_root.min(new_root);
-        let max_v = subtree_root.max(new_root);
-        let edge_cost = EDGE_COST.get().unwrap().get(&(min_v, max_v)).unwrap();
-        subtree.max(&VERTEX_COST.get().unwrap()[subtree_root]) + edge_cost
-    }
-}
 
 #[fastout]
 fn main() {
@@ -47,16 +29,17 @@ fn main() {
         graph[*a].push(*b);
         graph[*b].push(*a);
     }
-    EDGE_COST
-        .set(
-            a_b_c
-                .into_iter()
-                .map(|(a, b, c)| ((a.min(b), a.max(b)), c))
-                .collect(),
-        )
-        .unwrap();
-    VERTEX_COST.set(d).unwrap();
-    let rerooted = Rerooting::<DP>::new(&graph);
+    let edge_cost: FxHashMap<(usize, usize), u64> = a_b_c
+        .into_iter()
+        .map(|(a, b, c)| ((a.min(b), a.max(b)), c))
+        .collect();
+    let add_root = |subtree: &u64, subtree_root: usize, new_root: usize| {
+        let edge_cost = edge_cost
+            .get(&(subtree_root.min(new_root), subtree_root.max(new_root)))
+            .unwrap();
+        subtree.max(&d[subtree_root]) + edge_cost
+    };
+    let rerooted = Rerooting::<MaxMonoid>::new(&graph, &add_root);
     for i in 0..n {
         println!("{}", rerooted.get_ans(i));
     }

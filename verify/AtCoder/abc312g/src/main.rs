@@ -2,7 +2,7 @@
 
 use algebra::{Commutative, Monoid};
 use proconio::{fastout, input, marker::Usize1};
-use rerooting::{Rerootable, Rerooting};
+use rerooting::Rerooting;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 struct DP {
@@ -22,20 +22,6 @@ impl Monoid for DP {
     }
 }
 impl Commutative for DP {}
-impl Rerootable for DP {
-    type DPMonoid = DP;
-    #[allow(unused_variables)]
-    fn add_root(
-        subtree: &<Self::DPMonoid as Monoid>::Target,
-        subtree_root: usize,
-        new_root: usize,
-    ) -> <Self::DPMonoid as Monoid>::Target {
-        DP {
-            prod: 0,
-            sum: subtree.sum + 1,
-        }
-    }
-}
 
 #[fastout]
 fn main() {
@@ -48,7 +34,11 @@ fn main() {
         graph[a].push(b);
         graph[b].push(a);
     }
-    let rerooted = Rerooting::<DP>::new(&graph);
+    let add_root = |subtree: &DP, _subtree_root: usize, _new_root: usize| DP {
+        prod: 0,
+        sum: subtree.sum + 1,
+    };
+    let rerooted = Rerooting::<DP>::new(&graph, &add_root);
     let path: i64 = (0..n).map(|i| rerooted.get_ans(i).prod).sum();
     let ans = (n as i64) * (n as i64 - 1) * (n as i64 - 2) / 6 - path;
     println!("{}", ans);
