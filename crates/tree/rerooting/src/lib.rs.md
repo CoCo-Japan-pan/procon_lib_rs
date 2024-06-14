@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   _extendedRequiredBy: []
@@ -9,12 +9,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/AtCoder/abc222f/src/main.rs
     title: verify/AtCoder/abc222f/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/AtCoder/abc312g/src/main.rs
     title: verify/AtCoder/abc312g/src/main.rs
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -40,20 +40,20 @@ data:
     \u3068\u3057\u3066\u6301\u3064  \n    /// `add_root(subtree: &M::Target, subtree_root:\
     \ usize, new_root: usize) -> M::Target`  \n    /// \u90E8\u5206\u6728\u306B\u9802\
     \u70B9 `subtree_root \u2192 new_root` \u306E\u8FBA\u3092\u8FFD\u52A0\u3059\u308B\
-    \  \n    /// `_monoid`\u306F\u578B\u63A8\u8AD6\u306E\u305F\u3081\u3060\u3051\u306B\
-    \u4F7F\u3063\u3066\u3044\u307E\u3059  \n    pub fn new(graph: &Vec<Vec<usize>>,\
-    \ add_root: F, _monoid: M) -> Self {\n        let vertex_cnt = graph.len();\n\
-    \        let subtree_memo = vec![M::id_element(); vertex_cnt];\n        let ans\
-    \ = vec![M::id_element(); vertex_cnt];\n        let mut ret = Self {\n       \
-    \     vertex_cnt,\n            subtree_memo,\n            ans,\n            add_root,\n\
-    \        };\n        ret.dfs(graph, 0, usize::MAX);\n        ret.bfs(graph, 0,\
-    \ usize::MAX, M::id_element());\n        ret\n    }\n\n    pub fn get_ans(&self,\
-    \ root: usize) -> M::Target {\n        assert!(root < self.vertex_cnt);\n    \
-    \    self.ans[root].clone()\n    }\n\n    fn dfs(&mut self, graph: &Vec<Vec<usize>>,\
-    \ v: usize, p: usize) {\n        for &to in &graph[v] {\n            if to ==\
-    \ p {\n                continue;\n            }\n            self.dfs(graph, to,\
-    \ v);\n            let memo = (self.add_root)(&self.subtree_memo[to], to, v);\n\
-    \            self.subtree_memo[v] = M::binary_operation(&self.subtree_memo[v],\
+    \  \n    /// \u30E2\u30CE\u30A4\u30C9\u306E\u578B\u6307\u5B9A\u306E\u305F\u3081\
+    \u306B\u3001`Rerooting::<Monoid, _>::new(..)`\u3068\u3057\u3066\u4E0B\u3055\u3044\
+    \  \n    pub fn new(graph: &Vec<Vec<usize>>, add_root: F) -> Self {\n        let\
+    \ vertex_cnt = graph.len();\n        let subtree_memo = vec![M::id_element();\
+    \ vertex_cnt];\n        let ans = vec![M::id_element(); vertex_cnt];\n       \
+    \ let mut ret = Self {\n            vertex_cnt,\n            subtree_memo,\n \
+    \           ans,\n            add_root,\n        };\n        ret.dfs(graph, 0,\
+    \ usize::MAX);\n        ret.bfs(graph, 0, usize::MAX, M::id_element());\n    \
+    \    ret\n    }\n\n    pub fn get_ans(&self, root: usize) -> M::Target {\n   \
+    \     assert!(root < self.vertex_cnt);\n        self.ans[root].clone()\n    }\n\
+    \n    fn dfs(&mut self, graph: &Vec<Vec<usize>>, v: usize, p: usize) {\n     \
+    \   for &to in &graph[v] {\n            if to == p {\n                continue;\n\
+    \            }\n            self.dfs(graph, to, v);\n            let memo = (self.add_root)(&self.subtree_memo[to],\
+    \ to, v);\n            self.subtree_memo[v] = M::binary_operation(&self.subtree_memo[v],\
     \ &memo);\n        }\n    }\n\n    fn bfs(&mut self, graph: &Vec<Vec<usize>>,\
     \ v: usize, p: usize, par_val: M::Target) {\n        // \u5DE6\u53F3\u304B\u3089\
     \u7D2F\u7A4D\u548C\u3092\u53D6\u3063\u3066\u304A\u304F\n        let mut buf =\
@@ -79,8 +79,8 @@ data:
   isVerificationFile: false
   path: crates/tree/rerooting/src/lib.rs
   requiredBy: []
-  timestamp: '2024-06-15 00:56:02+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  timestamp: '2024-06-15 01:06:10+09:00'
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc312g/src/main.rs
   - verify/AtCoder/abc222f/src/main.rs
