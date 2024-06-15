@@ -61,6 +61,9 @@ data:
     path: verify/AtCoder/abc328f/src/main.rs
     title: verify/AtCoder/abc328f/src/main.rs
   - icon: ':heavy_check_mark:'
+    path: verify/AtCoder/abc348e/src/main.rs
+    title: verify/AtCoder/abc348e/src/main.rs
+  - icon: ':heavy_check_mark:'
     path: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
     title: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   - icon: ':heavy_check_mark:'
@@ -157,6 +160,7 @@ data:
   - verify/yukicoder/no_1625/src/main.rs
   - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   - verify/AtCoder/abc312g/src/main.rs
+  - verify/AtCoder/abc348e/src/main.rs
   - verify/AtCoder/abc328f/src/main.rs
   - verify/AtCoder/abc222f/src/main.rs
   - verify/AOJ/dsl_2d_dual_seg/src/main.rs
