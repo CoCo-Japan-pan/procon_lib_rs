@@ -1,4 +1,4 @@
-// verification-helper: PROBLEM https://atcoder.jp/contests/typical90/tasks/typical90_bp
+//! https://atcoder.jp/contests/typical90/tasks/typical90_bp
 
 use algebra::{Group, Monoid};
 use potentialized_union_find::PotentializedUnionFind;
