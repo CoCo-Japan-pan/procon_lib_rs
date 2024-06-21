@@ -8,7 +8,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/lazy_segtree/src/lib.rs
     title: crates/data_structure/lazy_segtree/src/lib.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: crates/data_structure/potentialized_union_find/src/lib.rs
     title: crates/data_structure/potentialized_union_find/src/lib.rs
   - icon: ':heavy_check_mark:'
@@ -32,6 +32,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/tree/rerooting/src/lib.rs
     title: crates/tree/rerooting/src/lib.rs
+  - icon: ':warning:'
+    path: verify/AtCoder/tessoku_068/src/main.rs
+    title: verify/AtCoder/tessoku_068/src/main.rs
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: verify/AOJ/dsl_2d_dual_seg/src/main.rs
@@ -57,7 +60,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/AtCoder/abc312g/src/main.rs
     title: verify/AtCoder/abc312g/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/AtCoder/abc328f/src/main.rs
     title: verify/AtCoder/abc328f/src/main.rs
   - icon: ':heavy_check_mark:'
@@ -66,9 +69,6 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
     title: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
-  - icon: ':x:'
-    path: verify/AtCoder/tessoku_068/src/main.rs
-    title: verify/AtCoder/tessoku_068/src/main.rs
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/point_set_range_composite/src/main.rs
     title: verify/yosupo/point_set_range_composite/src/main.rs
@@ -84,9 +84,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yukicoder/no_1625/src/main.rs
     title: verify/yukicoder/no_1625/src/main.rs
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -157,14 +157,14 @@ data:
   - crates/data_structure/sparse_table_on_segtree/src/lib.rs
   - crates/math/matrix/src/lib.rs
   - crates/tree/rerooting/src/lib.rs
+  - verify/AtCoder/tessoku_068/src/main.rs
   timestamp: '2024-04-30 14:58:07+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc312g/src/main.rs
   - verify/AtCoder/abc328f/src/main.rs
   - verify/AtCoder/abc222f/src/main.rs
   - verify/AtCoder/abc348e/src/main.rs
-  - verify/AtCoder/tessoku_068/src/main.rs
   - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   - verify/yukicoder/no_1625/src/main.rs
   - verify/yosupo/staticrmq_sparse_table/src/main.rs
