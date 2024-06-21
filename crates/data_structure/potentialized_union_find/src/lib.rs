@@ -80,7 +80,7 @@ impl<M: Group + Commutative> PotentializedUnionFind<M> {
             } else {
                 &buf[0].1
             };
-            let new_diff = M::binary_operation(diff, par_pot);
+            let new_diff = M::binary_operation(par_pot, diff);
             pot[v] = Diff(leader, new_diff);
         }
         match pot[x] {
