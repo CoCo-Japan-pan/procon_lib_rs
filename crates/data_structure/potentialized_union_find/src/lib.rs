@@ -1,6 +1,6 @@
 //! ポテンシャル付きUnion-Find  
-//! 可換群を載せる  
-use algebra::{Commutative, Group};
+//! 群を載せる  
+use algebra::Group;
 use std::cell::RefCell;
 use DiffOrSize::*;
 
@@ -13,12 +13,12 @@ enum DiffOrSize<M> {
 }
 
 #[derive(Debug)]
-pub struct PotentializedUnionFind<M: Group + Commutative> {
+pub struct PotentializedUnionFind<M: Group> {
     n: usize,
     potential: RefCell<Vec<DiffOrSize<M::Target>>>,
 }
 
-impl<M: Group + Commutative> PotentializedUnionFind<M> {
+impl<M: Group> PotentializedUnionFind<M> {
     pub fn new(size: usize) -> Self {
         PotentializedUnionFind {
             n: size,
