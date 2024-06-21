@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   _extendedRequiredBy: []
@@ -86,8 +86,8 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc312g/src/main.rs
-  - verify/AtCoder/abc348e/src/main.rs
   - verify/AtCoder/abc222f/src/main.rs
+  - verify/AtCoder/abc348e/src/main.rs
 documentation_of: crates/tree/rerooting/src/lib.rs
 layout: document
 redirect_from:

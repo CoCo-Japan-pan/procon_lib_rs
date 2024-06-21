@@ -78,11 +78,11 @@ data:
   timestamp: '2024-04-14 12:40:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/yukicoder/no_649_fenwick_tree/src/main.rs
   - verify/AtCoder/abc294g/src/main.rs
+  - verify/yukicoder/no_649_fenwick_tree/src/main.rs
   - verify/yosupo/static_range_inversions_query/src/main.rs
-  - verify/yosupo/vertex_add_path_sum/src/main.rs
   - verify/yosupo/vertex_add_subtree_sum/src/main.rs
+  - verify/yosupo/vertex_add_path_sum/src/main.rs
 documentation_of: crates/data_structure/fenwick_tree/src/lib.rs
 layout: document
 redirect_from:

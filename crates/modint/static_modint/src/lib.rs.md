@@ -161,14 +161,14 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc290f/src/main.rs
-  - verify/yosupo/convolution_mod_1000000007_ntt/src/main.rs
-  - verify/yosupo/point_set_range_composite/src/main.rs
-  - verify/yosupo/inv_of_formal_power_series/src/main.rs
+  - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
   - verify/yosupo/convolution_ntt/src/main.rs
   - verify/yosupo/vertex_set_path_composite/src/main.rs
   - verify/yosupo/log_of_formal_power_series/src/main.rs
   - verify/yosupo/exp_of_formal_power_series/src/main.rs
-  - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
+  - verify/yosupo/convolution_mod_1000000007_ntt/src/main.rs
+  - verify/yosupo/point_set_range_composite/src/main.rs
+  - verify/yosupo/inv_of_formal_power_series/src/main.rs
 documentation_of: crates/modint/static_modint/src/lib.rs
 layout: document
 redirect_from:

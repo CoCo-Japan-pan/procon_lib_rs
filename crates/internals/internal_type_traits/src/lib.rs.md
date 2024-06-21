@@ -56,9 +56,9 @@ data:
   isVerificationFile: false
   path: crates/internals/internal_type_traits/src/lib.rs
   requiredBy:
-  - crates/data_structure/segtree_2d_compressed/src/lib.rs
   - crates/flow/maxflow/src/lib.rs
   - crates/flow/maxflow_lower_bound/src/lib.rs
+  - crates/data_structure/segtree_2d_compressed/src/lib.rs
   - crates/math/matrix/src/lib.rs
   - crates/modint/static_modint/src/lib.rs
   - crates/modint/dynamic_modint/src/lib.rs

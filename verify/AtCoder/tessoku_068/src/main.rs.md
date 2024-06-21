@@ -1,0 +1,64 @@
+---
+data:
+  _extendedDependsOn:
+  - icon: ':question:'
+    path: crates/algebra/src/lib.rs
+    title: crates/algebra/src/lib.rs
+  - icon: ':x:'
+    path: crates/data_structure/potentialized_union_find/src/lib.rs
+    title: crates/data_structure/potentialized_union_find/src/lib.rs
+  _extendedRequiredBy: []
+  _extendedVerifiedWith: []
+  _isVerificationFailed: true
+  _pathExtension: rs
+  _verificationStatusIcon: ':x:'
+  attributes:
+    PROBLEM: https://atcoder.jp/contests/typical90/tasks/typical90_bp
+    links:
+    - https://atcoder.jp/contests/typical90/tasks/typical90_bp
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
+    , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
+    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
+    , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
+  code: "// verification-helper: PROBLEM https://atcoder.jp/contests/typical90/tasks/typical90_bp\n\
+    \nuse algebra::{Group, Monoid};\nuse potentialized_union_find::PotentializedUnionFind;\n\
+    use proconio::{fastout, input, marker::Usize1};\n\n/// y = +-x + bias \u3092\u8868\
+    \u3059\u7FA4\n#[derive(Debug, Clone, Copy, PartialEq, Eq)]\nstruct AffineGroup\
+    \ {\n    keisuu: bool,\n    bias: i64,\n}\n\nimpl AffineGroup {\n    fn apply(&self,\
+    \ x: i64) -> i64 {\n        if self.keisuu {\n            x + self.bias\n    \
+    \    } else {\n            self.bias - x\n        }\n    }\n}\n\nimpl Monoid for\
+    \ AffineGroup {\n    type Target = Self;\n    fn binary_operation(a: &Self::Target,\
+    \ b: &Self::Target) -> Self::Target {\n        AffineGroup {\n            keisuu:\
+    \ !(a.keisuu ^ b.keisuu),\n            bias: if b.keisuu {\n                b.bias\
+    \ + a.bias\n            } else {\n                b.bias - a.bias\n          \
+    \  },\n        }\n    }\n    fn id_element() -> Self::Target {\n        Self {\n\
+    \            keisuu: true,\n            bias: 0,\n        }\n    }\n}\n\nimpl\
+    \ Group for AffineGroup {\n    fn inverse(a: &Self::Target) -> Self::Target {\n\
+    \        Self {\n            keisuu: a.keisuu,\n            bias: if a.keisuu\
+    \ { -a.bias } else { a.bias },\n        }\n    }\n}\n\n#[fastout]\nfn main() {\n\
+    \    input! {\n        n: usize,\n        q: usize,\n    }\n    let mut uf = PotentializedUnionFind::<AffineGroup>::new(n);\n\
+    \    for _ in 0..q {\n        input! {\n            t: u8,\n            x: Usize1,\n\
+    \            y: Usize1,\n            v: i64,\n        }\n        if t == 0 {\n\
+    \            // y = -x + v\n            uf.relate(\n                x,\n     \
+    \           y,\n                AffineGroup {\n                    keisuu: false,\n\
+    \                    bias: v,\n                },\n            )\n           \
+    \ .unwrap();\n        } else {\n            let diff = uf.diff(x, y);\n      \
+    \      if let Some(diff) = diff {\n                println!(\"{}\", diff.apply(v));\n\
+    \            } else {\n                println!(\"Ambiguous\");\n            }\n\
+    \        }\n    }\n}\n"
+  dependsOn:
+  - crates/algebra/src/lib.rs
+  - crates/data_structure/potentialized_union_find/src/lib.rs
+  isVerificationFile: true
+  path: verify/AtCoder/tessoku_068/src/main.rs
+  requiredBy: []
+  timestamp: '2024-06-21 18:01:05+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
+  verifiedWith: []
+documentation_of: verify/AtCoder/tessoku_068/src/main.rs
+layout: document
+redirect_from:
+- /verify/verify/AtCoder/tessoku_068/src/main.rs
+- /verify/verify/AtCoder/tessoku_068/src/main.rs.html
+title: verify/AtCoder/tessoku_068/src/main.rs
+---

@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: crates/data_structure/potentialized_union_find/src/lib.rs
     title: crates/data_structure/potentialized_union_find/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     PROBLEM: https://atcoder.jp/contests/abc328/tasks/abc328_f
     links:
@@ -39,8 +39,8 @@ data:
   isVerificationFile: true
   path: verify/AtCoder/abc328f/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-30 14:58:07+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2024-06-21 18:01:05+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: verify/AtCoder/abc328f/src/main.rs
 layout: document
