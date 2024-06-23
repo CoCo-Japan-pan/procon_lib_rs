@@ -30,6 +30,7 @@ pub struct EulerTour {
 }
 
 impl EulerTour {
+    /// SparseTableを構築しているので、`O(NlogN)`
     pub fn new(graph: &[Vec<usize>], root: usize) -> Self {
         let n = graph.len();
         struct Cls<'a> {
@@ -73,6 +74,7 @@ impl EulerTour {
         }
     }
 
+    /// SparseTableを用いているので、`O(1)`
     pub fn lca(&self, u: usize, v: usize) -> usize {
         let l = self.fst_occurrence[u];
         let r = self.fst_occurrence[v];
