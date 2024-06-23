@@ -37,7 +37,8 @@ data:
     \u6700\u521D\u306B\u51FA\u73FE\u3059\u308B\u30A4\u30F3\u30C7\u30C3\u30AF\u30B9\
     \n    pub fst_occurrence: Vec<usize>,\n    /// (\u6DF1\u3055\u3001\u9802\u70B9\
     )\u306E\u914D\u5217\u304B\u3089\u69CB\u6210\u3055\u308C\u308BSparseTable\n   \
-    \ sparse_table: SparseTable<MinMonoid>,\n}\n\nimpl EulerTour {\n    pub fn new(graph:\
+    \ sparse_table: SparseTable<MinMonoid>,\n}\n\nimpl EulerTour {\n    /// SparseTable\u3092\
+    \u69CB\u7BC9\u3057\u3066\u3044\u308B\u306E\u3067\u3001`O(NlogN)`\n    pub fn new(graph:\
     \ &[Vec<usize>], root: usize) -> Self {\n        let n = graph.len();\n      \
     \  struct Cls<'a> {\n            graph: &'a [Vec<usize>],\n            euler_tour_vertex:\
     \ Vec<usize>,\n            depth: Vec<usize>,\n        }\n        let mut cls\
@@ -57,6 +58,7 @@ data:
     \        let sparse_table = SparseTable::new(depth_vertex);\n        Self {\n\
     \            euler_tour_vertex: cls.euler_tour_vertex,\n            depth: cls.depth,\n\
     \            fst_occurrence,\n            sparse_table,\n        }\n    }\n\n\
+    \    /// SparseTable\u3092\u7528\u3044\u3066\u3044\u308B\u306E\u3067\u3001`O(1)`\n\
     \    pub fn lca(&self, u: usize, v: usize) -> usize {\n        let l = self.fst_occurrence[u];\n\
     \        let r = self.fst_occurrence[v];\n        let (l, r) = (l.min(r), l.max(r));\n\
     \        self.sparse_table.prod(l..=r).1\n    }\n\n    pub fn lca_multiple(&self,\
@@ -71,7 +73,7 @@ data:
   isVerificationFile: false
   path: crates/tree/euler_tour/src/lib.rs
   requiredBy: []
-  timestamp: '2024-06-23 10:54:56+09:00'
+  timestamp: '2024-06-23 11:14:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/lca_euler_tour/src/main.rs

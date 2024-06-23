@@ -30,7 +30,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/lca_euler_tour/src/main.rs
   requiredBy: []
-  timestamp: '2024-06-23 10:54:56+09:00'
+  timestamp: '2024-06-23 11:14:51+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/lca_euler_tour/src/main.rs
