@@ -7,3 +7,4 @@
 ## 将来追加したいもの
 - kD-tree
 - segment tree beats
+- wavelet matrix
