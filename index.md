@@ -181,6 +181,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/tree/rerooting/src/lib.rs
       title: crates/tree/rerooting/src/lib.rs
+  - name: verify/AtCoder/abc359g/src
+    pages:
+    - icon: ':warning:'
+      path: verify/AtCoder/abc359g/src/main.rs
+      title: verify/AtCoder/abc359g/src/main.rs
   - name: verify/AtCoder/tessoku_068/src
     pages:
     - icon: ':warning:'

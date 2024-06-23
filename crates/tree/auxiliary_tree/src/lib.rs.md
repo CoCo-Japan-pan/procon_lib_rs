@@ -4,7 +4,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/tree/euler_tour/src/lib.rs
     title: crates/tree/euler_tour/src/lib.rs
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: verify/AtCoder/abc359g/src/main.rs
+    title: verify/AtCoder/abc359g/src/main.rs
   _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: rs
@@ -84,7 +87,8 @@ data:
   - crates/tree/euler_tour/src/lib.rs
   isVerificationFile: false
   path: crates/tree/auxiliary_tree/src/lib.rs
-  requiredBy: []
+  requiredBy:
+  - verify/AtCoder/abc359g/src/main.rs
   timestamp: '2024-06-23 15:56:36+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
