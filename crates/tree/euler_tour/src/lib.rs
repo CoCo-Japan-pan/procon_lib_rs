@@ -24,7 +24,9 @@ pub struct EulerTour {
     /// 各頂点の深さ
     pub depth: Vec<usize>,
     /// オイラーツアーにおいて、各頂点が最初に出現するインデックス
-    pub fst_occurrence: Vec<usize>,
+    pub first_occurrence: Vec<usize>,
+    /// オイラーツアーにおいて、各頂点が最後に出現するインデックス
+    pub last_occurrence: Vec<usize>,
     /// (深さ、頂点)の配列から構成されるSparseTable
     sparse_table: SparseTable<MinMonoid>,
 }
@@ -55,9 +57,11 @@ impl EulerTour {
             }
         }
         dfs(&mut cls, root, n);
-        let mut fst_occurrence = vec![usize::MAX; n];
+        let mut first_occurrence = vec![usize::MAX; n];
+        let mut last_occurrence = vec![0; n];
         for (i, &v) in cls.euler_tour_vertex.iter().enumerate() {
-            fst_occurrence[v] = fst_occurrence[v].min(i);
+            first_occurrence[v] = first_occurrence[v].min(i);
+            last_occurrence[v] = i;
         }
         // オイラーツアーの深さと頂点のペアからなる配列を作成
         let depth_vertex = cls
@@ -69,15 +73,16 @@ impl EulerTour {
         Self {
             euler_tour_vertex: cls.euler_tour_vertex,
             depth: cls.depth,
-            fst_occurrence,
+            first_occurrence,
+            last_occurrence,
             sparse_table,
         }
     }
 
     /// SparseTableを用いているので、`O(1)`
     pub fn lca(&self, u: usize, v: usize) -> usize {
-        let l = self.fst_occurrence[u];
-        let r = self.fst_occurrence[v];
+        let l = self.first_occurrence[u];
+        let r = self.first_occurrence[v];
         let (l, r) = (l.min(r), l.max(r));
         self.sparse_table.prod(l..=r).1
     }
@@ -85,12 +90,12 @@ impl EulerTour {
     pub fn lca_multiple(&self, vertex_list: &[usize]) -> usize {
         let l = vertex_list
             .iter()
-            .map(|&v| self.fst_occurrence[v])
+            .map(|&v| self.first_occurrence[v])
             .min()
             .unwrap();
         let r = vertex_list
             .iter()
-            .map(|&v| self.fst_occurrence[v])
+            .map(|&v| self.first_occurrence[v])
             .max()
             .unwrap();
         self.sparse_table.prod(l..=r).1
