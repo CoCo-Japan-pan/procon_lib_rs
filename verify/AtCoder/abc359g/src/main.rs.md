@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: crates/tree/auxiliary_tree/src/lib.rs
     title: crates/tree/auxiliary_tree/src/lib.rs
   _extendedRequiredBy: []

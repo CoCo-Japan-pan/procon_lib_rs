@@ -8,10 +8,13 @@ data:
   - icon: ':warning:'
     path: verify/AtCoder/abc359g/src/main.rs
     title: verify/AtCoder/abc359g/src/main.rs
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: verify/AtCoder/abc340g/src/main.rs
+    title: verify/AtCoder/abc340g/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
     - https://atcoder.jp/contests/abc340/editorial/9249)
@@ -90,8 +93,9 @@ data:
   requiredBy:
   - verify/AtCoder/abc359g/src/main.rs
   timestamp: '2024-06-23 15:56:36+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - verify/AtCoder/abc340g/src/main.rs
 documentation_of: crates/tree/auxiliary_tree/src/lib.rs
 layout: document
 redirect_from:

@@ -163,7 +163,7 @@ data:
       title: crates/string/sa_lcp_array/src/lib.rs
   - name: crates/tree/auxiliary_tree/src
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: crates/tree/auxiliary_tree/src/lib.rs
       title: crates/tree/auxiliary_tree/src/lib.rs
   - name: crates/tree/euler_tour/src
@@ -277,6 +277,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/AtCoder/abc328f/src/main.rs
       title: verify/AtCoder/abc328f/src/main.rs
+  - name: verify/AtCoder/abc340g/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/AtCoder/abc340g/src/main.rs
+      title: verify/AtCoder/abc340g/src/main.rs
   - name: verify/AtCoder/abc348e/src
     pages:
     - icon: ':heavy_check_mark:'
