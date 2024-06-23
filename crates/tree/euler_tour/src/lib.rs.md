@@ -7,7 +7,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/sparse_table/src/lib.rs
     title: crates/data_structure/sparse_table/src/lib.rs
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: crates/tree/auxiliary_tree/src/lib.rs
+    title: crates/tree/auxiliary_tree/src/lib.rs
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/lca_euler_tour/src/main.rs
@@ -35,45 +38,51 @@ data:
     \u70B9\u306E\u6DF1\u3055\n    pub depth: Vec<usize>,\n    /// \u30AA\u30A4\u30E9\
     \u30FC\u30C4\u30A2\u30FC\u306B\u304A\u3044\u3066\u3001\u5404\u9802\u70B9\u304C\
     \u6700\u521D\u306B\u51FA\u73FE\u3059\u308B\u30A4\u30F3\u30C7\u30C3\u30AF\u30B9\
-    \n    pub fst_occurrence: Vec<usize>,\n    /// (\u6DF1\u3055\u3001\u9802\u70B9\
-    )\u306E\u914D\u5217\u304B\u3089\u69CB\u6210\u3055\u308C\u308BSparseTable\n   \
-    \ sparse_table: SparseTable<MinMonoid>,\n}\n\nimpl EulerTour {\n    /// SparseTable\u3092\
-    \u69CB\u7BC9\u3057\u3066\u3044\u308B\u306E\u3067\u3001`O(NlogN)`\n    pub fn new(graph:\
-    \ &[Vec<usize>], root: usize) -> Self {\n        let n = graph.len();\n      \
-    \  struct Cls<'a> {\n            graph: &'a [Vec<usize>],\n            euler_tour_vertex:\
-    \ Vec<usize>,\n            depth: Vec<usize>,\n        }\n        let mut cls\
-    \ = Cls {\n            graph,\n            euler_tour_vertex: Vec::with_capacity(2\
-    \ * n - 1),\n            depth: vec![0; n],\n        };\n        fn dfs(cls: &mut\
-    \ Cls, v: usize, p: usize) {\n            cls.euler_tour_vertex.push(v);\n   \
-    \         for &nv in &cls.graph[v] {\n                if nv == p {\n         \
-    \           continue;\n                }\n                cls.depth[nv] = cls.depth[v]\
+    \n    pub first_occurrence: Vec<usize>,\n    /// \u30AA\u30A4\u30E9\u30FC\u30C4\
+    \u30A2\u30FC\u306B\u304A\u3044\u3066\u3001\u5404\u9802\u70B9\u304C\u6700\u5F8C\
+    \u306B\u51FA\u73FE\u3059\u308B\u30A4\u30F3\u30C7\u30C3\u30AF\u30B9\n    pub last_occurrence:\
+    \ Vec<usize>,\n    /// (\u6DF1\u3055\u3001\u9802\u70B9)\u306E\u914D\u5217\u304B\
+    \u3089\u69CB\u6210\u3055\u308C\u308BSparseTable\n    sparse_table: SparseTable<MinMonoid>,\n\
+    }\n\nimpl EulerTour {\n    /// SparseTable\u3092\u69CB\u7BC9\u3057\u3066\u3044\
+    \u308B\u306E\u3067\u3001`O(NlogN)`\n    pub fn new(graph: &[Vec<usize>], root:\
+    \ usize) -> Self {\n        let n = graph.len();\n        struct Cls<'a> {\n \
+    \           graph: &'a [Vec<usize>],\n            euler_tour_vertex: Vec<usize>,\n\
+    \            depth: Vec<usize>,\n        }\n        let mut cls = Cls {\n    \
+    \        graph,\n            euler_tour_vertex: Vec::with_capacity(2 * n - 1),\n\
+    \            depth: vec![0; n],\n        };\n        fn dfs(cls: &mut Cls, v:\
+    \ usize, p: usize) {\n            cls.euler_tour_vertex.push(v);\n           \
+    \ for &nv in &cls.graph[v] {\n                if nv == p {\n                 \
+    \   continue;\n                }\n                cls.depth[nv] = cls.depth[v]\
     \ + 1;\n                dfs(cls, nv, v);\n                cls.euler_tour_vertex.push(v);\n\
-    \            }\n        }\n        dfs(&mut cls, root, n);\n        let mut fst_occurrence\
-    \ = vec![usize::MAX; n];\n        for (i, &v) in cls.euler_tour_vertex.iter().enumerate()\
-    \ {\n            fst_occurrence[v] = fst_occurrence[v].min(i);\n        }\n  \
-    \      // \u30AA\u30A4\u30E9\u30FC\u30C4\u30A2\u30FC\u306E\u6DF1\u3055\u3068\u9802\
-    \u70B9\u306E\u30DA\u30A2\u304B\u3089\u306A\u308B\u914D\u5217\u3092\u4F5C\u6210\
-    \n        let depth_vertex = cls\n            .euler_tour_vertex\n           \
-    \ .iter()\n            .map(|&v| (cls.depth[v], v))\n            .collect();\n\
+    \            }\n        }\n        dfs(&mut cls, root, n);\n        let mut first_occurrence\
+    \ = vec![usize::MAX; n];\n        let mut last_occurrence = vec![0; n];\n    \
+    \    for (i, &v) in cls.euler_tour_vertex.iter().enumerate() {\n            first_occurrence[v]\
+    \ = first_occurrence[v].min(i);\n            last_occurrence[v] = i;\n       \
+    \ }\n        // \u30AA\u30A4\u30E9\u30FC\u30C4\u30A2\u30FC\u306E\u6DF1\u3055\u3068\
+    \u9802\u70B9\u306E\u30DA\u30A2\u304B\u3089\u306A\u308B\u914D\u5217\u3092\u4F5C\
+    \u6210\n        let depth_vertex = cls\n            .euler_tour_vertex\n     \
+    \       .iter()\n            .map(|&v| (cls.depth[v], v))\n            .collect();\n\
     \        let sparse_table = SparseTable::new(depth_vertex);\n        Self {\n\
     \            euler_tour_vertex: cls.euler_tour_vertex,\n            depth: cls.depth,\n\
-    \            fst_occurrence,\n            sparse_table,\n        }\n    }\n\n\
-    \    /// SparseTable\u3092\u7528\u3044\u3066\u3044\u308B\u306E\u3067\u3001`O(1)`\n\
-    \    pub fn lca(&self, u: usize, v: usize) -> usize {\n        let l = self.fst_occurrence[u];\n\
-    \        let r = self.fst_occurrence[v];\n        let (l, r) = (l.min(r), l.max(r));\n\
-    \        self.sparse_table.prod(l..=r).1\n    }\n\n    pub fn lca_multiple(&self,\
-    \ vertex_list: &[usize]) -> usize {\n        let l = vertex_list\n           \
-    \ .iter()\n            .map(|&v| self.fst_occurrence[v])\n            .min()\n\
-    \            .unwrap();\n        let r = vertex_list\n            .iter()\n  \
-    \          .map(|&v| self.fst_occurrence[v])\n            .max()\n           \
-    \ .unwrap();\n        self.sparse_table.prod(l..=r).1\n    }\n}\n"
+    \            first_occurrence,\n            last_occurrence,\n            sparse_table,\n\
+    \        }\n    }\n\n    /// SparseTable\u3092\u7528\u3044\u3066\u3044\u308B\u306E\
+    \u3067\u3001`O(1)`\n    pub fn lca(&self, u: usize, v: usize) -> usize {\n   \
+    \     let l = self.first_occurrence[u];\n        let r = self.first_occurrence[v];\n\
+    \        let (l, r) = (l.min(r), l.max(r));\n        self.sparse_table.prod(l..=r).1\n\
+    \    }\n\n    pub fn lca_multiple(&self, vertex_list: &[usize]) -> usize {\n \
+    \       let l = vertex_list\n            .iter()\n            .map(|&v| self.first_occurrence[v])\n\
+    \            .min()\n            .unwrap();\n        let r = vertex_list\n   \
+    \         .iter()\n            .map(|&v| self.first_occurrence[v])\n         \
+    \   .max()\n            .unwrap();\n        self.sparse_table.prod(l..=r).1\n\
+    \    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
   - crates/data_structure/sparse_table/src/lib.rs
   isVerificationFile: false
   path: crates/tree/euler_tour/src/lib.rs
-  requiredBy: []
-  timestamp: '2024-06-23 11:14:51+09:00'
+  requiredBy:
+  - crates/tree/auxiliary_tree/src/lib.rs
+  timestamp: '2024-06-23 14:12:06+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/lca_euler_tour/src/main.rs

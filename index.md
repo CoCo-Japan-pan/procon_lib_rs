@@ -161,6 +161,11 @@ data:
     - icon: ':warning:'
       path: crates/string/sa_lcp_array/src/lib.rs
       title: crates/string/sa_lcp_array/src/lib.rs
+  - name: crates/tree/auxiliary_tree/src
+    pages:
+    - icon: ':warning:'
+      path: crates/tree/auxiliary_tree/src/lib.rs
+      title: crates/tree/auxiliary_tree/src/lib.rs
   - name: crates/tree/euler_tour/src
     pages:
     - icon: ':heavy_check_mark:'
