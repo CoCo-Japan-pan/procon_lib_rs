@@ -30,6 +30,9 @@ data:
     path: crates/math/matrix/src/lib.rs
     title: crates/math/matrix/src/lib.rs
   - icon: ':heavy_check_mark:'
+    path: crates/tree/euler_tour/src/lib.rs
+    title: crates/tree/euler_tour/src/lib.rs
+  - icon: ':heavy_check_mark:'
     path: crates/tree/rerooting/src/lib.rs
     title: crates/tree/rerooting/src/lib.rs
   - icon: ':warning:'
@@ -157,6 +160,7 @@ data:
   - crates/data_structure/sparse_table_on_segtree/src/lib.rs
   - crates/math/matrix/src/lib.rs
   - crates/tree/rerooting/src/lib.rs
+  - crates/tree/euler_tour/src/lib.rs
   - verify/AtCoder/tessoku_068/src/main.rs
   timestamp: '2024-04-30 14:58:07+09:00'
   verificationStatus: LIBRARY_ALL_AC

@@ -161,6 +161,11 @@ data:
     - icon: ':warning:'
       path: crates/string/sa_lcp_array/src/lib.rs
       title: crates/string/sa_lcp_array/src/lib.rs
+  - name: crates/tree/euler_tour/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: crates/tree/euler_tour/src/lib.rs
+      title: crates/tree/euler_tour/src/lib.rs
   - name: crates/tree/hld/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -292,11 +297,16 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yosupo/inv_of_formal_power_series/src/main.rs
       title: verify/yosupo/inv_of_formal_power_series/src/main.rs
-  - name: verify/yosupo/lca/src
+  - name: verify/yosupo/lca_euler_tour/src
     pages:
     - icon: ':heavy_check_mark:'
-      path: verify/yosupo/lca/src/main.rs
-      title: verify/yosupo/lca/src/main.rs
+      path: verify/yosupo/lca_euler_tour/src/main.rs
+      title: verify/yosupo/lca_euler_tour/src/main.rs
+  - name: verify/yosupo/lca_hld/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yosupo/lca_hld/src/main.rs
+      title: verify/yosupo/lca_hld/src/main.rs
   - name: verify/yosupo/log_of_formal_power_series/src
     pages:
     - icon: ':heavy_check_mark:'

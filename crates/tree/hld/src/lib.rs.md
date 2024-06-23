@@ -10,8 +10,8 @@ data:
     path: verify/AtCoder/abc294g/src/main.rs
     title: verify/AtCoder/abc294g/src/main.rs
   - icon: ':heavy_check_mark:'
-    path: verify/yosupo/lca/src/main.rs
-    title: verify/yosupo/lca/src/main.rs
+    path: verify/yosupo/lca_hld/src/main.rs
+    title: verify/yosupo/lca_hld/src/main.rs
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/vertex_add_path_sum/src/main.rs
     title: verify/yosupo/vertex_add_path_sum/src/main.rs
@@ -137,8 +137,8 @@ data:
   verifiedWith:
   - verify/AtCoder/abc294g/src/main.rs
   - verify/yosupo/vertex_set_path_composite/src/main.rs
+  - verify/yosupo/lca_hld/src/main.rs
   - verify/yosupo/vertex_add_subtree_sum/src/main.rs
-  - verify/yosupo/lca/src/main.rs
   - verify/yosupo/vertex_add_path_sum/src/main.rs
   - verify/AOJ/no_2667/src/main.rs
 documentation_of: crates/tree/hld/src/lib.rs

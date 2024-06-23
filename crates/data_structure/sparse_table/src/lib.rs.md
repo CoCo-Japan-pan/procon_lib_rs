@@ -8,6 +8,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/sparse_table_on_segtree/src/lib.rs
     title: crates/data_structure/sparse_table_on_segtree/src/lib.rs
+  - icon: ':heavy_check_mark:'
+    path: crates/tree/euler_tour/src/lib.rs
+    title: crates/tree/euler_tour/src/lib.rs
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/staticrmq_sparse_table/src/main.rs
@@ -50,6 +53,7 @@ data:
   path: crates/data_structure/sparse_table/src/lib.rs
   requiredBy:
   - crates/data_structure/sparse_table_on_segtree/src/lib.rs
+  - crates/tree/euler_tour/src/lib.rs
   timestamp: '2024-04-30 14:58:07+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

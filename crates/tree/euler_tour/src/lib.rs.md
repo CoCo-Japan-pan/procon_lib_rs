@@ -1,0 +1,84 @@
+---
+data:
+  _extendedDependsOn:
+  - icon: ':heavy_check_mark:'
+    path: crates/algebra/src/lib.rs
+    title: crates/algebra/src/lib.rs
+  - icon: ':heavy_check_mark:'
+    path: crates/data_structure/sparse_table/src/lib.rs
+    title: crates/data_structure/sparse_table/src/lib.rs
+  _extendedRequiredBy: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: verify/yosupo/lca_euler_tour/src/main.rs
+    title: verify/yosupo/lca_euler_tour/src/main.rs
+  _isVerificationFailed: false
+  _pathExtension: rs
+  _verificationStatusIcon: ':heavy_check_mark:'
+  attributes:
+    links: []
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
+    , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
+    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
+    , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
+  code: "//! \u9802\u70B9\u306B\u7740\u76EE\u3057\u305F\u30AA\u30A4\u30E9\u30FC\u30C4\
+    \u30A2\u30FC  \n//! LCA\u3092RMQ\u306B\u5E30\u7740\u3055\u305B\u3066\u6C42\u3081\
+    \u3089\u308C\u308B  \n//! SparseTable\u3092\u7528\u3044\u308B\u306E\u3067\u524D\
+    \u6642\u9593`O(NlogN)`\u3001\u30AF\u30A8\u30EA\u6642\u9593`O(1)`  \nuse algebra::{IdempotentMonoid,\
+    \ Monoid};\nuse sparse_table::SparseTable;\n\n#[derive(Debug)]\nstruct MinMonoid;\n\
+    impl Monoid for MinMonoid {\n    type Target = (usize, usize);\n    fn id_element()\
+    \ -> Self::Target {\n        (usize::MAX, usize::MAX)\n    }\n    fn binary_operation(a:\
+    \ &Self::Target, b: &Self::Target) -> Self::Target {\n        *a.min(b)\n    }\n\
+    }\nimpl IdempotentMonoid for MinMonoid {}\n\n#[derive(Debug)]\npub struct EulerTour\
+    \ {\n    /// \u9802\u70B9\u306B\u7740\u76EE\u3057\u305F\u30AA\u30A4\u30E9\u30FC\
+    \u30C4\u30A2\u30FC\n    pub euler_tour_vertex: Vec<usize>,\n    /// \u5404\u9802\
+    \u70B9\u306E\u6DF1\u3055\n    pub depth: Vec<usize>,\n    /// \u30AA\u30A4\u30E9\
+    \u30FC\u30C4\u30A2\u30FC\u306B\u304A\u3044\u3066\u3001\u5404\u9802\u70B9\u304C\
+    \u6700\u521D\u306B\u51FA\u73FE\u3059\u308B\u30A4\u30F3\u30C7\u30C3\u30AF\u30B9\
+    \n    pub fst_occurrence: Vec<usize>,\n    /// (\u6DF1\u3055\u3001\u9802\u70B9\
+    )\u306E\u914D\u5217\u304B\u3089\u69CB\u6210\u3055\u308C\u308BSparseTable\n   \
+    \ sparse_table: SparseTable<MinMonoid>,\n}\n\nimpl EulerTour {\n    pub fn new(graph:\
+    \ &[Vec<usize>], root: usize) -> Self {\n        let n = graph.len();\n      \
+    \  struct Cls<'a> {\n            graph: &'a [Vec<usize>],\n            euler_tour_vertex:\
+    \ Vec<usize>,\n            depth: Vec<usize>,\n        }\n        let mut cls\
+    \ = Cls {\n            graph,\n            euler_tour_vertex: Vec::with_capacity(2\
+    \ * n - 1),\n            depth: vec![0; n],\n        };\n        fn dfs(cls: &mut\
+    \ Cls, v: usize, p: usize) {\n            cls.euler_tour_vertex.push(v);\n   \
+    \         for &nv in &cls.graph[v] {\n                if nv == p {\n         \
+    \           continue;\n                }\n                cls.depth[nv] = cls.depth[v]\
+    \ + 1;\n                dfs(cls, nv, v);\n                cls.euler_tour_vertex.push(v);\n\
+    \            }\n        }\n        dfs(&mut cls, root, n);\n        let mut fst_occurrence\
+    \ = vec![usize::MAX; n];\n        for (i, &v) in cls.euler_tour_vertex.iter().enumerate()\
+    \ {\n            fst_occurrence[v] = fst_occurrence[v].min(i);\n        }\n  \
+    \      // \u30AA\u30A4\u30E9\u30FC\u30C4\u30A2\u30FC\u306E\u6DF1\u3055\u3068\u9802\
+    \u70B9\u306E\u30DA\u30A2\u304B\u3089\u306A\u308B\u914D\u5217\u3092\u4F5C\u6210\
+    \n        let depth_vertex = cls\n            .euler_tour_vertex\n           \
+    \ .iter()\n            .map(|&v| (cls.depth[v], v))\n            .collect();\n\
+    \        let sparse_table = SparseTable::new(depth_vertex);\n        Self {\n\
+    \            euler_tour_vertex: cls.euler_tour_vertex,\n            depth: cls.depth,\n\
+    \            fst_occurrence,\n            sparse_table,\n        }\n    }\n\n\
+    \    pub fn lca(&self, u: usize, v: usize) -> usize {\n        let l = self.fst_occurrence[u];\n\
+    \        let r = self.fst_occurrence[v];\n        let (l, r) = (l.min(r), l.max(r));\n\
+    \        self.sparse_table.prod(l..=r).1\n    }\n\n    pub fn lca_multiple(&self,\
+    \ vertex_list: &[usize]) -> usize {\n        let l = vertex_list\n           \
+    \ .iter()\n            .map(|&v| self.fst_occurrence[v])\n            .min()\n\
+    \            .unwrap();\n        let r = vertex_list\n            .iter()\n  \
+    \          .map(|&v| self.fst_occurrence[v])\n            .max()\n           \
+    \ .unwrap();\n        self.sparse_table.prod(l..=r).1\n    }\n}\n"
+  dependsOn:
+  - crates/algebra/src/lib.rs
+  - crates/data_structure/sparse_table/src/lib.rs
+  isVerificationFile: false
+  path: crates/tree/euler_tour/src/lib.rs
+  requiredBy: []
+  timestamp: '2024-06-23 10:54:56+09:00'
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - verify/yosupo/lca_euler_tour/src/main.rs
+documentation_of: crates/tree/euler_tour/src/lib.rs
+layout: document
+redirect_from:
+- /library/crates/tree/euler_tour/src/lib.rs
+- /library/crates/tree/euler_tour/src/lib.rs.html
+title: crates/tree/euler_tour/src/lib.rs
+---
