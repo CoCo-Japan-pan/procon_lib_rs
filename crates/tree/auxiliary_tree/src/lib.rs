@@ -42,13 +42,18 @@ impl AuxiliaryTree {
         }
     }
 
-    /// LCAの関係を保ったまま圧縮された木を返す ((vの親, v)の配列, 根) を返す  
+    /// LCAの関係を保ったまま圧縮された木を返す  
+    /// (頂点集合, (親,子)のペアの集合, Some(根)) を返す  
+    /// 空配列を渡すと`(vec![], vec![], None)`を返す  
     /// `O(KlogK) (K = vertex_subset.len())`  
     /// 圧縮された木のサイズは高々`2K-1`  
     pub fn gen_auxiliary_tree(
         &self,
         mut vertex_subset: Vec<usize>,
-    ) -> (Vec<(usize, usize)>, usize) {
+    ) -> (Vec<usize>, Vec<(usize, usize)>, Option<usize>) {
+        if vertex_subset.is_empty() {
+            return (vec![], vec![], None);
+        }
         // pre-order順にソート
         vertex_subset.sort_by_key(|&v| self.pre_order_index[v]);
         {
@@ -63,12 +68,13 @@ impl AuxiliaryTree {
         vertex_subset.sort_by_key(|&v| self.pre_order_index[v]);
         // 重複削除
         vertex_subset.dedup();
+        let vertex_subset = vertex_subset;
 
         // 構築
-        let mut ret = Vec::with_capacity(vertex_subset.len() - 1);
+        let mut par_v_pairs = Vec::with_capacity(vertex_subset.len() - 1);
         let mut stack = Vec::with_capacity(vertex_subset.len());
         stack.push(vertex_subset[0]);
-        for v in vertex_subset.into_iter().skip(1) {
+        for &v in vertex_subset.iter().skip(1) {
             while let Some(&top) = stack.last() {
                 if self.euler_tour.last_occurrence[top] < self.euler_tour.first_occurrence[v] {
                     stack.pop();
@@ -77,12 +83,12 @@ impl AuxiliaryTree {
                 }
             }
             if let Some(&top) = stack.last() {
-                ret.push((top, v));
+                par_v_pairs.push((top, v));
             }
             stack.push(v);
         }
         let root = stack[0];
-        (ret, root)
+        (vertex_subset, par_v_pairs, Some(root))
     }
 }
 
@@ -123,8 +129,8 @@ mod test {
             graph
         };
         let auxiliary_tree = AuxiliaryTree::new(&graph, 0);
-        let (par_ver_pair, root) = auxiliary_tree.gen_auxiliary_tree(vec![1, 5, 8, 11]);
-        assert_eq!(root, 0);
+        let (_, par_ver_pair, root) = auxiliary_tree.gen_auxiliary_tree(vec![1, 5, 8, 11]);
+        assert_eq!(root, Some(0));
         assert_eq!(
             par_ver_pair,
             vec![(0, 1), (0, 2), (2, 4), (4, 5), (4, 8), (2, 11)]
