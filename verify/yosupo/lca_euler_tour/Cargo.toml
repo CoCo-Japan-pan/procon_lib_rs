@@ -1,5 +1,5 @@
 [package]
-name = "lca"
+name = "lca_euler_tour"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,4 +7,4 @@ edition = "2021"
 
 [dependencies]
 proconio = { version = "=0.4.5", features = ["derive"] }
-hld = { path = "../../../crates/tree/hld" }
+euler_tour = { path = "../../../crates/tree/euler_tour" }
