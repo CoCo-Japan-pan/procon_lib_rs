@@ -43,8 +43,9 @@ impl AuxiliaryTree {
     }
 
     /// LCAの関係を保ったまま圧縮された木を返す  
-    /// (頂点集合, (親,子)のペアの集合, Some(根)) を返す  
     /// 空配列を渡すと`(vec![], vec![], None)`を返す  
+    /// 空でなければ`(頂点集合, (親,子)のペアの集合, Some(根))`を返す  
+    /// 頂点集合はその番号のままソートしている  
     /// `O(KlogK) (K = vertex_subset.len())`  
     /// 圧縮された木のサイズは高々`2K-1`  
     pub fn gen_auxiliary_tree(
@@ -68,7 +69,6 @@ impl AuxiliaryTree {
         vertex_subset.sort_by_key(|&v| self.pre_order_index[v]);
         // 重複削除
         vertex_subset.dedup();
-        let vertex_subset = vertex_subset;
 
         // 構築
         let mut par_v_pairs = Vec::with_capacity(vertex_subset.len() - 1);
@@ -88,6 +88,8 @@ impl AuxiliaryTree {
             stack.push(v);
         }
         let root = stack[0];
+        // 将来圧縮グラフの構築時に二分探索することを見越して、番号そのままでソートしておく
+        vertex_subset.sort();
         (vertex_subset, par_v_pairs, Some(root))
     }
 }
