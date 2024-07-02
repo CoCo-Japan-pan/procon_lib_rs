@@ -22,15 +22,10 @@ impl<T: ConvHelper> Display for Fps<T> {
     }
 }
 
-impl<T: ConvHelper, S> From<Vec<S>> for Fps<T>
-where
-    T: From<S>,
-{
-    fn from(data: Vec<S>) -> Self {
+impl<T: ConvHelper> From<Vec<T>> for Fps<T> {
+    fn from(data: Vec<T>) -> Self {
         assert!(data.len() < T::modulus() as usize);
-        Self {
-            data: data.into_iter().map(T::from).collect(),
-        }
+        Self { data }
     }
 }
 

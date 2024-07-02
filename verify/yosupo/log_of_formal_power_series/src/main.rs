@@ -9,7 +9,7 @@ fn main() {
         n: usize,
         a: [MInt; n]
     }
-    let a = Fps::<MInt>::from(a);
+    let a = Fps::from(a);
     let b = a.log(n);
     println!("{}", b);
 }
