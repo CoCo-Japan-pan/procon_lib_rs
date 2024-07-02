@@ -38,10 +38,9 @@ data:
     \ std::fmt::Result {\n        if self.is_empty() {\n            return Ok(());\n\
     \        }\n        write!(f, \"{}\", self.data[0])?;\n        for x in self.data.iter().skip(1)\
     \ {\n            write!(f, \" {}\", x)?;\n        }\n        Ok(())\n    }\n}\n\
-    \nimpl<T: ConvHelper, S> From<Vec<S>> for Fps<T>\nwhere\n    T: From<S>,\n{\n\
-    \    fn from(data: Vec<S>) -> Self {\n        assert!(data.len() < T::modulus()\
-    \ as usize);\n        Self {\n            data: data.into_iter().map(T::from).collect(),\n\
-    \        }\n    }\n}\n\nimpl<T: ConvHelper> Fps<T> {\n    pub fn new(deg: usize)\
+    \nimpl<T: ConvHelper> From<Vec<T>> for Fps<T> {\n    fn from(data: Vec<T>) ->\
+    \ Self {\n        assert!(data.len() < T::modulus() as usize);\n        Self {\
+    \ data }\n    }\n}\n\nimpl<T: ConvHelper> Fps<T> {\n    pub fn new(deg: usize)\
     \ -> Self {\n        assert!(deg < T::modulus() as usize);\n        Self {\n \
     \           data: vec![T::raw(0); deg],\n        }\n    }\n    pub fn len(&self)\
     \ -> usize {\n        self.data.len()\n    }\n    pub fn is_empty(&self) -> bool\
@@ -105,7 +104,7 @@ data:
   isVerificationFile: false
   path: crates/fps/fps_utils/src/lib.rs
   requiredBy: []
-  timestamp: '2024-05-30 18:25:22+09:00'
+  timestamp: '2024-07-02 17:53:35+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/log_of_formal_power_series/src/main.rs

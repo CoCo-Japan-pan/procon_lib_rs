@@ -23,7 +23,7 @@ data:
   code: "// verification-helper: PROBLEM https://judge.yosupo.jp/problem/inv_of_formal_power_series\n\
     \nuse fps_utils::Fps;\nuse proconio::input;\nuse static_modint::ModInt998244353;\n\
     \ntype MInt = ModInt998244353;\n\nfn main() {\n    input! {\n        n: usize,\n\
-    \        a: [MInt; n]\n    }\n    let a = Fps::<MInt>::from(a);\n    let b = a.inverse(n);\n\
+    \        a: [MInt; n]\n    }\n    let a = Fps::from(a);\n    let b = a.inverse(n);\n\
     \    println!(\"{}\", b);\n}\n"
   dependsOn:
   - crates/fps/fps_utils/src/lib.rs
@@ -31,7 +31,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/inv_of_formal_power_series/src/main.rs
   requiredBy: []
-  timestamp: '2024-05-30 18:25:22+09:00'
+  timestamp: '2024-07-02 17:53:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/inv_of_formal_power_series/src/main.rs
