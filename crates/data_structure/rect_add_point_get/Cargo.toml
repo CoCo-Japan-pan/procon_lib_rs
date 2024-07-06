@@ -1,5 +1,5 @@
 [package]
-name = "kdtree"
+name = "rect_add_point_get"
 version = "0.1.0"
 edition = "2021"
 
