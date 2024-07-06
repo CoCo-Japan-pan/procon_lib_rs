@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/segtree_2d_compressed/src/lib.rs
     title: crates/data_structure/segtree_2d_compressed/src/lib.rs
   _extendedRequiredBy: []
@@ -37,10 +37,12 @@ data:
     \          1 => {\n                    input! {\n                        x: i32,\n\
     \                        y: i32,\n                    }\n                    querys.push(Query::Get(x,\
     \ y));\n                }\n                _ => unreachable!(),\n            }\n\
-    \        }\n        querys\n    };\n    let update_points = {\n        let mut\
-    \ update_points = Vec::with_capacity(n);\n        for (l, d, r, u, _) in l_d_r_u_w.iter()\
-    \ {\n            update_points.push((*l, *d));\n            update_points.push((*r,\
-    \ *u));\n            update_points.push((*l, *u));\n            update_points.push((*r,\
+    \        }\n        querys\n    };\n    let update_points = {\n        let query_updates\
+    \ = querys\n            .iter()\n            .filter(|q| matches!(q, Query::Add(..)))\n\
+    \            .count();\n        let mut update_points = Vec::with_capacity(n +\
+    \ query_updates);\n        for (l, d, r, u, _) in l_d_r_u_w.iter() {\n       \
+    \     update_points.push((*l, *d));\n            update_points.push((*r, *u));\n\
+    \            update_points.push((*l, *u));\n            update_points.push((*r,\
     \ *d));\n        }\n        for q in &querys {\n            match q {\n      \
     \          Query::Add((l, d, r, u, _)) => {\n                    update_points.push((*l,\
     \ *d));\n                    update_points.push((*r, *u));\n                 \
@@ -61,7 +63,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/rectangle_add_point_get/src/main.rs
   requiredBy: []
-  timestamp: '2024-07-07 02:11:54+09:00'
+  timestamp: '2024-07-07 02:25:22+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/rectangle_add_point_get/src/main.rs
