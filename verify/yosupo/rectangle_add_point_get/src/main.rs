@@ -1,53 +1,52 @@
-use algebra::{Action, Commutative};
+// verification-helper: PROBLEM https://judge.yosupo.jp/problem/rectangle_add_point_get
+
+use algebra::{Commutative, Monoid};
 use proconio::{fastout, input};
-use rect_add_point_get::RectActPointGet;
+use segtree_2d_compressed::SegTree2DCompressed;
 
 #[derive(Clone, Copy, Debug)]
 enum Query {
-    Add((u32, u32, u32, u32, u64)),
-    Get(u32, u32),
+    Add((i32, i32, i32, i32, i64)),
+    Get(i32, i32),
 }
 
-#[derive(Clone, Copy, Debug)]
-struct AddMap(u64);
-impl Action for AddMap {
-    type Target = u64;
-    fn id_map() -> Self {
-        Self(0)
+#[derive(Debug)]
+struct AddMonoid;
+impl Monoid for AddMonoid {
+    type Target = i64;
+    fn id_element() -> Self::Target {
+        0
     }
-    fn composition(&mut self, rhs: &Self) {
-        self.0 += rhs.0;
-    }
-    fn mapping(&self, target: &mut Self::Target) {
-        *target += self.0;
+    fn binary_operation(a: &Self::Target, b: &Self::Target) -> Self::Target {
+        *a + *b
     }
 }
-impl Commutative for AddMap {}
+impl Commutative for AddMonoid {}
 
 #[fastout]
 fn main() {
     input! {
         n: usize,
         q: usize,
-        l_d_r_u_w: [(u32, u32, u32, u32, u64); n],
+        l_d_r_u_w: [(i32, i32, i32, i32, i64); n],
     }
     let querys = {
         let mut querys = Vec::with_capacity(q);
         for _ in 0..q {
             input! {
-                t: u32,
+                t: i32,
             }
             match t {
                 0 => {
                     input! {
-                        l_d_r_u_w: (u32, u32, u32, u32, u64),
+                        l_d_r_u_w: (i32, i32, i32, i32, i64),
                     }
                     querys.push(Query::Add(l_d_r_u_w));
                 }
                 1 => {
                     input! {
-                        x: u32,
-                        y: u32,
+                        x: i32,
+                        y: i32,
                     }
                     querys.push(Query::Get(x, y));
                 }
@@ -56,26 +55,45 @@ fn main() {
         }
         querys
     };
-    let get_points: Vec<(u32, u32)> = querys
-        .iter()
-        .filter_map(|q| match q {
-            Query::Get(x, y) => Some((*x, *y)),
-            _ => None,
-        })
-        .collect();
-    let mut kdtree = RectActPointGet::<AddMap, _>::new(get_points);
+    let update_points = {
+        let mut update_points = Vec::with_capacity(n);
+        for (l, d, r, u, _) in l_d_r_u_w.iter() {
+            update_points.push((*l, *d));
+            update_points.push((*r, *u));
+            update_points.push((*l, *u));
+            update_points.push((*r, *d));
+        }
+        for q in &querys {
+            match q {
+                Query::Add((l, d, r, u, _)) => {
+                    update_points.push((*l, *d));
+                    update_points.push((*r, *u));
+                    update_points.push((*l, *u));
+                    update_points.push((*r, *d));
+                }
+                Query::Get(..) => {}
+            }
+        }
+        update_points
+    };
+    let mut seg2d = SegTree2DCompressed::<AddMonoid, _>::new(&update_points);
     for (l, d, r, u, w) in l_d_r_u_w {
-        kdtree.add_range(&(l..r), &(d..u), &AddMap(w));
+        seg2d.set(l, d, seg2d.get(l, d) + w);
+        seg2d.set(r, u, seg2d.get(r, u) + w);
+        seg2d.set(l, u, seg2d.get(l, u) - w);
+        seg2d.set(r, d, seg2d.get(r, d) - w);
     }
-    // eprintln!("{:?}", kdtree);
     for q in querys {
         match q {
             Query::Add((l, d, r, u, w)) => {
-                kdtree.add_range(&(l..r), &(d..u), &AddMap(w));
+                seg2d.set(l, d, seg2d.get(l, d) + w);
+                seg2d.set(r, u, seg2d.get(r, u) + w);
+                seg2d.set(l, u, seg2d.get(l, u) - w);
+                seg2d.set(r, d, seg2d.get(r, d) - w);
             }
             Query::Get(x, y) => {
-                let ans = kdtree.get_composition(x, y);
-                println!("{}", ans.0);
+                let ans = seg2d.prod(..=x, ..=y);
+                println!("{}", ans);
             }
         }
     }

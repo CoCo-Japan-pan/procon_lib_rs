@@ -55,6 +55,7 @@ impl<M: Monoid + Commutative, T: Integral> SegTree2DCompressed<M, T> {
 
     pub fn get(&self, h: T, w: T) -> M::Target {
         if let Ok(h) = self.height_compressed.binary_search(&h) {
+            let h = h + self.height_compressed.len();
             if let Ok(w) = self.width_compressed[h].binary_search(&w) {
                 return self.data[h].get(w);
             }
@@ -62,17 +63,41 @@ impl<M: Monoid + Commutative, T: Integral> SegTree2DCompressed<M, T> {
         M::id_element()
     }
 
+    #[allow(clippy::collapsible_else_if, clippy::redundant_clone)]
     pub fn set(&mut self, h: T, w: T, val: M::Target) {
+        // setよりもaddのような差分での更新の方が楽にかけるかも
         let mut h = self
             .height_compressed
             .binary_search(&h)
             .expect("h is not in update_queries");
         h += self.height_compressed.len();
+        let mut pre_h = 2 * h;
+        let mut pre_val = val.clone();
         while h > 0 {
-            let w = self.width_compressed[h]
+            let cur_w_id = self.width_compressed[h]
                 .binary_search(&w)
                 .expect("w is not in update_queries");
-            self.data[h].set(w, val.clone());
+            if h >= self.height_compressed.len() {
+                self.data[h].set(cur_w_id, val.clone());
+            } else {
+                let other_child = if pre_h == 2 * h {
+                    if let Ok(w) = self.width_compressed[2 * h + 1].binary_search(&w) {
+                        self.data[2 * h + 1].get(w)
+                    } else {
+                        M::id_element()
+                    }
+                } else {
+                    if let Ok(w) = self.width_compressed[2 * h].binary_search(&w) {
+                        self.data[2 * h].get(w)
+                    } else {
+                        M::id_element()
+                    }
+                };
+                let new_val = M::binary_operation(&pre_val, &other_child);
+                pre_val = new_val.clone();
+                self.data[h].set(cur_w_id, new_val);
+            }
+            pre_h = h;
             h >>= 1;
         }
     }
