@@ -1,32 +1,34 @@
 //! 矩形範囲への可換作用の適用、1点取得のクエリを処理できます  
 //! 座標の型はi64固定で、点の追加と削除はできません(オフライン前提)  
-//! [kd-tree](https://trap.jp/post/1489/)を参考にしています  
+//! [kd-tree](https://trap.jp/post/1489/)を参考に、kd-treeで実装しています  
 
 use algebra::{Action, Commutative};
+use internal_type_traits::Integral;
 use std::ops::{Bound::*, RangeBounds};
 
+/// Aは可換作用、Tは座標の型
 #[derive(Debug)]
-pub struct RectActPointGet<A: Action + Commutative> {
-    x_min: i64,
-    x_max: i64,
-    y_min: i64,
-    y_max: i64,
+pub struct RectActPointGet<A: Action + Commutative, T: Integral> {
+    x_min: T,
+    x_max: T,
+    y_min: T,
+    y_max: T,
     lazy: A,
-    left: Option<Box<RectActPointGet<A>>>,
-    right: Option<Box<RectActPointGet<A>>>,
+    left: Option<Box<RectActPointGet<A, T>>>,
+    right: Option<Box<RectActPointGet<A, T>>>,
 }
 
-impl<A: Action + Commutative> RectActPointGet<A> {
+impl<A: Action + Commutative, T: Integral> RectActPointGet<A, T> {
     /// 点取得のクエリを先読みして、その点を用いて構築
-    pub fn new(mut points: Vec<(i64, i64)>) -> Self {
+    pub fn new(mut points: Vec<(T, T)>) -> Self {
         Self::new_sub(&mut points, true)
     }
 
-    fn new_sub(points: &mut [(i64, i64)], divide_by_x: bool) -> Self {
-        let mut x_min = std::i64::MAX;
-        let mut x_max = std::i64::MIN;
-        let mut y_min = std::i64::MAX;
-        let mut y_max = std::i64::MIN;
+    fn new_sub(points: &mut [(T, T)], divide_by_x: bool) -> Self {
+        let mut x_min = T::max_value();
+        let mut x_max = T::min_value();
+        let mut y_min = T::max_value();
+        let mut y_max = T::min_value();
         for (x, y) in points.iter() {
             x_min = x_min.min(*x);
             x_max = x_max.max(*x);
@@ -57,7 +59,7 @@ impl<A: Action + Commutative> RectActPointGet<A> {
         ret
     }
 
-    pub fn add_range<R1: RangeBounds<i64>, R2: RangeBounds<i64>>(
+    pub fn add_range<R1: RangeBounds<T>, R2: RangeBounds<T>>(
         &mut self,
         x_range: &R1,
         y_range: &R2,
@@ -66,22 +68,22 @@ impl<A: Action + Commutative> RectActPointGet<A> {
         // 今回は内部では閉区間で扱う
         let x_min = match x_range.start_bound() {
             Included(&l) => l,
-            Excluded(&l) => l + 1,
+            Excluded(&l) => l + T::one(),
             Unbounded => self.x_min,
         };
         let x_max = match x_range.end_bound() {
             Included(&r) => r,
-            Excluded(&r) => r - 1,
+            Excluded(&r) => r - T::one(),
             Unbounded => self.x_max,
         };
         let y_min = match y_range.start_bound() {
             Included(&l) => l,
-            Excluded(&l) => l + 1,
+            Excluded(&l) => l + T::one(),
             Unbounded => self.y_min,
         };
         let y_max = match y_range.end_bound() {
             Included(&r) => r,
-            Excluded(&r) => r - 1,
+            Excluded(&r) => r - T::one(),
             Unbounded => self.y_max,
         };
 
@@ -102,7 +104,7 @@ impl<A: Action + Commutative> RectActPointGet<A> {
         }
     }
 
-    pub fn get_composition(&self, x: i64, y: i64) -> A {
+    pub fn get_composition(&self, x: T, y: T) -> A {
         if x < self.x_min || self.x_max < x || y < self.y_min || self.y_max < y {
             return A::id_map();
         }

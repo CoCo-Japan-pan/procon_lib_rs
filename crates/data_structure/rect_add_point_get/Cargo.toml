@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 algebra = { path = "../../algebra" }
+internal_type_traits = { path = "../../internals/internal_type_traits" }
