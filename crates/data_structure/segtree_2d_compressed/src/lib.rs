@@ -63,6 +63,23 @@ impl<M: Monoid + Commutative, T: Integral> SegTree2DCompressed<M, T> {
         M::id_element()
     }
 
+    /// 更新の都合上、setよりも二項演算の適用の方が定数倍速い  
+    pub fn add(&mut self, h: T, w: T, val: M::Target) {
+        let mut h = self
+            .height_compressed
+            .binary_search(&h)
+            .expect("h is not in update_queries");
+        h += self.height_compressed.len();
+        while h > 0 {
+            let cur_w_id = self.width_compressed[h]
+                .binary_search(&w)
+                .expect("w is not in update_queries");
+            let old_val = self.data[h].get(cur_w_id);
+            self.data[h].set(cur_w_id, M::binary_operation(&old_val, &val));
+            h >>= 1;
+        }
+    }
+
     #[allow(clippy::collapsible_else_if, clippy::redundant_clone)]
     pub fn set(&mut self, h: T, w: T, val: M::Target) {
         // setよりもaddのような差分での更新の方が楽にかけるかも

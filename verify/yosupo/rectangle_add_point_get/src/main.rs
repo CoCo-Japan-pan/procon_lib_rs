@@ -78,18 +78,18 @@ fn main() {
     };
     let mut seg2d = SegTree2DCompressed::<AddMonoid, _>::new(&update_points);
     for (l, d, r, u, w) in l_d_r_u_w {
-        seg2d.set(l, d, seg2d.get(l, d) + w);
-        seg2d.set(r, u, seg2d.get(r, u) + w);
-        seg2d.set(l, u, seg2d.get(l, u) - w);
-        seg2d.set(r, d, seg2d.get(r, d) - w);
+        seg2d.add(l, d, w);
+        seg2d.add(r, u, w);
+        seg2d.add(l, u, -w);
+        seg2d.add(r, d, -w);
     }
     for q in querys {
         match q {
             Query::Add((l, d, r, u, w)) => {
-                seg2d.set(l, d, seg2d.get(l, d) + w);
-                seg2d.set(r, u, seg2d.get(r, u) + w);
-                seg2d.set(l, u, seg2d.get(l, u) - w);
-                seg2d.set(r, d, seg2d.get(r, d) - w);
+                seg2d.add(l, d, w);
+                seg2d.add(r, u, w);
+                seg2d.add(l, u, -w);
+                seg2d.add(r, d, -w);
             }
             Query::Get(x, y) => {
                 let ans = seg2d.prod(..=x, ..=y);
