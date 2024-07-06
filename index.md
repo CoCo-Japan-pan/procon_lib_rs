@@ -3,7 +3,7 @@ data:
   libraryCategories:
   - name: crates/algebra/src
     pages:
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: crates/algebra/src/lib.rs
       title: crates/algebra/src/lib.rs
   - name: crates/data_structure/dual_segtree/src
@@ -43,7 +43,7 @@ data:
       title: crates/data_structure/segtree_2d/src/lib.rs
   - name: crates/data_structure/segtree_2d_compressed/src
     pages:
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: crates/data_structure/segtree_2d_compressed/src/lib.rs
       title: crates/data_structure/segtree_2d_compressed/src/lib.rs
   - name: crates/data_structure/sparse_table/src
@@ -329,7 +329,7 @@ data:
       title: verify/yosupo/log_of_formal_power_series/src/main.rs
   - name: verify/yosupo/point_add_rectangle_sum/src
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: verify/yosupo/point_add_rectangle_sum/src/main.rs
       title: verify/yosupo/point_add_rectangle_sum/src/main.rs
   - name: verify/yosupo/point_set_range_composite/src
