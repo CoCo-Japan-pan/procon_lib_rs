@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/lazy_segtree/src/lib.rs
     title: crates/data_structure/lazy_segtree/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/modint/static_modint/src/lib.rs
     title: crates/modint/static_modint/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     PROBLEM: https://judge.yosupo.jp/problem/range_affine_range_sum
     links:
@@ -24,7 +24,7 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://judge.yosupo.jp/problem/range_affine_range_sum\n\
-    \nuse algebra::{MapMonoid, NonCommutative};\nuse lazy_segtree::LazySegTree;\n\
+    \nuse algebra::{ActionMonoid, NonCommutative};\nuse lazy_segtree::LazySegTree;\n\
     use proconio::{fastout, input};\nuse static_modint::ModInt998244353;\n\n#[derive(Clone,\
     \ Copy, Debug, PartialEq, Eq)]\nstruct AddMonoid {\n    sum: ModInt998244353,\n\
     \    len: ModInt998244353,\n}\nimpl algebra::Monoid for AddMonoid {\n    type\
@@ -34,14 +34,14 @@ data:
     \ -> Self::Target {\n        Self {\n            sum: a.sum + b.sum,\n       \
     \     len: a.len + b.len,\n        }\n    }\n}\n\n#[derive(Clone, Copy, Debug,\
     \ PartialEq, Eq)]\nstruct AffineMap {\n    b: ModInt998244353,\n    c: ModInt998244353,\n\
-    }\nimpl algebra::Map for AffineMap {\n    type Target = AddMonoid;\n    fn id_map()\
-    \ -> Self {\n        Self {\n            b: ModInt998244353::raw(1),\n       \
-    \     c: ModInt998244353::raw(0),\n        }\n    }\n    fn composition(&mut self,\
-    \ rhs: &Self) {\n        self.c = self.c * rhs.b + rhs.c;\n        self.b *= rhs.b;\n\
-    \    }\n    fn mapping(&self, target: &mut Self::Target) {\n        target.sum\
-    \ = self.b * target.sum + self.c * target.len;\n    }\n}\nimpl NonCommutative\
-    \ for AffineMap {}\n\nstruct AffineRangeSum;\nimpl MapMonoid for AffineRangeSum\
-    \ {\n    type Map = AffineMap;\n    type Monoid = AddMonoid;\n}\n\n#[fastout]\n\
+    }\nimpl algebra::Action for AffineMap {\n    type Target = AddMonoid;\n    fn\
+    \ id_map() -> Self {\n        Self {\n            b: ModInt998244353::raw(1),\n\
+    \            c: ModInt998244353::raw(0),\n        }\n    }\n    fn composition(&mut\
+    \ self, rhs: &Self) {\n        self.c = self.c * rhs.b + rhs.c;\n        self.b\
+    \ *= rhs.b;\n    }\n    fn mapping(&self, target: &mut Self::Target) {\n     \
+    \   target.sum = self.b * target.sum + self.c * target.len;\n    }\n}\nimpl NonCommutative\
+    \ for AffineMap {}\n\nstruct AffineRangeSum;\nimpl ActionMonoid for AffineRangeSum\
+    \ {\n    type Action = AffineMap;\n    type Monoid = AddMonoid;\n}\n\n#[fastout]\n\
     fn main() {\n    input! {\n        n: usize,\n        q: usize,\n        a: [u32;\
     \ n],\n    }\n    let a: Vec<AddMonoid> = a\n        .into_iter()\n        .map(|a|\
     \ AddMonoid {\n            sum: ModInt998244353::raw(a),\n            len: ModInt998244353::raw(1),\n\
@@ -59,8 +59,8 @@ data:
   isVerificationFile: true
   path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
   requiredBy: []
-  timestamp: '2024-05-30 18:25:22+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2024-07-06 15:31:15+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
 layout: document

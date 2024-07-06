@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: crates/data_structure/segtree/src/lib.rs
     title: crates/data_structure/segtree/src/lib.rs
   - icon: ':warning:'
@@ -12,12 +12,12 @@ data:
     title: crates/internals/internal_type_traits/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yukicoder/no_1625/src/main.rs
     title: verify/yukicoder/no_1625/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links:
     - "https://drive.google.com/file/d/1bSjYiA-nSsHzBbCnLq1GeTpRzs2Ucm0q/view>\u3067\
@@ -99,8 +99,8 @@ data:
   isVerificationFile: false
   path: crates/data_structure/segtree_2d_compressed/src/lib.rs
   requiredBy: []
-  timestamp: '2024-05-30 17:49:36+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2024-07-06 15:31:15+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - verify/yukicoder/no_1625/src/main.rs
 documentation_of: crates/data_structure/segtree_2d_compressed/src/lib.rs

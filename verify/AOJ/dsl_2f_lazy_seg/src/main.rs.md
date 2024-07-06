@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/lazy_segtree/src/lib.rs
     title: crates/data_structure/lazy_segtree/src/lib.rs
   _extendedRequiredBy: []
@@ -22,7 +22,7 @@ data:
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/all/DSL_2_F\n\
     \nuse lazy_segtree::LazySegTree;\nuse proconio::{fastout, input};\n\n#[derive(Clone,\
-    \ Debug, PartialEq, Eq)]\nstruct MyMap {\n    update: Option<u32>,\n}\nimpl algebra::Map\
+    \ Debug, PartialEq, Eq)]\nstruct MyMap {\n    update: Option<u32>,\n}\nimpl algebra::Action\
     \ for MyMap {\n    type Target = u32;\n    fn id_map() -> Self {\n        MyMap\
     \ { update: None }\n    }\n    fn composition(&mut self, rhs: &Self) {\n     \
     \   if let Some(x) = rhs.update {\n            self.update = Some(x);\n      \
@@ -31,14 +31,14 @@ data:
     \ algebra::NonCommutative for MyMap {}\n\nstruct MinMonoid {}\nimpl algebra::Monoid\
     \ for MinMonoid {\n    type Target = u32;\n    fn id_element() -> Self::Target\
     \ {\n        u32::MAX\n    }\n    fn binary_operation(a: &Self::Target, b: &Self::Target)\
-    \ -> Self::Target {\n        *a.min(b)\n    }\n}\n\nstruct RmqRuq {}\nimpl algebra::MapMonoid\
-    \ for RmqRuq {\n    type Monoid = MinMonoid;\n    type Map = MyMap;\n}\n\n#[fastout]\n\
-    fn main() {\n    input! {\n        n: usize,\n        q: usize,\n    }\n    let\
-    \ mut lazy_seg = LazySegTree::<RmqRuq>::from(vec![(1_u32 << 31) - 1; n]);\n  \
-    \  for _ in 0..q {\n        input! {\n            t: u32,\n        }\n       \
-    \ if t == 0 {\n            input! {\n                s: usize,\n             \
-    \   t: usize,\n                x: u32,\n            }\n            let map = MyMap\
-    \ { update: Some(x) };\n            lazy_seg.apply_range_non_commutative(s..=t,\
+    \ -> Self::Target {\n        *a.min(b)\n    }\n}\n\nstruct RmqRuq {}\nimpl algebra::ActionMonoid\
+    \ for RmqRuq {\n    type Monoid = MinMonoid;\n    type Action = MyMap;\n}\n\n\
+    #[fastout]\nfn main() {\n    input! {\n        n: usize,\n        q: usize,\n\
+    \    }\n    let mut lazy_seg = LazySegTree::<RmqRuq>::from(vec![(1_u32 << 31)\
+    \ - 1; n]);\n    for _ in 0..q {\n        input! {\n            t: u32,\n    \
+    \    }\n        if t == 0 {\n            input! {\n                s: usize,\n\
+    \                t: usize,\n                x: u32,\n            }\n         \
+    \   let map = MyMap { update: Some(x) };\n            lazy_seg.apply_range_non_commutative(s..=t,\
     \ &map);\n        } else {\n            input! {\n                s: usize,\n\
     \                t: usize,\n            }\n            println!(\"{}\", lazy_seg.prod(s..=t));\n\
     \        }\n    }\n}\n"
@@ -48,7 +48,7 @@ data:
   isVerificationFile: true
   path: verify/AOJ/dsl_2f_lazy_seg/src/main.rs
   requiredBy: []
-  timestamp: '2024-05-30 17:49:36+09:00'
+  timestamp: '2024-07-06 15:31:15+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/dsl_2f_lazy_seg/src/main.rs

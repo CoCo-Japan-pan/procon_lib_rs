@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   - icon: ':heavy_check_mark:'
@@ -39,7 +39,7 @@ data:
   isVerificationFile: true
   path: verify/AtCoder/abc328f/src/main.rs
   requiredBy: []
-  timestamp: '2024-06-21 18:01:05+09:00'
+  timestamp: '2024-07-06 15:31:15+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AtCoder/abc328f/src/main.rs

@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/lazy_segtree/src/lib.rs
     title: crates/data_structure/lazy_segtree/src/lib.rs
   _extendedRequiredBy: []
@@ -25,13 +25,13 @@ data:
     \ {}\nimpl algebra::Monoid for MinMonoid {\n    type Target = i32;\n    fn id_element()\
     \ -> Self::Target {\n        i32::MAX\n    }\n    fn binary_operation(a: &Self::Target,\
     \ b: &Self::Target) -> Self::Target {\n        *a.min(b)\n    }\n}\n#[derive(Clone,\
-    \ Debug, PartialEq, Eq)]\nstruct AddMap {\n    add_val: i32,\n}\nimpl algebra::Map\
+    \ Debug, PartialEq, Eq)]\nstruct AddMap {\n    add_val: i32,\n}\nimpl algebra::Action\
     \ for AddMap {\n    type Target = i32;\n    fn id_map() -> Self {\n        AddMap\
     \ { add_val: 0 }\n    }\n    fn composition(&mut self, rhs: &Self) {\n       \
     \ self.add_val += rhs.add_val;\n    }\n    fn mapping(&self, target: &mut Self::Target)\
     \ {\n        *target += self.add_val;\n    }\n}\nimpl algebra::Commutative for\
-    \ AddMap {}\nstruct RmqRaq {}\nimpl algebra::MapMonoid for RmqRaq {\n    type\
-    \ Monoid = MinMonoid;\n    type Map = AddMap;\n}\n\n#[fastout]\nfn main() {\n\
+    \ AddMap {}\nstruct RmqRaq {}\nimpl algebra::ActionMonoid for RmqRaq {\n    type\
+    \ Monoid = MinMonoid;\n    type Action = AddMap;\n}\n\n#[fastout]\nfn main() {\n\
     \    input! {\n        n: usize,\n        q: usize,\n    }\n    let mut lazy_seg\
     \ = LazySegTree::<RmqRaq>::from(vec![0; n]);\n    for _ in 0..q {\n        input!\
     \ {\n            com: usize,\n        }\n        if com == 0 {\n            input!\
@@ -47,7 +47,7 @@ data:
   isVerificationFile: true
   path: verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
   requiredBy: []
-  timestamp: '2024-05-30 17:49:36+09:00'
+  timestamp: '2024-07-06 15:31:15+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs

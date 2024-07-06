@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   - icon: ':warning:'
@@ -18,12 +18,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
     title: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
     title: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     links:
     - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/lazysegtree.rs>
@@ -35,11 +35,11 @@ data:
     \  \n//! composition\u3084mapping\u306B\u53EF\u5909\u53C2\u7167\u3092\u7528\u3044\
     \u3066\u3044\u308B\u3068\u3053\u308D\u3068\u3001\u4F5C\u7528\u304C\u53EF\u5909\
     \u306A\u3089\u4F1D\u64AD\u3092\u4E00\u90E8\u30B5\u30DC\u308B\u90E8\u5206\u304C\
-    \u7570\u306A\u308B\n\nuse algebra::{Commutative, MapMonoid, Monoid, NonCommutative};\n\
+    \u7570\u306A\u308B\n\nuse algebra::{ActionMonoid, Commutative, Monoid, NonCommutative};\n\
     use internal_bits::ceil_log2;\nuse std::ops::RangeBounds;\n\n#[derive(Debug)]\n\
-    pub struct LazySegTree<F: MapMonoid> {\n    range_size: usize,\n    leaf_size:\
+    pub struct LazySegTree<F: ActionMonoid> {\n    range_size: usize,\n    leaf_size:\
     \ usize,\n    log: usize,\n    data: Vec<<F::Monoid as Monoid>::Target>,\n   \
-    \ lazy: Vec<F::Map>,\n}\n\nimpl<F: MapMonoid> From<Vec<<F::Monoid as Monoid>::Target>>\
+    \ lazy: Vec<F::Action>,\n}\n\nimpl<F: ActionMonoid> From<Vec<<F::Monoid as Monoid>::Target>>\
     \ for LazySegTree<F> {\n    fn from(v: Vec<<F::Monoid as Monoid>::Target>) ->\
     \ Self {\n        let range_size = v.len();\n        let log = ceil_log2(range_size\
     \ as u32) as usize;\n        let leaf_size = 1 << log;\n        let mut data =\
@@ -48,7 +48,7 @@ data:
     \        let mut ret = Self {\n            range_size,\n            leaf_size,\n\
     \            log,\n            data,\n            lazy,\n        };\n        for\
     \ i in (1..leaf_size).rev() {\n            ret.update(i);\n        }\n       \
-    \ ret\n    }\n}\n\nimpl<F: MapMonoid> LazySegTree<F> {\n    pub fn new(n: usize)\
+    \ ret\n    }\n}\n\nimpl<F: ActionMonoid> LazySegTree<F> {\n    pub fn new(n: usize)\
     \ -> Self {\n        vec![F::id_element(); n].into()\n    }\n\n    pub fn set(&mut\
     \ self, mut p: usize, x: <F::Monoid as Monoid>::Target) {\n        assert!(p <\
     \ self.range_size);\n        p += self.leaf_size;\n        for i in (1..=self.log).rev()\
@@ -78,9 +78,9 @@ data:
     \            }\n            l >>= 1;\n            r >>= 1;\n        }\n\n    \
     \    F::binary_operation(&sml, &smr)\n    }\n\n    pub fn all_prod(&self) -> <F::Monoid\
     \ as Monoid>::Target {\n        self.data[1].clone()\n    }\n\n    pub fn apply(&mut\
-    \ self, mut p: usize, f: &F::Map) {\n        assert!(p < self.range_size);\n \
-    \       p += self.leaf_size;\n        for i in (1..=self.log).rev() {\n      \
-    \      self.push(p >> i);\n        }\n        F::mapping(&mut self.data[p], f);\n\
+    \ self, mut p: usize, f: &F::Action) {\n        assert!(p < self.range_size);\n\
+    \        p += self.leaf_size;\n        for i in (1..=self.log).rev() {\n     \
+    \       self.push(p >> i);\n        }\n        F::mapping(&mut self.data[p], f);\n\
     \        for i in 1..=self.log {\n            self.update(p >> i);\n        }\n\
     \    }\n\n    pub fn max_right<G>(&mut self, mut l: usize, g: G) -> usize\n  \
     \  where\n        G: Fn(&<F::Monoid as Monoid>::Target) -> bool,\n    {\n    \
@@ -112,11 +112,11 @@ data:
     \               return r + 1 - self.leaf_size;\n            }\n            sm\
     \ = F::binary_operation(&self.data[r], &sm);\n            {\n                let\
     \ r = r as isize;\n                (r & -r) != r\n            }\n        } {}\n\
-    \        0\n    }\n}\n\nimpl<F: MapMonoid> LazySegTree<F>\nwhere\n    F::Map:\
+    \        0\n    }\n}\n\nimpl<F: ActionMonoid> LazySegTree<F>\nwhere\n    F::Action:\
     \ Commutative,\n{\n    /// \u53EF\u63DB\u306A\u4F5C\u7528\u306E\u533A\u9593\u9069\
     \u7528\n    pub fn apply_range_commutative<R: RangeBounds<usize>>(&mut self, range:\
-    \ R, f: &F::Map) {\n        let mut l = match range.start_bound() {\n        \
-    \    std::ops::Bound::Included(&l) => l,\n            std::ops::Bound::Excluded(&l)\
+    \ R, f: &F::Action) {\n        let mut l = match range.start_bound() {\n     \
+    \       std::ops::Bound::Included(&l) => l,\n            std::ops::Bound::Excluded(&l)\
     \ => l + 1,\n            std::ops::Bound::Unbounded => 0,\n        };\n      \
     \  let mut r = match range.end_bound() {\n            std::ops::Bound::Included(&r)\
     \ => r + 1,\n            std::ops::Bound::Excluded(&r) => r,\n            std::ops::Bound::Unbounded\
@@ -137,52 +137,52 @@ data:
     \   self.update_considering_lazy((r - 1) >> i);\n            }\n        }\n  \
     \  }\n\n    fn update_considering_lazy(&mut self, k: usize) {\n        self.data[k]\
     \ = F::binary_operation(&self.data[2 * k], &self.data[2 * k + 1]);\n        F::mapping(&mut\
-    \ self.data[k], &self.lazy[k]);\n    }\n}\n\nimpl<F: MapMonoid> LazySegTree<F>\n\
-    where\n    F::Map: NonCommutative,\n{\n    /// \u975E\u53EF\u63DB\u306A\u4F5C\u7528\
-    \u306E\u533A\u9593\u9069\u7528\n    pub fn apply_range_non_commutative<R: RangeBounds<usize>>(&mut\
-    \ self, range: R, f: &F::Map) {\n        let mut l = match range.start_bound()\
-    \ {\n            std::ops::Bound::Included(&l) => l,\n            std::ops::Bound::Excluded(&l)\
-    \ => l + 1,\n            std::ops::Bound::Unbounded => 0,\n        };\n      \
-    \  let mut r = match range.end_bound() {\n            std::ops::Bound::Included(&r)\
-    \ => r + 1,\n            std::ops::Bound::Excluded(&r) => r,\n            std::ops::Bound::Unbounded\
-    \ => self.range_size,\n        };\n        assert!(l <= r && r <= self.range_size);\n\
-    \        if l == r {\n            return;\n        }\n\n        l += self.leaf_size;\n\
-    \        r += self.leaf_size;\n\n        // \u975E\u53EF\u63DB\u306A\u306E\u3067\
-    \u3001\u5148\u306B\u4E0A\u304B\u3089\u4F1D\u64AD\u3057\u3066\u304A\u304F\n   \
-    \     for i in (1..=self.log).rev() {\n            if ((l >> i) << i) != l {\n\
-    \                self.push(l >> i);\n            }\n            if ((r >> i) <<\
-    \ i) != r {\n                self.push((r - 1) >> i);\n            }\n       \
-    \ }\n\n        {\n            let l_copy = l;\n            let r_copy = r;\n \
-    \           while l < r {\n                if l & 1 != 0 {\n                 \
-    \   self.all_apply(l, f);\n                    l += 1;\n                }\n  \
-    \              if r & 1 != 0 {\n                    r -= 1;\n                \
-    \    self.all_apply(r, f);\n                }\n                l >>= 1;\n    \
-    \            r >>= 1;\n            }\n            l = l_copy;\n            r =\
-    \ r_copy;\n        }\n\n        // \u5148\u306B\u4F1D\u64AD\u3057\u3066\u3044\u308B\
-    \u306E\u3067lazy\u306E\u5024\u3092\u8003\u616E\u305B\u305A\u306B\u66F4\u65B0\u3067\
-    \u304D\u308B\n        for i in 1..=self.log {\n            if ((l >> i) << i)\
-    \ != l {\n                self.update(l >> i);\n            }\n            if\
-    \ ((r >> i) << i) != r {\n                self.update((r - 1) >> i);\n       \
-    \     }\n        }\n    }\n}\n\nimpl<F: MapMonoid> LazySegTree<F> {\n    /// data\u3092\
-    \u5B50\u304B\u3089\u66F4\u65B0\u3059\u308B\n    fn update(&mut self, k: usize)\
-    \ {\n        self.data[k] = F::binary_operation(&self.data[2 * k], &self.data[2\
-    \ * k + 1]);\n    }\n    /// \u4F5C\u7528\u3092\u9069\u7528\u3057\u3001lazy\u30CE\
-    \u30FC\u30C9\u304C\u3042\u308C\u3070(\u5B50\u304C\u3042\u308C\u3070)\u4F5C\u7528\
-    \u3092\u5408\u6210\u3059\u308B\n    fn all_apply(&mut self, k: usize, f: &F::Map)\
-    \ {\n        F::mapping(&mut self.data[k], f);\n        if k < self.leaf_size\
-    \ {\n            F::composition(&mut self.lazy[k], f);\n        }\n    }\n   \
-    \ /// \u4F5C\u7528\u3092\u5B50\u306B\u62BC\u3057\u8FBC\u3080\n    fn push(&mut\
-    \ self, k: usize) {\n        let mut parent = F::id_map();\n        std::mem::swap(&mut\
-    \ parent, &mut self.lazy[k]);\n        self.all_apply(2 * k, &parent);\n     \
-    \   self.all_apply(2 * k + 1, &parent);\n    }\n}\n"
+    \ self.data[k], &self.lazy[k]);\n    }\n}\n\nimpl<F: ActionMonoid> LazySegTree<F>\n\
+    where\n    F::Action: NonCommutative,\n{\n    /// \u975E\u53EF\u63DB\u306A\u4F5C\
+    \u7528\u306E\u533A\u9593\u9069\u7528\n    pub fn apply_range_non_commutative<R:\
+    \ RangeBounds<usize>>(&mut self, range: R, f: &F::Action) {\n        let mut l\
+    \ = match range.start_bound() {\n            std::ops::Bound::Included(&l) =>\
+    \ l,\n            std::ops::Bound::Excluded(&l) => l + 1,\n            std::ops::Bound::Unbounded\
+    \ => 0,\n        };\n        let mut r = match range.end_bound() {\n         \
+    \   std::ops::Bound::Included(&r) => r + 1,\n            std::ops::Bound::Excluded(&r)\
+    \ => r,\n            std::ops::Bound::Unbounded => self.range_size,\n        };\n\
+    \        assert!(l <= r && r <= self.range_size);\n        if l == r {\n     \
+    \       return;\n        }\n\n        l += self.leaf_size;\n        r += self.leaf_size;\n\
+    \n        // \u975E\u53EF\u63DB\u306A\u306E\u3067\u3001\u5148\u306B\u4E0A\u304B\
+    \u3089\u4F1D\u64AD\u3057\u3066\u304A\u304F\n        for i in (1..=self.log).rev()\
+    \ {\n            if ((l >> i) << i) != l {\n                self.push(l >> i);\n\
+    \            }\n            if ((r >> i) << i) != r {\n                self.push((r\
+    \ - 1) >> i);\n            }\n        }\n\n        {\n            let l_copy =\
+    \ l;\n            let r_copy = r;\n            while l < r {\n               \
+    \ if l & 1 != 0 {\n                    self.all_apply(l, f);\n               \
+    \     l += 1;\n                }\n                if r & 1 != 0 {\n          \
+    \          r -= 1;\n                    self.all_apply(r, f);\n              \
+    \  }\n                l >>= 1;\n                r >>= 1;\n            }\n    \
+    \        l = l_copy;\n            r = r_copy;\n        }\n\n        // \u5148\u306B\
+    \u4F1D\u64AD\u3057\u3066\u3044\u308B\u306E\u3067lazy\u306E\u5024\u3092\u8003\u616E\
+    \u305B\u305A\u306B\u66F4\u65B0\u3067\u304D\u308B\n        for i in 1..=self.log\
+    \ {\n            if ((l >> i) << i) != l {\n                self.update(l >> i);\n\
+    \            }\n            if ((r >> i) << i) != r {\n                self.update((r\
+    \ - 1) >> i);\n            }\n        }\n    }\n}\n\nimpl<F: ActionMonoid> LazySegTree<F>\
+    \ {\n    /// data\u3092\u5B50\u304B\u3089\u66F4\u65B0\u3059\u308B\n    fn update(&mut\
+    \ self, k: usize) {\n        self.data[k] = F::binary_operation(&self.data[2 *\
+    \ k], &self.data[2 * k + 1]);\n    }\n    /// \u4F5C\u7528\u3092\u9069\u7528\u3057\
+    \u3001lazy\u30CE\u30FC\u30C9\u304C\u3042\u308C\u3070(\u5B50\u304C\u3042\u308C\u3070\
+    )\u4F5C\u7528\u3092\u5408\u6210\u3059\u308B\n    fn all_apply(&mut self, k: usize,\
+    \ f: &F::Action) {\n        F::mapping(&mut self.data[k], f);\n        if k <\
+    \ self.leaf_size {\n            F::composition(&mut self.lazy[k], f);\n      \
+    \  }\n    }\n    /// \u4F5C\u7528\u3092\u5B50\u306B\u62BC\u3057\u8FBC\u3080\n\
+    \    fn push(&mut self, k: usize) {\n        let mut parent = F::id_map();\n \
+    \       std::mem::swap(&mut parent, &mut self.lazy[k]);\n        self.all_apply(2\
+    \ * k, &parent);\n        self.all_apply(2 * k + 1, &parent);\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
   - crates/internals/internal_bits/src/lib.rs
   isVerificationFile: false
   path: crates/data_structure/lazy_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-05-30 17:49:36+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2024-07-06 15:31:15+09:00'
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
