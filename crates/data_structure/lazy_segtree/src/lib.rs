@@ -1,20 +1,20 @@
 //! From <https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/lazysegtree.rs>  
 //! compositionやmappingに可変参照を用いているところと、作用が可変なら伝播を一部サボる部分が異なる
 
-use algebra::{Commutative, MapMonoid, Monoid, NonCommutative};
+use algebra::{ActionMonoid, Commutative, Monoid, NonCommutative};
 use internal_bits::ceil_log2;
 use std::ops::RangeBounds;
 
 #[derive(Debug)]
-pub struct LazySegTree<F: MapMonoid> {
+pub struct LazySegTree<F: ActionMonoid> {
     range_size: usize,
     leaf_size: usize,
     log: usize,
     data: Vec<<F::Monoid as Monoid>::Target>,
-    lazy: Vec<F::Map>,
+    lazy: Vec<F::Action>,
 }
 
-impl<F: MapMonoid> From<Vec<<F::Monoid as Monoid>::Target>> for LazySegTree<F> {
+impl<F: ActionMonoid> From<Vec<<F::Monoid as Monoid>::Target>> for LazySegTree<F> {
     fn from(v: Vec<<F::Monoid as Monoid>::Target>) -> Self {
         let range_size = v.len();
         let log = ceil_log2(range_size as u32) as usize;
@@ -36,7 +36,7 @@ impl<F: MapMonoid> From<Vec<<F::Monoid as Monoid>::Target>> for LazySegTree<F> {
     }
 }
 
-impl<F: MapMonoid> LazySegTree<F> {
+impl<F: ActionMonoid> LazySegTree<F> {
     pub fn new(n: usize) -> Self {
         vec![F::id_element(); n].into()
     }
@@ -115,7 +115,7 @@ impl<F: MapMonoid> LazySegTree<F> {
         self.data[1].clone()
     }
 
-    pub fn apply(&mut self, mut p: usize, f: &F::Map) {
+    pub fn apply(&mut self, mut p: usize, f: &F::Action) {
         assert!(p < self.range_size);
         p += self.leaf_size;
         for i in (1..=self.log).rev() {
@@ -208,12 +208,12 @@ impl<F: MapMonoid> LazySegTree<F> {
     }
 }
 
-impl<F: MapMonoid> LazySegTree<F>
+impl<F: ActionMonoid> LazySegTree<F>
 where
-    F::Map: Commutative,
+    F::Action: Commutative,
 {
     /// 可換な作用の区間適用
-    pub fn apply_range_commutative<R: RangeBounds<usize>>(&mut self, range: R, f: &F::Map) {
+    pub fn apply_range_commutative<R: RangeBounds<usize>>(&mut self, range: R, f: &F::Action) {
         let mut l = match range.start_bound() {
             std::ops::Bound::Included(&l) => l,
             std::ops::Bound::Excluded(&l) => l + 1,
@@ -270,12 +270,12 @@ where
     }
 }
 
-impl<F: MapMonoid> LazySegTree<F>
+impl<F: ActionMonoid> LazySegTree<F>
 where
-    F::Map: NonCommutative,
+    F::Action: NonCommutative,
 {
     /// 非可換な作用の区間適用
-    pub fn apply_range_non_commutative<R: RangeBounds<usize>>(&mut self, range: R, f: &F::Map) {
+    pub fn apply_range_non_commutative<R: RangeBounds<usize>>(&mut self, range: R, f: &F::Action) {
         let mut l = match range.start_bound() {
             std::ops::Bound::Included(&l) => l,
             std::ops::Bound::Excluded(&l) => l + 1,
@@ -335,13 +335,13 @@ where
     }
 }
 
-impl<F: MapMonoid> LazySegTree<F> {
+impl<F: ActionMonoid> LazySegTree<F> {
     /// dataを子から更新する
     fn update(&mut self, k: usize) {
         self.data[k] = F::binary_operation(&self.data[2 * k], &self.data[2 * k + 1]);
     }
     /// 作用を適用し、lazyノードがあれば(子があれば)作用を合成する
-    fn all_apply(&mut self, k: usize, f: &F::Map) {
+    fn all_apply(&mut self, k: usize, f: &F::Action) {
         F::mapping(&mut self.data[k], f);
         if k < self.leaf_size {
             F::composition(&mut self.lazy[k], f);

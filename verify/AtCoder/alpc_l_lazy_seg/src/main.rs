@@ -50,7 +50,7 @@ impl algebra::Monoid for InvNum {
 struct FlipMap {
     flip: bool,
 }
-impl algebra::Map for FlipMap {
+impl algebra::Action for FlipMap {
     type Target = InvNum;
     fn id_map() -> Self {
         FlipMap { flip: false }
@@ -70,9 +70,9 @@ impl algebra::Map for FlipMap {
 }
 impl algebra::Commutative for FlipMap {}
 struct MyMapMonoid;
-impl algebra::MapMonoid for MyMapMonoid {
+impl algebra::ActionMonoid for MyMapMonoid {
     type Monoid = InvNum;
-    type Map = FlipMap;
+    type Action = FlipMap;
 }
 
 #[fastout]

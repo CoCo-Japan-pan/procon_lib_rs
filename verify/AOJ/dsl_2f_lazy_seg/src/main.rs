@@ -7,7 +7,7 @@ use proconio::{fastout, input};
 struct MyMap {
     update: Option<u32>,
 }
-impl algebra::Map for MyMap {
+impl algebra::Action for MyMap {
     type Target = u32;
     fn id_map() -> Self {
         MyMap { update: None }
@@ -37,9 +37,9 @@ impl algebra::Monoid for MinMonoid {
 }
 
 struct RmqRuq {}
-impl algebra::MapMonoid for RmqRuq {
+impl algebra::ActionMonoid for RmqRuq {
     type Monoid = MinMonoid;
-    type Map = MyMap;
+    type Action = MyMap;
 }
 
 #[fastout]

@@ -8,7 +8,7 @@ pub struct RUQ {
     value: Option<u32>,
 }
 
-impl algebra::Map for RUQ {
+impl algebra::Action for RUQ {
     type Target = u32;
     fn id_map() -> Self {
         Self { value: None }

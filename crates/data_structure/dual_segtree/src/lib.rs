@@ -2,19 +2,19 @@
 //! 作用が可換なら作用の伝播をしなくてOK  
 //! 作用が可換でないなら作用の伝播をしてから適用する
 
-use algebra::{Commutative, Map, NonCommutative};
+use algebra::{Action, Commutative, NonCommutative};
 use std::ops::RangeBounds;
 
 /// 作用を区間適用, 1点取得ができるデータ構造
 #[derive(Debug)]
-pub struct DualSegTree<T: Map> {
+pub struct DualSegTree<T: Action> {
     range_size: usize,
     leaf_size: usize,
     log: usize,
     lazy_nodes: Vec<T>,
 }
 
-impl<T: Map> DualSegTree<T> {
+impl<T: Action> DualSegTree<T> {
     pub fn new(size: usize) -> Self {
         let mut leaf_size = 1;
         let mut log = 0;
@@ -54,7 +54,7 @@ impl<T: Map> DualSegTree<T> {
     }
 }
 
-impl<T: Map + Commutative> DualSegTree<T> {
+impl<T: Action + Commutative> DualSegTree<T> {
     /// 区間に可換な作用を適用する 可換なので作用の伝播をしなくてOK
     pub fn apply_commutative<R: RangeBounds<usize>>(&mut self, range: R, map: &T) {
         let mut l = match range.start_bound() {
@@ -88,7 +88,7 @@ impl<T: Map + Commutative> DualSegTree<T> {
     }
 }
 
-impl<T: Map + NonCommutative> DualSegTree<T> {
+impl<T: Action + NonCommutative> DualSegTree<T> {
     /// 区間に非可換な作用を適用する 非可換なので作用の伝播を先に行う必要がある
     pub fn apply_non_commutative<R: RangeBounds<usize>>(&mut self, range: R, map: &T) {
         let mut l = match range.start_bound() {

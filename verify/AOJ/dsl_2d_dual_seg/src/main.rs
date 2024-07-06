@@ -1,6 +1,6 @@
 // verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/2/DSL_2_D
 
-use algebra::Map;
+use algebra::Action;
 use dual_segtree::DualSegTree;
 use proconio::{fastout, input};
 
@@ -10,7 +10,7 @@ pub struct RUQ {
     value: u32,
 }
 
-impl algebra::Map for RUQ {
+impl algebra::Action for RUQ {
     type Target = Self;
     fn id_map() -> Self {
         Self {

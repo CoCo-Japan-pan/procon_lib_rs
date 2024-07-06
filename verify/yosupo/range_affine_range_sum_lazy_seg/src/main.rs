@@ -1,6 +1,6 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/range_affine_range_sum
 
-use algebra::{MapMonoid, NonCommutative};
+use algebra::{ActionMonoid, NonCommutative};
 use lazy_segtree::LazySegTree;
 use proconio::{fastout, input};
 use static_modint::ModInt998244353;
@@ -31,7 +31,7 @@ struct AffineMap {
     b: ModInt998244353,
     c: ModInt998244353,
 }
-impl algebra::Map for AffineMap {
+impl algebra::Action for AffineMap {
     type Target = AddMonoid;
     fn id_map() -> Self {
         Self {
@@ -50,8 +50,8 @@ impl algebra::Map for AffineMap {
 impl NonCommutative for AffineMap {}
 
 struct AffineRangeSum;
-impl MapMonoid for AffineRangeSum {
-    type Map = AffineMap;
+impl ActionMonoid for AffineRangeSum {
+    type Action = AffineMap;
     type Monoid = AddMonoid;
 }
 

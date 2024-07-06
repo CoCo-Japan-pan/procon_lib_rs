@@ -17,7 +17,7 @@ impl algebra::Monoid for MinMonoid {
 struct AddMap {
     add_val: i32,
 }
-impl algebra::Map for AddMap {
+impl algebra::Action for AddMap {
     type Target = i32;
     fn id_map() -> Self {
         AddMap { add_val: 0 }
@@ -31,9 +31,9 @@ impl algebra::Map for AddMap {
 }
 impl algebra::Commutative for AddMap {}
 struct RmqRaq {}
-impl algebra::MapMonoid for RmqRaq {
+impl algebra::ActionMonoid for RmqRaq {
     type Monoid = MinMonoid;
-    type Map = AddMap;
+    type Action = AddMap;
 }
 
 #[fastout]
