@@ -56,7 +56,11 @@ fn main() {
         querys
     };
     let update_points = {
-        let mut update_points = Vec::with_capacity(n);
+        let query_updates = querys
+            .iter()
+            .filter(|q| matches!(q, Query::Add(..)))
+            .count();
+        let mut update_points = Vec::with_capacity(n + query_updates);
         for (l, d, r, u, _) in l_d_r_u_w.iter() {
             update_points.push((*l, *d));
             update_points.push((*r, *u));
