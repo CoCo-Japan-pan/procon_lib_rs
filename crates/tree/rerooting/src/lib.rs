@@ -16,8 +16,11 @@ pub struct Rerooting<M: Monoid + Commutative, F: FnMut(&M::Target, usize, usize)
 
 impl<M: Monoid + Commutative, F: FnMut(&M::Target, usize, usize) -> M::Target> Rerooting<M, F> {
     /// モノイド`M`は`add_root`によりできた「部分木+一辺」同士をmergeする関数を二項演算として持つ  
+    /// 葉にはモノイドの単位元が入る  
+    ///
     /// `add_root(subtree: &M::Target, subtree_root: usize, new_root: usize) -> M::Target`  
-    /// 部分木に頂点 `subtree_root → new_root` の辺を追加する  
+    /// `add_root`は部分木に頂点 `subtree_root → new_root` の辺を追加する関数  
+    ///
     /// モノイドの型指定のために、`Rerooting::<Monoid, _>::new(..)`として下さい  
     pub fn new(graph: &Vec<Vec<usize>>, add_root: F) -> Self {
         let vertex_cnt = graph.len();
