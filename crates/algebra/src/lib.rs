@@ -9,7 +9,7 @@ pub trait NonCommutative {}
 /// 作用  
 /// 作用自体もモノイドであることを要求  
 /// 作用素を合成させてから作用させるのと、作用素を一つ一つ作用させる結果が同じであることを要求
-pub trait Action: Clone {
+pub trait Action: Debug + Clone {
     /// 作用の対象
     type Target: Clone;
     /// 恒等写像

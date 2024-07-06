@@ -1,5 +1,5 @@
 //! 矩形範囲への可換作用の適用、1点取得のクエリを処理できます  
-//! 座標の型はi64固定で、点の追加と削除はできません(オフライン前提)  
+//! 点の追加と削除はできません(オフライン前提)  
 //! [kd-tree](https://trap.jp/post/1489/)を参考に、kd-treeで実装しています  
 
 use algebra::{Action, Commutative};
@@ -21,10 +21,13 @@ pub struct RectActPointGet<A: Action + Commutative, T: Integral> {
 impl<A: Action + Commutative, T: Integral> RectActPointGet<A, T> {
     /// 点取得のクエリを先読みして、その点を用いて構築
     pub fn new(mut points: Vec<(T, T)>) -> Self {
-        Self::new_sub(&mut points, true)
+        // 重複除去
+        points.sort();
+        points.dedup();
+        Self::new_sub(&mut points)
     }
 
-    fn new_sub(points: &mut [(T, T)], divide_by_x: bool) -> Self {
+    fn new_sub(points: &mut [(T, T)]) -> Self {
         let mut x_min = T::max_value();
         let mut x_max = T::min_value();
         let mut y_min = T::max_value();
@@ -49,13 +52,39 @@ impl<A: Action + Commutative, T: Integral> RectActPointGet<A, T> {
             return ret;
         }
         let mid = size / 2;
-        if divide_by_x {
-            points.select_nth_unstable_by_key(mid, |(x, _)| *x);
+        let x_idx = {
+            let x_mid = points.select_nth_unstable_by_key(mid, |(x, _)| *x).1 .0;
+            let excluded_cnt = points.iter().filter(|(x, _)| *x < x_mid).count();
+            let included_cnt = points.iter().filter(|(x, _)| *x <= x_mid).count();
+            if (size - excluded_cnt).abs_diff(excluded_cnt)
+                < (size - included_cnt).abs_diff(included_cnt)
+            {
+                excluded_cnt
+            } else {
+                included_cnt
+            }
+        };
+        let y_idx = {
+            let y_mid = points.select_nth_unstable_by_key(mid, |(_, y)| *y).1 .1;
+            let excluded_cnt = points.iter().filter(|(_, y)| *y < y_mid).count();
+            let included_cnt = points.iter().filter(|(_, y)| *y <= y_mid).count();
+            if (size - excluded_cnt).abs_diff(excluded_cnt)
+                < (size - included_cnt).abs_diff(included_cnt)
+            {
+                excluded_cnt
+            } else {
+                included_cnt
+            }
+        };
+        if (size - x_idx).abs_diff(x_idx) < (size - y_idx).abs_diff(y_idx) {
+            points.select_nth_unstable_by_key(x_idx, |(x, _)| *x);
+            ret.left = Some(Box::new(Self::new_sub(&mut points[..x_idx])));
+            ret.right = Some(Box::new(Self::new_sub(&mut points[x_idx..])));
         } else {
-            points.select_nth_unstable_by_key(mid, |(_, y)| *y);
+            points.select_nth_unstable_by_key(y_idx, |(_, y)| *y);
+            ret.left = Some(Box::new(Self::new_sub(&mut points[..y_idx])));
+            ret.right = Some(Box::new(Self::new_sub(&mut points[y_idx..])));
         }
-        ret.left = Some(Box::new(Self::new_sub(&mut points[..mid], !divide_by_x)));
-        ret.right = Some(Box::new(Self::new_sub(&mut points[mid..], !divide_by_x)));
         ret
     }
 

@@ -1,3 +1,4 @@
+use std::fmt::{Debug, Display};
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 
 /// 数値型を使いたいときのトレイト  
@@ -13,6 +14,8 @@ pub trait Integral:
     + One
     + BoundedBelow
     + BoundedAbove
+    + Display
+    + Debug
 {
 }
 
