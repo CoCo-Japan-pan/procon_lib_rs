@@ -1,64 +1,75 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':warning:'
-    path: crates/data_structure/rect_add_point_get/src/lib.rs
-    title: crates/data_structure/rect_add_point_get/src/lib.rs
+  - icon: ':heavy_check_mark:'
+    path: crates/data_structure/segtree_2d_compressed/src/lib.rs
+    title: crates/data_structure/segtree_2d_compressed/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    links: []
+    PROBLEM: https://judge.yosupo.jp/problem/rectangle_add_point_get
+    links:
+    - https://judge.yosupo.jp/problem/rectangle_add_point_get
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "use algebra::{Action, Commutative};\nuse proconio::{fastout, input};\nuse\
-    \ rect_add_point_get::RectActPointGet;\n\n#[derive(Clone, Copy, Debug)]\nenum\
-    \ Query {\n    Add((u32, u32, u32, u32, u64)),\n    Get(u32, u32),\n}\n\n#[derive(Clone,\
-    \ Copy, Debug)]\nstruct AddMap(u64);\nimpl Action for AddMap {\n    type Target\
-    \ = u64;\n    fn id_map() -> Self {\n        Self(0)\n    }\n    fn composition(&mut\
-    \ self, rhs: &Self) {\n        self.0 += rhs.0;\n    }\n    fn mapping(&self,\
-    \ target: &mut Self::Target) {\n        *target += self.0;\n    }\n}\nimpl Commutative\
-    \ for AddMap {}\n\n#[fastout]\nfn main() {\n    input! {\n        n: usize,\n\
-    \        q: usize,\n        l_d_r_u_w: [(u32, u32, u32, u32, u64); n],\n    }\n\
-    \    let querys = {\n        let mut querys = Vec::with_capacity(q);\n       \
-    \ for _ in 0..q {\n            input! {\n                t: u32,\n           \
-    \ }\n            match t {\n                0 => {\n                    input!\
-    \ {\n                        l_d_r_u_w: (u32, u32, u32, u32, u64),\n         \
-    \           }\n                    querys.push(Query::Add(l_d_r_u_w));\n     \
-    \           }\n                1 => {\n                    input! {\n        \
-    \                x: u32,\n                        y: u32,\n                  \
-    \  }\n                    querys.push(Query::Get(x, y));\n                }\n\
-    \                _ => unreachable!(),\n            }\n        }\n        querys\n\
-    \    };\n    let get_points: Vec<(u32, u32)> = querys\n        .iter()\n     \
-    \   .filter_map(|q| match q {\n            Query::Get(x, y) => Some((*x, *y)),\n\
-    \            _ => None,\n        })\n        .collect();\n    let mut kdtree =\
-    \ RectActPointGet::<AddMap, _>::new(get_points);\n    for (l, d, r, u, w) in l_d_r_u_w\
-    \ {\n        kdtree.add_range(&(l..r), &(d..u), &AddMap(w));\n    }\n    // eprintln!(\"\
-    {:?}\", kdtree);\n    for q in querys {\n        match q {\n            Query::Add((l,\
-    \ d, r, u, w)) => {\n                kdtree.add_range(&(l..r), &(d..u), &AddMap(w));\n\
-    \            }\n            Query::Get(x, y) => {\n                let ans = kdtree.get_composition(x,\
-    \ y);\n                println!(\"{}\", ans.0);\n            }\n        }\n  \
-    \  }\n}\n"
+  code: "// verification-helper: PROBLEM https://judge.yosupo.jp/problem/rectangle_add_point_get\n\
+    \nuse algebra::{Commutative, Monoid};\nuse proconio::{fastout, input};\nuse segtree_2d_compressed::SegTree2DCompressed;\n\
+    \n#[derive(Clone, Copy, Debug)]\nenum Query {\n    Add((i32, i32, i32, i32, i64)),\n\
+    \    Get(i32, i32),\n}\n\n#[derive(Debug)]\nstruct AddMonoid;\nimpl Monoid for\
+    \ AddMonoid {\n    type Target = i64;\n    fn id_element() -> Self::Target {\n\
+    \        0\n    }\n    fn binary_operation(a: &Self::Target, b: &Self::Target)\
+    \ -> Self::Target {\n        *a + *b\n    }\n}\nimpl Commutative for AddMonoid\
+    \ {}\n\n#[fastout]\nfn main() {\n    input! {\n        n: usize,\n        q: usize,\n\
+    \        l_d_r_u_w: [(i32, i32, i32, i32, i64); n],\n    }\n    let querys = {\n\
+    \        let mut querys = Vec::with_capacity(q);\n        for _ in 0..q {\n  \
+    \          input! {\n                t: i32,\n            }\n            match\
+    \ t {\n                0 => {\n                    input! {\n                \
+    \        l_d_r_u_w: (i32, i32, i32, i32, i64),\n                    }\n      \
+    \              querys.push(Query::Add(l_d_r_u_w));\n                }\n      \
+    \          1 => {\n                    input! {\n                        x: i32,\n\
+    \                        y: i32,\n                    }\n                    querys.push(Query::Get(x,\
+    \ y));\n                }\n                _ => unreachable!(),\n            }\n\
+    \        }\n        querys\n    };\n    let update_points = {\n        let mut\
+    \ update_points = Vec::with_capacity(n);\n        for (l, d, r, u, _) in l_d_r_u_w.iter()\
+    \ {\n            update_points.push((*l, *d));\n            update_points.push((*r,\
+    \ *u));\n            update_points.push((*l, *u));\n            update_points.push((*r,\
+    \ *d));\n        }\n        for q in &querys {\n            match q {\n      \
+    \          Query::Add((l, d, r, u, _)) => {\n                    update_points.push((*l,\
+    \ *d));\n                    update_points.push((*r, *u));\n                 \
+    \   update_points.push((*l, *u));\n                    update_points.push((*r,\
+    \ *d));\n                }\n                Query::Get(..) => {}\n           \
+    \ }\n        }\n        update_points\n    };\n    let mut seg2d = SegTree2DCompressed::<AddMonoid,\
+    \ _>::new(&update_points);\n    for (l, d, r, u, w) in l_d_r_u_w {\n        seg2d.set(l,\
+    \ d, seg2d.get(l, d) + w);\n        seg2d.set(r, u, seg2d.get(r, u) + w);\n  \
+    \      seg2d.set(l, u, seg2d.get(l, u) - w);\n        seg2d.set(r, d, seg2d.get(r,\
+    \ d) - w);\n    }\n    for q in querys {\n        match q {\n            Query::Add((l,\
+    \ d, r, u, w)) => {\n                seg2d.set(l, d, seg2d.get(l, d) + w);\n \
+    \               seg2d.set(r, u, seg2d.get(r, u) + w);\n                seg2d.set(l,\
+    \ u, seg2d.get(l, u) - w);\n                seg2d.set(r, d, seg2d.get(r, d) -\
+    \ w);\n            }\n            Query::Get(x, y) => {\n                let ans\
+    \ = seg2d.prod(..=x, ..=y);\n                println!(\"{}\", ans);\n        \
+    \    }\n        }\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
-  - crates/data_structure/rect_add_point_get/src/lib.rs
-  isVerificationFile: false
+  - crates/data_structure/segtree_2d_compressed/src/lib.rs
+  isVerificationFile: true
   path: verify/yosupo/rectangle_add_point_get/src/main.rs
   requiredBy: []
-  timestamp: '2024-07-06 23:41:25+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
+  timestamp: '2024-07-07 01:49:57+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/rectangle_add_point_get/src/main.rs
 layout: document
 redirect_from:
-- /library/verify/yosupo/rectangle_add_point_get/src/main.rs
-- /library/verify/yosupo/rectangle_add_point_get/src/main.rs.html
+- /verify/verify/yosupo/rectangle_add_point_get/src/main.rs
+- /verify/verify/yosupo/rectangle_add_point_get/src/main.rs.html
 title: verify/yosupo/rectangle_add_point_get/src/main.rs
 ---

@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: crates/data_structure/segtree/src/lib.rs
     title: crates/data_structure/segtree/src/lib.rs
   - icon: ':warning:'
@@ -12,12 +12,15 @@ data:
     title: crates/internals/internal_type_traits/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
+    path: verify/yosupo/rectangle_add_point_get/src/main.rs
+    title: verify/yosupo/rectangle_add_point_get/src/main.rs
+  - icon: ':heavy_check_mark:'
     path: verify/yukicoder/no_1625/src/main.rs
     title: verify/yukicoder/no_1625/src/main.rs
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
     - "https://drive.google.com/file/d/1bSjYiA-nSsHzBbCnLq1GeTpRzs2Ucm0q/view>\u3067\
@@ -53,30 +56,45 @@ data:
     \           .collect();\n        Self {\n            height_compressed,\n    \
     \        width_compressed,\n            data,\n        }\n    }\n\n    pub fn\
     \ get(&self, h: T, w: T) -> M::Target {\n        if let Ok(h) = self.height_compressed.binary_search(&h)\
-    \ {\n            if let Ok(w) = self.width_compressed[h].binary_search(&w) {\n\
-    \                return self.data[h].get(w);\n            }\n        }\n     \
-    \   M::id_element()\n    }\n\n    pub fn set(&mut self, h: T, w: T, val: M::Target)\
-    \ {\n        let mut h = self\n            .height_compressed\n            .binary_search(&h)\n\
-    \            .expect(\"h is not in update_queries\");\n        h += self.height_compressed.len();\n\
-    \        while h > 0 {\n            let w = self.width_compressed[h]\n       \
-    \         .binary_search(&w)\n                .expect(\"w is not in update_queries\"\
-    );\n            self.data[h].set(w, val.clone());\n            h >>= 1;\n    \
-    \    }\n    }\n\n    pub fn prod<R1: RangeBounds<T>, R2: RangeBounds<T>>(\n  \
-    \      &self,\n        height_range: R1,\n        width_range: R2,\n    ) -> M::Target\
-    \ {\n        let height_left = match height_range.start_bound() {\n          \
-    \  std::ops::Bound::Included(&l) => l,\n            std::ops::Bound::Excluded(&l)\
-    \ => l + T::one(),\n            std::ops::Bound::Unbounded => T::min_value(),\n\
-    \        };\n        let height_right = match height_range.end_bound() {\n   \
-    \         std::ops::Bound::Included(&r) => r + T::one(),\n            std::ops::Bound::Excluded(&r)\
-    \ => r,\n            std::ops::Bound::Unbounded => T::max_value(),\n        };\n\
-    \        assert!(height_left <= height_right);\n        let mut height_left =\
-    \ self.height_compressed.partition_point(|&h| h < height_left);\n        let mut\
-    \ height_right = self\n            .height_compressed\n            .partition_point(|&h|\
-    \ h < height_right);\n        height_left += self.height_compressed.len();\n \
-    \       height_right += self.height_compressed.len();\n        let mut ret = M::id_element();\n\
-    \        while height_left < height_right {\n            if height_left & 1 !=\
-    \ 0 {\n                let w_range = self.calc_row_range(height_left, &width_range);\n\
-    \                ret = M::binary_operation(&ret, &self.data[height_left].prod(w_range));\n\
+    \ {\n            let h = h + self.height_compressed.len();\n            if let\
+    \ Ok(w) = self.width_compressed[h].binary_search(&w) {\n                return\
+    \ self.data[h].get(w);\n            }\n        }\n        M::id_element()\n  \
+    \  }\n\n    #[allow(clippy::collapsible_else_if, clippy::redundant_clone)]\n \
+    \   pub fn set(&mut self, h: T, w: T, val: M::Target) {\n        // set\u3088\u308A\
+    \u3082add\u306E\u3088\u3046\u306A\u5DEE\u5206\u3067\u306E\u66F4\u65B0\u306E\u65B9\
+    \u304C\u697D\u306B\u304B\u3051\u308B\u304B\u3082\n        let mut h = self\n \
+    \           .height_compressed\n            .binary_search(&h)\n            .expect(\"\
+    h is not in update_queries\");\n        h += self.height_compressed.len();\n \
+    \       let mut pre_h = 2 * h;\n        let mut pre_val = val.clone();\n     \
+    \   while h > 0 {\n            let cur_w_id = self.width_compressed[h]\n     \
+    \           .binary_search(&w)\n                .expect(\"w is not in update_queries\"\
+    );\n            if h >= self.height_compressed.len() {\n                self.data[h].set(cur_w_id,\
+    \ val.clone());\n            } else {\n                let other_child = if pre_h\
+    \ == 2 * h {\n                    if let Ok(w) = self.width_compressed[2 * h +\
+    \ 1].binary_search(&w) {\n                        self.data[2 * h + 1].get(w)\n\
+    \                    } else {\n                        M::id_element()\n     \
+    \               }\n                } else {\n                    if let Ok(w)\
+    \ = self.width_compressed[2 * h].binary_search(&w) {\n                       \
+    \ self.data[2 * h].get(w)\n                    } else {\n                    \
+    \    M::id_element()\n                    }\n                };\n            \
+    \    let new_val = M::binary_operation(&pre_val, &other_child);\n            \
+    \    pre_val = new_val.clone();\n                self.data[h].set(cur_w_id, new_val);\n\
+    \            }\n            pre_h = h;\n            h >>= 1;\n        }\n    }\n\
+    \n    pub fn prod<R1: RangeBounds<T>, R2: RangeBounds<T>>(\n        &self,\n \
+    \       height_range: R1,\n        width_range: R2,\n    ) -> M::Target {\n  \
+    \      let height_left = match height_range.start_bound() {\n            std::ops::Bound::Included(&l)\
+    \ => l,\n            std::ops::Bound::Excluded(&l) => l + T::one(),\n        \
+    \    std::ops::Bound::Unbounded => T::min_value(),\n        };\n        let height_right\
+    \ = match height_range.end_bound() {\n            std::ops::Bound::Included(&r)\
+    \ => r + T::one(),\n            std::ops::Bound::Excluded(&r) => r,\n        \
+    \    std::ops::Bound::Unbounded => T::max_value(),\n        };\n        assert!(height_left\
+    \ <= height_right);\n        let mut height_left = self.height_compressed.partition_point(|&h|\
+    \ h < height_left);\n        let mut height_right = self\n            .height_compressed\n\
+    \            .partition_point(|&h| h < height_right);\n        height_left +=\
+    \ self.height_compressed.len();\n        height_right += self.height_compressed.len();\n\
+    \        let mut ret = M::id_element();\n        while height_left < height_right\
+    \ {\n            if height_left & 1 != 0 {\n                let w_range = self.calc_row_range(height_left,\
+    \ &width_range);\n                ret = M::binary_operation(&ret, &self.data[height_left].prod(w_range));\n\
     \                height_left += 1;\n            }\n            if height_right\
     \ & 1 != 0 {\n                height_right -= 1;\n                let w_range\
     \ = self.calc_row_range(height_right, &width_range);\n                ret = M::binary_operation(&ret,\
@@ -99,10 +117,11 @@ data:
   isVerificationFile: false
   path: crates/data_structure/segtree_2d_compressed/src/lib.rs
   requiredBy: []
-  timestamp: '2024-07-06 23:41:25+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  timestamp: '2024-07-07 01:49:57+09:00'
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_1625/src/main.rs
+  - verify/yosupo/rectangle_add_point_get/src/main.rs
 documentation_of: crates/data_structure/segtree_2d_compressed/src/lib.rs
 layout: document
 redirect_from:

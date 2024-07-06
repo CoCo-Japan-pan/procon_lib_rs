@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: crates/data_structure/segtree_2d_compressed/src/lib.rs
     title: crates/data_structure/segtree_2d_compressed/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     PROBLEM: https://yukicoder.me/problems/no/1625
     links:
@@ -56,8 +56,8 @@ data:
   isVerificationFile: true
   path: verify/yukicoder/no_1625/src/main.rs
   requiredBy: []
-  timestamp: '2024-07-06 23:41:25+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2024-07-07 01:49:57+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yukicoder/no_1625/src/main.rs
 layout: document

@@ -33,18 +33,18 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/log_of_formal_power_series/src/main.rs
     title: verify/yosupo/log_of_formal_power_series/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/point_set_range_composite/src/main.rs
     title: verify/yosupo/point_set_range_composite/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
     title: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/vertex_set_path_composite/src/main.rs
     title: verify/yosupo/vertex_set_path_composite/src/main.rs
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
     - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/modint.rs>
@@ -161,7 +161,7 @@ data:
   requiredBy:
   - crates/fps/ntt/src/lib.rs
   timestamp: '2024-07-06 23:41:25+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc340g/src/main.rs
   - verify/AtCoder/abc290f/src/main.rs

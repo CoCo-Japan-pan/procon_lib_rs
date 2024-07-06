@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   - icon: ':warning:'
@@ -18,12 +18,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
     title: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
     title: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
     - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/lazysegtree.rs>
@@ -182,7 +182,7 @@ data:
   path: crates/data_structure/lazy_segtree/src/lib.rs
   requiredBy: []
   timestamp: '2024-07-06 23:41:25+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
