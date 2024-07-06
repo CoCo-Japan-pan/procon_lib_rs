@@ -2,6 +2,9 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
+  - icon: ':warning:'
+    path: crates/data_structure/rect_add_point_get/src/lib.rs
+    title: crates/data_structure/rect_add_point_get/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/segtree_2d_compressed/src/lib.rs
     title: crates/data_structure/segtree_2d_compressed/src/lib.rs
@@ -59,6 +62,7 @@ data:
   - crates/flow/maxflow/src/lib.rs
   - crates/flow/maxflow_lower_bound/src/lib.rs
   - crates/data_structure/segtree_2d_compressed/src/lib.rs
+  - crates/data_structure/rect_add_point_get/src/lib.rs
   - crates/math/matrix/src/lib.rs
   - crates/modint/static_modint/src/lib.rs
   - crates/modint/dynamic_modint/src/lib.rs
