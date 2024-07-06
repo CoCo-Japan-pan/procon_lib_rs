@@ -47,23 +47,21 @@ data:
     \   update_points.push((*l, *u));\n                    update_points.push((*r,\
     \ *d));\n                }\n                Query::Get(..) => {}\n           \
     \ }\n        }\n        update_points\n    };\n    let mut seg2d = SegTree2DCompressed::<AddMonoid,\
-    \ _>::new(&update_points);\n    for (l, d, r, u, w) in l_d_r_u_w {\n        seg2d.set(l,\
-    \ d, seg2d.get(l, d) + w);\n        seg2d.set(r, u, seg2d.get(r, u) + w);\n  \
-    \      seg2d.set(l, u, seg2d.get(l, u) - w);\n        seg2d.set(r, d, seg2d.get(r,\
-    \ d) - w);\n    }\n    for q in querys {\n        match q {\n            Query::Add((l,\
-    \ d, r, u, w)) => {\n                seg2d.set(l, d, seg2d.get(l, d) + w);\n \
-    \               seg2d.set(r, u, seg2d.get(r, u) + w);\n                seg2d.set(l,\
-    \ u, seg2d.get(l, u) - w);\n                seg2d.set(r, d, seg2d.get(r, d) -\
-    \ w);\n            }\n            Query::Get(x, y) => {\n                let ans\
-    \ = seg2d.prod(..=x, ..=y);\n                println!(\"{}\", ans);\n        \
-    \    }\n        }\n    }\n}\n"
+    \ _>::new(&update_points);\n    for (l, d, r, u, w) in l_d_r_u_w {\n        seg2d.add(l,\
+    \ d, w);\n        seg2d.add(r, u, w);\n        seg2d.add(l, u, -w);\n        seg2d.add(r,\
+    \ d, -w);\n    }\n    for q in querys {\n        match q {\n            Query::Add((l,\
+    \ d, r, u, w)) => {\n                seg2d.add(l, d, w);\n                seg2d.add(r,\
+    \ u, w);\n                seg2d.add(l, u, -w);\n                seg2d.add(r, d,\
+    \ -w);\n            }\n            Query::Get(x, y) => {\n                let\
+    \ ans = seg2d.prod(..=x, ..=y);\n                println!(\"{}\", ans);\n    \
+    \        }\n        }\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
   - crates/data_structure/segtree_2d_compressed/src/lib.rs
   isVerificationFile: true
   path: verify/yosupo/rectangle_add_point_get/src/main.rs
   requiredBy: []
-  timestamp: '2024-07-07 01:49:57+09:00'
+  timestamp: '2024-07-07 02:11:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/rectangle_add_point_get/src/main.rs

@@ -59,8 +59,17 @@ data:
     \ {\n            let h = h + self.height_compressed.len();\n            if let\
     \ Ok(w) = self.width_compressed[h].binary_search(&w) {\n                return\
     \ self.data[h].get(w);\n            }\n        }\n        M::id_element()\n  \
-    \  }\n\n    #[allow(clippy::collapsible_else_if, clippy::redundant_clone)]\n \
-    \   pub fn set(&mut self, h: T, w: T, val: M::Target) {\n        // set\u3088\u308A\
+    \  }\n\n    /// \u66F4\u65B0\u306E\u90FD\u5408\u4E0A\u3001set\u3088\u308A\u3082\
+    \u4E8C\u9805\u6F14\u7B97\u306E\u9069\u7528\u306E\u65B9\u304C\u5B9A\u6570\u500D\
+    \u901F\u3044  \n    pub fn add(&mut self, h: T, w: T, val: M::Target) {\n    \
+    \    let mut h = self\n            .height_compressed\n            .binary_search(&h)\n\
+    \            .expect(\"h is not in update_queries\");\n        h += self.height_compressed.len();\n\
+    \        while h > 0 {\n            let cur_w_id = self.width_compressed[h]\n\
+    \                .binary_search(&w)\n                .expect(\"w is not in update_queries\"\
+    );\n            let old_val = self.data[h].get(cur_w_id);\n            self.data[h].set(cur_w_id,\
+    \ M::binary_operation(&old_val, &val));\n            h >>= 1;\n        }\n   \
+    \ }\n\n    #[allow(clippy::collapsible_else_if, clippy::redundant_clone)]\n  \
+    \  pub fn set(&mut self, h: T, w: T, val: M::Target) {\n        // set\u3088\u308A\
     \u3082add\u306E\u3088\u3046\u306A\u5DEE\u5206\u3067\u306E\u66F4\u65B0\u306E\u65B9\
     \u304C\u697D\u306B\u304B\u3051\u308B\u304B\u3082\n        let mut h = self\n \
     \           .height_compressed\n            .binary_search(&h)\n            .expect(\"\
@@ -117,7 +126,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/segtree_2d_compressed/src/lib.rs
   requiredBy: []
-  timestamp: '2024-07-07 01:49:57+09:00'
+  timestamp: '2024-07-07 02:11:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_1625/src/main.rs

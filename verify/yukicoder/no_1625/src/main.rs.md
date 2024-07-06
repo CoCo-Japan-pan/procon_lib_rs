@@ -56,7 +56,7 @@ data:
   isVerificationFile: true
   path: verify/yukicoder/no_1625/src/main.rs
   requiredBy: []
-  timestamp: '2024-07-07 01:49:57+09:00'
+  timestamp: '2024-07-07 02:11:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yukicoder/no_1625/src/main.rs
