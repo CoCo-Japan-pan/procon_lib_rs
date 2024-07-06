@@ -71,7 +71,7 @@ data:
   isVerificationFile: false
   path: crates/flow/maxflow_lower_bound/src/lib.rs
   requiredBy: []
-  timestamp: '2024-05-30 17:49:36+09:00'
+  timestamp: '2024-07-06 23:41:25+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc285g/src/main.rs

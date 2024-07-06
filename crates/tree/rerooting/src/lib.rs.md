@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   _extendedRequiredBy: []
@@ -40,21 +40,22 @@ data:
     \ usize) -> M::Target> Rerooting<M, F> {\n    /// \u30E2\u30CE\u30A4\u30C9`M`\u306F\
     `add_root`\u306B\u3088\u308A\u3067\u304D\u305F\u300C\u90E8\u5206\u6728+\u4E00\u8FBA\
     \u300D\u540C\u58EB\u3092merge\u3059\u308B\u95A2\u6570\u3092\u4E8C\u9805\u6F14\u7B97\
-    \u3068\u3057\u3066\u6301\u3064  \n    /// `add_root(subtree: &M::Target, subtree_root:\
-    \ usize, new_root: usize) -> M::Target`  \n    /// \u90E8\u5206\u6728\u306B\u9802\
-    \u70B9 `subtree_root \u2192 new_root` \u306E\u8FBA\u3092\u8FFD\u52A0\u3059\u308B\
-    \  \n    /// \u30E2\u30CE\u30A4\u30C9\u306E\u578B\u6307\u5B9A\u306E\u305F\u3081\
-    \u306B\u3001`Rerooting::<Monoid, _>::new(..)`\u3068\u3057\u3066\u4E0B\u3055\u3044\
-    \  \n    pub fn new(graph: &Vec<Vec<usize>>, add_root: F) -> Self {\n        let\
-    \ vertex_cnt = graph.len();\n        let subtree_memo = vec![M::id_element();\
-    \ vertex_cnt];\n        let ans = vec![M::id_element(); vertex_cnt];\n       \
-    \ let mut ret = Self {\n            vertex_cnt,\n            subtree_memo,\n \
-    \           ans,\n            add_root,\n        };\n        ret.dfs(graph, 0,\
-    \ usize::MAX);\n        ret.bfs(graph, 0, usize::MAX, M::id_element());\n    \
-    \    ret\n    }\n\n    pub fn get_ans(&self, root: usize) -> M::Target {\n   \
-    \     assert!(root < self.vertex_cnt);\n        self.ans[root].clone()\n    }\n\
-    \n    fn dfs(&mut self, graph: &Vec<Vec<usize>>, v: usize, p: usize) {\n     \
-    \   for &to in &graph[v] {\n            if to == p {\n                continue;\n\
+    \u3068\u3057\u3066\u6301\u3064  \n    /// \u8449\u306B\u306F\u30E2\u30CE\u30A4\
+    \u30C9\u306E\u5358\u4F4D\u5143\u304C\u5165\u308B  \n    ///\n    /// `add_root(subtree:\
+    \ &M::Target, subtree_root: usize, new_root: usize) -> M::Target`  \n    /// `add_root`\u306F\
+    \u90E8\u5206\u6728\u306B\u9802\u70B9 `subtree_root \u2192 new_root` \u306E\u8FBA\
+    \u3092\u8FFD\u52A0\u3059\u308B\u95A2\u6570  \n    ///\n    /// \u30E2\u30CE\u30A4\
+    \u30C9\u306E\u578B\u6307\u5B9A\u306E\u305F\u3081\u306B\u3001`Rerooting::<Monoid,\
+    \ _>::new(..)`\u3068\u3057\u3066\u4E0B\u3055\u3044  \n    pub fn new(graph: &Vec<Vec<usize>>,\
+    \ add_root: F) -> Self {\n        let vertex_cnt = graph.len();\n        let subtree_memo\
+    \ = vec![M::id_element(); vertex_cnt];\n        let ans = vec![M::id_element();\
+    \ vertex_cnt];\n        let mut ret = Self {\n            vertex_cnt,\n      \
+    \      subtree_memo,\n            ans,\n            add_root,\n        };\n  \
+    \      ret.dfs(graph, 0, usize::MAX);\n        ret.bfs(graph, 0, usize::MAX, M::id_element());\n\
+    \        ret\n    }\n\n    pub fn get_ans(&self, root: usize) -> M::Target {\n\
+    \        assert!(root < self.vertex_cnt);\n        self.ans[root].clone()\n  \
+    \  }\n\n    fn dfs(&mut self, graph: &Vec<Vec<usize>>, v: usize, p: usize) {\n\
+    \        for &to in &graph[v] {\n            if to == p {\n                continue;\n\
     \            }\n            self.dfs(graph, to, v);\n            let memo = (self.add_root)(&self.subtree_memo[to],\
     \ to, v);\n            self.subtree_memo[v] = M::binary_operation(&self.subtree_memo[v],\
     \ &memo);\n        }\n    }\n\n    fn bfs(&mut self, graph: &Vec<Vec<usize>>,\
@@ -82,7 +83,7 @@ data:
   isVerificationFile: false
   path: crates/tree/rerooting/src/lib.rs
   requiredBy: []
-  timestamp: '2024-07-06 15:31:15+09:00'
+  timestamp: '2024-07-06 23:43:30+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc312g/src/main.rs

@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/lazy_segtree/src/lib.rs
     title: crates/data_structure/lazy_segtree/src/lib.rs
   _extendedRequiredBy: []
@@ -58,7 +58,7 @@ data:
   isVerificationFile: true
   path: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   requiredBy: []
-  timestamp: '2024-07-06 15:31:15+09:00'
+  timestamp: '2024-07-06 23:41:25+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AtCoder/alpc_l_lazy_seg/src/main.rs

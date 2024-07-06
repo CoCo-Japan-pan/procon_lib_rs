@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   - icon: ':heavy_check_mark:'
@@ -51,7 +51,7 @@ data:
   isVerificationFile: false
   path: verify/AtCoder/tessoku_068/src/main.rs
   requiredBy: []
-  timestamp: '2024-07-06 15:31:15+09:00'
+  timestamp: '2024-07-06 23:41:25+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: verify/AtCoder/tessoku_068/src/main.rs
