@@ -42,7 +42,7 @@ jobs:
       run: |
         cargo clean
         cargo update
-        cargo doc --lib --target-dir .verify-helper/docs/static/
+        cargo doc --lib --target-dir cargo-docs
 
     - name: Run tests
       env:
@@ -54,13 +54,14 @@ jobs:
         DROPBOX_APP_SECRET: ${{ secrets.DROPBOX_APP_SECRET }}
       run: oj-verify all
 
-    # - name: Upload docs
-    #   run: |
-    #     git switch gh-pages
-    #     git config --global user.name "github-actions[bot]"
-    #     git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-    #     cp -r ./target/doc cargo-doc
-    #     git add -A
-    #     git commit -m "update cargo doc"
-    #     git push origin gh-pages
-    #     git switch main
+    - name: Upload docs
+      run: |
+        mv cargo-docs ./target 
+        git switch gh-pages
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        cp -r ./target/cargo-docs/doc cargo-doc
+        git add -A
+        git commit -m "update cargo doc"
+        git push origin gh-pages
+        git switch main
