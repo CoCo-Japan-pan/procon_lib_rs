@@ -15,11 +15,11 @@ data:
     path: crates/data_structure/segtree/src/lib.rs
     title: crates/data_structure/segtree/src/lib.rs
   - icon: ':heavy_check_mark:'
-    path: crates/data_structure/segtree_2d/src/lib.rs
-    title: crates/data_structure/segtree_2d/src/lib.rs
-  - icon: ':heavy_check_mark:'
     path: crates/data_structure/segtree_2d_compressed/src/lib.rs
     title: crates/data_structure/segtree_2d_compressed/src/lib.rs
+  - icon: ':heavy_check_mark:'
+    path: crates/data_structure/segtree_2d_dense/src/lib.rs
+    title: crates/data_structure/segtree_2d_dense/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/sparse_table/src/lib.rs
     title: crates/data_structure/sparse_table/src/lib.rs
@@ -158,10 +158,10 @@ data:
   path: crates/algebra/src/lib.rs
   requiredBy:
   - crates/data_structure/segtree_2d_compressed/src/lib.rs
+  - crates/data_structure/segtree_2d_dense/src/lib.rs
   - crates/data_structure/segtree/src/lib.rs
   - crates/data_structure/potentialized_union_find/src/lib.rs
   - crates/data_structure/dual_segtree/src/lib.rs
-  - crates/data_structure/segtree_2d/src/lib.rs
   - crates/data_structure/sparse_table/src/lib.rs
   - crates/data_structure/lazy_segtree/src/lib.rs
   - crates/data_structure/sparse_table_on_segtree/src/lib.rs

@@ -36,16 +36,16 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/data_structure/segtree/src/lib.rs
       title: crates/data_structure/segtree/src/lib.rs
-  - name: crates/data_structure/segtree_2d/src
-    pages:
-    - icon: ':heavy_check_mark:'
-      path: crates/data_structure/segtree_2d/src/lib.rs
-      title: crates/data_structure/segtree_2d/src/lib.rs
   - name: crates/data_structure/segtree_2d_compressed/src
     pages:
     - icon: ':heavy_check_mark:'
       path: crates/data_structure/segtree_2d_compressed/src/lib.rs
       title: crates/data_structure/segtree_2d_compressed/src/lib.rs
+  - name: crates/data_structure/segtree_2d_dense/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: crates/data_structure/segtree_2d_dense/src/lib.rs
+      title: crates/data_structure/segtree_2d_dense/src/lib.rs
   - name: crates/data_structure/sparse_table/src
     pages:
     - icon: ':heavy_check_mark:'
