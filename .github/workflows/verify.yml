@@ -42,15 +42,14 @@ jobs:
       run: |
         cargo clean
         cargo update
-        cargo doc --lib
-        git switch cargo-doc
+        cargo doc --lib --target-dir
+        rm -rf doc
         cp -r target/doc doc
         git config --global user.name "github-actions[bot]"
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git add -A
         git commit -m "generate docs"
-        git push origin cargo-doc
-        git switch main
+        git push origin main
 
     - name: Run tests
       env:
@@ -65,7 +64,8 @@ jobs:
     - name: Upload docs
       run: |
         git switch gh-pages
-        git checkout cargo-doc -- doc
+        rm -rf doc
+        git checkout main -- doc
         git config --global user.name "github-actions[bot]"
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git add -A

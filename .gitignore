@@ -4,4 +4,3 @@ Cargo.lock
 *token*
 env.sh
 test/
-tmp-doc/
