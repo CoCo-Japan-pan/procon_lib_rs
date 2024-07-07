@@ -52,6 +52,7 @@ jobs:
       run: |
         git switch main
         git diff
+        rm -rf ~/.cargo/registry
         cargo clean
         cargo update
         cargo doc --lib --target-dir tmp-doc
