@@ -151,16 +151,16 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/modint/static_modint/src/lib.rs
       title: crates/modint/static_modint/src/lib.rs
-  - name: crates/string/kmp_manacher_z/src
-    pages:
-    - icon: ':warning:'
-      path: crates/string/kmp_manacher_z/src/lib.rs
-      title: crates/string/kmp_manacher_z/src/lib.rs
   - name: crates/string/rolling_hash/src
     pages:
     - icon: ':heavy_check_mark:'
       path: crates/string/rolling_hash/src/lib.rs
       title: crates/string/rolling_hash/src/lib.rs
+  - name: crates/string/sa_lcp_array/src
+    pages:
+    - icon: ':warning:'
+      path: crates/string/sa_lcp_array/src/lib.rs
+      title: crates/string/sa_lcp_array/src/lib.rs
   - name: crates/tree/auxiliary_tree/src
     pages:
     - icon: ':heavy_check_mark:'
