@@ -39,16 +39,18 @@ jobs:
         cargo test --all
 
     - name: generate docs
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         cargo clean
         cargo update
-        cargo doc --lib --target-dir cargo-docs
+        cargo doc --lib
+        git switch gh-pages
+        cp -r ./target/doc .verify-helper/docs/static
         git config --global user.name "github-actions[bot]"
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git add -A
         git commit -m "generate docs"
+        git push origin gh-pages
+        git switch main
 
     - name: Run tests
       env:
@@ -59,15 +61,3 @@ jobs:
         DROPBOX_APP_KEY: ${{ secrets.DROPBOX_APP_KEY }}
         DROPBOX_APP_SECRET: ${{ secrets.DROPBOX_APP_SECRET }}
       run: oj-verify all
-
-    - name: Upload docs
-      run: |
-        cp -r cargo-docs ./target 
-        git switch gh-pages
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        cp -r ./target/cargo-docs/doc cargo-doc
-        git add -A
-        git commit -m "upload cargo doc"
-        git push origin gh-pages
-        git switch main
