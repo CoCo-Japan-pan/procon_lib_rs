@@ -1,6 +1,6 @@
 //! 内部で2次元配列を持つセグメント木  
-//! `O(HW)`のメモリを使うので注意  
-//! 2次元なので可換性を要求    
+//! `O(HW)`のメモリを使うので注意(密)  
+//! 2次元なので可換性を要求  
 //! <https://nasubi-blog.hatenablog.com/entry/2021/11/27/185818>の図が分かりやすかったです  
 
 use algebra::{Commutative, Monoid};
@@ -8,7 +8,7 @@ use internal_bits::ceil_log2;
 use std::ops::RangeBounds;
 
 #[derive(Debug)]
-pub struct SegTree2D<M: Monoid + Commutative> {
+pub struct SegTree2DDense<M: Monoid + Commutative> {
     height: usize,
     width: usize,
     ceil_log_h: usize,
@@ -24,7 +24,7 @@ macro_rules! index {
     };
 }
 
-impl<M: Monoid + Commutative> From<&Vec<Vec<M::Target>>> for SegTree2D<M> {
+impl<M: Monoid + Commutative> From<&Vec<Vec<M::Target>>> for SegTree2DDense<M> {
     fn from(v: &Vec<Vec<M::Target>>) -> Self {
         let height = v.len();
         let width = v[0].len();
@@ -37,7 +37,7 @@ impl<M: Monoid + Commutative> From<&Vec<Vec<M::Target>>> for SegTree2D<M> {
             let base = (leaf_height + h) * leaf_width * 2 + leaf_width;
             data[base..base + width].clone_from_slice(v);
         }
-        let mut ret = SegTree2D {
+        let mut ret = SegTree2DDense {
             height,
             width,
             ceil_log_h,
@@ -60,7 +60,7 @@ impl<M: Monoid + Commutative> From<&Vec<Vec<M::Target>>> for SegTree2D<M> {
     }
 }
 
-impl<M: Monoid + Commutative> SegTree2D<M> {
+impl<M: Monoid + Commutative> SegTree2DDense<M> {
     pub fn new(height: usize, width: usize) -> Self {
         (&vec![vec![M::id_element(); width]; height]).into()
     }
@@ -140,7 +140,7 @@ impl<M: Monoid + Commutative> SegTree2D<M> {
     }
 }
 
-impl<M: Monoid + Commutative> SegTree2D<M> {
+impl<M: Monoid + Commutative> SegTree2DDense<M> {
     fn update_from_col_leaf(&mut self, h: usize, w: usize) {
         self.data[index!(self, h, w)] = M::binary_operation(
             &self.data[index!(self, h * 2, w)],

@@ -2,7 +2,7 @@
 
 use algebra::{Commutative, Monoid};
 use proconio::{fastout, input, marker::Usize1};
-use segtree_2d::SegTree2D;
+use segtree_2d_dense::SegTree2DDense;
 use std::collections::VecDeque;
 
 pub enum AddMonoid {}
@@ -26,8 +26,8 @@ fn main() {
         q: usize,
     }
     let mut queue = VecDeque::new();
-    let mut nama_yake = SegTree2D::<AddMonoid>::new(h, w);
-    let mut tabereru = SegTree2D::<AddMonoid>::new(h, w);
+    let mut nama_yake = SegTree2DDense::<AddMonoid>::new(h, w);
+    let mut tabereru = SegTree2DDense::<AddMonoid>::new(h, w);
     for _ in 0..q {
         input! {
             cur_time: usize,

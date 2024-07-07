@@ -1,5 +1,5 @@
 [package]
-name = "segtree_2d"
+name = "segtree_2d_dense"
 version = "0.1.0"
 edition = "2021"
 license = "CC0-1.0"

@@ -8,4 +8,4 @@ edition = "2021"
 [dependencies]
 proconio = { version = "=0.4.5", features = ["derive"] }
 algebra = { path = "../../../crates/algebra" }
-segtree_2d = { path = "../../../crates/data_structure/segtree_2d" }
+segtree_2d_dense = { path = "../../../crates/data_structure/segtree_2d_dense" }
