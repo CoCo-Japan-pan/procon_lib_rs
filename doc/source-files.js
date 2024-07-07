@@ -12,7 +12,6 @@ var sourcesIndex = JSON.parse('{\
 "hld":["",[],["lib.rs"]],\
 "internal_bits":["",[],["lib.rs"]],\
 "internal_type_traits":["",[],["lib.rs"]],\
-"kmp_manacher_z":["",[],["lib.rs"]],\
 "lazy_segtree":["",[],["lib.rs"]],\
 "matrix":["",[],["lib.rs"]],\
 "maxflow":["",[],["lib.rs"]],\
@@ -26,6 +25,7 @@ var sourcesIndex = JSON.parse('{\
 "raq_rsq":["",[],["lib.rs"]],\
 "rerooting":["",[],["lib.rs"]],\
 "rolling_hash":["",[],["lib.rs"]],\
+"sa_lcp_array":["",[],["lib.rs"]],\
 "scc":["",[],["lib.rs"]],\
 "segtree":["",[],["lib.rs"]],\
 "segtree_2d_compressed":["",[],["lib.rs"]],\
