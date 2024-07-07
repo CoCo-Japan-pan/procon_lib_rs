@@ -57,7 +57,7 @@ jobs:
     - name: Upload docs
       run: |
         git switch gh-pages
-        rm -rf cargo-doc tmp-doc
+        rm -rf cargo-doc
         cp -r tmp-doc cargo-doc
         git config --global user.name "github-actions[bot]"
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
