@@ -39,6 +39,8 @@ jobs:
         cargo test --all
 
     - name: generate docs
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         cargo clean
         cargo update
