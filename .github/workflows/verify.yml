@@ -53,11 +53,11 @@ jobs:
         git switch main
         cargo clean
         cargo update
-        cargo doc --lib
+        cargo doc --lib --target-dir tmp-doc
         git switch gh-pages
         git config --global user.name "github-actions[bot]"
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        cp -r ./target/doc cargo-doc
+        cp -r ./tmp-doc/doc cargo-doc
         git add -A
         git commit -m "update cargo doc"
         git push origin gh-pages
