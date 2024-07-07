@@ -52,7 +52,7 @@ jobs:
       run: |
         git switch main
         git diff
-        rm -rf ~/.cargo/registry
+        rm -rf Cargo.lock
         cargo clean
         cargo update
         cargo doc --lib
