@@ -399,4 +399,4 @@ data:
       title: verify/yukicoder/no_649_fenwick_tree/src/main.rs
 layout: toppage
 ---
-<a href = "cargo-doc/doc/algebra/index.html" style = "font-size: 20px; color: green;">cargo-doc</a>
+<a href = "doc/algebra/index.html" style = "font-size: 20px; color: green;">cargo-doc</a>
