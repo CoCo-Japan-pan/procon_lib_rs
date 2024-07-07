@@ -18,15 +18,15 @@ data:
     }\n"
   dependsOn: []
   isVerificationFile: false
-  path: crates/string/sa_lcp_array/src/lib.rs
+  path: crates/string/kmp_manacher_z/src/lib.rs
   requiredBy: []
-  timestamp: '2024-07-07 12:00:45+09:00'
+  timestamp: '2024-07-07 12:06:34+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
-documentation_of: crates/string/sa_lcp_array/src/lib.rs
+documentation_of: crates/string/kmp_manacher_z/src/lib.rs
 layout: document
 redirect_from:
-- /library/crates/string/sa_lcp_array/src/lib.rs
-- /library/crates/string/sa_lcp_array/src/lib.rs.html
-title: crates/string/sa_lcp_array/src/lib.rs
+- /library/crates/string/kmp_manacher_z/src/lib.rs
+- /library/crates/string/kmp_manacher_z/src/lib.rs.html
+title: crates/string/kmp_manacher_z/src/lib.rs
 ---
