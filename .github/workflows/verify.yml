@@ -42,7 +42,7 @@ jobs:
       run: |
         cargo clean
         cargo update
-        cargo doc --lib --target-dir
+        cargo doc --lib
         rm -rf doc
         cp -r target/doc doc
         git config --global user.name "github-actions[bot]"
@@ -64,7 +64,7 @@ jobs:
     - name: Upload docs
       run: |
         git switch gh-pages
-        rm -rf doc
+        rm -rf cargo-doc doc
         git checkout main -- doc
         git config --global user.name "github-actions[bot]"
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
