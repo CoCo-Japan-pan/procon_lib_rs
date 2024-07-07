@@ -51,6 +51,7 @@ jobs:
     - name: generate docs
       run: |
         git switch main
+        git diff
         cargo clean
         cargo update
         cargo doc --lib --target-dir tmp-doc

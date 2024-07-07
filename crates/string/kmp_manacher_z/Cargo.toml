@@ -1,5 +1,5 @@
 [package]
-name = "sa_lcp_array"
+name = "kmp_manacher_z"
 version = "0.1.0"
 edition = "2021"
 
