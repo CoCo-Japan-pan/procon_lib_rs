@@ -70,6 +70,24 @@ impl BitSet {
         self.size as u32 - self.count_ones()
     }
 
+    /// 全て0かどうかを返す
+    #[inline]
+    pub fn none(&self) -> bool {
+        self.count_ones() == 0
+    }
+
+    /// 全て1かどうかを返す
+    #[inline]
+    pub fn all(&self) -> bool {
+        self.count_ones() == self.size as u32
+    }
+
+    /// どれか1つでも1があるかどうかを返す
+    #[inline]
+    pub fn any(&self) -> bool {
+        self.count_ones() > 0
+    }
+
     /// 範囲外だが余分に持っているbitを0にする
     #[inline]
     pub fn chomp(&mut self) {
