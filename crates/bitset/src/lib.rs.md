@@ -1,7 +1,10 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: crates/math/bit_matrix/src/lib.rs
+    title: crates/math/bit_matrix/src/lib.rs
   _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: rs
@@ -41,63 +44,70 @@ data:
     \u3092\u8FD4\u3059\n    #[inline]\n    pub fn count_ones(&self) -> u32 {\n   \
     \     self.buf.iter().map(|&x| x.count_ones()).sum()\n    }\n\n    /// 0\u306E\
     \u6570\u3092\u8FD4\u3059\n    #[inline]\n    pub fn count_zeros(&self) -> u32\
-    \ {\n        self.size as u32 - self.count_ones()\n    }\n\n    /// \u7BC4\u56F2\
-    \u5916\u3060\u304C\u4F59\u5206\u306B\u6301\u3063\u3066\u3044\u308Bbit\u30920\u306B\
-    \u3059\u308B\n    #[inline]\n    pub fn chomp(&mut self) {\n        let r = self.size\
-    \ & 63;\n        if r > 0 {\n            if let Some(last) = self.buf.last_mut()\
-    \ {\n                let d = 64 - r;\n                *last = (*last << d) >>\
-    \ d;\n            }\n        }\n    }\n}\n\nimpl Index<usize> for BitSet {\n \
-    \   type Output = bool;\n    #[inline]\n    fn index(&self, i: usize) -> &bool\
-    \ {\n        out_of_bounds!(self.size, i);\n        let x = self.buf[i >> 6];\n\
-    \        let mask = 1 << (i & 63);\n        if (x & mask) == 0 {\n           \
-    \ &false\n        } else {\n            &true\n        }\n    }\n}\n\nimpl<'a>\
-    \ BitXorAssign<&'a BitSet> for BitSet {\n    #[inline]\n    fn bitxor_assign(&mut\
-    \ self, rhs: &'a BitSet) {\n        for (a, b) in self.buf.iter_mut().zip(&rhs.buf)\
-    \ {\n            *a ^= *b;\n        }\n        self.chomp();\n    }\n}\n\nimpl<'a>\
-    \ BitAndAssign<&'a BitSet> for BitSet {\n    #[inline]\n    fn bitand_assign(&mut\
-    \ self, rhs: &'a BitSet) {\n        for (a, b) in self.buf.iter_mut().zip(&rhs.buf)\
-    \ {\n            *a &= *b;\n        }\n    }\n}\n\nimpl<'a> BitOrAssign<&'a BitSet>\
-    \ for BitSet {\n    #[inline]\n    fn bitor_assign(&mut self, rhs: &'a BitSet)\
+    \ {\n        self.size as u32 - self.count_ones()\n    }\n\n    /// \u5168\u3066\
+    0\u304B\u3069\u3046\u304B\u3092\u8FD4\u3059\n    #[inline]\n    pub fn none(&self)\
+    \ -> bool {\n        self.count_ones() == 0\n    }\n\n    /// \u5168\u30661\u304B\
+    \u3069\u3046\u304B\u3092\u8FD4\u3059\n    #[inline]\n    pub fn all(&self) ->\
+    \ bool {\n        self.count_ones() == self.size as u32\n    }\n\n    /// \u3069\
+    \u308C\u304B1\u3064\u3067\u30821\u304C\u3042\u308B\u304B\u3069\u3046\u304B\u3092\
+    \u8FD4\u3059\n    #[inline]\n    pub fn any(&self) -> bool {\n        self.count_ones()\
+    \ > 0\n    }\n\n    /// \u7BC4\u56F2\u5916\u3060\u304C\u4F59\u5206\u306B\u6301\
+    \u3063\u3066\u3044\u308Bbit\u30920\u306B\u3059\u308B\n    #[inline]\n    pub fn\
+    \ chomp(&mut self) {\n        let r = self.size & 63;\n        if r > 0 {\n  \
+    \          if let Some(last) = self.buf.last_mut() {\n                let d =\
+    \ 64 - r;\n                *last = (*last << d) >> d;\n            }\n       \
+    \ }\n    }\n}\n\nimpl Index<usize> for BitSet {\n    type Output = bool;\n   \
+    \ #[inline]\n    fn index(&self, i: usize) -> &bool {\n        out_of_bounds!(self.size,\
+    \ i);\n        let x = self.buf[i >> 6];\n        let mask = 1 << (i & 63);\n\
+    \        if (x & mask) == 0 {\n            &false\n        } else {\n        \
+    \    &true\n        }\n    }\n}\n\nimpl<'a> BitXorAssign<&'a BitSet> for BitSet\
+    \ {\n    #[inline]\n    fn bitxor_assign(&mut self, rhs: &'a BitSet) {\n     \
+    \   for (a, b) in self.buf.iter_mut().zip(&rhs.buf) {\n            *a ^= *b;\n\
+    \        }\n        self.chomp();\n    }\n}\n\nimpl<'a> BitAndAssign<&'a BitSet>\
+    \ for BitSet {\n    #[inline]\n    fn bitand_assign(&mut self, rhs: &'a BitSet)\
     \ {\n        for (a, b) in self.buf.iter_mut().zip(&rhs.buf) {\n            *a\
-    \ |= *b;\n        }\n        self.chomp();\n    }\n}\n\nmacro_rules! impl_bit_op\
-    \ {\n    ($op:ident, $op_assign:ident, $f:ident) => {\n        impl<'a> $op<&'a\
-    \ BitSet> for BitSet {\n            type Output = BitSet;\n            #[inline]\n\
-    \            fn $f(mut self, rhs: &'a BitSet) -> Self::Output {\n            \
-    \    self.$op_assign(rhs);\n                self\n            }\n        }\n \
-    \       impl<'a, 'b> $op<&'b BitSet> for &'a BitSet {\n            type Output\
-    \ = BitSet;\n            #[inline]\n            fn $f(self, rhs: &'b BitSet) ->\
-    \ Self::Output {\n                let mut res = self.clone();\n              \
-    \  res.$op_assign(rhs);\n                res\n            }\n        }\n    };\n\
-    }\n\nimpl_bit_op!(BitXor, bitxor_assign, bitxor);\nimpl_bit_op!(BitAnd, bitand_assign,\
-    \ bitand);\nimpl_bit_op!(BitOr, bitor_assign, bitor);\n\nimpl Not for BitSet {\n\
-    \    type Output = Self;\n    #[inline]\n    fn not(mut self) -> Self {\n    \
-    \    for x in &mut self.buf {\n            *x = !*x;\n        }\n        self.chomp();\n\
-    \        self\n    }\n}\nimpl<'a> Not for &'a BitSet {\n    type Output = BitSet;\n\
-    \    #[inline]\n    fn not(self) -> Self::Output {\n        !self.clone()\n  \
-    \  }\n}\n\nimpl ShlAssign<usize> for BitSet {\n    #[inline]\n    fn shl_assign(&mut\
-    \ self, rhs: usize) {\n        let q = rhs >> 6;\n        let r = rhs & 63;\n\n\
-    \        if q >= self.buf.len() {\n            for x in &mut self.buf {\n    \
-    \            *x = 0;\n            }\n            return;\n        }\n\n      \
-    \  if r == 0 {\n            for i in (q..self.buf.len()).rev() {\n           \
-    \     *unsafe { self.buf.get_unchecked_mut(i) } =\n                    *unsafe\
-    \ { self.buf.get_unchecked(i - q) };\n            }\n        } else {\n      \
-    \      for i in (q + 1..self.buf.len()).rev() {\n                *unsafe { self.buf.get_unchecked_mut(i)\
-    \ } =\n                    (unsafe { self.buf.get_unchecked(i - q) } << r)\n \
-    \                       | (unsafe { self.buf.get_unchecked(i - q - 1) } >> (64\
-    \ - r));\n            }\n            *unsafe { self.buf.get_unchecked_mut(q) }\
-    \ = unsafe { self.buf.get_unchecked(0) } << r;\n        }\n\n        for x in\
-    \ &mut self.buf[..q] {\n            *x = 0;\n        }\n\n        self.chomp();\n\
-    \    }\n}\n\nimpl ShrAssign<usize> for BitSet {\n    #[inline]\n    fn shr_assign(&mut\
-    \ self, rhs: usize) {\n        let q = rhs >> 6;\n        let r = rhs & 63;\n\n\
-    \        if q >= self.buf.len() {\n            for x in &mut self.buf {\n    \
-    \            *x = 0;\n            }\n            return;\n        }\n\n      \
-    \  if r == 0 {\n            for i in 0..self.buf.len() - q {\n               \
-    \ *unsafe { self.buf.get_unchecked_mut(i) } =\n                    *unsafe { self.buf.get_unchecked(i\
-    \ + q) };\n            }\n        } else {\n            for i in 0..self.buf.len()\
-    \ - q - 1 {\n                *unsafe { self.buf.get_unchecked_mut(i) } =\n   \
-    \                 (unsafe { self.buf.get_unchecked(i + q) } >> r)\n          \
-    \              | (unsafe { self.buf.get_unchecked(i + q + 1) } << (64 - r));\n\
-    \            }\n            let len = self.buf.len();\n            *unsafe { self.buf.get_unchecked_mut(len\
+    \ &= *b;\n        }\n    }\n}\n\nimpl<'a> BitOrAssign<&'a BitSet> for BitSet {\n\
+    \    #[inline]\n    fn bitor_assign(&mut self, rhs: &'a BitSet) {\n        for\
+    \ (a, b) in self.buf.iter_mut().zip(&rhs.buf) {\n            *a |= *b;\n     \
+    \   }\n        self.chomp();\n    }\n}\n\nmacro_rules! impl_bit_op {\n    ($op:ident,\
+    \ $op_assign:ident, $f:ident) => {\n        impl<'a> $op<&'a BitSet> for BitSet\
+    \ {\n            type Output = BitSet;\n            #[inline]\n            fn\
+    \ $f(mut self, rhs: &'a BitSet) -> Self::Output {\n                self.$op_assign(rhs);\n\
+    \                self\n            }\n        }\n        impl<'a, 'b> $op<&'b\
+    \ BitSet> for &'a BitSet {\n            type Output = BitSet;\n            #[inline]\n\
+    \            fn $f(self, rhs: &'b BitSet) -> Self::Output {\n                let\
+    \ mut res = self.clone();\n                res.$op_assign(rhs);\n            \
+    \    res\n            }\n        }\n    };\n}\n\nimpl_bit_op!(BitXor, bitxor_assign,\
+    \ bitxor);\nimpl_bit_op!(BitAnd, bitand_assign, bitand);\nimpl_bit_op!(BitOr,\
+    \ bitor_assign, bitor);\n\nimpl Not for BitSet {\n    type Output = Self;\n  \
+    \  #[inline]\n    fn not(mut self) -> Self {\n        for x in &mut self.buf {\n\
+    \            *x = !*x;\n        }\n        self.chomp();\n        self\n    }\n\
+    }\nimpl<'a> Not for &'a BitSet {\n    type Output = BitSet;\n    #[inline]\n \
+    \   fn not(self) -> Self::Output {\n        !self.clone()\n    }\n}\n\nimpl ShlAssign<usize>\
+    \ for BitSet {\n    #[inline]\n    fn shl_assign(&mut self, rhs: usize) {\n  \
+    \      let q = rhs >> 6;\n        let r = rhs & 63;\n\n        if q >= self.buf.len()\
+    \ {\n            for x in &mut self.buf {\n                *x = 0;\n         \
+    \   }\n            return;\n        }\n\n        if r == 0 {\n            for\
+    \ i in (q..self.buf.len()).rev() {\n                *unsafe { self.buf.get_unchecked_mut(i)\
+    \ } =\n                    *unsafe { self.buf.get_unchecked(i - q) };\n      \
+    \      }\n        } else {\n            for i in (q + 1..self.buf.len()).rev()\
+    \ {\n                *unsafe { self.buf.get_unchecked_mut(i) } =\n           \
+    \         (unsafe { self.buf.get_unchecked(i - q) } << r)\n                  \
+    \      | (unsafe { self.buf.get_unchecked(i - q - 1) } >> (64 - r));\n       \
+    \     }\n            *unsafe { self.buf.get_unchecked_mut(q) } = unsafe { self.buf.get_unchecked(0)\
+    \ } << r;\n        }\n\n        for x in &mut self.buf[..q] {\n            *x\
+    \ = 0;\n        }\n\n        self.chomp();\n    }\n}\n\nimpl ShrAssign<usize>\
+    \ for BitSet {\n    #[inline]\n    fn shr_assign(&mut self, rhs: usize) {\n  \
+    \      let q = rhs >> 6;\n        let r = rhs & 63;\n\n        if q >= self.buf.len()\
+    \ {\n            for x in &mut self.buf {\n                *x = 0;\n         \
+    \   }\n            return;\n        }\n\n        if r == 0 {\n            for\
+    \ i in 0..self.buf.len() - q {\n                *unsafe { self.buf.get_unchecked_mut(i)\
+    \ } =\n                    *unsafe { self.buf.get_unchecked(i + q) };\n      \
+    \      }\n        } else {\n            for i in 0..self.buf.len() - q - 1 {\n\
+    \                *unsafe { self.buf.get_unchecked_mut(i) } =\n               \
+    \     (unsafe { self.buf.get_unchecked(i + q) } >> r)\n                      \
+    \  | (unsafe { self.buf.get_unchecked(i + q + 1) } << (64 - r));\n           \
+    \ }\n            let len = self.buf.len();\n            *unsafe { self.buf.get_unchecked_mut(len\
     \ - q - 1) } =\n                unsafe { self.buf.get_unchecked(len - 1) } >>\
     \ r;\n        }\n\n        let len = self.buf.len();\n        for x in &mut self.buf[len\
     \ - q..] {\n            *x = 0;\n        }\n    }\n}\n\nmacro_rules! impl_shift_op\
@@ -153,8 +163,9 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: crates/bitset/src/lib.rs
-  requiredBy: []
-  timestamp: '2024-07-10 00:10:26+09:00'
+  requiredBy:
+  - crates/math/bit_matrix/src/lib.rs
+  timestamp: '2024-07-10 00:20:21+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/bitset/src/lib.rs
