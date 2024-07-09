@@ -1,4 +1,5 @@
-//! From <https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/lazysegtree.rs>  
+//! From <https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/lazysegtree.rs>
+//! Under [CC0-1.0](https://creativecommons.org/public-domain/cc0/)  
 //! compositionやmappingに可変参照を用いているところと、作用が可変なら伝播を一部サボる部分が異なる
 
 use algebra::{ActionMonoid, Commutative, Monoid, NonCommutative};

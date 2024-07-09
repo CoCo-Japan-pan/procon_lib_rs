@@ -1,4 +1,5 @@
 //! From <https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs>
+//! Under [CC0-1.0](https://creativecommons.org/public-domain/cc0/)
 
 use algebra::Monoid;
 use internal_bits::ceil_log2;
