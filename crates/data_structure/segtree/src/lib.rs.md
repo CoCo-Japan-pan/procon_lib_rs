@@ -23,16 +23,18 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
+    - https://creativecommons.org/public-domain/cc0/)
     - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs>
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! From <https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs>\n\
-    \nuse algebra::Monoid;\nuse internal_bits::ceil_log2;\nuse std::ops::RangeBounds;\n\
-    \n#[derive(Debug, Clone, PartialEq, Eq)]\npub struct SegTree<M: Monoid> {\n  \
-    \  range_size: usize,\n    leaf_size: usize,\n    log: usize,\n    data: Vec<M::Target>,\n\
-    }\n\nimpl<M: Monoid> From<&Vec<M::Target>> for SegTree<M> {\n    fn from(v: &Vec<M::Target>)\
+    //! Under [CC0-1.0](https://creativecommons.org/public-domain/cc0/)\n\nuse algebra::Monoid;\n\
+    use internal_bits::ceil_log2;\nuse std::ops::RangeBounds;\n\n#[derive(Debug, Clone,\
+    \ PartialEq, Eq)]\npub struct SegTree<M: Monoid> {\n    range_size: usize,\n \
+    \   leaf_size: usize,\n    log: usize,\n    data: Vec<M::Target>,\n}\n\nimpl<M:\
+    \ Monoid> From<&Vec<M::Target>> for SegTree<M> {\n    fn from(v: &Vec<M::Target>)\
     \ -> Self {\n        let range_size = v.len();\n        let log = ceil_log2(range_size\
     \ as u32) as usize;\n        let leaf_size = 1 << log;\n        let mut data =\
     \ vec![M::id_element(); leaf_size * 2];\n        data[leaf_size..leaf_size + range_size].clone_from_slice(v);\n\
@@ -97,7 +99,7 @@ data:
   path: crates/data_structure/segtree/src/lib.rs
   requiredBy:
   - crates/data_structure/segtree_2d_compressed/src/lib.rs
-  timestamp: '2024-07-06 23:41:25+09:00'
+  timestamp: '2024-07-10 00:10:26+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/vertex_set_path_composite/src/main.rs

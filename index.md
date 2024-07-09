@@ -6,6 +6,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/algebra/src/lib.rs
       title: crates/algebra/src/lib.rs
+  - name: crates/bitset/src
+    pages:
+    - icon: ':warning:'
+      path: crates/bitset/src/lib.rs
+      title: crates/bitset/src/lib.rs
   - name: crates/data_structure/dual_segtree/src
     pages:
     - icon: ':heavy_check_mark:'

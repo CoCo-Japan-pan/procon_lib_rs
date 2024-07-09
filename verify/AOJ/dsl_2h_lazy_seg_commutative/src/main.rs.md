@@ -47,7 +47,7 @@ data:
   isVerificationFile: true
   path: verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
   requiredBy: []
-  timestamp: '2024-07-06 23:41:25+09:00'
+  timestamp: '2024-07-10 00:10:26+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
