@@ -113,8 +113,9 @@ impl BitMatrix {
     }
 
     /// 連立一次方程式 Ax = bを解く(Aがselfの行列、bが引数のベクトル)  
-    /// 解が存在する場合はrankと解(の一つ)を返し、存在しない場合はNoneを返す  
-    /// 解の自由度は2^(b.len() - rank)である
+    /// 解が存在する場合は`Some((freedom, solution))`を返し、存在しない場合は`None`を返す  
+    /// freedomは解の自由度、solutionは解の一つを表すベクトル  
+    /// 解の個数は2^freedom個となる
     pub fn linear_equation(&self, b: &[bool]) -> Option<(usize, Vec<bool>)> {
         assert_eq!(self.height, b.len());
         let mut mat = BitMatrix::new(self.height, self.width + 1);
@@ -141,7 +142,7 @@ impl BitMatrix {
             ans[cur_col] = mat.get(r, self.width);
             cur_col += 1;
         }
-        Some((rank, ans))
+        Some((self.width - rank, ans))
     }
 
     pub fn unit(n: usize) -> Self {
