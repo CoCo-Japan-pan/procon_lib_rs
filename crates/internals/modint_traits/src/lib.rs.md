@@ -77,11 +77,11 @@ data:
   isVerificationFile: false
   path: crates/internals/modint_traits/src/lib.rs
   requiredBy:
-  - crates/math/enumerate_inv_mods/src/lib.rs
-  - crates/math/binom/src/lib.rs
-  - crates/fps/ntt/src/lib.rs
-  - crates/modint/static_modint/src/lib.rs
   - crates/modint/dynamic_modint/src/lib.rs
+  - crates/modint/static_modint/src/lib.rs
+  - crates/math/binom/src/lib.rs
+  - crates/math/enumerate_inv_mods/src/lib.rs
+  - crates/fps/ntt/src/lib.rs
   timestamp: '2024-05-28 23:22:35+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

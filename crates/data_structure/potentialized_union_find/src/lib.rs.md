@@ -6,8 +6,8 @@ data:
     title: crates/algebra/src/lib.rs
   _extendedRequiredBy:
   - icon: ':warning:'
-    path: verify/AtCoder/tessoku_068/src/main.rs
-    title: verify/AtCoder/tessoku_068/src/main.rs
+    path: verify/AtCoder/typical_068/src/main.rs
+    title: verify/AtCoder/typical_068/src/main.rs
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: verify/AtCoder/abc328f/src/main.rs
@@ -85,7 +85,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/potentialized_union_find/src/lib.rs
   requiredBy:
-  - verify/AtCoder/tessoku_068/src/main.rs
+  - verify/AtCoder/typical_068/src/main.rs
   timestamp: '2024-07-06 23:41:25+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
