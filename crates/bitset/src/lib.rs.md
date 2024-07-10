@@ -56,8 +56,12 @@ data:
     \ chomp(&mut self) {\n        let r = self.size & 63;\n        if r > 0 {\n  \
     \          if let Some(last) = self.buf.last_mut() {\n                let d =\
     \ 64 - r;\n                *last = (*last << d) >> d;\n            }\n       \
-    \ }\n    }\n}\n\nimpl Index<usize> for BitSet {\n    type Output = bool;\n   \
-    \ #[inline]\n    fn index(&self, i: usize) -> &bool {\n        out_of_bounds!(self.size,\
+    \ }\n    }\n\n    /// \u5185\u7A4D\u3092\u6C42\u3081\u308B\n    pub fn dot(&self,\
+    \ other: &Self) -> bool {\n        assert_eq!(self.size, other.size);\n      \
+    \  self.buf\n            .iter()\n            .zip(&other.buf)\n            .map(|(a,\
+    \ b)| ((a & b).count_ones() & 1) == 1)\n            .fold(false, |acc, x| acc\
+    \ ^ x)\n    }\n}\n\nimpl Index<usize> for BitSet {\n    type Output = bool;\n\
+    \    #[inline]\n    fn index(&self, i: usize) -> &bool {\n        out_of_bounds!(self.size,\
     \ i);\n        let x = self.buf[i >> 6];\n        let mask = 1 << (i & 63);\n\
     \        if (x & mask) == 0 {\n            &false\n        } else {\n        \
     \    &true\n        }\n    }\n}\n\nimpl<'a> BitXorAssign<&'a BitSet> for BitSet\
@@ -165,7 +169,7 @@ data:
   path: crates/bitset/src/lib.rs
   requiredBy:
   - crates/math/bit_matrix/src/lib.rs
-  timestamp: '2024-07-10 00:20:21+09:00'
+  timestamp: '2024-07-10 11:35:31+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/bitset/src/lib.rs
