@@ -1,4 +1,4 @@
-//! mod 2の世界での(一般の足し算、掛け算に関する)行列  
+//! mod 2の世界での通常の意味での足し算(XOR)、掛け算(AND)に関する行列  
 
 use bitset::BitSet;
 use std::ops::{Add, AddAssign, Index, Mul, MulAssign};
@@ -142,7 +142,9 @@ impl BitMatrix {
             ans[cur_col] = mat.get(r, self.width);
             cur_col += 1;
         }
-        Some((self.width - rank, ans))
+        // 解の自由度
+        let freedom = self.width - rank;
+        Some((freedom, ans))
     }
 
     pub fn unit(n: usize) -> Self {
@@ -270,6 +272,21 @@ mod test {
             assert_eq!(mat * &ans_mat, b_mat);
         }
         eprintln!("no_ans_cnt: {}", no_ans_cnt);
+    }
+
+    #[test]
+    fn test_skip_col() {
+        // 3つめのpivotが3列目を飛ばして4列目にくる例
+        let mat = BitMatrix::from([
+            [true, false, true, true, false],
+            [false, true, false, true, true],
+            [false, false, false, true, true],
+            [false, false, false, false, true],
+        ]);
+        let b = [true, false, true, false];
+        let (freedom, ans) = mat.linear_equation(&b).unwrap();
+        assert_eq!(freedom, 1);
+        assert_eq!(ans, vec![false, true, false, true, false]);
     }
 
     #[test]
