@@ -84,10 +84,9 @@ impl BitMatrix {
             while cur_col < self.width && !mat.get(r, cur_col) {
                 cur_col += 1;
             }
-            if cur_col == self.width {
-                continue;
-            }
+            assert!(cur_col < self.width);
             ans[cur_col] = mat.get(r, self.width);
+            cur_col += 1;
         }
         Some((rank, ans))
     }
