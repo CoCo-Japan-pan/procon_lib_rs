@@ -1,5 +1,4 @@
 //! mod 2の世界での(一般の足し算、掛け算に関する)行列  
-//! つまり足し算がXOR、掛け算がANDである行列を扱う  
 
 use bitset::BitSet;
 
@@ -61,9 +60,35 @@ impl BitMatrix {
     }
 
     /// 連立一次方程式 Ax = bを解く(Aがselfの行列、bが引数のベクトル)  
-    /// 解が存在する場合はrankと解(の一つ)を返し、存在しない場合はNoneを返す
+    /// 解が存在する場合はrankと解(の一つ)を返し、存在しない場合はNoneを返す  
+    /// 解の自由度は2^(b.len() - rank)である
     pub fn linear_equation(&self, b: &[bool]) -> Option<(usize, Vec<bool>)> {
         assert_eq!(self.height, b.len());
-        todo!()
+        let mut mat = BitMatrix::new(self.height, self.width + 1);
+        #[allow(clippy::needless_range_loop)]
+        for i in 0..self.height {
+            for j in 0..self.width {
+                mat.set(i, j, self.get(i, j));
+            }
+            mat.set(i, self.width, b[i]);
+        }
+        let rank = mat.gauss_jordan(true);
+        for i in rank..self.height {
+            if mat.get(i, self.width) {
+                return None;
+            }
+        }
+        let mut ans = vec![false; self.width];
+        let mut cur_col = 0;
+        for r in 0..rank {
+            while cur_col < self.width && !mat.get(r, cur_col) {
+                cur_col += 1;
+            }
+            if cur_col == self.width {
+                continue;
+            }
+            ans[cur_col] = mat.get(r, self.width);
+        }
+        Some((rank, ans))
     }
 }

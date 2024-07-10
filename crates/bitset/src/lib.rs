@@ -99,6 +99,16 @@ impl BitSet {
             }
         }
     }
+
+    /// 内積を求める
+    pub fn dot(&self, other: &Self) -> bool {
+        assert_eq!(self.size, other.size);
+        self.buf
+            .iter()
+            .zip(&other.buf)
+            .map(|(a, b)| ((a & b).count_ones() & 1) == 1)
+            .fold(false, |acc, x| acc ^ x)
+    }
 }
 
 impl Index<usize> for BitSet {
