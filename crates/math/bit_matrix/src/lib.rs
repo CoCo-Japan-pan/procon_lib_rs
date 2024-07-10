@@ -282,6 +282,36 @@ mod test {
     }
 
     #[test]
+    fn test_independent_manual() {
+        let mut mat = BitMatrix::from([
+            [true, false, false, true],
+            [false, false, true, false],
+            [true, false, true, true],
+            [false, true, false, true],
+            [true, true, true, false],
+        ]);
+        let (rank, mut independent) = mat.gauss_jordan(false);
+        assert_eq!(rank, 3);
+        independent.sort();
+        assert_eq!(independent, vec![0, 2, 3]);
+
+        let mut mat = BitMatrix::from([
+            [true, false, false],
+            [true, false, false],
+            [true, false, false],
+            [true, true, false],
+            [false, true, false],
+            [false, false, false],
+            [false, true, false],
+            [false, true, true],
+        ]);
+        let (rank, mut independent) = mat.gauss_jordan(false);
+        assert_eq!(rank, 3);
+        independent.sort();
+        assert_eq!(independent, vec![0, 3, 7]);
+    }
+
+    #[test]
     fn linear_eq_test() {
         let mut rng = thread_rng();
         let mut no_ans_cnt = 0;
