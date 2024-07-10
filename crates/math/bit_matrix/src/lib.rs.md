@@ -4,7 +4,10 @@ data:
   - icon: ':warning:'
     path: crates/bitset/src/lib.rs
     title: crates/bitset/src/lib.rs
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: verify/AtCoder/tessoku_057/src/main.rs
+    title: verify/AtCoder/tessoku_057/src/main.rs
   _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: rs
@@ -59,28 +62,30 @@ data:
     \ rank += 1;\n            }\n        }\n        rank\n    }\n\n    /// \u9023\u7ACB\
     \u4E00\u6B21\u65B9\u7A0B\u5F0F Ax = b\u3092\u89E3\u304F(A\u304Cself\u306E\u884C\
     \u5217\u3001b\u304C\u5F15\u6570\u306E\u30D9\u30AF\u30C8\u30EB)  \n    /// \u89E3\
-    \u304C\u5B58\u5728\u3059\u308B\u5834\u5408\u306Frank\u3068\u89E3(\u306E\u4E00\u3064\
-    )\u3092\u8FD4\u3057\u3001\u5B58\u5728\u3057\u306A\u3044\u5834\u5408\u306FNone\u3092\
-    \u8FD4\u3059  \n    /// \u89E3\u306E\u81EA\u7531\u5EA6\u306F2^(b.len() - rank)\u3067\
-    \u3042\u308B\n    pub fn linear_equation(&self, b: &[bool]) -> Option<(usize,\
-    \ Vec<bool>)> {\n        assert_eq!(self.height, b.len());\n        let mut mat\
-    \ = BitMatrix::new(self.height, self.width + 1);\n        #[allow(clippy::needless_range_loop)]\n\
-    \        for i in 0..self.height {\n            for j in 0..self.width {\n   \
-    \             mat.set(i, j, self.get(i, j));\n            }\n            mat.set(i,\
-    \ self.width, b[i]);\n        }\n        let rank = mat.gauss_jordan(true);\n\
-    \        for i in rank..self.height {\n            if mat.get(i, self.width) {\n\
-    \                return None;\n            }\n        }\n        let mut ans =\
-    \ vec![false; self.width];\n        let mut cur_col = 0;\n        for r in 0..rank\
-    \ {\n            while cur_col < self.width && !mat.get(r, cur_col) {\n      \
-    \          cur_col += 1;\n            }\n            assert!(cur_col < self.width);\n\
+    \u304C\u5B58\u5728\u3059\u308B\u5834\u5408\u306F`Some((freedom, solution))`\u3092\
+    \u8FD4\u3057\u3001\u5B58\u5728\u3057\u306A\u3044\u5834\u5408\u306F`None`\u3092\
+    \u8FD4\u3059  \n    /// freedom\u306F\u89E3\u306E\u81EA\u7531\u5EA6\u3001solution\u306F\
+    \u89E3\u306E\u4E00\u3064\u3092\u8868\u3059\u30D9\u30AF\u30C8\u30EB  \n    ///\
+    \ \u89E3\u306E\u500B\u6570\u306F2^freedom\u500B\u3068\u306A\u308B\n    pub fn\
+    \ linear_equation(&self, b: &[bool]) -> Option<(usize, Vec<bool>)> {\n       \
+    \ assert_eq!(self.height, b.len());\n        let mut mat = BitMatrix::new(self.height,\
+    \ self.width + 1);\n        #[allow(clippy::needless_range_loop)]\n        for\
+    \ i in 0..self.height {\n            for j in 0..self.width {\n              \
+    \  mat.set(i, j, self.get(i, j));\n            }\n            mat.set(i, self.width,\
+    \ b[i]);\n        }\n        let rank = mat.gauss_jordan(true);\n        for i\
+    \ in rank..self.height {\n            if mat.get(i, self.width) {\n          \
+    \      return None;\n            }\n        }\n        let mut ans = vec![false;\
+    \ self.width];\n        let mut cur_col = 0;\n        for r in 0..rank {\n   \
+    \         while cur_col < self.width && !mat.get(r, cur_col) {\n             \
+    \   cur_col += 1;\n            }\n            assert!(cur_col < self.width);\n\
     \            ans[cur_col] = mat.get(r, self.width);\n            cur_col += 1;\n\
-    \        }\n        Some((rank, ans))\n    }\n\n    pub fn unit(n: usize) -> Self\
-    \ {\n        let mut res = Self::new(n, n);\n        for i in 0..n {\n       \
-    \     res.set(i, i, true);\n        }\n        res\n    }\n\n    pub fn transpose(&self)\
-    \ -> Self {\n        let mut res = Self::new(self.width, self.height);\n     \
-    \   for i in 0..self.height {\n            for j in 0..self.width {\n        \
-    \        res.set(j, i, self.get(i, j));\n            }\n        }\n        res\n\
-    \    }\n\n    pub fn pow(&self, mut n: u64) -> Self {\n        assert_eq!(self.height,\
+    \        }\n        Some((self.width - rank, ans))\n    }\n\n    pub fn unit(n:\
+    \ usize) -> Self {\n        let mut res = Self::new(n, n);\n        for i in 0..n\
+    \ {\n            res.set(i, i, true);\n        }\n        res\n    }\n\n    pub\
+    \ fn transpose(&self) -> Self {\n        let mut res = Self::new(self.width, self.height);\n\
+    \        for i in 0..self.height {\n            for j in 0..self.width {\n   \
+    \             res.set(j, i, self.get(i, j));\n            }\n        }\n     \
+    \   res\n    }\n\n    pub fn pow(&self, mut n: u64) -> Self {\n        assert_eq!(self.height,\
     \ self.width);\n        let mut res = Self::unit(self.height);\n        let mut\
     \ a = self.clone();\n        while n > 0 {\n            if (n & 1) == 1 {\n  \
     \              res *= &a;\n            }\n            a = &a * &a;\n         \
@@ -127,8 +132,9 @@ data:
   - crates/bitset/src/lib.rs
   isVerificationFile: false
   path: crates/math/bit_matrix/src/lib.rs
-  requiredBy: []
-  timestamp: '2024-07-10 14:37:30+09:00'
+  requiredBy:
+  - verify/AtCoder/tessoku_057/src/main.rs
+  timestamp: '2024-07-10 15:13:28+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/math/bit_matrix/src/lib.rs

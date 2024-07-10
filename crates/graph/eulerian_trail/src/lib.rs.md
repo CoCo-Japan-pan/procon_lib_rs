@@ -97,8 +97,8 @@ data:
   isVerificationFile: false
   path: crates/graph/eulerian_trail/src/lib.rs
   requiredBy:
-  - verify/yosupo/eulerian_trail_directed/src/main.rs
   - verify/yosupo/eulerian_trail_undirected/src/main.rs
+  - verify/yosupo/eulerian_trail_directed/src/main.rs
   timestamp: '2024-06-06 18:19:30+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

@@ -33,8 +33,8 @@ data:
   path: crates/internals/internal_bits/src/lib.rs
   requiredBy:
   - crates/data_structure/segtree_2d_dense/src/lib.rs
-  - crates/data_structure/lazy_segtree/src/lib.rs
   - crates/data_structure/segtree/src/lib.rs
+  - crates/data_structure/lazy_segtree/src/lib.rs
   - crates/fps/fps_utils/src/lib.rs
   timestamp: '2024-05-30 17:49:36+09:00'
   verificationStatus: LIBRARY_NO_TESTS

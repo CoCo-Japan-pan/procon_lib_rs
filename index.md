@@ -196,6 +196,11 @@ data:
     - icon: ':warning:'
       path: verify/AtCoder/abc359g/src/main.rs
       title: verify/AtCoder/abc359g/src/main.rs
+  - name: verify/AtCoder/tessoku_057/src
+    pages:
+    - icon: ':warning:'
+      path: verify/AtCoder/tessoku_057/src/main.rs
+      title: verify/AtCoder/tessoku_057/src/main.rs
   - name: verify/AtCoder/tessoku_068/src
     pages:
     - icon: ':warning:'
