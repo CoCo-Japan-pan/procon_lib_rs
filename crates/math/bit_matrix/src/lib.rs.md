@@ -139,43 +139,55 @@ data:
     \   if bit & (1 << j) > 0 {\n                            num ^= nums[independent[j]];\n\
     \                        }\n                    }\n                    assert_ne!(num,\
     \ cur_num);\n                }\n            }\n        }\n    }\n\n    #[test]\n\
-    \    fn linear_eq_test() {\n        let mut rng = thread_rng();\n        let mut\
-    \ no_ans_cnt = 0;\n        for _ in 0..10 {\n            let n = rng.gen_range(1..=1000);\n\
-    \            let m = rng.gen_range(n..=1000);\n            let mut mat = BitMatrix::new(n,\
-    \ m);\n            let mut b = vec![false; n];\n            for i in 0..n {\n\
-    \                for j in 0..m {\n                    mat.set(i, j, rng.gen());\n\
-    \                }\n                b[i] = rng.gen();\n            }\n       \
-    \     let Some((rank, ans)) = mat.linear_equation(&b) else {\n               \
-    \ no_ans_cnt += 1;\n                continue;\n            };\n            assert!(rank\
-    \ <= ans.len());\n            for i in 0..n {\n                let mut sum = false;\n\
-    \                for j in 0..m {\n                    sum ^= mat.get(i, j) &&\
-    \ ans[j];\n                }\n                assert_eq!(sum, b[i]);\n       \
-    \     }\n\n            // \u884C\u5217\u306E\u639B\u3051\u7B97\u3067\u3082\u78BA\
-    \u8A8D\n            let b_mat = BitMatrix::from(vec![b]).transpose();\n      \
-    \      let ans_mat = BitMatrix::from(vec![ans]).transpose();\n            assert_eq!(BitMatrix::xor_and_mul(&mat,\
-    \ &ans_mat), b_mat);\n        }\n        eprintln!(\"no_ans_cnt: {}\", no_ans_cnt);\n\
-    \    }\n\n    #[test]\n    fn test_skip_col() {\n        // 3\u3064\u3081\u306E\
-    pivot\u304C3\u5217\u76EE\u3092\u98DB\u3070\u3057\u30664\u5217\u76EE\u306B\u304F\
-    \u308B\u4F8B\n        let mat = BitMatrix::from([\n            [true, false, true,\
-    \ true, false],\n            [false, true, false, true, true],\n            [false,\
-    \ false, false, true, true],\n            [false, false, false, false, true],\n\
-    \        ]);\n        let b = [true, false, true, false];\n        let (freedom,\
-    \ ans) = mat.linear_equation(&b).unwrap();\n        assert_eq!(freedom, 1);\n\
-    \        assert_eq!(ans, vec![false, true, false, true, false]);\n    }\n\n  \
-    \  #[test]\n    fn test_pow() {\n        let mut rng = thread_rng();\n       \
-    \ let mat = BitMatrix::from([[true, true], [false, true]]);\n        for _ in\
-    \ 0..100 {\n            let beki = rng.gen_range(0_u64..10_u64.pow(18));\n   \
-    \         let ans = mat.pow(beki, BitMatrix::xor_and_mul);\n            if (beki\
-    \ & 1) > 0 {\n                assert_eq!(ans, mat);\n            } else {\n  \
-    \              assert_eq!(ans, BitMatrix::unit(2));\n            }\n        }\n\
-    \    }\n}\n"
+    \    fn test_independent_manual() {\n        let mut mat = BitMatrix::from([\n\
+    \            [true, false, false, true],\n            [false, false, true, false],\n\
+    \            [true, false, true, true],\n            [false, true, false, true],\n\
+    \            [true, true, true, false],\n        ]);\n        let (rank, mut independent)\
+    \ = mat.gauss_jordan(false);\n        assert_eq!(rank, 3);\n        independent.sort();\n\
+    \        assert_eq!(independent, vec![0, 2, 3]);\n\n        let mut mat = BitMatrix::from([\n\
+    \            [true, false, false],\n            [true, false, false],\n      \
+    \      [true, false, false],\n            [true, true, false],\n            [false,\
+    \ true, false],\n            [false, false, false],\n            [false, true,\
+    \ false],\n            [false, true, true],\n        ]);\n        let (rank, mut\
+    \ independent) = mat.gauss_jordan(false);\n        assert_eq!(rank, 3);\n    \
+    \    independent.sort();\n        assert_eq!(independent, vec![0, 3, 7]);\n  \
+    \  }\n\n    #[test]\n    fn linear_eq_test() {\n        let mut rng = thread_rng();\n\
+    \        let mut no_ans_cnt = 0;\n        for _ in 0..10 {\n            let n\
+    \ = rng.gen_range(1..=1000);\n            let m = rng.gen_range(n..=1000);\n \
+    \           let mut mat = BitMatrix::new(n, m);\n            let mut b = vec![false;\
+    \ n];\n            for i in 0..n {\n                for j in 0..m {\n        \
+    \            mat.set(i, j, rng.gen());\n                }\n                b[i]\
+    \ = rng.gen();\n            }\n            let Some((rank, ans)) = mat.linear_equation(&b)\
+    \ else {\n                no_ans_cnt += 1;\n                continue;\n      \
+    \      };\n            assert!(rank <= ans.len());\n            for i in 0..n\
+    \ {\n                let mut sum = false;\n                for j in 0..m {\n \
+    \                   sum ^= mat.get(i, j) && ans[j];\n                }\n     \
+    \           assert_eq!(sum, b[i]);\n            }\n\n            // \u884C\u5217\
+    \u306E\u639B\u3051\u7B97\u3067\u3082\u78BA\u8A8D\n            let b_mat = BitMatrix::from(vec![b]).transpose();\n\
+    \            let ans_mat = BitMatrix::from(vec![ans]).transpose();\n         \
+    \   assert_eq!(BitMatrix::xor_and_mul(&mat, &ans_mat), b_mat);\n        }\n  \
+    \      eprintln!(\"no_ans_cnt: {}\", no_ans_cnt);\n    }\n\n    #[test]\n    fn\
+    \ test_skip_col() {\n        // 3\u3064\u3081\u306Epivot\u304C3\u5217\u76EE\u3092\
+    \u98DB\u3070\u3057\u30664\u5217\u76EE\u306B\u304F\u308B\u4F8B\n        let mat\
+    \ = BitMatrix::from([\n            [true, false, true, true, false],\n       \
+    \     [false, true, false, true, true],\n            [false, false, false, true,\
+    \ true],\n            [false, false, false, false, true],\n        ]);\n     \
+    \   let b = [true, false, true, false];\n        let (freedom, ans) = mat.linear_equation(&b).unwrap();\n\
+    \        assert_eq!(freedom, 1);\n        assert_eq!(ans, vec![false, true, false,\
+    \ true, false]);\n    }\n\n    #[test]\n    fn test_pow() {\n        let mut rng\
+    \ = thread_rng();\n        let mat = BitMatrix::from([[true, true], [false, true]]);\n\
+    \        for _ in 0..100 {\n            let beki = rng.gen_range(0_u64..10_u64.pow(18));\n\
+    \            let ans = mat.pow(beki, BitMatrix::xor_and_mul);\n            if\
+    \ (beki & 1) > 0 {\n                assert_eq!(ans, mat);\n            } else\
+    \ {\n                assert_eq!(ans, BitMatrix::unit(2));\n            }\n   \
+    \     }\n    }\n}\n"
   dependsOn:
   - crates/bitset/src/lib.rs
   isVerificationFile: false
   path: crates/math/bit_matrix/src/lib.rs
   requiredBy:
   - verify/AtCoder/typical_057/src/main.rs
-  timestamp: '2024-07-11 00:18:49+09:00'
+  timestamp: '2024-07-11 00:29:58+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_803/src/main.rs
