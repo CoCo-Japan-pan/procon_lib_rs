@@ -25,6 +25,32 @@ macro_rules! out_of_bounds {
     };
 }
 
+impl From<Vec<bool>> for BitSet {
+    fn from(v: Vec<bool>) -> Self {
+        let size = v.len();
+        let mut buf = vec![0; (size + 63) / 64];
+        for i in 0..size {
+            if v[i] {
+                buf[i >> 6] |= 1 << (i & 63);
+            }
+        }
+        Self { buf, size }
+    }
+}
+
+impl<const N: usize> From<[bool; N]> for BitSet {
+    fn from(v: [bool; N]) -> Self {
+        let size = N;
+        let mut buf = vec![0; (size + 63) / 64];
+        for i in 0..size {
+            if v[i] {
+                buf[i >> 6] |= 1 << (i & 63);
+            }
+        }
+        Self { buf, size }
+    }
+}
+
 impl BitSet {
     /// size個のbitを持つBitSetを生成する(どれもunset)
     pub fn new(size: usize) -> Self {
@@ -38,6 +64,15 @@ impl BitSet {
     #[inline]
     pub fn size(&self) -> usize {
         self.size
+    }
+
+    #[inline]
+    /// indexでアクセスしてもよい
+    pub fn get(&self, i: usize) -> bool {
+        out_of_bounds!(self.size, i);
+        let x = self.buf[i >> 6];
+        let mask = 1 << (i & 63);
+        (x & mask) != 0
     }
 
     /// i番目のbitをbに設定する
