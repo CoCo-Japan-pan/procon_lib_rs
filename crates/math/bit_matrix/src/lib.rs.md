@@ -18,23 +18,24 @@ data:
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "//! mod 2\u306E\u4E16\u754C\u3067\u306E(\u4E00\u822C\u306E\u8DB3\u3057\u7B97\
-    \u3001\u639B\u3051\u7B97\u306B\u95A2\u3059\u308B)\u884C\u5217  \n\nuse bitset::BitSet;\n\
-    use std::ops::{Add, AddAssign, Index, Mul, MulAssign};\n\n#[derive(Debug, Clone,\
-    \ PartialEq, Eq)]\npub struct BitMatrix {\n    height: usize,\n    width: usize,\n\
-    \    data: Vec<BitSet>,\n}\n\nimpl From<Vec<Vec<bool>>> for BitMatrix {\n    fn\
-    \ from(v: Vec<Vec<bool>>) -> Self {\n        let height = v.len();\n        let\
-    \ width = v[0].len();\n        let data = v.into_iter().map(BitSet::from).collect();\n\
-    \        Self {\n            height,\n            width,\n            data,\n\
-    \        }\n    }\n}\n\nimpl<const H: usize, const W: usize> From<[[bool; W];\
-    \ H]> for BitMatrix {\n    fn from(v: [[bool; W]; H]) -> Self {\n        let height\
-    \ = H;\n        let width = W;\n        let data = v.into_iter().map(BitSet::from).collect();\n\
-    \        Self {\n            height,\n            width,\n            data,\n\
-    \        }\n    }\n}\n\nimpl From<Vec<BitSet>> for BitMatrix {\n    fn from(v:\
-    \ Vec<BitSet>) -> Self {\n        let height = v.len();\n        let width = v[0].size();\n\
-    \        Self {\n            height,\n            width,\n            data: v,\n\
-    \        }\n    }\n}\n\nimpl<const H: usize> From<[BitSet; H]> for BitMatrix {\n\
-    \    fn from(v: [BitSet; H]) -> Self {\n        let height = H;\n        let width\
+  code: "//! mod 2\u306E\u4E16\u754C\u3067\u306E\u901A\u5E38\u306E\u610F\u5473\u3067\
+    \u306E\u8DB3\u3057\u7B97(XOR)\u3001\u639B\u3051\u7B97(AND)\u306B\u95A2\u3059\u308B\
+    \u884C\u5217  \n\nuse bitset::BitSet;\nuse std::ops::{Add, AddAssign, Index, Mul,\
+    \ MulAssign};\n\n#[derive(Debug, Clone, PartialEq, Eq)]\npub struct BitMatrix\
+    \ {\n    height: usize,\n    width: usize,\n    data: Vec<BitSet>,\n}\n\nimpl\
+    \ From<Vec<Vec<bool>>> for BitMatrix {\n    fn from(v: Vec<Vec<bool>>) -> Self\
+    \ {\n        let height = v.len();\n        let width = v[0].len();\n        let\
+    \ data = v.into_iter().map(BitSet::from).collect();\n        Self {\n        \
+    \    height,\n            width,\n            data,\n        }\n    }\n}\n\nimpl<const\
+    \ H: usize, const W: usize> From<[[bool; W]; H]> for BitMatrix {\n    fn from(v:\
+    \ [[bool; W]; H]) -> Self {\n        let height = H;\n        let width = W;\n\
+    \        let data = v.into_iter().map(BitSet::from).collect();\n        Self {\n\
+    \            height,\n            width,\n            data,\n        }\n    }\n\
+    }\n\nimpl From<Vec<BitSet>> for BitMatrix {\n    fn from(v: Vec<BitSet>) -> Self\
+    \ {\n        let height = v.len();\n        let width = v[0].size();\n       \
+    \ Self {\n            height,\n            width,\n            data: v,\n    \
+    \    }\n    }\n}\n\nimpl<const H: usize> From<[BitSet; H]> for BitMatrix {\n \
+    \   fn from(v: [BitSet; H]) -> Self {\n        let height = H;\n        let width\
     \ = v[0].size();\n        Self {\n            height,\n            width,\n  \
     \          data: v.to_vec(),\n        }\n    }\n}\n\nimpl BitMatrix {\n    pub\
     \ fn new(height: usize, width: usize) -> Self {\n        Self {\n            height,\n\
@@ -79,13 +80,14 @@ data:
     \         while cur_col < self.width && !mat.get(r, cur_col) {\n             \
     \   cur_col += 1;\n            }\n            assert!(cur_col < self.width);\n\
     \            ans[cur_col] = mat.get(r, self.width);\n            cur_col += 1;\n\
-    \        }\n        Some((self.width - rank, ans))\n    }\n\n    pub fn unit(n:\
-    \ usize) -> Self {\n        let mut res = Self::new(n, n);\n        for i in 0..n\
-    \ {\n            res.set(i, i, true);\n        }\n        res\n    }\n\n    pub\
-    \ fn transpose(&self) -> Self {\n        let mut res = Self::new(self.width, self.height);\n\
-    \        for i in 0..self.height {\n            for j in 0..self.width {\n   \
-    \             res.set(j, i, self.get(i, j));\n            }\n        }\n     \
-    \   res\n    }\n\n    pub fn pow(&self, mut n: u64) -> Self {\n        assert_eq!(self.height,\
+    \        }\n        // \u89E3\u306E\u81EA\u7531\u5EA6\n        let freedom = self.width\
+    \ - rank;\n        Some((freedom, ans))\n    }\n\n    pub fn unit(n: usize) ->\
+    \ Self {\n        let mut res = Self::new(n, n);\n        for i in 0..n {\n  \
+    \          res.set(i, i, true);\n        }\n        res\n    }\n\n    pub fn transpose(&self)\
+    \ -> Self {\n        let mut res = Self::new(self.width, self.height);\n     \
+    \   for i in 0..self.height {\n            for j in 0..self.width {\n        \
+    \        res.set(j, i, self.get(i, j));\n            }\n        }\n        res\n\
+    \    }\n\n    pub fn pow(&self, mut n: u64) -> Self {\n        assert_eq!(self.height,\
     \ self.width);\n        let mut res = Self::unit(self.height);\n        let mut\
     \ a = self.clone();\n        while n > 0 {\n            if (n & 1) == 1 {\n  \
     \              res *= &a;\n            }\n            a = &a * &a;\n         \
@@ -122,11 +124,19 @@ data:
     \u8A8D\n            let b_mat = BitMatrix::from(vec![b]).transpose();\n      \
     \      let ans_mat = BitMatrix::from(vec![ans]).transpose();\n            assert_eq!(mat\
     \ * &ans_mat, b_mat);\n        }\n        eprintln!(\"no_ans_cnt: {}\", no_ans_cnt);\n\
-    \    }\n\n    #[test]\n    fn test_pow() {\n        let mut rng = thread_rng();\n\
-    \        let mat = BitMatrix::from([[true, true], [false, true]]);\n        for\
-    \ _ in 0..100 {\n            let beki = rng.gen_range(0_u64..10_u64.pow(18));\n\
-    \            let ans = mat.pow(beki);\n            if (beki & 1) > 0 {\n     \
-    \           assert_eq!(ans, mat);\n            } else {\n                assert_eq!(ans,\
+    \    }\n\n    #[test]\n    fn test_skip_col() {\n        // 3\u3064\u3081\u306E\
+    pivot\u304C3\u5217\u76EE\u3092\u98DB\u3070\u3057\u30664\u5217\u76EE\u306B\u304F\
+    \u308B\u4F8B\n        let mat = BitMatrix::from([\n            [true, false, true,\
+    \ true, false],\n            [false, true, false, true, true],\n            [false,\
+    \ false, false, true, true],\n            [false, false, false, false, true],\n\
+    \        ]);\n        let b = [true, false, true, false];\n        let (freedom,\
+    \ ans) = mat.linear_equation(&b).unwrap();\n        assert_eq!(freedom, 1);\n\
+    \        assert_eq!(ans, vec![false, true, false, true, false]);\n    }\n\n  \
+    \  #[test]\n    fn test_pow() {\n        let mut rng = thread_rng();\n       \
+    \ let mat = BitMatrix::from([[true, true], [false, true]]);\n        for _ in\
+    \ 0..100 {\n            let beki = rng.gen_range(0_u64..10_u64.pow(18));\n   \
+    \         let ans = mat.pow(beki);\n            if (beki & 1) > 0 {\n        \
+    \        assert_eq!(ans, mat);\n            } else {\n                assert_eq!(ans,\
     \ BitMatrix::unit(2));\n            }\n        }\n    }\n}\n"
   dependsOn:
   - crates/bitset/src/lib.rs
@@ -134,7 +144,7 @@ data:
   path: crates/math/bit_matrix/src/lib.rs
   requiredBy:
   - verify/AtCoder/tessoku_057/src/main.rs
-  timestamp: '2024-07-10 15:13:28+09:00'
+  timestamp: '2024-07-10 15:42:31+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/math/bit_matrix/src/lib.rs

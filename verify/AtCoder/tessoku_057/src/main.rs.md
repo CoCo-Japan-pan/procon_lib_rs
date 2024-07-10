@@ -39,7 +39,7 @@ data:
   isVerificationFile: false
   path: verify/AtCoder/tessoku_057/src/main.rs
   requiredBy: []
-  timestamp: '2024-07-10 15:13:28+09:00'
+  timestamp: '2024-07-10 15:42:31+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: verify/AtCoder/tessoku_057/src/main.rs
