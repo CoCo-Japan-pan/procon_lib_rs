@@ -80,15 +80,17 @@ impl BitMatrix {
         self.data[row].set(col, b);
     }
 
-    /// 掃き出し法を行い、rankを返す  
+    /// 掃き出し法(行基本変形)を行い、rankと線形独立な行のindexの集合を返す  
     /// is_extendedがtrueの場合は拡大係数行列として扱い、係数行列の部分のrankを返す
-    pub fn gauss_jordan(&mut self, is_extended: bool) -> usize {
+    pub fn gauss_jordan(&mut self, is_extended: bool) -> (usize, Vec<usize>) {
         let mut rank = 0;
         let col_end = if is_extended {
             self.width - 1
         } else {
             self.width
         };
+        let mut independent = vec![];
+        let mut ids = (0..self.height).collect::<Vec<_>>();
         for col in 0..col_end {
             let mut pivot = None;
             for row in rank..self.height {
@@ -99,6 +101,7 @@ impl BitMatrix {
             }
             if let Some(pivot) = pivot {
                 self.data.swap(rank, pivot);
+                ids.swap(rank, pivot);
                 for row in 0..self.height {
                     if row != rank && self.data[row][col] {
                         unsafe {
@@ -106,10 +109,12 @@ impl BitMatrix {
                         }
                     }
                 }
+                independent.push(ids[rank]);
                 rank += 1;
             }
         }
-        rank
+        assert_eq!(rank, independent.len());
+        (rank, independent)
     }
 
     /// 連立一次方程式 Ax = bを解く(Aがselfの行列、bが引数のベクトル)  
@@ -126,7 +131,7 @@ impl BitMatrix {
             }
             mat.set(i, self.width, b[i]);
         }
-        let rank = mat.gauss_jordan(true);
+        let (rank, _) = mat.gauss_jordan(true);
         for i in rank..self.height {
             if mat.get(i, self.width) {
                 return None;
@@ -233,6 +238,48 @@ impl Index<usize> for BitMatrix {
 mod test {
     use super::*;
     use rand::prelude::*;
+
+    #[test]
+    fn independent_test() {
+        let mut rng = thread_rng();
+        for _ in 0..10 {
+            let w = rng.gen_range(1..=20);
+            let h = rng.gen_range(w..=3 * w);
+            let mut mat = BitMatrix::new(h, w);
+            for i in 0..h {
+                for j in 0..w {
+                    mat.set(i, j, rng.gen());
+                }
+            }
+            let nums = {
+                let mut nums = vec![0; h];
+                for i in 0..h {
+                    for j in 0..w {
+                        if mat.get(i, j) {
+                            nums[i] |= 1 << j;
+                        }
+                    }
+                }
+                nums
+            };
+            let (rank, independent) = mat.gauss_jordan(false);
+            for i in 0..rank {
+                let cur_num = nums[independent[i]];
+                for bit in 0..(1 << rank) {
+                    let mut num = 0;
+                    for j in 0..rank {
+                        if j == i {
+                            continue;
+                        }
+                        if bit & (1 << j) > 0 {
+                            num ^= nums[independent[j]];
+                        }
+                    }
+                    assert_ne!(num, cur_num);
+                }
+            }
+        }
+    }
 
     #[test]
     fn linear_eq_test() {
