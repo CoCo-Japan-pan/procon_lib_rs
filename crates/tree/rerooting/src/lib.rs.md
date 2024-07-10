@@ -86,9 +86,9 @@ data:
   timestamp: '2024-07-06 23:43:30+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/AtCoder/abc312g/src/main.rs
-  - verify/AtCoder/abc222f/src/main.rs
   - verify/AtCoder/abc348e/src/main.rs
+  - verify/AtCoder/abc222f/src/main.rs
+  - verify/AtCoder/abc312g/src/main.rs
 documentation_of: crates/tree/rerooting/src/lib.rs
 layout: document
 redirect_from:

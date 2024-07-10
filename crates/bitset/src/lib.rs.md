@@ -29,23 +29,34 @@ data:
     \ usize,\n}\n\nmacro_rules! out_of_bounds {\n    ($size:expr, $i:expr) => {\n\
     \        assert!(\n            $i < $size,\n            \"index out of bounds:\
     \ the len is {} but the index is {}\",\n            $size,\n            $i\n \
-    \       );\n    };\n}\n\nimpl BitSet {\n    /// size\u500B\u306Ebit\u3092\u6301\
-    \u3064BitSet\u3092\u751F\u6210\u3059\u308B(\u3069\u308C\u3082unset)\n    pub fn\
-    \ new(size: usize) -> Self {\n        let len = (size + 63) / 64;\n        Self\
-    \ {\n            buf: vec![0; len],\n            size,\n        }\n    }\n\n \
-    \   #[inline]\n    pub fn size(&self) -> usize {\n        self.size\n    }\n\n\
-    \    /// i\u756A\u76EE\u306Ebit\u3092b\u306B\u8A2D\u5B9A\u3059\u308B\n    #[inline]\n\
-    \    pub fn set(&mut self, i: usize, b: bool) {\n        out_of_bounds!(self.size,\
-    \ i);\n        if b {\n            self.buf[i >> 6] |= 1 << (i & 63);\n      \
-    \  } else {\n            self.buf[i >> 6] &= !(1 << (i & 63));\n        }\n  \
-    \  }\n\n    /// i\u756A\u76EE\u306Ebit\u3092\u53CD\u8EE2\u3055\u305B\u308B\n \
-    \   #[inline]\n    pub fn flip(&mut self, i: usize) {\n        out_of_bounds!(self.size,\
-    \ i);\n        self.buf[i >> 6] ^= 1 << (i & 63);\n    }\n\n    /// 1\u306E\u6570\
-    \u3092\u8FD4\u3059\n    #[inline]\n    pub fn count_ones(&self) -> u32 {\n   \
-    \     self.buf.iter().map(|&x| x.count_ones()).sum()\n    }\n\n    /// 0\u306E\
-    \u6570\u3092\u8FD4\u3059\n    #[inline]\n    pub fn count_zeros(&self) -> u32\
-    \ {\n        self.size as u32 - self.count_ones()\n    }\n\n    /// \u5168\u3066\
-    0\u304B\u3069\u3046\u304B\u3092\u8FD4\u3059\n    #[inline]\n    pub fn none(&self)\
+    \       );\n    };\n}\n\nimpl From<Vec<bool>> for BitSet {\n    fn from(v: Vec<bool>)\
+    \ -> Self {\n        let size = v.len();\n        let mut buf = vec![0; (size\
+    \ + 63) / 64];\n        for i in 0..size {\n            if v[i] {\n          \
+    \      buf[i >> 6] |= 1 << (i & 63);\n            }\n        }\n        Self {\
+    \ buf, size }\n    }\n}\n\nimpl<const N: usize> From<[bool; N]> for BitSet {\n\
+    \    fn from(v: [bool; N]) -> Self {\n        let size = N;\n        let mut buf\
+    \ = vec![0; (size + 63) / 64];\n        for i in 0..size {\n            if v[i]\
+    \ {\n                buf[i >> 6] |= 1 << (i & 63);\n            }\n        }\n\
+    \        Self { buf, size }\n    }\n}\n\nimpl BitSet {\n    /// size\u500B\u306E\
+    bit\u3092\u6301\u3064BitSet\u3092\u751F\u6210\u3059\u308B(\u3069\u308C\u3082unset)\n\
+    \    pub fn new(size: usize) -> Self {\n        let len = (size + 63) / 64;\n\
+    \        Self {\n            buf: vec![0; len],\n            size,\n        }\n\
+    \    }\n\n    #[inline]\n    pub fn size(&self) -> usize {\n        self.size\n\
+    \    }\n\n    #[inline]\n    /// index\u3067\u30A2\u30AF\u30BB\u30B9\u3057\u3066\
+    \u3082\u3088\u3044\n    pub fn get(&self, i: usize) -> bool {\n        out_of_bounds!(self.size,\
+    \ i);\n        let x = self.buf[i >> 6];\n        let mask = 1 << (i & 63);\n\
+    \        (x & mask) != 0\n    }\n\n    /// i\u756A\u76EE\u306Ebit\u3092b\u306B\
+    \u8A2D\u5B9A\u3059\u308B\n    #[inline]\n    pub fn set(&mut self, i: usize, b:\
+    \ bool) {\n        out_of_bounds!(self.size, i);\n        if b {\n           \
+    \ self.buf[i >> 6] |= 1 << (i & 63);\n        } else {\n            self.buf[i\
+    \ >> 6] &= !(1 << (i & 63));\n        }\n    }\n\n    /// i\u756A\u76EE\u306E\
+    bit\u3092\u53CD\u8EE2\u3055\u305B\u308B\n    #[inline]\n    pub fn flip(&mut self,\
+    \ i: usize) {\n        out_of_bounds!(self.size, i);\n        self.buf[i >> 6]\
+    \ ^= 1 << (i & 63);\n    }\n\n    /// 1\u306E\u6570\u3092\u8FD4\u3059\n    #[inline]\n\
+    \    pub fn count_ones(&self) -> u32 {\n        self.buf.iter().map(|&x| x.count_ones()).sum()\n\
+    \    }\n\n    /// 0\u306E\u6570\u3092\u8FD4\u3059\n    #[inline]\n    pub fn count_zeros(&self)\
+    \ -> u32 {\n        self.size as u32 - self.count_ones()\n    }\n\n    /// \u5168\
+    \u30660\u304B\u3069\u3046\u304B\u3092\u8FD4\u3059\n    #[inline]\n    pub fn none(&self)\
     \ -> bool {\n        self.count_ones() == 0\n    }\n\n    /// \u5168\u30661\u304B\
     \u3069\u3046\u304B\u3092\u8FD4\u3059\n    #[inline]\n    pub fn all(&self) ->\
     \ bool {\n        self.count_ones() == self.size as u32\n    }\n\n    /// \u3069\
@@ -169,7 +180,7 @@ data:
   path: crates/bitset/src/lib.rs
   requiredBy:
   - crates/math/bit_matrix/src/lib.rs
-  timestamp: '2024-07-10 11:35:31+09:00'
+  timestamp: '2024-07-10 14:37:30+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/bitset/src/lib.rs
