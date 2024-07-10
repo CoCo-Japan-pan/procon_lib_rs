@@ -62,6 +62,16 @@ impl BitSet {
     }
 
     #[inline]
+    pub fn buffer(&self) -> &[u64] {
+        &self.buf
+    }
+
+    #[inline]
+    pub fn buffer_mut(&mut self) -> &mut [u64] {
+        &mut self.buf
+    }
+
+    #[inline]
     pub fn size(&self) -> usize {
         self.size
     }
@@ -133,16 +143,6 @@ impl BitSet {
                 *last = (*last << d) >> d;
             }
         }
-    }
-
-    /// 内積を求める
-    pub fn dot(&self, other: &Self) -> bool {
-        assert_eq!(self.size, other.size);
-        self.buf
-            .iter()
-            .zip(&other.buf)
-            .map(|(a, b)| ((a & b).count_ones() & 1) == 1)
-            .fold(false, |acc, x| acc ^ x)
     }
 }
 

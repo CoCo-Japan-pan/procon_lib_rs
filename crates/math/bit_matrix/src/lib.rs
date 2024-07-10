@@ -1,7 +1,7 @@
-//! mod 2の世界での通常の意味での足し算(XOR)、掛け算(AND)に関する行列  
+//! mod 2の世界での行列  
 
 use bitset::BitSet;
-use std::ops::{Add, AddAssign, Index, Mul, MulAssign};
+use std::ops::Index;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct BitMatrix {
@@ -165,15 +165,57 @@ impl BitMatrix {
         res
     }
 
-    pub fn pow(&self, mut n: u64) -> Self {
+    /// `+ = xor, * = and` による行列積
+    pub fn xor_and_mul(lhs: &Self, rhs: &Self) -> Self {
+        assert_eq!(lhs.width, rhs.height);
+        let mut ret = BitMatrix::new(lhs.height, rhs.width);
+        let rhs = rhs.transpose();
+        for i in 0..lhs.height {
+            for j in 0..rhs.height {
+                let val = lhs.data[i]
+                    .buffer()
+                    .iter()
+                    .zip(rhs.data[j].buffer())
+                    .fold(false, |acc, (l, r)| acc ^ ((l & r).count_ones() & 1 > 0));
+                ret.set(i, j, val);
+            }
+        }
+        ret
+    }
+
+    /// `+ = or, * = and` による行列積
+    pub fn or_and_mul(lhs: &Self, rhs: &Self) -> Self {
+        assert_eq!(lhs.width, rhs.height);
+        let mut ret = BitMatrix::new(lhs.height, rhs.width);
+        let rhs = rhs.transpose();
+        for i in 0..lhs.height {
+            for j in 0..rhs.height {
+                let val = lhs.data[i]
+                    .buffer()
+                    .iter()
+                    .zip(rhs.data[j].buffer())
+                    .fold(false, |acc, (l, r)| acc | ((l & r).count_ones() > 0));
+                ret.set(i, j, val);
+            }
+        }
+        ret
+    }
+
+    /// 行列のべき乗を計算する  
+    /// `mul_func`は行列積を計算する関数を指定する  
+    /// 足し算がxor/or, 掛け算がandの場合はメソッド関数の`xor_and_mul`/`or_and_mul`を指定すればよい
+    pub fn pow<F>(&self, mut n: u64, mul_func: F) -> Self
+    where
+        F: Fn(&Self, &Self) -> Self,
+    {
         assert_eq!(self.height, self.width);
         let mut res = Self::unit(self.height);
         let mut a = self.clone();
         while n > 0 {
             if (n & 1) == 1 {
-                res *= &a;
+                res = mul_func(&res, &a);
             }
-            a = &a * &a;
+            a = mul_func(&a, &a);
             n >>= 1;
         }
         res
@@ -184,52 +226,6 @@ impl Index<usize> for BitMatrix {
     type Output = BitSet;
     fn index(&self, index: usize) -> &Self::Output {
         &self.data[index]
-    }
-}
-
-impl AddAssign<&Self> for BitMatrix {
-    fn add_assign(&mut self, rhs: &Self) {
-        assert_eq!(self.height, rhs.height);
-        assert_eq!(self.width, rhs.width);
-        for (l, r) in self.data.iter_mut().zip(&rhs.data) {
-            *l ^= r;
-        }
-    }
-}
-
-impl Add<&Self> for BitMatrix {
-    type Output = Self;
-    fn add(mut self, rhs: &Self) -> Self {
-        self += rhs;
-        self
-    }
-}
-
-impl Mul<&BitMatrix> for &BitMatrix {
-    type Output = BitMatrix;
-    fn mul(self, rhs: &BitMatrix) -> BitMatrix {
-        assert_eq!(self.width, rhs.height);
-        let mut ret = BitMatrix::new(self.height, rhs.width);
-        let rhs = rhs.transpose();
-        for i in 0..self.height {
-            for j in 0..rhs.height {
-                ret.set(i, j, self.data[i].dot(&rhs.data[j]));
-            }
-        }
-        ret
-    }
-}
-
-impl Mul<&Self> for BitMatrix {
-    type Output = Self;
-    fn mul(self, rhs: &Self) -> Self {
-        &self * rhs
-    }
-}
-
-impl MulAssign<&Self> for BitMatrix {
-    fn mul_assign(&mut self, rhs: &Self) {
-        *self = &*self * rhs;
     }
 }
 
@@ -269,7 +265,7 @@ mod test {
             // 行列の掛け算でも確認
             let b_mat = BitMatrix::from(vec![b]).transpose();
             let ans_mat = BitMatrix::from(vec![ans]).transpose();
-            assert_eq!(mat * &ans_mat, b_mat);
+            assert_eq!(BitMatrix::xor_and_mul(&mat, &ans_mat), b_mat);
         }
         eprintln!("no_ans_cnt: {}", no_ans_cnt);
     }
@@ -295,7 +291,7 @@ mod test {
         let mat = BitMatrix::from([[true, true], [false, true]]);
         for _ in 0..100 {
             let beki = rng.gen_range(0_u64..10_u64.pow(18));
-            let ans = mat.pow(beki);
+            let ans = mat.pow(beki, BitMatrix::xor_and_mul);
             if (beki & 1) > 0 {
                 assert_eq!(ans, mat);
             } else {
