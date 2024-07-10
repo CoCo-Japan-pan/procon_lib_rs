@@ -128,7 +128,7 @@ data:
       title: crates/math/binom/src/lib.rs
   - name: crates/math/bit_matrix/src
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: crates/math/bit_matrix/src/lib.rs
       title: crates/math/bit_matrix/src/lib.rs
   - name: crates/math/enumerate_inv_mods/src
@@ -412,6 +412,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yukicoder/no_649_fenwick_tree/src/main.rs
       title: verify/yukicoder/no_649_fenwick_tree/src/main.rs
+  - name: verify/yukicoder/no_803/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yukicoder/no_803/src/main.rs
+      title: verify/yukicoder/no_803/src/main.rs
 layout: toppage
 ---
 <a href = "doc/algebra/index.html" style = "font-size: 20px; color: green;">cargo-doc</a>

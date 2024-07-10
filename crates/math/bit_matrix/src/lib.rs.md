@@ -8,10 +8,13 @@ data:
   - icon: ':warning:'
     path: verify/AtCoder/tessoku_057/src/main.rs
     title: verify/AtCoder/tessoku_057/src/main.rs
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: verify/yukicoder/no_803/src/main.rs
+    title: verify/yukicoder/no_803/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -145,8 +148,9 @@ data:
   requiredBy:
   - verify/AtCoder/tessoku_057/src/main.rs
   timestamp: '2024-07-10 15:42:31+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - verify/yukicoder/no_803/src/main.rs
 documentation_of: crates/math/bit_matrix/src/lib.rs
 layout: document
 redirect_from:

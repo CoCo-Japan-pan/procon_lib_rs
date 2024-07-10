@@ -45,6 +45,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/vertex_set_path_composite/src/main.rs
     title: verify/yosupo/vertex_set_path_composite/src/main.rs
+  - icon: ':heavy_check_mark:'
+    path: verify/yukicoder/no_803/src/main.rs
+    title: verify/yukicoder/no_803/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -169,6 +172,7 @@ data:
   verifiedWith:
   - verify/AtCoder/abc340g/src/main.rs
   - verify/AtCoder/abc290f/src/main.rs
+  - verify/yukicoder/no_803/src/main.rs
   - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
   - verify/yosupo/convolution_ntt/src/main.rs
   - verify/yosupo/vertex_set_path_composite/src/main.rs
