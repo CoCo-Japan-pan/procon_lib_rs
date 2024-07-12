@@ -144,6 +144,67 @@ impl BitSet {
             }
         }
     }
+
+    /// Faster left shift and or
+    ///
+    /// `bitset | (bitset << x)`
+    #[inline]
+    pub fn shl_or(&mut self, x: usize) {
+        let q = x >> 6;
+        let r = x & 63;
+        let len = self.buf.len();
+
+        if q >= len {
+            return;
+        }
+
+        if r == 0 {
+            for i in (q..len).rev() {
+                *unsafe { self.buf.get_unchecked_mut(i) } |=
+                    *unsafe { self.buf.get_unchecked(i - q) };
+            }
+        } else {
+            for i in (q + 1..len).rev() {
+                *unsafe { self.buf.get_unchecked_mut(i) } |=
+                    (unsafe { self.buf.get_unchecked(i - q) } << r)
+                        | (unsafe { self.buf.get_unchecked(i - q - 1) } >> (64 - r));
+            }
+            *unsafe { self.buf.get_unchecked_mut(q) } |= unsafe { self.buf.get_unchecked(0) } << r;
+        }
+
+        self.chomp();
+    }
+
+    /// Faster right shift and or
+    ///
+    /// `bitset | (bitset >> x)`
+    #[inline]
+    pub fn shr_or(&mut self, x: usize) {
+        let q = x >> 6;
+        let r = x & 63;
+        let len = self.buf.len();
+
+        if q >= len {
+            return;
+        }
+
+        if r == 0 {
+            for i in 0..len - q {
+                *unsafe { self.buf.get_unchecked_mut(i) } |=
+                    *unsafe { self.buf.get_unchecked(i + q) };
+            }
+        } else {
+            for i in 0..len - q - 1 {
+                *unsafe { self.buf.get_unchecked_mut(i) } |=
+                    (unsafe { self.buf.get_unchecked(i + q) } >> r)
+                        | (unsafe { self.buf.get_unchecked(i + q + 1) } << (64 - r));
+            }
+            *unsafe { self.buf.get_unchecked_mut(len - q - 1) } |=
+                unsafe { self.buf.get_unchecked(len - 1) } >> r;
+        }
+
+        self.chomp();
+    }
 }
 
 impl Index<usize> for BitSet {
@@ -334,13 +395,92 @@ impl_shift_op!(Shr, shr_assign, shr);
 #[cfg(test)]
 mod test {
     use super::*;
+
+    #[test]
+    fn test_shl_or() {
+        let do_test = |size, shift| {
+            use rand::prelude::*;
+            let mut set = BitSet::new(size);
+            let mut v = vec![false; size];
+            let mut rng = thread_rng();
+
+            for i in 0..size {
+                let b = rng.next_u32() % 2 == 0;
+                set.set(i, b);
+                v[i] = b;
+            }
+            for i in (shift..v.len()).rev() {
+                v[i] = v[i - shift];
+            }
+            for i in 0..std::cmp::min(size, shift) {
+                v[i] = false;
+            }
+            for i in 0..size {
+                v[i] |= set[i];
+            }
+
+            set.shl_or(shift);
+            for i in 0..size {
+                assert_eq!(set[i], v[i]);
+            }
+        };
+
+        do_test(6400, 640);
+        do_test(6400, 114);
+        do_test(6400, 514);
+        do_test(6400, 6400);
+        do_test(6400, 16400);
+    }
+
+    #[test]
+    fn test_shr_or() {
+        let do_test = |size, shift| {
+            use rand::prelude::*;
+            let mut set = BitSet::new(size);
+            let mut v = vec![false; size];
+            let mut rng = thread_rng();
+
+            for i in 0..size {
+                let b = rng.next_u32() % 2 == 0;
+                set.set(i, b);
+                v[i] = b;
+            }
+
+            let s = if size >= shift { size - shift } else { 0 };
+
+            for i in 0..s {
+                v[i] |= v[i + shift];
+            }
+
+            for i in s..size {
+                v[i] = false;
+            }
+
+            for i in 0..size {
+                v[i] |= set[i];
+            }
+
+            set.shr_or(shift);
+            for i in 0..size {
+                assert_eq!(set[i], v[i]);
+            }
+        };
+
+        do_test(6400, 640);
+        do_test(6400, 114);
+        do_test(6400, 514);
+        do_test(63, 65);
+        do_test(6400, 6400);
+        do_test(6400, 16400);
+    }
+
     #[test]
     fn test_bitset_set_read() {
         use rand::prelude::*;
         let size = 6400;
         let mut set = BitSet::new(size);
         let mut v = vec![false; size];
-        let mut rng = StdRng::seed_from_u64(114514);
+        let mut rng = thread_rng();
 
         for i in 0..size {
             let b = rng.next_u32() % 2 == 0;
@@ -359,7 +499,7 @@ mod test {
             use rand::prelude::*;
             let mut set = BitSet::new(size);
             let mut v = vec![false; size];
-            let mut rng = StdRng::seed_from_u64(114514);
+            let mut rng = thread_rng();
 
             for i in 0..size {
                 let b = rng.next_u32() % 2 == 0;
@@ -398,7 +538,7 @@ mod test {
             use rand::prelude::*;
             let mut set = BitSet::new(size);
             let mut v = vec![false; size];
-            let mut rng = StdRng::seed_from_u64(114514);
+            let mut rng = thread_rng();
 
             for i in 0..size {
                 let b = rng.next_u32() % 2 == 0;
