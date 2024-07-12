@@ -73,58 +73,81 @@ data:
     \ chomp(&mut self) {\n        let r = self.size & 63;\n        if r > 0 {\n  \
     \          if let Some(last) = self.buf.last_mut() {\n                let d =\
     \ 64 - r;\n                *last = (*last << d) >> d;\n            }\n       \
-    \ }\n    }\n}\n\nimpl Index<usize> for BitSet {\n    type Output = bool;\n   \
-    \ #[inline]\n    fn index(&self, i: usize) -> &bool {\n        out_of_bounds!(self.size,\
-    \ i);\n        let x = self.buf[i >> 6];\n        let mask = 1 << (i & 63);\n\
-    \        if (x & mask) == 0 {\n            &false\n        } else {\n        \
-    \    &true\n        }\n    }\n}\n\nimpl<'a> BitXorAssign<&'a BitSet> for BitSet\
-    \ {\n    #[inline]\n    fn bitxor_assign(&mut self, rhs: &'a BitSet) {\n     \
-    \   for (a, b) in self.buf.iter_mut().zip(&rhs.buf) {\n            *a ^= *b;\n\
-    \        }\n        self.chomp();\n    }\n}\n\nimpl<'a> BitAndAssign<&'a BitSet>\
-    \ for BitSet {\n    #[inline]\n    fn bitand_assign(&mut self, rhs: &'a BitSet)\
+    \ }\n    }\n\n    /// Faster left shift and or\n    ///\n    /// `bitset | (bitset\
+    \ << x)`\n    #[inline]\n    pub fn shl_or(&mut self, x: usize) {\n        let\
+    \ q = x >> 6;\n        let r = x & 63;\n        let len = self.buf.len();\n\n\
+    \        if q >= len {\n            return;\n        }\n\n        if r == 0 {\n\
+    \            for i in (q..len).rev() {\n                *unsafe { self.buf.get_unchecked_mut(i)\
+    \ } |=\n                    *unsafe { self.buf.get_unchecked(i - q) };\n     \
+    \       }\n        } else {\n            for i in (q + 1..len).rev() {\n     \
+    \           *unsafe { self.buf.get_unchecked_mut(i) } |=\n                   \
+    \ (unsafe { self.buf.get_unchecked(i - q) } << r)\n                        | (unsafe\
+    \ { self.buf.get_unchecked(i - q - 1) } >> (64 - r));\n            }\n       \
+    \     *unsafe { self.buf.get_unchecked_mut(q) } |= unsafe { self.buf.get_unchecked(0)\
+    \ } << r;\n        }\n\n        self.chomp();\n    }\n\n    /// Faster right shift\
+    \ and or\n    ///\n    /// `bitset | (bitset >> x)`\n    #[inline]\n    pub fn\
+    \ shr_or(&mut self, x: usize) {\n        let q = x >> 6;\n        let r = x &\
+    \ 63;\n        let len = self.buf.len();\n\n        if q >= len {\n          \
+    \  return;\n        }\n\n        if r == 0 {\n            for i in 0..len - q\
+    \ {\n                *unsafe { self.buf.get_unchecked_mut(i) } |=\n          \
+    \          *unsafe { self.buf.get_unchecked(i + q) };\n            }\n       \
+    \ } else {\n            for i in 0..len - q - 1 {\n                *unsafe { self.buf.get_unchecked_mut(i)\
+    \ } |=\n                    (unsafe { self.buf.get_unchecked(i + q) } >> r)\n\
+    \                        | (unsafe { self.buf.get_unchecked(i + q + 1) } << (64\
+    \ - r));\n            }\n            *unsafe { self.buf.get_unchecked_mut(len\
+    \ - q - 1) } |=\n                unsafe { self.buf.get_unchecked(len - 1) } >>\
+    \ r;\n        }\n\n        self.chomp();\n    }\n}\n\nimpl Index<usize> for BitSet\
+    \ {\n    type Output = bool;\n    #[inline]\n    fn index(&self, i: usize) ->\
+    \ &bool {\n        out_of_bounds!(self.size, i);\n        let x = self.buf[i >>\
+    \ 6];\n        let mask = 1 << (i & 63);\n        if (x & mask) == 0 {\n     \
+    \       &false\n        } else {\n            &true\n        }\n    }\n}\n\nimpl<'a>\
+    \ BitXorAssign<&'a BitSet> for BitSet {\n    #[inline]\n    fn bitxor_assign(&mut\
+    \ self, rhs: &'a BitSet) {\n        for (a, b) in self.buf.iter_mut().zip(&rhs.buf)\
+    \ {\n            *a ^= *b;\n        }\n        self.chomp();\n    }\n}\n\nimpl<'a>\
+    \ BitAndAssign<&'a BitSet> for BitSet {\n    #[inline]\n    fn bitand_assign(&mut\
+    \ self, rhs: &'a BitSet) {\n        for (a, b) in self.buf.iter_mut().zip(&rhs.buf)\
+    \ {\n            *a &= *b;\n        }\n    }\n}\n\nimpl<'a> BitOrAssign<&'a BitSet>\
+    \ for BitSet {\n    #[inline]\n    fn bitor_assign(&mut self, rhs: &'a BitSet)\
     \ {\n        for (a, b) in self.buf.iter_mut().zip(&rhs.buf) {\n            *a\
-    \ &= *b;\n        }\n    }\n}\n\nimpl<'a> BitOrAssign<&'a BitSet> for BitSet {\n\
-    \    #[inline]\n    fn bitor_assign(&mut self, rhs: &'a BitSet) {\n        for\
-    \ (a, b) in self.buf.iter_mut().zip(&rhs.buf) {\n            *a |= *b;\n     \
-    \   }\n        self.chomp();\n    }\n}\n\nmacro_rules! impl_bit_op {\n    ($op:ident,\
-    \ $op_assign:ident, $f:ident) => {\n        impl<'a> $op<&'a BitSet> for BitSet\
-    \ {\n            type Output = BitSet;\n            #[inline]\n            fn\
-    \ $f(mut self, rhs: &'a BitSet) -> Self::Output {\n                self.$op_assign(rhs);\n\
-    \                self\n            }\n        }\n        impl<'a, 'b> $op<&'b\
-    \ BitSet> for &'a BitSet {\n            type Output = BitSet;\n            #[inline]\n\
-    \            fn $f(self, rhs: &'b BitSet) -> Self::Output {\n                let\
-    \ mut res = self.clone();\n                res.$op_assign(rhs);\n            \
-    \    res\n            }\n        }\n    };\n}\n\nimpl_bit_op!(BitXor, bitxor_assign,\
-    \ bitxor);\nimpl_bit_op!(BitAnd, bitand_assign, bitand);\nimpl_bit_op!(BitOr,\
-    \ bitor_assign, bitor);\n\nimpl Not for BitSet {\n    type Output = Self;\n  \
-    \  #[inline]\n    fn not(mut self) -> Self {\n        for x in &mut self.buf {\n\
-    \            *x = !*x;\n        }\n        self.chomp();\n        self\n    }\n\
-    }\nimpl<'a> Not for &'a BitSet {\n    type Output = BitSet;\n    #[inline]\n \
-    \   fn not(self) -> Self::Output {\n        !self.clone()\n    }\n}\n\nimpl ShlAssign<usize>\
-    \ for BitSet {\n    #[inline]\n    fn shl_assign(&mut self, rhs: usize) {\n  \
-    \      let q = rhs >> 6;\n        let r = rhs & 63;\n\n        if q >= self.buf.len()\
-    \ {\n            for x in &mut self.buf {\n                *x = 0;\n         \
-    \   }\n            return;\n        }\n\n        if r == 0 {\n            for\
-    \ i in (q..self.buf.len()).rev() {\n                *unsafe { self.buf.get_unchecked_mut(i)\
-    \ } =\n                    *unsafe { self.buf.get_unchecked(i - q) };\n      \
-    \      }\n        } else {\n            for i in (q + 1..self.buf.len()).rev()\
-    \ {\n                *unsafe { self.buf.get_unchecked_mut(i) } =\n           \
-    \         (unsafe { self.buf.get_unchecked(i - q) } << r)\n                  \
-    \      | (unsafe { self.buf.get_unchecked(i - q - 1) } >> (64 - r));\n       \
-    \     }\n            *unsafe { self.buf.get_unchecked_mut(q) } = unsafe { self.buf.get_unchecked(0)\
-    \ } << r;\n        }\n\n        for x in &mut self.buf[..q] {\n            *x\
-    \ = 0;\n        }\n\n        self.chomp();\n    }\n}\n\nimpl ShrAssign<usize>\
-    \ for BitSet {\n    #[inline]\n    fn shr_assign(&mut self, rhs: usize) {\n  \
-    \      let q = rhs >> 6;\n        let r = rhs & 63;\n\n        if q >= self.buf.len()\
-    \ {\n            for x in &mut self.buf {\n                *x = 0;\n         \
-    \   }\n            return;\n        }\n\n        if r == 0 {\n            for\
-    \ i in 0..self.buf.len() - q {\n                *unsafe { self.buf.get_unchecked_mut(i)\
-    \ } =\n                    *unsafe { self.buf.get_unchecked(i + q) };\n      \
-    \      }\n        } else {\n            for i in 0..self.buf.len() - q - 1 {\n\
-    \                *unsafe { self.buf.get_unchecked_mut(i) } =\n               \
-    \     (unsafe { self.buf.get_unchecked(i + q) } >> r)\n                      \
-    \  | (unsafe { self.buf.get_unchecked(i + q + 1) } << (64 - r));\n           \
-    \ }\n            let len = self.buf.len();\n            *unsafe { self.buf.get_unchecked_mut(len\
+    \ |= *b;\n        }\n        self.chomp();\n    }\n}\n\nmacro_rules! impl_bit_op\
+    \ {\n    ($op:ident, $op_assign:ident, $f:ident) => {\n        impl<'a> $op<&'a\
+    \ BitSet> for BitSet {\n            type Output = BitSet;\n            #[inline]\n\
+    \            fn $f(mut self, rhs: &'a BitSet) -> Self::Output {\n            \
+    \    self.$op_assign(rhs);\n                self\n            }\n        }\n \
+    \       impl<'a, 'b> $op<&'b BitSet> for &'a BitSet {\n            type Output\
+    \ = BitSet;\n            #[inline]\n            fn $f(self, rhs: &'b BitSet) ->\
+    \ Self::Output {\n                let mut res = self.clone();\n              \
+    \  res.$op_assign(rhs);\n                res\n            }\n        }\n    };\n\
+    }\n\nimpl_bit_op!(BitXor, bitxor_assign, bitxor);\nimpl_bit_op!(BitAnd, bitand_assign,\
+    \ bitand);\nimpl_bit_op!(BitOr, bitor_assign, bitor);\n\nimpl Not for BitSet {\n\
+    \    type Output = Self;\n    #[inline]\n    fn not(mut self) -> Self {\n    \
+    \    for x in &mut self.buf {\n            *x = !*x;\n        }\n        self.chomp();\n\
+    \        self\n    }\n}\nimpl<'a> Not for &'a BitSet {\n    type Output = BitSet;\n\
+    \    #[inline]\n    fn not(self) -> Self::Output {\n        !self.clone()\n  \
+    \  }\n}\n\nimpl ShlAssign<usize> for BitSet {\n    #[inline]\n    fn shl_assign(&mut\
+    \ self, rhs: usize) {\n        let q = rhs >> 6;\n        let r = rhs & 63;\n\n\
+    \        if q >= self.buf.len() {\n            for x in &mut self.buf {\n    \
+    \            *x = 0;\n            }\n            return;\n        }\n\n      \
+    \  if r == 0 {\n            for i in (q..self.buf.len()).rev() {\n           \
+    \     *unsafe { self.buf.get_unchecked_mut(i) } =\n                    *unsafe\
+    \ { self.buf.get_unchecked(i - q) };\n            }\n        } else {\n      \
+    \      for i in (q + 1..self.buf.len()).rev() {\n                *unsafe { self.buf.get_unchecked_mut(i)\
+    \ } =\n                    (unsafe { self.buf.get_unchecked(i - q) } << r)\n \
+    \                       | (unsafe { self.buf.get_unchecked(i - q - 1) } >> (64\
+    \ - r));\n            }\n            *unsafe { self.buf.get_unchecked_mut(q) }\
+    \ = unsafe { self.buf.get_unchecked(0) } << r;\n        }\n\n        for x in\
+    \ &mut self.buf[..q] {\n            *x = 0;\n        }\n\n        self.chomp();\n\
+    \    }\n}\n\nimpl ShrAssign<usize> for BitSet {\n    #[inline]\n    fn shr_assign(&mut\
+    \ self, rhs: usize) {\n        let q = rhs >> 6;\n        let r = rhs & 63;\n\n\
+    \        if q >= self.buf.len() {\n            for x in &mut self.buf {\n    \
+    \            *x = 0;\n            }\n            return;\n        }\n\n      \
+    \  if r == 0 {\n            for i in 0..self.buf.len() - q {\n               \
+    \ *unsafe { self.buf.get_unchecked_mut(i) } =\n                    *unsafe { self.buf.get_unchecked(i\
+    \ + q) };\n            }\n        } else {\n            for i in 0..self.buf.len()\
+    \ - q - 1 {\n                *unsafe { self.buf.get_unchecked_mut(i) } =\n   \
+    \                 (unsafe { self.buf.get_unchecked(i + q) } >> r)\n          \
+    \              | (unsafe { self.buf.get_unchecked(i + q + 1) } << (64 - r));\n\
+    \            }\n            let len = self.buf.len();\n            *unsafe { self.buf.get_unchecked_mut(len\
     \ - q - 1) } =\n                unsafe { self.buf.get_unchecked(len - 1) } >>\
     \ r;\n        }\n\n        let len = self.buf.len();\n        for x in &mut self.buf[len\
     \ - q..] {\n            *x = 0;\n        }\n    }\n}\n\nmacro_rules! impl_shift_op\
@@ -137,15 +160,40 @@ data:
     \ = self.clone();\n                res.$op_assign(rhs);\n                res\n\
     \            }\n        }\n    };\n}\n\nimpl_shift_op!(Shl, shl_assign, shl);\n\
     impl_shift_op!(Shr, shr_assign, shr);\n\n#[cfg(test)]\nmod test {\n    use super::*;\n\
-    \    #[test]\n    fn test_bitset_set_read() {\n        use rand::prelude::*;\n\
-    \        let size = 6400;\n        let mut set = BitSet::new(size);\n        let\
-    \ mut v = vec![false; size];\n        let mut rng = StdRng::seed_from_u64(114514);\n\
-    \n        for i in 0..size {\n            let b = rng.next_u32() % 2 == 0;\n \
-    \           set.set(i, b);\n            v[i] = b;\n        }\n\n        for i\
-    \ in 0..size {\n            assert_eq!(set[i], v[i]);\n        }\n    }\n\n  \
-    \  #[test]\n    fn test_bitset_shl() {\n        let do_test = |size, shift| {\n\
+    \n    #[test]\n    fn test_shl_or() {\n        let do_test = |size, shift| {\n\
     \            use rand::prelude::*;\n            let mut set = BitSet::new(size);\n\
-    \            let mut v = vec![false; size];\n            let mut rng = StdRng::seed_from_u64(114514);\n\
+    \            let mut v = vec![false; size];\n            let mut rng = thread_rng();\n\
+    \n            for i in 0..size {\n                let b = rng.next_u32() % 2 ==\
+    \ 0;\n                set.set(i, b);\n                v[i] = b;\n            }\n\
+    \            for i in (shift..v.len()).rev() {\n                v[i] = v[i - shift];\n\
+    \            }\n            for i in 0..std::cmp::min(size, shift) {\n       \
+    \         v[i] = false;\n            }\n            for i in 0..size {\n     \
+    \           v[i] |= set[i];\n            }\n\n            set.shl_or(shift);\n\
+    \            for i in 0..size {\n                assert_eq!(set[i], v[i]);\n \
+    \           }\n        };\n\n        do_test(6400, 640);\n        do_test(6400,\
+    \ 114);\n        do_test(6400, 514);\n        do_test(6400, 6400);\n        do_test(6400,\
+    \ 16400);\n    }\n\n    #[test]\n    fn test_shr_or() {\n        let do_test =\
+    \ |size, shift| {\n            use rand::prelude::*;\n            let mut set\
+    \ = BitSet::new(size);\n            let mut v = vec![false; size];\n         \
+    \   let mut rng = thread_rng();\n\n            for i in 0..size {\n          \
+    \      let b = rng.next_u32() % 2 == 0;\n                set.set(i, b);\n    \
+    \            v[i] = b;\n            }\n\n            let s = if size >= shift\
+    \ { size - shift } else { 0 };\n\n            for i in 0..s {\n              \
+    \  v[i] |= v[i + shift];\n            }\n\n            for i in s..size {\n  \
+    \              v[i] = false;\n            }\n\n            for i in 0..size {\n\
+    \                v[i] |= set[i];\n            }\n\n            set.shr_or(shift);\n\
+    \            for i in 0..size {\n                assert_eq!(set[i], v[i]);\n \
+    \           }\n        };\n\n        do_test(6400, 640);\n        do_test(6400,\
+    \ 114);\n        do_test(6400, 514);\n        do_test(63, 65);\n        do_test(6400,\
+    \ 6400);\n        do_test(6400, 16400);\n    }\n\n    #[test]\n    fn test_bitset_set_read()\
+    \ {\n        use rand::prelude::*;\n        let size = 6400;\n        let mut\
+    \ set = BitSet::new(size);\n        let mut v = vec![false; size];\n        let\
+    \ mut rng = thread_rng();\n\n        for i in 0..size {\n            let b = rng.next_u32()\
+    \ % 2 == 0;\n            set.set(i, b);\n            v[i] = b;\n        }\n\n\
+    \        for i in 0..size {\n            assert_eq!(set[i], v[i]);\n        }\n\
+    \    }\n\n    #[test]\n    fn test_bitset_shl() {\n        let do_test = |size,\
+    \ shift| {\n            use rand::prelude::*;\n            let mut set = BitSet::new(size);\n\
+    \            let mut v = vec![false; size];\n            let mut rng = thread_rng();\n\
     \n            for i in 0..size {\n                let b = rng.next_u32() % 2 ==\
     \ 0;\n                set.set(i, b);\n                v[i] = b;\n            }\n\
     \            for i in (shift..v.len()).rev() {\n                v[i] = v[i - shift];\n\
@@ -158,32 +206,31 @@ data:
     \ {\n            t <<= i;\n        }\n    }\n\n    #[test]\n    fn test_bitset_shr()\
     \ {\n        let do_test = |size, shift| {\n            use rand::prelude::*;\n\
     \            let mut set = BitSet::new(size);\n            let mut v = vec![false;\
-    \ size];\n            let mut rng = StdRng::seed_from_u64(114514);\n\n       \
-    \     for i in 0..size {\n                let b = rng.next_u32() % 2 == 0;\n \
-    \               set.set(i, b);\n                v[i] = b;\n            }\n\n \
-    \           let s = if size >= shift { size - shift } else { 0 };\n\n        \
-    \    for i in 0..s {\n                v[i] = v[i + shift];\n            }\n\n\
-    \            for i in s..size {\n                v[i] = false;\n            }\n\
-    \n            set >>= shift;\n            for i in 0..size {\n               \
-    \ assert_eq!(set[i], v[i]);\n            }\n        };\n\n        do_test(6400,\
-    \ 640);\n        do_test(6400, 114);\n        do_test(6400, 514);\n        do_test(63,\
-    \ 65);\n        do_test(6400, 6400);\n        do_test(6400, 16400);\n\n      \
-    \  let mut t = BitSet::new(310);\n\n        for i in 0..31000 {\n            t\
-    \ >>= i;\n        }\n    }\n\n    #[test]\n    fn test_bitset_chomp() {\n    \
-    \    let mut set1 = BitSet::new(4);\n        let mut set2 = BitSet::new(8);\n\n\
-    \        for i in 0..4 {\n            set1.set(i, true);\n            set2.set(i,\
-    \ true);\n        }\n\n        for i in 4..8 {\n            set2.set(i, true);\n\
-    \        }\n\n        set1 <<= 2;\n        assert_eq!(set1.count_ones(), 2);\n\
-    \        assert_eq!(set1.count_zeros(), 2);\n        assert_eq!((&set1 | &set2).count_ones(),\
-    \ 4);\n        assert_eq!((&set1 & &set2).count_ones(), 2);\n        assert_eq!((&set1\
-    \ ^ &set2).count_ones(), 2);\n    }\n}\n"
+    \ size];\n            let mut rng = thread_rng();\n\n            for i in 0..size\
+    \ {\n                let b = rng.next_u32() % 2 == 0;\n                set.set(i,\
+    \ b);\n                v[i] = b;\n            }\n\n            let s = if size\
+    \ >= shift { size - shift } else { 0 };\n\n            for i in 0..s {\n     \
+    \           v[i] = v[i + shift];\n            }\n\n            for i in s..size\
+    \ {\n                v[i] = false;\n            }\n\n            set >>= shift;\n\
+    \            for i in 0..size {\n                assert_eq!(set[i], v[i]);\n \
+    \           }\n        };\n\n        do_test(6400, 640);\n        do_test(6400,\
+    \ 114);\n        do_test(6400, 514);\n        do_test(63, 65);\n        do_test(6400,\
+    \ 6400);\n        do_test(6400, 16400);\n\n        let mut t = BitSet::new(310);\n\
+    \n        for i in 0..31000 {\n            t >>= i;\n        }\n    }\n\n    #[test]\n\
+    \    fn test_bitset_chomp() {\n        let mut set1 = BitSet::new(4);\n      \
+    \  let mut set2 = BitSet::new(8);\n\n        for i in 0..4 {\n            set1.set(i,\
+    \ true);\n            set2.set(i, true);\n        }\n\n        for i in 4..8 {\n\
+    \            set2.set(i, true);\n        }\n\n        set1 <<= 2;\n        assert_eq!(set1.count_ones(),\
+    \ 2);\n        assert_eq!(set1.count_zeros(), 2);\n        assert_eq!((&set1 |\
+    \ &set2).count_ones(), 4);\n        assert_eq!((&set1 & &set2).count_ones(), 2);\n\
+    \        assert_eq!((&set1 ^ &set2).count_ones(), 2);\n    }\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/bitset/src/lib.rs
   requiredBy:
   - verify/AtCoder/typical_059/src/main.rs
   - crates/math/bit_matrix/src/lib.rs
-  timestamp: '2024-07-10 22:19:14+09:00'
+  timestamp: '2024-07-12 21:45:48+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/bitset/src/lib.rs
