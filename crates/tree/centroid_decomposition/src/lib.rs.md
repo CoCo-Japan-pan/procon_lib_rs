@@ -6,12 +6,12 @@ data:
     path: verify/AtCoder/abc291g/src/main.rs
     title: verify/AtCoder/abc291g/src/main.rs
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/AtCoder/abc359g_centroid/src/main.rs
     title: verify/AtCoder/abc359g_centroid/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links:
     - https://www.quora.com/profile/Abbas-Rangwala-13/Centroid-Decomposition-of-a-Tree)
@@ -22,11 +22,11 @@ data:
   code: "//! \u6728\u306E(\u518D\u5E30\u7684\u306A)\u91CD\u5FC3\u5206\u89E3\u3092\u884C\
     \u3046\n\npub struct CentroidDecomposition<'a> {\n    graph: &'a Vec<Vec<usize>>,\n\
     \    /// \u4F7F\u3044\u307E\u308F\u3059\u914D\u5217 \u90E8\u5206\u6728\u306E\u30B5\
-    \u30A4\u30BA\u3092\u4FDD\u6301\u3057\u3066\u304A\u304F\n    pub subtree_size:\
-    \ Vec<usize>,\n    pub used: Vec<bool>,\n}\n\nimpl<'a> CentroidDecomposition<'a>\
-    \ {\n    pub fn new(graph: &'a Vec<Vec<usize>>) -> Self {\n        Self {\n  \
-    \          graph,\n            subtree_size: vec![0; graph.len()],\n         \
-    \   used: vec![false; graph.len()],\n        }\n    }\n\n    /// [centroid-tree](https://www.quora.com/profile/Abbas-Rangwala-13/Centroid-Decomposition-of-a-Tree)\
+    \u30A4\u30BA\u3092\u4FDD\u6301\u3057\u3066\u304A\u304F\n    subtree_size: Vec<usize>,\n\
+    \    used: Vec<bool>,\n}\n\nimpl<'a> CentroidDecomposition<'a> {\n    pub fn new(graph:\
+    \ &'a Vec<Vec<usize>>) -> Self {\n        Self {\n            graph,\n       \
+    \     subtree_size: vec![0; graph.len()],\n            used: vec![false; graph.len()],\n\
+    \        }\n    }\n\n    /// [centroid-tree](https://www.quora.com/profile/Abbas-Rangwala-13/Centroid-Decomposition-of-a-Tree)\
     \  \n    /// \u8FD4\u308A\u5024\u3068\u3057\u3066\u306F\u3001centroid-tree\u306E\
     (\u89AA\u3001\u5B50)\u306E\u30DA\u30A2\u306E\u30EA\u30B9\u30C8\u3092\u8FD4\u3059\
     \n    pub fn calc_centroid_tree(self) -> Vec<(usize, usize)> {\n        struct\
@@ -77,8 +77,8 @@ data:
   path: crates/tree/centroid_decomposition/src/lib.rs
   requiredBy:
   - verify/AtCoder/abc291g/src/main.rs
-  timestamp: '2024-07-15 00:56:49+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2024-07-15 02:42:26+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - verify/AtCoder/abc359g_centroid/src/main.rs
 documentation_of: crates/tree/centroid_decomposition/src/lib.rs

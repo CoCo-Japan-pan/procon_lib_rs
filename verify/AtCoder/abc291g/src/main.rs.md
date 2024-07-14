@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: crates/tree/centroid_decomposition/src/lib.rs
     title: crates/tree/centroid_decomposition/src/lib.rs
   _extendedRequiredBy: []
@@ -31,7 +31,7 @@ data:
   isVerificationFile: false
   path: verify/AtCoder/abc291g/src/main.rs
   requiredBy: []
-  timestamp: '2024-07-15 00:56:49+09:00'
+  timestamp: '2024-07-15 02:42:26+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: verify/AtCoder/abc291g/src/main.rs
