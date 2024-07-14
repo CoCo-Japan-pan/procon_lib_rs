@@ -171,6 +171,16 @@ data:
     - icon: ':warning:'
       path: crates/string/sa_lcp_array/src/lib.rs
       title: crates/string/sa_lcp_array/src/lib.rs
+  - name: crates/tools/capture/src
+    pages:
+    - icon: ':warning:'
+      path: crates/tools/capture/src/lib.rs
+      title: crates/tools/capture/src/lib.rs
+  - name: crates/tools/localize_closure/src
+    pages:
+    - icon: ':warning:'
+      path: crates/tools/localize_closure/src/lib.rs
+      title: crates/tools/localize_closure/src/lib.rs
   - name: crates/tree/auxiliary_tree/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -196,6 +206,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/tree/rerooting/src/lib.rs
       title: crates/tree/rerooting/src/lib.rs
+  - name: verify/AtCoder/abc291g/src
+    pages:
+    - icon: ':warning:'
+      path: verify/AtCoder/abc291g/src/main.rs
+      title: verify/AtCoder/abc291g/src/main.rs
   - name: verify/AtCoder/abc359g/src
     pages:
     - icon: ':warning:'
