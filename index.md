@@ -176,6 +176,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/tree/auxiliary_tree/src/lib.rs
       title: crates/tree/auxiliary_tree/src/lib.rs
+  - name: crates/tree/centroid_decomposition/src
+    pages:
+    - icon: ':warning:'
+      path: crates/tree/centroid_decomposition/src/lib.rs
+      title: crates/tree/centroid_decomposition/src/lib.rs
   - name: crates/tree/euler_tour/src
     pages:
     - icon: ':heavy_check_mark:'
