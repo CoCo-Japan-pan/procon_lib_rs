@@ -16,11 +16,38 @@ impl<'a> CentroidDecomposition<'a> {
         }
     }
 
+    /// [centroid-tree](https://www.quora.com/profile/Abbas-Rangwala-13/Centroid-Decomposition-of-a-Tree)  
+    /// 返り値としては、centroid-treeの(親、子)のペアのリストを返す
+    pub fn calc_centroid_tree(self) -> Vec<(usize, usize)> {
+        struct Cls<'a> {
+            slf: CentroidDecomposition<'a>,
+            ret: Vec<(usize, usize)>,
+        }
+        let len = self.graph.len();
+        let mut cls = Cls {
+            slf: self,
+            ret: Vec::with_capacity(len),
+        };
+        fn dfs(cls: &mut Cls, subtree_root: usize, prev_centroid: usize) {
+            let centroid = cls.slf.get_centroid(subtree_root);
+            cls.ret.push((prev_centroid, centroid));
+            cls.slf.used[centroid] = true;
+            for &next_subtree_root in &cls.slf.graph[centroid] {
+                if cls.slf.used[next_subtree_root] {
+                    continue;
+                }
+                dfs(cls, next_subtree_root, centroid);
+            }
+        }
+        dfs(&mut cls, 0, !0);
+        cls.ret
+    }
+
     /// `f = |used: &[bool], centroid: usize| { ... }`  
     /// `used`がtrueの頂点は既に見た頂点 `centroid`は現在考える重心  
     /// `f`は重心をまたぐ処理  
     /// 再帰的に重心分解を行いつつ、重心をまたぐ処理を途中で行う
-    pub fn run<F: FnMut(&[bool], usize)>(&mut self, mut f: F) {
+    pub fn run<F: FnMut(&[bool], usize)>(mut self, mut f: F) {
         self.main_dfs(0, &mut f);
     }
 

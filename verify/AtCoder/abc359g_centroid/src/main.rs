@@ -19,7 +19,7 @@ fn main() {
         }
         graph
     };
-    let mut cd = CentroidDecomposition::new(&graph);
+    let cd = CentroidDecomposition::new(&graph);
     let mut ans = 0_usize;
     let func = |used: &[bool], centroid: usize| {
         // 深さの和と個数のペアを色ごとに持つ

@@ -1,5 +1,4 @@
 // https://atcoder.jp/contests/abc291/tasks/abc291_h
-use capture::crecurse;
 use centroid_decomposition::CentroidDecomposition;
 use itertools::Itertools;
 use proconio::{fastout, input, marker::Usize1};
@@ -18,21 +17,12 @@ fn main() {
         }
         graph
     };
-    let mut cd = CentroidDecomposition::new(&graph);
+    let cd = CentroidDecomposition::new(&graph);
+    let par_v = cd.calc_centroid_tree();
     let mut ans = vec![!0; n];
-    crecurse!(
-        unsafe fn dfs(subtree_root: usize, p: usize) {
-            let centroid = cd.get_centroid(subtree_root);
-            cd.used[centroid] = true;
-            ans[centroid] = p;
-            for &u in &graph[centroid] {
-                if cd.used[u] || u == p {
-                    continue;
-                }
-                dfs!(u, centroid);
-            }
-        }
-    )(0, !0);
+    for (p, v) in par_v {
+        ans[v] = p;
+    }
     println!(
         "{}",
         ans.iter()
