@@ -1,5 +1,5 @@
 [package]
-name = "abc359g"
+name = "abc359g_centroid"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,4 +7,6 @@ edition = "2021"
 
 [dependencies]
 proconio = { version = "=0.4.5", features = ["derive"] }
-auxiliary_tree = { path = "../../../crates/tree/auxiliary_tree" }
+capture = { path = "../../../crates/tools/capture" }
+centroid_decomposition = { path = "../../../crates/tree/centroid_decomposition" }
+rustc-hash = "=1.1.0"

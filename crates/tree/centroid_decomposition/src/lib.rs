@@ -20,11 +20,11 @@ impl<'a> CentroidDecomposition<'a> {
     /// `used`がtrueの頂点は既に見た頂点 `centroid`は現在考える重心  
     /// `f`は重心をまたぐ処理  
     /// 再帰的に重心分解を行いつつ、重心をまたぐ処理を途中で行う
-    pub fn run<F: FnMut(&[bool], usize)>(&mut self, f: F) {
-        self.main_dfs(0, f);
+    pub fn run<F: FnMut(&[bool], usize)>(&mut self, mut f: F) {
+        self.main_dfs(0, &mut f);
     }
 
-    fn main_dfs<F: FnMut(&[bool], usize)>(&mut self, v: usize, mut f: F) {
+    fn main_dfs<F: FnMut(&[bool], usize)>(&mut self, v: usize, f: &mut F) {
         let centroid = self.get_centroid(v);
         self.used[centroid] = true;
 
@@ -35,7 +35,7 @@ impl<'a> CentroidDecomposition<'a> {
             if self.used[next_subtree_root] {
                 continue;
             }
-            self.main_dfs(next_subtree_root, &mut f);
+            self.main_dfs(next_subtree_root, f);
         }
     }
 
