@@ -3,8 +3,8 @@
 pub struct CentroidDecomposition<'a> {
     graph: &'a Vec<Vec<usize>>,
     /// 使いまわす配列 部分木のサイズを保持しておく
-    pub subtree_size: Vec<usize>,
-    pub used: Vec<bool>,
+    subtree_size: Vec<usize>,
+    used: Vec<bool>,
 }
 
 impl<'a> CentroidDecomposition<'a> {
