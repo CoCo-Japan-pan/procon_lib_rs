@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: crates/tools/capture/src/lib.rs
     title: crates/tools/capture/src/lib.rs
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: crates/tree/centroid_decomposition/src/lib.rs
     title: crates/tree/centroid_decomposition/src/lib.rs
   _extendedRequiredBy: []
@@ -40,7 +40,7 @@ data:
   isVerificationFile: false
   path: verify/AtCoder/abc291g/src/main.rs
   requiredBy: []
-  timestamp: '2024-07-14 21:41:05+09:00'
+  timestamp: '2024-07-14 22:10:44+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: verify/AtCoder/abc291g/src/main.rs

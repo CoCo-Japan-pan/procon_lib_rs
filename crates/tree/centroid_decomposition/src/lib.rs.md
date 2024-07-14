@@ -5,10 +5,13 @@ data:
   - icon: ':warning:'
     path: verify/AtCoder/abc291g/src/main.rs
     title: verify/AtCoder/abc291g/src/main.rs
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: verify/AtCoder/abc359g_centroid/src/main.rs
+    title: verify/AtCoder/abc359g_centroid/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -29,19 +32,20 @@ data:
     \  \n    /// \u518D\u5E30\u7684\u306B\u91CD\u5FC3\u5206\u89E3\u3092\u884C\u3044\
     \u3064\u3064\u3001\u91CD\u5FC3\u3092\u307E\u305F\u3050\u51E6\u7406\u3092\u9014\
     \u4E2D\u3067\u884C\u3046\n    pub fn run<F: FnMut(&[bool], usize)>(&mut self,\
-    \ f: F) {\n        self.main_dfs(0, f);\n    }\n\n    fn main_dfs<F: FnMut(&[bool],\
-    \ usize)>(&mut self, v: usize, mut f: F) {\n        let centroid = self.get_centroid(v);\n\
-    \        self.used[centroid] = true;\n\n        // \u91CD\u5FC3\u3092\u307E\u305F\
-    \u3050\u51E6\u7406\u3092\u884C\u3046\n        f(&self.used, centroid);\n\n   \
-    \     for &next_subtree_root in &self.graph[centroid] {\n            if self.used[next_subtree_root]\
-    \ {\n                continue;\n            }\n            self.main_dfs(next_subtree_root,\
-    \ &mut f);\n        }\n    }\n\n    /// used\u304Ctrue\u306E\u9802\u70B9\u3092\
-    \u9664\u3044\u3066\u3001\u5404\u9802\u70B9\u306E\u90E8\u5206\u6728\u306E\u30B5\
-    \u30A4\u30BA\u3092\u8A08\u7B97\u3059\u308B\n    fn calc_subtree_size(&mut self,\
-    \ v: usize, p: usize) {\n        self.subtree_size[v] = 1;\n        for &u in\
-    \ &self.graph[v] {\n            if u == p || self.used[u] {\n                continue;\n\
-    \            }\n            self.calc_subtree_size(u, v);\n            self.subtree_size[v]\
-    \ += self.subtree_size[u];\n        }\n    }\n\n    /// used\u304Ctrue\u306E\u9802\
+    \ mut f: F) {\n        self.main_dfs(0, &mut f);\n    }\n\n    fn main_dfs<F:\
+    \ FnMut(&[bool], usize)>(&mut self, v: usize, f: &mut F) {\n        let centroid\
+    \ = self.get_centroid(v);\n        self.used[centroid] = true;\n\n        // \u91CD\
+    \u5FC3\u3092\u307E\u305F\u3050\u51E6\u7406\u3092\u884C\u3046\n        f(&self.used,\
+    \ centroid);\n\n        for &next_subtree_root in &self.graph[centroid] {\n  \
+    \          if self.used[next_subtree_root] {\n                continue;\n    \
+    \        }\n            self.main_dfs(next_subtree_root, f);\n        }\n    }\n\
+    \n    /// used\u304Ctrue\u306E\u9802\u70B9\u3092\u9664\u3044\u3066\u3001\u5404\
+    \u9802\u70B9\u306E\u90E8\u5206\u6728\u306E\u30B5\u30A4\u30BA\u3092\u8A08\u7B97\
+    \u3059\u308B\n    fn calc_subtree_size(&mut self, v: usize, p: usize) {\n    \
+    \    self.subtree_size[v] = 1;\n        for &u in &self.graph[v] {\n         \
+    \   if u == p || self.used[u] {\n                continue;\n            }\n  \
+    \          self.calc_subtree_size(u, v);\n            self.subtree_size[v] +=\
+    \ self.subtree_size[u];\n        }\n    }\n\n    /// used\u304Ctrue\u306E\u9802\
     \u70B9\u3092\u9664\u3044\u3066\u3001subtree_root\u3092\u6839\u3068\u3059\u308B\
     \u90E8\u5206\u6728\u306E\u91CD\u5FC3\u3092\u6C42\u3081\u308B  \n    /// \u3053\
     \u306E\u3068\u304D\u5185\u90E8\u306Eself.subtree_size\u306E\u914D\u5217\u3092\u66F8\
@@ -59,9 +63,10 @@ data:
   path: crates/tree/centroid_decomposition/src/lib.rs
   requiredBy:
   - verify/AtCoder/abc291g/src/main.rs
-  timestamp: '2024-07-14 21:41:05+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  timestamp: '2024-07-14 22:10:44+09:00'
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - verify/AtCoder/abc359g_centroid/src/main.rs
 documentation_of: crates/tree/centroid_decomposition/src/lib.rs
 layout: document
 redirect_from:

@@ -10,8 +10,8 @@ data:
     path: verify/AtCoder/abc340g/src/main.rs
     title: verify/AtCoder/abc340g/src/main.rs
   - icon: ':heavy_check_mark:'
-    path: verify/AtCoder/abc359g/src/main.rs
-    title: verify/AtCoder/abc359g/src/main.rs
+    path: verify/AtCoder/abc359g_auxiliary/src/main.rs
+    title: verify/AtCoder/abc359g_auxiliary/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -95,7 +95,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc340g/src/main.rs
-  - verify/AtCoder/abc359g/src/main.rs
+  - verify/AtCoder/abc359g_auxiliary/src/main.rs
 documentation_of: crates/tree/auxiliary_tree/src/lib.rs
 layout: document
 redirect_from:
