@@ -4,14 +4,14 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/tree/euler_tour/src/lib.rs
     title: crates/tree/euler_tour/src/lib.rs
-  _extendedRequiredBy:
-  - icon: ':warning:'
-    path: verify/AtCoder/abc359g/src/main.rs
-    title: verify/AtCoder/abc359g/src/main.rs
+  _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: verify/AtCoder/abc340g/src/main.rs
     title: verify/AtCoder/abc340g/src/main.rs
+  - icon: ':heavy_check_mark:'
+    path: verify/AtCoder/abc359g/src/main.rs
+    title: verify/AtCoder/abc359g/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -90,12 +90,12 @@ data:
   - crates/tree/euler_tour/src/lib.rs
   isVerificationFile: false
   path: crates/tree/auxiliary_tree/src/lib.rs
-  requiredBy:
-  - verify/AtCoder/abc359g/src/main.rs
+  requiredBy: []
   timestamp: '2024-06-23 15:56:36+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc340g/src/main.rs
+  - verify/AtCoder/abc359g/src/main.rs
 documentation_of: crates/tree/auxiliary_tree/src/lib.rs
 layout: document
 redirect_from:
