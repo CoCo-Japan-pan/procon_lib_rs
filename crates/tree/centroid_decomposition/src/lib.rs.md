@@ -6,12 +6,12 @@ data:
     path: verify/AtCoder/abc291g/src/main.rs
     title: verify/AtCoder/abc291g/src/main.rs
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/AtCoder/abc359g_centroid/src/main.rs
     title: verify/AtCoder/abc359g_centroid/src/main.rs
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
     - https://www.quora.com/profile/Abbas-Rangwala-13/Centroid-Decomposition-of-a-Tree)
@@ -78,7 +78,7 @@ data:
   requiredBy:
   - verify/AtCoder/abc291g/src/main.rs
   timestamp: '2024-07-15 00:56:49+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc359g_centroid/src/main.rs
 documentation_of: crates/tree/centroid_decomposition/src/lib.rs

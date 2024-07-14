@@ -11,6 +11,11 @@ data:
     - icon: ':warning:'
       path: crates/bitset/src/lib.rs
       title: crates/bitset/src/lib.rs
+  - name: crates/data_structure/cht_offline/src
+    pages:
+    - icon: ':warning:'
+      path: crates/data_structure/cht_offline/src/lib.rs
+      title: crates/data_structure/cht_offline/src/lib.rs
   - name: crates/data_structure/dual_segtree/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -173,7 +178,7 @@ data:
       title: crates/string/sa_lcp_array/src/lib.rs
   - name: crates/tools/capture/src
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: crates/tools/capture/src/lib.rs
       title: crates/tools/capture/src/lib.rs
   - name: crates/tools/localize_closure/src
@@ -188,7 +193,7 @@ data:
       title: crates/tree/auxiliary_tree/src/lib.rs
   - name: crates/tree/centroid_decomposition/src
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: crates/tree/centroid_decomposition/src/lib.rs
       title: crates/tree/centroid_decomposition/src/lib.rs
   - name: crates/tree/euler_tour/src
@@ -329,7 +334,7 @@ data:
       title: verify/AtCoder/abc359g_auxiliary/src/main.rs
   - name: verify/AtCoder/abc359g_centroid/src
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: verify/AtCoder/abc359g_centroid/src/main.rs
       title: verify/AtCoder/abc359g_centroid/src/main.rs
   - name: verify/AtCoder/alpc_l_lazy_seg/src
