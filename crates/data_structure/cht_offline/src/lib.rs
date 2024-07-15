@@ -61,7 +61,8 @@ impl<T: Compare> CHTOffline<T> {
         }
     }
 
-    pub fn query(&self, x: i64) -> i64 {
+    /// xにおける最小値または最大値を求める
+    pub fn get(&self, x: i64) -> i64 {
         let mut id = self
             .sorted_points
             .binary_search(&x)
@@ -169,8 +170,8 @@ mod test {
                     max = max.max(a * x + b);
                     min = min.min(a * x + b);
                 }
-                assert_eq!(cht_max.query(*x), max);
-                assert_eq!(cht_min.query(*x), min);
+                assert_eq!(cht_max.get(*x), max);
+                assert_eq!(cht_min.get(*x), min);
             }
         }
         do_test(10);
