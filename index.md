@@ -402,6 +402,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yosupo/rectangle_add_point_get/src/main.rs
       title: verify/yosupo/rectangle_add_point_get/src/main.rs
+  - name: verify/yosupo/segment_add_get_min/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yosupo/segment_add_get_min/src/main.rs
+      title: verify/yosupo/segment_add_get_min/src/main.rs
   - name: verify/yosupo/static_range_inversions_query/src
     pages:
     - icon: ':heavy_check_mark:'
