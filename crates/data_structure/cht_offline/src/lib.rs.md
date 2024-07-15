@@ -60,18 +60,18 @@ data:
     \ * 2],\n            _phantom: std::marker::PhantomData,\n        }\n    }\n\n\
     \    /// x\u306B\u304A\u3051\u308B\u6700\u5C0F\u5024\u307E\u305F\u306F\u6700\u5927\
     \u5024\u3092\u6C42\u3081\u308B\n    pub fn get(&self, x: i64) -> i64 {\n     \
-    \   let mut id = self\n            .sorted_points\n            .binary_search(&x)\n\
-    \            .expect(\"x is not in points!!!\");\n        id += self.leaf_size;\n\
-    \        let mut ret = T::identity();\n        while id > 0 {\n            let\
-    \ (a, b) = self.line_per_nodes[id];\n            let new_num = a * x + b;\n  \
-    \          if T::update(ret, new_num) {\n                ret = new_num;\n    \
-    \        }\n            id >>= 1;\n        }\n        ret\n    }\n\n    fn add_line_in_node(&mut\
+    \   let id = self\n            .sorted_points\n            .binary_search(&x)\n\
+    \            .expect(\"x is not in points!!!\")\n            + self.leaf_size;\n\
+    \        let mut ret = T::identity();\n        for i in 0..=self.log {\n     \
+    \       let (a, b) = self.line_per_nodes[id >> i];\n            let new_num =\
+    \ a * x + b;\n            if T::update(ret, new_num) {\n                ret =\
+    \ new_num;\n            }\n        }\n        ret\n    }\n\n    fn add_line_in_node(&mut\
     \ self, mut a: i64, mut b: i64, mut node_id: usize) {\n        let (mut left,\
     \ mut right) = {\n            let floor_log = 32 - (node_id as u32).leading_zeros()\
     \ - 1;\n            let block_size = 1 << (self.log - floor_log as usize);\n \
     \           let idx = node_id - (1 << floor_log);\n            (idx * block_size,\
     \ (idx + 1) * block_size)\n        };\n        // [left, right)\u3067\u8003\u3048\
-    \u308B\n        while right - left > 0 {\n            let (cur_a, cur_b) = self.line_per_nodes[node_id];\n\
+    \u308B\n        loop {\n            let (cur_a, cur_b) = self.line_per_nodes[node_id];\n\
     \            // \u307E\u305A\u5B8C\u5168\u306B\u4E0A\u56DE\u308B\u3001\u4E0B\u56DE\
     \u308B\u5834\u5408\n            let left_point = cur_a * self.sorted_points[left]\
     \ + cur_b;\n            let left_new_point = a * self.sorted_points[left] + b;\n\
@@ -141,7 +141,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/cht_offline/src/lib.rs
   requiredBy: []
-  timestamp: '2024-07-15 16:36:30+09:00'
+  timestamp: '2024-07-15 21:52:20+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/segment_add_get_min/src/main.rs
