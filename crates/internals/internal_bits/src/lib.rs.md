@@ -3,6 +3,9 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
+    path: crates/data_structure/cht_offline/src/lib.rs
+    title: crates/data_structure/cht_offline/src/lib.rs
+  - icon: ':heavy_check_mark:'
     path: crates/data_structure/lazy_segtree/src/lib.rs
     title: crates/data_structure/lazy_segtree/src/lib.rs
   - icon: ':heavy_check_mark:'
@@ -35,6 +38,7 @@ data:
   - crates/data_structure/segtree_2d_dense/src/lib.rs
   - crates/data_structure/lazy_segtree/src/lib.rs
   - crates/data_structure/segtree/src/lib.rs
+  - crates/data_structure/cht_offline/src/lib.rs
   - crates/fps/fps_utils/src/lib.rs
   timestamp: '2024-05-30 17:49:36+09:00'
   verificationStatus: LIBRARY_NO_TESTS

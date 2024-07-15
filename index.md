@@ -13,7 +13,7 @@ data:
       title: crates/bitset/src/lib.rs
   - name: crates/data_structure/cht_offline/src
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: crates/data_structure/cht_offline/src/lib.rs
       title: crates/data_structure/cht_offline/src/lib.rs
   - name: crates/data_structure/dual_segtree/src
@@ -372,6 +372,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yosupo/lca_hld/src/main.rs
       title: verify/yosupo/lca_hld/src/main.rs
+  - name: verify/yosupo/line_add_get_min/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yosupo/line_add_get_min/src/main.rs
+      title: verify/yosupo/line_add_get_min/src/main.rs
   - name: verify/yosupo/log_of_formal_power_series/src
     pages:
     - icon: ':heavy_check_mark:'
