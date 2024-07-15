@@ -48,9 +48,9 @@ data:
     \u3050\u51E6\u7406\u3092\u9014\u4E2D\u3067\u884C\u3046\n    pub fn run<F: FnMut(&[bool],\
     \ usize)>(mut self, mut f: F) {\n        self.main_dfs(0, &mut f);\n    }\n\n\
     \    fn main_dfs<F: FnMut(&[bool], usize)>(&mut self, v: usize, f: &mut F) {\n\
-    \        let centroid = self.get_centroid(v);\n        self.used[centroid] = true;\n\
-    \n        // \u91CD\u5FC3\u3092\u307E\u305F\u3050\u51E6\u7406\u3092\u884C\u3046\
-    \n        f(&self.used, centroid);\n\n        for &next_subtree_root in &self.graph[centroid]\
+    \        let centroid = self.get_centroid(v);\n\n        // \u91CD\u5FC3\u3092\
+    \u307E\u305F\u3050\u51E6\u7406\u3092\u884C\u3046\n        f(&self.used, centroid);\n\
+    \n        self.used[centroid] = true;\n        for &next_subtree_root in &self.graph[centroid]\
     \ {\n            if self.used[next_subtree_root] {\n                continue;\n\
     \            }\n            self.main_dfs(next_subtree_root, f);\n        }\n\
     \    }\n\n    /// used\u304Ctrue\u306E\u9802\u70B9\u3092\u9664\u3044\u3066\u3001\
@@ -77,7 +77,7 @@ data:
   path: crates/tree/centroid_decomposition/src/lib.rs
   requiredBy:
   - verify/AtCoder/abc291g/src/main.rs
-  timestamp: '2024-07-15 02:42:26+09:00'
+  timestamp: '2024-07-15 11:41:35+09:00'
   verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - verify/AtCoder/abc359g_centroid/src/main.rs
