@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: crates/tools/capture/src/lib.rs
     title: crates/tools/capture/src/lib.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: crates/tree/centroid_decomposition/src/lib.rs
     title: crates/tree/centroid_decomposition/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     PROBLEM: https://atcoder.jp/contests/abc359/tasks/abc359_g
     links:
@@ -57,8 +57,8 @@ data:
   isVerificationFile: true
   path: verify/AtCoder/abc359g_centroid/src/main.rs
   requiredBy: []
-  timestamp: '2024-07-15 11:41:35+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2024-07-15 11:56:42+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AtCoder/abc359g_centroid/src/main.rs
 layout: document

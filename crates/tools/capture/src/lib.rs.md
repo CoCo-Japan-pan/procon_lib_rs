@@ -3,12 +3,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/AtCoder/abc359g_centroid/src/main.rs
     title: verify/AtCoder/abc359g_centroid/src/main.rs
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
     - https://creativecommons.org/publicdomain/zero/1.0/)
@@ -128,7 +128,7 @@ data:
   path: crates/tools/capture/src/lib.rs
   requiredBy: []
   timestamp: '2024-07-14 21:41:05+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc359g_centroid/src/main.rs
 documentation_of: crates/tools/capture/src/lib.rs

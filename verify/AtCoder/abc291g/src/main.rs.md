@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: crates/tree/centroid_decomposition/src/lib.rs
     title: crates/tree/centroid_decomposition/src/lib.rs
   _extendedRequiredBy: []
@@ -22,16 +22,16 @@ data:
     \ Usize1); n - 1],\n    }\n    let graph = {\n        let mut graph = vec![vec![];\
     \ n];\n        for &(a, b) in &a_b {\n            graph[a].push(b);\n        \
     \    graph[b].push(a);\n        }\n        graph\n    };\n    let cd = CentroidDecomposition::new(&graph);\n\
-    \    let par_v = cd.calc_centroid_tree();\n    let mut ans = vec![!0; n];\n  \
-    \  for (p, v) in par_v {\n        ans[v] = p;\n    }\n    println!(\n        \"\
-    {}\",\n        ans.iter()\n            .map(|x| if *x == !0 { -1 } else { (*x\
-    \ as isize) + 1 })\n            .format(\" \")\n    );\n}\n"
+    \    let (par_v, _) = cd.calc_centroid_tree();\n    let mut ans = vec![!0; n];\n\
+    \    for (p, v) in par_v {\n        ans[v] = p;\n    }\n    println!(\n      \
+    \  \"{}\",\n        ans.iter()\n            .map(|x| if *x == !0 { -1 } else {\
+    \ (*x as isize) + 1 })\n            .format(\" \")\n    );\n}\n"
   dependsOn:
   - crates/tree/centroid_decomposition/src/lib.rs
   isVerificationFile: false
   path: verify/AtCoder/abc291g/src/main.rs
   requiredBy: []
-  timestamp: '2024-07-15 11:41:35+09:00'
+  timestamp: '2024-07-15 11:56:42+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: verify/AtCoder/abc291g/src/main.rs
