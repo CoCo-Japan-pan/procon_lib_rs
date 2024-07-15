@@ -53,11 +53,11 @@ impl<'a> CentroidDecomposition<'a> {
 
     fn main_dfs<F: FnMut(&[bool], usize)>(&mut self, v: usize, f: &mut F) {
         let centroid = self.get_centroid(v);
-        self.used[centroid] = true;
 
         // 重心をまたぐ処理を行う
         f(&self.used, centroid);
 
+        self.used[centroid] = true;
         for &next_subtree_root in &self.graph[centroid] {
             if self.used[next_subtree_root] {
                 continue;
