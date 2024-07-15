@@ -43,7 +43,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/segment_add_get_min/src/main.rs
   requiredBy: []
-  timestamp: '2024-07-15 15:25:23+09:00'
+  timestamp: '2024-07-15 16:36:30+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/segment_add_get_min/src/main.rs

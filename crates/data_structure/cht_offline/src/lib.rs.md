@@ -22,7 +22,7 @@ data:
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "//! Li Chao tree\u306B\u3088\u308BCHT\n//! i64\u578B\u3067\u53CE\u307E\u308B\
+  code: "//! Li Chao tree\u306B\u3088\u308BCHT  \n//! i64\u578B\u3067\u53CE\u307E\u308B\
     \u524D\u63D0  \n//! ax + b \u306E\u76F4\u7DDA\u7FA4\u3092\u8FFD\u52A0\u3057\u3066\
     \u3001\u7279\u5B9A\u306Ex\u306B\u304A\u3051\u308B\u6700\u5C0F\u5024\u307E\u305F\
     \u306F\u6700\u5927\u5024\u3092logN\u3067\u6C42\u3081\u308B  \n//! \u30AF\u30A8\
@@ -71,57 +71,55 @@ data:
     \ - 1;\n            let block_size = 1 << (self.log - floor_log as usize);\n \
     \           let idx = node_id - (1 << floor_log);\n            (idx * block_size,\
     \ (idx + 1) * block_size)\n        };\n        // [left, right)\u3067\u8003\u3048\
-    \u308B\n        while right - left > 0 {\n            let (mut cur_a, mut cur_b)\
-    \ = self.line_per_nodes[node_id];\n            // \u307E\u305A\u5B8C\u5168\u306B\
-    \u4E0A\u56DE\u308B\u3001\u4E0B\u56DE\u308B\u5834\u5408\n            let left_point\
-    \ = cur_a * self.sorted_points[left] + cur_b;\n            let left_new_point\
-    \ = a * self.sorted_points[left] + b;\n            let right_point = cur_a * self.sorted_points[right\
-    \ - 1] + cur_b;\n            let right_new_point = a * self.sorted_points[right\
-    \ - 1] + b;\n            let left_update = T::update(left_point, left_new_point);\n\
-    \            let right_update = T::update(right_point, right_new_point);\n   \
-    \         match (left_update, right_update) {\n                (true, true) =>\
-    \ {\n                    self.line_per_nodes[node_id] = (a, b);\n            \
-    \        return;\n                }\n                (false, false) => {\n   \
-    \                 return;\n                }\n                _ => {}\n      \
-    \      }\n            let mid = (left + right) / 2;\n            if left_update\
-    \ {\n                let mid_point = cur_a * self.sorted_points[mid] + cur_b;\n\
-    \                let mid_new_point = a * self.sorted_points[mid] + b;\n      \
-    \          let mid_update = T::update(mid_point, mid_new_point);\n           \
-    \     if !mid_update {\n                    node_id <<= 1;\n                 \
-    \   right = mid;\n                } else {\n                    // \u76F4\u7DDA\
-    \u3092\u4EA4\u63DB\n                    self.line_per_nodes[node_id] = (a, b);\n\
-    \                    std::mem::swap(&mut a, &mut cur_a);\n                   \
-    \ std::mem::swap(&mut b, &mut cur_b);\n                    node_id = (node_id\
-    \ << 1) | 1;\n                    left = mid;\n                }\n           \
-    \ } else {\n                let mid_point = cur_a * self.sorted_points[mid - 1]\
-    \ + cur_b;\n                let mid_new_point = a * self.sorted_points[mid - 1]\
-    \ + b;\n                let mid_update = T::update(mid_point, mid_new_point);\n\
+    \u308B\n        while right - left > 0 {\n            let (cur_a, cur_b) = self.line_per_nodes[node_id];\n\
+    \            // \u307E\u305A\u5B8C\u5168\u306B\u4E0A\u56DE\u308B\u3001\u4E0B\u56DE\
+    \u308B\u5834\u5408\n            let left_point = cur_a * self.sorted_points[left]\
+    \ + cur_b;\n            let left_new_point = a * self.sorted_points[left] + b;\n\
+    \            let right_point = cur_a * self.sorted_points[right - 1] + cur_b;\n\
+    \            let right_new_point = a * self.sorted_points[right - 1] + b;\n  \
+    \          let left_update = T::update(left_point, left_new_point);\n        \
+    \    let right_update = T::update(right_point, right_new_point);\n           \
+    \ match (left_update, right_update) {\n                (true, true) => {\n   \
+    \                 self.line_per_nodes[node_id] = (a, b);\n                   \
+    \ return;\n                }\n                (false, false) => {\n          \
+    \          return;\n                }\n                _ => {}\n            }\n\
+    \            let mid = (left + right) / 2;\n            if left_update {\n   \
+    \             let mid_point = cur_a * self.sorted_points[mid] + cur_b;\n     \
+    \           let mid_new_point = a * self.sorted_points[mid] + b;\n           \
+    \     let mid_update = T::update(mid_point, mid_new_point);\n                if\
+    \ !mid_update {\n                    node_id <<= 1;\n                    right\
+    \ = mid;\n                } else {\n                    // \u76F4\u7DDA\u3092\u4EA4\
+    \u63DB\n                    self.line_per_nodes[node_id] = (a, b);\n         \
+    \           a = cur_a;\n                    b = cur_b;\n                    node_id\
+    \ = (node_id << 1) | 1;\n                    left = mid;\n                }\n\
+    \            } else {\n                let mid_point = cur_a * self.sorted_points[mid\
+    \ - 1] + cur_b;\n                let mid_new_point = a * self.sorted_points[mid\
+    \ - 1] + b;\n                let mid_update = T::update(mid_point, mid_new_point);\n\
     \                if !mid_update {\n                    node_id = (node_id << 1)\
     \ | 1;\n                    left = mid;\n                } else {\n          \
     \          // \u76F4\u7DDA\u3092\u4EA4\u63DB\n                    self.line_per_nodes[node_id]\
-    \ = (a, b);\n                    std::mem::swap(&mut a, &mut cur_a);\n       \
-    \             std::mem::swap(&mut b, &mut cur_b);\n                    node_id\
-    \ <<= 1;\n                    right = mid;\n                }\n            }\n\
-    \        }\n    }\n\n    /// \u76F4\u7DDA`a x + b`\u3092\u8FFD\u52A0\u3059\u308B\
-    \n    #[inline]\n    pub fn add_line(&mut self, a: i64, b: i64) {\n        self.add_line_in_node(a,\
-    \ b, 1);\n    }\n\n    /// \u7DDA\u5206 `ax + b (x\u306Frange\u306E\u7BC4\u56F2\
-    \u5185\u3067\u6709\u52B9)` \u3092\u8FFD\u52A0\u3059\u308B\n    pub fn add_line_segment<R:\
-    \ RangeBounds<i64>>(&mut self, a: i64, b: i64, range: R) {\n        // \u3044\u304F\
-    \u3064\u304B\u306E\u30CE\u30FC\u30C9\u306B\u5206\u5272\u3057\u3066\u305D\u308C\
-    \u305E\u308C\u3067\u51E6\u7406\u3059\u308B\n        let l = match range.start_bound()\
-    \ {\n            Included(&l) => l,\n            Excluded(&l) => l + 1,\n    \
-    \        Unbounded => self.sorted_points[0],\n        };\n        let r = match\
-    \ range.end_bound() {\n            Included(&r) => r + 1,\n            Excluded(&r)\
-    \ => r,\n            Unbounded => *self.sorted_points.last().unwrap() + 1,\n \
-    \       };\n        let mut left = self.sorted_points.partition_point(|&x| x <\
-    \ l);\n        let mut right = self.sorted_points.partition_point(|&x| x < r);\n\
-    \        if left == right {\n            return;\n        }\n        left += self.leaf_size;\n\
-    \        right += self.leaf_size;\n        while left < right {\n            if\
-    \ left & 1 == 1 {\n                self.add_line_in_node(a, b, left);\n      \
-    \          left += 1;\n            }\n            if right & 1 == 1 {\n      \
-    \          right -= 1;\n                self.add_line_in_node(a, b, right);\n\
-    \            }\n            left >>= 1;\n            right >>= 1;\n        }\n\
-    \    }\n}\n\n#[cfg(test)]\nmod test {\n    use super::*;\n    use rand::prelude::*;\n\
+    \ = (a, b);\n                    a = cur_a;\n                    b = cur_b;\n\
+    \                    node_id <<= 1;\n                    right = mid;\n      \
+    \          }\n            }\n        }\n    }\n\n    /// \u76F4\u7DDA`ax + b`\u3092\
+    \u8FFD\u52A0\u3059\u308B\n    #[inline]\n    pub fn add_line(&mut self, a: i64,\
+    \ b: i64) {\n        self.add_line_in_node(a, b, 1);\n    }\n\n    /// \u7DDA\u5206\
+    \ `ax + b (x\u306Frange\u306E\u7BC4\u56F2\u5185\u3067\u6709\u52B9)` \u3092\u8FFD\
+    \u52A0\u3059\u308B\n    pub fn add_line_segment<R: RangeBounds<i64>>(&mut self,\
+    \ a: i64, b: i64, range: R) {\n        // \u3044\u304F\u3064\u304B\u306E\u30CE\
+    \u30FC\u30C9\u306B\u5206\u5272\u3057\u3066\u305D\u308C\u305E\u308C\u3067\u51E6\
+    \u7406\u3059\u308B\n        let l = match range.start_bound() {\n            Included(&l)\
+    \ => l,\n            Excluded(&l) => l + 1,\n            Unbounded => self.sorted_points[0],\n\
+    \        };\n        let r = match range.end_bound() {\n            Included(&r)\
+    \ => r + 1,\n            Excluded(&r) => r,\n            Unbounded => *self.sorted_points.last().unwrap()\
+    \ + 1,\n        };\n        let mut left = self.sorted_points.partition_point(|&x|\
+    \ x < l);\n        let mut right = self.sorted_points.partition_point(|&x| x <\
+    \ r);\n        if left == right {\n            return;\n        }\n        left\
+    \ += self.leaf_size;\n        right += self.leaf_size;\n        while left < right\
+    \ {\n            if left & 1 == 1 {\n                self.add_line_in_node(a,\
+    \ b, left);\n                left += 1;\n            }\n            if right &\
+    \ 1 == 1 {\n                right -= 1;\n                self.add_line_in_node(a,\
+    \ b, right);\n            }\n            left >>= 1;\n            right >>= 1;\n\
+    \        }\n    }\n}\n\n#[cfg(test)]\nmod test {\n    use super::*;\n    use rand::prelude::*;\n\
     \n    #[test]\n    fn test() {\n        fn do_test(point_size: usize) {\n    \
     \        let mut rng = thread_rng();\n            let points: Vec<i64> = (0..point_size)\n\
     \                .map(|_| rng.gen_range(-10000..10000))\n                .collect();\n\
@@ -143,7 +141,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/cht_offline/src/lib.rs
   requiredBy: []
-  timestamp: '2024-07-15 15:25:23+09:00'
+  timestamp: '2024-07-15 16:36:30+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/segment_add_get_min/src/main.rs
