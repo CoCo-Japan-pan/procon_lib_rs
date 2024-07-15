@@ -1,4 +1,4 @@
-//! Li Chao treeによるCHT
+//! Li Chao treeによるCHT  
 //! i64型で収まる前提  
 //! ax + b の直線群を追加して、特定のxにおける最小値または最大値をlogNで求める  
 //! クエリで聞かれるx座標達が既知(オフライン)、またはその範囲が10^5ぐらいに収まっている場合に限る  
@@ -93,7 +93,7 @@ impl<T: Compare> CHTOffline<T> {
         };
         // [left, right)で考える
         while right - left > 0 {
-            let (mut cur_a, mut cur_b) = self.line_per_nodes[node_id];
+            let (cur_a, cur_b) = self.line_per_nodes[node_id];
             // まず完全に上回る、下回る場合
             let left_point = cur_a * self.sorted_points[left] + cur_b;
             let left_new_point = a * self.sorted_points[left] + b;
@@ -122,8 +122,8 @@ impl<T: Compare> CHTOffline<T> {
                 } else {
                     // 直線を交換
                     self.line_per_nodes[node_id] = (a, b);
-                    std::mem::swap(&mut a, &mut cur_a);
-                    std::mem::swap(&mut b, &mut cur_b);
+                    a = cur_a;
+                    b = cur_b;
                     node_id = (node_id << 1) | 1;
                     left = mid;
                 }
@@ -137,8 +137,8 @@ impl<T: Compare> CHTOffline<T> {
                 } else {
                     // 直線を交換
                     self.line_per_nodes[node_id] = (a, b);
-                    std::mem::swap(&mut a, &mut cur_a);
-                    std::mem::swap(&mut b, &mut cur_b);
+                    a = cur_a;
+                    b = cur_b;
                     node_id <<= 1;
                     right = mid;
                 }
@@ -146,7 +146,7 @@ impl<T: Compare> CHTOffline<T> {
         }
     }
 
-    /// 直線`a x + b`を追加する
+    /// 直線`ax + b`を追加する
     #[inline]
     pub fn add_line(&mut self, a: i64, b: i64) {
         self.add_line_in_node(a, b, 1);
