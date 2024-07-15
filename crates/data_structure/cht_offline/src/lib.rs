@@ -67,19 +67,18 @@ impl<T: Compare> CHTOffline<T> {
 
     /// xにおける最小値または最大値を求める
     pub fn get(&self, x: i64) -> i64 {
-        let mut id = self
+        let id = self
             .sorted_points
             .binary_search(&x)
-            .expect("x is not in points!!!");
-        id += self.leaf_size;
+            .expect("x is not in points!!!")
+            + self.leaf_size;
         let mut ret = T::identity();
-        while id > 0 {
-            let (a, b) = self.line_per_nodes[id];
+        for i in 0..=self.log {
+            let (a, b) = self.line_per_nodes[id >> i];
             let new_num = a * x + b;
             if T::update(ret, new_num) {
                 ret = new_num;
             }
-            id >>= 1;
         }
         ret
     }
@@ -92,7 +91,7 @@ impl<T: Compare> CHTOffline<T> {
             (idx * block_size, (idx + 1) * block_size)
         };
         // [left, right)で考える
-        while right - left > 0 {
+        loop {
             let (cur_a, cur_b) = self.line_per_nodes[node_id];
             // まず完全に上回る、下回る場合
             let left_point = cur_a * self.sorted_points[left] + cur_b;
