@@ -18,7 +18,7 @@ fn main() {
         graph
     };
     let cd = CentroidDecomposition::new(&graph);
-    let par_v = cd.calc_centroid_tree();
+    let (par_v, _) = cd.calc_centroid_tree();
     let mut ans = vec![!0; n];
     for (p, v) in par_v {
         ans[v] = p;

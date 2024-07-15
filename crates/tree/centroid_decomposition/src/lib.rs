@@ -17,20 +17,30 @@ impl<'a> CentroidDecomposition<'a> {
     }
 
     /// [centroid-tree](https://www.quora.com/profile/Abbas-Rangwala-13/Centroid-Decomposition-of-a-Tree)  
-    /// 返り値としては、centroid-treeの(親、子)のペアのリストを返す
-    pub fn calc_centroid_tree(self) -> Vec<(usize, usize)> {
+    /// グラフが空の場合は(vec![], None)を返す  
+    /// 返り値としては、centroid-treeの(親、子)のペアのリストとSome(根)のペアを返す  
+    pub fn calc_centroid_tree(self) -> (Vec<(usize, usize)>, Option<usize>) {
+        if self.graph.is_empty() {
+            return (vec![], None);
+        }
         struct Cls<'a> {
             slf: CentroidDecomposition<'a>,
             ret: Vec<(usize, usize)>,
+            root: Option<usize>,
         }
         let len = self.graph.len();
         let mut cls = Cls {
             slf: self,
             ret: Vec::with_capacity(len),
+            root: None,
         };
         fn dfs(cls: &mut Cls, subtree_root: usize, prev_centroid: usize) {
             let centroid = cls.slf.get_centroid(subtree_root);
-            cls.ret.push((prev_centroid, centroid));
+            if prev_centroid == !0 {
+                cls.root = Some(centroid);
+            } else {
+                cls.ret.push((prev_centroid, centroid));
+            }
             cls.slf.used[centroid] = true;
             for &next_subtree_root in &cls.slf.graph[centroid] {
                 if cls.slf.used[next_subtree_root] {
@@ -40,7 +50,7 @@ impl<'a> CentroidDecomposition<'a> {
             }
         }
         dfs(&mut cls, 0, !0);
-        cls.ret
+        (cls.ret, cls.root)
     }
 
     /// `f = |used: &[bool], centroid: usize| { ... }`  
