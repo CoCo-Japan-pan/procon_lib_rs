@@ -11,7 +11,9 @@ pub fn next_permutation<T: Ord>(a: &mut [T]) -> bool {
     true
 }
 
-pub fn permutations<T: Ord + Clone>(start_vec: Vec<T>) -> Permutations<T> {
+/// ソートを行い、順列を列挙するイテレータを返す
+pub fn permutations<T: Ord + Clone>(mut start_vec: Vec<T>) -> Permutations<T> {
+    start_vec.sort();
     Permutations::new(start_vec)
 }
 
@@ -60,7 +62,7 @@ mod tests {
 
     #[test]
     fn test_daburi_strings() {
-        let mut perms = permutations("aab".chars().collect());
+        let mut perms = permutations("aba".chars().collect());
         assert_eq!(perms.next().unwrap(), vec!['a', 'a', 'b']);
         assert_eq!(perms.next().unwrap(), vec!['a', 'b', 'a']);
         assert_eq!(perms.next().unwrap(), vec!['b', 'a', 'a']);
