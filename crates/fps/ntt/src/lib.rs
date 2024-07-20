@@ -186,7 +186,7 @@ pub trait ConvHelper: ModInt {
 impl<const MOD: u32> ConvHelper for StaticModInt<MOD> {
     fn convolution(a: &[Self], b: &[Self]) -> Vec<Self> {
         match MOD {
-            998_244_353 | 167_772_161 | 469_762_049 | 1_224_736_769 => {
+            998_244_353 | 167_772_161 | 469_762_049 | 1_224_736_769 | 4_194_304_001 => {
                 convolution_ntt_friendly::<MOD, 3>(a, b)
             }
             754_974_721 => convolution_ntt_friendly::<MOD, 11>(a, b),
@@ -218,6 +218,8 @@ where
         .collect()
 }
 
+/// i64に値が収まる場合の畳み込み  
+/// NTT-friendlyな `4_194_304_001 = 125 * 2^25 + 1` に収まるならそちらを使うとよさそう
 pub fn convolution_i64(a: &[i64], b: &[i64]) -> Vec<i64> {
     const M1: u64 = 754_974_721; // 2^24
     const M2: u64 = 167_772_161; // 2^25
@@ -281,10 +283,10 @@ mod test {
         fn do_test(size: u32) {
             let mut rng = thread_rng();
             let a = (0..size)
-                .map(|_| rng.gen_range(-1_000_000_0..=1_000_000_0))
+                .map(|_| rng.gen_range(-10_000_000..=10_000_000))
                 .collect::<Vec<_>>();
             let b = (0..size)
-                .map(|_| rng.gen_range(-1_000_000_0..=1_000_000_0))
+                .map(|_| rng.gen_range(-10_000_000..=10_000_000))
                 .collect::<Vec<_>>();
             let naive = convolution_naive(&a, &b);
             let fast = convolution_i64(&a, &b);
