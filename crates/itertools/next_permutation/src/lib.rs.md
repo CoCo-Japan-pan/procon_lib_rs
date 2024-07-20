@@ -14,10 +14,12 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "/// From <https://github.com/ngtkana/ac-adapter-rs/blob/main/libs/next_permutation/src/lib.rs>\
-    \  \n/// Returns the next permutation of `a` in lexicographic order.\npub fn next_permutation<T:\
-    \ Ord>(a: &mut [T]) -> bool {\n    let Some(i) = a.windows(2).rposition(|w| w[0]\
-    \ < w[1]) else {\n        return false;\n    };\n    let j = a.iter().rposition(|x|\
-    \ x > &a[i]).unwrap();\n    a.swap(i, j);\n    a[i + 1..].reverse();\n    true\n\
+    \  \n/// Returns the next permutation of `a` in lexicographic order.  \n/// \u3053\
+    \u308C\u306F\u91CD\u8907\u3092\u9664\u53BB\u3059\u308B\u306E\u3067\u3001itertools\u306E\
+    permutations\u3068\u306F\u7570\u306A\u308B\uFF01\npub fn next_permutation<T: Ord>(a:\
+    \ &mut [T]) -> bool {\n    let Some(i) = a.windows(2).rposition(|w| w[0] < w[1])\
+    \ else {\n        return false;\n    };\n    let j = a.iter().rposition(|x| x\
+    \ > &a[i]).unwrap();\n    a.swap(i, j);\n    a[i + 1..].reverse();\n    true\n\
     }\n\npub fn permutations<T: Ord + Clone>(start_vec: Vec<T>) -> Permutations<T>\
     \ {\n    Permutations::new(start_vec)\n}\n\npub struct Permutations<T: Ord + Clone>\
     \ {\n    data: Vec<T>,\n    first: bool,\n}\n\nimpl<T: Ord + Clone> Permutations<T>\
@@ -33,12 +35,16 @@ data:
     \        assert_eq!(perms.next().unwrap(), vec![1, 0, 2]);\n        assert_eq!(perms.next().unwrap(),\
     \ vec![1, 2, 0]);\n        assert_eq!(perms.next().unwrap(), vec![2, 0, 1]);\n\
     \        assert_eq!(perms.next().unwrap(), vec![2, 1, 0]);\n        assert!(perms.next().is_none());\n\
-    \    }\n}\n"
+    \    }\n\n    #[test]\n    fn test_daburi_strings() {\n        let mut perms =\
+    \ permutations(\"aab\".chars().collect());\n        assert_eq!(perms.next().unwrap(),\
+    \ vec!['a', 'a', 'b']);\n        assert_eq!(perms.next().unwrap(), vec!['a', 'b',\
+    \ 'a']);\n        assert_eq!(perms.next().unwrap(), vec!['b', 'a', 'a']);\n  \
+    \      assert!(perms.next().is_none());\n    }\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/itertools/next_permutation/src/lib.rs
   requiredBy: []
-  timestamp: '2024-06-09 00:53:30+09:00'
+  timestamp: '2024-07-20 23:06:17+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/itertools/next_permutation/src/lib.rs
