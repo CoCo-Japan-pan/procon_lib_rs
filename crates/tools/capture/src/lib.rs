@@ -220,7 +220,7 @@ macro_rules! memorize {
         $crate::memorize!(
             @inner [
                 __memorize_map,
-                ::std::collections::HashMap<($($argsty,)*), $ret>,
+                ::rustc_hash::FxHashMap<($($argsty,)*), $ret>,
                 ::std::default::Default::default()
             ]
             fn $name ($($args: $argsty),*) -> $ret $body
