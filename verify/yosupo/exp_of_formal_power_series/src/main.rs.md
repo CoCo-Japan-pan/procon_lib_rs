@@ -30,7 +30,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/exp_of_formal_power_series/src/main.rs
   requiredBy: []
-  timestamp: '2024-07-02 17:53:35+09:00'
+  timestamp: '2024-07-20 13:46:09+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/exp_of_formal_power_series/src/main.rs

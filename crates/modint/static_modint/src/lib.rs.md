@@ -2,11 +2,11 @@
 data:
   _extendedDependsOn:
   - icon: ':warning:'
+    path: crates/internals/internal_modint/src/lib.rs
+    title: crates/internals/internal_modint/src/lib.rs
+  - icon: ':warning:'
     path: crates/internals/internal_type_traits/src/lib.rs
     title: crates/internals/internal_type_traits/src/lib.rs
-  - icon: ':warning:'
-    path: crates/internals/modint_traits/src/lib.rs
-    title: crates/internals/modint_traits/src/lib.rs
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: crates/fps/ntt/src/lib.rs
@@ -58,9 +58,9 @@ data:
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "use internal_type_traits::{One, Zero};\nuse modint_traits::{ModInt, RemEuclidU32};\n\
-    use std::fmt::Display;\nuse std::iter::{Product, Sum};\nuse std::ops::{Add, AddAssign,\
-    \ Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};\nuse std::str::FromStr;\n\
+  code: "use internal_modint::{ModInt, RemEuclidU32};\nuse internal_type_traits::{One,\
+    \ Zero};\nuse std::fmt::Display;\nuse std::iter::{Product, Sum};\nuse std::ops::{Add,\
+    \ AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};\nuse std::str::FromStr;\n\
     \npub type ModInt998244353 = StaticModInt<998244353>;\npub type ModInt1000000007\
     \ = StaticModInt<1000000007>;\n\n#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash,\
     \ Default)]\npub struct StaticModInt<const MOD: u32> {\n    value: u32,\n}\n\n\
@@ -160,14 +160,14 @@ data:
     \     c += b;\n        c *= b;\n        c -= b;\n        c /= b;\n        assert_eq!(expected,\
     \ c);\n    }\n}\n"
   dependsOn:
+  - crates/internals/internal_modint/src/lib.rs
   - crates/internals/internal_type_traits/src/lib.rs
-  - crates/internals/modint_traits/src/lib.rs
   isVerificationFile: false
   path: crates/modint/static_modint/src/lib.rs
   requiredBy:
   - verify/AtCoder/typical_057/src/main.rs
   - crates/fps/ntt/src/lib.rs
-  timestamp: '2024-07-06 23:41:25+09:00'
+  timestamp: '2024-07-20 13:46:09+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/convolution_ntt/src/main.rs

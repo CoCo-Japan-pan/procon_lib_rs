@@ -111,16 +111,16 @@ data:
     - icon: ':warning:'
       path: crates/internals/internal_bits/src/lib.rs
       title: crates/internals/internal_bits/src/lib.rs
+  - name: crates/internals/internal_modint/src
+    pages:
+    - icon: ':warning:'
+      path: crates/internals/internal_modint/src/lib.rs
+      title: crates/internals/internal_modint/src/lib.rs
   - name: crates/internals/internal_type_traits/src
     pages:
     - icon: ':warning:'
       path: crates/internals/internal_type_traits/src/lib.rs
       title: crates/internals/internal_type_traits/src/lib.rs
-  - name: crates/internals/modint_traits/src
-    pages:
-    - icon: ':warning:'
-      path: crates/internals/modint_traits/src/lib.rs
-      title: crates/internals/modint_traits/src/lib.rs
   - name: crates/itertools/next_permutation/src
     pages:
     - icon: ':warning:'

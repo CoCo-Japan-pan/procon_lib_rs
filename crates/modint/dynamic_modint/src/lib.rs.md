@@ -2,11 +2,11 @@
 data:
   _extendedDependsOn:
   - icon: ':warning:'
+    path: crates/internals/internal_modint/src/lib.rs
+    title: crates/internals/internal_modint/src/lib.rs
+  - icon: ':warning:'
     path: crates/internals/internal_type_traits/src/lib.rs
     title: crates/internals/internal_type_traits/src/lib.rs
-  - icon: ':warning:'
-    path: crates/internals/modint_traits/src/lib.rs
-    title: crates/internals/modint_traits/src/lib.rs
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: crates/fps/ntt/src/lib.rs
@@ -33,24 +33,24 @@ data:
     \u3059\u308B  \n//! `DynamicModInt::<MOD>::set_modulus(mod)`\u3092\u547C\u3073\
     \u51FA\u3057\u3066\u304B\u3089\u4F7F\u3046  \n//! \u8907\u6570\u306EMod\u3092\u4F7F\
     \u3044\u305F\u3044\u306A\u3089\u3001\u305D\u308C\u305E\u308C\u306EModContainer\u3092\
-    \u5B9A\u7FA9\u3059\u308B  \n\nuse internal_type_traits::{One, Zero};\nuse modint_traits::{ModInt,\
-    \ RemEuclidU32};\nuse std::fmt::Debug;\nuse std::fmt::Display;\nuse std::iter::{Product,\
-    \ Sum};\nuse std::marker::PhantomData;\nuse std::num::ParseIntError;\nuse std::ops::{Add,\
-    \ AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};\nuse std::str::FromStr;\n\
-    use std::sync::OnceLock;\n\npub trait ModContainer: 'static + Debug + Clone +\
-    \ Copy + PartialEq + Eq + Default {\n    fn get_static_modulus() -> &'static OnceLock<u32>;\n\
-    \    fn modulus() -> u32 {\n        *Self::get_static_modulus()\n            .get()\n\
-    \            .expect(\"haven't set modulus\")\n    }\n    fn set_modulus(modulus:\
-    \ u32) {\n        Self::get_static_modulus()\n            .set(modulus)\n    \
-    \        .expect(\"already set modulus\")\n    }\n}\n\n/// ModContainer\u3092\u5B9A\
-    \u7FA9\u3059\u308B\u30DE\u30AF\u30ED \u3053\u308C\u3092DynamicModInt\u306E\u30B8\
-    \u30A7\u30CD\u30EA\u30C3\u30AF\u5F15\u6570\u306B\u5165\u308C\u308B  \n/// \u5F8C\
-    \u3067set_modulus\u3092\u547C\u3076\u306E\u3092\u5FD8\u308C\u306A\u3044\u3088\u3046\
-    \u306B!\n#[macro_export]\nmacro_rules! define_modint {\n    ($name:ident) => {\n\
-    \        #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]\n       \
-    \ pub struct $name {}\n        impl $crate::ModContainer for $name {\n       \
-    \     fn get_static_modulus() -> &'static std::sync::OnceLock<u32> {\n       \
-    \         static ONCE: std::sync::OnceLock<u32> = std::sync::OnceLock::new();\n\
+    \u5B9A\u7FA9\u3059\u308B  \n\nuse internal_modint::{ModInt, RemEuclidU32};\nuse\
+    \ internal_type_traits::{One, Zero};\nuse std::fmt::Debug;\nuse std::fmt::Display;\n\
+    use std::iter::{Product, Sum};\nuse std::marker::PhantomData;\nuse std::num::ParseIntError;\n\
+    use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};\n\
+    use std::str::FromStr;\nuse std::sync::OnceLock;\n\npub trait ModContainer: 'static\
+    \ + Debug + Clone + Copy + PartialEq + Eq + Default {\n    fn get_static_modulus()\
+    \ -> &'static OnceLock<u32>;\n    fn modulus() -> u32 {\n        *Self::get_static_modulus()\n\
+    \            .get()\n            .expect(\"haven't set modulus\")\n    }\n   \
+    \ fn set_modulus(modulus: u32) {\n        Self::get_static_modulus()\n       \
+    \     .set(modulus)\n            .expect(\"already set modulus\")\n    }\n}\n\n\
+    /// ModContainer\u3092\u5B9A\u7FA9\u3059\u308B\u30DE\u30AF\u30ED \u3053\u308C\u3092\
+    DynamicModInt\u306E\u30B8\u30A7\u30CD\u30EA\u30C3\u30AF\u5F15\u6570\u306B\u5165\
+    \u308C\u308B  \n/// \u5F8C\u3067set_modulus\u3092\u547C\u3076\u306E\u3092\u5FD8\
+    \u308C\u306A\u3044\u3088\u3046\u306B!\n#[macro_export]\nmacro_rules! define_modint\
+    \ {\n    ($name:ident) => {\n        #[derive(Debug, Clone, Copy, PartialEq, Eq,\
+    \ Hash, Default)]\n        pub struct $name {}\n        impl $crate::ModContainer\
+    \ for $name {\n            fn get_static_modulus() -> &'static std::sync::OnceLock<u32>\
+    \ {\n                static ONCE: std::sync::OnceLock<u32> = std::sync::OnceLock::new();\n\
     \                &ONCE\n            }\n        }\n    };\n}\n\n#[derive(Debug,\
     \ Clone, Copy, PartialEq, Eq, Hash, Default)]\npub struct DynamicModInt<MOD: ModContainer>\
     \ {\n    value: u32,\n    phantom: PhantomData<MOD>,\n}\n\nimpl<MOD: ModContainer>\
@@ -123,13 +123,13 @@ data:
     \ * b).value(), 5);\n        assert_eq!((a / b).value(), 6);\n        assert_eq!((c\
     \ * d).value(), 1);\n        assert_eq!((c / d).value(), 9);\n    }\n}\n"
   dependsOn:
+  - crates/internals/internal_modint/src/lib.rs
   - crates/internals/internal_type_traits/src/lib.rs
-  - crates/internals/modint_traits/src/lib.rs
   isVerificationFile: false
   path: crates/modint/dynamic_modint/src/lib.rs
   requiredBy:
   - crates/fps/ntt/src/lib.rs
-  timestamp: '2024-07-06 23:41:25+09:00'
+  timestamp: '2024-07-20 13:46:09+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_1092_modint_dynamic/src/main.rs
