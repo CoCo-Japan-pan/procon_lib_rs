@@ -1,5 +1,6 @@
 /// From <https://github.com/ngtkana/ac-adapter-rs/blob/main/libs/next_permutation/src/lib.rs>  
-/// Returns the next permutation of `a` in lexicographic order.
+/// Returns the next permutation of `a` in lexicographic order.  
+/// これは重複を除去するので、itertoolsのpermutationsとは異なる！
 pub fn next_permutation<T: Ord>(a: &mut [T]) -> bool {
     let Some(i) = a.windows(2).rposition(|w| w[0] < w[1]) else {
         return false;
@@ -54,6 +55,15 @@ mod tests {
         assert_eq!(perms.next().unwrap(), vec![1, 2, 0]);
         assert_eq!(perms.next().unwrap(), vec![2, 0, 1]);
         assert_eq!(perms.next().unwrap(), vec![2, 1, 0]);
+        assert!(perms.next().is_none());
+    }
+
+    #[test]
+    fn test_daburi_strings() {
+        let mut perms = permutations("aab".chars().collect());
+        assert_eq!(perms.next().unwrap(), vec!['a', 'a', 'b']);
+        assert_eq!(perms.next().unwrap(), vec!['a', 'b', 'a']);
+        assert_eq!(perms.next().unwrap(), vec!['b', 'a', 'a']);
         assert!(perms.next().is_none());
     }
 }
