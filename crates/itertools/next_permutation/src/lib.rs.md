@@ -20,8 +20,10 @@ data:
     \ &mut [T]) -> bool {\n    let Some(i) = a.windows(2).rposition(|w| w[0] < w[1])\
     \ else {\n        return false;\n    };\n    let j = a.iter().rposition(|x| x\
     \ > &a[i]).unwrap();\n    a.swap(i, j);\n    a[i + 1..].reverse();\n    true\n\
-    }\n\npub fn permutations<T: Ord + Clone>(start_vec: Vec<T>) -> Permutations<T>\
-    \ {\n    Permutations::new(start_vec)\n}\n\npub struct Permutations<T: Ord + Clone>\
+    }\n\n/// \u30BD\u30FC\u30C8\u3092\u884C\u3044\u3001\u9806\u5217\u3092\u5217\u6319\
+    \u3059\u308B\u30A4\u30C6\u30EC\u30FC\u30BF\u3092\u8FD4\u3059\npub fn permutations<T:\
+    \ Ord + Clone>(mut start_vec: Vec<T>) -> Permutations<T> {\n    start_vec.sort();\n\
+    \    Permutations::new(start_vec)\n}\n\npub struct Permutations<T: Ord + Clone>\
     \ {\n    data: Vec<T>,\n    first: bool,\n}\n\nimpl<T: Ord + Clone> Permutations<T>\
     \ {\n    fn new(data: Vec<T>) -> Self {\n        Permutations { data, first: true\
     \ }\n    }\n}\n\nimpl<T: Ord + Clone> Iterator for Permutations<T> {\n    type\
@@ -36,7 +38,7 @@ data:
     \ vec![1, 2, 0]);\n        assert_eq!(perms.next().unwrap(), vec![2, 0, 1]);\n\
     \        assert_eq!(perms.next().unwrap(), vec![2, 1, 0]);\n        assert!(perms.next().is_none());\n\
     \    }\n\n    #[test]\n    fn test_daburi_strings() {\n        let mut perms =\
-    \ permutations(\"aab\".chars().collect());\n        assert_eq!(perms.next().unwrap(),\
+    \ permutations(\"aba\".chars().collect());\n        assert_eq!(perms.next().unwrap(),\
     \ vec!['a', 'a', 'b']);\n        assert_eq!(perms.next().unwrap(), vec!['a', 'b',\
     \ 'a']);\n        assert_eq!(perms.next().unwrap(), vec!['b', 'a', 'a']);\n  \
     \      assert!(perms.next().is_none());\n    }\n}\n"
@@ -44,7 +46,7 @@ data:
   isVerificationFile: false
   path: crates/itertools/next_permutation/src/lib.rs
   requiredBy: []
-  timestamp: '2024-07-20 23:06:17+09:00'
+  timestamp: '2024-07-20 23:41:26+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/itertools/next_permutation/src/lib.rs
