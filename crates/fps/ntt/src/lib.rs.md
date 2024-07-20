@@ -24,6 +24,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/convolution_ntt/src/main.rs
     title: verify/yosupo/convolution_ntt/src/main.rs
+  - icon: ':heavy_check_mark:'
+    path: verify/yosupo/frequency_table_of_tree_distance/src/main.rs
+    title: verify/yosupo/frequency_table_of_tree_distance/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -137,31 +140,29 @@ data:
     \ M::new(x)).collect::<Vec<_>>();\n    let b = b.iter().map(|&x| M::new(x)).collect::<Vec<_>>();\n\
     \    convolution::<M>(&a, &b)\n        .into_iter()\n        .map(|x| x.value()\
     \ as i64)\n        .collect()\n}\n\n/// i64\u306B\u5024\u304C\u53CE\u307E\u308B\
-    \u5834\u5408\u306E\u7573\u307F\u8FBC\u307F  \n/// NTT-friendly\u306A `4_194_304_001\
-    \ = 125 * 2^25 + 1` \u306B\u53CE\u307E\u308B\u306A\u3089\u305D\u3061\u3089\u3092\
-    \u4F7F\u3046\u3068\u3088\u3055\u305D\u3046\npub fn convolution_i64(a: &[i64],\
-    \ b: &[i64]) -> Vec<i64> {\n    const M1: u64 = 754_974_721; // 2^24\n    const\
-    \ M2: u64 = 167_772_161; // 2^25\n    const M3: u64 = 469_762_049; // 2^26\n \
-    \   const M2M3: u64 = M2 * M3;\n    const M1M3: u64 = M1 * M3;\n    const M1M2:\
-    \ u64 = M1 * M2;\n    const M1M2M3: u64 = M1M2.wrapping_mul(M3);\n\n    if a.is_empty()\
-    \ || b.is_empty() {\n        return vec![];\n    }\n\n    if a.len().min(b.len())\
-    \ <= 60 {\n        return convolution_naive(a, b);\n    }\n\n    const I1: i64\
-    \ = inv_gcd(M2M3 as i64, M1 as i64).1;\n    const I2: i64 = inv_gcd(M1M3 as i64,\
-    \ M2 as i64).1;\n    const I3: i64 = inv_gcd(M1M2 as i64, M3 as i64).1;\n\n  \
-    \  let (c1, c2, c3) = {\n        const M1: u32 = 754_974_721;\n        const M2:\
-    \ u32 = 167_772_161;\n        const M3: u32 = 469_762_049;\n        (\n      \
-    \      convolution_raw::<StaticModInt<M1>>(a, b),\n            convolution_raw::<StaticModInt<M2>>(a,\
-    \ b),\n            convolution_raw::<StaticModInt<M3>>(a, b),\n        )\n   \
-    \ };\n\n    c1.into_iter()\n        .zip(c2)\n        .zip(c3)\n        .map(|((c1,\
-    \ c2), c3)| {\n            const OFFSET: &[u64] = &[0, 0, M1M2M3, 2 * M1M2M3,\
-    \ 3 * M1M2M3];\n\n            let mut x = [(c1, I1, M1, M2M3), (c2, I2, M2, M1M3),\
-    \ (c3, I3, M3, M1M2)]\n                .iter()\n                .map(|&(c, i,\
-    \ m1, m2)| c.wrapping_mul(i).rem_euclid(m1 as _).wrapping_mul(m2 as _))\n    \
-    \            .fold(0, i64::wrapping_add);\n\n            let mut diff = c1 - safe_mod(x,\
-    \ M1 as _);\n            if diff < 0 {\n                diff += M1 as i64;\n \
-    \           }\n            x = x.wrapping_sub(OFFSET[diff.rem_euclid(5) as usize]\
-    \ as _);\n            x\n        })\n        .collect()\n}\n\n#[cfg(test)]\nmod\
-    \ test {\n    use super::*;\n    use rand::prelude::*;\n\n    #[test]\n    fn\
+    \u5834\u5408\u306E\u7573\u307F\u8FBC\u307F(\u8CA0\u306E\u5024\u3082\u6271\u3048\
+    \u308B)  \npub fn convolution_i64(a: &[i64], b: &[i64]) -> Vec<i64> {\n    const\
+    \ M1: u64 = 754_974_721; // 2^24\n    const M2: u64 = 167_772_161; // 2^25\n \
+    \   const M3: u64 = 469_762_049; // 2^26\n    const M2M3: u64 = M2 * M3;\n   \
+    \ const M1M3: u64 = M1 * M3;\n    const M1M2: u64 = M1 * M2;\n    const M1M2M3:\
+    \ u64 = M1M2.wrapping_mul(M3);\n\n    if a.is_empty() || b.is_empty() {\n    \
+    \    return vec![];\n    }\n\n    if a.len().min(b.len()) <= 60 {\n        return\
+    \ convolution_naive(a, b);\n    }\n\n    const I1: i64 = inv_gcd(M2M3 as i64,\
+    \ M1 as i64).1;\n    const I2: i64 = inv_gcd(M1M3 as i64, M2 as i64).1;\n    const\
+    \ I3: i64 = inv_gcd(M1M2 as i64, M3 as i64).1;\n\n    let (c1, c2, c3) = {\n \
+    \       const M1: u32 = 754_974_721;\n        const M2: u32 = 167_772_161;\n \
+    \       const M3: u32 = 469_762_049;\n        (\n            convolution_raw::<StaticModInt<M1>>(a,\
+    \ b),\n            convolution_raw::<StaticModInt<M2>>(a, b),\n            convolution_raw::<StaticModInt<M3>>(a,\
+    \ b),\n        )\n    };\n\n    c1.into_iter()\n        .zip(c2)\n        .zip(c3)\n\
+    \        .map(|((c1, c2), c3)| {\n            const OFFSET: &[u64] = &[0, 0, M1M2M3,\
+    \ 2 * M1M2M3, 3 * M1M2M3];\n\n            let mut x = [(c1, I1, M1, M2M3), (c2,\
+    \ I2, M2, M1M3), (c3, I3, M3, M1M2)]\n                .iter()\n              \
+    \  .map(|&(c, i, m1, m2)| c.wrapping_mul(i).rem_euclid(m1 as _).wrapping_mul(m2\
+    \ as _))\n                .fold(0, i64::wrapping_add);\n\n            let mut\
+    \ diff = c1 - safe_mod(x, M1 as _);\n            if diff < 0 {\n             \
+    \   diff += M1 as i64;\n            }\n            x = x.wrapping_sub(OFFSET[diff.rem_euclid(5)\
+    \ as usize] as _);\n            x\n        })\n        .collect()\n}\n\n#[cfg(test)]\n\
+    mod test {\n    use super::*;\n    use rand::prelude::*;\n\n    #[test]\n    fn\
     \ test_convolution_i64() {\n        fn do_test(size: u32) {\n            let mut\
     \ rng = thread_rng();\n            let a = (0..size)\n                .map(|_|\
     \ rng.gen_range(-10_000_000..=10_000_000))\n                .collect::<Vec<_>>();\n\
@@ -179,11 +180,12 @@ data:
   path: crates/fps/ntt/src/lib.rs
   requiredBy:
   - crates/fps/fps_utils/src/lib.rs
-  timestamp: '2024-07-20 13:58:51+09:00'
+  timestamp: '2024-07-20 16:29:14+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/convolution_ntt/src/main.rs
   - verify/yosupo/convolution_mod_1000000007_ntt/src/main.rs
+  - verify/yosupo/frequency_table_of_tree_distance/src/main.rs
 documentation_of: crates/fps/ntt/src/lib.rs
 layout: document
 redirect_from:

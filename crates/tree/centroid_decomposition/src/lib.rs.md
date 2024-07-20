@@ -9,6 +9,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/AtCoder/abc359g_centroid/src/main.rs
     title: verify/AtCoder/abc359g_centroid/src/main.rs
+  - icon: ':heavy_check_mark:'
+    path: verify/yosupo/frequency_table_of_tree_distance/src/main.rs
+    title: verify/yosupo/frequency_table_of_tree_distance/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -84,6 +87,7 @@ data:
   timestamp: '2024-07-15 11:56:42+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - verify/yosupo/frequency_table_of_tree_distance/src/main.rs
   - verify/AtCoder/abc359g_centroid/src/main.rs
 documentation_of: crates/tree/centroid_decomposition/src/lib.rs
 layout: document

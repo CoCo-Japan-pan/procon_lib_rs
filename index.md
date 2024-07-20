@@ -357,6 +357,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yosupo/exp_of_formal_power_series/src/main.rs
       title: verify/yosupo/exp_of_formal_power_series/src/main.rs
+  - name: verify/yosupo/frequency_table_of_tree_distance/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yosupo/frequency_table_of_tree_distance/src/main.rs
+      title: verify/yosupo/frequency_table_of_tree_distance/src/main.rs
   - name: verify/yosupo/inv_of_formal_power_series/src
     pages:
     - icon: ':heavy_check_mark:'
