@@ -1,5 +1,5 @@
+use internal_modint::{ModInt, RemEuclidU32};
 use internal_type_traits::{One, Zero};
-use modint_traits::{ModInt, RemEuclidU32};
 use std::fmt::Display;
 use std::iter::{Product, Sum};
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};

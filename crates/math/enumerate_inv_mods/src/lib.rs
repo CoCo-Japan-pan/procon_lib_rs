@@ -1,4 +1,4 @@
-use modint_traits::ModInt;
+use internal_modint::ModInt;
 
 /// [1, n)のmod逆元列挙を`O(n)`で行う (index 0には便宜的に0を入れておく)
 pub fn enumerate_invs<M: ModInt>(n: usize) -> Vec<M> {

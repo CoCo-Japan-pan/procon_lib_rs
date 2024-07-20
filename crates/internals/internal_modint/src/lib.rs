@@ -1,3 +1,4 @@
+use internal_type_traits::{One, Zero};
 use std::fmt::{Debug, Display};
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 use std::str::FromStr;
@@ -20,6 +21,8 @@ pub trait ModInt:
     + DivAssign
     + Neg<Output = Self>
     + FromStr
+    + Zero
+    + One
 {
     fn new<T: RemEuclidU32>(x: T) -> Self;
     fn raw(x: u32) -> Self;
@@ -39,33 +42,47 @@ pub trait ModInt:
     }
     #[inline]
     fn inv(&self) -> Self {
-        let (g, x) = inv_gcd(self.value(), Self::modulus());
+        let (g, x) = inv_gcd(self.value() as i64, Self::modulus() as i64);
         assert_eq!(g, 1);
-        Self::raw(x)
+        Self::raw(x as u32)
     }
 }
 
+pub const fn safe_mod(mut x: i64, m: i64) -> i64 {
+    x %= m;
+    if x < 0 {
+        x += m;
+    }
+    x
+}
+
 /// g = gcd(a,b)と、ax = g (mod b)なるgと0 <= x < bのペアを返す
-fn inv_gcd(a: u32, b: u32) -> (u32, u32) {
-    assert!(a < b);
+pub const fn inv_gcd(a: i64, b: i64) -> (i64, i64) {
+    let a = safe_mod(a, b);
     if a == 0 {
         return (b, 0);
     }
     let mut s = b;
     let mut t = a;
-    let mut m0 = 0_i32;
-    let mut m1 = 1_i32;
+    let mut m0 = 0;
+    let mut m1 = 1;
     while t != 0 {
         let u = s / t;
         s -= t * u;
-        m0 -= m1 * (u as i32);
-        std::mem::swap(&mut s, &mut t);
-        std::mem::swap(&mut m0, &mut m1);
+        m0 -= m1 * u;
+        // std::mem::swap(&mut s, &mut t);
+        // std::mem::swap(&mut m0, &mut m1);
+        let tmp = s;
+        s = t;
+        t = tmp;
+        let tmp = m0;
+        m0 = m1;
+        m1 = tmp;
     }
     if m0 < 0 {
-        m0 += (b / s) as i32;
+        m0 += b / s;
     }
-    (s, m0 as u32)
+    (s, m0)
 }
 
 /// Trait for primitive integer types.

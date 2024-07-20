@@ -5,14 +5,10 @@
 //! ジェネリックに紐づくstaticの実現がむずくてキャッシュは毎回とることにした...  
 
 use dynamic_modint::{DynamicModInt, ModContainer};
-use modint_traits::ModInt;
+use internal_modint::{inv_gcd, safe_mod, ModInt};
+use internal_type_traits::Zero;
 use static_modint::StaticModInt;
-
-/// どれも原子根3で、2^24乗根がある
-const MOD_998244353: u32 = 998244353;
-const G_MOD1: u32 = 167772161;
-const G_MOD2: u32 = 469762049;
-const G_MOD3: u32 = 1224736769;
+use std::ops::{AddAssign, Mul};
 
 fn prepare<const NTT_MOD: u32, const PRIMITIVE_ROOT: u32>(
 ) -> ([StaticModInt<NTT_MOD>; 30], [StaticModInt<NTT_MOD>; 30]) {
@@ -83,9 +79,9 @@ fn intt<const NTT_MOD: u32, const PRIMITIVE_ROOT: u32>(
     }
 }
 
-fn convolution_naive<M: ModInt>(a: &[M], b: &[M]) -> Vec<M> {
+fn convolution_naive<M: Zero + AddAssign + Mul<Output = M> + Copy>(a: &[M], b: &[M]) -> Vec<M> {
     let (n, m) = (a.len(), b.len());
-    let mut ret = vec![M::raw(0); n + m - 1];
+    let mut ret = vec![M::zero(); n + m - 1];
     for (i, j) in (0..n).flat_map(|i| (0..m).map(move |j| (i, j))) {
         ret[i + j] += a[i] * b[j];
     }
@@ -128,6 +124,9 @@ fn convolution_ntt_friendly<const NTT_MOD: u32, const PRIMITIVE_ROOT: u32>(
 
 /// 取りうる最大値を超えるmodを表現できるようなmodの組を選んで畳み込み、Garnerで復元
 fn convolution_aribtrary_u32_mod<M: ModInt>(a: &[M], b: &[M]) -> Vec<M> {
+    const G_MOD1: u32 = 167_772_161;
+    const G_MOD2: u32 = 469_762_049;
+    const G_MOD3: u32 = 1_224_736_769;
     let x = convolution_ntt_friendly::<G_MOD1, 3>(
         a.iter()
             .map(|x| StaticModInt::<G_MOD1>::new(x.value()))
@@ -187,7 +186,10 @@ pub trait ConvHelper: ModInt {
 impl<const MOD: u32> ConvHelper for StaticModInt<MOD> {
     fn convolution(a: &[Self], b: &[Self]) -> Vec<Self> {
         match MOD {
-            MOD_998244353 | G_MOD1 | G_MOD2 | G_MOD3 => convolution_ntt_friendly::<MOD, 3>(a, b),
+            998_244_353 | 167_772_161 | 469_762_049 | 1_224_736_769 => {
+                convolution_ntt_friendly::<MOD, 3>(a, b)
+            }
+            754_974_721 => convolution_ntt_friendly::<MOD, 11>(a, b),
             _ => convolution_aribtrary_u32_mod(a, b),
         }
     }
@@ -202,4 +204,96 @@ impl<MOD: ModContainer> ConvHelper for DynamicModInt<MOD> {
 /// NTT-freindlyな場合もそうでない場合も包括する
 pub fn convolution<M: ConvHelper>(a: &[M], b: &[M]) -> Vec<M> {
     M::convolution(a, b)
+}
+
+fn convolution_raw<M>(a: &[i64], b: &[i64]) -> Vec<i64>
+where
+    M: ConvHelper,
+{
+    let a = a.iter().map(|&x| M::new(x)).collect::<Vec<_>>();
+    let b = b.iter().map(|&x| M::new(x)).collect::<Vec<_>>();
+    convolution::<M>(&a, &b)
+        .into_iter()
+        .map(|x| x.value() as i64)
+        .collect()
+}
+
+pub fn convolution_i64(a: &[i64], b: &[i64]) -> Vec<i64> {
+    const M1: u64 = 754_974_721; // 2^24
+    const M2: u64 = 167_772_161; // 2^25
+    const M3: u64 = 469_762_049; // 2^26
+    const M2M3: u64 = M2 * M3;
+    const M1M3: u64 = M1 * M3;
+    const M1M2: u64 = M1 * M2;
+    const M1M2M3: u64 = M1M2.wrapping_mul(M3);
+
+    if a.is_empty() || b.is_empty() {
+        return vec![];
+    }
+
+    if a.len().min(b.len()) <= 60 {
+        return convolution_naive(a, b);
+    }
+
+    const I1: i64 = inv_gcd(M2M3 as i64, M1 as i64).1;
+    const I2: i64 = inv_gcd(M1M3 as i64, M2 as i64).1;
+    const I3: i64 = inv_gcd(M1M2 as i64, M3 as i64).1;
+
+    let (c1, c2, c3) = {
+        const M1: u32 = 754_974_721;
+        const M2: u32 = 167_772_161;
+        const M3: u32 = 469_762_049;
+        (
+            convolution_raw::<StaticModInt<M1>>(a, b),
+            convolution_raw::<StaticModInt<M2>>(a, b),
+            convolution_raw::<StaticModInt<M3>>(a, b),
+        )
+    };
+
+    c1.into_iter()
+        .zip(c2)
+        .zip(c3)
+        .map(|((c1, c2), c3)| {
+            const OFFSET: &[u64] = &[0, 0, M1M2M3, 2 * M1M2M3, 3 * M1M2M3];
+
+            let mut x = [(c1, I1, M1, M2M3), (c2, I2, M2, M1M3), (c3, I3, M3, M1M2)]
+                .iter()
+                .map(|&(c, i, m1, m2)| c.wrapping_mul(i).rem_euclid(m1 as _).wrapping_mul(m2 as _))
+                .fold(0, i64::wrapping_add);
+
+            let mut diff = c1 - safe_mod(x, M1 as _);
+            if diff < 0 {
+                diff += M1 as i64;
+            }
+            x = x.wrapping_sub(OFFSET[diff.rem_euclid(5) as usize] as _);
+            x
+        })
+        .collect()
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    use rand::prelude::*;
+
+    #[test]
+    fn test_convolution_i64() {
+        fn do_test(size: u32) {
+            let mut rng = thread_rng();
+            let a = (0..size)
+                .map(|_| rng.gen_range(-1_000_000_0..=1_000_000_0))
+                .collect::<Vec<_>>();
+            let b = (0..size)
+                .map(|_| rng.gen_range(-1_000_000_0..=1_000_000_0))
+                .collect::<Vec<_>>();
+            let naive = convolution_naive(&a, &b);
+            let fast = convolution_i64(&a, &b);
+            assert_eq!(naive, fast);
+        }
+        do_test(1);
+        do_test(10);
+        do_test(100);
+        do_test(1_000);
+        do_test(10_000);
+    }
 }

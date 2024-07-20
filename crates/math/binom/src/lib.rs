@@ -1,4 +1,4 @@
-use modint_traits::ModInt;
+use internal_modint::ModInt;
 
 pub struct Binom<T: ModInt> {
     max_n: usize,

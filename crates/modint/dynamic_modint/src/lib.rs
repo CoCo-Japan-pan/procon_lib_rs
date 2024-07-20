@@ -3,8 +3,8 @@
 //! `DynamicModInt::<MOD>::set_modulus(mod)`を呼び出してから使う  
 //! 複数のModを使いたいなら、それぞれのModContainerを定義する  
 
+use internal_modint::{ModInt, RemEuclidU32};
 use internal_type_traits::{One, Zero};
-use modint_traits::{ModInt, RemEuclidU32};
 use std::fmt::Debug;
 use std::fmt::Display;
 use std::iter::{Product, Sum};
