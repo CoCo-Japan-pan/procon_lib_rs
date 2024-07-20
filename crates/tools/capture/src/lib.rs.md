@@ -123,14 +123,14 @@ data:
     \                    value\n                }\n            }\n        );\n   \
     \ };\n    (fn $name:ident ($($args:ident: $argsty:ty),* $(,)?) -> $ret:ty $body:block)\
     \ => {\n        $crate::memorize!(\n            @inner [\n                __memorize_map,\n\
-    \                ::std::collections::HashMap<($($argsty,)*), $ret>,\n        \
-    \        ::std::default::Default::default()\n            ]\n            fn $name\
-    \ ($($args: $argsty),*) -> $ret $body\n        );\n    }\n}\n"
+    \                ::rustc_hash::FxHashMap<($($argsty,)*), $ret>,\n            \
+    \    ::std::default::Default::default()\n            ]\n            fn $name ($($args:\
+    \ $argsty),*) -> $ret $body\n        );\n    }\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/tools/capture/src/lib.rs
   requiredBy: []
-  timestamp: '2024-07-14 21:41:05+09:00'
+  timestamp: '2024-07-21 00:05:33+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/frequency_table_of_tree_distance/src/main.rs
