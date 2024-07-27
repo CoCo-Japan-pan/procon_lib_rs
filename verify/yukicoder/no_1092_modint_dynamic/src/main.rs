@@ -1,6 +1,6 @@
 // verification-helper: PROBLEM https://yukicoder.me/problems/no/1092
 
-use dynamic_modint::{define_modint, DynamicModInt};
+use dynamic_modint::{define_modcontainer, DynamicModInt};
 use proconio::{fastout, input, marker::Chars};
 
 #[fastout]
@@ -11,7 +11,7 @@ fn main() {
         a: [u32; n],
         s: Chars,
     }
-    define_modint!(MOD);
+    define_modcontainer!(MOD);
     DynamicModInt::<MOD>::set_modulus(p);
     let a = a
         .into_iter()

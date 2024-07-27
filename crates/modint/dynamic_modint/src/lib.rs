@@ -31,7 +31,7 @@ pub trait ModContainer: 'static + Debug + Clone + Copy + PartialEq + Eq + Defaul
 /// ModContainerを定義するマクロ これをDynamicModIntのジェネリック引数に入れる  
 /// 後でset_modulusを呼ぶのを忘れないように!
 #[macro_export]
-macro_rules! define_modint {
+macro_rules! define_modcontainer {
     ($name:ident) => {
         #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
         pub struct $name {}
@@ -236,10 +236,10 @@ mod tests {
 
     #[test]
     fn test_modint() {
-        define_modint!(MOD7);
+        define_modcontainer!(MOD7);
         type MInt7 = DynamicModInt<MOD7>;
         MInt7::set_modulus(7);
-        define_modint!(MOD11);
+        define_modcontainer!(MOD11);
         type MInt11 = DynamicModInt<MOD11>;
         MInt11::set_modulus(11);
         let a = MInt7::new(3);

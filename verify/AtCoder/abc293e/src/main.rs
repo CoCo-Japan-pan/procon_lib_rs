@@ -1,10 +1,10 @@
 // verification-helper: PROBLEM https://atcoder.jp/contests/abc293/tasks/abc293_e
 
-use dynamic_modint::{define_modint, DynamicModInt};
+use dynamic_modint::{define_modcontainer, DynamicModInt};
 use matrix::{Matrix, UsualSemiring};
 use proconio::input;
 
-define_modint!(MOD);
+define_modcontainer!(MOD);
 type MInt = DynamicModInt<MOD>;
 
 fn main() {
