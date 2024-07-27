@@ -18,9 +18,9 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://yukicoder.me/problems/no/1092\n\n\
-    use dynamic_modint::{define_modint, DynamicModInt};\nuse proconio::{fastout, input,\
-    \ marker::Chars};\n\n#[fastout]\nfn main() {\n    input! {\n        p: u32,\n\
-    \        n: u32,\n        a: [u32; n],\n        s: Chars,\n    }\n    define_modint!(MOD);\n\
+    use dynamic_modint::{define_modcontainer, DynamicModInt};\nuse proconio::{fastout,\
+    \ input, marker::Chars};\n\n#[fastout]\nfn main() {\n    input! {\n        p:\
+    \ u32,\n        n: u32,\n        a: [u32; n],\n        s: Chars,\n    }\n    define_modcontainer!(MOD);\n\
     \    DynamicModInt::<MOD>::set_modulus(p);\n    let a = a\n        .into_iter()\n\
     \        .map(DynamicModInt::<MOD>::raw)\n        .collect::<Vec<_>>();\n    let\
     \ ans = a\n        .iter()\n        .skip(1)\n        .zip(s.iter())\n       \
@@ -33,7 +33,7 @@ data:
   isVerificationFile: true
   path: verify/yukicoder/no_1092_modint_dynamic/src/main.rs
   requiredBy: []
-  timestamp: '2024-07-20 13:46:09+09:00'
+  timestamp: '2024-07-27 16:12:09+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yukicoder/no_1092_modint_dynamic/src/main.rs

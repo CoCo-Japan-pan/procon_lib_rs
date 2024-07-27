@@ -87,8 +87,8 @@ data:
   timestamp: '2024-07-15 11:56:42+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/yosupo/frequency_table_of_tree_distance/src/main.rs
   - verify/AtCoder/abc359g_centroid/src/main.rs
+  - verify/yosupo/frequency_table_of_tree_distance/src/main.rs
 documentation_of: crates/tree/centroid_decomposition/src/lib.rs
 layout: document
 redirect_from:

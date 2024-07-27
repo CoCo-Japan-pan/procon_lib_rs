@@ -46,7 +46,7 @@ data:
     /// ModContainer\u3092\u5B9A\u7FA9\u3059\u308B\u30DE\u30AF\u30ED \u3053\u308C\u3092\
     DynamicModInt\u306E\u30B8\u30A7\u30CD\u30EA\u30C3\u30AF\u5F15\u6570\u306B\u5165\
     \u308C\u308B  \n/// \u5F8C\u3067set_modulus\u3092\u547C\u3076\u306E\u3092\u5FD8\
-    \u308C\u306A\u3044\u3088\u3046\u306B!\n#[macro_export]\nmacro_rules! define_modint\
+    \u308C\u306A\u3044\u3088\u3046\u306B!\n#[macro_export]\nmacro_rules! define_modcontainer\
     \ {\n    ($name:ident) => {\n        #[derive(Debug, Clone, Copy, PartialEq, Eq,\
     \ Hash, Default)]\n        pub struct $name {}\n        impl $crate::ModContainer\
     \ for $name {\n            fn get_static_modulus() -> &'static std::sync::OnceLock<u32>\
@@ -113,15 +113,16 @@ data:
     \             DynamicModInt::new(x)\n                }\n            }\n      \
     \  )*\n    }\n}\n\nimpl_from_primitive!(i8, i16, i32, i64, isize, i128, u8, u16,\
     \ u32, u64, usize, u128);\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\n\
-    \    #[test]\n    fn test_modint() {\n        define_modint!(MOD7);\n        type\
-    \ MInt7 = DynamicModInt<MOD7>;\n        MInt7::set_modulus(7);\n        define_modint!(MOD11);\n\
-    \        type MInt11 = DynamicModInt<MOD11>;\n        MInt11::set_modulus(11);\n\
-    \        let a = MInt7::new(3);\n        let b = MInt7::new(4);\n        let c\
-    \ = MInt11::new(3);\n        let d = MInt11::new(4);\n        assert_eq!((a +\
-    \ b).value(), 0);\n        assert_eq!((a - b).value(), 6);\n        assert_eq!((c\
-    \ + d).value(), 7);\n        assert_eq!((c - d).value(), 10);\n        assert_eq!((a\
-    \ * b).value(), 5);\n        assert_eq!((a / b).value(), 6);\n        assert_eq!((c\
-    \ * d).value(), 1);\n        assert_eq!((c / d).value(), 9);\n    }\n}\n"
+    \    #[test]\n    fn test_modint() {\n        define_modcontainer!(MOD7);\n  \
+    \      type MInt7 = DynamicModInt<MOD7>;\n        MInt7::set_modulus(7);\n   \
+    \     define_modcontainer!(MOD11);\n        type MInt11 = DynamicModInt<MOD11>;\n\
+    \        MInt11::set_modulus(11);\n        let a = MInt7::new(3);\n        let\
+    \ b = MInt7::new(4);\n        let c = MInt11::new(3);\n        let d = MInt11::new(4);\n\
+    \        assert_eq!((a + b).value(), 0);\n        assert_eq!((a - b).value(),\
+    \ 6);\n        assert_eq!((c + d).value(), 7);\n        assert_eq!((c - d).value(),\
+    \ 10);\n        assert_eq!((a * b).value(), 5);\n        assert_eq!((a / b).value(),\
+    \ 6);\n        assert_eq!((c * d).value(), 1);\n        assert_eq!((c / d).value(),\
+    \ 9);\n    }\n}\n"
   dependsOn:
   - crates/internals/internal_modint/src/lib.rs
   - crates/internals/internal_type_traits/src/lib.rs
@@ -129,11 +130,11 @@ data:
   path: crates/modint/dynamic_modint/src/lib.rs
   requiredBy:
   - crates/fps/ntt/src/lib.rs
-  timestamp: '2024-07-20 13:46:09+09:00'
+  timestamp: '2024-07-27 16:12:09+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/yukicoder/no_1092_modint_dynamic/src/main.rs
   - verify/AtCoder/abc293e/src/main.rs
+  - verify/yukicoder/no_1092_modint_dynamic/src/main.rs
 documentation_of: crates/modint/dynamic_modint/src/lib.rs
 layout: document
 redirect_from:
