@@ -86,8 +86,8 @@ data:
   isVerificationFile: false
   path: crates/internals/internal_modint/src/lib.rs
   requiredBy:
-  - crates/modint/dynamic_modint/src/lib.rs
   - crates/modint/static_modint/src/lib.rs
+  - crates/modint/dynamic_modint/src/lib.rs
   - crates/math/binom/src/lib.rs
   - crates/math/enumerate_inv_mods/src/lib.rs
   - crates/fps/ntt/src/lib.rs

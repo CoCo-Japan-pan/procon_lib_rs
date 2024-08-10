@@ -31,7 +31,11 @@ data:
     \ = a & ((1 << 31) - 1);\n        let bu = b >> 31;\n        let bd = b & ((1\
     \ << 31) - 1);\n        let mid = ad * bu + au * bd;\n        let midu = mid >>\
     \ 30;\n        let midd = mid & ((1 << 30) - 1);\n        Self::calc_mod(au *\
-    \ bu * 2 + midu + (midd << 31) + ad * bd)\n    }\n}\n\npub trait RemEuclidU64\
+    \ bu * 2 + midu + (midd << 31) + ad * bd)\n    }\n\n    pub fn pow(&self, mut\
+    \ exp: u64) -> Self {\n        let mut result = ModIntMersenne::new(1);\n    \
+    \    let mut base = *self;\n        while exp > 0 {\n            if exp & 1 ==\
+    \ 1 {\n                result *= base;\n            }\n            base *= base;\n\
+    \            exp >>= 1;\n        }\n        result\n    }\n}\n\npub trait RemEuclidU64\
     \ {\n    fn rem_euclid_u64(self) -> ModIntMersenne;\n}\n\nmacro_rules! impl_rem_for_small_unsigned\
     \ {\n    ($($t:ty), *) => {\n        $(\n            impl RemEuclidU64 for $t\
     \ {\n                fn rem_euclid_u64(self) -> ModIntMersenne {\n           \
@@ -58,18 +62,39 @@ data:
     \ rhs: Self) {\n        if self.value < rhs.value {\n            self.value +=\
     \ MOD;\n        }\n        self.value -= rhs.value;\n    }\n}\n\nimpl MulAssign\
     \ for ModIntMersenne {\n    fn mul_assign(&mut self, rhs: Self) {\n        self.value\
-    \ = Self::mul(self.value, rhs.value);\n    }\n}\n\nmacro_rules! impl_ops {\n \
-    \   ($trait:ident, $method: ident, $assign_method:ident) => {\n        impl $trait\
-    \ for ModIntMersenne {\n            type Output = Self;\n            fn $method(mut\
-    \ self, rhs: Self) -> Self {\n                ModIntMersenne::$assign_method(&mut\
-    \ self, rhs);\n                self\n            }\n        }\n    };\n}\n\nimpl_ops!(Add,\
-    \ add, add_assign);\nimpl_ops!(Sub, sub, sub_assign);\nimpl_ops!(Mul, mul, mul_assign);\n"
+    \ = Self::mul(self.value, rhs.value);\n    }\n}\n\nmacro_rules! impl_assign_to_rem_euclid\
+    \ {\n    ($($t:ty), *) => {\n        $(\n            impl AddAssign<$t> for ModIntMersenne\
+    \ {\n                fn add_assign(&mut self, rhs: $t) {\n                   \
+    \ *self += ModIntMersenne::new(rhs);\n                }\n            }\n     \
+    \       impl SubAssign<$t> for ModIntMersenne {\n                fn sub_assign(&mut\
+    \ self, rhs: $t) {\n                    *self -= ModIntMersenne::new(rhs);\n \
+    \               }\n            }\n            impl MulAssign<$t> for ModIntMersenne\
+    \ {\n                fn mul_assign(&mut self, rhs: $t) {\n                   \
+    \ *self *= ModIntMersenne::new(rhs);\n                }\n            }\n     \
+    \   )*\n    };\n}\n\nimpl_assign_to_rem_euclid!(u8, u16, u32, u64, usize, i8,\
+    \ i16, i32, i64, isize);\n\nmacro_rules! impl_ops {\n    ($trait:ident, $method:\
+    \ ident, $assign_trait: ident, $assign_method:ident) => {\n        impl<T> $trait<T>\
+    \ for ModIntMersenne\n        where\n            ModIntMersenne: $assign_trait<T>,\n\
+    \        {\n            type Output = Self;\n            fn $method(mut self,\
+    \ rhs: T) -> Self {\n                ModIntMersenne::$assign_method(&mut self,\
+    \ rhs);\n                self\n            }\n        }\n    };\n}\n\nimpl_ops!(Add,\
+    \ add, AddAssign, add_assign);\nimpl_ops!(Sub, sub, SubAssign, sub_assign);\n\
+    impl_ops!(Mul, mul, MulAssign, mul_assign);\n\n#[cfg(test)]\nmod test {\n    use\
+    \ super::*;\n    #[test]\n    fn test_assign_coercion() {\n        let mut a =\
+    \ ModIntMersenne::new(1);\n        a += 1;\n        assert_eq!(a.value(), 2);\n\
+    \        a -= 4;\n        assert_eq!(a.value(), MOD - 2);\n        a *= 2;\n \
+    \       assert_eq!(a.value(), MOD - 4);\n    }\n\n    #[test]\n    fn test_binop_coercion()\
+    \ {\n        let a = ModIntMersenne::new(1);\n        let b = a + 1;\n       \
+    \ assert_eq!(b.value(), 2);\n        let c = b - 4;\n        assert_eq!(c.value(),\
+    \ MOD - 2);\n        let d = c * 2;\n        assert_eq!(d.value(), MOD - 4);\n\
+    \    }\n\n    #[test]\n    fn test_pow() {\n        let a = ModIntMersenne::new(2);\n\
+    \        let b = a.pow(3);\n        assert_eq!(b.value(), 8);\n    }\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/hash/modint_mersenne/src/lib.rs
   requiredBy:
   - crates/string/rolling_hash/src/lib.rs
-  timestamp: '2024-05-30 17:49:36+09:00'
+  timestamp: '2024-08-10 20:50:35+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/hash/modint_mersenne/src/lib.rs

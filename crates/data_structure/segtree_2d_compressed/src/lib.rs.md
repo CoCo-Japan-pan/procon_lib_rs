@@ -132,9 +132,9 @@ data:
   timestamp: '2024-07-10 00:10:26+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - verify/yukicoder/no_1625/src/main.rs
   - verify/yosupo/point_add_rectangle_sum/src/main.rs
   - verify/yosupo/rectangle_add_point_get/src/main.rs
-  - verify/yukicoder/no_1625/src/main.rs
 documentation_of: crates/data_structure/segtree_2d_compressed/src/lib.rs
 layout: document
 redirect_from:
