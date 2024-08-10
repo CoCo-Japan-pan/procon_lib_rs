@@ -45,6 +45,19 @@ impl ModIntMersenne {
         let midd = mid & ((1 << 30) - 1);
         Self::calc_mod(au * bu * 2 + midu + (midd << 31) + ad * bd)
     }
+
+    pub fn pow(&self, mut exp: u64) -> Self {
+        let mut result = ModIntMersenne::new(1);
+        let mut base = *self;
+        while exp > 0 {
+            if exp & 1 == 1 {
+                result *= base;
+            }
+            base *= base;
+            exp >>= 1;
+        }
+        result
+    }
 }
 
 pub trait RemEuclidU64 {
@@ -137,11 +150,38 @@ impl MulAssign for ModIntMersenne {
     }
 }
 
+macro_rules! impl_assign_to_rem_euclid {
+    ($($t:ty), *) => {
+        $(
+            impl AddAssign<$t> for ModIntMersenne {
+                fn add_assign(&mut self, rhs: $t) {
+                    *self += ModIntMersenne::new(rhs);
+                }
+            }
+            impl SubAssign<$t> for ModIntMersenne {
+                fn sub_assign(&mut self, rhs: $t) {
+                    *self -= ModIntMersenne::new(rhs);
+                }
+            }
+            impl MulAssign<$t> for ModIntMersenne {
+                fn mul_assign(&mut self, rhs: $t) {
+                    *self *= ModIntMersenne::new(rhs);
+                }
+            }
+        )*
+    };
+}
+
+impl_assign_to_rem_euclid!(u8, u16, u32, u64, usize, i8, i16, i32, i64, isize);
+
 macro_rules! impl_ops {
-    ($trait:ident, $method: ident, $assign_method:ident) => {
-        impl $trait for ModIntMersenne {
+    ($trait:ident, $method: ident, $assign_trait: ident, $assign_method:ident) => {
+        impl<T> $trait<T> for ModIntMersenne
+        where
+            ModIntMersenne: $assign_trait<T>,
+        {
             type Output = Self;
-            fn $method(mut self, rhs: Self) -> Self {
+            fn $method(mut self, rhs: T) -> Self {
                 ModIntMersenne::$assign_method(&mut self, rhs);
                 self
             }
@@ -149,6 +189,6 @@ macro_rules! impl_ops {
     };
 }
 
-impl_ops!(Add, add, add_assign);
-impl_ops!(Sub, sub, sub_assign);
-impl_ops!(Mul, mul, mul_assign);
+impl_ops!(Add, add, AddAssign, add_assign);
+impl_ops!(Sub, sub, SubAssign, sub_assign);
+impl_ops!(Mul, mul, MulAssign, mul_assign);
