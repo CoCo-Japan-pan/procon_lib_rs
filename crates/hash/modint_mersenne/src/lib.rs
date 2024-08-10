@@ -192,3 +192,36 @@ macro_rules! impl_ops {
 impl_ops!(Add, add, AddAssign, add_assign);
 impl_ops!(Sub, sub, SubAssign, sub_assign);
 impl_ops!(Mul, mul, MulAssign, mul_assign);
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    #[test]
+    fn test_assign_coercion() {
+        let mut a = ModIntMersenne::new(1);
+        a += 1;
+        assert_eq!(a.value(), 2);
+        a -= 4;
+        assert_eq!(a.value(), MOD - 2);
+        a *= 2;
+        assert_eq!(a.value(), MOD - 4);
+    }
+
+    #[test]
+    fn test_binop_coercion() {
+        let a = ModIntMersenne::new(1);
+        let b = a + 1;
+        assert_eq!(b.value(), 2);
+        let c = b - 4;
+        assert_eq!(c.value(), MOD - 2);
+        let d = c * 2;
+        assert_eq!(d.value(), MOD - 4);
+    }
+
+    #[test]
+    fn test_pow() {
+        let a = ModIntMersenne::new(2);
+        let b = a.pow(3);
+        assert_eq!(b.value(), 8);
+    }
+}
