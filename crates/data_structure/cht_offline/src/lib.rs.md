@@ -144,8 +144,8 @@ data:
   timestamp: '2024-07-15 21:52:20+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/yosupo/segment_add_get_min/src/main.rs
   - verify/yosupo/line_add_get_min/src/main.rs
+  - verify/yosupo/segment_add_get_min/src/main.rs
 documentation_of: crates/data_structure/cht_offline/src/lib.rs
 layout: document
 redirect_from:

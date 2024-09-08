@@ -133,8 +133,8 @@ data:
   timestamp: '2024-07-21 00:05:33+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/AtCoder/abc359g_centroid/src/main.rs
   - verify/yosupo/frequency_table_of_tree_distance/src/main.rs
+  - verify/AtCoder/abc359g_centroid/src/main.rs
 documentation_of: crates/tools/capture/src/lib.rs
 layout: document
 redirect_from:

@@ -228,8 +228,8 @@ data:
   isVerificationFile: false
   path: crates/bitset/src/lib.rs
   requiredBy:
-  - verify/AtCoder/typical_059/src/main.rs
   - crates/math/bit_matrix/src/lib.rs
+  - verify/AtCoder/typical_059/src/main.rs
   timestamp: '2024-07-12 21:45:48+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
