@@ -7,15 +7,16 @@ pub struct HLD {
     pub sorted_graph: Vec<Vec<usize>>,
     /// 各頂点についてそれを根とする部分木のサイズ
     pub subtree_size: Vec<usize>,
-    /// 各頂点の深さ(根は0とする)
+    /// 各頂点の深さ
     pub depth: Vec<usize>,
     /// 各頂点の親(根にはusize::MAXを入れる)
     pub parent: Vec<usize>,
     /// 各頂点の属するheavy pathの先頭
     heavy_path_lowest: Vec<usize>,
     /// heavy pathを並べた配列における各頂点のindex  
+    /// オイラーツアーも兼ねている  
     /// この配列において、各頂点についてその頂点とその親との間の辺を対応させた配列を用いれば、
-    /// pathやsubtree関数で得られたindexを使うことができる
+    /// `path`や`subtree`関数で得られたindexを使って辺も対処できる  
     pub hld_in: Vec<usize>,
     /// 各頂点の部分木に属する頂点が出てこなくなる最初のindex
     hld_out: Vec<usize>,
