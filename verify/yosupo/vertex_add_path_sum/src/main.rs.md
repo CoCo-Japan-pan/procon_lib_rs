@@ -42,7 +42,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/vertex_add_path_sum/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-28 21:22:52+09:00'
+  timestamp: '2024-09-14 20:51:23+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/vertex_add_path_sum/src/main.rs

@@ -40,19 +40,20 @@ data:
     \    pub sorted_graph: Vec<Vec<usize>>,\n    /// \u5404\u9802\u70B9\u306B\u3064\
     \u3044\u3066\u305D\u308C\u3092\u6839\u3068\u3059\u308B\u90E8\u5206\u6728\u306E\
     \u30B5\u30A4\u30BA\n    pub subtree_size: Vec<usize>,\n    /// \u5404\u9802\u70B9\
-    \u306E\u6DF1\u3055(\u6839\u306F0\u3068\u3059\u308B)\n    pub depth: Vec<usize>,\n\
-    \    /// \u5404\u9802\u70B9\u306E\u89AA(\u6839\u306B\u306Fusize::MAX\u3092\u5165\
-    \u308C\u308B)\n    pub parent: Vec<usize>,\n    /// \u5404\u9802\u70B9\u306E\u5C5E\
-    \u3059\u308Bheavy path\u306E\u5148\u982D\n    heavy_path_lowest: Vec<usize>,\n\
-    \    /// heavy path\u3092\u4E26\u3079\u305F\u914D\u5217\u306B\u304A\u3051\u308B\
-    \u5404\u9802\u70B9\u306Eindex  \n    /// \u3053\u306E\u914D\u5217\u306B\u304A\u3044\
-    \u3066\u3001\u5404\u9802\u70B9\u306B\u3064\u3044\u3066\u305D\u306E\u9802\u70B9\
-    \u3068\u305D\u306E\u89AA\u3068\u306E\u9593\u306E\u8FBA\u3092\u5BFE\u5FDC\u3055\
-    \u305B\u305F\u914D\u5217\u3092\u7528\u3044\u308C\u3070\u3001\n    /// path\u3084\
-    subtree\u95A2\u6570\u3067\u5F97\u3089\u308C\u305Findex\u3092\u4F7F\u3046\u3053\
-    \u3068\u304C\u3067\u304D\u308B\n    pub hld_in: Vec<usize>,\n    /// \u5404\u9802\
-    \u70B9\u306E\u90E8\u5206\u6728\u306B\u5C5E\u3059\u308B\u9802\u70B9\u304C\u51FA\
-    \u3066\u3053\u306A\u304F\u306A\u308B\u6700\u521D\u306Eindex\n    hld_out: Vec<usize>,\n\
+    \u306E\u6DF1\u3055\n    pub depth: Vec<usize>,\n    /// \u5404\u9802\u70B9\u306E\
+    \u89AA(\u6839\u306B\u306Fusize::MAX\u3092\u5165\u308C\u308B)\n    pub parent:\
+    \ Vec<usize>,\n    /// \u5404\u9802\u70B9\u306E\u5C5E\u3059\u308Bheavy path\u306E\
+    \u5148\u982D\n    heavy_path_lowest: Vec<usize>,\n    /// heavy path\u3092\u4E26\
+    \u3079\u305F\u914D\u5217\u306B\u304A\u3051\u308B\u5404\u9802\u70B9\u306Eindex\
+    \  \n    /// \u30AA\u30A4\u30E9\u30FC\u30C4\u30A2\u30FC\u3082\u517C\u306D\u3066\
+    \u3044\u308B  \n    /// \u3053\u306E\u914D\u5217\u306B\u304A\u3044\u3066\u3001\
+    \u5404\u9802\u70B9\u306B\u3064\u3044\u3066\u305D\u306E\u9802\u70B9\u3068\u305D\
+    \u306E\u89AA\u3068\u306E\u9593\u306E\u8FBA\u3092\u5BFE\u5FDC\u3055\u305B\u305F\
+    \u914D\u5217\u3092\u7528\u3044\u308C\u3070\u3001\n    /// `path`\u3084`subtree`\u95A2\
+    \u6570\u3067\u5F97\u3089\u308C\u305Findex\u3092\u4F7F\u3063\u3066\u8FBA\u3082\u5BFE\
+    \u51E6\u3067\u304D\u308B  \n    pub hld_in: Vec<usize>,\n    /// \u5404\u9802\u70B9\
+    \u306E\u90E8\u5206\u6728\u306B\u5C5E\u3059\u308B\u9802\u70B9\u304C\u51FA\u3066\
+    \u3053\u306A\u304F\u306A\u308B\u6700\u521D\u306Eindex\n    hld_out: Vec<usize>,\n\
     \    /// \u9802\u70B9\u306E\u6570\n    vertex_cnt: usize,\n}\n\n#[derive(Debug,\
     \ Clone, Copy)]\npub enum Path {\n    /// hld\u306E\u4E0A\u3067\u306F\u53F3\u304B\
     \u3089\u5DE6\u306B\u9032\u3080\n    Ascending(usize, usize),\n    /// hld\u306E\
@@ -132,7 +133,7 @@ data:
   isVerificationFile: false
   path: crates/tree/hld/src/lib.rs
   requiredBy: []
-  timestamp: '2024-04-28 21:22:52+09:00'
+  timestamp: '2024-09-14 20:51:23+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/lca_hld/src/main.rs
