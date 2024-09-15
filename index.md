@@ -141,6 +141,11 @@ data:
     - icon: ':warning:'
       path: crates/math/enumerate_inv_mods/src/lib.rs
       title: crates/math/enumerate_inv_mods/src/lib.rs
+  - name: crates/math/eratosthenes/src
+    pages:
+    - icon: ':warning:'
+      path: crates/math/eratosthenes/src/lib.rs
+      title: crates/math/eratosthenes/src/lib.rs
   - name: crates/math/matrix/src
     pages:
     - icon: ':heavy_check_mark:'
