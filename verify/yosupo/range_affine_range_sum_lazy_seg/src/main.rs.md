@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/lazy_segtree/src/lib.rs
     title: crates/data_structure/lazy_segtree/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/modint/static_modint/src/lib.rs
     title: crates/modint/static_modint/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     PROBLEM: https://judge.yosupo.jp/problem/range_affine_range_sum
     links:
@@ -35,11 +35,11 @@ data:
     \     len: a.len + b.len,\n        }\n    }\n}\n\n#[derive(Clone, Copy, Debug,\
     \ PartialEq, Eq)]\nstruct AffineMap {\n    b: ModInt998244353,\n    c: ModInt998244353,\n\
     }\nimpl algebra::Action for AffineMap {\n    type Target = AddMonoid;\n    fn\
-    \ id_map() -> Self {\n        Self {\n            b: ModInt998244353::raw(1),\n\
+    \ id_action() -> Self {\n        Self {\n            b: ModInt998244353::raw(1),\n\
     \            c: ModInt998244353::raw(0),\n        }\n    }\n    fn composition(&mut\
     \ self, rhs: &Self) {\n        self.c = self.c * rhs.b + rhs.c;\n        self.b\
-    \ *= rhs.b;\n    }\n    fn mapping(&self, target: &mut Self::Target) {\n     \
-    \   target.sum = self.b * target.sum + self.c * target.len;\n    }\n}\nimpl NonCommutative\
+    \ *= rhs.b;\n    }\n    fn apply(&self, target: &mut Self::Target) {\n       \
+    \ target.sum = self.b * target.sum + self.c * target.len;\n    }\n}\nimpl NonCommutative\
     \ for AffineMap {}\n\nstruct AffineRangeSum;\nimpl ActionMonoid for AffineRangeSum\
     \ {\n    type Action = AffineMap;\n    type Monoid = AddMonoid;\n}\n\n#[fastout]\n\
     fn main() {\n    input! {\n        n: usize,\n        q: usize,\n        a: [u32;\
@@ -59,8 +59,8 @@ data:
   isVerificationFile: true
   path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
   requiredBy: []
-  timestamp: '2024-07-20 13:46:09+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2024-09-16 18:40:00+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
 layout: document

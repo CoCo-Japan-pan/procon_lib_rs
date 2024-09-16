@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/lazy_segtree/src/lib.rs
     title: crates/data_structure/lazy_segtree/src/lib.rs
   _extendedRequiredBy: []
@@ -23,10 +23,10 @@ data:
   code: "// verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/courses/library/3/DSL/all/DSL_2_F\n\
     \nuse lazy_segtree::LazySegTree;\nuse proconio::{fastout, input};\n\n#[derive(Clone,\
     \ Debug, PartialEq, Eq)]\nstruct MyMap {\n    update: Option<u32>,\n}\nimpl algebra::Action\
-    \ for MyMap {\n    type Target = u32;\n    fn id_map() -> Self {\n        MyMap\
+    \ for MyMap {\n    type Target = u32;\n    fn id_action() -> Self {\n        MyMap\
     \ { update: None }\n    }\n    fn composition(&mut self, rhs: &Self) {\n     \
     \   if let Some(x) = rhs.update {\n            self.update = Some(x);\n      \
-    \  }\n    }\n    fn mapping(&self, target: &mut Self::Target) {\n        if let\
+    \  }\n    }\n    fn apply(&self, target: &mut Self::Target) {\n        if let\
     \ Some(x) = self.update {\n            *target = x;\n        }\n    }\n}\nimpl\
     \ algebra::NonCommutative for MyMap {}\n\nstruct MinMonoid {}\nimpl algebra::Monoid\
     \ for MinMonoid {\n    type Target = u32;\n    fn id_element() -> Self::Target\
@@ -48,7 +48,7 @@ data:
   isVerificationFile: true
   path: verify/AOJ/dsl_2f_lazy_seg/src/main.rs
   requiredBy: []
-  timestamp: '2024-07-10 00:10:26+09:00'
+  timestamp: '2024-09-16 18:40:00+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/dsl_2f_lazy_seg/src/main.rs

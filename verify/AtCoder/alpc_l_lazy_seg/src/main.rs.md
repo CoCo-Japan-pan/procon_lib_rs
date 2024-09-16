@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/lazy_segtree/src/lib.rs
     title: crates/data_structure/lazy_segtree/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     PROBLEM: https://atcoder.jp/contests/practice2/tasks/practice2_l
     links:
@@ -36,10 +36,10 @@ data:
     \            zero_num: a.zero_num + b.zero_num,\n            one_num: a.one_num\
     \ + b.one_num,\n        }\n    }\n}\n\n#[derive(Clone, Copy, Debug, PartialEq,\
     \ Eq)]\nstruct FlipMap {\n    flip: bool,\n}\nimpl algebra::Action for FlipMap\
-    \ {\n    type Target = InvNum;\n    fn id_map() -> Self {\n        FlipMap { flip:\
-    \ false }\n    }\n    fn composition(&mut self, rhs: &Self) {\n        self.flip\
-    \ ^= rhs.flip;\n    }\n    fn mapping(&self, target: &mut Self::Target) {\n  \
-    \      if self.flip {\n            *target = InvNum {\n                inv_num:\
+    \ {\n    type Target = InvNum;\n    fn id_action() -> Self {\n        FlipMap\
+    \ { flip: false }\n    }\n    fn composition(&mut self, rhs: &Self) {\n      \
+    \  self.flip ^= rhs.flip;\n    }\n    fn apply(&self, target: &mut Self::Target)\
+    \ {\n        if self.flip {\n            *target = InvNum {\n                inv_num:\
     \ target.zero_num * target.one_num - target.inv_num,\n                zero_num:\
     \ target.one_num,\n                one_num: target.zero_num,\n            }\n\
     \        }\n    }\n}\nimpl algebra::Commutative for FlipMap {}\nstruct MyMapMonoid;\n\
@@ -58,8 +58,8 @@ data:
   isVerificationFile: true
   path: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   requiredBy: []
-  timestamp: '2024-07-10 00:10:26+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2024-09-16 18:40:00+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
 layout: document

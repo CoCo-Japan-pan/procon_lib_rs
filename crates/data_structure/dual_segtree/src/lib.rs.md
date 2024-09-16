@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   _extendedRequiredBy: []
@@ -34,17 +34,17 @@ data:
     \ -> Self {\n        let mut leaf_size = 1;\n        let mut log = 0;\n      \
     \  while leaf_size < size {\n            leaf_size *= 2;\n            log += 1;\n\
     \        }\n        Self {\n            range_size: size,\n            leaf_size,\n\
-    \            log,\n            lazy_nodes: vec![T::id_map(); 2 * leaf_size],\n\
+    \            log,\n            lazy_nodes: vec![T::id_action(); 2 * leaf_size],\n\
     \        }\n    }\n\n    /// \u4E00\u70B9\u53D6\u5F97(\u305D\u306E\u70B9\u3078\
     \u306E\u4F5C\u7528\u3092\u9069\u7528\u3057\u305F\u7D50\u679C\u3092\u8FD4\u3059\
     )\n    pub fn get_mapped(&self, i: usize, mut target: T::Target) -> T::Target\
     \ {\n        assert!(i < self.range_size);\n        let mut i = i + self.leaf_size;\n\
-    \        while i > 0 {\n            self.lazy_nodes[i].mapping(&mut target);\n\
-    \            i >>= 1;\n        }\n        target\n    }\n\n    /// \u4E00\u70B9\
+    \        while i > 0 {\n            self.lazy_nodes[i].apply(&mut target);\n \
+    \           i >>= 1;\n        }\n        target\n    }\n\n    /// \u4E00\u70B9\
     \u53D6\u5F97(\u305D\u306E\u70B9\u3078\u306E\u4F5C\u7528\u306E\u5408\u6210\u3092\
     \u8FD4\u3059)\n    pub fn get_composition(&self, i: usize) -> T {\n        assert!(i\
     \ < self.range_size);\n        let mut i = i + self.leaf_size;\n        let mut\
-    \ res = T::id_map();\n        while i > 0 {\n            res.composition(&self.lazy_nodes[i]);\n\
+    \ res = T::id_action();\n        while i > 0 {\n            res.composition(&self.lazy_nodes[i]);\n\
     \            i >>= 1;\n        }\n        res\n    }\n}\n\nimpl<T: Action + Commutative>\
     \ DualSegTree<T> {\n    /// \u533A\u9593\u306B\u53EF\u63DB\u306A\u4F5C\u7528\u3092\
     \u9069\u7528\u3059\u308B \u53EF\u63DB\u306A\u306E\u3067\u4F5C\u7528\u306E\u4F1D\
@@ -84,7 +84,7 @@ data:
     \ }\n            l >>= 1;\n            r >>= 1;\n        }\n    }\n\n    fn propagate(&mut\
     \ self, i: usize) {\n        // \u89AA\u30CE\u30FC\u30C9\u304B\u3089\u5B50\u30CE\
     \u30FC\u30C9\u3078\u306E\u4F5C\u7528\u306E\u4F1D\u64AD\n        let mut parent\
-    \ = T::id_map();\n        std::mem::swap(&mut parent, &mut self.lazy_nodes[i]);\n\
+    \ = T::id_action();\n        std::mem::swap(&mut parent, &mut self.lazy_nodes[i]);\n\
     \        self.lazy_nodes[i * 2].composition(&parent);\n        self.lazy_nodes[i\
     \ * 2 + 1].composition(&parent);\n    }\n}\n"
   dependsOn:
@@ -92,7 +92,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/dual_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-07-06 23:41:25+09:00'
+  timestamp: '2024-09-16 18:40:00+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/dsl_2d_dual_seg/src/main.rs

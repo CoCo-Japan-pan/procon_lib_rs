@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   _extendedRequiredBy:
@@ -86,7 +86,7 @@ data:
   path: crates/data_structure/potentialized_union_find/src/lib.rs
   requiredBy:
   - verify/AtCoder/typical_068/src/main.rs
-  timestamp: '2024-07-06 23:41:25+09:00'
+  timestamp: '2024-09-16 18:40:00+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc328f/src/main.rs
