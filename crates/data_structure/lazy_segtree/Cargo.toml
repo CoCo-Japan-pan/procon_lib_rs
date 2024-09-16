@@ -10,3 +10,6 @@ repository = "ssh://git@github.com/CoCo-Japan-pan/procon_lib_rs.git"
 [dependencies]
 algebra = { path = "../../algebra" }
 internal_bits = { path = "../../internals/internal_bits" }
+
+[dev-dependencies]
+rand = "0.8.5"

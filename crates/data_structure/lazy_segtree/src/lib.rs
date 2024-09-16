@@ -151,7 +151,7 @@ impl<F: ActionMonoid> LazySegTree<F> {
                     self.push(l);
                     l *= 2;
                     let res = F::binary_operation(&sm, &self.data[l]);
-                    if !g(&res) {
+                    if g(&res) {
                         sm = res;
                         l += 1;
                     }
@@ -192,7 +192,7 @@ impl<F: ActionMonoid> LazySegTree<F> {
                     self.push(r);
                     r = 2 * r + 1;
                     let res = F::binary_operation(&self.data[r], &sm);
-                    if !g(&res) {
+                    if g(&res) {
                         sm = res;
                         r -= 1;
                     }
@@ -354,5 +354,85 @@ impl<F: ActionMonoid> LazySegTree<F> {
         std::mem::swap(&mut parent, &mut self.lazy[k]);
         self.all_apply(2 * k, &parent);
         self.all_apply(2 * k + 1, &parent);
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    use algebra::Action;
+    use rand::prelude::*;
+
+    #[test]
+    fn test_max_right_min_left() {
+        // 区間加算、区間和
+        #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+        struct SumMonoid {
+            sum: u64,
+            len: u64,
+        }
+        impl Monoid for SumMonoid {
+            type Target = Self;
+            fn id_element() -> Self {
+                Self { sum: 0, len: 0 }
+            }
+            fn binary_operation(a: &Self, b: &Self) -> Self {
+                Self {
+                    sum: a.sum + b.sum,
+                    len: a.len + b.len,
+                }
+            }
+        }
+
+        #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+        struct AddAction(u64);
+        impl Action for AddAction {
+            type Target = SumMonoid;
+            fn id_action() -> Self {
+                Self(0)
+            }
+            fn composition(&mut self, rhs: &Self) {
+                self.0 += rhs.0;
+            }
+            fn apply(&self, target: &mut Self::Target) {
+                target.sum += self.0 * target.len;
+            }
+        }
+        impl Commutative for AddAction {}
+
+        struct RARRSQ;
+        impl ActionMonoid for RARRSQ {
+            type Monoid = SumMonoid;
+            type Action = AddAction;
+        }
+
+        let mut rng = rand::thread_rng();
+        let n = 1000;
+        let mut seg = LazySegTree::<RARRSQ>::from(
+            (0..n)
+                .map(|_| SumMonoid {
+                    sum: rng.gen_range(0..=20000),
+                    len: 1,
+                })
+                .collect::<Vec<_>>(),
+        );
+        for _ in 0..n * 10 {
+            let l = rng.gen_range(0..n);
+            let r = rng.gen_range(l..n);
+            let x = rng.gen_range(0..=20000);
+            seg.apply_range_commutative(l..r, &AddAction(x));
+
+            let l = rng.gen_range(0..n);
+            let bound = rng.gen_range(1..=200_000);
+            let max_right = seg.max_right(l, |x| x.sum < bound);
+            assert!(seg.prod(l..max_right).sum < bound);
+            assert!(max_right == n || seg.prod(l..max_right + 1).sum >= bound);
+
+            let r = rng.gen_range(0..n);
+            let bound = rng.gen_range(1..=2000_000);
+            let min_left = seg.min_left(r, |x| x.sum < bound);
+            assert!(seg.prod(min_left..r).sum < bound);
+            assert!(min_left == 0 || seg.prod(min_left - 1..r).sum >= bound);
+        }
     }
 }
