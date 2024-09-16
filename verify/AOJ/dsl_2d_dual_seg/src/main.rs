@@ -12,7 +12,7 @@ pub struct RUQ {
 
 impl algebra::Action for RUQ {
     type Target = Self;
-    fn id_map() -> Self {
+    fn id_action() -> Self {
         Self {
             time_stamp: 0,
             value: (1_u32 << 31) - 1,
@@ -23,7 +23,7 @@ impl algebra::Action for RUQ {
             *self = *rhs;
         }
     }
-    fn mapping(&self, target: &mut Self::Target) {
+    fn apply(&self, target: &mut Self::Target) {
         if self.time_stamp > target.time_stamp {
             *target = *self;
         }
@@ -59,8 +59,8 @@ fn main() {
                 i: usize,
             }
             let composed = seg.get_composition(i);
-            let mut target = RUQ::id_map();
-            composed.mapping(&mut target);
+            let mut target = RUQ::id_action();
+            composed.apply(&mut target);
             println!("{}", target.value);
         }
     }

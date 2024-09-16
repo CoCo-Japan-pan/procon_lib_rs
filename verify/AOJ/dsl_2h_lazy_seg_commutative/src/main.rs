@@ -19,13 +19,13 @@ struct AddMap {
 }
 impl algebra::Action for AddMap {
     type Target = i32;
-    fn id_map() -> Self {
+    fn id_action() -> Self {
         AddMap { add_val: 0 }
     }
     fn composition(&mut self, rhs: &Self) {
         self.add_val += rhs.add_val;
     }
-    fn mapping(&self, target: &mut Self::Target) {
+    fn apply(&self, target: &mut Self::Target) {
         *target += self.add_val;
     }
 }

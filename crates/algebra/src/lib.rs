@@ -13,11 +13,12 @@ pub trait Action: Debug + Clone {
     /// 作用の対象
     type Target: Clone;
     /// 恒等写像
-    fn id_map() -> Self;
-    /// 作用の合成(selfが先、rhsが後)
+    fn id_action() -> Self;
+    /// 作用の合成(selfが先、rhsが後)  
+    /// (atcoder libraryとは作用の順が逆なので注意)
     fn composition(&mut self, rhs: &Self);
     /// 作用の適用
-    fn mapping(&self, target: &mut Self::Target);
+    fn apply(&self, target: &mut Self::Target);
 }
 
 /// モノイド
@@ -32,7 +33,7 @@ pub trait Monoid {
 
 /// 自己準同型性を要求  
 /// つまり区間和への適用と、各要素への適用の区間和が一致することを要求  
-/// typeのMonoid,Mapだけ指定することを想定(メソッドのオーバーライドはしないでください)  
+/// typeのMonoid,Actionだけ指定することを想定(メソッドのオーバーライドはしないでください)  
 pub trait ActionMonoid {
     /// 作用の対象のモノイド
     type Monoid: Monoid;
@@ -50,16 +51,16 @@ pub trait ActionMonoid {
         Self::Monoid::binary_operation(a, b)
     }
     /// 恒等写像
-    fn id_map() -> Self::Action {
-        Self::Action::id_map()
+    fn id_action() -> Self::Action {
+        Self::Action::id_action()
     }
     /// 作用の合成(fが先、gが後)
     fn composition(f: &mut Self::Action, g: &Self::Action) {
         f.composition(g)
     }
     /// 作用の適用
-    fn mapping(x: &mut <Self::Monoid as Monoid>::Target, f: &Self::Action) {
-        f.mapping(x)
+    fn apply(x: &mut <Self::Monoid as Monoid>::Target, f: &Self::Action) {
+        f.apply(x)
     }
 }
 

@@ -26,7 +26,7 @@ impl<T: Action> DualSegTree<T> {
             range_size: size,
             leaf_size,
             log,
-            lazy_nodes: vec![T::id_map(); 2 * leaf_size],
+            lazy_nodes: vec![T::id_action(); 2 * leaf_size],
         }
     }
 
@@ -35,7 +35,7 @@ impl<T: Action> DualSegTree<T> {
         assert!(i < self.range_size);
         let mut i = i + self.leaf_size;
         while i > 0 {
-            self.lazy_nodes[i].mapping(&mut target);
+            self.lazy_nodes[i].apply(&mut target);
             i >>= 1;
         }
         target
@@ -45,7 +45,7 @@ impl<T: Action> DualSegTree<T> {
     pub fn get_composition(&self, i: usize) -> T {
         assert!(i < self.range_size);
         let mut i = i + self.leaf_size;
-        let mut res = T::id_map();
+        let mut res = T::id_action();
         while i > 0 {
             res.composition(&self.lazy_nodes[i]);
             i >>= 1;
@@ -132,7 +132,7 @@ impl<T: Action + NonCommutative> DualSegTree<T> {
 
     fn propagate(&mut self, i: usize) {
         // 親ノードから子ノードへの作用の伝播
-        let mut parent = T::id_map();
+        let mut parent = T::id_action();
         std::mem::swap(&mut parent, &mut self.lazy_nodes[i]);
         self.lazy_nodes[i * 2].composition(&parent);
         self.lazy_nodes[i * 2 + 1].composition(&parent);

@@ -10,7 +10,7 @@ pub struct RUQ {
 
 impl algebra::Action for RUQ {
     type Target = u32;
-    fn id_map() -> Self {
+    fn id_action() -> Self {
         Self { value: None }
     }
     fn composition(&mut self, rhs: &Self) {
@@ -18,7 +18,7 @@ impl algebra::Action for RUQ {
             *self = *rhs;
         }
     }
-    fn mapping(&self, target: &mut Self::Target) {
+    fn apply(&self, target: &mut Self::Target) {
         if let Some(value) = self.value {
             *target = value;
         }

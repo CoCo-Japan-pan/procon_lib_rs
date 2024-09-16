@@ -33,7 +33,7 @@ struct AffineMap {
 }
 impl algebra::Action for AffineMap {
     type Target = AddMonoid;
-    fn id_map() -> Self {
+    fn id_action() -> Self {
         Self {
             b: ModInt998244353::raw(1),
             c: ModInt998244353::raw(0),
@@ -43,7 +43,7 @@ impl algebra::Action for AffineMap {
         self.c = self.c * rhs.b + rhs.c;
         self.b *= rhs.b;
     }
-    fn mapping(&self, target: &mut Self::Target) {
+    fn apply(&self, target: &mut Self::Target) {
         target.sum = self.b * target.sum + self.c * target.len;
     }
 }

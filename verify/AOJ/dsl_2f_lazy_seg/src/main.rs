@@ -9,7 +9,7 @@ struct MyMap {
 }
 impl algebra::Action for MyMap {
     type Target = u32;
-    fn id_map() -> Self {
+    fn id_action() -> Self {
         MyMap { update: None }
     }
     fn composition(&mut self, rhs: &Self) {
@@ -17,7 +17,7 @@ impl algebra::Action for MyMap {
             self.update = Some(x);
         }
     }
-    fn mapping(&self, target: &mut Self::Target) {
+    fn apply(&self, target: &mut Self::Target) {
         if let Some(x) = self.update {
             *target = x;
         }

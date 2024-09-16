@@ -52,13 +52,13 @@ struct FlipMap {
 }
 impl algebra::Action for FlipMap {
     type Target = InvNum;
-    fn id_map() -> Self {
+    fn id_action() -> Self {
         FlipMap { flip: false }
     }
     fn composition(&mut self, rhs: &Self) {
         self.flip ^= rhs.flip;
     }
-    fn mapping(&self, target: &mut Self::Target) {
+    fn apply(&self, target: &mut Self::Target) {
         if self.flip {
             *target = InvNum {
                 inv_num: target.zero_num * target.one_num - target.inv_num,

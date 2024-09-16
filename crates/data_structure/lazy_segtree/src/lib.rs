@@ -21,7 +21,7 @@ impl<F: ActionMonoid> From<Vec<<F::Monoid as Monoid>::Target>> for LazySegTree<F
         let log = ceil_log2(range_size as u32) as usize;
         let leaf_size = 1 << log;
         let mut data = vec![F::id_element(); 2 * leaf_size];
-        let lazy = vec![F::id_map(); leaf_size];
+        let lazy = vec![F::id_action(); leaf_size];
         data[leaf_size..(leaf_size + range_size)].clone_from_slice(&v);
         let mut ret = Self {
             range_size,
@@ -122,7 +122,7 @@ impl<F: ActionMonoid> LazySegTree<F> {
         for i in (1..=self.log).rev() {
             self.push(p >> i);
         }
-        F::mapping(&mut self.data[p], f);
+        F::apply(&mut self.data[p], f);
         for i in 1..=self.log {
             self.update(p >> i);
         }
@@ -267,7 +267,7 @@ where
 
     fn update_considering_lazy(&mut self, k: usize) {
         self.data[k] = F::binary_operation(&self.data[2 * k], &self.data[2 * k + 1]);
-        F::mapping(&mut self.data[k], &self.lazy[k]);
+        F::apply(&mut self.data[k], &self.lazy[k]);
     }
 }
 
@@ -343,14 +343,14 @@ impl<F: ActionMonoid> LazySegTree<F> {
     }
     /// 作用を適用し、lazyノードがあれば(子があれば)作用を合成する
     fn all_apply(&mut self, k: usize, f: &F::Action) {
-        F::mapping(&mut self.data[k], f);
+        F::apply(&mut self.data[k], f);
         if k < self.leaf_size {
             F::composition(&mut self.lazy[k], f);
         }
     }
     /// 作用を子に押し込む
     fn push(&mut self, k: usize) {
-        let mut parent = F::id_map();
+        let mut parent = F::id_action();
         std::mem::swap(&mut parent, &mut self.lazy[k]);
         self.all_apply(2 * k, &parent);
         self.all_apply(2 * k + 1, &parent);
