@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   - icon: ':warning:'
@@ -15,15 +15,15 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
     title: verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
     title: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
     title: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
     - https://creativecommons.org/public-domain/cc0/)
@@ -94,22 +94,22 @@ data:
     \           }\n            if !g(&F::binary_operation(&sm, &self.data[l])) {\n\
     \                while l < self.leaf_size {\n                    self.push(l);\n\
     \                    l *= 2;\n                    let res = F::binary_operation(&sm,\
-    \ &self.data[l]);\n                    if !g(&res) {\n                       \
-    \ sm = res;\n                        l += 1;\n                    }\n        \
-    \        }\n                return l - self.leaf_size;\n            }\n      \
-    \      sm = F::binary_operation(&sm, &self.data[l]);\n            l += 1;\n  \
-    \          {\n                let l = l as isize;\n                (l & -l) !=\
-    \ l\n            }\n        } {}\n        self.range_size\n    }\n\n    pub fn\
-    \ min_left<G>(&mut self, mut r: usize, g: G) -> usize\n    where\n        G: Fn(&<F::Monoid\
-    \ as Monoid>::Target) -> bool,\n    {\n        assert!(r <= self.range_size);\n\
-    \        assert!(g(&F::id_element()));\n        if r == 0 {\n            return\
+    \ &self.data[l]);\n                    if g(&res) {\n                        sm\
+    \ = res;\n                        l += 1;\n                    }\n           \
+    \     }\n                return l - self.leaf_size;\n            }\n         \
+    \   sm = F::binary_operation(&sm, &self.data[l]);\n            l += 1;\n     \
+    \       {\n                let l = l as isize;\n                (l & -l) != l\n\
+    \            }\n        } {}\n        self.range_size\n    }\n\n    pub fn min_left<G>(&mut\
+    \ self, mut r: usize, g: G) -> usize\n    where\n        G: Fn(&<F::Monoid as\
+    \ Monoid>::Target) -> bool,\n    {\n        assert!(r <= self.range_size);\n \
+    \       assert!(g(&F::id_element()));\n        if r == 0 {\n            return\
     \ 0;\n        }\n        r += self.leaf_size;\n        for i in (1..=self.log).rev()\
     \ {\n            self.push((r - 1) >> i);\n        }\n        let mut sm = F::id_element();\n\
     \        while {\n            r -= 1;\n            while r > 1 && r % 2 != 0 {\n\
     \                r >>= 1;\n            }\n            if !g(&F::binary_operation(&self.data[r],\
     \ &sm)) {\n                while r < self.leaf_size {\n                    self.push(r);\n\
     \                    r = 2 * r + 1;\n                    let res = F::binary_operation(&self.data[r],\
-    \ &sm);\n                    if !g(&res) {\n                        sm = res;\n\
+    \ &sm);\n                    if g(&res) {\n                        sm = res;\n\
     \                        r -= 1;\n                    }\n                }\n \
     \               return r + 1 - self.leaf_size;\n            }\n            sm\
     \ = F::binary_operation(&self.data[r], &sm);\n            {\n                let\
@@ -176,15 +176,47 @@ data:
     \ /// \u4F5C\u7528\u3092\u5B50\u306B\u62BC\u3057\u8FBC\u3080\n    fn push(&mut\
     \ self, k: usize) {\n        let mut parent = F::id_action();\n        std::mem::swap(&mut\
     \ parent, &mut self.lazy[k]);\n        self.all_apply(2 * k, &parent);\n     \
-    \   self.all_apply(2 * k + 1, &parent);\n    }\n}\n"
+    \   self.all_apply(2 * k + 1, &parent);\n    }\n}\n\n#[cfg(test)]\nmod test {\n\
+    \    use super::*;\n    use algebra::Action;\n    use rand::prelude::*;\n\n  \
+    \  #[test]\n    fn test_max_right_min_left() {\n        // \u533A\u9593\u52A0\u7B97\
+    \u3001\u533A\u9593\u548C\n        #[derive(Debug, Clone, Copy, PartialEq, Eq)]\n\
+    \        struct SumMonoid {\n            sum: u64,\n            len: u64,\n  \
+    \      }\n        impl Monoid for SumMonoid {\n            type Target = Self;\n\
+    \            fn id_element() -> Self {\n                Self { sum: 0, len: 0\
+    \ }\n            }\n            fn binary_operation(a: &Self, b: &Self) -> Self\
+    \ {\n                Self {\n                    sum: a.sum + b.sum,\n       \
+    \             len: a.len + b.len,\n                }\n            }\n        }\n\
+    \n        #[derive(Debug, Clone, Copy, PartialEq, Eq)]\n        struct AddAction(u64);\n\
+    \        impl Action for AddAction {\n            type Target = SumMonoid;\n \
+    \           fn id_action() -> Self {\n                Self(0)\n            }\n\
+    \            fn composition(&mut self, rhs: &Self) {\n                self.0 +=\
+    \ rhs.0;\n            }\n            fn apply(&self, target: &mut Self::Target)\
+    \ {\n                target.sum += self.0 * target.len;\n            }\n     \
+    \   }\n        impl Commutative for AddAction {}\n\n        struct RARRSQ;\n \
+    \       impl ActionMonoid for RARRSQ {\n            type Monoid = SumMonoid;\n\
+    \            type Action = AddAction;\n        }\n\n        let mut rng = rand::thread_rng();\n\
+    \        let n = 1000;\n        let mut seg = LazySegTree::<RARRSQ>::from(\n \
+    \           (0..n)\n                .map(|_| SumMonoid {\n                   \
+    \ sum: rng.gen_range(0..=20000),\n                    len: 1,\n              \
+    \  })\n                .collect::<Vec<_>>(),\n        );\n        for _ in 0..n\
+    \ * 10 {\n            let l = rng.gen_range(0..n);\n            let r = rng.gen_range(l..n);\n\
+    \            let x = rng.gen_range(0..=20000);\n            seg.apply_range_commutative(l..r,\
+    \ &AddAction(x));\n\n            let l = rng.gen_range(0..n);\n            let\
+    \ bound = rng.gen_range(1..=200_000);\n            let max_right = seg.max_right(l,\
+    \ |x| x.sum < bound);\n            assert!(seg.prod(l..max_right).sum < bound);\n\
+    \            assert!(max_right == n || seg.prod(l..max_right + 1).sum >= bound);\n\
+    \n            let r = rng.gen_range(0..n);\n            let bound = rng.gen_range(1..=2000_000);\n\
+    \            let min_left = seg.min_left(r, |x| x.sum < bound);\n            assert!(seg.prod(min_left..r).sum\
+    \ < bound);\n            assert!(min_left == 0 || seg.prod(min_left - 1..r).sum\
+    \ >= bound);\n        }\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
   - crates/internals/internal_bits/src/lib.rs
   isVerificationFile: false
   path: crates/data_structure/lazy_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-09-16 18:40:00+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  timestamp: '2024-09-16 21:21:56+09:00'
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
   - verify/AOJ/dsl_2f_lazy_seg/src/main.rs
