@@ -29,13 +29,16 @@ data:
     \u8A08\u7B97(n<k\u306E\u5834\u5408\u306F0\u3068\u3059\u308B)\n    pub fn cmp(&self,\
     \ n: usize, k: usize) -> T {\n        assert!(n <= self.max_n);\n        if n\
     \ < k {\n            T::raw(0)\n        } else {\n            self.fact[n] * self.ifact[k]\
-    \ * self.ifact[n - k]\n        }\n    }\n}\n"
+    \ * self.ifact[n - k]\n        }\n    }\n\n    /// n!\n    pub fn get_fact(&self,\
+    \ n: usize) -> T {\n        assert!(n <= self.max_n);\n        self.fact[n]\n\
+    \    }\n\n    /// n!\u306E\u9006\u5143\n    pub fn get_ifact(&self, n: usize)\
+    \ -> T {\n        assert!(n <= self.max_n);\n        self.ifact[n]\n    }\n}\n"
   dependsOn:
   - crates/internals/internal_modint/src/lib.rs
   isVerificationFile: false
   path: crates/math/binom/src/lib.rs
   requiredBy: []
-  timestamp: '2024-07-20 13:46:09+09:00'
+  timestamp: '2024-09-17 11:37:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc290f/src/main.rs
