@@ -30,4 +30,16 @@ impl<T: ModInt> Binom<T> {
             self.fact[n] * self.ifact[k] * self.ifact[n - k]
         }
     }
+
+    /// n!
+    pub fn get_fact(&self, n: usize) -> T {
+        assert!(n <= self.max_n);
+        self.fact[n]
+    }
+
+    /// n!の逆元
+    pub fn get_ifact(&self, n: usize) -> T {
+        assert!(n <= self.max_n);
+        self.ifact[n]
+    }
 }
