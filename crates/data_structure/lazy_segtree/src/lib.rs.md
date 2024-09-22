@@ -28,9 +28,9 @@ data:
     links:
     - https://creativecommons.org/public-domain/cc0/)
     - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/lazysegtree.rs>
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
-    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! From <https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/lazysegtree.rs>\n\
     //! Under [CC0-1.0](https://creativecommons.org/public-domain/cc0/)  \n//! composition\u3084\
@@ -218,9 +218,9 @@ data:
   timestamp: '2024-09-16 21:21:56+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
-  - verify/AOJ/dsl_2f_lazy_seg/src/main.rs
   - verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
+  - verify/AOJ/dsl_2f_lazy_seg/src/main.rs
+  - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
   - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
 documentation_of: crates/data_structure/lazy_segtree/src/lib.rs
 layout: document

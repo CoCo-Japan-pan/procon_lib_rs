@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["next_permutation","permutations"],"struct":["Permutations"]};

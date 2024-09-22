@@ -19,9 +19,9 @@ data:
     links:
     - https://atcoder.jp/contests/abc340/editorial/9249)
     - https://smijake3.hatenablog.com/entry/2019/09/15/200200
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
-    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! LCA\u30D9\u30FC\u30B9\u306E\u5727\u7E2E\u6728  \n//! [Auxiliary Tree](https://atcoder.jp/contests/abc340/editorial/9249)\n\
     use euler_tour::EulerTour;\n\n#[derive(Debug)]\npub struct AuxiliaryTree {\n \
@@ -94,8 +94,8 @@ data:
   timestamp: '2024-06-23 15:56:36+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/AtCoder/abc340g/src/main.rs
   - verify/AtCoder/abc359g_auxiliary/src/main.rs
+  - verify/AtCoder/abc340g/src/main.rs
 documentation_of: crates/tree/auxiliary_tree/src/lib.rs
 layout: document
 redirect_from:

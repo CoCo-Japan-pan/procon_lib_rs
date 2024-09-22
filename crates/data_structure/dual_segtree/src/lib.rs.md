@@ -17,9 +17,9 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
-    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! \u4F5C\u7528\u7D20\u3092\u901A\u5E38\u306E\u30BB\u30B0\u30E1\u30F3\u30C8\
     \u6728\u306E\u3088\u3046\u306B\u6301\u3064  \n//! \u4F5C\u7528\u304C\u53EF\u63DB\
@@ -95,8 +95,8 @@ data:
   timestamp: '2024-09-16 18:40:00+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/AOJ/dsl_2d_dual_seg/src/main.rs
   - verify/AOJ/dsl_2d_dual_seg_non_commutative/src/main.rs
+  - verify/AOJ/dsl_2d_dual_seg/src/main.rs
 documentation_of: crates/data_structure/dual_segtree/src/lib.rs
 layout: document
 redirect_from:

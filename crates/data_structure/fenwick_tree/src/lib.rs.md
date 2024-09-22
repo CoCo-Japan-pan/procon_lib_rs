@@ -27,9 +27,9 @@ data:
   attributes:
     links:
     - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/fenwicktree.rs
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
-    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "use std::ops::{AddAssign, RangeBounds, Sub, SubAssign};\n\n#[derive(Debug,\
     \ PartialEq, Eq, Clone)]\npub struct FenwickTree<T: Clone + AddAssign + Sub<Output\
@@ -78,10 +78,10 @@ data:
   timestamp: '2024-04-14 12:40:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/yukicoder/no_649_fenwick_tree/src/main.rs
-  - verify/yosupo/static_range_inversions_query/src/main.rs
   - verify/yosupo/vertex_add_path_sum/src/main.rs
   - verify/yosupo/vertex_add_subtree_sum/src/main.rs
+  - verify/yosupo/static_range_inversions_query/src/main.rs
+  - verify/yukicoder/no_649_fenwick_tree/src/main.rs
   - verify/AtCoder/abc294g/src/main.rs
 documentation_of: crates/data_structure/fenwick_tree/src/lib.rs
 layout: document

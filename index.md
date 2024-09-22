@@ -41,6 +41,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/data_structure/raq_rsq/src/lib.rs
       title: crates/data_structure/raq_rsq/src/lib.rs
+  - name: crates/data_structure/rbst/src
+    pages:
+    - icon: ':warning:'
+      path: crates/data_structure/rbst/src/lib.rs
+      title: crates/data_structure/rbst/src/lib.rs
   - name: crates/data_structure/segtree/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -171,6 +176,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/modint/static_modint/src/lib.rs
       title: crates/modint/static_modint/src/lib.rs
+  - name: crates/rand/pcg32/src
+    pages:
+    - icon: ':warning:'
+      path: crates/rand/pcg32/src/lib.rs
+      title: crates/rand/pcg32/src/lib.rs
   - name: crates/string/rolling_hash/src
     pages:
     - icon: ':heavy_check_mark:'

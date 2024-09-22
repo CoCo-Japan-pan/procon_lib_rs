@@ -18,9 +18,9 @@ data:
   attributes:
     links:
     - https://hcpc-hokudai.github.io/archive/algorithm_convex_hull_trick_001.pdf)
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
-    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! Li Chao tree\u306B\u3088\u308BCHT  \n//! i64\u578B\u3067\u53CE\u307E\u308B\
     \u524D\u63D0  \n//! ax + b \u306E\u76F4\u7DDA\u7FA4\u3092\u8FFD\u52A0\u3057\u3066\
@@ -144,8 +144,8 @@ data:
   timestamp: '2024-07-15 21:52:20+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/yosupo/line_add_get_min/src/main.rs
   - verify/yosupo/segment_add_get_min/src/main.rs
+  - verify/yosupo/line_add_get_min/src/main.rs
 documentation_of: crates/data_structure/cht_offline/src/lib.rs
 layout: document
 redirect_from:

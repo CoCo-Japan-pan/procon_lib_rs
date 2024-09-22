@@ -20,9 +20,9 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
-    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! \u51AA\u7B49\u30E2\u30CE\u30A4\u30C9\u304C\u4E57\u3063\u305F\u9759\u7684\
     \u306A\u533A\u9593\u30AF\u30A8\u30EA\u3092\u51E6\u7406\u3059\u308B  \n//! Disjoint\
@@ -52,8 +52,8 @@ data:
   isVerificationFile: false
   path: crates/data_structure/sparse_table/src/lib.rs
   requiredBy:
-  - crates/tree/euler_tour/src/lib.rs
   - crates/data_structure/sparse_table_on_segtree/src/lib.rs
+  - crates/tree/euler_tour/src/lib.rs
   timestamp: '2024-09-16 18:40:00+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

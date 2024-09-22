@@ -26,9 +26,9 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
-    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "use internal_type_traits::{One, Zero};\nuse std::fmt::{Debug, Display};\n\
     use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};\n\
@@ -86,11 +86,11 @@ data:
   isVerificationFile: false
   path: crates/internals/internal_modint/src/lib.rs
   requiredBy:
-  - crates/math/enumerate_inv_mods/src/lib.rs
   - crates/math/binom/src/lib.rs
-  - crates/fps/ntt/src/lib.rs
-  - crates/modint/dynamic_modint/src/lib.rs
+  - crates/math/enumerate_inv_mods/src/lib.rs
   - crates/modint/static_modint/src/lib.rs
+  - crates/modint/dynamic_modint/src/lib.rs
+  - crates/fps/ntt/src/lib.rs
   timestamp: '2024-07-20 13:46:09+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

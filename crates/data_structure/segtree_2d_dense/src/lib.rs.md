@@ -19,9 +19,9 @@ data:
     links:
     - "https://nasubi-blog.hatenablog.com/entry/2021/11/27/185818>\u306E\u56F3\u304C\
       \u5206\u304B\u308A\u3084\u3059\u304B\u3063\u305F\u3067\u3059"
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
-    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.14/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! \u5185\u90E8\u30672\u6B21\u5143\u914D\u5217\u3092\u6301\u3064\u30BB\u30B0\
     \u30E1\u30F3\u30C8\u6728  \n//! `O(HW)`\u306E\u30E1\u30E2\u30EA\u3092\u4F7F\u3046\
