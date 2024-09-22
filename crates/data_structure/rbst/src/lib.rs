@@ -255,6 +255,18 @@ mod test {
     use rand::prelude::*;
     use std::collections::{BTreeMap, BTreeSet};
 
+    fn stop_watch() -> f64 {
+        use std::time::{SystemTime, UNIX_EPOCH};
+        static mut START: f64 = 0.0;
+        let time = SystemTime::now().duration_since(UNIX_EPOCH).unwrap();
+        let current = time.as_secs() as f64 + time.subsec_nanos() as f64 * 1e-9;
+        unsafe {
+            let ret = current - START;
+            START = current;
+            ret
+        }
+    }
+
     #[test]
     fn test_cnt() {
         let mut rng = thread_rng();
@@ -316,5 +328,29 @@ mod test {
                 set.remove(&value);
             }
         }
+    }
+
+    #[test]
+    fn test_bench() {
+        stop_watch();
+        let mut set = BTreeSet::new();
+        for i in 0..250000 {
+            set.insert(i);
+        }
+        println!("BTreeSet insert: {}", stop_watch());
+        for i in 0..250000 {
+            set.remove(&i);
+        }
+        println!("BTreeSet erase: {}", stop_watch());
+        let mut set = RBST::<i32>::new();
+        // currently stack overflow...
+        for i in 0..250000 {
+            set.insert(i);
+        }
+        println!("RBST insert: {}", stop_watch());
+        for i in 0..250000 {
+            set.erase(&i);
+        }
+        println!("RBST erase: {}", stop_watch());
     }
 }
