@@ -15,99 +15,107 @@ data:
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! [AVL\u6728](https://qiita.com/QCFium/items/3cf26a6dc2d49ef490d7)  \n\
     //! `std::collections::BTreeSet` \u3068\u7570\u306A\u308A\u3001k\u756A\u76EE\u306E\
-    \u5024\u3092`O(logN)`\u3067\u53D6\u308A\u51FA\u305B\u308B  \n//! \u5217\u3092\u7BA1\
-    \u7406\u3059\u308B\n\nuse std::cmp::Ordering;\nuse std::fmt::Display;\nuse std::mem::swap;\n\
-    type Tree<T> = Option<Box<Node<T>>>;\n\n#[derive(Debug)]\nstruct Node<T> {\n \
-    \   left: Tree<T>,\n    right: Tree<T>,\n    value: T,\n    len: usize,\n    height:\
-    \ u8,\n}\n\nimpl<T> Node<T> {\n    fn new(value: T) -> Node<T> {\n        Self\
-    \ {\n            left: None,\n            right: None,\n            value,\n \
-    \           len: 1,\n            height: 1,\n        }\n    }\n    fn update(&mut\
-    \ self) {\n        self.len = len(&self.left) + len(&self.right) + 1;\n      \
-    \  self.height = height(&self.left).max(height(&self.right)) + 1;\n    }\n   \
-    \ fn rotate_right(&mut self) {\n        let mut x = self.left.take().unwrap();\n\
+    \u5024\u3092`O(logN)`\u3067\u53D6\u308A\u51FA\u305B\u308B  \n//! \u89AA\u3092\u6301\
+    \u3063\u3066\u3044\u306A\u3044\u306E\u3067\u3001iter\u3084range\u306F\u306A\u3044\
+    \u3067\u3059...  \n//! \u30E9\u30F3\u30C0\u30E0\u3060\u3068BTreeSet\u3088\u308A\
+    7\u500D\u3050\u3089\u3044\u9045\u3044\u306E\u3067\u3001\u672C\u5F53\u306B\u5FC5\
+    \u8981\u306A\u3068\u304D\u3060\u3051\u4F7F\u3046\u306E\u304C\u3088\u3055\u305D\
+    \u3046  \n//! \u5217\u3092\u7BA1\u7406\u3059\u308B\n\nuse std::cmp::Ordering;\n\
+    use std::fmt::Display;\nuse std::mem::swap;\ntype Tree<T> = Option<Box<Node<T>>>;\n\
+    \n#[derive(Debug)]\nstruct Node<T> {\n    left: Tree<T>,\n    right: Tree<T>,\n\
+    \    value: T,\n    len: usize,\n    height: u8,\n}\n\nimpl<T> Node<T> {\n   \
+    \ fn new(value: T) -> Node<T> {\n        Self {\n            left: None,\n   \
+    \         right: None,\n            value,\n            len: 1,\n            height:\
+    \ 1,\n        }\n    }\n    fn update(&mut self) {\n        self.len = len(&self.left)\
+    \ + len(&self.right) + 1;\n        self.height = height(&self.left).max(height(&self.right))\
+    \ + 1;\n    }\n    fn rotate_right(&mut self) {\n        let mut x = self.left.take().unwrap();\n\
     \        let b = x.right.take();\n        swap(self, &mut x);\n        x.left\
     \ = b;\n        x.update();\n        self.right = Some(x);\n        self.update();\n\
     \    }\n    fn rotate_left(&mut self) {\n        let mut x = self.right.take().unwrap();\n\
     \        let b = x.left.take();\n        swap(self, &mut x);\n        x.right\
     \ = b;\n        x.update();\n        self.left = Some(x);\n        self.update();\n\
-    \    }\n    fn balance(&mut self) {\n        self.update();\n        if height(&self.left).abs_diff(height(&self.right))\
-    \ <= 1 {\n            return;\n        }\n        if height(&self.left) > height(&self.right)\
-    \ {\n            // \u5DE6\u306E\u5B50\u306E\u53F3\u304C\u91CD\u3051\u308C\u3070\
-    \u5DE6\u56DE\u8EE2\n            let left_child = self.left.as_mut().unwrap();\n\
-    \            if height(&left_child.left) < height(&left_child.right) {\n     \
-    \           left_child.rotate_left();\n            }\n            self.rotate_right();\n\
-    \        } else {\n            // \u53F3\u306E\u5B50\u306E\u5DE6\u304C\u91CD\u3051\
-    \u308C\u3070\u53F3\u56DE\u8EE2\n            let right_child = self.right.as_mut().unwrap();\n\
-    \            if height(&right_child.left) > height(&right_child.right) {\n   \
-    \             right_child.rotate_right();\n            }\n            self.rotate_left();\n\
-    \        }\n    }\n}\n\nimpl<T: Display> Display for Node<T> {\n    fn fmt(&self,\
-    \ f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {\n        if let Some(left)\
-    \ = &self.left {\n            write!(f, \"{}\", left)?;\n        }\n        write!(f,\
-    \ \"{}, \", self.value)?;\n        if let Some(right) = &self.right {\n      \
-    \      write!(f, \"{}\", right)?;\n        }\n        Ok(())\n    }\n}\n\nfn len<T>(tree:\
-    \ &Tree<T>) -> usize {\n    tree.as_ref().map_or(0, |t| t.len)\n}\n\nfn height<T>(tree:\
-    \ &Tree<T>) -> u8 {\n    tree.as_ref().map_or(0, |t| t.height)\n}\n\nfn remove_rightest<T>(tree:\
-    \ &mut Tree<T>) -> Tree<T> {\n    if tree.is_none() {\n        return None;\n\
-    \    }\n    let tree_in = tree.as_mut().unwrap();\n    if tree_in.right.is_some()\
-    \ {\n        let rightest = remove_rightest(&mut tree_in.right);\n        tree_in.balance();\n\
-    \        rightest\n    } else {\n        let mut left = tree_in.left.take();\n\
-    \        tree_in.update();\n        swap(&mut left, tree);\n        left\n   \
-    \ }\n}\n\nfn merge<T>(mut left: Tree<T>, right: Tree<T>) -> Tree<T> {\n    match\
-    \ (left.is_some(), right.is_some()) {\n        (true, true) => {\n           \
-    \ let rightest = remove_rightest(&mut left);\n            merge_with_root(left,\
-    \ *rightest.unwrap(), right)\n        }\n        (false, _) => right,\n      \
-    \  (_, false) => left,\n    }\n}\n\nfn merge_with_root<T>(mut left: Tree<T>, root:\
-    \ Node<T>, mut right: Tree<T>) -> Tree<T> {\n    if height(&left).abs_diff(height(&right))\
-    \ <= 1 {\n        let mut new_node = Node {\n            left,\n            right,\n\
-    \            value: root.value,\n            len: 1,\n            height: 1,\n\
-    \        };\n        new_node.update();\n        return Some(Box::new(new_node));\n\
-    \    }\n    if height(&left) > height(&right) {\n        let mut left = left.take().unwrap();\n\
-    \        let new_left_right = merge_with_root(left.right, root, right);\n    \
-    \    left.right = new_left_right;\n        left.balance();\n        Some(left)\n\
-    \    } else {\n        let mut right = right.take().unwrap();\n        let new_right_left\
-    \ = merge_with_root(left, root, right.left);\n        right.left = new_right_left;\n\
-    \        right.balance();\n        Some(right)\n    }\n}\n\n/// split into [0,\
-    \ index), [index, n)\nfn split<T>(tree: Tree<T>, index: usize) -> (Tree<T>, Tree<T>)\
-    \ {\n    let Some(mut node) = tree else {\n        return (None, None);\n    };\n\
-    \    let left = node.left.take();\n    let right = node.right.take();\n    node.update();\n\
-    \    let left_size = len(&left);\n    match index.cmp(&left_size) {\n        Ordering::Equal\
-    \ => (left, merge_with_root(None, *node, right)),\n        Ordering::Less => {\n\
-    \            let tmp = split(left, index);\n            (tmp.0, merge_with_root(tmp.1,\
-    \ *node, right))\n        }\n        Ordering::Greater => {\n            let tmp\
-    \ = split(right, index - left_size - 1);\n            (merge_with_root(left, *node,\
-    \ tmp.0), tmp.1)\n        }\n    }\n}\n\nfn insert_by_idx<T>(tree: Tree<T>, index:\
-    \ usize, value: T) -> Tree<T> {\n    assert!(index <= len(&tree));\n    let new_node\
-    \ = Node::new(value);\n    if tree.is_none() {\n        return Some(Box::new(new_node));\n\
-    \    };\n    let (left, right) = split(tree, index);\n    merge_with_root(left,\
-    \ new_node, right)\n}\n\nfn insert<T: PartialOrd>(tree: Tree<T>, value: T) ->\
-    \ Tree<T> {\n    let index = lower_bound(&tree, &value);\n    insert_by_idx(tree,\
-    \ index, value)\n}\n\nfn erase_by_idx<T>(tree: Tree<T>, index: usize) -> Tree<T>\
-    \ {\n    assert!(index < len(&tree));\n    let (left, right) = split(tree, index);\n\
-    \    let (_, right) = split(right, 1);\n    merge(left, right)\n}\n\nfn erase<T:\
-    \ PartialOrd>(tree: Tree<T>, value: &T) -> Tree<T> {\n    if count(&tree, value)\
-    \ == 0 {\n        return tree;\n    }\n    let index = lower_bound(&tree, value);\n\
-    \    erase_by_idx(tree, index)\n}\n\n/// value\u4EE5\u4E0A\u306E\u6700\u521D\u306E\
-    \u5024\u306Eindex\nfn lower_bound<T: PartialOrd>(tree: &Tree<T>, value: &T) ->\
-    \ usize {\n    let Some(tree) = tree else {\n        return 0;\n    };\n    if\
-    \ value <= &tree.value {\n        lower_bound(&tree.left, value)\n    } else {\n\
-    \        len(&tree.left) + 1 + lower_bound(&tree.right, value)\n    }\n}\n\n///\
-    \ value\u3088\u308A\u5927\u304D\u3044\u6700\u521D\u306E\u5024\u306Eindex\nfn upper_bound<T:\
+    \    }\n    fn balance(&mut self) {\n        if height(&self.left).abs_diff(height(&self.right))\
+    \ <= 1 {\n            self.update();\n            return;\n        }\n       \
+    \ if height(&self.left) > height(&self.right) {\n            // \u5DE6\u306E\u5B50\
+    \u306E\u53F3\u304C\u91CD\u3051\u308C\u3070\u5DE6\u56DE\u8EE2\n            let\
+    \ left_child = self.left.as_mut().unwrap();\n            if height(&left_child.left)\
+    \ < height(&left_child.right) {\n                left_child.rotate_left();\n \
+    \           }\n            self.rotate_right();\n        } else {\n          \
+    \  // \u53F3\u306E\u5B50\u306E\u5DE6\u304C\u91CD\u3051\u308C\u3070\u53F3\u56DE\
+    \u8EE2\n            let right_child = self.right.as_mut().unwrap();\n        \
+    \    if height(&right_child.left) > height(&right_child.right) {\n           \
+    \     right_child.rotate_right();\n            }\n            self.rotate_left();\n\
+    \        }\n    }\n\n    #[allow(unused)]\n    fn verify_balance(&self) {\n  \
+    \      if height(&self.left).abs_diff(height(&self.right)) > 1 {\n           \
+    \ panic!(\"height: {} {}\", height(&self.left), height(&self.right));\n      \
+    \  }\n        if let Some(left) = &self.left {\n            left.verify_balance();\n\
+    \        }\n        if let Some(right) = &self.right {\n            right.verify_balance();\n\
+    \        }\n    }\n\n    #[allow(unused)]\n    fn verify_height(&self) {\n   \
+    \     if self.left.is_none() && self.right.is_none() {\n            assert_eq!(self.height,\
+    \ 1);\n            return;\n        }\n        if let Some(left) = &self.left\
+    \ {\n            left.verify_height();\n        }\n        if let Some(right)\
+    \ = &self.right {\n            right.verify_height();\n        }\n        assert_eq!(\n\
+    \            self.height,\n            1 + height(&self.left).max(height(&self.right)),\n\
+    \            \"{} vs height: {} {}\",\n            self.height,\n            height(&self.left),\n\
+    \            height(&self.right)\n        );\n    }\n\n    fn list_sub(self, ret:\
+    \ &mut Vec<T>) {\n        if let Some(left) = self.left {\n            left.list_sub(ret);\n\
+    \        }\n        ret.push(self.value);\n        if let Some(right) = self.right\
+    \ {\n            right.list_sub(ret);\n        }\n    }\n}\n\nimpl<T: Display>\
+    \ Display for Node<T> {\n    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) ->\
+    \ std::fmt::Result {\n        if let Some(left) = &self.left {\n            write!(f,\
+    \ \"{}\", left)?;\n        }\n        write!(f, \"{}, \", self.value)?;\n    \
+    \    if let Some(right) = &self.right {\n            write!(f, \"{}\", right)?;\n\
+    \        }\n        Ok(())\n    }\n}\n\nfn len<T>(tree: &Tree<T>) -> usize {\n\
+    \    tree.as_ref().map_or(0, |t| t.len)\n}\n\nfn height<T>(tree: &Tree<T>) ->\
+    \ u8 {\n    tree.as_ref().map_or(0, |t| t.height)\n}\n\nfn merge<T>(left: Tree<T>,\
+    \ right: Tree<T>) -> Tree<T> {\n    match (left.is_some(), right.is_some()) {\n\
+    \        (true, true) => {\n            let (_, center, rhs) = split_delete(right.unwrap(),\
+    \ 0);\n            Some(merge_with_root(left, center, rhs))\n        }\n     \
+    \   (false, _) => right,\n        (_, false) => left,\n    }\n}\n\nfn merge_with_root<T>(\n\
+    \    mut left: Tree<T>,\n    mut center: Box<Node<T>>,\n    mut right: Tree<T>,\n\
+    ) -> Box<Node<T>> {\n    if height(&left).abs_diff(height(&right)) <= 1 {\n  \
+    \      center.left = left;\n        center.right = right;\n        center.update();\n\
+    \        center\n    } else if height(&left) < height(&right) {\n        let mut\
+    \ root = right.take().unwrap();\n        root.left = Some(merge_with_root(left,\
+    \ center, root.left.take()));\n        root.balance();\n        root\n    } else\
+    \ {\n        let mut root = left.take().unwrap();\n        root.right = Some(merge_with_root(root.right.take(),\
+    \ center, right));\n        root.balance();\n        root\n    }\n}\n\nfn split_delete<T>(mut\
+    \ root: Box<Node<T>>, index: usize) -> (Tree<T>, Box<Node<T>>, Tree<T>) {\n  \
+    \  debug_assert!((0..root.len).contains(&index));\n    let left = root.left.take();\n\
+    \    let right = root.right.take();\n    let lsize = len(&left);\n    match lsize.cmp(&index)\
+    \ {\n        Ordering::Equal => (left, root, right),\n        Ordering::Less =>\
+    \ {\n            let mut ret = split_delete(right.unwrap(), index - lsize - 1);\n\
+    \            ret.0 = Some(merge_with_root(left, root, ret.0));\n            ret\n\
+    \        }\n        Ordering::Greater => {\n            let mut ret = split_delete(left.unwrap(),\
+    \ index);\n            ret.2 = Some(merge_with_root(ret.2, root, right));\n  \
+    \          ret\n        }\n    }\n}\n\n/// split into [0, index), [index, n)\n\
+    fn split<T>(tree: Tree<T>, index: usize) -> (Tree<T>, Tree<T>) {\n    let Some(root)\
+    \ = tree else {\n        return (None, None);\n    };\n    if index == 0 {\n \
+    \       (None, Some(root))\n    } else if root.len == index {\n        (Some(root),\
+    \ None)\n    } else {\n        let (left, center, right) = split_delete(root,\
+    \ index);\n        (left, Some(merge_with_root(None, center, right)))\n    }\n\
+    }\n\n/// value\u4EE5\u4E0A\u306E\u6700\u521D\u306E\u5024\u306Eindex\nfn lower_bound<T:\
     \ PartialOrd>(tree: &Tree<T>, value: &T) -> usize {\n    let Some(tree) = tree\
-    \ else {\n        return 0;\n    };\n    if value >= &tree.value {\n        len(&tree.left)\
-    \ + 1 + upper_bound(&tree.right, value)\n    } else {\n        upper_bound(&tree.left,\
-    \ value)\n    }\n}\n\nfn count<T: PartialOrd>(tree: &Tree<T>, value: &T) -> usize\
-    \ {\n    upper_bound(tree, value) - lower_bound(tree, value)\n}\n\nfn get<T>(tree:\
-    \ &Tree<T>, index: usize) -> Option<&T> {\n    if len(tree) <= index {\n     \
-    \   return None;\n    }\n    let Some(tree) = tree else {\n        return None;\n\
-    \    };\n    let left_len = len(&tree.left);\n    match index.cmp(&left_len) {\n\
-    \        Ordering::Less => get(&tree.left, index),\n        Ordering::Equal =>\
-    \ Some(&tree.value),\n        Ordering::Greater => get(&tree.right, index - left_len\
-    \ - 1),\n    }\n}\n\n#[derive(Debug)]\npub struct AVL<T> {\n    root: Tree<T>,\n\
-    }\n\nimpl<T: Display> Display for AVL<T> {\n    fn fmt(&self, f: &mut std::fmt::Formatter<'_>)\
-    \ -> std::fmt::Result {\n        if let Some(root) = &self.root {\n          \
-    \  write!(f, \"{}\", root)\n        } else {\n            write!(f, \"Empty\"\
-    )\n        }\n    }\n}\n\nimpl<T> AVL<T> {\n    pub fn new() -> Self {\n     \
-    \   Self { root: None }\n    }\n\n    pub fn len(&self) -> usize {\n        len(&self.root)\n\
+    \ else {\n        return 0;\n    };\n    if value <= &tree.value {\n        lower_bound(&tree.left,\
+    \ value)\n    } else {\n        len(&tree.left) + 1 + lower_bound(&tree.right,\
+    \ value)\n    }\n}\n\n/// value\u3088\u308A\u5927\u304D\u3044\u6700\u521D\u306E\
+    \u5024\u306Eindex\nfn upper_bound<T: PartialOrd>(tree: &Tree<T>, value: &T) ->\
+    \ usize {\n    let Some(tree) = tree else {\n        return 0;\n    };\n    if\
+    \ value >= &tree.value {\n        len(&tree.left) + 1 + upper_bound(&tree.right,\
+    \ value)\n    } else {\n        upper_bound(&tree.left, value)\n    }\n}\n\nfn\
+    \ count<T: PartialOrd>(tree: &Tree<T>, value: &T) -> usize {\n    upper_bound(tree,\
+    \ value) - lower_bound(tree, value)\n}\n\nfn get<T>(tree: &Tree<T>, index: usize)\
+    \ -> Option<&T> {\n    if len(tree) <= index {\n        return None;\n    }\n\
+    \    let Some(tree) = tree else {\n        return None;\n    };\n    let left_len\
+    \ = len(&tree.left);\n    match index.cmp(&left_len) {\n        Ordering::Less\
+    \ => get(&tree.left, index),\n        Ordering::Equal => Some(&tree.value),\n\
+    \        Ordering::Greater => get(&tree.right, index - left_len - 1),\n    }\n\
+    }\n\n#[derive(Debug)]\npub struct AVL<T> {\n    root: Tree<T>,\n}\n\nimpl<T: Display>\
+    \ Display for AVL<T> {\n    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) ->\
+    \ std::fmt::Result {\n        if let Some(root) = &self.root {\n            write!(f,\
+    \ \"{}\", root)\n        } else {\n            write!(f, \"Empty\")\n        }\n\
+    \    }\n}\n\nimpl<T> AVL<T> {\n    pub fn new() -> Self {\n        Self { root:\
+    \ None }\n    }\n\n    pub fn len(&self) -> usize {\n        len(&self.root)\n\
     \    }\n\n    pub fn height(&self) -> u8 {\n        height(&self.root)\n    }\n\
     \n    pub fn is_empty(&self) -> bool {\n        self.root.is_none()\n    }\n\n\
     \    pub fn lower_bound(&self, value: &T) -> usize\n    where\n        T: PartialOrd,\n\
@@ -115,16 +123,31 @@ data:
     \ value: &T) -> usize\n    where\n        T: PartialOrd,\n    {\n        upper_bound(&self.root,\
     \ value)\n    }\n\n    /// index\u756A\u76EE(0-base)\u306E\u5024\u3092\u53D6\u5F97\
     \n    pub fn get(&self, index: usize) -> Option<&T> {\n        get(&self.root,\
-    \ index)\n    }\n\n    pub fn insert(&mut self, value: T)\n    where\n       \
-    \ T: PartialOrd,\n    {\n        let inner = self.root.take();\n        self.root\
-    \ = insert(inner, value);\n    }\n\n    pub fn erase(&mut self, value: &T)\n \
-    \   where\n        T: PartialOrd,\n    {\n        let inner = self.root.take();\n\
-    \        self.root = erase(inner, value);\n    }\n\n    pub fn count(&self, value:\
-    \ &T) -> usize\n    where\n        T: PartialOrd,\n    {\n        count(&self.root,\
-    \ value)\n    }\n}\n\nimpl<T> Default for AVL<T> {\n    fn default() -> Self {\n\
-    \        Self::new()\n    }\n}\n\n#[cfg(test)]\nmod test {\n    use super::*;\n\
-    \    use rand::prelude::*;\n    use std::collections::{BTreeMap, BTreeSet};\n\n\
-    \    fn stop_watch() -> f64 {\n        use std::time::{SystemTime, UNIX_EPOCH};\n\
+    \ index)\n    }\n\n    /// [0, index)\u3092\u6B8B\u3057\u3001[index, n)\u3092\u8FD4\
+    \u3059\n    pub fn split_off(&mut self, index: usize) -> Self {\n        assert!(index\
+    \ <= self.len());\n        let (left, right) = split(self.root.take(), index);\n\
+    \        self.root = left;\n        Self { root: right }\n    }\n\n    pub fn\
+    \ insert_by_index(&mut self, index: usize, value: T) {\n        assert!(index\
+    \ <= self.len());\n        let other = self.split_off(index);\n        self.root\
+    \ = Some(merge_with_root(\n            self.root.take(),\n            Box::new(Node::new(value)),\n\
+    \            other.root,\n        ))\n    }\n\n    pub fn insert(&mut self, value:\
+    \ T)\n    where\n        T: PartialOrd,\n    {\n        let index = self.lower_bound(&value);\n\
+    \        self.insert_by_index(index, value);\n    }\n\n    pub fn erase_index(&mut\
+    \ self, index: usize) -> Option<T> {\n        if index < self.len() {\n      \
+    \      let (left, center, right) = split_delete(self.root.take().unwrap(), index);\n\
+    \            self.root = merge(left, right);\n            Some(center.value)\n\
+    \        } else {\n            None\n        }\n    }\n\n    pub fn erase(&mut\
+    \ self, value: &T) -> bool\n    where\n        T: PartialOrd,\n    {\n       \
+    \ if self.count(value) == 0 {\n            return false;\n        }\n        let\
+    \ index = self.lower_bound(value);\n        let ret = self.erase_index(index);\n\
+    \        ret.is_some()\n    }\n\n    pub fn count(&self, value: &T) -> usize\n\
+    \    where\n        T: PartialOrd,\n    {\n        count(&self.root, value)\n\
+    \    }\n\n    pub fn into_vec(self) -> Vec<T> {\n        let mut ret = Vec::with_capacity(self.len());\n\
+    \        if let Some(root) = self.root {\n            root.list_sub(&mut ret);\n\
+    \        }\n        ret\n    }\n}\n\nimpl<T> Default for AVL<T> {\n    fn default()\
+    \ -> Self {\n        Self::new()\n    }\n}\n\n#[cfg(test)]\nmod test {\n    use\
+    \ super::*;\n    use rand::prelude::*;\n    use std::collections::{BTreeMap, BTreeSet};\n\
+    \n    fn stop_watch() -> f64 {\n        use std::time::{SystemTime, UNIX_EPOCH};\n\
     \        static mut START: f64 = 0.0;\n        let time = SystemTime::now().duration_since(UNIX_EPOCH).unwrap();\n\
     \        let current = time.as_secs() as f64 + time.subsec_nanos() as f64 * 1e-9;\n\
     \        unsafe {\n            let ret = current - START;\n            START =\
@@ -169,22 +192,38 @@ data:
     \ 0..SIZE {\n            set.erase(&i);\n        }\n        println!(\"AVL erase:\
     \ {}\", stop_watch());\n\n        let mut nums = (0..SIZE).collect::<Vec<_>>();\n\
     \        let mut rng = thread_rng();\n        nums.shuffle(&mut rng);\n      \
-    \  stop_watch();\n        let mut set = AVL::<usize>::new();\n        for i in\
-    \ 0..SIZE {\n            set.insert(nums[i]);\n        }\n        println!(\"\
+    \  stop_watch();\n        let mut set = BTreeSet::new();\n        for i in 0..SIZE\
+    \ {\n            set.insert(nums[i]);\n        }\n        println!(\"BTreeSet\
+    \ shuffle insert: {}\", stop_watch());\n        for i in 0..SIZE {\n         \
+    \   assert!(set.remove(&i));\n        }\n        println!(\"BTreeSet shuffle erase:\
+    \ {}\", stop_watch());\n        let mut set = AVL::<usize>::new();\n        for\
+    \ i in 0..SIZE {\n            set.insert(nums[i]);\n        }\n        println!(\"\
     AVL shuffle insert: {}\", stop_watch());\n        println!(\"AVL shuffle height:\
     \ {}\", set.height());\n        for i in 0..SIZE {\n            assert_eq!(set.get(i).unwrap(),\
     \ &i);\n        }\n        println!(\"AVL shuffle get: {}\", stop_watch());\n\
-    \        for i in 0..SIZE {\n            set.erase(&nums[i]);\n        }\n   \
-    \     println!(\"AVL shuffle erase: {}\", stop_watch());\n    }\n\n    #[test]\n\
-    \    fn test_hack() {\n        const SIZE: usize = 100000;\n        let mut set\
-    \ = AVL::<usize>::new();\n        for i in 0..SIZE {\n            set.insert(i\
-    \ ^ 0xFFF);\n        }\n        println!(\"AVL height: {}\", set.height());\n\
-    \    }\n}\n"
+    \        set.root.as_ref().unwrap().verify_height();\n        set.root.as_ref().unwrap().verify_balance();\n\
+    \        stop_watch();\n        for i in 0..SIZE {\n            set.erase(&i);\n\
+    \        }\n        println!(\"AVL shuffle erase: {}\", stop_watch());\n    }\n\
+    \n    #[test]\n    fn test_hack() {\n        const SIZE: usize = 250000;\n   \
+    \     stop_watch();\n        let mut set = AVL::<usize>::new();\n        for i\
+    \ in (0..SIZE).rev() {\n            set.insert(i);\n        }\n        println!(\"\
+    insert rev: {}\", stop_watch());\n        println!(\"height: {}\", set.height());\n\
+    \        set.root.as_ref().unwrap().verify_height();\n        set.root.as_ref().unwrap().verify_balance();\n\
+    \        stop_watch();\n        let mut set = AVL::<usize>::new();\n        for\
+    \ i in 0..SIZE {\n            set.insert(i ^ 0xFFF);\n        }\n        println!(\"\
+    insert xor: {}\", stop_watch());\n        println!(\"height: {}\", set.height());\n\
+    \        set.root.as_ref().unwrap().verify_height();\n        set.root.as_ref().unwrap().verify_balance();\n\
+    \        stop_watch();\n        let mut set = AVL::<usize>::new();\n        for\
+    \ i in 0..SIZE {\n            if i % 2 == 0 {\n                set.insert(i);\n\
+    \            } else {\n                set.insert(usize::MAX - i);\n         \
+    \   }\n        }\n        println!(\"insert from edges: {}\", stop_watch());\n\
+    \        println!(\"height: {}\", set.height());\n        set.root.as_ref().unwrap().verify_height();\n\
+    \        set.root.as_ref().unwrap().verify_balance();\n    }\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/data_structure/avl/src/lib.rs
   requiredBy: []
-  timestamp: '2024-09-23 16:17:10+09:00'
+  timestamp: '2024-09-23 17:42:12+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/data_structure/avl/src/lib.rs
