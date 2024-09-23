@@ -336,7 +336,7 @@ impl<T> AVL<T> {
         self.insert_by_index(index, value);
     }
 
-    pub fn erase_index(&mut self, index: usize) -> Option<T> {
+    pub fn erase_by_index(&mut self, index: usize) -> Option<T> {
         if index < self.len() {
             let (left, center, right) = split_delete(self.root.take().unwrap(), index);
             self.root = merge(left, right);
@@ -354,8 +354,15 @@ impl<T> AVL<T> {
             return false;
         }
         let index = self.lower_bound(value);
-        let ret = self.erase_index(index);
+        let ret = self.erase_by_index(index);
         ret.is_some()
+    }
+
+    pub fn contains(&self, value: &T) -> bool
+    where
+        T: PartialOrd,
+    {
+        self.count(value) > 0
     }
 
     pub fn count(&self, value: &T) -> usize

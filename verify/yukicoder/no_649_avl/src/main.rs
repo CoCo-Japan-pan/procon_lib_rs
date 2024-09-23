@@ -23,7 +23,7 @@ fn main() {
             if multiset.len() < k {
                 println!("-1");
             } else {
-                let ans = multiset.erase_index(k - 1).unwrap();
+                let ans = multiset.erase_by_index(k - 1).unwrap();
                 println!("{}", ans);
             }
         }
