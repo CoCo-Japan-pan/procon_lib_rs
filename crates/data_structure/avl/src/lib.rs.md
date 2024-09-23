@@ -1,7 +1,10 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: verify/yukicoder/no_649_avl/src/main.rs
+    title: verify/yukicoder/no_649_avl/src/main.rs
   _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: rs
@@ -110,28 +113,32 @@ data:
     \ = len(&tree.left);\n    match index.cmp(&left_len) {\n        Ordering::Less\
     \ => get(&tree.left, index),\n        Ordering::Equal => Some(&tree.value),\n\
     \        Ordering::Greater => get(&tree.right, index - left_len - 1),\n    }\n\
-    }\n\n#[derive(Debug)]\npub struct AVL<T> {\n    root: Tree<T>,\n}\n\nimpl<T: Display>\
-    \ Display for AVL<T> {\n    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) ->\
-    \ std::fmt::Result {\n        if let Some(root) = &self.root {\n            write!(f,\
-    \ \"{}\", root)\n        } else {\n            write!(f, \"Empty\")\n        }\n\
-    \    }\n}\n\nimpl<T> AVL<T> {\n    pub fn new() -> Self {\n        Self { root:\
-    \ None }\n    }\n\n    pub fn len(&self) -> usize {\n        len(&self.root)\n\
-    \    }\n\n    pub fn height(&self) -> u8 {\n        height(&self.root)\n    }\n\
-    \n    pub fn is_empty(&self) -> bool {\n        self.root.is_none()\n    }\n\n\
-    \    pub fn lower_bound(&self, value: &T) -> usize\n    where\n        T: PartialOrd,\n\
-    \    {\n        lower_bound(&self.root, value)\n    }\n\n    pub fn upper_bound(&self,\
-    \ value: &T) -> usize\n    where\n        T: PartialOrd,\n    {\n        upper_bound(&self.root,\
-    \ value)\n    }\n\n    /// index\u756A\u76EE(0-base)\u306E\u5024\u3092\u53D6\u5F97\
-    \n    pub fn get(&self, index: usize) -> Option<&T> {\n        get(&self.root,\
-    \ index)\n    }\n\n    /// [0, index)\u3092\u6B8B\u3057\u3001[index, n)\u3092\u8FD4\
-    \u3059\n    pub fn split_off(&mut self, index: usize) -> Self {\n        assert!(index\
+    }\n\n#[derive(Debug)]\npub struct AVL<T> {\n    root: Tree<T>,\n    multi: bool,\
+    \ // \u91CD\u8907\u3092\u8A31\u3059\u304B\n}\n\nimpl<T: Display> Display for AVL<T>\
+    \ {\n    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {\n\
+    \        if let Some(root) = &self.root {\n            write!(f, \"{}\", root)\n\
+    \        } else {\n            write!(f, \"Empty\")\n        }\n    }\n}\n\nimpl<T>\
+    \ AVL<T> {\n    /// \u91CD\u8907\u3092\u8A31\u3059\u306A\u3089true\n    pub fn\
+    \ new(multi: bool) -> Self {\n        Self { root: None, multi }\n    }\n\n  \
+    \  pub fn len(&self) -> usize {\n        len(&self.root)\n    }\n\n    pub fn\
+    \ height(&self) -> u8 {\n        height(&self.root)\n    }\n\n    pub fn is_empty(&self)\
+    \ -> bool {\n        self.root.is_none()\n    }\n\n    pub fn lower_bound(&self,\
+    \ value: &T) -> usize\n    where\n        T: PartialOrd,\n    {\n        lower_bound(&self.root,\
+    \ value)\n    }\n\n    pub fn upper_bound(&self, value: &T) -> usize\n    where\n\
+    \        T: PartialOrd,\n    {\n        upper_bound(&self.root, value)\n    }\n\
+    \n    /// index\u756A\u76EE(0-base)\u306E\u5024\u3092\u53D6\u5F97\n    pub fn\
+    \ get(&self, index: usize) -> Option<&T> {\n        get(&self.root, index)\n \
+    \   }\n\n    /// [0, index)\u3092\u6B8B\u3057\u3001[index, n)\u3092\u8FD4\u3059\
+    \n    pub fn split_off(&mut self, index: usize) -> Self {\n        assert!(index\
     \ <= self.len());\n        let (left, right) = split(self.root.take(), index);\n\
-    \        self.root = left;\n        Self { root: right }\n    }\n\n    pub fn\
-    \ insert_by_index(&mut self, index: usize, value: T) {\n        assert!(index\
-    \ <= self.len());\n        let other = self.split_off(index);\n        self.root\
-    \ = Some(merge_with_root(\n            self.root.take(),\n            Box::new(Node::new(value)),\n\
-    \            other.root,\n        ))\n    }\n\n    pub fn insert(&mut self, value:\
-    \ T)\n    where\n        T: PartialOrd,\n    {\n        let index = self.lower_bound(&value);\n\
+    \        self.root = left;\n        Self {\n            root: right,\n       \
+    \     multi: self.multi,\n        }\n    }\n\n    pub fn insert_by_index(&mut\
+    \ self, index: usize, value: T) {\n        assert!(index <= self.len());\n   \
+    \     let other = self.split_off(index);\n        self.root = Some(merge_with_root(\n\
+    \            self.root.take(),\n            Box::new(Node::new(value)),\n    \
+    \        other.root,\n        ))\n    }\n\n    pub fn insert(&mut self, value:\
+    \ T)\n    where\n        T: PartialOrd,\n    {\n        if !self.multi && self.count(&value)\
+    \ > 0 {\n            return;\n        }\n        let index = self.lower_bound(&value);\n\
     \        self.insert_by_index(index, value);\n    }\n\n    pub fn erase_index(&mut\
     \ self, index: usize) -> Option<T> {\n        if index < self.len() {\n      \
     \      let (left, center, right) = split_delete(self.root.take().unwrap(), index);\n\
@@ -144,15 +151,14 @@ data:
     \    where\n        T: PartialOrd,\n    {\n        count(&self.root, value)\n\
     \    }\n\n    pub fn into_vec(self) -> Vec<T> {\n        let mut ret = Vec::with_capacity(self.len());\n\
     \        if let Some(root) = self.root {\n            root.list_sub(&mut ret);\n\
-    \        }\n        ret\n    }\n}\n\nimpl<T> Default for AVL<T> {\n    fn default()\
-    \ -> Self {\n        Self::new()\n    }\n}\n\n#[cfg(test)]\nmod test {\n    use\
-    \ super::*;\n    use rand::prelude::*;\n    use std::collections::{BTreeMap, BTreeSet};\n\
-    \n    fn stop_watch() -> f64 {\n        use std::time::{SystemTime, UNIX_EPOCH};\n\
+    \        }\n        ret\n    }\n}\n\n#[cfg(test)]\nmod test {\n    use super::*;\n\
+    \    use rand::prelude::*;\n    use std::collections::{BTreeMap, BTreeSet};\n\n\
+    \    fn stop_watch() -> f64 {\n        use std::time::{SystemTime, UNIX_EPOCH};\n\
     \        static mut START: f64 = 0.0;\n        let time = SystemTime::now().duration_since(UNIX_EPOCH).unwrap();\n\
     \        let current = time.as_secs() as f64 + time.subsec_nanos() as f64 * 1e-9;\n\
     \        unsafe {\n            let ret = current - START;\n            START =\
     \ current;\n            ret\n        }\n    }\n\n    #[test]\n    fn test_cnt()\
-    \ {\n        let mut rng = thread_rng();\n        let mut avl = AVL::<i32>::new();\n\
+    \ {\n        let mut rng = thread_rng();\n        let mut avl = AVL::<i32>::new(true);\n\
     \        let mut set = BTreeMap::new();\n        const SIZE: usize = 100000;\n\
     \        for _ in 0..SIZE {\n            let value = rng.gen_range(-100..=100);\n\
     \            avl.insert(value);\n            *set.entry(value).or_insert(0) +=\
@@ -168,23 +174,22 @@ data:
     \        if *x == 0 {\n                        set.remove(&value);\n         \
     \           }\n                }\n            }\n        }\n    }\n\n    #[test]\n\
     \    fn test_kth_by_no_dups() {\n        let mut rng = thread_rng();\n       \
-    \ let mut rbst = AVL::<i32>::new();\n        let mut set = BTreeSet::new();\n\
+    \ let mut rbst = AVL::<i32>::new(false);\n        let mut set = BTreeSet::new();\n\
     \        for _ in 0..1000 {\n            let value = rng.gen_range(-100..=100);\n\
     \            if rbst.count(&value) == 0 {\n                rbst.insert(value);\n\
     \            }\n            set.insert(value);\n        }\n        for cnt in\
     \ 0..1000 {\n            if cnt % 2 == 0 {\n                let idx = rng.gen_range(0..set.len());\n\
     \                let value = set.iter().nth(idx).unwrap();\n                assert_eq!(rbst.get(idx).unwrap(),\
     \ value);\n            } else if set.is_empty() || rng.gen() {\n             \
-    \   let value = rng.gen_range(-100..=100);\n                if rbst.count(&value)\
-    \ == 0 {\n                    rbst.insert(value);\n                }\n       \
-    \         set.insert(value);\n            } else {\n                let value\
-    \ = rng.gen_range(-100..=100);\n                rbst.erase(&value);\n        \
-    \        set.remove(&value);\n            }\n        }\n    }\n\n    #[test]\n\
+    \   let value = rng.gen_range(-100..=100);\n                rbst.insert(value);\n\
+    \                set.insert(value);\n            } else {\n                let\
+    \ value = rng.gen_range(-100..=100);\n                rbst.erase(&value);\n  \
+    \              set.remove(&value);\n            }\n        }\n    }\n\n    #[test]\n\
     \    fn test_bench() {\n        const SIZE: usize = 250000;\n        stop_watch();\n\
     \        let mut set = BTreeSet::new();\n        for i in 0..SIZE {\n        \
     \    set.insert(i);\n        }\n        println!(\"BTreeSet insert: {}\", stop_watch());\n\
     \        for i in 0..SIZE {\n            set.remove(&i);\n        }\n        println!(\"\
-    BTreeSet erase: {}\", stop_watch());\n        let mut set = AVL::<usize>::new();\n\
+    BTreeSet erase: {}\", stop_watch());\n        let mut set = AVL::<usize>::new(true);\n\
     \        for i in 0..SIZE {\n            set.insert(i);\n        }\n        println!(\"\
     AVL insert: {}\", stop_watch());\n        println!(\"AVL height: {}\", set.height());\n\
     \        for i in 0..SIZE {\n            assert_eq!(set.get(i).unwrap(), &i);\n\
@@ -196,8 +201,8 @@ data:
     \ {\n            set.insert(nums[i]);\n        }\n        println!(\"BTreeSet\
     \ shuffle insert: {}\", stop_watch());\n        for i in 0..SIZE {\n         \
     \   assert!(set.remove(&i));\n        }\n        println!(\"BTreeSet shuffle erase:\
-    \ {}\", stop_watch());\n        let mut set = AVL::<usize>::new();\n        for\
-    \ i in 0..SIZE {\n            set.insert(nums[i]);\n        }\n        println!(\"\
+    \ {}\", stop_watch());\n        let mut set = AVL::<usize>::new(true);\n     \
+    \   for i in 0..SIZE {\n            set.insert(nums[i]);\n        }\n        println!(\"\
     AVL shuffle insert: {}\", stop_watch());\n        println!(\"AVL shuffle height:\
     \ {}\", set.height());\n        for i in 0..SIZE {\n            assert_eq!(set.get(i).unwrap(),\
     \ &i);\n        }\n        println!(\"AVL shuffle get: {}\", stop_watch());\n\
@@ -205,25 +210,27 @@ data:
     \        stop_watch();\n        for i in 0..SIZE {\n            set.erase(&i);\n\
     \        }\n        println!(\"AVL shuffle erase: {}\", stop_watch());\n    }\n\
     \n    #[test]\n    fn test_hack() {\n        const SIZE: usize = 250000;\n   \
-    \     stop_watch();\n        let mut set = AVL::<usize>::new();\n        for i\
-    \ in (0..SIZE).rev() {\n            set.insert(i);\n        }\n        println!(\"\
+    \     stop_watch();\n        let mut set = AVL::<usize>::new(true);\n        for\
+    \ i in (0..SIZE).rev() {\n            set.insert(i);\n        }\n        println!(\"\
     insert rev: {}\", stop_watch());\n        println!(\"height: {}\", set.height());\n\
     \        set.root.as_ref().unwrap().verify_height();\n        set.root.as_ref().unwrap().verify_balance();\n\
-    \        stop_watch();\n        let mut set = AVL::<usize>::new();\n        for\
-    \ i in 0..SIZE {\n            set.insert(i ^ 0xFFF);\n        }\n        println!(\"\
-    insert xor: {}\", stop_watch());\n        println!(\"height: {}\", set.height());\n\
-    \        set.root.as_ref().unwrap().verify_height();\n        set.root.as_ref().unwrap().verify_balance();\n\
-    \        stop_watch();\n        let mut set = AVL::<usize>::new();\n        for\
-    \ i in 0..SIZE {\n            if i % 2 == 0 {\n                set.insert(i);\n\
-    \            } else {\n                set.insert(usize::MAX - i);\n         \
-    \   }\n        }\n        println!(\"insert from edges: {}\", stop_watch());\n\
-    \        println!(\"height: {}\", set.height());\n        set.root.as_ref().unwrap().verify_height();\n\
+    \        stop_watch();\n        let mut set = AVL::<usize>::new(true);\n     \
+    \   for i in 0..SIZE {\n            set.insert(i ^ 0xFFF);\n        }\n      \
+    \  println!(\"insert xor: {}\", stop_watch());\n        println!(\"height: {}\"\
+    , set.height());\n        set.root.as_ref().unwrap().verify_height();\n      \
+    \  set.root.as_ref().unwrap().verify_balance();\n        stop_watch();\n     \
+    \   let mut set = AVL::<usize>::new(true);\n        for i in 0..SIZE {\n     \
+    \       if i % 2 == 0 {\n                set.insert(i);\n            } else {\n\
+    \                set.insert(usize::MAX - i);\n            }\n        }\n     \
+    \   println!(\"insert from edges: {}\", stop_watch());\n        println!(\"height:\
+    \ {}\", set.height());\n        set.root.as_ref().unwrap().verify_height();\n\
     \        set.root.as_ref().unwrap().verify_balance();\n    }\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/data_structure/avl/src/lib.rs
-  requiredBy: []
-  timestamp: '2024-09-23 17:42:12+09:00'
+  requiredBy:
+  - verify/yukicoder/no_649_avl/src/main.rs
+  timestamp: '2024-09-23 18:21:17+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/data_structure/avl/src/lib.rs
