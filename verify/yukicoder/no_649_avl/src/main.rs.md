@@ -24,14 +24,14 @@ data:
     \        }\n        if t == 1 {\n            input! {\n                v: u64,\n\
     \            }\n            multiset.insert(v);\n        } else {\n          \
     \  if multiset.len() < k {\n                println!(\"-1\");\n            } else\
-    \ {\n                let ans = multiset.erase_index(k - 1).unwrap();\n       \
-    \         println!(\"{}\", ans);\n            }\n        }\n    }\n}\n"
+    \ {\n                let ans = multiset.erase_by_index(k - 1).unwrap();\n    \
+    \            println!(\"{}\", ans);\n            }\n        }\n    }\n}\n"
   dependsOn:
   - crates/data_structure/avl/src/lib.rs
   isVerificationFile: true
   path: verify/yukicoder/no_649_avl/src/main.rs
   requiredBy: []
-  timestamp: '2024-09-23 18:25:34+09:00'
+  timestamp: '2024-09-23 18:36:08+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yukicoder/no_649_avl/src/main.rs

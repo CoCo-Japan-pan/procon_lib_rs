@@ -139,20 +139,22 @@ data:
     \        other.root,\n        ))\n    }\n\n    pub fn insert(&mut self, value:\
     \ T)\n    where\n        T: PartialOrd,\n    {\n        if !self.multi && self.count(&value)\
     \ > 0 {\n            return;\n        }\n        let index = self.lower_bound(&value);\n\
-    \        self.insert_by_index(index, value);\n    }\n\n    pub fn erase_index(&mut\
+    \        self.insert_by_index(index, value);\n    }\n\n    pub fn erase_by_index(&mut\
     \ self, index: usize) -> Option<T> {\n        if index < self.len() {\n      \
     \      let (left, center, right) = split_delete(self.root.take().unwrap(), index);\n\
     \            self.root = merge(left, right);\n            Some(center.value)\n\
     \        } else {\n            None\n        }\n    }\n\n    pub fn erase(&mut\
     \ self, value: &T) -> bool\n    where\n        T: PartialOrd,\n    {\n       \
     \ if self.count(value) == 0 {\n            return false;\n        }\n        let\
-    \ index = self.lower_bound(value);\n        let ret = self.erase_index(index);\n\
-    \        ret.is_some()\n    }\n\n    pub fn count(&self, value: &T) -> usize\n\
-    \    where\n        T: PartialOrd,\n    {\n        count(&self.root, value)\n\
-    \    }\n\n    pub fn into_vec(self) -> Vec<T> {\n        let mut ret = Vec::with_capacity(self.len());\n\
-    \        if let Some(root) = self.root {\n            root.list_sub(&mut ret);\n\
-    \        }\n        ret\n    }\n}\n\n#[cfg(test)]\nmod test {\n    use super::*;\n\
-    \    use rand::prelude::*;\n    use std::collections::{BTreeMap, BTreeSet};\n\n\
+    \ index = self.lower_bound(value);\n        let ret = self.erase_by_index(index);\n\
+    \        ret.is_some()\n    }\n\n    pub fn contains(&self, value: &T) -> bool\n\
+    \    where\n        T: PartialOrd,\n    {\n        self.count(value) > 0\n   \
+    \ }\n\n    pub fn count(&self, value: &T) -> usize\n    where\n        T: PartialOrd,\n\
+    \    {\n        count(&self.root, value)\n    }\n\n    pub fn into_vec(self) ->\
+    \ Vec<T> {\n        let mut ret = Vec::with_capacity(self.len());\n        if\
+    \ let Some(root) = self.root {\n            root.list_sub(&mut ret);\n       \
+    \ }\n        ret\n    }\n}\n\n#[cfg(test)]\nmod test {\n    use super::*;\n  \
+    \  use rand::prelude::*;\n    use std::collections::{BTreeMap, BTreeSet};\n\n\
     \    fn stop_watch() -> f64 {\n        use std::time::{SystemTime, UNIX_EPOCH};\n\
     \        static mut START: f64 = 0.0;\n        let time = SystemTime::now().duration_since(UNIX_EPOCH).unwrap();\n\
     \        let current = time.as_secs() as f64 + time.subsec_nanos() as f64 * 1e-9;\n\
@@ -229,7 +231,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/avl/src/lib.rs
   requiredBy: []
-  timestamp: '2024-09-23 18:21:17+09:00'
+  timestamp: '2024-09-23 18:36:08+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_649_avl/src/main.rs
