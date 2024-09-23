@@ -1,21 +1,9 @@
-//! [平衡二分探索木](https://www.slideshare.net/slideshow/2-12188757/12188757)
-//! merge-split ベースのRBST  
-//! nノードの木とmノードの木をmergeするとき、確率 n/(n+m) で左の木の根を新たな根とする  
+//! AVL木を実装しようとして、なんか高さがおかしいのでバグってます...
+//! [平衡二分探索木](https://www.slideshare.net/slideshow/2-12188757/12188757)  
 //! `std::collections::BTreeSet` と異なり、k番目の値を`O(logN)`で取り出せる  
 
-use pcg32::Pcg32;
 use std::cmp::Ordering;
 use std::fmt::Display;
-
-fn get_rand_usize() -> usize {
-    static mut RNG: Option<Pcg32> = None;
-    unsafe {
-        if RNG.is_none() {
-            RNG = Some(Pcg32::init_rand());
-        }
-        RNG.unwrap().next_u32() as usize
-    }
-}
 type Tree<T> = Option<Box<Node<T>>>;
 
 #[derive(Debug)]
@@ -24,6 +12,7 @@ struct Node<T> {
     right: Tree<T>,
     value: T,
     len: usize,
+    height: u8,
 }
 
 impl<T> Node<T> {
@@ -33,10 +22,48 @@ impl<T> Node<T> {
             right: None,
             value,
             len: 1,
+            height: 1,
         }
     }
     fn update(&mut self) {
         self.len = len(&self.left) + len(&self.right) + 1;
+        self.height = height(&self.left).max(height(&self.right)) + 1;
+    }
+}
+
+fn balance<T>(node: &mut Box<Node<T>>) {
+    fn rotate_left<T>(node: &mut Box<Node<T>>) {
+        let mut x = node.left.take().unwrap();
+        let y = x.right.take();
+        std::mem::swap(node, &mut x);
+        x.left = y;
+        x.update();
+        node.right = Some(x);
+        node.update();
+    }
+    fn rotate_right<T>(node: &mut Box<Node<T>>) {
+        let mut x = node.right.take().unwrap();
+        let y = x.left.take();
+        std::mem::swap(node, &mut x);
+        x.right = y;
+        x.update();
+        node.left = Some(x);
+        node.update();
+    }
+    if height(&node.left) > 1 + height(&node.right) {
+        let left = node.left.as_mut().unwrap();
+        if height(&left.left) < height(&left.right) {
+            rotate_right(left);
+        }
+        rotate_left(node);
+    } else if height(&node.left) + 1 < height(&node.right) {
+        let right = node.right.as_mut().unwrap();
+        if height(&right.left) > height(&right.right) {
+            rotate_left(right);
+        }
+        rotate_right(node);
+    } else {
+        node.update();
     }
 }
 
@@ -57,17 +84,21 @@ fn len<T>(tree: &Tree<T>) -> usize {
     tree.as_ref().map_or(0, |t| t.len)
 }
 
+fn height<T>(tree: &Tree<T>) -> u8 {
+    tree.as_ref().map_or(0, |t| t.height)
+}
+
 fn merge<T>(left: Tree<T>, right: Tree<T>) -> Tree<T> {
     match (left, right) {
         (Some(mut left), Some(mut right)) => {
-            let mut new_tree = if get_rand_usize() % (left.len + right.len) < left.len {
+            let mut new_tree = if left.height > right.height {
                 left.right = merge(left.right, Some(right));
                 left
             } else {
                 right.left = merge(Some(left), right.left);
                 right
             };
-            new_tree.update();
+            balance(&mut new_tree);
             Some(new_tree)
         }
         (left, None) => left,
@@ -169,11 +200,11 @@ fn get<T>(tree: &Tree<T>, index: usize) -> Option<&T> {
 }
 
 #[derive(Debug)]
-pub struct RBST<T> {
+pub struct AVL<T> {
     root: Tree<T>,
 }
 
-impl<T: Display> Display for RBST<T> {
+impl<T: Display> Display for AVL<T> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         if let Some(root) = &self.root {
             write!(f, "{}", root)
@@ -183,13 +214,17 @@ impl<T: Display> Display for RBST<T> {
     }
 }
 
-impl<T> RBST<T> {
+impl<T> AVL<T> {
     pub fn new() -> Self {
         Self { root: None }
     }
 
     pub fn len(&self) -> usize {
         len(&self.root)
+    }
+
+    pub fn height(&self) -> u8 {
+        height(&self.root)
     }
 
     pub fn is_empty(&self) -> bool {
@@ -243,7 +278,7 @@ impl<T> RBST<T> {
     }
 }
 
-impl<T> Default for RBST<T> {
+impl<T> Default for AVL<T> {
     fn default() -> Self {
         Self::new()
     }
@@ -270,18 +305,20 @@ mod test {
     #[test]
     fn test_cnt() {
         let mut rng = thread_rng();
-        let mut rbst = RBST::<i32>::new();
+        let mut rbst = AVL::<i32>::new();
         let mut set = BTreeMap::new();
-        for _ in 0..1000 {
+        const SIZE: usize = 100000;
+        for _ in 0..SIZE {
             let value = rng.gen_range(-100..=100);
             rbst.insert(value);
             *set.entry(value).or_insert(0) += 1;
         }
-        for cnt in 0..1000 {
+        for cnt in 0..SIZE {
             if cnt % 2 == 0 {
-                let idx = rng.gen_range(0..set.len());
-                let value = set.iter().nth(idx).unwrap();
-                assert_eq!(rbst.count(value.0), *value.1);
+                let value = rng.gen_range(-100..=100);
+                let tree_cnt = set.get(&value).copied().unwrap_or(0);
+                let rbst_cnt = rbst.count(&value);
+                assert_eq!(tree_cnt, rbst_cnt);
             } else if set.is_empty() || rng.gen() {
                 let value = rng.gen_range(-100..=100);
                 rbst.insert(value);
@@ -302,7 +339,7 @@ mod test {
     #[test]
     fn test_kth_by_no_dups() {
         let mut rng = thread_rng();
-        let mut rbst = RBST::<i32>::new();
+        let mut rbst = AVL::<i32>::new();
         let mut set = BTreeSet::new();
         for _ in 0..1000 {
             let value = rng.gen_range(-100..=100);
@@ -332,25 +369,49 @@ mod test {
 
     #[test]
     fn test_bench() {
+        const SIZE: usize = 250000;
         stop_watch();
         let mut set = BTreeSet::new();
-        for i in 0..250000 {
+        for i in 0..SIZE {
             set.insert(i);
         }
         println!("BTreeSet insert: {}", stop_watch());
-        for i in 0..250000 {
+        for i in 0..SIZE {
             set.remove(&i);
         }
         println!("BTreeSet erase: {}", stop_watch());
-        let mut set = RBST::<i32>::new();
-        // currently stack overflow...
-        for i in 0..250000 {
+        let mut set = AVL::<usize>::new();
+        for i in 0..SIZE {
             set.insert(i);
         }
-        println!("RBST insert: {}", stop_watch());
-        for i in 0..250000 {
+        println!("AVL insert: {}", stop_watch());
+        println!("AVL height: {}", set.height());
+        for i in 0..SIZE {
+            assert_eq!(set.get(i).unwrap(), &i);
+        }
+        println!("AVL get: {}", stop_watch());
+        for i in 0..SIZE {
             set.erase(&i);
         }
-        println!("RBST erase: {}", stop_watch());
+        println!("AVL erase: {}", stop_watch());
+
+        let mut nums = (0..SIZE).collect::<Vec<_>>();
+        let mut rng = thread_rng();
+        nums.shuffle(&mut rng);
+        stop_watch();
+        let mut set = AVL::<usize>::new();
+        for i in 0..SIZE {
+            set.insert(nums[i]);
+        }
+        println!("AVL shuffle insert: {}", stop_watch());
+        println!("AVL shuffle height: {}", set.height());
+        for i in 0..SIZE {
+            assert_eq!(set.get(i).unwrap(), &i);
+        }
+        println!("AVL shuffle get: {}", stop_watch());
+        for i in 0..SIZE {
+            set.erase(&nums[i]);
+        }
+        println!("AVL shuffle erase: {}", stop_watch());
     }
 }
