@@ -254,6 +254,7 @@ fn get<T>(tree: &Tree<T>, index: usize) -> Option<&T> {
 #[derive(Debug)]
 pub struct AVL<T> {
     root: Tree<T>,
+    multi: bool, // 重複を許すか
 }
 
 impl<T: Display> Display for AVL<T> {
@@ -267,8 +268,9 @@ impl<T: Display> Display for AVL<T> {
 }
 
 impl<T> AVL<T> {
-    pub fn new() -> Self {
-        Self { root: None }
+    /// 重複を許すならtrue
+    pub fn new(multi: bool) -> Self {
+        Self { root: None, multi }
     }
 
     pub fn len(&self) -> usize {
@@ -307,7 +309,10 @@ impl<T> AVL<T> {
         assert!(index <= self.len());
         let (left, right) = split(self.root.take(), index);
         self.root = left;
-        Self { root: right }
+        Self {
+            root: right,
+            multi: self.multi,
+        }
     }
 
     pub fn insert_by_index(&mut self, index: usize, value: T) {
@@ -324,6 +329,9 @@ impl<T> AVL<T> {
     where
         T: PartialOrd,
     {
+        if !self.multi && self.count(&value) > 0 {
+            return;
+        }
         let index = self.lower_bound(&value);
         self.insert_by_index(index, value);
     }
@@ -366,12 +374,6 @@ impl<T> AVL<T> {
     }
 }
 
-impl<T> Default for AVL<T> {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 #[cfg(test)]
 mod test {
     use super::*;
@@ -393,7 +395,7 @@ mod test {
     #[test]
     fn test_cnt() {
         let mut rng = thread_rng();
-        let mut avl = AVL::<i32>::new();
+        let mut avl = AVL::<i32>::new(true);
         let mut set = BTreeMap::new();
         const SIZE: usize = 100000;
         for _ in 0..SIZE {
@@ -427,7 +429,7 @@ mod test {
     #[test]
     fn test_kth_by_no_dups() {
         let mut rng = thread_rng();
-        let mut rbst = AVL::<i32>::new();
+        let mut rbst = AVL::<i32>::new(false);
         let mut set = BTreeSet::new();
         for _ in 0..1000 {
             let value = rng.gen_range(-100..=100);
@@ -443,9 +445,7 @@ mod test {
                 assert_eq!(rbst.get(idx).unwrap(), value);
             } else if set.is_empty() || rng.gen() {
                 let value = rng.gen_range(-100..=100);
-                if rbst.count(&value) == 0 {
-                    rbst.insert(value);
-                }
+                rbst.insert(value);
                 set.insert(value);
             } else {
                 let value = rng.gen_range(-100..=100);
@@ -468,7 +468,7 @@ mod test {
             set.remove(&i);
         }
         println!("BTreeSet erase: {}", stop_watch());
-        let mut set = AVL::<usize>::new();
+        let mut set = AVL::<usize>::new(true);
         for i in 0..SIZE {
             set.insert(i);
         }
@@ -496,7 +496,7 @@ mod test {
             assert!(set.remove(&i));
         }
         println!("BTreeSet shuffle erase: {}", stop_watch());
-        let mut set = AVL::<usize>::new();
+        let mut set = AVL::<usize>::new(true);
         for i in 0..SIZE {
             set.insert(nums[i]);
         }
@@ -519,7 +519,7 @@ mod test {
     fn test_hack() {
         const SIZE: usize = 250000;
         stop_watch();
-        let mut set = AVL::<usize>::new();
+        let mut set = AVL::<usize>::new(true);
         for i in (0..SIZE).rev() {
             set.insert(i);
         }
@@ -528,7 +528,7 @@ mod test {
         set.root.as_ref().unwrap().verify_height();
         set.root.as_ref().unwrap().verify_balance();
         stop_watch();
-        let mut set = AVL::<usize>::new();
+        let mut set = AVL::<usize>::new(true);
         for i in 0..SIZE {
             set.insert(i ^ 0xFFF);
         }
@@ -537,7 +537,7 @@ mod test {
         set.root.as_ref().unwrap().verify_height();
         set.root.as_ref().unwrap().verify_balance();
         stop_watch();
-        let mut set = AVL::<usize>::new();
+        let mut set = AVL::<usize>::new(true);
         for i in 0..SIZE {
             if i % 2 == 0 {
                 set.insert(i);
