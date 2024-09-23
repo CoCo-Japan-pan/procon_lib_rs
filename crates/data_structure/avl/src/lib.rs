@@ -1,9 +1,10 @@
-//! AVL木を実装しようとして、なんか高さがおかしいのでバグってます...
-//! [平衡二分探索木](https://www.slideshare.net/slideshow/2-12188757/12188757)  
+//! [AVL木](https://qiita.com/QCFium/items/3cf26a6dc2d49ef490d7)  
 //! `std::collections::BTreeSet` と異なり、k番目の値を`O(logN)`で取り出せる  
+//! 列を管理する
 
 use std::cmp::Ordering;
 use std::fmt::Display;
+use std::mem::swap;
 type Tree<T> = Option<Box<Node<T>>>;
 
 #[derive(Debug)]
@@ -29,41 +30,44 @@ impl<T> Node<T> {
         self.len = len(&self.left) + len(&self.right) + 1;
         self.height = height(&self.left).max(height(&self.right)) + 1;
     }
-}
-
-fn balance<T>(node: &mut Box<Node<T>>) {
-    fn rotate_left<T>(node: &mut Box<Node<T>>) {
-        let mut x = node.left.take().unwrap();
-        let y = x.right.take();
-        std::mem::swap(node, &mut x);
-        x.left = y;
+    fn rotate_right(&mut self) {
+        let mut x = self.left.take().unwrap();
+        let b = x.right.take();
+        swap(self, &mut x);
+        x.left = b;
         x.update();
-        node.right = Some(x);
-        node.update();
+        self.right = Some(x);
+        self.update();
     }
-    fn rotate_right<T>(node: &mut Box<Node<T>>) {
-        let mut x = node.right.take().unwrap();
-        let y = x.left.take();
-        std::mem::swap(node, &mut x);
-        x.right = y;
+    fn rotate_left(&mut self) {
+        let mut x = self.right.take().unwrap();
+        let b = x.left.take();
+        swap(self, &mut x);
+        x.right = b;
         x.update();
-        node.left = Some(x);
-        node.update();
+        self.left = Some(x);
+        self.update();
     }
-    if height(&node.left) > 1 + height(&node.right) {
-        let left = node.left.as_mut().unwrap();
-        if height(&left.left) < height(&left.right) {
-            rotate_right(left);
+    fn balance(&mut self) {
+        self.update();
+        if height(&self.left).abs_diff(height(&self.right)) <= 1 {
+            return;
         }
-        rotate_left(node);
-    } else if height(&node.left) + 1 < height(&node.right) {
-        let right = node.right.as_mut().unwrap();
-        if height(&right.left) > height(&right.right) {
-            rotate_left(right);
+        if height(&self.left) > height(&self.right) {
+            // 左の子の右が重ければ左回転
+            let left_child = self.left.as_mut().unwrap();
+            if height(&left_child.left) < height(&left_child.right) {
+                left_child.rotate_left();
+            }
+            self.rotate_right();
+        } else {
+            // 右の子の左が重ければ右回転
+            let right_child = self.right.as_mut().unwrap();
+            if height(&right_child.left) > height(&right_child.right) {
+                right_child.rotate_right();
+            }
+            self.rotate_left();
         }
-        rotate_right(node);
-    } else {
-        node.update();
     }
 }
 
@@ -88,52 +92,91 @@ fn height<T>(tree: &Tree<T>) -> u8 {
     tree.as_ref().map_or(0, |t| t.height)
 }
 
-fn merge<T>(left: Tree<T>, right: Tree<T>) -> Tree<T> {
-    match (left, right) {
-        (Some(mut left), Some(mut right)) => {
-            let mut new_tree = if left.height > right.height {
-                left.right = merge(left.right, Some(right));
-                left
-            } else {
-                right.left = merge(Some(left), right.left);
-                right
-            };
-            balance(&mut new_tree);
-            Some(new_tree)
+fn remove_rightest<T>(tree: &mut Tree<T>) -> Tree<T> {
+    if tree.is_none() {
+        return None;
+    }
+    let tree_in = tree.as_mut().unwrap();
+    if tree_in.right.is_some() {
+        let rightest = remove_rightest(&mut tree_in.right);
+        tree_in.balance();
+        rightest
+    } else {
+        let mut left = tree_in.left.take();
+        tree_in.update();
+        swap(&mut left, tree);
+        left
+    }
+}
+
+fn merge<T>(mut left: Tree<T>, right: Tree<T>) -> Tree<T> {
+    match (left.is_some(), right.is_some()) {
+        (true, true) => {
+            let rightest = remove_rightest(&mut left);
+            merge_with_root(left, *rightest.unwrap(), right)
         }
-        (left, None) => left,
-        (None, right) => right,
+        (false, _) => right,
+        (_, false) => left,
+    }
+}
+
+fn merge_with_root<T>(mut left: Tree<T>, root: Node<T>, mut right: Tree<T>) -> Tree<T> {
+    if height(&left).abs_diff(height(&right)) <= 1 {
+        let mut new_node = Node {
+            left,
+            right,
+            value: root.value,
+            len: 1,
+            height: 1,
+        };
+        new_node.update();
+        return Some(Box::new(new_node));
+    }
+    if height(&left) > height(&right) {
+        let mut left = left.take().unwrap();
+        let new_left_right = merge_with_root(left.right, root, right);
+        left.right = new_left_right;
+        left.balance();
+        Some(left)
+    } else {
+        let mut right = right.take().unwrap();
+        let new_right_left = merge_with_root(left, root, right.left);
+        right.left = new_right_left;
+        right.balance();
+        Some(right)
     }
 }
 
 /// split into [0, index), [index, n)
 fn split<T>(tree: Tree<T>, index: usize) -> (Tree<T>, Tree<T>) {
-    let Some(mut tree) = tree else {
+    let Some(mut node) = tree else {
         return (None, None);
     };
-    let left_len = len(&tree.left);
-    if index <= left_len {
-        let sub = split(tree.left, index);
-        tree.left = sub.1;
-        tree.update();
-        (sub.0, Some(tree))
-    } else {
-        let sub = split(tree.right, index - left_len - 1);
-        tree.right = sub.0;
-        tree.update();
-        (Some(tree), sub.1)
+    let left = node.left.take();
+    let right = node.right.take();
+    node.update();
+    let left_size = len(&left);
+    match index.cmp(&left_size) {
+        Ordering::Equal => (left, merge_with_root(None, *node, right)),
+        Ordering::Less => {
+            let tmp = split(left, index);
+            (tmp.0, merge_with_root(tmp.1, *node, right))
+        }
+        Ordering::Greater => {
+            let tmp = split(right, index - left_size - 1);
+            (merge_with_root(left, *node, tmp.0), tmp.1)
+        }
     }
 }
 
 fn insert_by_idx<T>(tree: Tree<T>, index: usize, value: T) -> Tree<T> {
     assert!(index <= len(&tree));
-    let new_node = Some(Box::new(Node::new(value)));
+    let new_node = Node::new(value);
     if tree.is_none() {
-        return new_node;
+        return Some(Box::new(new_node));
     };
     let (left, right) = split(tree, index);
-    let left = merge(left, new_node);
-    merge(left, right)
+    merge_with_root(left, new_node, right)
 }
 
 fn insert<T: PartialOrd>(tree: Tree<T>, value: T) -> Tree<T> {
@@ -164,7 +207,7 @@ fn lower_bound<T: PartialOrd>(tree: &Tree<T>, value: &T) -> usize {
     if value <= &tree.value {
         lower_bound(&tree.left, value)
     } else {
-        len(&tree.left) + lower_bound(&tree.right, value) + 1
+        len(&tree.left) + 1 + lower_bound(&tree.right, value)
     }
 }
 
@@ -174,7 +217,7 @@ fn upper_bound<T: PartialOrd>(tree: &Tree<T>, value: &T) -> usize {
         return 0;
     };
     if value >= &tree.value {
-        len(&tree.left) + upper_bound(&tree.right, value) + 1
+        len(&tree.left) + 1 + upper_bound(&tree.right, value)
     } else {
         upper_bound(&tree.left, value)
     }
@@ -254,20 +297,16 @@ impl<T> AVL<T> {
     where
         T: PartialOrd,
     {
-        let mut dummy = None;
-        std::mem::swap(&mut dummy, &mut self.root);
-        dummy = insert(dummy, value);
-        self.root = dummy;
+        let inner = self.root.take();
+        self.root = insert(inner, value);
     }
 
     pub fn erase(&mut self, value: &T)
     where
         T: PartialOrd,
     {
-        let mut dummy = None;
-        std::mem::swap(&mut dummy, &mut self.root);
-        dummy = erase(dummy, value);
-        self.root = dummy;
+        let inner = self.root.take();
+        self.root = erase(inner, value);
     }
 
     pub fn count(&self, value: &T) -> usize
@@ -305,27 +344,27 @@ mod test {
     #[test]
     fn test_cnt() {
         let mut rng = thread_rng();
-        let mut rbst = AVL::<i32>::new();
+        let mut avl = AVL::<i32>::new();
         let mut set = BTreeMap::new();
         const SIZE: usize = 100000;
         for _ in 0..SIZE {
             let value = rng.gen_range(-100..=100);
-            rbst.insert(value);
+            avl.insert(value);
             *set.entry(value).or_insert(0) += 1;
         }
         for cnt in 0..SIZE {
             if cnt % 2 == 0 {
                 let value = rng.gen_range(-100..=100);
                 let tree_cnt = set.get(&value).copied().unwrap_or(0);
-                let rbst_cnt = rbst.count(&value);
+                let rbst_cnt = avl.count(&value);
                 assert_eq!(tree_cnt, rbst_cnt);
             } else if set.is_empty() || rng.gen() {
                 let value = rng.gen_range(-100..=100);
-                rbst.insert(value);
+                avl.insert(value);
                 *set.entry(value).or_insert(0) += 1;
             } else {
                 let value = rng.gen_range(-100..=100);
-                rbst.erase(&value);
+                avl.erase(&value);
                 set.entry(value).and_modify(|x| *x -= 1);
                 if let Some(x) = set.get(&value) {
                     if *x == 0 {
@@ -413,5 +452,15 @@ mod test {
             set.erase(&nums[i]);
         }
         println!("AVL shuffle erase: {}", stop_watch());
+    }
+
+    #[test]
+    fn test_hack() {
+        const SIZE: usize = 100000;
+        let mut set = AVL::<usize>::new();
+        for i in 0..SIZE {
+            set.insert(i ^ 0xFFF);
+        }
+        println!("AVL height: {}", set.height());
     }
 }
