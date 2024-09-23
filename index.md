@@ -11,6 +11,11 @@ data:
     - icon: ':warning:'
       path: crates/bitset/src/lib.rs
       title: crates/bitset/src/lib.rs
+  - name: crates/data_structure/avl/src
+    pages:
+    - icon: ':warning:'
+      path: crates/data_structure/avl/src/lib.rs
+      title: crates/data_structure/avl/src/lib.rs
   - name: crates/data_structure/cht_offline/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -41,11 +46,6 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/data_structure/raq_rsq/src/lib.rs
       title: crates/data_structure/raq_rsq/src/lib.rs
-  - name: crates/data_structure/rbst/src
-    pages:
-    - icon: ':warning:'
-      path: crates/data_structure/rbst/src/lib.rs
-      title: crates/data_structure/rbst/src/lib.rs
   - name: crates/data_structure/segtree/src
     pages:
     - icon: ':heavy_check_mark:'

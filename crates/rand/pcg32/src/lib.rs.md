@@ -1,10 +1,7 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy:
-  - icon: ':warning:'
-    path: crates/data_structure/rbst/src/lib.rs
-    title: crates/data_structure/rbst/src/lib.rs
+  _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: rs
@@ -32,8 +29,7 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: crates/rand/pcg32/src/lib.rs
-  requiredBy:
-  - crates/data_structure/rbst/src/lib.rs
+  requiredBy: []
   timestamp: '2024-09-22 14:50:24+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
