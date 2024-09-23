@@ -13,7 +13,7 @@ data:
       title: crates/bitset/src/lib.rs
   - name: crates/data_structure/avl/src
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: crates/data_structure/avl/src/lib.rs
       title: crates/data_structure/avl/src/lib.rs
   - name: crates/data_structure/cht_offline/src
@@ -261,11 +261,6 @@ data:
     - icon: ':warning:'
       path: verify/yosupo/strongly_connected_components/src/main.rs
       title: verify/yosupo/strongly_connected_components/src/main.rs
-  - name: verify/yukicoder/no_649_avl/src
-    pages:
-    - icon: ':warning:'
-      path: verify/yukicoder/no_649_avl/src/main.rs
-      title: verify/yukicoder/no_649_avl/src/main.rs
   verificationCategories:
   - name: verify/AOJ/dsl_2d_dual_seg/src
     pages:
@@ -477,6 +472,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yukicoder/no_1625/src/main.rs
       title: verify/yukicoder/no_1625/src/main.rs
+  - name: verify/yukicoder/no_649_avl/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yukicoder/no_649_avl/src/main.rs
+      title: verify/yukicoder/no_649_avl/src/main.rs
   - name: verify/yukicoder/no_649_fenwick_tree/src
     pages:
     - icon: ':heavy_check_mark:'
