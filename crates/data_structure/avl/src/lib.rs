@@ -1,5 +1,7 @@
 //! [AVL木](https://qiita.com/QCFium/items/3cf26a6dc2d49ef490d7)  
 //! `std::collections::BTreeSet` と異なり、k番目の値を`O(logN)`で取り出せる  
+//! 親を持っていないので、iterやrangeはないです...  
+//! ランダムだとBTreeSetより7倍ぐらい遅いので、本当に必要なときだけ使うのがよさそう  
 //! 列を管理する
 
 use std::cmp::Ordering;
@@ -49,8 +51,8 @@ impl<T> Node<T> {
         self.update();
     }
     fn balance(&mut self) {
-        self.update();
         if height(&self.left).abs_diff(height(&self.right)) <= 1 {
+            self.update();
             return;
         }
         if height(&self.left) > height(&self.right) {
@@ -67,6 +69,51 @@ impl<T> Node<T> {
                 right_child.rotate_right();
             }
             self.rotate_left();
+        }
+    }
+
+    #[allow(unused)]
+    fn verify_balance(&self) {
+        if height(&self.left).abs_diff(height(&self.right)) > 1 {
+            panic!("height: {} {}", height(&self.left), height(&self.right));
+        }
+        if let Some(left) = &self.left {
+            left.verify_balance();
+        }
+        if let Some(right) = &self.right {
+            right.verify_balance();
+        }
+    }
+
+    #[allow(unused)]
+    fn verify_height(&self) {
+        if self.left.is_none() && self.right.is_none() {
+            assert_eq!(self.height, 1);
+            return;
+        }
+        if let Some(left) = &self.left {
+            left.verify_height();
+        }
+        if let Some(right) = &self.right {
+            right.verify_height();
+        }
+        assert_eq!(
+            self.height,
+            1 + height(&self.left).max(height(&self.right)),
+            "{} vs height: {} {}",
+            self.height,
+            height(&self.left),
+            height(&self.right)
+        );
+    }
+
+    fn list_sub(self, ret: &mut Vec<T>) {
+        if let Some(left) = self.left {
+            left.list_sub(ret);
+        }
+        ret.push(self.value);
+        if let Some(right) = self.right {
+            right.list_sub(ret);
         }
     }
 }
@@ -92,111 +139,73 @@ fn height<T>(tree: &Tree<T>) -> u8 {
     tree.as_ref().map_or(0, |t| t.height)
 }
 
-fn remove_rightest<T>(tree: &mut Tree<T>) -> Tree<T> {
-    if tree.is_none() {
-        return None;
-    }
-    let tree_in = tree.as_mut().unwrap();
-    if tree_in.right.is_some() {
-        let rightest = remove_rightest(&mut tree_in.right);
-        tree_in.balance();
-        rightest
-    } else {
-        let mut left = tree_in.left.take();
-        tree_in.update();
-        swap(&mut left, tree);
-        left
-    }
-}
-
-fn merge<T>(mut left: Tree<T>, right: Tree<T>) -> Tree<T> {
+fn merge<T>(left: Tree<T>, right: Tree<T>) -> Tree<T> {
     match (left.is_some(), right.is_some()) {
         (true, true) => {
-            let rightest = remove_rightest(&mut left);
-            merge_with_root(left, *rightest.unwrap(), right)
+            let (_, center, rhs) = split_delete(right.unwrap(), 0);
+            Some(merge_with_root(left, center, rhs))
         }
         (false, _) => right,
         (_, false) => left,
     }
 }
 
-fn merge_with_root<T>(mut left: Tree<T>, root: Node<T>, mut right: Tree<T>) -> Tree<T> {
+fn merge_with_root<T>(
+    mut left: Tree<T>,
+    mut center: Box<Node<T>>,
+    mut right: Tree<T>,
+) -> Box<Node<T>> {
     if height(&left).abs_diff(height(&right)) <= 1 {
-        let mut new_node = Node {
-            left,
-            right,
-            value: root.value,
-            len: 1,
-            height: 1,
-        };
-        new_node.update();
-        return Some(Box::new(new_node));
-    }
-    if height(&left) > height(&right) {
-        let mut left = left.take().unwrap();
-        let new_left_right = merge_with_root(left.right, root, right);
-        left.right = new_left_right;
-        left.balance();
-        Some(left)
+        center.left = left;
+        center.right = right;
+        center.update();
+        center
+    } else if height(&left) < height(&right) {
+        let mut root = right.take().unwrap();
+        root.left = Some(merge_with_root(left, center, root.left.take()));
+        root.balance();
+        root
     } else {
-        let mut right = right.take().unwrap();
-        let new_right_left = merge_with_root(left, root, right.left);
-        right.left = new_right_left;
-        right.balance();
-        Some(right)
+        let mut root = left.take().unwrap();
+        root.right = Some(merge_with_root(root.right.take(), center, right));
+        root.balance();
+        root
+    }
+}
+
+fn split_delete<T>(mut root: Box<Node<T>>, index: usize) -> (Tree<T>, Box<Node<T>>, Tree<T>) {
+    debug_assert!((0..root.len).contains(&index));
+    let left = root.left.take();
+    let right = root.right.take();
+    let lsize = len(&left);
+    match lsize.cmp(&index) {
+        Ordering::Equal => (left, root, right),
+        Ordering::Less => {
+            let mut ret = split_delete(right.unwrap(), index - lsize - 1);
+            ret.0 = Some(merge_with_root(left, root, ret.0));
+            ret
+        }
+        Ordering::Greater => {
+            let mut ret = split_delete(left.unwrap(), index);
+            ret.2 = Some(merge_with_root(ret.2, root, right));
+            ret
+        }
     }
 }
 
 /// split into [0, index), [index, n)
 fn split<T>(tree: Tree<T>, index: usize) -> (Tree<T>, Tree<T>) {
-    let Some(mut node) = tree else {
+    let Some(root) = tree else {
         return (None, None);
     };
-    let left = node.left.take();
-    let right = node.right.take();
-    node.update();
-    let left_size = len(&left);
-    match index.cmp(&left_size) {
-        Ordering::Equal => (left, merge_with_root(None, *node, right)),
-        Ordering::Less => {
-            let tmp = split(left, index);
-            (tmp.0, merge_with_root(tmp.1, *node, right))
-        }
-        Ordering::Greater => {
-            let tmp = split(right, index - left_size - 1);
-            (merge_with_root(left, *node, tmp.0), tmp.1)
-        }
+    if index == 0 {
+        (None, Some(root))
+    } else if root.len == index {
+        (Some(root), None)
+    } else {
+        let (left, center, right) = split_delete(root, index);
+        (left, Some(merge_with_root(None, center, right)))
     }
-}
-
-fn insert_by_idx<T>(tree: Tree<T>, index: usize, value: T) -> Tree<T> {
-    assert!(index <= len(&tree));
-    let new_node = Node::new(value);
-    if tree.is_none() {
-        return Some(Box::new(new_node));
-    };
-    let (left, right) = split(tree, index);
-    merge_with_root(left, new_node, right)
-}
-
-fn insert<T: PartialOrd>(tree: Tree<T>, value: T) -> Tree<T> {
-    let index = lower_bound(&tree, &value);
-    insert_by_idx(tree, index, value)
-}
-
-fn erase_by_idx<T>(tree: Tree<T>, index: usize) -> Tree<T> {
-    assert!(index < len(&tree));
-    let (left, right) = split(tree, index);
-    let (_, right) = split(right, 1);
-    merge(left, right)
-}
-
-fn erase<T: PartialOrd>(tree: Tree<T>, value: &T) -> Tree<T> {
-    if count(&tree, value) == 0 {
-        return tree;
-    }
-    let index = lower_bound(&tree, value);
-    erase_by_idx(tree, index)
 }
 
 /// value以上の最初の値のindex
@@ -293,20 +302,52 @@ impl<T> AVL<T> {
         get(&self.root, index)
     }
 
+    /// [0, index)を残し、[index, n)を返す
+    pub fn split_off(&mut self, index: usize) -> Self {
+        assert!(index <= self.len());
+        let (left, right) = split(self.root.take(), index);
+        self.root = left;
+        Self { root: right }
+    }
+
+    pub fn insert_by_index(&mut self, index: usize, value: T) {
+        assert!(index <= self.len());
+        let other = self.split_off(index);
+        self.root = Some(merge_with_root(
+            self.root.take(),
+            Box::new(Node::new(value)),
+            other.root,
+        ))
+    }
+
     pub fn insert(&mut self, value: T)
     where
         T: PartialOrd,
     {
-        let inner = self.root.take();
-        self.root = insert(inner, value);
+        let index = self.lower_bound(&value);
+        self.insert_by_index(index, value);
     }
 
-    pub fn erase(&mut self, value: &T)
+    pub fn erase_index(&mut self, index: usize) -> Option<T> {
+        if index < self.len() {
+            let (left, center, right) = split_delete(self.root.take().unwrap(), index);
+            self.root = merge(left, right);
+            Some(center.value)
+        } else {
+            None
+        }
+    }
+
+    pub fn erase(&mut self, value: &T) -> bool
     where
         T: PartialOrd,
     {
-        let inner = self.root.take();
-        self.root = erase(inner, value);
+        if self.count(value) == 0 {
+            return false;
+        }
+        let index = self.lower_bound(value);
+        let ret = self.erase_index(index);
+        ret.is_some()
     }
 
     pub fn count(&self, value: &T) -> usize
@@ -314,6 +355,14 @@ impl<T> AVL<T> {
         T: PartialOrd,
     {
         count(&self.root, value)
+    }
+
+    pub fn into_vec(self) -> Vec<T> {
+        let mut ret = Vec::with_capacity(self.len());
+        if let Some(root) = self.root {
+            root.list_sub(&mut ret);
+        }
+        ret
     }
 }
 
@@ -438,6 +487,15 @@ mod test {
         let mut rng = thread_rng();
         nums.shuffle(&mut rng);
         stop_watch();
+        let mut set = BTreeSet::new();
+        for i in 0..SIZE {
+            set.insert(nums[i]);
+        }
+        println!("BTreeSet shuffle insert: {}", stop_watch());
+        for i in 0..SIZE {
+            assert!(set.remove(&i));
+        }
+        println!("BTreeSet shuffle erase: {}", stop_watch());
         let mut set = AVL::<usize>::new();
         for i in 0..SIZE {
             set.insert(nums[i]);
@@ -448,19 +506,48 @@ mod test {
             assert_eq!(set.get(i).unwrap(), &i);
         }
         println!("AVL shuffle get: {}", stop_watch());
+        set.root.as_ref().unwrap().verify_height();
+        set.root.as_ref().unwrap().verify_balance();
+        stop_watch();
         for i in 0..SIZE {
-            set.erase(&nums[i]);
+            set.erase(&i);
         }
         println!("AVL shuffle erase: {}", stop_watch());
     }
 
     #[test]
     fn test_hack() {
-        const SIZE: usize = 100000;
+        const SIZE: usize = 250000;
+        stop_watch();
+        let mut set = AVL::<usize>::new();
+        for i in (0..SIZE).rev() {
+            set.insert(i);
+        }
+        println!("insert rev: {}", stop_watch());
+        println!("height: {}", set.height());
+        set.root.as_ref().unwrap().verify_height();
+        set.root.as_ref().unwrap().verify_balance();
+        stop_watch();
         let mut set = AVL::<usize>::new();
         for i in 0..SIZE {
             set.insert(i ^ 0xFFF);
         }
-        println!("AVL height: {}", set.height());
+        println!("insert xor: {}", stop_watch());
+        println!("height: {}", set.height());
+        set.root.as_ref().unwrap().verify_height();
+        set.root.as_ref().unwrap().verify_balance();
+        stop_watch();
+        let mut set = AVL::<usize>::new();
+        for i in 0..SIZE {
+            if i % 2 == 0 {
+                set.insert(i);
+            } else {
+                set.insert(usize::MAX - i);
+            }
+        }
+        println!("insert from edges: {}", stop_watch());
+        println!("height: {}", set.height());
+        set.root.as_ref().unwrap().verify_height();
+        set.root.as_ref().unwrap().verify_balance();
     }
 }
