@@ -6,6 +6,7 @@
 
 use std::cmp::Ordering;
 use std::fmt::Display;
+use std::iter::successors;
 use std::mem::swap;
 type Tree<T> = Option<Box<Node<T>>>;
 
@@ -70,41 +71,6 @@ impl<T> Node<T> {
             }
             self.rotate_left();
         }
-    }
-
-    #[allow(unused)]
-    fn verify_balance(&self) {
-        if height(&self.left).abs_diff(height(&self.right)) > 1 {
-            panic!("height: {} {}", height(&self.left), height(&self.right));
-        }
-        if let Some(left) = &self.left {
-            left.verify_balance();
-        }
-        if let Some(right) = &self.right {
-            right.verify_balance();
-        }
-    }
-
-    #[allow(unused)]
-    fn verify_height(&self) {
-        if self.left.is_none() && self.right.is_none() {
-            assert_eq!(self.height, 1);
-            return;
-        }
-        if let Some(left) = &self.left {
-            left.verify_height();
-        }
-        if let Some(right) = &self.right {
-            right.verify_height();
-        }
-        assert_eq!(
-            self.height,
-            1 + height(&self.left).max(height(&self.right)),
-            "{} vs height: {} {}",
-            self.height,
-            height(&self.left),
-            height(&self.right)
-        );
     }
 
     fn list_sub(self, ret: &mut Vec<T>) {
@@ -304,6 +270,11 @@ impl<T> AVL<T> {
         get(&self.root, index)
     }
 
+    /// otherの中身を空にしながら、自分の右に追加する
+    pub fn append(&mut self, other: &mut Self) {
+        self.root = merge(self.root.take(), other.root.take());
+    }
+
     /// [0, index)を残し、[index, n)を返す
     pub fn split_off(&mut self, index: usize) -> Self {
         assert!(index <= self.len());
@@ -325,6 +296,7 @@ impl<T> AVL<T> {
         ))
     }
 
+    /// 適切な順序を二分探索して挿入
     pub fn insert(&mut self, value: T)
     where
         T: PartialOrd,
@@ -346,6 +318,7 @@ impl<T> AVL<T> {
         }
     }
 
+    /// 二分探索で値を見つけて一つ削除
     pub fn erase(&mut self, value: &T) -> bool
     where
         T: PartialOrd,
@@ -378,6 +351,27 @@ impl<T> AVL<T> {
             root.list_sub(&mut ret);
         }
         ret
+    }
+
+    pub fn iter(&self) -> Iter<T> {
+        Iter {
+            stack: successors(self.root.as_deref(), |x| x.left.as_deref()).collect(),
+        }
+    }
+}
+
+pub struct Iter<'a, T> {
+    stack: Vec<&'a Node<T>>,
+}
+
+impl<'a, T> Iterator for Iter<'a, T> {
+    type Item = &'a T;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let node = self.stack.pop()?;
+        self.stack
+            .extend(successors(node.right.as_deref(), |x| x.left.as_deref()));
+        Some(&node.value)
     }
 }
 
@@ -513,8 +507,6 @@ mod test {
             assert_eq!(set.get(i).unwrap(), &i);
         }
         println!("AVL shuffle get: {}", stop_watch());
-        set.root.as_ref().unwrap().verify_height();
-        set.root.as_ref().unwrap().verify_balance();
         stop_watch();
         for i in 0..SIZE {
             set.erase(&i);
@@ -532,8 +524,6 @@ mod test {
         }
         println!("insert rev: {}", stop_watch());
         println!("height: {}", set.height());
-        set.root.as_ref().unwrap().verify_height();
-        set.root.as_ref().unwrap().verify_balance();
         stop_watch();
         let mut set = AVL::<usize>::new(true);
         for i in 0..SIZE {
@@ -541,8 +531,6 @@ mod test {
         }
         println!("insert xor: {}", stop_watch());
         println!("height: {}", set.height());
-        set.root.as_ref().unwrap().verify_height();
-        set.root.as_ref().unwrap().verify_balance();
         stop_watch();
         let mut set = AVL::<usize>::new(true);
         for i in 0..SIZE {
@@ -554,7 +542,32 @@ mod test {
         }
         println!("insert from edges: {}", stop_watch());
         println!("height: {}", set.height());
-        set.root.as_ref().unwrap().verify_height();
-        set.root.as_ref().unwrap().verify_balance();
+    }
+
+    #[test]
+    fn test_iter() {
+        let mut set = AVL::<usize>::new(true);
+        const SIZE: usize = 100000;
+        for i in 0..SIZE {
+            set.insert(i);
+        }
+        let mut iter = set.iter();
+        for i in 0..SIZE {
+            assert_eq!(iter.next(), Some(&i));
+        }
+        assert_eq!(iter.next(), None);
+
+        let mut set = AVL::<usize>::new(true);
+        let mut rng = thread_rng();
+        let mut nums = (0..SIZE).collect::<Vec<_>>();
+        nums.shuffle(&mut rng);
+        for i in 0..SIZE {
+            set.insert(nums[i]);
+        }
+        let mut iter = set.iter();
+        for i in 0..SIZE {
+            assert_eq!(iter.next(), Some(&i));
+        }
+        assert_eq!(iter.next(), None);
     }
 }
