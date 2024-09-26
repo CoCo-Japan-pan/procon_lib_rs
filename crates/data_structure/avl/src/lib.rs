@@ -8,6 +8,7 @@ use std::cmp::Ordering;
 use std::fmt::Display;
 use std::iter::successors;
 use std::mem::swap;
+use std::ops::{Bound::*, RangeBounds};
 type Tree<T> = Option<Box<Node<T>>>;
 
 #[derive(Debug)]
@@ -284,6 +285,59 @@ impl<T> AVL<T> {
             root: right,
             multi: self.multi,
         }
+    }
+
+    fn get_left_right_range<R: RangeBounds<usize>>(&self, range: R) -> (usize, usize) {
+        let left = match range.start_bound() {
+            Included(&l) => l,
+            Excluded(&l) => l + 1,
+            Unbounded => 0,
+        };
+        let right = match range.end_bound() {
+            Included(&r) => r + 1,
+            Excluded(&r) => r,
+            Unbounded => self.len(),
+        };
+        assert!(left <= right && right <= self.len());
+        (left, right)
+    }
+
+    /// rangeの範囲においてkだけ左回転する splitとmergeを用いているのでO(logN)
+    pub fn rotate_left<R: RangeBounds<usize>>(&mut self, range: R, k: usize) {
+        let (left, right) = self.get_left_right_range(range);
+        if left == right {
+            return;
+        }
+        if k == 0 || k == right - left {
+            return;
+        }
+        assert!(k <= right - left);
+        let left_len = k;
+        let right_len = right - left - k;
+        let (left_tree, right_tree) = split(self.root.take(), left + left_len);
+        let (left_tree, center_left_tree) = split(left_tree, left);
+        let (center_right_tree, right_tree) = split(right_tree, right_len);
+        let new_center_tree = merge(center_right_tree, center_left_tree);
+        self.root = merge(left_tree, merge(new_center_tree, right_tree));
+    }
+
+    /// rangeの範囲においてkだけ右回転する splitとmergeを用いているのでO(logN)
+    pub fn rotate_right<R: RangeBounds<usize>>(&mut self, range: R, k: usize) {
+        let (left, right) = self.get_left_right_range(range);
+        if left == right {
+            return;
+        }
+        if k == 0 || k == right - left {
+            return;
+        }
+        assert!(k <= right - left);
+        let left_len = right - left - k;
+        let right_len = k;
+        let (left_tree, right_tree) = split(self.root.take(), left + left_len);
+        let (left_tree, center_left_tree) = split(left_tree, left);
+        let (center_right_tree, right_tree) = split(right_tree, right_len);
+        let new_center_tree = merge(center_right_tree, center_left_tree);
+        self.root = merge(left_tree, merge(new_center_tree, right_tree));
     }
 
     pub fn insert_by_index(&mut self, index: usize, value: T) {
@@ -569,5 +623,40 @@ mod test {
             assert_eq!(iter.next(), Some(&i));
         }
         assert_eq!(iter.next(), None);
+    }
+
+    #[test]
+    fn test_rotate() {
+        let mut set = AVL::<usize>::new(true);
+        const SIZE: usize = 1000;
+        for i in 0..SIZE {
+            set.insert(i);
+        }
+        let mut vec = (0..SIZE).collect::<Vec<_>>();
+        let mut rng = thread_rng();
+        for _ in 0..SIZE {
+            let l = rng.gen_range(0..SIZE);
+            let r = rng.gen_range(l..=SIZE);
+            let k = rng.gen_range(0..=r - l);
+            if rng.gen() {
+                vec[l..r].rotate_left(k);
+                set.rotate_left(l..r, k);
+            } else {
+                vec[l..r].rotate_right(k);
+                set.rotate_right(l..r, k);
+            }
+            assert!(vec.iter().eq(set.iter()));
+        }
+        for _ in 0..SIZE {
+            let k = rng.gen_range(0..SIZE);
+            if rng.gen() {
+                vec.rotate_left(k);
+                set.rotate_left(.., k);
+            } else {
+                vec.rotate_right(k);
+                set.rotate_right(.., k);
+            }
+            assert!(vec.iter().eq(set.iter()));
+        }
     }
 }
