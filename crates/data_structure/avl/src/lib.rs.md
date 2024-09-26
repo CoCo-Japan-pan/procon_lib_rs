@@ -24,30 +24,31 @@ data:
     7\u500D\u3050\u3089\u3044\u9045\u3044\u306E\u3067\u3001\u672C\u5F53\u306B\u5FC5\
     \u8981\u306A\u3068\u304D\u3060\u3051\u4F7F\u3046\u306E\u304C\u3088\u3055\u305D\
     \u3046  \n//! \u5217\u3092\u7BA1\u7406\u3059\u308B\n\nuse std::cmp::Ordering;\n\
-    use std::fmt::Display;\nuse std::iter::successors;\nuse std::mem::swap;\ntype\
-    \ Tree<T> = Option<Box<Node<T>>>;\n\n#[derive(Debug)]\nstruct Node<T> {\n    left:\
-    \ Tree<T>,\n    right: Tree<T>,\n    value: T,\n    len: usize,\n    height: u8,\n\
-    }\n\nimpl<T> Node<T> {\n    fn new(value: T) -> Node<T> {\n        Self {\n  \
-    \          left: None,\n            right: None,\n            value,\n       \
-    \     len: 1,\n            height: 1,\n        }\n    }\n    fn update(&mut self)\
-    \ {\n        self.len = len(&self.left) + len(&self.right) + 1;\n        self.height\
-    \ = height(&self.left).max(height(&self.right)) + 1;\n    }\n    fn rotate_right(&mut\
-    \ self) {\n        let mut x = self.left.take().unwrap();\n        let b = x.right.take();\n\
-    \        swap(self, &mut x);\n        x.left = b;\n        x.update();\n     \
-    \   self.right = Some(x);\n        self.update();\n    }\n    fn rotate_left(&mut\
-    \ self) {\n        let mut x = self.right.take().unwrap();\n        let b = x.left.take();\n\
-    \        swap(self, &mut x);\n        x.right = b;\n        x.update();\n    \
-    \    self.left = Some(x);\n        self.update();\n    }\n    fn balance(&mut\
-    \ self) {\n        if height(&self.left).abs_diff(height(&self.right)) <= 1 {\n\
-    \            self.update();\n            return;\n        }\n        if height(&self.left)\
-    \ > height(&self.right) {\n            // \u5DE6\u306E\u5B50\u306E\u53F3\u304C\
-    \u91CD\u3051\u308C\u3070\u5DE6\u56DE\u8EE2\n            let left_child = self.left.as_mut().unwrap();\n\
-    \            if height(&left_child.left) < height(&left_child.right) {\n     \
-    \           left_child.rotate_left();\n            }\n            self.rotate_right();\n\
-    \        } else {\n            // \u53F3\u306E\u5B50\u306E\u5DE6\u304C\u91CD\u3051\
-    \u308C\u3070\u53F3\u56DE\u8EE2\n            let right_child = self.right.as_mut().unwrap();\n\
-    \            if height(&right_child.left) > height(&right_child.right) {\n   \
-    \             right_child.rotate_right();\n            }\n            self.rotate_left();\n\
+    use std::fmt::Display;\nuse std::iter::successors;\nuse std::mem::swap;\nuse std::ops::{Bound::*,\
+    \ RangeBounds};\ntype Tree<T> = Option<Box<Node<T>>>;\n\n#[derive(Debug)]\nstruct\
+    \ Node<T> {\n    left: Tree<T>,\n    right: Tree<T>,\n    value: T,\n    len:\
+    \ usize,\n    height: u8,\n}\n\nimpl<T> Node<T> {\n    fn new(value: T) -> Node<T>\
+    \ {\n        Self {\n            left: None,\n            right: None,\n     \
+    \       value,\n            len: 1,\n            height: 1,\n        }\n    }\n\
+    \    fn update(&mut self) {\n        self.len = len(&self.left) + len(&self.right)\
+    \ + 1;\n        self.height = height(&self.left).max(height(&self.right)) + 1;\n\
+    \    }\n    fn rotate_right(&mut self) {\n        let mut x = self.left.take().unwrap();\n\
+    \        let b = x.right.take();\n        swap(self, &mut x);\n        x.left\
+    \ = b;\n        x.update();\n        self.right = Some(x);\n        self.update();\n\
+    \    }\n    fn rotate_left(&mut self) {\n        let mut x = self.right.take().unwrap();\n\
+    \        let b = x.left.take();\n        swap(self, &mut x);\n        x.right\
+    \ = b;\n        x.update();\n        self.left = Some(x);\n        self.update();\n\
+    \    }\n    fn balance(&mut self) {\n        if height(&self.left).abs_diff(height(&self.right))\
+    \ <= 1 {\n            self.update();\n            return;\n        }\n       \
+    \ if height(&self.left) > height(&self.right) {\n            // \u5DE6\u306E\u5B50\
+    \u306E\u53F3\u304C\u91CD\u3051\u308C\u3070\u5DE6\u56DE\u8EE2\n            let\
+    \ left_child = self.left.as_mut().unwrap();\n            if height(&left_child.left)\
+    \ < height(&left_child.right) {\n                left_child.rotate_left();\n \
+    \           }\n            self.rotate_right();\n        } else {\n          \
+    \  // \u53F3\u306E\u5B50\u306E\u5DE6\u304C\u91CD\u3051\u308C\u3070\u53F3\u56DE\
+    \u8EE2\n            let right_child = self.right.as_mut().unwrap();\n        \
+    \    if height(&right_child.left) > height(&right_child.right) {\n           \
+    \     right_child.rotate_right();\n            }\n            self.rotate_left();\n\
     \        }\n    }\n\n    fn list_sub(self, ret: &mut Vec<T>) {\n        if let\
     \ Some(left) = self.left {\n            left.list_sub(ret);\n        }\n     \
     \   ret.push(self.value);\n        if let Some(right) = self.right {\n       \
@@ -123,12 +124,41 @@ data:
     \n    pub fn split_off(&mut self, index: usize) -> Self {\n        assert!(index\
     \ <= self.len());\n        let (left, right) = split(self.root.take(), index);\n\
     \        self.root = left;\n        Self {\n            root: right,\n       \
-    \     multi: self.multi,\n        }\n    }\n\n    pub fn insert_by_index(&mut\
-    \ self, index: usize, value: T) {\n        assert!(index <= self.len());\n   \
-    \     let other = self.split_off(index);\n        self.root = Some(merge_with_root(\n\
-    \            self.root.take(),\n            Box::new(Node::new(value)),\n    \
-    \        other.root,\n        ))\n    }\n\n    /// \u9069\u5207\u306A\u9806\u5E8F\
-    \u3092\u4E8C\u5206\u63A2\u7D22\u3057\u3066\u633F\u5165\n    pub fn insert(&mut\
+    \     multi: self.multi,\n        }\n    }\n\n    fn get_left_right_range<R: RangeBounds<usize>>(&self,\
+    \ range: R) -> (usize, usize) {\n        let left = match range.start_bound()\
+    \ {\n            Included(&l) => l,\n            Excluded(&l) => l + 1,\n    \
+    \        Unbounded => 0,\n        };\n        let right = match range.end_bound()\
+    \ {\n            Included(&r) => r + 1,\n            Excluded(&r) => r,\n    \
+    \        Unbounded => self.len(),\n        };\n        assert!(left <= right &&\
+    \ right <= self.len());\n        (left, right)\n    }\n\n    /// range\u306E\u7BC4\
+    \u56F2\u306B\u304A\u3044\u3066k\u3060\u3051\u5DE6\u56DE\u8EE2\u3059\u308B split\u3068\
+    merge\u3092\u7528\u3044\u3066\u3044\u308B\u306E\u3067O(logN)\n    pub fn rotate_left<R:\
+    \ RangeBounds<usize>>(&mut self, range: R, k: usize) {\n        let (left, right)\
+    \ = self.get_left_right_range(range);\n        if left == right {\n          \
+    \  return;\n        }\n        if k == 0 || k == right - left {\n            return;\n\
+    \        }\n        assert!(k <= right - left);\n        let left_len = k;\n \
+    \       let right_len = right - left - k;\n        let (left_tree, right_tree)\
+    \ = split(self.root.take(), left + left_len);\n        let (left_tree, center_left_tree)\
+    \ = split(left_tree, left);\n        let (center_right_tree, right_tree) = split(right_tree,\
+    \ right_len);\n        let new_center_tree = merge(center_right_tree, center_left_tree);\n\
+    \        self.root = merge(left_tree, merge(new_center_tree, right_tree));\n \
+    \   }\n\n    /// range\u306E\u7BC4\u56F2\u306B\u304A\u3044\u3066k\u3060\u3051\u53F3\
+    \u56DE\u8EE2\u3059\u308B split\u3068merge\u3092\u7528\u3044\u3066\u3044\u308B\u306E\
+    \u3067O(logN)\n    pub fn rotate_right<R: RangeBounds<usize>>(&mut self, range:\
+    \ R, k: usize) {\n        let (left, right) = self.get_left_right_range(range);\n\
+    \        if left == right {\n            return;\n        }\n        if k == 0\
+    \ || k == right - left {\n            return;\n        }\n        assert!(k <=\
+    \ right - left);\n        let left_len = right - left - k;\n        let right_len\
+    \ = k;\n        let (left_tree, right_tree) = split(self.root.take(), left + left_len);\n\
+    \        let (left_tree, center_left_tree) = split(left_tree, left);\n       \
+    \ let (center_right_tree, right_tree) = split(right_tree, right_len);\n      \
+    \  let new_center_tree = merge(center_right_tree, center_left_tree);\n       \
+    \ self.root = merge(left_tree, merge(new_center_tree, right_tree));\n    }\n\n\
+    \    pub fn insert_by_index(&mut self, index: usize, value: T) {\n        assert!(index\
+    \ <= self.len());\n        let other = self.split_off(index);\n        self.root\
+    \ = Some(merge_with_root(\n            self.root.take(),\n            Box::new(Node::new(value)),\n\
+    \            other.root,\n        ))\n    }\n\n    /// \u9069\u5207\u306A\u9806\
+    \u5E8F\u3092\u4E8C\u5206\u63A2\u7D22\u3057\u3066\u633F\u5165\n    pub fn insert(&mut\
     \ self, value: T)\n    where\n        T: PartialOrd,\n    {\n        if !self.multi\
     \ && self.count(&value) > 0 {\n            return;\n        }\n        let index\
     \ = self.lower_bound(&value);\n        self.insert_by_index(index, value);\n \
@@ -230,12 +260,25 @@ data:
     \     nums.shuffle(&mut rng);\n        for i in 0..SIZE {\n            set.insert(nums[i]);\n\
     \        }\n        let mut iter = set.iter();\n        for i in 0..SIZE {\n \
     \           assert_eq!(iter.next(), Some(&i));\n        }\n        assert_eq!(iter.next(),\
-    \ None);\n    }\n}\n"
+    \ None);\n    }\n\n    #[test]\n    fn test_rotate() {\n        let mut set =\
+    \ AVL::<usize>::new(true);\n        const SIZE: usize = 1000;\n        for i in\
+    \ 0..SIZE {\n            set.insert(i);\n        }\n        let mut vec = (0..SIZE).collect::<Vec<_>>();\n\
+    \        let mut rng = thread_rng();\n        for _ in 0..SIZE {\n           \
+    \ let l = rng.gen_range(0..SIZE);\n            let r = rng.gen_range(l..=SIZE);\n\
+    \            let k = rng.gen_range(0..=r - l);\n            if rng.gen() {\n \
+    \               vec[l..r].rotate_left(k);\n                set.rotate_left(l..r,\
+    \ k);\n            } else {\n                vec[l..r].rotate_right(k);\n    \
+    \            set.rotate_right(l..r, k);\n            }\n            assert!(vec.iter().eq(set.iter()));\n\
+    \        }\n        for _ in 0..SIZE {\n            let k = rng.gen_range(0..SIZE);\n\
+    \            if rng.gen() {\n                vec.rotate_left(k);\n           \
+    \     set.rotate_left(.., k);\n            } else {\n                vec.rotate_right(k);\n\
+    \                set.rotate_right(.., k);\n            }\n            assert!(vec.iter().eq(set.iter()));\n\
+    \        }\n    }\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/data_structure/avl/src/lib.rs
   requiredBy: []
-  timestamp: '2024-09-26 14:45:46+09:00'
+  timestamp: '2024-09-26 15:09:26+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_649_avl/src/main.rs

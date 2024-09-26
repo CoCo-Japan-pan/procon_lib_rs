@@ -31,7 +31,7 @@ data:
   isVerificationFile: true
   path: verify/yukicoder/no_649_avl/src/main.rs
   requiredBy: []
-  timestamp: '2024-09-26 14:45:46+09:00'
+  timestamp: '2024-09-26 15:09:26+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yukicoder/no_649_avl/src/main.rs
