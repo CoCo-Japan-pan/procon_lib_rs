@@ -25,12 +25,12 @@ data:
     \u8981\u306A\u3068\u304D\u3060\u3051\u4F7F\u3046\u306E\u304C\u3088\u3055\u305D\
     \u3046  \n//! \u5217\u3092\u7BA1\u7406\u3059\u308B\n\nuse std::cmp::Ordering;\n\
     use std::fmt::Display;\nuse std::iter::successors;\nuse std::mem::swap;\nuse std::ops::{Bound::*,\
-    \ RangeBounds};\ntype Tree<T> = Option<Box<Node<T>>>;\n\n#[derive(Debug)]\nstruct\
-    \ Node<T> {\n    left: Tree<T>,\n    right: Tree<T>,\n    value: T,\n    len:\
-    \ usize,\n    height: u8,\n}\n\nimpl<T> Node<T> {\n    fn new(value: T) -> Node<T>\
-    \ {\n        Self {\n            left: None,\n            right: None,\n     \
-    \       value,\n            len: 1,\n            height: 1,\n        }\n    }\n\
-    \    fn update(&mut self) {\n        self.len = len(&self.left) + len(&self.right)\
+    \ RangeBounds};\ntype Tree<T> = Option<Box<Node<T>>>;\n\n#[derive(Debug, Clone)]\n\
+    struct Node<T> {\n    left: Tree<T>,\n    right: Tree<T>,\n    value: T,\n   \
+    \ len: usize,\n    height: u8,\n}\n\nimpl<T> Node<T> {\n    fn new(value: T) ->\
+    \ Node<T> {\n        Self {\n            left: None,\n            right: None,\n\
+    \            value,\n            len: 1,\n            height: 1,\n        }\n\
+    \    }\n    fn update(&mut self) {\n        self.len = len(&self.left) + len(&self.right)\
     \ + 1;\n        self.height = height(&self.left).max(height(&self.right)) + 1;\n\
     \    }\n    fn rotate_right(&mut self) {\n        let mut x = self.left.take().unwrap();\n\
     \        let b = x.right.take();\n        swap(self, &mut x);\n        x.left\
@@ -102,10 +102,10 @@ data:
     \ = len(&tree.left);\n    match index.cmp(&left_len) {\n        Ordering::Less\
     \ => get(&tree.left, index),\n        Ordering::Equal => Some(&tree.value),\n\
     \        Ordering::Greater => get(&tree.right, index - left_len - 1),\n    }\n\
-    }\n\n#[derive(Debug)]\npub struct AVL<T> {\n    root: Tree<T>,\n    multi: bool,\
-    \ // \u91CD\u8907\u3092\u8A31\u3059\u304B\n}\n\nimpl<T: Display> Display for AVL<T>\
-    \ {\n    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {\n\
-    \        if let Some(root) = &self.root {\n            write!(f, \"{}\", root)\n\
+    }\n\n#[derive(Debug, Clone)]\npub struct AVL<T> {\n    root: Tree<T>,\n    multi:\
+    \ bool, // \u91CD\u8907\u3092\u8A31\u3059\u304B\n}\n\nimpl<T: Display> Display\
+    \ for AVL<T> {\n    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result\
+    \ {\n        if let Some(root) = &self.root {\n            write!(f, \"{}\", root)\n\
     \        } else {\n            write!(f, \"Empty\")\n        }\n    }\n}\n\nimpl<T>\
     \ AVL<T> {\n    /// \u91CD\u8907\u3092\u8A31\u3059\u306A\u3089true\n    pub fn\
     \ new(multi: bool) -> Self {\n        Self { root: None, multi }\n    }\n\n  \
@@ -278,7 +278,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/avl/src/lib.rs
   requiredBy: []
-  timestamp: '2024-09-26 15:09:26+09:00'
+  timestamp: '2024-09-26 21:28:14+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_649_avl/src/main.rs
