@@ -11,7 +11,7 @@ use std::mem::swap;
 use std::ops::{Bound::*, RangeBounds};
 type Tree<T> = Option<Box<Node<T>>>;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct Node<T> {
     left: Tree<T>,
     right: Tree<T>,
@@ -218,7 +218,7 @@ fn get<T>(tree: &Tree<T>, index: usize) -> Option<&T> {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct AVL<T> {
     root: Tree<T>,
     multi: bool, // 重複を許すか
