@@ -24,58 +24,46 @@ data:
     7\u500D\u3050\u3089\u3044\u9045\u3044\u306E\u3067\u3001\u672C\u5F53\u306B\u5FC5\
     \u8981\u306A\u3068\u304D\u3060\u3051\u4F7F\u3046\u306E\u304C\u3088\u3055\u305D\
     \u3046  \n//! \u5217\u3092\u7BA1\u7406\u3059\u308B\n\nuse std::cmp::Ordering;\n\
-    use std::fmt::Display;\nuse std::mem::swap;\ntype Tree<T> = Option<Box<Node<T>>>;\n\
-    \n#[derive(Debug)]\nstruct Node<T> {\n    left: Tree<T>,\n    right: Tree<T>,\n\
-    \    value: T,\n    len: usize,\n    height: u8,\n}\n\nimpl<T> Node<T> {\n   \
-    \ fn new(value: T) -> Node<T> {\n        Self {\n            left: None,\n   \
-    \         right: None,\n            value,\n            len: 1,\n            height:\
-    \ 1,\n        }\n    }\n    fn update(&mut self) {\n        self.len = len(&self.left)\
-    \ + len(&self.right) + 1;\n        self.height = height(&self.left).max(height(&self.right))\
-    \ + 1;\n    }\n    fn rotate_right(&mut self) {\n        let mut x = self.left.take().unwrap();\n\
-    \        let b = x.right.take();\n        swap(self, &mut x);\n        x.left\
-    \ = b;\n        x.update();\n        self.right = Some(x);\n        self.update();\n\
-    \    }\n    fn rotate_left(&mut self) {\n        let mut x = self.right.take().unwrap();\n\
-    \        let b = x.left.take();\n        swap(self, &mut x);\n        x.right\
-    \ = b;\n        x.update();\n        self.left = Some(x);\n        self.update();\n\
-    \    }\n    fn balance(&mut self) {\n        if height(&self.left).abs_diff(height(&self.right))\
-    \ <= 1 {\n            self.update();\n            return;\n        }\n       \
-    \ if height(&self.left) > height(&self.right) {\n            // \u5DE6\u306E\u5B50\
-    \u306E\u53F3\u304C\u91CD\u3051\u308C\u3070\u5DE6\u56DE\u8EE2\n            let\
-    \ left_child = self.left.as_mut().unwrap();\n            if height(&left_child.left)\
-    \ < height(&left_child.right) {\n                left_child.rotate_left();\n \
-    \           }\n            self.rotate_right();\n        } else {\n          \
-    \  // \u53F3\u306E\u5B50\u306E\u5DE6\u304C\u91CD\u3051\u308C\u3070\u53F3\u56DE\
-    \u8EE2\n            let right_child = self.right.as_mut().unwrap();\n        \
-    \    if height(&right_child.left) > height(&right_child.right) {\n           \
-    \     right_child.rotate_right();\n            }\n            self.rotate_left();\n\
-    \        }\n    }\n\n    #[allow(unused)]\n    fn verify_balance(&self) {\n  \
-    \      if height(&self.left).abs_diff(height(&self.right)) > 1 {\n           \
-    \ panic!(\"height: {} {}\", height(&self.left), height(&self.right));\n      \
-    \  }\n        if let Some(left) = &self.left {\n            left.verify_balance();\n\
-    \        }\n        if let Some(right) = &self.right {\n            right.verify_balance();\n\
-    \        }\n    }\n\n    #[allow(unused)]\n    fn verify_height(&self) {\n   \
-    \     if self.left.is_none() && self.right.is_none() {\n            assert_eq!(self.height,\
-    \ 1);\n            return;\n        }\n        if let Some(left) = &self.left\
-    \ {\n            left.verify_height();\n        }\n        if let Some(right)\
-    \ = &self.right {\n            right.verify_height();\n        }\n        assert_eq!(\n\
-    \            self.height,\n            1 + height(&self.left).max(height(&self.right)),\n\
-    \            \"{} vs height: {} {}\",\n            self.height,\n            height(&self.left),\n\
-    \            height(&self.right)\n        );\n    }\n\n    fn list_sub(self, ret:\
-    \ &mut Vec<T>) {\n        if let Some(left) = self.left {\n            left.list_sub(ret);\n\
-    \        }\n        ret.push(self.value);\n        if let Some(right) = self.right\
-    \ {\n            right.list_sub(ret);\n        }\n    }\n}\n\nimpl<T: Display>\
-    \ Display for Node<T> {\n    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) ->\
-    \ std::fmt::Result {\n        if let Some(left) = &self.left {\n            write!(f,\
-    \ \"{}\", left)?;\n        }\n        write!(f, \"{}, \", self.value)?;\n    \
-    \    if let Some(right) = &self.right {\n            write!(f, \"{}\", right)?;\n\
-    \        }\n        Ok(())\n    }\n}\n\nfn len<T>(tree: &Tree<T>) -> usize {\n\
-    \    tree.as_ref().map_or(0, |t| t.len)\n}\n\nfn height<T>(tree: &Tree<T>) ->\
-    \ u8 {\n    tree.as_ref().map_or(0, |t| t.height)\n}\n\nfn merge<T>(left: Tree<T>,\
-    \ right: Tree<T>) -> Tree<T> {\n    match (left.is_some(), right.is_some()) {\n\
-    \        (true, true) => {\n            let (_, center, rhs) = split_delete(right.unwrap(),\
-    \ 0);\n            Some(merge_with_root(left, center, rhs))\n        }\n     \
-    \   (false, _) => right,\n        (_, false) => left,\n    }\n}\n\nfn merge_with_root<T>(\n\
-    \    mut left: Tree<T>,\n    mut center: Box<Node<T>>,\n    mut right: Tree<T>,\n\
+    use std::fmt::Display;\nuse std::iter::successors;\nuse std::mem::swap;\ntype\
+    \ Tree<T> = Option<Box<Node<T>>>;\n\n#[derive(Debug)]\nstruct Node<T> {\n    left:\
+    \ Tree<T>,\n    right: Tree<T>,\n    value: T,\n    len: usize,\n    height: u8,\n\
+    }\n\nimpl<T> Node<T> {\n    fn new(value: T) -> Node<T> {\n        Self {\n  \
+    \          left: None,\n            right: None,\n            value,\n       \
+    \     len: 1,\n            height: 1,\n        }\n    }\n    fn update(&mut self)\
+    \ {\n        self.len = len(&self.left) + len(&self.right) + 1;\n        self.height\
+    \ = height(&self.left).max(height(&self.right)) + 1;\n    }\n    fn rotate_right(&mut\
+    \ self) {\n        let mut x = self.left.take().unwrap();\n        let b = x.right.take();\n\
+    \        swap(self, &mut x);\n        x.left = b;\n        x.update();\n     \
+    \   self.right = Some(x);\n        self.update();\n    }\n    fn rotate_left(&mut\
+    \ self) {\n        let mut x = self.right.take().unwrap();\n        let b = x.left.take();\n\
+    \        swap(self, &mut x);\n        x.right = b;\n        x.update();\n    \
+    \    self.left = Some(x);\n        self.update();\n    }\n    fn balance(&mut\
+    \ self) {\n        if height(&self.left).abs_diff(height(&self.right)) <= 1 {\n\
+    \            self.update();\n            return;\n        }\n        if height(&self.left)\
+    \ > height(&self.right) {\n            // \u5DE6\u306E\u5B50\u306E\u53F3\u304C\
+    \u91CD\u3051\u308C\u3070\u5DE6\u56DE\u8EE2\n            let left_child = self.left.as_mut().unwrap();\n\
+    \            if height(&left_child.left) < height(&left_child.right) {\n     \
+    \           left_child.rotate_left();\n            }\n            self.rotate_right();\n\
+    \        } else {\n            // \u53F3\u306E\u5B50\u306E\u5DE6\u304C\u91CD\u3051\
+    \u308C\u3070\u53F3\u56DE\u8EE2\n            let right_child = self.right.as_mut().unwrap();\n\
+    \            if height(&right_child.left) > height(&right_child.right) {\n   \
+    \             right_child.rotate_right();\n            }\n            self.rotate_left();\n\
+    \        }\n    }\n\n    fn list_sub(self, ret: &mut Vec<T>) {\n        if let\
+    \ Some(left) = self.left {\n            left.list_sub(ret);\n        }\n     \
+    \   ret.push(self.value);\n        if let Some(right) = self.right {\n       \
+    \     right.list_sub(ret);\n        }\n    }\n}\n\nimpl<T: Display> Display for\
+    \ Node<T> {\n    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result\
+    \ {\n        if let Some(left) = &self.left {\n            write!(f, \"{}\", left)?;\n\
+    \        }\n        write!(f, \"{}, \", self.value)?;\n        if let Some(right)\
+    \ = &self.right {\n            write!(f, \"{}\", right)?;\n        }\n       \
+    \ Ok(())\n    }\n}\n\nfn len<T>(tree: &Tree<T>) -> usize {\n    tree.as_ref().map_or(0,\
+    \ |t| t.len)\n}\n\nfn height<T>(tree: &Tree<T>) -> u8 {\n    tree.as_ref().map_or(0,\
+    \ |t| t.height)\n}\n\nfn merge<T>(left: Tree<T>, right: Tree<T>) -> Tree<T> {\n\
+    \    match (left.is_some(), right.is_some()) {\n        (true, true) => {\n  \
+    \          let (_, center, rhs) = split_delete(right.unwrap(), 0);\n         \
+    \   Some(merge_with_root(left, center, rhs))\n        }\n        (false, _) =>\
+    \ right,\n        (_, false) => left,\n    }\n}\n\nfn merge_with_root<T>(\n  \
+    \  mut left: Tree<T>,\n    mut center: Box<Node<T>>,\n    mut right: Tree<T>,\n\
     ) -> Box<Node<T>> {\n    if height(&left).abs_diff(height(&right)) <= 1 {\n  \
     \      center.left = left;\n        center.right = right;\n        center.update();\n\
     \        center\n    } else if height(&left) < height(&right) {\n        let mut\
@@ -128,7 +116,10 @@ data:
     \        T: PartialOrd,\n    {\n        upper_bound(&self.root, value)\n    }\n\
     \n    /// index\u756A\u76EE(0-base)\u306E\u5024\u3092\u53D6\u5F97\n    pub fn\
     \ get(&self, index: usize) -> Option<&T> {\n        get(&self.root, index)\n \
-    \   }\n\n    /// [0, index)\u3092\u6B8B\u3057\u3001[index, n)\u3092\u8FD4\u3059\
+    \   }\n\n    /// other\u306E\u4E2D\u8EAB\u3092\u7A7A\u306B\u3057\u306A\u304C\u3089\
+    \u3001\u81EA\u5206\u306E\u53F3\u306B\u8FFD\u52A0\u3059\u308B\n    pub fn append(&mut\
+    \ self, other: &mut Self) {\n        self.root = merge(self.root.take(), other.root.take());\n\
+    \    }\n\n    /// [0, index)\u3092\u6B8B\u3057\u3001[index, n)\u3092\u8FD4\u3059\
     \n    pub fn split_off(&mut self, index: usize) -> Self {\n        assert!(index\
     \ <= self.len());\n        let (left, right) = split(self.root.take(), index);\n\
     \        self.root = left;\n        Self {\n            root: right,\n       \
@@ -136,27 +127,35 @@ data:
     \ self, index: usize, value: T) {\n        assert!(index <= self.len());\n   \
     \     let other = self.split_off(index);\n        self.root = Some(merge_with_root(\n\
     \            self.root.take(),\n            Box::new(Node::new(value)),\n    \
-    \        other.root,\n        ))\n    }\n\n    pub fn insert(&mut self, value:\
-    \ T)\n    where\n        T: PartialOrd,\n    {\n        if !self.multi && self.count(&value)\
-    \ > 0 {\n            return;\n        }\n        let index = self.lower_bound(&value);\n\
-    \        self.insert_by_index(index, value);\n    }\n\n    pub fn erase_by_index(&mut\
-    \ self, index: usize) -> Option<T> {\n        if index < self.len() {\n      \
-    \      let (left, center, right) = split_delete(self.root.take().unwrap(), index);\n\
-    \            self.root = merge(left, right);\n            Some(center.value)\n\
-    \        } else {\n            None\n        }\n    }\n\n    pub fn erase(&mut\
-    \ self, value: &T) -> bool\n    where\n        T: PartialOrd,\n    {\n       \
-    \ if self.count(value) == 0 {\n            return false;\n        }\n        let\
-    \ index = self.lower_bound(value);\n        let ret = self.erase_by_index(index);\n\
+    \        other.root,\n        ))\n    }\n\n    /// \u9069\u5207\u306A\u9806\u5E8F\
+    \u3092\u4E8C\u5206\u63A2\u7D22\u3057\u3066\u633F\u5165\n    pub fn insert(&mut\
+    \ self, value: T)\n    where\n        T: PartialOrd,\n    {\n        if !self.multi\
+    \ && self.count(&value) > 0 {\n            return;\n        }\n        let index\
+    \ = self.lower_bound(&value);\n        self.insert_by_index(index, value);\n \
+    \   }\n\n    pub fn erase_by_index(&mut self, index: usize) -> Option<T> {\n \
+    \       if index < self.len() {\n            let (left, center, right) = split_delete(self.root.take().unwrap(),\
+    \ index);\n            self.root = merge(left, right);\n            Some(center.value)\n\
+    \        } else {\n            None\n        }\n    }\n\n    /// \u4E8C\u5206\u63A2\
+    \u7D22\u3067\u5024\u3092\u898B\u3064\u3051\u3066\u4E00\u3064\u524A\u9664\n   \
+    \ pub fn erase(&mut self, value: &T) -> bool\n    where\n        T: PartialOrd,\n\
+    \    {\n        if self.count(value) == 0 {\n            return false;\n     \
+    \   }\n        let index = self.lower_bound(value);\n        let ret = self.erase_by_index(index);\n\
     \        ret.is_some()\n    }\n\n    pub fn contains(&self, value: &T) -> bool\n\
     \    where\n        T: PartialOrd,\n    {\n        self.count(value) > 0\n   \
     \ }\n\n    pub fn count(&self, value: &T) -> usize\n    where\n        T: PartialOrd,\n\
     \    {\n        count(&self.root, value)\n    }\n\n    pub fn into_vec(self) ->\
     \ Vec<T> {\n        let mut ret = Vec::with_capacity(self.len());\n        if\
     \ let Some(root) = self.root {\n            root.list_sub(&mut ret);\n       \
-    \ }\n        ret\n    }\n}\n\n#[cfg(test)]\nmod test {\n    use super::*;\n  \
-    \  use rand::prelude::*;\n    use std::collections::{BTreeMap, BTreeSet};\n\n\
-    \    fn stop_watch() -> f64 {\n        use std::time::{SystemTime, UNIX_EPOCH};\n\
-    \        static mut START: f64 = 0.0;\n        let time = SystemTime::now().duration_since(UNIX_EPOCH).unwrap();\n\
+    \ }\n        ret\n    }\n\n    pub fn iter(&self) -> Iter<T> {\n        Iter {\n\
+    \            stack: successors(self.root.as_deref(), |x| x.left.as_deref()).collect(),\n\
+    \        }\n    }\n}\n\npub struct Iter<'a, T> {\n    stack: Vec<&'a Node<T>>,\n\
+    }\n\nimpl<'a, T> Iterator for Iter<'a, T> {\n    type Item = &'a T;\n\n    fn\
+    \ next(&mut self) -> Option<Self::Item> {\n        let node = self.stack.pop()?;\n\
+    \        self.stack\n            .extend(successors(node.right.as_deref(), |x|\
+    \ x.left.as_deref()));\n        Some(&node.value)\n    }\n}\n\n#[cfg(test)]\n\
+    mod test {\n    use super::*;\n    use rand::prelude::*;\n    use std::collections::{BTreeMap,\
+    \ BTreeSet};\n\n    fn stop_watch() -> f64 {\n        use std::time::{SystemTime,\
+    \ UNIX_EPOCH};\n        static mut START: f64 = 0.0;\n        let time = SystemTime::now().duration_since(UNIX_EPOCH).unwrap();\n\
     \        let current = time.as_secs() as f64 + time.subsec_nanos() as f64 * 1e-9;\n\
     \        unsafe {\n            let ret = current - START;\n            START =\
     \ current;\n            ret\n        }\n    }\n\n    #[test]\n    fn test_cnt()\
@@ -208,30 +207,35 @@ data:
     AVL shuffle insert: {}\", stop_watch());\n        println!(\"AVL shuffle height:\
     \ {}\", set.height());\n        for i in 0..SIZE {\n            assert_eq!(set.get(i).unwrap(),\
     \ &i);\n        }\n        println!(\"AVL shuffle get: {}\", stop_watch());\n\
-    \        set.root.as_ref().unwrap().verify_height();\n        set.root.as_ref().unwrap().verify_balance();\n\
     \        stop_watch();\n        for i in 0..SIZE {\n            set.erase(&i);\n\
     \        }\n        println!(\"AVL shuffle erase: {}\", stop_watch());\n    }\n\
     \n    #[test]\n    fn test_hack() {\n        const SIZE: usize = 250000;\n   \
     \     stop_watch();\n        let mut set = AVL::<usize>::new(true);\n        for\
     \ i in (0..SIZE).rev() {\n            set.insert(i);\n        }\n        println!(\"\
     insert rev: {}\", stop_watch());\n        println!(\"height: {}\", set.height());\n\
-    \        set.root.as_ref().unwrap().verify_height();\n        set.root.as_ref().unwrap().verify_balance();\n\
     \        stop_watch();\n        let mut set = AVL::<usize>::new(true);\n     \
     \   for i in 0..SIZE {\n            set.insert(i ^ 0xFFF);\n        }\n      \
     \  println!(\"insert xor: {}\", stop_watch());\n        println!(\"height: {}\"\
-    , set.height());\n        set.root.as_ref().unwrap().verify_height();\n      \
-    \  set.root.as_ref().unwrap().verify_balance();\n        stop_watch();\n     \
-    \   let mut set = AVL::<usize>::new(true);\n        for i in 0..SIZE {\n     \
-    \       if i % 2 == 0 {\n                set.insert(i);\n            } else {\n\
-    \                set.insert(usize::MAX - i);\n            }\n        }\n     \
-    \   println!(\"insert from edges: {}\", stop_watch());\n        println!(\"height:\
-    \ {}\", set.height());\n        set.root.as_ref().unwrap().verify_height();\n\
-    \        set.root.as_ref().unwrap().verify_balance();\n    }\n}\n"
+    , set.height());\n        stop_watch();\n        let mut set = AVL::<usize>::new(true);\n\
+    \        for i in 0..SIZE {\n            if i % 2 == 0 {\n                set.insert(i);\n\
+    \            } else {\n                set.insert(usize::MAX - i);\n         \
+    \   }\n        }\n        println!(\"insert from edges: {}\", stop_watch());\n\
+    \        println!(\"height: {}\", set.height());\n    }\n\n    #[test]\n    fn\
+    \ test_iter() {\n        let mut set = AVL::<usize>::new(true);\n        const\
+    \ SIZE: usize = 100000;\n        for i in 0..SIZE {\n            set.insert(i);\n\
+    \        }\n        let mut iter = set.iter();\n        for i in 0..SIZE {\n \
+    \           assert_eq!(iter.next(), Some(&i));\n        }\n        assert_eq!(iter.next(),\
+    \ None);\n\n        let mut set = AVL::<usize>::new(true);\n        let mut rng\
+    \ = thread_rng();\n        let mut nums = (0..SIZE).collect::<Vec<_>>();\n   \
+    \     nums.shuffle(&mut rng);\n        for i in 0..SIZE {\n            set.insert(nums[i]);\n\
+    \        }\n        let mut iter = set.iter();\n        for i in 0..SIZE {\n \
+    \           assert_eq!(iter.next(), Some(&i));\n        }\n        assert_eq!(iter.next(),\
+    \ None);\n    }\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/data_structure/avl/src/lib.rs
   requiredBy: []
-  timestamp: '2024-09-23 18:36:08+09:00'
+  timestamp: '2024-09-26 14:45:46+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_649_avl/src/main.rs
