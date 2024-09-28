@@ -2,7 +2,8 @@
 //! 1.5N bit 用いているので、succintではない compactではある  
 //! u64のブロックのみを使い、小ブロックは使わない  
 //! selectの高速化のために、x86_64の命令を使っている  
-//! しかしselect用の索引を持たないので、selectはO(logN)
+//! しかしselect用の索引を持たせてないので、selectはO(logN)  
+//! 雑なベンチマークによると、select1はrank1の4~5倍程度の時間がかかりそう
 
 #![cfg(target_arch = "x86_64")]
 use std::arch::x86_64::_pdep_u64;
@@ -159,5 +160,41 @@ mod test {
             assert_eq!(bit_vec.select1(i), one_indices.get(i).copied());
             assert_eq!(bit_vec.select0(i), zero_indices.get(i).copied());
         }
+    }
+
+    #[test]
+    fn bench() {
+        fn stop_watch() -> f64 {
+            use std::time::{SystemTime, UNIX_EPOCH};
+            static mut START: f64 = 0.0;
+            let time = SystemTime::now().duration_since(UNIX_EPOCH).unwrap();
+            let current = time.as_secs() as f64 + time.subsec_nanos() as f64 * 1e-9;
+            unsafe {
+                let ret = current - START;
+                START = current;
+                ret
+            }
+        }
+
+        let mut rng = thread_rng();
+        const SIZE: usize = 250000;
+        let bool_vec = (0..SIZE).map(|_| rng.gen_bool(0.5)).collect::<Vec<_>>();
+        let bit_vec = BitVec::new(&bool_vec);
+        let rand_nums = {
+            let mut rand_nums = (0..SIZE).collect::<Vec<_>>();
+            rand_nums.shuffle(&mut rng);
+            rand_nums
+        };
+        stop_watch();
+        for &i in &rand_nums {
+            assert!(bit_vec.rank1(i) <= i);
+        }
+        println!("rank1: {:.6}", stop_watch());
+        for &i in &rand_nums {
+            if let Some(pos) = bit_vec.select1(i) {
+                assert_eq!(bit_vec.rank1(pos), i);
+            }
+        }
+        println!("select1, rank1: {:.6}", stop_watch());
     }
 }
