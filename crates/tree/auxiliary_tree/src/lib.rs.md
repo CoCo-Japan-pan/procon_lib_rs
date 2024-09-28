@@ -91,7 +91,7 @@ data:
   isVerificationFile: false
   path: crates/tree/auxiliary_tree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-06-23 15:56:36+09:00'
+  timestamp: '2024-09-28 12:55:28+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc359g_auxiliary/src/main.rs

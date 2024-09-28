@@ -28,7 +28,7 @@ data:
     \u30A2\u30FC  \n//! LCA\u3092RMQ\u306B\u5E30\u7740\u3055\u305B\u3066\u6C42\u3081\
     \u3089\u308C\u308B  \n//! SparseTable\u3092\u7528\u3044\u308B\u306E\u3067\u524D\
     \u6642\u9593`O(NlogN)`\u3001\u30AF\u30A8\u30EA\u6642\u9593`O(1)`  \nuse algebra::{IdempotentMonoid,\
-    \ Monoid};\nuse sparse_table::SparseTable;\n\n#[derive(Debug)]\nstruct MinMonoid;\n\
+    \ Monoid};\nuse sparse_table::SparseTable;\n\n#[derive(Debug)]\npub struct MinMonoid;\n\
     impl Monoid for MinMonoid {\n    type Target = (usize, usize);\n    fn id_element()\
     \ -> Self::Target {\n        (usize::MAX, usize::MAX)\n    }\n    fn binary_operation(a:\
     \ &Self::Target, b: &Self::Target) -> Self::Target {\n        *a.min(b)\n    }\n\
@@ -42,17 +42,22 @@ data:
     \u30A2\u30FC\u306B\u304A\u3044\u3066\u3001\u5404\u9802\u70B9\u304C\u6700\u5F8C\
     \u306B\u51FA\u73FE\u3059\u308B\u30A4\u30F3\u30C7\u30C3\u30AF\u30B9\n    pub last_occurrence:\
     \ Vec<usize>,\n    /// (\u6DF1\u3055\u3001\u9802\u70B9)\u306E\u914D\u5217\u304B\
-    \u3089\u69CB\u6210\u3055\u308C\u308BSparseTable\n    sparse_table: SparseTable<MinMonoid>,\n\
-    }\n\nimpl EulerTour {\n    /// SparseTable\u3092\u69CB\u7BC9\u3057\u3066\u3044\
-    \u308B\u306E\u3067\u3001`O(NlogN)`\n    pub fn new(graph: &[Vec<usize>], root:\
-    \ usize) -> Self {\n        let n = graph.len();\n        struct Cls<'a> {\n \
-    \           graph: &'a [Vec<usize>],\n            euler_tour_vertex: Vec<usize>,\n\
-    \            depth: Vec<usize>,\n        }\n        let mut cls = Cls {\n    \
-    \        graph,\n            euler_tour_vertex: Vec::with_capacity(2 * n - 1),\n\
-    \            depth: vec![0; n],\n        };\n        fn dfs(cls: &mut Cls, v:\
-    \ usize, p: usize) {\n            cls.euler_tour_vertex.push(v);\n           \
-    \ for &nv in &cls.graph[v] {\n                if nv == p {\n                 \
-    \   continue;\n                }\n                cls.depth[nv] = cls.depth[v]\
+    \u3089\u69CB\u6210\u3055\u308C\u308BSparseTable  \n    /// first_occurence\u306E\
+    [\u6700\u5C0F\u3001\u6700\u5927]\u306E\u7BC4\u56F2\u3067\u533A\u9593\u7A4D\u3092\
+    \u53D6\u308B\u3053\u3068\u3067\u3001(lca\u306E\u6DF1\u3055\u3001lca\u306E\u9802\
+    \u70B9)\u3092\u6C42\u3081\u3089\u308C\u308B  \n    /// first_occurence\u3092\u624B\
+    \u52D5\u3067\u7BA1\u7406\u3059\u308B\u7528(\u5C11\u3057\u305A\u3064\u9802\u70B9\
+    \u3092\u5897\u3084\u3057\u3066\u3044\u304F\u5834\u5408\u7B49)\n    pub sparse_table:\
+    \ SparseTable<MinMonoid>,\n}\n\nimpl EulerTour {\n    /// SparseTable\u3092\u69CB\
+    \u7BC9\u3057\u3066\u3044\u308B\u306E\u3067\u3001`O(NlogN)`\n    pub fn new(graph:\
+    \ &[Vec<usize>], root: usize) -> Self {\n        let n = graph.len();\n      \
+    \  struct Cls<'a> {\n            graph: &'a [Vec<usize>],\n            euler_tour_vertex:\
+    \ Vec<usize>,\n            depth: Vec<usize>,\n        }\n        let mut cls\
+    \ = Cls {\n            graph,\n            euler_tour_vertex: Vec::with_capacity(2\
+    \ * n - 1),\n            depth: vec![0; n],\n        };\n        fn dfs(cls: &mut\
+    \ Cls, v: usize, p: usize) {\n            cls.euler_tour_vertex.push(v);\n   \
+    \         for &nv in &cls.graph[v] {\n                if nv == p {\n         \
+    \           continue;\n                }\n                cls.depth[nv] = cls.depth[v]\
     \ + 1;\n                dfs(cls, nv, v);\n                cls.euler_tour_vertex.push(v);\n\
     \            }\n        }\n        dfs(&mut cls, root, n);\n        let mut first_occurrence\
     \ = vec![usize::MAX; n];\n        let mut last_occurrence = vec![0; n];\n    \
@@ -82,7 +87,7 @@ data:
   path: crates/tree/euler_tour/src/lib.rs
   requiredBy:
   - crates/tree/auxiliary_tree/src/lib.rs
-  timestamp: '2024-09-16 18:40:00+09:00'
+  timestamp: '2024-09-28 12:55:28+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/lca_euler_tour/src/main.rs
