@@ -191,6 +191,16 @@ data:
     - icon: ':warning:'
       path: crates/string/sa_lcp_array/src/lib.rs
       title: crates/string/sa_lcp_array/src/lib.rs
+  - name: crates/succint/bitvec/src
+    pages:
+    - icon: ':warning:'
+      path: crates/succint/bitvec/src/lib.rs
+      title: crates/succint/bitvec/src/lib.rs
+  - name: crates/succint/wavelet_matrix/src
+    pages:
+    - icon: ':warning:'
+      path: crates/succint/wavelet_matrix/src/lib.rs
+      title: crates/succint/wavelet_matrix/src/lib.rs
   - name: crates/tools/capture/src
     pages:
     - icon: ':heavy_check_mark:'
