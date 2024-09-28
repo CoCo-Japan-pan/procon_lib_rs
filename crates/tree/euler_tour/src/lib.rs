@@ -5,7 +5,7 @@ use algebra::{IdempotentMonoid, Monoid};
 use sparse_table::SparseTable;
 
 #[derive(Debug)]
-struct MinMonoid;
+pub struct MinMonoid;
 impl Monoid for MinMonoid {
     type Target = (usize, usize);
     fn id_element() -> Self::Target {
@@ -27,8 +27,10 @@ pub struct EulerTour {
     pub first_occurrence: Vec<usize>,
     /// オイラーツアーにおいて、各頂点が最後に出現するインデックス
     pub last_occurrence: Vec<usize>,
-    /// (深さ、頂点)の配列から構成されるSparseTable
-    sparse_table: SparseTable<MinMonoid>,
+    /// (深さ、頂点)の配列から構成されるSparseTable  
+    /// first_occurenceの[最小、最大]の範囲で区間積を取ることで、(lcaの深さ、lcaの頂点)を求められる  
+    /// first_occurenceを手動で管理する用(少しずつ頂点を増やしていく場合等)
+    pub sparse_table: SparseTable<MinMonoid>,
 }
 
 impl EulerTour {
