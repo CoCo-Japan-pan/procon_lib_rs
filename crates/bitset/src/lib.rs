@@ -1,4 +1,5 @@
 //! 内部でu64の配列を持ってビット演算をまとめて行い、64倍高速化を図る  
+//! Vec<bool>を用いたいDPなどで、ビット演算を使いたい場合等を想定  
 //! シフト演算やテストのコードについては
 //! [bitset-fixed](https://github.com/hatoo/bitset-fixed) Under [MIT License](https://opensource.org/license/mit)
 //! を使用させていただいています
