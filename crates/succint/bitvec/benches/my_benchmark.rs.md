@@ -19,22 +19,22 @@ data:
     \ Criterion};\nuse rand::prelude::*;\nuse rand_pcg::Pcg32;\n\npub fn rank1(c:\
     \ &mut Criterion) {\n    let mut rng = Pcg32::seed_from_u64(0);\n    const SIZE:\
     \ usize = 100000;\n    let bool_vec: Vec<bool> = (0..SIZE).map(|_| rng.gen()).collect();\n\
-    \    let bit_vec = BitVec::new(&bool_vec);\n    c.bench_function(\"rank1_all\"\
+    \    let bit_vec = BitVec::from(&bool_vec[..]);\n    c.bench_function(\"rank1_all\"\
     , |b| {\n        b.iter(|| {\n            for i in 0..SIZE {\n               \
     \ black_box(bit_vec.rank1(i));\n            }\n        });\n    });\n}\n\npub\
     \ fn rank0(c: &mut Criterion) {\n    let mut rng = Pcg32::seed_from_u64(0);\n\
     \    const SIZE: usize = 100000;\n    let bool_vec: Vec<bool> = (0..SIZE).map(|_|\
-    \ rng.gen()).collect();\n    let bit_vec = BitVec::new(&bool_vec);\n    c.bench_function(\"\
+    \ rng.gen()).collect();\n    let bit_vec = BitVec::from(&bool_vec[..]);\n    c.bench_function(\"\
     rank0_all\", |b| {\n        b.iter(|| {\n            for i in 0..SIZE {\n    \
     \            black_box(bit_vec.rank0(i));\n            }\n        });\n    });\n\
     }\n\npub fn select1(c: &mut Criterion) {\n    let mut rng = Pcg32::seed_from_u64(0);\n\
     \    const SIZE: usize = 100000;\n    let bool_vec: Vec<bool> = (0..SIZE).map(|_|\
-    \ rng.gen()).collect();\n    let bit_vec = BitVec::new(&bool_vec);\n    c.bench_function(\"\
+    \ rng.gen()).collect();\n    let bit_vec = BitVec::from(&bool_vec[..]);\n    c.bench_function(\"\
     select1_all\", |b| {\n        b.iter(|| {\n            for i in 0..SIZE {\n  \
     \              black_box(bit_vec.select1(i));\n            }\n        });\n  \
     \  });\n}\n\npub fn select0(c: &mut Criterion) {\n    let mut rng = Pcg32::seed_from_u64(0);\n\
     \    const SIZE: usize = 100000;\n    let bool_vec: Vec<bool> = (0..SIZE).map(|_|\
-    \ rng.gen()).collect();\n    let bit_vec = BitVec::new(&bool_vec);\n    c.bench_function(\"\
+    \ rng.gen()).collect();\n    let bit_vec = BitVec::from(&bool_vec[..]);\n    c.bench_function(\"\
     select0_all\", |b| {\n        b.iter(|| {\n            for i in 0..SIZE {\n  \
     \              black_box(bit_vec.select0(i));\n            }\n        });\n  \
     \  });\n}\n\ncriterion_group! {\n    name = benches;\n    config = Criterion::default();\n\
@@ -44,7 +44,7 @@ data:
   isVerificationFile: false
   path: crates/succint/bitvec/benches/my_benchmark.rs
   requiredBy: []
-  timestamp: '2024-09-29 22:45:19+09:00'
+  timestamp: '2024-09-29 23:39:42+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/succint/bitvec/benches/my_benchmark.rs
