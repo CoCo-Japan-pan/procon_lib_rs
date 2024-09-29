@@ -11,3 +11,10 @@ repository = "ssh://git@github.com/CoCo-Japan-pan/procon_lib_rs.git"
 
 [dev-dependencies]
 rand = "0.8.5"
+rand_pcg = "0.3.1"
+# https://docs.rs/crate/criterion/latest
+criterion = "0.4"
+
+[[bench]]
+name = "my_benchmark"
+harness = false
