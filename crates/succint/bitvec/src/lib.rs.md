@@ -1,7 +1,10 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: crates/succint/bitvec/benches/my_benchmark.rs
+    title: crates/succint/bitvec/benches/my_benchmark.rs
   _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: rs
@@ -31,13 +34,13 @@ data:
     \ = 64i\u756A\u76EE\u306E0\u304C\u5C5E\u3059\u308B\u30D6\u30ED\u30C3\u30AF\u306E\
     index\n    zero_select: Vec<u32>,\n}\n\nimpl BitVec {\n    pub fn new(bitvec:\
     \ &[bool]) -> Self {\n        let len = bitvec.len();\n        let b_len = (len\
-    \ + 63) / 64;\n        let mut blocks = vec![\n            Block {\n         \
+    \ + 63) >> 6;\n        let mut blocks = vec![\n            Block {\n         \
     \       block: 0,\n                cum_sum_popcnt: 0\n            };\n       \
     \     b_len\n        ];\n        for i in 0..len {\n            if bitvec[i] {\n\
     \                blocks[i >> 6].block |= 1 << (i & 63);\n            }\n     \
     \   }\n        let all_popcnt = blocks.iter().map(|b| b.block.count_ones()).sum::<u32>()\
-    \ as usize;\n        let mut popcnt = 0;\n        let one_num = (all_popcnt +\
-    \ 63) / 64;\n        let zero_num = ((len - all_popcnt) + 63) / 64;\n        let\
+    \ as usize;\n        let mut popcnt = 0;\n        let one_num = (all_popcnt >>\
+    \ 6) + 1;\n        let zero_num = ((len - all_popcnt) >> 6) + 1;\n        let\
     \ mut one_select = Vec::with_capacity(one_num);\n        let mut zero_select =\
     \ Vec::with_capacity(zero_num);\n        for (i, b) in blocks.iter_mut().enumerate()\
     \ {\n            if popcnt as usize >= one_select.len() << 6 {\n             \
@@ -59,23 +62,25 @@ data:
     \      }\n        // \u30D6\u30ED\u30C3\u30AF\u3067\u4E8C\u5206\u63A2\u7D22\u3092\
     \u884C\u3046\u304C\u3001\u305D\u306E\u7BC4\u56F2\u306F\u7D22\u5F15\u3067\u7D5E\
     \u308B\n        // self.blocks[ok].cum_sum_popcnt <= i < self.blocks[ng].cum_sum_popcnt\n\
-    \        let mut ok = self.one_select[(i >> 6).saturating_sub(1)] as usize;\n\
-    \        let mut ng = if let Some(&ng) = self.one_select.get((i >> 6) + 1) {\n\
-    \            ng as usize\n        } else {\n            self.blocks.len()\n  \
-    \      };\n        let i = i as u32;\n        while ng - ok > 1 {\n          \
-    \  let mid = (ok + ng) >> 1;\n            if self.blocks[mid].cum_sum_popcnt <=\
-    \ i {\n                ok = mid;\n            } else {\n                ng = mid;\n\
-    \            }\n        }\n        let rem = i - self.blocks[ok].cum_sum_popcnt;\n\
+    \        let mut ok = if let Some(&ok) = self.one_select.get(i >> 6) {\n     \
+    \       ok.saturating_sub(1) as usize\n        } else {\n            self.blocks.len().saturating_sub(1)\n\
+    \        };\n        let mut ng = if let Some(&ng) = self.one_select.get((i >>\
+    \ 6) + 1) {\n            ng as usize\n        } else {\n            self.blocks.len()\n\
+    \        };\n        let i = i as u32;\n        while ng - ok > 1 {\n        \
+    \    let mid = (ok + ng) >> 1;\n            if self.blocks[mid].cum_sum_popcnt\
+    \ <= i {\n                ok = mid;\n            } else {\n                ng\
+    \ = mid;\n            }\n        }\n        let rem = i - self.blocks[ok].cum_sum_popcnt;\n\
     \        // ok\u306E\u30D6\u30ED\u30C3\u30AF\u306E\u4E2D\u3067\u306Erem\u756A\u76EE\
     \u306E1\u306E\u4F4D\u7F6E\n        let offset = select1_u64(self.blocks[ok].block,\
     \ rem as usize);\n        Some((ok << 6) + offset as usize)\n    }\n\n    ///\
     \ 0-based\u3067i\u756A\u76EE\u306E0\u306E\u4F4D\u7F6E O(logN)\n    pub fn select0(&self,\
     \ i: usize) -> Option<usize> {\n        let all_0 = self.len - self.all_popcnt\
     \ as usize;\n        if i >= all_0 {\n            return None;\n        }\n  \
-    \      let mut ok = self.zero_select[(i >> 6).saturating_sub(1)] as usize;\n \
-    \       let mut ng = if let Some(&ng) = self.zero_select.get((i >> 6) + 1) {\n\
-    \            ng as usize\n        } else {\n            self.blocks.len()\n  \
-    \      };\n        while ng - ok > 1 {\n            let mid = (ok + ng) >> 1;\n\
+    \      let mut ok = if let Some(&ok) = self.zero_select.get(i >> 6) {\n      \
+    \      ok.saturating_sub(1) as usize\n        } else {\n            self.blocks.len().saturating_sub(1)\n\
+    \        };\n        let mut ng = if let Some(&ng) = self.zero_select.get((i >>\
+    \ 6) + 1) {\n            ng as usize\n        } else {\n            self.blocks.len()\n\
+    \        };\n        while ng - ok > 1 {\n            let mid = (ok + ng) >> 1;\n\
     \            if ((mid << 6) - self.blocks[mid].cum_sum_popcnt as usize) <= i {\n\
     \                ok = mid;\n            } else {\n                ng = mid;\n\
     \            }\n        }\n        let rem = i - ((ok << 6) - self.blocks[ok].cum_sum_popcnt\
@@ -132,8 +137,9 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: crates/succint/bitvec/src/lib.rs
-  requiredBy: []
-  timestamp: '2024-09-29 20:55:20+09:00'
+  requiredBy:
+  - crates/succint/bitvec/benches/my_benchmark.rs
+  timestamp: '2024-09-29 21:30:10+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/succint/bitvec/src/lib.rs

@@ -191,6 +191,11 @@ data:
     - icon: ':warning:'
       path: crates/string/sa_lcp_array/src/lib.rs
       title: crates/string/sa_lcp_array/src/lib.rs
+  - name: crates/succint/bitvec/benches
+    pages:
+    - icon: ':warning:'
+      path: crates/succint/bitvec/benches/my_benchmark.rs
+      title: crates/succint/bitvec/benches/my_benchmark.rs
   - name: crates/succint/bitvec/src
     pages:
     - icon: ':warning:'
