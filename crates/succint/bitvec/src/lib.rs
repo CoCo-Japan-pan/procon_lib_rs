@@ -25,7 +25,7 @@ pub struct BitVec {
 impl BitVec {
     pub fn new(bitvec: &[bool]) -> Self {
         let len = bitvec.len();
-        let b_len = (len + 63) / 64;
+        let b_len = (len + 63) >> 6;
         let mut blocks = vec![
             Block {
                 block: 0,
@@ -40,8 +40,8 @@ impl BitVec {
         }
         let all_popcnt = blocks.iter().map(|b| b.block.count_ones()).sum::<u32>() as usize;
         let mut popcnt = 0;
-        let one_num = (all_popcnt + 63) / 64;
-        let zero_num = ((len - all_popcnt) + 63) / 64;
+        let one_num = (all_popcnt >> 6) + 1;
+        let zero_num = ((len - all_popcnt) >> 6) + 1;
         let mut one_select = Vec::with_capacity(one_num);
         let mut zero_select = Vec::with_capacity(zero_num);
         for (i, b) in blocks.iter_mut().enumerate() {
@@ -88,7 +88,11 @@ impl BitVec {
         }
         // ブロックで二分探索を行うが、その範囲は索引で絞る
         // self.blocks[ok].cum_sum_popcnt <= i < self.blocks[ng].cum_sum_popcnt
-        let mut ok = self.one_select[(i >> 6).saturating_sub(1)] as usize;
+        let mut ok = if let Some(&ok) = self.one_select.get(i >> 6) {
+            ok.saturating_sub(1) as usize
+        } else {
+            self.blocks.len().saturating_sub(1)
+        };
         let mut ng = if let Some(&ng) = self.one_select.get((i >> 6) + 1) {
             ng as usize
         } else {
@@ -115,7 +119,11 @@ impl BitVec {
         if i >= all_0 {
             return None;
         }
-        let mut ok = self.zero_select[(i >> 6).saturating_sub(1)] as usize;
+        let mut ok = if let Some(&ok) = self.zero_select.get(i >> 6) {
+            ok.saturating_sub(1) as usize
+        } else {
+            self.blocks.len().saturating_sub(1)
+        };
         let mut ng = if let Some(&ng) = self.zero_select.get((i >> 6) + 1) {
             ng as usize
         } else {
