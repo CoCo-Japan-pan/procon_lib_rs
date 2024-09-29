@@ -1,12 +1,9 @@
 //! 完備辞書  
 //! 1.5N bit 用いているので、succintではない compactではある  
 //! u64のブロックのみを使い、小ブロックは使わない  
-//! selectの高速化のために、x86_64の命令を使っている  
+//! selectの高速化のために、x86_64の命令を(使えれば)使う  
 //! しかしselect用の索引を持たせてないので、selectはO(logN)  
 //! 雑なベンチマークによると、select1はrank1の4~5倍程度の時間がかかりそう
-
-#![cfg(target_arch = "x86_64")]
-use std::arch::x86_64::_pdep_u64;
 
 /// キャッシュ効率のため、ブロックとその前のブロックまでの1の数をまとめて持つ
 #[derive(Debug, Clone, Copy)]
@@ -112,10 +109,27 @@ impl BitVec {
     }
 }
 
+#[cfg(target_arch = "x86_64")]
 fn select1_u64(x: u64, index: usize) -> u32 {
+    use std::arch::x86_64::_pdep_u64;
     let z = 1 << index;
     let y = unsafe { _pdep_u64(z, x) };
     y.trailing_zeros()
+}
+
+#[cfg(not(target_arch = "x86_64"))]
+fn select1_u64(x: u64, index: usize) -> u32 {
+    let mut left = 0;
+    let mut right = 64;
+    while right - left > 1 {
+        let mid = (left + right) >> 1;
+        if (x & ((1 << mid) - 1)).count_ones() > index as u32 {
+            right = mid;
+        } else {
+            left = mid;
+        }
+    }
+    left
 }
 
 #[cfg(test)]
