@@ -22,11 +22,11 @@ data:
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! \u5185\u90E8\u3067u64\u306E\u914D\u5217\u3092\u6301\u3063\u3066\u30D3\
     \u30C3\u30C8\u6F14\u7B97\u3092\u307E\u3068\u3081\u3066\u884C\u3044\u300164\u500D\
-    \u9AD8\u901F\u5316\u3092\u56F3\u308B  \n//! Vec<bool>\u3092\u7528\u3044\u305F\u3044\
-    DP\u306A\u3069\u3067\u3001\u30D3\u30C3\u30C8\u6F14\u7B97\u3092\u4F7F\u3044\u305F\
-    \u3044\u5834\u5408\u7B49\u3092\u60F3\u5B9A  \n//! \u30B7\u30D5\u30C8\u6F14\u7B97\
-    \u3084\u30C6\u30B9\u30C8\u306E\u30B3\u30FC\u30C9\u306B\u3064\u3044\u3066\u306F\
-    \n//! [bitset-fixed](https://github.com/hatoo/bitset-fixed) Under [MIT License](https://opensource.org/license/mit)\n\
+    \u9AD8\u901F\u5316\u3092\u56F3\u308B  \n//! `Vec<bool>`\u3092\u7528\u3044\u305F\
+    \u3044DP\u306A\u3069\u3067\u3001\u30D3\u30C3\u30C8\u6F14\u7B97\u3092\u4F7F\u3044\
+    \u305F\u3044\u5834\u5408\u7B49\u3092\u60F3\u5B9A  \n//! \u30B7\u30D5\u30C8\u6F14\
+    \u7B97\u3084\u30C6\u30B9\u30C8\u306E\u30B3\u30FC\u30C9\u306B\u3064\u3044\u3066\
+    \u306F\n//! [bitset-fixed](https://github.com/hatoo/bitset-fixed) Under [MIT License](https://opensource.org/license/mit)\n\
     //! \u3092\u4F7F\u7528\u3055\u305B\u3066\u3044\u305F\u3060\u3044\u3066\u3044\u307E\
     \u3059\n\nuse std::ops::{\n    BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor,\
     \ BitXorAssign, Index, Not, Shl, ShlAssign,\n    Shr, ShrAssign,\n};\n\n#[derive(Debug,\
@@ -232,7 +232,7 @@ data:
   requiredBy:
   - crates/math/bit_matrix/src/lib.rs
   - verify/AtCoder/typical_059/src/main.rs
-  timestamp: '2024-09-29 00:15:17+09:00'
+  timestamp: '2024-09-29 18:24:54+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/bitset/src/lib.rs
