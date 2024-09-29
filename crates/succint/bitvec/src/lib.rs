@@ -22,8 +22,8 @@ pub struct BitVec {
     zero_select: Vec<u32>,
 }
 
-impl BitVec {
-    pub fn new(bitvec: &[bool]) -> Self {
+impl From<&[bool]> for BitVec {
+    fn from(bitvec: &[bool]) -> Self {
         let len = bitvec.len();
         let b_len = (len + 63) >> 6;
         let mut blocks = vec![
@@ -38,13 +38,55 @@ impl BitVec {
                 blocks[i >> 6].block |= 1 << (i & 63);
             }
         }
-        let all_popcnt = blocks.iter().map(|b| b.block.count_ones()).sum::<u32>() as usize;
+        let mut ret = Self {
+            len,
+            blocks,
+            all_popcnt: 0,
+            one_select: Vec::new(),
+            zero_select: Vec::new(),
+        };
+        ret.build();
+        ret
+    }
+}
+
+impl BitVec {
+    /// 0で初期化されたビット列を作成
+    pub fn new(len: usize) -> Self {
+        Self {
+            len,
+            blocks: vec![
+                Block {
+                    block: 0,
+                    cum_sum_popcnt: 0
+                };
+                (len + 63) >> 6
+            ],
+            all_popcnt: 0,
+            one_select: Vec::new(),
+            zero_select: Vec::new(),
+        }
+    }
+
+    /// i番目のビットを立てる new()で作成した場合はこちらで一つずつ立てる
+    pub fn set(&mut self, i: usize) {
+        debug_assert!(i < self.len);
+        self.blocks[i >> 6].block |= 1 << (i & 63);
+    }
+
+    /// 直接setを用いた場合は最後にこれを必ず呼ぶ
+    pub fn build(&mut self) {
+        let all_popcnt = self
+            .blocks
+            .iter()
+            .map(|b| b.block.count_ones())
+            .sum::<u32>() as usize;
         let mut popcnt = 0;
         let one_num = (all_popcnt >> 6) + 1;
-        let zero_num = ((len - all_popcnt) >> 6) + 1;
+        let zero_num = ((self.len - all_popcnt) >> 6) + 1;
         let mut one_select = Vec::with_capacity(one_num);
         let mut zero_select = Vec::with_capacity(zero_num);
-        for (i, b) in blocks.iter_mut().enumerate() {
+        for (i, b) in self.blocks.iter_mut().enumerate() {
             if popcnt as usize >= one_select.len() << 6 {
                 one_select.push(i as u32);
             }
@@ -55,13 +97,9 @@ impl BitVec {
             popcnt += b.block.count_ones();
         }
         assert_eq!(popcnt as usize, all_popcnt);
-        Self {
-            len,
-            blocks,
-            all_popcnt: popcnt,
-            one_select,
-            zero_select,
-        }
+        self.all_popcnt = popcnt;
+        self.one_select = one_select;
+        self.zero_select = zero_select;
     }
 
     /// [0..i)の1の数 O(1)
@@ -113,7 +151,7 @@ impl BitVec {
         Some((ok << 6) + offset as usize)
     }
 
-    /// 0-basedでi番目の0の位置 O(logN)
+    /// 0-basedでi番目の0の位置 最悪O(logN) 平均O(1)
     pub fn select0(&self, i: usize) -> Option<usize> {
         let all_0 = self.len - self.all_popcnt as usize;
         if i >= all_0 {
@@ -177,7 +215,7 @@ mod test {
         fn test(size: usize) {
             let mut rng = thread_rng();
             let bool_vec = (0..size).map(|_| rng.gen_bool(0.5)).collect::<Vec<_>>();
-            let bit_vec = BitVec::new(&bool_vec);
+            let bit_vec = BitVec::from(&bool_vec[..]);
             let mut ans1 = vec![0; size + 1];
             let mut ans0 = vec![0; size + 1];
             for i in 0..size {
@@ -199,7 +237,7 @@ mod test {
         fn test(size: usize) {
             let mut rng = thread_rng();
             let bool_vec = (0..size).map(|_| rng.gen_bool(0.5)).collect::<Vec<_>>();
-            let bit_vec = BitVec::new(&bool_vec);
+            let bit_vec = BitVec::from(&bool_vec[..]);
             let mut one_indices = Vec::with_capacity(bit_vec.all_popcnt as usize);
             let mut zero_indices = Vec::with_capacity(size - bit_vec.all_popcnt as usize);
             for i in 0..size {
@@ -236,7 +274,7 @@ mod test {
         let mut rng = thread_rng();
         const SIZE: usize = 250000;
         let bool_vec = (0..SIZE).map(|_| rng.gen_bool(0.5)).collect::<Vec<_>>();
-        let bit_vec = BitVec::new(&bool_vec);
+        let bit_vec = BitVec::from(&bool_vec[..]);
         let rand_nums = {
             let mut rand_nums = (0..SIZE).collect::<Vec<_>>();
             rand_nums.shuffle(&mut rng);
