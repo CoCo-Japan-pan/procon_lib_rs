@@ -25,26 +25,12 @@ pub struct BitVec {
 impl From<&[bool]> for BitVec {
     fn from(bitvec: &[bool]) -> Self {
         let len = bitvec.len();
-        let b_len = (len + 63) >> 6;
-        let mut blocks = vec![
-            Block {
-                block: 0,
-                cum_sum_popcnt: 0
-            };
-            b_len
-        ];
-        for i in 0..len {
-            if bitvec[i] {
-                blocks[i >> 6].block |= 1 << (i & 63);
+        let mut ret = Self::new(len);
+        for (i, &b) in bitvec.iter().enumerate() {
+            if b {
+                ret.set(i);
             }
         }
-        let mut ret = Self {
-            len,
-            blocks,
-            all_popcnt: 0,
-            one_select: Vec::new(),
-            zero_select: Vec::new(),
-        };
         ret.build();
         ret
     }
@@ -281,20 +267,21 @@ mod test {
             rand_nums
         };
         stop_watch();
+        use std::hint::black_box;
         for &i in &rand_nums {
-            let _ = bit_vec.rank1(i);
+            black_box(bit_vec.rank1(i));
         }
         println!("rank1: {:.6}", stop_watch());
         for &i in &rand_nums {
-            let _ = bit_vec.select1(i);
+            black_box(bit_vec.select1(i));
         }
         println!("select1: {:.6}", stop_watch());
         for &i in &rand_nums {
-            let _ = bit_vec.rank0(i);
+            black_box(bit_vec.rank0(i));
         }
         println!("rank0: {:.6}", stop_watch());
         for &i in &rand_nums {
-            let _ = bit_vec.select0(i);
+            black_box(bit_vec.select0(i));
         }
         println!("select0: {:.6}", stop_watch());
     }
