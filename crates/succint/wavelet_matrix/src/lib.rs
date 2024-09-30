@@ -9,6 +9,7 @@ use std::ops::RangeBounds;
 /// 0-based
 #[derive(Debug, Clone)]
 pub struct WaveletMatrix {
+    max: usize,
     len: usize,
     /// indices[i] = 下からiビット目に関する索引
     indices: Vec<BitVec>,
@@ -44,6 +45,7 @@ impl WaveletMatrix {
             counts[x] += 1;
         }
         Self {
+            max,
             len,
             indices,
             sorted_positions,
@@ -69,6 +71,9 @@ impl WaveletMatrix {
 
     /// 数列の[0, pos)区間に含まれるnumの数を求める O(logσ)
     pub fn rank(&self, num: usize, mut pos: usize) -> usize {
+        if num > self.max {
+            return 0;
+        }
         if self.sorted_positions[num].is_none() {
             return 0;
         }
@@ -86,6 +91,9 @@ impl WaveletMatrix {
 
     /// 数列のpos番目の数値numの位置を求める O(logσ)
     pub fn select(&self, num: usize, pos: usize) -> Option<usize> {
+        if num > self.max {
+            return None;
+        }
         if self.counts[num] <= pos {
             return None;
         }

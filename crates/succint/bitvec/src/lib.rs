@@ -46,7 +46,7 @@ impl BitVec {
                     block: 0,
                     cum_sum_popcnt: 0
                 };
-                (len + 63) >> 6
+                (len >> 6) + 1
             ],
             all_popcnt: 0,
             one_select: Vec::new(),
@@ -224,7 +224,7 @@ mod test {
                 ans1[i + 1] = ans1[i] + bool_vec[i] as usize;
                 ans0[i + 1] = ans0[i] + !bool_vec[i] as usize;
             }
-            for i in 0..size {
+            for i in 0..=size {
                 assert_eq!(bit_vec.rank_1(i), ans1[i]);
                 assert_eq!(bit_vec.rank_0(i), ans0[i]);
             }
