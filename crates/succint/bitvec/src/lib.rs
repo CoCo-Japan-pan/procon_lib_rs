@@ -15,7 +15,7 @@ struct Block {
 pub struct BitVec {
     len: usize,
     blocks: Vec<Block>,
-    all_popcnt: u32,
+    all_popcnt: usize,
     /// one_select[i] = 64i番目の1が属するブロックのindex
     one_select: Vec<u32>,
     /// zero_select[i] = 64i番目の0が属するブロックのindex
@@ -54,6 +54,22 @@ impl BitVec {
         }
     }
 
+    /// 全ての範囲における1の数 O(1)
+    pub fn rank1_all(&self) -> usize {
+        self.all_popcnt
+    }
+
+    /// 全ての範囲における0の数 O(1)
+    pub fn rank0_all(&self) -> usize {
+        self.len - self.all_popcnt
+    }
+
+    /// i番目のビットを取得する O(1)
+    pub fn access(&self, i: usize) -> bool {
+        debug_assert!(i < self.len);
+        (self.blocks[i >> 6].block >> (i & 63)) & 1 == 1
+    }
+
     /// i番目のビットを立てる new()で作成した場合はこちらで一つずつ立てる
     pub fn set(&mut self, i: usize) {
         debug_assert!(i < self.len);
@@ -83,13 +99,13 @@ impl BitVec {
             popcnt += b.block.count_ones();
         }
         assert_eq!(popcnt as usize, all_popcnt);
-        self.all_popcnt = popcnt;
+        self.all_popcnt = all_popcnt;
         self.one_select = one_select;
         self.zero_select = zero_select;
     }
 
     /// [0..i)の1の数 O(1)
-    pub fn rank1(&self, i: usize) -> usize {
+    pub fn rank_1(&self, i: usize) -> usize {
         debug_assert!(i <= self.len);
         let Block {
             block,
@@ -101,13 +117,13 @@ impl BitVec {
     }
 
     /// [0..i)の0の数 O(1)
-    pub fn rank0(&self, i: usize) -> usize {
-        i - self.rank1(i)
+    pub fn rank_0(&self, i: usize) -> usize {
+        i - self.rank_1(i)
     }
 
     /// 0-basedでi番目の1の位置 最悪O(logN) 平均O(1)
-    pub fn select1(&self, i: usize) -> Option<usize> {
-        if i >= self.all_popcnt as usize {
+    pub fn select_1(&self, i: usize) -> Option<usize> {
+        if i >= self.all_popcnt {
             return None;
         }
         // ブロックで二分探索を行うが、その範囲は索引で絞る
@@ -138,8 +154,8 @@ impl BitVec {
     }
 
     /// 0-basedでi番目の0の位置 最悪O(logN) 平均O(1)
-    pub fn select0(&self, i: usize) -> Option<usize> {
-        let all_0 = self.len - self.all_popcnt as usize;
+    pub fn select_0(&self, i: usize) -> Option<usize> {
+        let all_0 = self.len - self.all_popcnt;
         if i >= all_0 {
             return None;
         }
@@ -209,8 +225,8 @@ mod test {
                 ans0[i + 1] = ans0[i] + !bool_vec[i] as usize;
             }
             for i in 0..size {
-                assert_eq!(bit_vec.rank1(i), ans1[i]);
-                assert_eq!(bit_vec.rank0(i), ans0[i]);
+                assert_eq!(bit_vec.rank_1(i), ans1[i]);
+                assert_eq!(bit_vec.rank_0(i), ans0[i]);
             }
         }
         for size in [0, 1, 63, 64, 65, 100, 1000, 10000, 100000, 250000] {
@@ -224,8 +240,8 @@ mod test {
             let mut rng = thread_rng();
             let bool_vec = (0..size).map(|_| rng.gen_bool(0.5)).collect::<Vec<_>>();
             let bit_vec = BitVec::from(&bool_vec[..]);
-            let mut one_indices = Vec::with_capacity(bit_vec.all_popcnt as usize);
-            let mut zero_indices = Vec::with_capacity(size - bit_vec.all_popcnt as usize);
+            let mut one_indices = Vec::with_capacity(bit_vec.all_popcnt);
+            let mut zero_indices = Vec::with_capacity(size - bit_vec.all_popcnt);
             for i in 0..size {
                 if bool_vec[i] {
                     one_indices.push(i);
@@ -234,8 +250,8 @@ mod test {
                 }
             }
             for i in 0..size {
-                assert_eq!(bit_vec.select1(i), one_indices.get(i).copied());
-                assert_eq!(bit_vec.select0(i), zero_indices.get(i).copied());
+                assert_eq!(bit_vec.select_1(i), one_indices.get(i).copied());
+                assert_eq!(bit_vec.select_0(i), zero_indices.get(i).copied());
             }
         }
         for size in [0, 1, 63, 64, 65, 100, 1000, 10000, 100000, 250000] {
@@ -269,19 +285,19 @@ mod test {
         stop_watch();
         use std::hint::black_box;
         for &i in &rand_nums {
-            black_box(bit_vec.rank1(i));
+            black_box(bit_vec.rank_1(i));
         }
         println!("rank1: {:.6}", stop_watch());
         for &i in &rand_nums {
-            black_box(bit_vec.select1(i));
+            black_box(bit_vec.select_1(i));
         }
         println!("select1: {:.6}", stop_watch());
         for &i in &rand_nums {
-            black_box(bit_vec.rank0(i));
+            black_box(bit_vec.rank_0(i));
         }
         println!("rank0: {:.6}", stop_watch());
         for &i in &rand_nums {
-            black_box(bit_vec.select0(i));
+            black_box(bit_vec.select_0(i));
         }
         println!("select0: {:.6}", stop_watch());
     }

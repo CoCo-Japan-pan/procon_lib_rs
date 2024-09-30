@@ -11,7 +11,7 @@ pub fn rank1(c: &mut Criterion) {
     c.bench_function("rank1_all", |b| {
         b.iter(|| {
             for i in 0..SIZE {
-                black_box(bit_vec.rank1(i));
+                black_box(bit_vec.rank_1(i));
             }
         });
     });
@@ -25,7 +25,7 @@ pub fn rank0(c: &mut Criterion) {
     c.bench_function("rank0_all", |b| {
         b.iter(|| {
             for i in 0..SIZE {
-                black_box(bit_vec.rank0(i));
+                black_box(bit_vec.rank_0(i));
             }
         });
     });
@@ -39,7 +39,7 @@ pub fn select1(c: &mut Criterion) {
     c.bench_function("select1_all", |b| {
         b.iter(|| {
             for i in 0..SIZE {
-                black_box(bit_vec.select1(i));
+                black_box(bit_vec.select_1(i));
             }
         });
     });
@@ -53,7 +53,7 @@ pub fn select0(c: &mut Criterion) {
     c.bench_function("select0_all", |b| {
         b.iter(|| {
             for i in 0..SIZE {
-                black_box(bit_vec.select0(i));
+                black_box(bit_vec.select_0(i));
             }
         });
     });
