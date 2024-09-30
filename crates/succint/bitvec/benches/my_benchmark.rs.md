@@ -21,30 +21,30 @@ data:
     \ usize = 100000;\n    let bool_vec: Vec<bool> = (0..SIZE).map(|_| rng.gen()).collect();\n\
     \    let bit_vec = BitVec::from(&bool_vec[..]);\n    c.bench_function(\"rank1_all\"\
     , |b| {\n        b.iter(|| {\n            for i in 0..SIZE {\n               \
-    \ black_box(bit_vec.rank1(i));\n            }\n        });\n    });\n}\n\npub\
+    \ black_box(bit_vec.rank_1(i));\n            }\n        });\n    });\n}\n\npub\
     \ fn rank0(c: &mut Criterion) {\n    let mut rng = Pcg32::seed_from_u64(0);\n\
     \    const SIZE: usize = 100000;\n    let bool_vec: Vec<bool> = (0..SIZE).map(|_|\
     \ rng.gen()).collect();\n    let bit_vec = BitVec::from(&bool_vec[..]);\n    c.bench_function(\"\
     rank0_all\", |b| {\n        b.iter(|| {\n            for i in 0..SIZE {\n    \
-    \            black_box(bit_vec.rank0(i));\n            }\n        });\n    });\n\
+    \            black_box(bit_vec.rank_0(i));\n            }\n        });\n    });\n\
     }\n\npub fn select1(c: &mut Criterion) {\n    let mut rng = Pcg32::seed_from_u64(0);\n\
     \    const SIZE: usize = 100000;\n    let bool_vec: Vec<bool> = (0..SIZE).map(|_|\
     \ rng.gen()).collect();\n    let bit_vec = BitVec::from(&bool_vec[..]);\n    c.bench_function(\"\
     select1_all\", |b| {\n        b.iter(|| {\n            for i in 0..SIZE {\n  \
-    \              black_box(bit_vec.select1(i));\n            }\n        });\n  \
-    \  });\n}\n\npub fn select0(c: &mut Criterion) {\n    let mut rng = Pcg32::seed_from_u64(0);\n\
+    \              black_box(bit_vec.select_1(i));\n            }\n        });\n \
+    \   });\n}\n\npub fn select0(c: &mut Criterion) {\n    let mut rng = Pcg32::seed_from_u64(0);\n\
     \    const SIZE: usize = 100000;\n    let bool_vec: Vec<bool> = (0..SIZE).map(|_|\
     \ rng.gen()).collect();\n    let bit_vec = BitVec::from(&bool_vec[..]);\n    c.bench_function(\"\
     select0_all\", |b| {\n        b.iter(|| {\n            for i in 0..SIZE {\n  \
-    \              black_box(bit_vec.select0(i));\n            }\n        });\n  \
-    \  });\n}\n\ncriterion_group! {\n    name = benches;\n    config = Criterion::default();\n\
+    \              black_box(bit_vec.select_0(i));\n            }\n        });\n \
+    \   });\n}\n\ncriterion_group! {\n    name = benches;\n    config = Criterion::default();\n\
     \    targets = rank1, rank0, select1, select0\n}\ncriterion_main!(benches);\n"
   dependsOn:
   - crates/succint/bitvec/src/lib.rs
   isVerificationFile: false
   path: crates/succint/bitvec/benches/my_benchmark.rs
   requiredBy: []
-  timestamp: '2024-09-29 23:39:42+09:00'
+  timestamp: '2024-09-30 16:25:48+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/succint/bitvec/benches/my_benchmark.rs

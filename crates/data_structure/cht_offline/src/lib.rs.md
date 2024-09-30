@@ -141,7 +141,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/cht_offline/src/lib.rs
   requiredBy: []
-  timestamp: '2024-07-15 21:52:20+09:00'
+  timestamp: '2024-09-30 16:25:48+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/segment_add_get_min/src/main.rs

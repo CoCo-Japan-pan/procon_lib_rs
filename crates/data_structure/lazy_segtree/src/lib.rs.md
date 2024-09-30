@@ -215,7 +215,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/lazy_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-09-16 21:21:56+09:00'
+  timestamp: '2024-09-30 16:25:48+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs

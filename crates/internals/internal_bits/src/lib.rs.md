@@ -17,6 +17,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/fps/fps_utils/src/lib.rs
     title: crates/fps/fps_utils/src/lib.rs
+  - icon: ':warning:'
+    path: crates/succint/wavelet_matrix/src/lib.rs
+    title: crates/succint/wavelet_matrix/src/lib.rs
   _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: rs
@@ -28,8 +31,9 @@ data:
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "// From <https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/internal_bit.rs>\n\
-    pub fn ceil_log2(n: u32) -> u32 {\n    32 - n.saturating_sub(1).leading_zeros()\n\
+  code: "/// From <https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/internal_bit.rs>\
+    \  \n/// n <= 2^(ceil_log2(n)) \u3092\u6E80\u305F\u3059\u6700\u5C0F\u306En\u3092\
+    \u8FD4\u3059\npub fn ceil_log2(n: u32) -> u32 {\n    32 - n.saturating_sub(1).leading_zeros()\n\
     }\n"
   dependsOn: []
   isVerificationFile: false
@@ -39,8 +43,9 @@ data:
   - crates/data_structure/lazy_segtree/src/lib.rs
   - crates/data_structure/segtree_2d_dense/src/lib.rs
   - crates/data_structure/cht_offline/src/lib.rs
+  - crates/succint/wavelet_matrix/src/lib.rs
   - crates/fps/fps_utils/src/lib.rs
-  timestamp: '2024-05-30 17:49:36+09:00'
+  timestamp: '2024-09-30 16:25:48+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/internals/internal_bits/src/lib.rs
