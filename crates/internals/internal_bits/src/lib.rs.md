@@ -17,7 +17,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/fps/fps_utils/src/lib.rs
     title: crates/fps/fps_utils/src/lib.rs
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: crates/succint/wavelet_matrix/src/lib.rs
     title: crates/succint/wavelet_matrix/src/lib.rs
   _extendedVerifiedWith: []

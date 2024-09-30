@@ -5,7 +5,7 @@ data:
   - icon: ':warning:'
     path: crates/succint/bitvec/benches/my_benchmark.rs
     title: crates/succint/bitvec/benches/my_benchmark.rs
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: crates/succint/wavelet_matrix/src/lib.rs
     title: crates/succint/wavelet_matrix/src/lib.rs
   _extendedVerifiedWith: []
@@ -44,7 +44,7 @@ data:
     \n    pub fn new(len: usize) -> Self {\n        Self {\n            len,\n   \
     \         blocks: vec![\n                Block {\n                    block: 0,\n\
     \                    cum_sum_popcnt: 0\n                };\n                (len\
-    \ + 63) >> 6\n            ],\n            all_popcnt: 0,\n            one_select:\
+    \ >> 6) + 1\n            ],\n            all_popcnt: 0,\n            one_select:\
     \ Vec::new(),\n            zero_select: Vec::new(),\n        }\n    }\n\n    ///\
     \ \u5168\u3066\u306E\u7BC4\u56F2\u306B\u304A\u3051\u308B1\u306E\u6570 O(1)\n \
     \   pub fn rank1_all(&self) -> usize {\n        self.all_popcnt\n    }\n\n   \
@@ -124,7 +124,7 @@ data:
     \ = vec![0; size + 1];\n            let mut ans0 = vec![0; size + 1];\n      \
     \      for i in 0..size {\n                ans1[i + 1] = ans1[i] + bool_vec[i]\
     \ as usize;\n                ans0[i + 1] = ans0[i] + !bool_vec[i] as usize;\n\
-    \            }\n            for i in 0..size {\n                assert_eq!(bit_vec.rank_1(i),\
+    \            }\n            for i in 0..=size {\n                assert_eq!(bit_vec.rank_1(i),\
     \ ans1[i]);\n                assert_eq!(bit_vec.rank_0(i), ans0[i]);\n       \
     \     }\n        }\n        for size in [0, 1, 63, 64, 65, 100, 1000, 10000, 100000,\
     \ 250000] {\n            test(size);\n        }\n    }\n\n    #[test]\n    fn\
@@ -163,7 +163,7 @@ data:
   requiredBy:
   - crates/succint/bitvec/benches/my_benchmark.rs
   - crates/succint/wavelet_matrix/src/lib.rs
-  timestamp: '2024-09-30 16:25:48+09:00'
+  timestamp: '2024-09-30 17:14:24+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/succint/bitvec/src/lib.rs

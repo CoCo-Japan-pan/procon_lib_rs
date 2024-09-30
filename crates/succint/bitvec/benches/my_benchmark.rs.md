@@ -44,7 +44,7 @@ data:
   isVerificationFile: false
   path: crates/succint/bitvec/benches/my_benchmark.rs
   requiredBy: []
-  timestamp: '2024-09-30 16:25:48+09:00'
+  timestamp: '2024-09-30 17:14:24+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/succint/bitvec/benches/my_benchmark.rs

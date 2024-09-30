@@ -203,7 +203,7 @@ data:
       title: crates/succint/bitvec/src/lib.rs
   - name: crates/succint/wavelet_matrix/src
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: crates/succint/wavelet_matrix/src/lib.rs
       title: crates/succint/wavelet_matrix/src/lib.rs
   - name: crates/tools/capture/src
@@ -432,6 +432,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
       title: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
+  - name: verify/yosupo/range_kth_smallest/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yosupo/range_kth_smallest/src/main.rs
+      title: verify/yosupo/range_kth_smallest/src/main.rs
   - name: verify/yosupo/rectangle_add_point_get/src
     pages:
     - icon: ':heavy_check_mark:'
