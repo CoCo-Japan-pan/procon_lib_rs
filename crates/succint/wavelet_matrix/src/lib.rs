@@ -9,7 +9,6 @@ use std::ops::RangeBounds;
 /// 0-based
 #[derive(Debug, Clone)]
 pub struct WaveletMatrix {
-    max: usize,
     len: usize,
     /// indices[i] = 下からiビット目に関する索引
     indices: Vec<BitVec>,
@@ -24,8 +23,8 @@ impl WaveletMatrix {
     /// 最大値のlogだけ段数が必要なので、座標圧縮されていることを期待する
     pub fn new(list: &[usize]) -> Self {
         let len = list.len();
-        let max = *list.iter().max().unwrap();
-        let log = ceil_log2(max as u32 + 1) as usize;
+        let max = *list.iter().max().unwrap_or(&0);
+        let log = ceil_log2(max as u32) as usize;
         let mut indices = vec![BitVec::new(len); log];
         // 注目する桁のbitが0となる数、1となる数
         let mut tmp = vec![Vec::with_capacity(log); 2];
@@ -53,7 +52,6 @@ impl WaveletMatrix {
             counts[x] += 1;
         }
         Self {
-            max,
             len,
             indices,
             sorted_positions,
@@ -79,10 +77,7 @@ impl WaveletMatrix {
 
     /// 数列の[0, pos)区間に含まれるnumの数を求める O(logσ)
     pub fn rank(&self, num: usize, mut pos: usize) -> usize {
-        if num > self.max {
-            return 0;
-        }
-        if self.sorted_positions[num].is_none() {
+        if self.sorted_positions.get(num).unwrap_or(&None).is_none() {
             return 0;
         }
         assert!(pos <= self.len);
@@ -99,10 +94,7 @@ impl WaveletMatrix {
 
     /// 数列のpos番目の数値numの位置を求める O(logσ)
     pub fn select(&self, num: usize, pos: usize) -> Option<usize> {
-        if num > self.max {
-            return None;
-        }
-        if self.counts[num] <= pos {
+        if pos >= *self.counts.get(num)? {
             return None;
         }
         let mut ret = self.sorted_positions[num].unwrap() + pos;
@@ -183,7 +175,7 @@ mod test {
             .map(|_| rng.gen_range(0..=MAX))
             .collect::<Vec<_>>();
         let wm = WaveletMatrix::new(&list);
-        for num in 0..=MAX {
+        for num in 0..=MAX + 10 {
             let pos = rng.gen_range(0..SIZE);
             let real_cnt = list.iter().take(pos).filter(|&&x| x == num).count();
             assert_eq!(wm.rank(num, pos), real_cnt);
@@ -199,7 +191,7 @@ mod test {
             .map(|_| rng.gen_range(0..=MAX))
             .collect::<Vec<_>>();
         let wm = WaveletMatrix::new(&list);
-        for num in 0..=MAX {
+        for num in 0..=MAX + 10 {
             let pos = rng.gen_range(0..=SIZE / MAX);
             let real_pos = list
                 .iter()
