@@ -22,19 +22,27 @@ pub struct WaveletMatrix {
 impl WaveletMatrix {
     /// 0以上の数列を受け取り、WaveletMatrixを構築する O(nlogσ)  
     /// 最大値のlogだけ段数が必要なので、座標圧縮されていることを期待する
-    pub fn new(mut list: Vec<usize>) -> Self {
+    pub fn new(list: &[usize]) -> Self {
         let len = list.len();
         let max = *list.iter().max().unwrap();
-        let log = ceil_log2(max as u32) as usize;
-        let mut indices = vec![BitVec::new(len); log + 1];
+        let log = ceil_log2(max as u32 + 1) as usize;
+        let mut indices = vec![BitVec::new(len); log];
+        // 注目する桁のbitが0となる数、1となる数
+        let mut tmp = vec![Vec::with_capacity(log); 2];
+        let mut list = list.to_vec();
         for (ln, index) in indices.iter_mut().enumerate().rev() {
             for (i, &x) in list.iter().enumerate() {
                 if (x >> ln) & 1 == 1 {
                     index.set(i);
+                    tmp[1].push(x);
+                } else {
+                    tmp[0].push(x);
                 }
             }
             index.build();
-            list.sort_by_key(|&x| (x >> ln) & 1);
+            list.clear();
+            list.append(&mut tmp[0]);
+            list.append(&mut tmp[1]);
         }
         let mut sorted_positions = vec![None; max + 1];
         let mut counts = vec![0; max + 1];
@@ -160,7 +168,7 @@ mod test {
         let list = (0..SIZE)
             .map(|_| rng.gen_range(0..=MAX))
             .collect::<Vec<_>>();
-        let wm = WaveletMatrix::new(list.clone());
+        let wm = WaveletMatrix::new(&list);
         for i in 0..SIZE {
             assert_eq!(wm.access(i), list[i]);
         }
@@ -174,7 +182,7 @@ mod test {
         let list = (0..SIZE)
             .map(|_| rng.gen_range(0..=MAX))
             .collect::<Vec<_>>();
-        let wm = WaveletMatrix::new(list.clone());
+        let wm = WaveletMatrix::new(&list);
         for num in 0..=MAX {
             let pos = rng.gen_range(0..SIZE);
             let real_cnt = list.iter().take(pos).filter(|&&x| x == num).count();
@@ -190,7 +198,7 @@ mod test {
         let list = (0..SIZE)
             .map(|_| rng.gen_range(0..=MAX))
             .collect::<Vec<_>>();
-        let wm = WaveletMatrix::new(list.clone());
+        let wm = WaveletMatrix::new(&list);
         for num in 0..=MAX {
             let pos = rng.gen_range(0..=SIZE / MAX);
             let real_pos = list
@@ -211,7 +219,7 @@ mod test {
         let list = (0..SIZE)
             .map(|_| rng.gen_range(0..=MAX))
             .collect::<Vec<_>>();
-        let wm = WaveletMatrix::new(list.clone());
+        let wm = WaveletMatrix::new(&list);
         for _ in 0..100 {
             let left = rng.gen_range(0..SIZE);
             let right = rng.gen_range(left + 1..SIZE);

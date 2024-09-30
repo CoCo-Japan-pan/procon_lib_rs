@@ -21,7 +21,7 @@ fn main() {
         .into_iter()
         .map(|x| sorted.binary_search(&x).unwrap())
         .collect();
-    let wm = WaveletMatrix::new(compressed);
+    let wm = WaveletMatrix::new(&compressed);
     for (l, r, k) in l_r_k {
         let ans = wm.quantile(l..r, k);
         println!("{}", sorted[ans]);
