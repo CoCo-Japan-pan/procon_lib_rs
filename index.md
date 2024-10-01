@@ -191,21 +191,6 @@ data:
     - icon: ':warning:'
       path: crates/string/sa_lcp_array/src/lib.rs
       title: crates/string/sa_lcp_array/src/lib.rs
-  - name: crates/succint/bitvec/benches
-    pages:
-    - icon: ':warning:'
-      path: crates/succint/bitvec/benches/my_benchmark.rs
-      title: crates/succint/bitvec/benches/my_benchmark.rs
-  - name: crates/succint/bitvec/src
-    pages:
-    - icon: ':warning:'
-      path: crates/succint/bitvec/src/lib.rs
-      title: crates/succint/bitvec/src/lib.rs
-  - name: crates/succint/wavelet_matrix/src
-    pages:
-    - icon: ':heavy_check_mark:'
-      path: crates/succint/wavelet_matrix/src/lib.rs
-      title: crates/succint/wavelet_matrix/src/lib.rs
   - name: crates/tools/capture/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -241,6 +226,21 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/tree/rerooting/src/lib.rs
       title: crates/tree/rerooting/src/lib.rs
+  - name: crates/wavelet/bitvec/benches
+    pages:
+    - icon: ':warning:'
+      path: crates/wavelet/bitvec/benches/my_benchmark.rs
+      title: crates/wavelet/bitvec/benches/my_benchmark.rs
+  - name: crates/wavelet/bitvec/src
+    pages:
+    - icon: ':warning:'
+      path: crates/wavelet/bitvec/src/lib.rs
+      title: crates/wavelet/bitvec/src/lib.rs
+  - name: crates/wavelet/wavelet_matrix/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: crates/wavelet/wavelet_matrix/src/lib.rs
+      title: crates/wavelet/wavelet_matrix/src/lib.rs
   - name: verify/AtCoder/abc291g/src
     pages:
     - icon: ':warning:'

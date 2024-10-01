@@ -2,8 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: crates/succint/wavelet_matrix/src/lib.rs
-    title: crates/succint/wavelet_matrix/src/lib.rs
+    path: crates/wavelet/wavelet_matrix/src/lib.rs
+    title: crates/wavelet/wavelet_matrix/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -28,11 +28,11 @@ data:
     \        let (less, _, more) = wm.rank_less_eq_more(medium, start..end);\n   \
     \     todo!();\n    }\n}\n"
   dependsOn:
-  - crates/succint/wavelet_matrix/src/lib.rs
+  - crates/wavelet/wavelet_matrix/src/lib.rs
   isVerificationFile: false
   path: verify/yukicoder/no_738/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-01 15:21:37+09:00'
+  timestamp: '2024-10-01 17:38:51+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: verify/yukicoder/no_738/src/main.rs

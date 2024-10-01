@@ -2,8 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: crates/succint/wavelet_matrix/src/lib.rs
-    title: crates/succint/wavelet_matrix/src/lib.rs
+    path: crates/wavelet/wavelet_matrix/src/lib.rs
+    title: crates/wavelet/wavelet_matrix/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -28,11 +28,11 @@ data:
     \       let ans = wm.quantile(l..r, k);\n        println!(\"{}\", sorted[ans]);\n\
     \    }\n}\n"
   dependsOn:
-  - crates/succint/wavelet_matrix/src/lib.rs
+  - crates/wavelet/wavelet_matrix/src/lib.rs
   isVerificationFile: true
   path: verify/yosupo/range_kth_smallest/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-01 15:21:37+09:00'
+  timestamp: '2024-10-01 17:38:51+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/range_kth_smallest/src/main.rs
