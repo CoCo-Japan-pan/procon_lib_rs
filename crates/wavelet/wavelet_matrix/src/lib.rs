@@ -29,7 +29,7 @@ impl WaveletMatrix {
         let log = ceil_log2(max as u32 + 1) as usize;
         let mut indices = vec![BitVec::new(len); log];
         // 注目する桁のbitが0となる数、1となる数
-        let mut tmp = vec![Vec::with_capacity(log); 2];
+        let mut tmp = vec![Vec::with_capacity(len); 2];
         let mut list = compressed_list.to_vec();
         for (ln, index) in indices.iter_mut().enumerate().rev() {
             for (i, &x) in list.iter().enumerate() {
