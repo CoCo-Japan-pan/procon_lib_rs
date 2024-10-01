@@ -9,6 +9,7 @@ use std::ops::RangeBounds;
 /// 0-based
 #[derive(Debug, Clone)]
 pub struct WaveletMatrix {
+    max: usize,
     len: usize,
     /// indices[i] = 下からiビット目に関する索引
     indices: Vec<BitVec>,
@@ -52,6 +53,7 @@ impl WaveletMatrix {
             counts[x] += 1;
         }
         Self {
+            max,
             len,
             indices,
             sorted_positions,
@@ -98,7 +100,7 @@ impl WaveletMatrix {
         num: usize,
         range: R,
     ) -> (usize, usize, usize) {
-        let (mut begin, mut end) = self.get_begin_end(range);
+        let (mut begin, mut end) = self.get_pos_range(range);
         let range_len = end - begin;
         let mut less = 0;
         let mut more = 0;
@@ -139,7 +141,7 @@ impl WaveletMatrix {
         Some(ret)
     }
 
-    fn get_begin_end<R: RangeBounds<usize>>(&self, range: R) -> (usize, usize) {
+    fn get_pos_range<R: RangeBounds<usize>>(&self, range: R) -> (usize, usize) {
         use std::ops::Bound::*;
         let left = match range.start_bound() {
             Included(&x) => x,
@@ -157,7 +159,7 @@ impl WaveletMatrix {
 
     /// 数列の区間rangeのうち、k番目に小さい値を返す O(logσ)
     pub fn quantile<R: RangeBounds<usize>>(&self, range: R, mut k: usize) -> usize {
-        let (mut begin, mut end) = self.get_begin_end(range);
+        let (mut begin, mut end) = self.get_pos_range(range);
         assert!(k < end - begin);
         let mut ret = 0;
         for (ln, index) in self.indices.iter().enumerate().rev() {
@@ -174,6 +176,39 @@ impl WaveletMatrix {
             }
         }
         ret
+    }
+
+    fn get_num_range<R: RangeBounds<usize>>(&self, range: R) -> (usize, usize) {
+        use std::ops::Bound::*;
+        let left = match range.start_bound() {
+            Included(&x) => x,
+            Excluded(&x) => x + 1,
+            Unbounded => 0,
+        }
+        .min(self.max + 1);
+        let right = match range.end_bound() {
+            Included(&x) => x + 1,
+            Excluded(&x) => x,
+            Unbounded => self.max + 1,
+        }
+        .min(self.max + 1);
+        assert!(left <= right);
+        (left, right)
+    }
+
+    /// 数列の区間pos_rangeのうち、num_rangeに含まれる数の個数を求める O(logσ)
+    pub fn range_freq<R1: RangeBounds<usize> + Clone, R2: RangeBounds<usize>>(
+        &self,
+        pos_range: R1,
+        num_range: R2,
+    ) -> usize {
+        let (num_begin, num_end) = self.get_num_range(num_range);
+        if num_begin >= num_end {
+            return 0;
+        }
+        let cnt_begin = self.rank_less_eq_more(num_begin, pos_range.clone()).0;
+        let cnt_end = self.rank_less_eq_more(num_end, pos_range).0;
+        cnt_end - cnt_begin
     }
 }
 
@@ -249,6 +284,28 @@ mod test {
             let mut sorted = list[left..right].to_vec();
             sorted.sort();
             assert_eq!(wm.quantile(left..right, k), sorted[k]);
+        }
+    }
+
+    #[test]
+    fn test_range_freq() {
+        let mut rng = thread_rng();
+        const SIZE: usize = 10000;
+        const MAX: usize = 100;
+        let list = (0..SIZE)
+            .map(|_| rng.gen_range(0..=MAX))
+            .collect::<Vec<_>>();
+        let wm = WaveletMatrix::new(&list);
+        for _ in 0..100 {
+            let left = rng.gen_range(0..SIZE);
+            let right = rng.gen_range(left..SIZE);
+            let num_left = rng.gen_range(0..=MAX);
+            let num_right = rng.gen_range(num_left..=MAX);
+            let real_cnt = list[left..right]
+                .iter()
+                .filter(|&&x| num_left <= x && x < num_right)
+                .count();
+            assert_eq!(wm.range_freq(left..right, num_left..num_right), real_cnt);
         }
     }
 }
