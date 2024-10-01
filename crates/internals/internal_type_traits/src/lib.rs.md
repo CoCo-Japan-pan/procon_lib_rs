@@ -26,6 +26,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/modint/static_modint/src/lib.rs
     title: crates/modint/static_modint/src/lib.rs
+  - icon: ':warning:'
+    path: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
+    title: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
   _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: rs
@@ -71,6 +74,7 @@ data:
   - crates/modint/static_modint/src/lib.rs
   - crates/modint/dynamic_modint/src/lib.rs
   - crates/fps/ntt/src/lib.rs
+  - crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
   timestamp: '2024-07-06 23:41:25+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

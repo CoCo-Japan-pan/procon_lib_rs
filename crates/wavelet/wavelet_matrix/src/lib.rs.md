@@ -48,10 +48,10 @@ data:
     \u5EA7\u6A19\u5727\u7E2E\u3055\u308C\u3066\u3044\u308B\u3053\u3068\u3092\u671F\
     \u5F85\u3059\u308B\n    pub fn new(compressed_list: &[usize]) -> Self {\n    \
     \    let len = compressed_list.len();\n        let max = *compressed_list.iter().max().unwrap_or(&0);\n\
-    \        let log = ceil_log2(max as u32) as usize;\n        let mut indices =\
-    \ vec![BitVec::new(len); log];\n        // \u6CE8\u76EE\u3059\u308B\u6841\u306E\
+    \        let log = ceil_log2(max as u32 + 1) as usize;\n        let mut indices\
+    \ = vec![BitVec::new(len); log];\n        // \u6CE8\u76EE\u3059\u308B\u6841\u306E\
     bit\u304C0\u3068\u306A\u308B\u6570\u30011\u3068\u306A\u308B\u6570\n        let\
-    \ mut tmp = vec![Vec::with_capacity(log); 2];\n        let mut list = compressed_list.to_vec();\n\
+    \ mut tmp = vec![Vec::with_capacity(len); 2];\n        let mut list = compressed_list.to_vec();\n\
     \        for (ln, index) in indices.iter_mut().enumerate().rev() {\n         \
     \   for (i, &x) in list.iter().enumerate() {\n                if (x >> ln) & 1\
     \ == 1 {\n                    index.set(i);\n                    tmp[1].push(x);\n\
@@ -153,18 +153,18 @@ data:
     \ less - 1))\n    }\n}\n\n#[cfg(test)]\nmod test {\n    use super::*;\n    use\
     \ rand::prelude::*;\n\n    #[test]\n    fn test_access() {\n        let mut rng\
     \ = thread_rng();\n        const SIZE: usize = 10000;\n        const MAX: usize\
-    \ = 100;\n        let list = (0..SIZE)\n            .map(|_| rng.gen_range(0..=MAX))\n\
+    \ = 128;\n        let list = (0..SIZE)\n            .map(|_| rng.gen_range(0..=MAX))\n\
     \            .collect::<Vec<_>>();\n        let wm = WaveletMatrix::new(&list);\n\
     \        for i in 0..SIZE {\n            assert_eq!(wm.access(i), list[i]);\n\
     \        }\n    }\n\n    #[test]\n    fn test_rank() {\n        let mut rng =\
     \ thread_rng();\n        const SIZE: usize = 10000;\n        const MAX: usize\
-    \ = 100;\n        let list = (0..SIZE)\n            .map(|_| rng.gen_range(0..=MAX))\n\
+    \ = 128;\n        let list = (0..SIZE)\n            .map(|_| rng.gen_range(0..=MAX))\n\
     \            .collect::<Vec<_>>();\n        let wm = WaveletMatrix::new(&list);\n\
     \        for num in 0..=MAX + 10 {\n            let pos = rng.gen_range(0..SIZE);\n\
     \            let real_cnt = list.iter().take(pos).filter(|&&x| x == num).count();\n\
     \            assert_eq!(wm.rank(num, pos), real_cnt);\n        }\n    }\n\n  \
     \  #[test]\n    fn test_rank_less_eq_more() {\n        let mut rng = thread_rng();\n\
-    \        const SIZE: usize = 10000;\n        const MAX: usize = 100;\n       \
+    \        const SIZE: usize = 10000;\n        const MAX: usize = 128;\n       \
     \ let list = (0..SIZE)\n            .map(|_| rng.gen_range(0..=MAX))\n       \
     \     .collect::<Vec<_>>();\n        let wm = WaveletMatrix::new(&list);\n   \
     \     for _ in 0..100 {\n            let left = rng.gen_range(0..SIZE);\n    \
@@ -176,7 +176,7 @@ data:
     \            assert_eq!(less, real_less);\n            assert_eq!(eq, real_eq);\n\
     \            assert_eq!(more, real_more);\n        }\n    }\n\n    #[test]\n \
     \   fn test_select() {\n        let mut rng = thread_rng();\n        const SIZE:\
-    \ usize = 10000;\n        const MAX: usize = 100;\n        let list = (0..SIZE)\n\
+    \ usize = 10000;\n        const MAX: usize = 128;\n        let list = (0..SIZE)\n\
     \            .map(|_| rng.gen_range(0..=MAX))\n            .collect::<Vec<_>>();\n\
     \        let wm = WaveletMatrix::new(&list);\n        for num in 0..=MAX + 10\
     \ {\n            let pos = rng.gen_range(0..=SIZE / MAX);\n            let real_pos\
@@ -184,8 +184,8 @@ data:
     \    .filter(|&(_, &x)| x == num)\n                .nth(pos)\n               \
     \ .map(|(i, _)| i);\n            assert_eq!(wm.select(num, pos), real_pos);\n\
     \        }\n    }\n\n    #[test]\n    fn test_quantile() {\n        let mut rng\
-    \ = thread_rng();\n        const SIZE: usize = 10000;\n        const MAX: usize\
-    \ = 100;\n        let list = (0..SIZE)\n            .map(|_| rng.gen_range(0..=MAX))\n\
+    \ = thread_rng();\n        const SIZE: usize = 1000;\n        const MAX: usize\
+    \ = 128;\n        let list = (0..SIZE)\n            .map(|_| rng.gen_range(0..=MAX))\n\
     \            .collect::<Vec<_>>();\n        let wm = WaveletMatrix::new(&list);\n\
     \        for _ in 0..100 {\n            let left = rng.gen_range(0..SIZE);\n \
     \           let right = rng.gen_range(left + 1..SIZE);\n            let k = rng.gen_range(0..=right\
@@ -193,7 +193,7 @@ data:
     \         sorted.sort();\n            assert_eq!(wm.quantile(left..right, k),\
     \ sorted[k]);\n        }\n    }\n\n    #[test]\n    fn test_range_freq() {\n \
     \       let mut rng = thread_rng();\n        const SIZE: usize = 10000;\n    \
-    \    const MAX: usize = 100;\n        let list = (0..SIZE)\n            .map(|_|\
+    \    const MAX: usize = 128;\n        let list = (0..SIZE)\n            .map(|_|\
     \ rng.gen_range(0..=MAX))\n            .collect::<Vec<_>>();\n        let wm =\
     \ WaveletMatrix::new(&list);\n        for _ in 0..100 {\n            let left\
     \ = rng.gen_range(0..SIZE);\n            let right = rng.gen_range(left..SIZE);\n\
@@ -203,7 +203,7 @@ data:
     \                .count();\n            assert_eq!(wm.range_freq(left..right,\
     \ num_left..num_right), real_cnt);\n        }\n    }\n\n    #[test]\n    fn test_next_value()\
     \ {\n        let mut rng = thread_rng();\n        const SIZE: usize = 10000;\n\
-    \        const MAX: usize = 100;\n        let list = (0..SIZE)\n            .map(|_|\
+    \        const MAX: usize = 128;\n        let list = (0..SIZE)\n            .map(|_|\
     \ rng.gen_range(0..=MAX))\n            .collect::<Vec<_>>();\n        let wm =\
     \ WaveletMatrix::new(&list);\n        for _ in 0..100 {\n            let left\
     \ = rng.gen_range(0..SIZE);\n            let right = rng.gen_range(left..SIZE);\n\
@@ -212,7 +212,7 @@ data:
     \ = sorted.iter().filter(|&&x| x >= lower).next().copied();\n            assert_eq!(wm.next_value(left..right,\
     \ lower), real);\n        }\n    }\n\n    #[test]\n    fn test_prev_value() {\n\
     \        let mut rng = thread_rng();\n        const SIZE: usize = 10000;\n   \
-    \     const MAX: usize = 100;\n        let list = (0..SIZE)\n            .map(|_|\
+    \     const MAX: usize = 128;\n        let list = (0..SIZE)\n            .map(|_|\
     \ rng.gen_range(0..=MAX))\n            .collect::<Vec<_>>();\n        let wm =\
     \ WaveletMatrix::new(&list);\n        for _ in 0..100 {\n            let left\
     \ = rng.gen_range(0..SIZE);\n            let right = rng.gen_range(left..SIZE);\n\
@@ -227,7 +227,7 @@ data:
   path: crates/wavelet/wavelet_matrix/src/lib.rs
   requiredBy:
   - verify/yukicoder/no_738/src/main.rs
-  timestamp: '2024-10-01 17:38:51+09:00'
+  timestamp: '2024-10-01 21:36:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/no_1549/src/main.rs

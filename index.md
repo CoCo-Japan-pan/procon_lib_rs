@@ -241,6 +241,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/wavelet/wavelet_matrix/src/lib.rs
       title: crates/wavelet/wavelet_matrix/src/lib.rs
+  - name: crates/wavelet/wavelet_matrix_rect_sum/src
+    pages:
+    - icon: ':warning:'
+      path: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
+      title: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
   - name: verify/AtCoder/abc291g/src
     pages:
     - icon: ':warning:'
@@ -271,6 +276,11 @@ data:
     - icon: ':warning:'
       path: verify/yosupo/eulerian_trail_undirected/src/main.rs
       title: verify/yosupo/eulerian_trail_undirected/src/main.rs
+  - name: verify/yosupo/rectangle_sum/src
+    pages:
+    - icon: ':warning:'
+      path: verify/yosupo/rectangle_sum/src/main.rs
+      title: verify/yosupo/rectangle_sum/src/main.rs
   - name: verify/yosupo/strongly_connected_components/src
     pages:
     - icon: ':warning:'

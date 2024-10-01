@@ -8,6 +8,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix/src/lib.rs
     title: crates/wavelet/wavelet_matrix/src/lib.rs
+  - icon: ':warning:'
+    path: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
+    title: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
   _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: rs
@@ -162,6 +165,7 @@ data:
   path: crates/wavelet/bitvec/src/lib.rs
   requiredBy:
   - crates/wavelet/bitvec/benches/my_benchmark.rs
+  - crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
   - crates/wavelet/wavelet_matrix/src/lib.rs
   timestamp: '2024-10-01 17:38:51+09:00'
   verificationStatus: LIBRARY_NO_TESTS

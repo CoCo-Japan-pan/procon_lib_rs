@@ -32,7 +32,7 @@ data:
   isVerificationFile: false
   path: verify/yukicoder/no_738/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-01 17:38:51+09:00'
+  timestamp: '2024-10-01 21:36:37+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: verify/yukicoder/no_738/src/main.rs
