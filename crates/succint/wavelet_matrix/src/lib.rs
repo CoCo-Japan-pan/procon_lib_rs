@@ -6,6 +6,7 @@ use std::ops::RangeBounds;
 
 /// 0以上の静的な数列を扱う  
 /// 数値の種類数をσとして、様々な操作をO(logσ)で行える  
+/// 追加で累積和をビットごとに持てば、range_sumもO(logσ)で求められる
 /// 0-based
 #[derive(Debug, Clone)]
 pub struct WaveletMatrix {
@@ -102,6 +103,9 @@ impl WaveletMatrix {
     ) -> (usize, usize, usize) {
         let (mut begin, mut end) = self.get_pos_range(range);
         let range_len = end - begin;
+        if num > self.max {
+            return (range_len, 0, 0);
+        }
         let mut less = 0;
         let mut more = 0;
         for (ln, index) in self.indices.iter().enumerate().rev() {
@@ -248,6 +252,29 @@ mod test {
     }
 
     #[test]
+    fn test_rank_less_eq_more() {
+        let mut rng = thread_rng();
+        const SIZE: usize = 10000;
+        const MAX: usize = 100;
+        let list = (0..SIZE)
+            .map(|_| rng.gen_range(0..=MAX))
+            .collect::<Vec<_>>();
+        let wm = WaveletMatrix::new(&list);
+        for _ in 0..100 {
+            let left = rng.gen_range(0..SIZE);
+            let right = rng.gen_range(left..SIZE);
+            let num = rng.gen_range(0..=MAX * 2);
+            let (less, eq, more) = wm.rank_less_eq_more(num, left..right);
+            let real_less = list[left..right].iter().filter(|&&x| x < num).count();
+            let real_eq = list[left..right].iter().filter(|&&x| x == num).count();
+            let real_more = list[left..right].iter().filter(|&&x| x > num).count();
+            assert_eq!(less, real_less);
+            assert_eq!(eq, real_eq);
+            assert_eq!(more, real_more);
+        }
+    }
+
+    #[test]
     fn test_select() {
         let mut rng = thread_rng();
         const SIZE: usize = 10000;
@@ -299,8 +326,8 @@ mod test {
         for _ in 0..100 {
             let left = rng.gen_range(0..SIZE);
             let right = rng.gen_range(left..SIZE);
-            let num_left = rng.gen_range(0..=MAX);
-            let num_right = rng.gen_range(num_left..=MAX);
+            let num_left = rng.gen_range(0..=MAX * 2);
+            let num_right = rng.gen_range(num_left..=MAX * 2);
             let real_cnt = list[left..right]
                 .iter()
                 .filter(|&&x| num_left <= x && x < num_right)
