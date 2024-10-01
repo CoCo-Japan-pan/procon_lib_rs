@@ -3,7 +3,7 @@ members = [
     "crates/internals/*",
     "crates/string/*",
     "crates/data_structure/*",
-    "crates/succint/*",
+    "crates/wavelet/*",
     "crates/algebra",
     "crates/bitset",
     "crates/fps/*",

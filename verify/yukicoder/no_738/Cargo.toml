@@ -7,4 +7,4 @@ edition = "2021"
 
 [dependencies]
 proconio = { version = "=0.4.5", features = ["derive"] }
-wavelet_matrix = { path = "../../../crates/succint/wavelet_matrix" }
+wavelet_matrix = { path = "../../../crates/wavelet/wavelet_matrix" }
