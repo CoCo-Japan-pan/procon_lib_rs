@@ -23,14 +23,14 @@ pub struct WaveletMatrix {
 impl WaveletMatrix {
     /// 0以上の数列を受け取り、WaveletMatrixを構築する O(nlogσ)  
     /// 最大値のlogだけ段数が必要なので、座標圧縮されていることを期待する
-    pub fn new(list: &[usize]) -> Self {
-        let len = list.len();
-        let max = *list.iter().max().unwrap_or(&0);
+    pub fn new(compressed_list: &[usize]) -> Self {
+        let len = compressed_list.len();
+        let max = *compressed_list.iter().max().unwrap_or(&0);
         let log = ceil_log2(max as u32) as usize;
         let mut indices = vec![BitVec::new(len); log];
         // 注目する桁のbitが0となる数、1となる数
         let mut tmp = vec![Vec::with_capacity(log); 2];
-        let mut list = list.to_vec();
+        let mut list = compressed_list.to_vec();
         for (ln, index) in indices.iter_mut().enumerate().rev() {
             for (i, &x) in list.iter().enumerate() {
                 if (x >> ln) & 1 == 1 {
@@ -214,6 +214,35 @@ impl WaveletMatrix {
         let cnt_end = self.rank_less_eq_more(num_end, pos_range).0;
         cnt_end - cnt_begin
     }
+
+    /// 数列の区間rangeのうち、lower以上の値の中で最小の値を求める O(logσ)
+    pub fn next_value<R: RangeBounds<usize> + Clone>(
+        &self,
+        range: R,
+        lower: usize,
+    ) -> Option<usize> {
+        let (less, eq, upper) = self.rank_less_eq_more(lower, range.clone());
+        if eq > 0 {
+            return Some(lower);
+        }
+        if upper == 0 {
+            return None;
+        }
+        Some(self.quantile(range, less))
+    }
+
+    /// 数列の区間rangeのうち、upper未満の値の中で最大の値を求める O(logσ)
+    pub fn prev_value<R: RangeBounds<usize> + Clone>(
+        &self,
+        range: R,
+        upper: usize,
+    ) -> Option<usize> {
+        let less = self.rank_less_eq_more(upper, range.clone()).0;
+        if less == 0 {
+            return None;
+        }
+        Some(self.quantile(range, less - 1))
+    }
 }
 
 #[cfg(test)]
@@ -333,6 +362,46 @@ mod test {
                 .filter(|&&x| num_left <= x && x < num_right)
                 .count();
             assert_eq!(wm.range_freq(left..right, num_left..num_right), real_cnt);
+        }
+    }
+
+    #[test]
+    fn test_next_value() {
+        let mut rng = thread_rng();
+        const SIZE: usize = 10000;
+        const MAX: usize = 100;
+        let list = (0..SIZE)
+            .map(|_| rng.gen_range(0..=MAX))
+            .collect::<Vec<_>>();
+        let wm = WaveletMatrix::new(&list);
+        for _ in 0..100 {
+            let left = rng.gen_range(0..SIZE);
+            let right = rng.gen_range(left..SIZE);
+            let lower = rng.gen_range(0..=MAX * 2);
+            let mut sorted = list[left..right].to_vec();
+            sorted.sort();
+            let real = sorted.iter().filter(|&&x| x >= lower).next().copied();
+            assert_eq!(wm.next_value(left..right, lower), real);
+        }
+    }
+
+    #[test]
+    fn test_prev_value() {
+        let mut rng = thread_rng();
+        const SIZE: usize = 10000;
+        const MAX: usize = 100;
+        let list = (0..SIZE)
+            .map(|_| rng.gen_range(0..=MAX))
+            .collect::<Vec<_>>();
+        let wm = WaveletMatrix::new(&list);
+        for _ in 0..100 {
+            let left = rng.gen_range(0..SIZE);
+            let right = rng.gen_range(left..SIZE);
+            let upper = rng.gen_range(0..=MAX * 2);
+            let mut sorted = list[left..right].to_vec();
+            sorted.sort();
+            let real = sorted.iter().filter(|&&x| x < upper).last().copied();
+            assert_eq!(wm.prev_value(left..right, upper), real);
         }
     }
 }
