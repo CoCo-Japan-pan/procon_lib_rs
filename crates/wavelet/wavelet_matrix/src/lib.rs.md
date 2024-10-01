@@ -7,10 +7,7 @@ data:
   - icon: ':warning:'
     path: crates/wavelet/bitvec/src/lib.rs
     title: crates/wavelet/bitvec/src/lib.rs
-  _extendedRequiredBy:
-  - icon: ':warning:'
-    path: verify/yukicoder/no_738/src/main.rs
-    title: verify/yukicoder/no_738/src/main.rs
+  _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: verify/AOJ/no_1549/src/main.rs
@@ -18,6 +15,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/range_kth_smallest/src/main.rs
     title: verify/yosupo/range_kth_smallest/src/main.rs
+  - icon: ':heavy_check_mark:'
+    path: verify/yukicoder/no_738/src/main.rs
+    title: verify/yukicoder/no_738/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -225,13 +225,13 @@ data:
   - crates/wavelet/bitvec/src/lib.rs
   isVerificationFile: false
   path: crates/wavelet/wavelet_matrix/src/lib.rs
-  requiredBy:
-  - verify/yukicoder/no_738/src/main.rs
+  requiredBy: []
   timestamp: '2024-10-01 21:36:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/no_1549/src/main.rs
   - verify/yosupo/range_kth_smallest/src/main.rs
+  - verify/yukicoder/no_738/src/main.rs
 documentation_of: crates/wavelet/wavelet_matrix/src/lib.rs
 layout: document
 redirect_from:

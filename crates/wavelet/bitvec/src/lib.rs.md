@@ -8,7 +8,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix/src/lib.rs
     title: crates/wavelet/wavelet_matrix/src/lib.rs
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
     title: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
   _extendedVerifiedWith: []

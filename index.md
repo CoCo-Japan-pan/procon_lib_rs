@@ -243,7 +243,7 @@ data:
       title: crates/wavelet/wavelet_matrix/src/lib.rs
   - name: crates/wavelet/wavelet_matrix_rect_sum/src
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
       title: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
   - name: verify/AtCoder/abc291g/src
@@ -276,21 +276,11 @@ data:
     - icon: ':warning:'
       path: verify/yosupo/eulerian_trail_undirected/src/main.rs
       title: verify/yosupo/eulerian_trail_undirected/src/main.rs
-  - name: verify/yosupo/rectangle_sum/src
-    pages:
-    - icon: ':warning:'
-      path: verify/yosupo/rectangle_sum/src/main.rs
-      title: verify/yosupo/rectangle_sum/src/main.rs
   - name: verify/yosupo/strongly_connected_components/src
     pages:
     - icon: ':warning:'
       path: verify/yosupo/strongly_connected_components/src/main.rs
       title: verify/yosupo/strongly_connected_components/src/main.rs
-  - name: verify/yukicoder/no_738/src
-    pages:
-    - icon: ':warning:'
-      path: verify/yukicoder/no_738/src/main.rs
-      title: verify/yukicoder/no_738/src/main.rs
   verificationCategories:
   - name: verify/AOJ/dsl_2d_dual_seg/src
     pages:
@@ -462,6 +452,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yosupo/rectangle_add_point_get/src/main.rs
       title: verify/yosupo/rectangle_add_point_get/src/main.rs
+  - name: verify/yosupo/rectangle_sum/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yosupo/rectangle_sum/src/main.rs
+      title: verify/yosupo/rectangle_sum/src/main.rs
   - name: verify/yosupo/segment_add_get_min/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -522,6 +517,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yukicoder/no_649_fenwick_tree/src/main.rs
       title: verify/yukicoder/no_649_fenwick_tree/src/main.rs
+  - name: verify/yukicoder/no_738/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yukicoder/no_738/src/main.rs
+      title: verify/yukicoder/no_738/src/main.rs
   - name: verify/yukicoder/no_803/src
     pages:
     - icon: ':heavy_check_mark:'

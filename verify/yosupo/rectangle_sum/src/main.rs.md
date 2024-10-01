@@ -1,21 +1,24 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
     title: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    links: []
+    PROBLEM: https://judge.yosupo.jp/problem/rectangle_sum
+    links:
+    - https://judge.yosupo.jp/problem/rectangle_sum
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "use proconio::{fastout, input};\nuse wavelet_matrix_rect_sum::WaveletMatrixRectSum;\n\
+  code: "// verification-helper: PROBLEM https://judge.yosupo.jp/problem/rectangle_sum\n\
+    \nuse proconio::{fastout, input};\nuse wavelet_matrix_rect_sum::WaveletMatrixRectSum;\n\
     \n#[fastout]\nfn main() {\n    input! {\n        n: usize,\n        q: usize,\n\
     \        x_y_w: [(usize, usize, i64); n],\n        l_d_r_u: [(usize, usize, usize,\
     \ usize); q],\n    }\n    // \u5EA7\u6A19\u5727\u7E2E \u305F\u3060\u3057\u3001\
@@ -39,16 +42,16 @@ data:
     \ y_left..y_right));\n    }\n}\n"
   dependsOn:
   - crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
-  isVerificationFile: false
+  isVerificationFile: true
   path: verify/yosupo/rectangle_sum/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-01 22:09:11+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
+  timestamp: '2024-10-01 22:25:53+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/rectangle_sum/src/main.rs
 layout: document
 redirect_from:
-- /library/verify/yosupo/rectangle_sum/src/main.rs
-- /library/verify/yosupo/rectangle_sum/src/main.rs.html
+- /verify/verify/yosupo/rectangle_sum/src/main.rs
+- /verify/verify/yosupo/rectangle_sum/src/main.rs.html
 title: verify/yosupo/rectangle_sum/src/main.rs
 ---

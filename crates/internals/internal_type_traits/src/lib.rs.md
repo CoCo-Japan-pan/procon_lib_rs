@@ -26,7 +26,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/modint/static_modint/src/lib.rs
     title: crates/modint/static_modint/src/lib.rs
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
     title: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
   _extendedVerifiedWith: []

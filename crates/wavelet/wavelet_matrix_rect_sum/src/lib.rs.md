@@ -10,14 +10,17 @@ data:
   - icon: ':warning:'
     path: crates/wavelet/bitvec/src/lib.rs
     title: crates/wavelet/bitvec/src/lib.rs
-  _extendedRequiredBy:
-  - icon: ':warning:'
+  _extendedRequiredBy: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/rectangle_sum/src/main.rs
     title: verify/yosupo/rectangle_sum/src/main.rs
-  _extendedVerifiedWith: []
+  - icon: ':heavy_check_mark:'
+    path: verify/yukicoder/no_738/src/main.rs
+    title: verify/yukicoder/no_738/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -49,35 +52,35 @@ data:
     \u4E0D\u53EF\u306A\u306E\u3067\u3001\u9806\u756A\u3092\u632F\u308A\u306A\u304A\
     \u3057\u3066\u3082\u3089\u3046\u3053\u3068\u306B\u306A\u308B  \n    /// \u5168\
     \u30660\u4EE5\u4E0A\n    pub fn new(compressed_list: &[usize], weight_list: &[T])\
-    \ -> Self {\n        let len = compressed_list.len();\n        let mut raw_cum_sum\
-    \ = vec![T::zero(); len + 1];\n        for (i, &w) in weight_list.iter().enumerate()\
-    \ {\n            raw_cum_sum[i + 1] = raw_cum_sum[i] + w;\n        }\n       \
-    \ let max = *compressed_list.iter().max().unwrap_or(&0);\n        let log = ceil_log2(max\
-    \ as u32 + 1) as usize;\n        let mut indices = vec![BitVec::new(len); log];\n\
-    \        // \u6CE8\u76EE\u3059\u308B\u6841\u306Ebit\u304C0\u3068\u306A\u308B\u6570\
-    \u30011\u3068\u306A\u308B\u6570\n        let mut tmp = vec![Vec::with_capacity(len);\
-    \ 2];\n        let mut list = compressed_list.to_vec();\n        let mut weight_list\
-    \ = weight_list.to_vec();\n        let mut tmp_weight = vec![Vec::with_capacity(len);\
-    \ 2];\n        let mut cum_sum = vec![vec![T::zero(); len + 1]; log];\n      \
-    \  for (ln, index) in indices.iter_mut().enumerate().rev() {\n            for\
-    \ (x, (&y, &w)) in list.iter().zip(weight_list.iter()).enumerate() {\n       \
-    \         if (y >> ln) & 1 == 1 {\n                    index.set(x);\n       \
-    \             tmp[1].push(y);\n                    tmp_weight[1].push(w);\n  \
-    \              } else {\n                    tmp[0].push(y);\n               \
-    \     tmp_weight[0].push(w);\n                }\n            }\n            index.build();\n\
-    \            list.clear();\n            weight_list.clear();\n            list.append(&mut\
-    \ tmp[0]);\n            list.append(&mut tmp[1]);\n            weight_list.append(&mut\
-    \ tmp_weight[0]);\n            weight_list.append(&mut tmp_weight[1]);\n     \
-    \       for (i, &w) in weight_list.iter().enumerate() {\n                cum_sum[ln][i\
-    \ + 1] = cum_sum[ln][i] + w;\n            }\n        }\n        Self {\n     \
-    \       max,\n            len,\n            indices,\n            cum_sum,\n \
-    \           raw_cum_sum,\n        }\n    }\n\n    fn get_pos_range<R: RangeBounds<usize>>(&self,\
-    \ range: R) -> (usize, usize) {\n        use std::ops::Bound::*;\n        let\
-    \ l = match range.start_bound() {\n            Included(&l) => l,\n          \
-    \  Excluded(&l) => l + 1,\n            Unbounded => 0,\n        };\n        let\
-    \ r = match range.end_bound() {\n            Included(&r) => r + 1,\n        \
-    \    Excluded(&r) => r,\n            Unbounded => self.len,\n        };\n    \
-    \    assert!(l <= r && r <= self.len);\n        (l, r)\n    }\n\n    fn get_num_range<R:\
+    \ -> Self {\n        assert_eq!(compressed_list.len(), weight_list.len());\n \
+    \       let len = compressed_list.len();\n        let mut raw_cum_sum = vec![T::zero();\
+    \ len + 1];\n        for (i, &w) in weight_list.iter().enumerate() {\n       \
+    \     raw_cum_sum[i + 1] = raw_cum_sum[i] + w;\n        }\n        let max = *compressed_list.iter().max().unwrap_or(&0);\n\
+    \        let log = ceil_log2(max as u32 + 1) as usize;\n        let mut indices\
+    \ = vec![BitVec::new(len); log];\n        // \u6CE8\u76EE\u3059\u308B\u6841\u306E\
+    bit\u304C0\u3068\u306A\u308B\u6570\u30011\u3068\u306A\u308B\u6570\n        let\
+    \ mut tmp = vec![Vec::with_capacity(len); 2];\n        let mut list = compressed_list.to_vec();\n\
+    \        let mut weight_list = weight_list.to_vec();\n        let mut tmp_weight\
+    \ = vec![Vec::with_capacity(len); 2];\n        let mut cum_sum = vec![vec![T::zero();\
+    \ len + 1]; log];\n        for (ln, index) in indices.iter_mut().enumerate().rev()\
+    \ {\n            for (x, (&y, &w)) in list.iter().zip(weight_list.iter()).enumerate()\
+    \ {\n                if (y >> ln) & 1 == 1 {\n                    index.set(x);\n\
+    \                    tmp[1].push(y);\n                    tmp_weight[1].push(w);\n\
+    \                } else {\n                    tmp[0].push(y);\n             \
+    \       tmp_weight[0].push(w);\n                }\n            }\n           \
+    \ index.build();\n            list.clear();\n            weight_list.clear();\n\
+    \            list.append(&mut tmp[0]);\n            list.append(&mut tmp[1]);\n\
+    \            weight_list.append(&mut tmp_weight[0]);\n            weight_list.append(&mut\
+    \ tmp_weight[1]);\n            for (i, &w) in weight_list.iter().enumerate() {\n\
+    \                cum_sum[ln][i + 1] = cum_sum[ln][i] + w;\n            }\n   \
+    \     }\n        Self {\n            max,\n            len,\n            indices,\n\
+    \            cum_sum,\n            raw_cum_sum,\n        }\n    }\n\n    fn get_pos_range<R:\
+    \ RangeBounds<usize>>(&self, range: R) -> (usize, usize) {\n        use std::ops::Bound::*;\n\
+    \        let l = match range.start_bound() {\n            Included(&l) => l,\n\
+    \            Excluded(&l) => l + 1,\n            Unbounded => 0,\n        };\n\
+    \        let r = match range.end_bound() {\n            Included(&r) => r + 1,\n\
+    \            Excluded(&r) => r,\n            Unbounded => self.len,\n        };\n\
+    \        assert!(l <= r && r <= self.len);\n        (l, r)\n    }\n\n    fn get_num_range<R:\
     \ RangeBounds<usize>>(&self, range: R) -> (usize, usize) {\n        use std::ops::Bound::*;\n\
     \        let l = match range.start_bound() {\n            Included(&l) => l,\n\
     \            Excluded(&l) => l + 1,\n            Unbounded => 0,\n        }\n\
@@ -138,11 +141,12 @@ data:
   - crates/wavelet/bitvec/src/lib.rs
   isVerificationFile: false
   path: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
-  requiredBy:
+  requiredBy: []
+  timestamp: '2024-10-01 22:25:53+09:00'
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
   - verify/yosupo/rectangle_sum/src/main.rs
-  timestamp: '2024-10-01 22:09:11+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  - verify/yukicoder/no_738/src/main.rs
 documentation_of: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
 layout: document
 redirect_from:
