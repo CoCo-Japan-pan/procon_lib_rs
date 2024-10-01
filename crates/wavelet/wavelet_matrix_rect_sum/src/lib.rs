@@ -22,7 +22,9 @@ pub struct WaveletMatrixRectSum<T: Integral> {
 
 impl<T: Integral> WaveletMatrixRectSum<T> {
     /// `compressed_list[x] = y` が点(x, y)に、`weight_list[x] = w` が点(x, y)の重みwに対応する  
-    /// compressed_listは座標圧縮されていることを期待する
+    /// compressed_listは座標圧縮されていることを期待する  
+    /// xは重複不可なので、順番を振りなおしてもらうことになる  
+    /// 全て0以上
     pub fn new(compressed_list: &[usize], weight_list: &[T]) -> Self {
         let len = compressed_list.len();
         let mut raw_cum_sum = vec![T::zero(); len + 1];
