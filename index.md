@@ -276,6 +276,11 @@ data:
     - icon: ':warning:'
       path: verify/yosupo/strongly_connected_components/src/main.rs
       title: verify/yosupo/strongly_connected_components/src/main.rs
+  - name: verify/yukicoder/no_738/src
+    pages:
+    - icon: ':warning:'
+      path: verify/yukicoder/no_738/src/main.rs
+      title: verify/yukicoder/no_738/src/main.rs
   verificationCategories:
   - name: verify/AOJ/dsl_2d_dual_seg/src
     pages:
