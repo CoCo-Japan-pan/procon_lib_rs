@@ -92,6 +92,36 @@ impl WaveletMatrix {
         pos - self.sorted_positions[num].unwrap()
     }
 
+    /// 数列の区間rangeのうち、numより小さい数の個数、numと等しい数の個数、numより大きい数の個数を求める O(logσ)
+    pub fn rank_less_eq_more<R: RangeBounds<usize>>(
+        &self,
+        num: usize,
+        range: R,
+    ) -> (usize, usize, usize) {
+        let (mut begin, mut end) = self.get_begin_end(range);
+        let range_len = end - begin;
+        let mut less = 0;
+        let mut more = 0;
+        for (ln, index) in self.indices.iter().enumerate().rev() {
+            let bit = (num >> ln) & 1;
+            let rank1_begin = index.rank_1(begin);
+            let rank1_end = index.rank_1(end);
+            let rank0_begin = begin - rank1_begin;
+            let rank0_end = end - rank1_end;
+            if bit == 1 {
+                less += rank0_end - rank0_begin;
+                begin = index.rank0_all() + rank1_begin;
+                end = index.rank0_all() + rank1_end;
+            } else {
+                more += rank1_end - rank1_begin;
+                begin = rank0_begin;
+                end = rank0_end;
+            }
+        }
+        let eq = range_len - less - more;
+        (less, eq, more)
+    }
+
     /// 数列のpos番目の数値numの位置を求める O(logσ)
     pub fn select(&self, num: usize, pos: usize) -> Option<usize> {
         if pos >= *self.counts.get(num)? {
