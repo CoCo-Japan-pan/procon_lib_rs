@@ -26,6 +26,7 @@ impl<T: Integral> WaveletMatrixRectSum<T> {
     /// xは重複不可なので、順番を振りなおしてもらうことになる  
     /// 全て0以上
     pub fn new(compressed_list: &[usize], weight_list: &[T]) -> Self {
+        assert_eq!(compressed_list.len(), weight_list.len());
         let len = compressed_list.len();
         let mut raw_cum_sum = vec![T::zero(); len + 1];
         for (i, &w) in weight_list.iter().enumerate() {

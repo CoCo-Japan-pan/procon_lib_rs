@@ -1,3 +1,5 @@
+// verification-helper: PROBLEM https://judge.yosupo.jp/problem/rectangle_sum
+
 use proconio::{fastout, input};
 use wavelet_matrix_rect_sum::WaveletMatrixRectSum;
 
