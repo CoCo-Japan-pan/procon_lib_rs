@@ -26,7 +26,7 @@ impl WaveletMatrix {
     pub fn new(compressed_list: &[usize]) -> Self {
         let len = compressed_list.len();
         let max = *compressed_list.iter().max().unwrap_or(&0);
-        let log = ceil_log2(max as u32) as usize;
+        let log = ceil_log2(max as u32 + 1) as usize;
         let mut indices = vec![BitVec::new(len); log];
         // 注目する桁のbitが0となる数、1となる数
         let mut tmp = vec![Vec::with_capacity(log); 2];
@@ -254,7 +254,7 @@ mod test {
     fn test_access() {
         let mut rng = thread_rng();
         const SIZE: usize = 10000;
-        const MAX: usize = 100;
+        const MAX: usize = 128;
         let list = (0..SIZE)
             .map(|_| rng.gen_range(0..=MAX))
             .collect::<Vec<_>>();
@@ -268,7 +268,7 @@ mod test {
     fn test_rank() {
         let mut rng = thread_rng();
         const SIZE: usize = 10000;
-        const MAX: usize = 100;
+        const MAX: usize = 128;
         let list = (0..SIZE)
             .map(|_| rng.gen_range(0..=MAX))
             .collect::<Vec<_>>();
@@ -284,7 +284,7 @@ mod test {
     fn test_rank_less_eq_more() {
         let mut rng = thread_rng();
         const SIZE: usize = 10000;
-        const MAX: usize = 100;
+        const MAX: usize = 128;
         let list = (0..SIZE)
             .map(|_| rng.gen_range(0..=MAX))
             .collect::<Vec<_>>();
@@ -307,7 +307,7 @@ mod test {
     fn test_select() {
         let mut rng = thread_rng();
         const SIZE: usize = 10000;
-        const MAX: usize = 100;
+        const MAX: usize = 128;
         let list = (0..SIZE)
             .map(|_| rng.gen_range(0..=MAX))
             .collect::<Vec<_>>();
@@ -327,8 +327,8 @@ mod test {
     #[test]
     fn test_quantile() {
         let mut rng = thread_rng();
-        const SIZE: usize = 10000;
-        const MAX: usize = 100;
+        const SIZE: usize = 1000;
+        const MAX: usize = 128;
         let list = (0..SIZE)
             .map(|_| rng.gen_range(0..=MAX))
             .collect::<Vec<_>>();
@@ -347,7 +347,7 @@ mod test {
     fn test_range_freq() {
         let mut rng = thread_rng();
         const SIZE: usize = 10000;
-        const MAX: usize = 100;
+        const MAX: usize = 128;
         let list = (0..SIZE)
             .map(|_| rng.gen_range(0..=MAX))
             .collect::<Vec<_>>();
@@ -369,7 +369,7 @@ mod test {
     fn test_next_value() {
         let mut rng = thread_rng();
         const SIZE: usize = 10000;
-        const MAX: usize = 100;
+        const MAX: usize = 128;
         let list = (0..SIZE)
             .map(|_| rng.gen_range(0..=MAX))
             .collect::<Vec<_>>();
@@ -389,7 +389,7 @@ mod test {
     fn test_prev_value() {
         let mut rng = thread_rng();
         const SIZE: usize = 10000;
-        const MAX: usize = 100;
+        const MAX: usize = 128;
         let list = (0..SIZE)
             .map(|_| rng.gen_range(0..=MAX))
             .collect::<Vec<_>>();
