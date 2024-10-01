@@ -307,6 +307,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/AOJ/no_1068/src/main.rs
       title: verify/AOJ/no_1068/src/main.rs
+  - name: verify/AOJ/no_1549/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/AOJ/no_1549/src/main.rs
+      title: verify/AOJ/no_1549/src/main.rs
   - name: verify/AOJ/no_2667/src
     pages:
     - icon: ':heavy_check_mark:'

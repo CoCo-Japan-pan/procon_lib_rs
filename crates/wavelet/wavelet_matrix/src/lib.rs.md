@@ -13,6 +13,9 @@ data:
     title: verify/yukicoder/no_738/src/main.rs
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: verify/AOJ/no_1549/src/main.rs
+    title: verify/AOJ/no_1549/src/main.rs
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/range_kth_smallest/src/main.rs
     title: verify/yosupo/range_kth_smallest/src/main.rs
   _isVerificationFailed: false
@@ -227,6 +230,7 @@ data:
   timestamp: '2024-10-01 17:38:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - verify/AOJ/no_1549/src/main.rs
   - verify/yosupo/range_kth_smallest/src/main.rs
 documentation_of: crates/wavelet/wavelet_matrix/src/lib.rs
 layout: document
