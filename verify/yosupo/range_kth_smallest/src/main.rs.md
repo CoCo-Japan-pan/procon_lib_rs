@@ -32,7 +32,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/range_kth_smallest/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-01 12:40:48+09:00'
+  timestamp: '2024-10-01 15:21:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/range_kth_smallest/src/main.rs
