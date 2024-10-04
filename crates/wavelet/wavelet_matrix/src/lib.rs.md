@@ -35,11 +35,11 @@ data:
     \u3005\u306A\u64CD\u4F5C\u3092O(log\u03C3)\u3067\u884C\u3048\u308B  \n/// \u8FFD\
     \u52A0\u3067\u7D2F\u7A4D\u548C\u3092\u30D3\u30C3\u30C8\u3054\u3068\u306B\u6301\
     \u3066\u3070\u3001range_sum\u3082O(log\u03C3)\u3067\u6C42\u3081\u3089\u308C\u308B\
-    \n/// 0-based\n#[derive(Debug, Clone)]\npub struct WaveletMatrix {\n    max: usize,\n\
-    \    len: usize,\n    /// indices[i] = \u4E0B\u304B\u3089i\u30D3\u30C3\u30C8\u76EE\
-    \u306B\u95A2\u3059\u308B\u7D22\u5F15\n    indices: Vec<BitVec>,\n    /// \u30BD\
-    \u30FC\u30C8\u3055\u308C\u305F\u6700\u7D42\u7684\u306A\u6570\u5217\u306E\u8981\
-    \u7D20\u306E\u958B\u59CB\u4F4D\u7F6E\n    sorted_positions: Vec<Option<usize>>,\n\
+    \n/// 0-based\n#[derive(Debug, Clone)]\npub struct WaveletMatrix {\n    upper_bound:\
+    \ usize,\n    len: usize,\n    /// indices[i] = \u4E0B\u304B\u3089i\u30D3\u30C3\
+    \u30C8\u76EE\u306B\u95A2\u3059\u308B\u7D22\u5F15\n    indices: Vec<BitVec>,\n\
+    \    /// \u30BD\u30FC\u30C8\u3055\u308C\u305F\u6700\u7D42\u7684\u306A\u6570\u5217\
+    \u306E\u8981\u7D20\u306E\u958B\u59CB\u4F4D\u7F6E\n    sorted_positions: Vec<Option<usize>>,\n\
     \    /// \u5404\u6570\u5024\u306E\u500B\u6570 select\u3067\u4E0D\u6B63\u306A\u64CD\
     \u4F5C\u3092\u9632\u3050\u305F\u3081\n    counts: Vec<usize>,\n}\n\nimpl WaveletMatrix\
     \ {\n    /// 0\u4EE5\u4E0A\u306E\u6570\u5217\u3092\u53D7\u3051\u53D6\u308A\u3001\
@@ -47,28 +47,28 @@ data:
     \u5024\u306Elog\u3060\u3051\u6BB5\u6570\u304C\u5FC5\u8981\u306A\u306E\u3067\u3001\
     \u5EA7\u6A19\u5727\u7E2E\u3055\u308C\u3066\u3044\u308B\u3053\u3068\u3092\u671F\
     \u5F85\u3059\u308B\n    pub fn new(compressed_list: &[usize]) -> Self {\n    \
-    \    let len = compressed_list.len();\n        let max = *compressed_list.iter().max().unwrap_or(&0);\n\
-    \        let log = ceil_log2(max as u32 + 1) as usize;\n        let mut indices\
-    \ = vec![BitVec::new(len); log];\n        // \u6CE8\u76EE\u3059\u308B\u6841\u306E\
-    bit\u304C0\u3068\u306A\u308B\u6570\u30011\u3068\u306A\u308B\u6570\n        let\
-    \ mut tmp = vec![Vec::with_capacity(len); 2];\n        let mut list = compressed_list.to_vec();\n\
-    \        for (ln, index) in indices.iter_mut().enumerate().rev() {\n         \
-    \   for (i, &x) in list.iter().enumerate() {\n                if (x >> ln) & 1\
-    \ == 1 {\n                    index.set(i);\n                    tmp[1].push(x);\n\
-    \                } else {\n                    tmp[0].push(x);\n             \
-    \   }\n            }\n            index.build();\n            list.clear();\n\
+    \    let len = compressed_list.len();\n        let upper_bound = *compressed_list.iter().max().unwrap_or(&0)\
+    \ + 1;\n        let log = ceil_log2(upper_bound as u32 + 1) as usize;\n      \
+    \  let mut indices = vec![BitVec::new(len); log];\n        // \u6CE8\u76EE\u3059\
+    \u308B\u6841\u306Ebit\u304C0\u3068\u306A\u308B\u6570\u30011\u3068\u306A\u308B\u6570\
+    \n        let mut tmp = vec![Vec::with_capacity(len); 2];\n        let mut list\
+    \ = compressed_list.to_vec();\n        for (ln, index) in indices.iter_mut().enumerate().rev()\
+    \ {\n            for (i, &x) in list.iter().enumerate() {\n                if\
+    \ (x >> ln) & 1 == 1 {\n                    index.set(i);\n                  \
+    \  tmp[1].push(x);\n                } else {\n                    tmp[0].push(x);\n\
+    \                }\n            }\n            index.build();\n            list.clear();\n\
     \            list.append(&mut tmp[0]);\n            list.append(&mut tmp[1]);\n\
-    \        }\n        let mut sorted_positions = vec![None; max + 1];\n        let\
-    \ mut counts = vec![0; max + 1];\n        for (i, &x) in list.iter().enumerate()\
+    \        }\n        let mut sorted_positions = vec![None; upper_bound + 1];\n\
+    \        let mut counts = vec![0; upper_bound + 1];\n        for (i, &x) in list.iter().enumerate()\
     \ {\n            if sorted_positions[x].is_none() {\n                sorted_positions[x]\
     \ = Some(i);\n            }\n            counts[x] += 1;\n        }\n        Self\
-    \ {\n            max,\n            len,\n            indices,\n            sorted_positions,\n\
-    \            counts,\n        }\n    }\n\n    /// \u6570\u5217\u306Epos\u756A\u76EE\
-    \u306E\u8981\u7D20\u3092\u5FA9\u5143\u3059\u308B O(log\u03C3)\n    pub fn access(&self,\
-    \ mut pos: usize) -> usize {\n        assert!(pos < self.len);\n        let mut\
-    \ ret = 0;\n        for (ln, index) in self.indices.iter().enumerate().rev() {\n\
-    \            let bit = index.access(pos);\n            if bit {\n            \
-    \    ret |= 1 << ln;\n                pos = index.rank0_all() + index.rank_1(pos);\n\
+    \ {\n            upper_bound,\n            len,\n            indices,\n      \
+    \      sorted_positions,\n            counts,\n        }\n    }\n\n    /// \u6570\
+    \u5217\u306Epos\u756A\u76EE\u306E\u8981\u7D20\u3092\u5FA9\u5143\u3059\u308B O(log\u03C3\
+    )\n    pub fn access(&self, mut pos: usize) -> usize {\n        assert!(pos <\
+    \ self.len);\n        let mut ret = 0;\n        for (ln, index) in self.indices.iter().enumerate().rev()\
+    \ {\n            let bit = index.access(pos);\n            if bit {\n        \
+    \        ret |= 1 << ln;\n                pos = index.rank0_all() + index.rank_1(pos);\n\
     \            } else {\n                pos = index.rank_0(pos);\n            }\n\
     \        }\n        ret\n    }\n\n    /// \u6570\u5217\u306E[0, pos)\u533A\u9593\
     \u306B\u542B\u307E\u308C\u308Bnum\u306E\u6570\u3092\u6C42\u3081\u308B O(log\u03C3\
@@ -84,9 +84,9 @@ data:
     \u306E\u500B\u6570\u3092\u6C42\u3081\u308B O(log\u03C3)\n    pub fn rank_less_eq_more<R:\
     \ RangeBounds<usize>>(\n        &self,\n        num: usize,\n        range: R,\n\
     \    ) -> (usize, usize, usize) {\n        let (mut begin, mut end) = self.get_pos_range(range);\n\
-    \        let range_len = end - begin;\n        if num > self.max {\n         \
-    \   return (range_len, 0, 0);\n        }\n        let mut less = 0;\n        let\
-    \ mut more = 0;\n        for (ln, index) in self.indices.iter().enumerate().rev()\
+    \        let range_len = end - begin;\n        if num >= self.upper_bound {\n\
+    \            return (range_len, 0, 0);\n        }\n        let mut less = 0;\n\
+    \        let mut more = 0;\n        for (ln, index) in self.indices.iter().enumerate().rev()\
     \ {\n            let bit = (num >> ln) & 1;\n            let rank1_begin = index.rank_1(begin);\n\
     \            let rank1_end = index.rank_1(end);\n            let rank0_begin =\
     \ begin - rank1_begin;\n            let rank0_end = end - rank1_end;\n       \
@@ -124,11 +124,11 @@ data:
     \        ret\n    }\n\n    fn get_num_range<R: RangeBounds<usize>>(&self, range:\
     \ R) -> (usize, usize) {\n        use std::ops::Bound::*;\n        let left =\
     \ match range.start_bound() {\n            Included(&x) => x,\n            Excluded(&x)\
-    \ => x + 1,\n            Unbounded => 0,\n        }\n        .min(self.max + 1);\n\
+    \ => x + 1,\n            Unbounded => 0,\n        }\n        .min(self.upper_bound);\n\
     \        let right = match range.end_bound() {\n            Included(&x) => x\
-    \ + 1,\n            Excluded(&x) => x,\n            Unbounded => self.max + 1,\n\
-    \        }\n        .min(self.max + 1);\n        assert!(left <= right);\n   \
-    \     (left, right)\n    }\n\n    /// \u6570\u5217\u306E\u533A\u9593pos_range\u306E\
+    \ + 1,\n            Excluded(&x) => x,\n            Unbounded => self.upper_bound,\n\
+    \        }\n        .min(self.upper_bound);\n        assert!(left <= right);\n\
+    \        (left, right)\n    }\n\n    /// \u6570\u5217\u306E\u533A\u9593pos_range\u306E\
     \u3046\u3061\u3001num_range\u306B\u542B\u307E\u308C\u308B\u6570\u306E\u500B\u6570\
     \u3092\u6C42\u3081\u308B O(log\u03C3)\n    pub fn range_freq<R1: RangeBounds<usize>\
     \ + Clone, R2: RangeBounds<usize>>(\n        &self,\n        pos_range: R1,\n\
@@ -226,7 +226,7 @@ data:
   isVerificationFile: false
   path: crates/wavelet/wavelet_matrix/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-01 21:36:37+09:00'
+  timestamp: '2024-10-04 19:53:27+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/no_1549/src/main.rs

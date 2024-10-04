@@ -41,7 +41,7 @@ data:
   isVerificationFile: true
   path: verify/yukicoder/no_738/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-01 22:25:53+09:00'
+  timestamp: '2024-10-04 19:53:27+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yukicoder/no_738/src/main.rs
