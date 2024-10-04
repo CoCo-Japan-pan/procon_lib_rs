@@ -10,14 +10,12 @@ use std::ops::RangeBounds;
 /// Tは重さの型
 #[derive(Debug, Clone)]
 pub struct WaveletMatrixRectSum<T: Integral> {
-    max: usize,
+    upper_bound: usize,
     len: usize,
     /// indices[i] = 下からiビット目に関する索引
     indices: Vec<BitVec>,
     /// ビットごとの累積和
     cum_sum: Vec<Vec<T>>,
-    /// 普通の累積和 maxより大きいときはこちらを使う
-    raw_cum_sum: Vec<T>,
 }
 
 impl<T: Integral> WaveletMatrixRectSum<T> {
@@ -28,12 +26,8 @@ impl<T: Integral> WaveletMatrixRectSum<T> {
     pub fn new(compressed_list: &[usize], weight_list: &[T]) -> Self {
         assert_eq!(compressed_list.len(), weight_list.len());
         let len = compressed_list.len();
-        let mut raw_cum_sum = vec![T::zero(); len + 1];
-        for (i, &w) in weight_list.iter().enumerate() {
-            raw_cum_sum[i + 1] = raw_cum_sum[i] + w;
-        }
-        let max = *compressed_list.iter().max().unwrap_or(&0);
-        let log = ceil_log2(max as u32 + 1) as usize;
+        let upper_bound = *compressed_list.iter().max().unwrap_or(&0) + 1;
+        let log = ceil_log2(upper_bound as u32 + 1) as usize;
         let mut indices = vec![BitVec::new(len); log];
         // 注目する桁のbitが0となる数、1となる数
         let mut tmp = vec![Vec::with_capacity(len); 2];
@@ -64,11 +58,10 @@ impl<T: Integral> WaveletMatrixRectSum<T> {
             }
         }
         Self {
-            max,
+            upper_bound,
             len,
             indices,
             cum_sum,
-            raw_cum_sum,
         }
     }
 
@@ -95,13 +88,13 @@ impl<T: Integral> WaveletMatrixRectSum<T> {
             Excluded(&l) => l + 1,
             Unbounded => 0,
         }
-        .min(self.max + 1);
+        .min(self.upper_bound);
         let r = match range.end_bound() {
             Included(&r) => r + 1,
             Excluded(&r) => r,
-            Unbounded => self.max + 1,
+            Unbounded => self.upper_bound,
         }
-        .min(self.max + 1);
+        .min(self.upper_bound);
         assert!(l <= r);
         (l, r)
     }
@@ -112,10 +105,6 @@ impl<T: Integral> WaveletMatrixRectSum<T> {
             return T::zero();
         }
         let (mut begin, mut end) = self.get_pos_range(x_range);
-        // 例外処理!!! 普通の累積和を使う
-        if upper > self.max {
-            return self.raw_cum_sum[end] - self.raw_cum_sum[begin];
-        }
         let mut ret = T::zero();
         for (ln, index) in self.indices.iter().enumerate().rev() {
             let bit = (upper >> ln) & 1;

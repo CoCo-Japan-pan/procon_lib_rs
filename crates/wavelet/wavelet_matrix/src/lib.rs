@@ -10,7 +10,7 @@ use std::ops::RangeBounds;
 /// 0-based
 #[derive(Debug, Clone)]
 pub struct WaveletMatrix {
-    max: usize,
+    upper_bound: usize,
     len: usize,
     /// indices[i] = 下からiビット目に関する索引
     indices: Vec<BitVec>,
@@ -25,8 +25,8 @@ impl WaveletMatrix {
     /// 最大値のlogだけ段数が必要なので、座標圧縮されていることを期待する
     pub fn new(compressed_list: &[usize]) -> Self {
         let len = compressed_list.len();
-        let max = *compressed_list.iter().max().unwrap_or(&0);
-        let log = ceil_log2(max as u32 + 1) as usize;
+        let upper_bound = *compressed_list.iter().max().unwrap_or(&0) + 1;
+        let log = ceil_log2(upper_bound as u32 + 1) as usize;
         let mut indices = vec![BitVec::new(len); log];
         // 注目する桁のbitが0となる数、1となる数
         let mut tmp = vec![Vec::with_capacity(len); 2];
@@ -45,8 +45,8 @@ impl WaveletMatrix {
             list.append(&mut tmp[0]);
             list.append(&mut tmp[1]);
         }
-        let mut sorted_positions = vec![None; max + 1];
-        let mut counts = vec![0; max + 1];
+        let mut sorted_positions = vec![None; upper_bound + 1];
+        let mut counts = vec![0; upper_bound + 1];
         for (i, &x) in list.iter().enumerate() {
             if sorted_positions[x].is_none() {
                 sorted_positions[x] = Some(i);
@@ -54,7 +54,7 @@ impl WaveletMatrix {
             counts[x] += 1;
         }
         Self {
-            max,
+            upper_bound,
             len,
             indices,
             sorted_positions,
@@ -103,7 +103,7 @@ impl WaveletMatrix {
     ) -> (usize, usize, usize) {
         let (mut begin, mut end) = self.get_pos_range(range);
         let range_len = end - begin;
-        if num > self.max {
+        if num >= self.upper_bound {
             return (range_len, 0, 0);
         }
         let mut less = 0;
@@ -189,13 +189,13 @@ impl WaveletMatrix {
             Excluded(&x) => x + 1,
             Unbounded => 0,
         }
-        .min(self.max + 1);
+        .min(self.upper_bound);
         let right = match range.end_bound() {
             Included(&x) => x + 1,
             Excluded(&x) => x,
-            Unbounded => self.max + 1,
+            Unbounded => self.upper_bound,
         }
-        .min(self.max + 1);
+        .min(self.upper_bound);
         assert!(left <= right);
         (left, right)
     }
