@@ -32,7 +32,7 @@ impl WaveletMatrix {
         let mut tmp = vec![Vec::with_capacity(len); 2];
         let mut list = compressed_list.to_vec();
         for (ln, index) in indices.iter_mut().enumerate().rev() {
-            for (i, &x) in list.iter().enumerate() {
+            for (i, x) in list.drain(..).enumerate() {
                 if (x >> ln) & 1 == 1 {
                     index.set(i);
                     tmp[1].push(x);
@@ -41,7 +41,6 @@ impl WaveletMatrix {
                 }
             }
             index.build();
-            list.clear();
             list.append(&mut tmp[0]);
             list.append(&mut tmp[1]);
         }

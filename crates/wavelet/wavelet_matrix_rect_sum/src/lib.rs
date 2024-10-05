@@ -36,7 +36,7 @@ impl<T: Integral> WaveletMatrixRectSum<T> {
         let mut tmp_weight = vec![Vec::with_capacity(len); 2];
         let mut cum_sum = vec![vec![T::zero(); len + 1]; log];
         for (ln, index) in indices.iter_mut().enumerate().rev() {
-            for (x, (&y, &w)) in list.iter().zip(weight_list.iter()).enumerate() {
+            for (x, (y, w)) in list.drain(..).zip(weight_list.drain(..)).enumerate() {
                 if (y >> ln) & 1 == 1 {
                     index.set(x);
                     tmp[1].push(y);
@@ -47,8 +47,6 @@ impl<T: Integral> WaveletMatrixRectSum<T> {
                 }
             }
             index.build();
-            list.clear();
-            weight_list.clear();
             list.append(&mut tmp[0]);
             list.append(&mut tmp[1]);
             weight_list.append(&mut tmp_weight[0]);
