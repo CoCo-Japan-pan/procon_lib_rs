@@ -334,7 +334,7 @@ mod test {
         let wm = WaveletMatrix::new(&list);
         for _ in 0..100 {
             let left = rng.gen_range(0..SIZE);
-            let right = rng.gen_range(left + 1..SIZE);
+            let right = rng.gen_range(left + 1..=SIZE);
             let k = rng.gen_range(0..=right - left - 1);
             let mut sorted = list[left..right].to_vec();
             sorted.sort();
