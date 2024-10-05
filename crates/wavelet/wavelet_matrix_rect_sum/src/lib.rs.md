@@ -59,14 +59,13 @@ data:
     \ = compressed_list.to_vec();\n        let mut weight_list = weight_list.to_vec();\n\
     \        let mut tmp_weight = vec![Vec::with_capacity(len); 2];\n        let mut\
     \ cum_sum = vec![vec![T::zero(); len + 1]; log];\n        for (ln, index) in indices.iter_mut().enumerate().rev()\
-    \ {\n            for (x, (&y, &w)) in list.iter().zip(weight_list.iter()).enumerate()\
+    \ {\n            for (x, (y, w)) in list.drain(..).zip(weight_list.drain(..)).enumerate()\
     \ {\n                if (y >> ln) & 1 == 1 {\n                    index.set(x);\n\
     \                    tmp[1].push(y);\n                    tmp_weight[1].push(w);\n\
     \                } else {\n                    tmp[0].push(y);\n             \
     \       tmp_weight[0].push(w);\n                }\n            }\n           \
-    \ index.build();\n            list.clear();\n            weight_list.clear();\n\
-    \            list.append(&mut tmp[0]);\n            list.append(&mut tmp[1]);\n\
-    \            weight_list.append(&mut tmp_weight[0]);\n            weight_list.append(&mut\
+    \ index.build();\n            list.append(&mut tmp[0]);\n            list.append(&mut\
+    \ tmp[1]);\n            weight_list.append(&mut tmp_weight[0]);\n            weight_list.append(&mut\
     \ tmp_weight[1]);\n            for (i, &w) in weight_list.iter().enumerate() {\n\
     \                cum_sum[ln][i + 1] = cum_sum[ln][i] + w;\n            }\n   \
     \     }\n        Self {\n            upper_bound,\n            len,\n        \
@@ -135,7 +134,7 @@ data:
   isVerificationFile: false
   path: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-04 19:53:27+09:00'
+  timestamp: '2024-10-05 15:04:13+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/rectangle_sum/src/main.rs

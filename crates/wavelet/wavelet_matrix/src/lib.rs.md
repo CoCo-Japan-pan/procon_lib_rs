@@ -53,14 +53,14 @@ data:
     \u308B\u6841\u306Ebit\u304C0\u3068\u306A\u308B\u6570\u30011\u3068\u306A\u308B\u6570\
     \n        let mut tmp = vec![Vec::with_capacity(len); 2];\n        let mut list\
     \ = compressed_list.to_vec();\n        for (ln, index) in indices.iter_mut().enumerate().rev()\
-    \ {\n            for (i, &x) in list.iter().enumerate() {\n                if\
+    \ {\n            for (i, x) in list.drain(..).enumerate() {\n                if\
     \ (x >> ln) & 1 == 1 {\n                    index.set(i);\n                  \
     \  tmp[1].push(x);\n                } else {\n                    tmp[0].push(x);\n\
-    \                }\n            }\n            index.build();\n            list.clear();\n\
-    \            list.append(&mut tmp[0]);\n            list.append(&mut tmp[1]);\n\
-    \        }\n        let mut sorted_positions = vec![None; upper_bound + 1];\n\
-    \        let mut counts = vec![0; upper_bound + 1];\n        for (i, &x) in list.iter().enumerate()\
-    \ {\n            if sorted_positions[x].is_none() {\n                sorted_positions[x]\
+    \                }\n            }\n            index.build();\n            list.append(&mut\
+    \ tmp[0]);\n            list.append(&mut tmp[1]);\n        }\n        let mut\
+    \ sorted_positions = vec![None; upper_bound + 1];\n        let mut counts = vec![0;\
+    \ upper_bound + 1];\n        for (i, &x) in list.iter().enumerate() {\n      \
+    \      if sorted_positions[x].is_none() {\n                sorted_positions[x]\
     \ = Some(i);\n            }\n            counts[x] += 1;\n        }\n        Self\
     \ {\n            upper_bound,\n            len,\n            indices,\n      \
     \      sorted_positions,\n            counts,\n        }\n    }\n\n    /// \u6570\
@@ -188,7 +188,7 @@ data:
     \ = 128;\n        let list = (0..SIZE)\n            .map(|_| rng.gen_range(0..=MAX))\n\
     \            .collect::<Vec<_>>();\n        let wm = WaveletMatrix::new(&list);\n\
     \        for _ in 0..100 {\n            let left = rng.gen_range(0..SIZE);\n \
-    \           let right = rng.gen_range(left + 1..SIZE);\n            let k = rng.gen_range(0..=right\
+    \           let right = rng.gen_range(left + 1..=SIZE);\n            let k = rng.gen_range(0..=right\
     \ - left - 1);\n            let mut sorted = list[left..right].to_vec();\n   \
     \         sorted.sort();\n            assert_eq!(wm.quantile(left..right, k),\
     \ sorted[k]);\n        }\n    }\n\n    #[test]\n    fn test_range_freq() {\n \
@@ -226,7 +226,7 @@ data:
   isVerificationFile: false
   path: crates/wavelet/wavelet_matrix/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-04 19:53:27+09:00'
+  timestamp: '2024-10-05 15:42:20+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/no_1549/src/main.rs
