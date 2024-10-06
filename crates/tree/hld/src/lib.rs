@@ -14,7 +14,7 @@ pub struct HLD {
     /// 各頂点の属するheavy pathの先頭
     heavy_path_lowest: Vec<usize>,
     /// heavy pathを並べた配列における各頂点のindex  
-    /// オイラーツアーも兼ねている  
+    /// 部分木に属する頂点が連続するようにして、部分木クエリにも対応できる    
     /// この配列において、各頂点についてその頂点とその親との間の辺を対応させた配列を用いれば、
     /// `path`や`subtree`関数で得られたindexを使って辺も対処できる  
     pub hld_in: Vec<usize>,
@@ -24,6 +24,7 @@ pub struct HLD {
     vertex_cnt: usize,
 }
 
+/// 半開区間
 #[derive(Debug, Clone, Copy)]
 pub enum Path {
     /// hldの上では右から左に進む
@@ -152,8 +153,8 @@ impl HLD {
         self.hld_out[v] = *id;
     }
 
+    /// vからlへ上るまでのheavy pathを列挙(lはlcaの想定)
     fn ascending(&self, l: usize, mut v: usize) -> Vec<Path> {
-        // vからlへ上るまでのheavy pathを列挙(lはlcaの想定)
         assert!(self.hld_in[l] <= self.hld_in[v]);
         let mut ret = vec![];
         // lcaからその親への辺は含まないので、その場合は左辺を+1することに注意
