@@ -17,7 +17,7 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
-    - https://atcoder.jp/contests/abc340/editorial/9249)
+    - https://atcoder.jp/contests/abc340/editorial/9249
     - https://smijake3.hatenablog.com/entry/2019/09/15/200200
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\

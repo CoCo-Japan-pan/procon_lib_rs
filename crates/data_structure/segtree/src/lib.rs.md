@@ -23,8 +23,8 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
-    - https://creativecommons.org/public-domain/cc0/)
-    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs>
+    - https://creativecommons.org/public-domain/cc0/
+    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\

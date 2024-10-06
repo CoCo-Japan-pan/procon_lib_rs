@@ -12,7 +12,7 @@ data:
   attributes:
     links:
     - https://atcoder.jp/contests/practice2/tasks/practice2_g
-    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/scc.rs>
+    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/scc.rs
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\

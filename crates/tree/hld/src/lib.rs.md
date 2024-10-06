@@ -26,8 +26,8 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
-    - https://codeforces.com/blog/entry/53170)
-    - https://hcpc-hokudai.github.io/archive/graph_tree_001.pdf)
+    - https://codeforces.com/blog/entry/53170
+    - https://hcpc-hokudai.github.io/archive/graph_tree_001.pdf
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
