@@ -5,41 +5,12 @@ use euler_tour::EulerTour;
 #[derive(Debug)]
 pub struct AuxiliaryTree {
     pub euler_tour: EulerTour,
-    pub pre_order_index: Vec<usize>,
 }
 
 impl AuxiliaryTree {
     pub fn new(graph: &[Vec<usize>], root: usize) -> Self {
         let euler_tour = EulerTour::new(graph, root);
-        struct Cls<'a> {
-            graph: &'a [Vec<usize>],
-            pre_order: Vec<usize>,
-        }
-        let mut cls = Cls {
-            graph,
-            pre_order: Vec::with_capacity(graph.len()),
-        };
-        fn dfs(cls: &mut Cls, v: usize, p: usize) {
-            cls.pre_order.push(v);
-            for &nv in &cls.graph[v] {
-                if nv == p {
-                    continue;
-                }
-                dfs(cls, nv, v);
-            }
-        }
-        dfs(&mut cls, root, graph.len());
-        let pre_order_index = {
-            let mut pre_order = vec![0; graph.len()];
-            for (i, v) in cls.pre_order.into_iter().enumerate() {
-                pre_order[v] = i;
-            }
-            pre_order
-        };
-        Self {
-            euler_tour,
-            pre_order_index,
-        }
+        Self { euler_tour }
     }
 
     /// LCAの関係を保ったまま圧縮された木を返す  
@@ -55,8 +26,8 @@ impl AuxiliaryTree {
         if vertex_subset.is_empty() {
             return (vec![], vec![], None);
         }
-        // pre-order順にソート
-        vertex_subset.sort_by_key(|&v| self.pre_order_index[v]);
+        // pre-order順にソート(オイラーツアーのfirst_occurrenceで代用)
+        vertex_subset.sort_by_key(|&v| self.euler_tour.first_occurrence[v]);
         {
             // LCAを追加
             let mut append = Vec::with_capacity(vertex_subset.len() - 1);
@@ -66,7 +37,7 @@ impl AuxiliaryTree {
             vertex_subset.append(&mut append);
         }
         // LCAを追加したものをpre-order順にソート
-        vertex_subset.sort_by_key(|&v| self.pre_order_index[v]);
+        vertex_subset.sort_by_key(|&v| self.euler_tour.first_occurrence[v]);
         // 重複削除
         vertex_subset.dedup();
 

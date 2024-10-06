@@ -19,7 +19,8 @@ impl IdempotentMonoid for MinMonoid {}
 
 #[derive(Debug)]
 pub struct EulerTour {
-    /// 頂点に着目したオイラーツアー
+    /// 頂点に着目したオイラーツアー  
+    /// 各辺を2回ずつ通るので、サイズは`2|E| + 1 = "2|V| - 1`
     pub euler_tour_vertex: Vec<usize>,
     /// 各頂点の深さ
     pub depth: Vec<usize>,
@@ -29,8 +30,7 @@ pub struct EulerTour {
     pub last_occurrence: Vec<usize>,
     /// (深さ、頂点)の配列から構成されるSparseTable  
     /// first_occurenceの[最小、最大]の範囲で区間積を取ることで、(lcaの深さ、lcaの頂点)を求められる  
-    /// first_occurenceを手動で管理する用(少しずつ頂点を増やしていく場合等)
-    pub sparse_table: SparseTable<MinMonoid>,
+    sparse_table: SparseTable<MinMonoid>,
 }
 
 impl EulerTour {
