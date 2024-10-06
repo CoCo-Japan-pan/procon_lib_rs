@@ -25,38 +25,28 @@ data:
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! LCA\u30D9\u30FC\u30B9\u306E\u5727\u7E2E\u6728  \n//! [Auxiliary Tree](https://atcoder.jp/contests/abc340/editorial/9249)\n\
     use euler_tour::EulerTour;\n\n#[derive(Debug)]\npub struct AuxiliaryTree {\n \
-    \   pub euler_tour: EulerTour,\n    pub pre_order_index: Vec<usize>,\n}\n\nimpl\
-    \ AuxiliaryTree {\n    pub fn new(graph: &[Vec<usize>], root: usize) -> Self {\n\
-    \        let euler_tour = EulerTour::new(graph, root);\n        struct Cls<'a>\
-    \ {\n            graph: &'a [Vec<usize>],\n            pre_order: Vec<usize>,\n\
-    \        }\n        let mut cls = Cls {\n            graph,\n            pre_order:\
-    \ Vec::with_capacity(graph.len()),\n        };\n        fn dfs(cls: &mut Cls,\
-    \ v: usize, p: usize) {\n            cls.pre_order.push(v);\n            for &nv\
-    \ in &cls.graph[v] {\n                if nv == p {\n                    continue;\n\
-    \                }\n                dfs(cls, nv, v);\n            }\n        }\n\
-    \        dfs(&mut cls, root, graph.len());\n        let pre_order_index = {\n\
-    \            let mut pre_order = vec![0; graph.len()];\n            for (i, v)\
-    \ in cls.pre_order.into_iter().enumerate() {\n                pre_order[v] = i;\n\
-    \            }\n            pre_order\n        };\n        Self {\n          \
-    \  euler_tour,\n            pre_order_index,\n        }\n    }\n\n    /// LCA\u306E\
-    \u95A2\u4FC2\u3092\u4FDD\u3063\u305F\u307E\u307E\u5727\u7E2E\u3055\u308C\u305F\
-    \u6728\u3092\u8FD4\u3059  \n    /// \u7A7A\u914D\u5217\u3092\u6E21\u3059\u3068\
-    `(vec![], vec![], None)`\u3092\u8FD4\u3059  \n    /// \u7A7A\u3067\u306A\u3051\
-    \u308C\u3070`(\u9802\u70B9\u96C6\u5408, (\u89AA,\u5B50)\u306E\u30DA\u30A2\u306E\
-    \u96C6\u5408, Some(\u6839))`\u3092\u8FD4\u3059  \n    /// \u9802\u70B9\u96C6\u5408\
-    \u306F\u305D\u306E\u756A\u53F7\u306E\u307E\u307E\u30BD\u30FC\u30C8\u3057\u3066\
-    \u3044\u308B  \n    /// `O(KlogK) (K = vertex_subset.len())`  \n    /// \u5727\
-    \u7E2E\u3055\u308C\u305F\u6728\u306E\u30B5\u30A4\u30BA\u306F\u9AD8\u3005`2K-1`\
-    \  \n    pub fn gen_auxiliary_tree(\n        &self,\n        mut vertex_subset:\
-    \ Vec<usize>,\n    ) -> (Vec<usize>, Vec<(usize, usize)>, Option<usize>) {\n \
-    \       if vertex_subset.is_empty() {\n            return (vec![], vec![], None);\n\
-    \        }\n        // pre-order\u9806\u306B\u30BD\u30FC\u30C8\n        vertex_subset.sort_by_key(|&v|\
-    \ self.pre_order_index[v]);\n        {\n            // LCA\u3092\u8FFD\u52A0\n\
-    \            let mut append = Vec::with_capacity(vertex_subset.len() - 1);\n \
-    \           for ad in vertex_subset.windows(2) {\n                append.push(self.euler_tour.lca(ad[0],\
-    \ ad[1]));\n            }\n            vertex_subset.append(&mut append);\n  \
-    \      }\n        // LCA\u3092\u8FFD\u52A0\u3057\u305F\u3082\u306E\u3092pre-order\u9806\
-    \u306B\u30BD\u30FC\u30C8\n        vertex_subset.sort_by_key(|&v| self.pre_order_index[v]);\n\
+    \   pub euler_tour: EulerTour,\n}\n\nimpl AuxiliaryTree {\n    pub fn new(graph:\
+    \ &[Vec<usize>], root: usize) -> Self {\n        let euler_tour = EulerTour::new(graph,\
+    \ root);\n        Self { euler_tour }\n    }\n\n    /// LCA\u306E\u95A2\u4FC2\u3092\
+    \u4FDD\u3063\u305F\u307E\u307E\u5727\u7E2E\u3055\u308C\u305F\u6728\u3092\u8FD4\
+    \u3059  \n    /// \u7A7A\u914D\u5217\u3092\u6E21\u3059\u3068`(vec![], vec![],\
+    \ None)`\u3092\u8FD4\u3059  \n    /// \u7A7A\u3067\u306A\u3051\u308C\u3070`(\u9802\
+    \u70B9\u96C6\u5408, (\u89AA,\u5B50)\u306E\u30DA\u30A2\u306E\u96C6\u5408, Some(\u6839\
+    ))`\u3092\u8FD4\u3059  \n    /// \u9802\u70B9\u96C6\u5408\u306F\u305D\u306E\u756A\
+    \u53F7\u306E\u307E\u307E\u30BD\u30FC\u30C8\u3057\u3066\u3044\u308B  \n    ///\
+    \ `O(KlogK) (K = vertex_subset.len())`  \n    /// \u5727\u7E2E\u3055\u308C\u305F\
+    \u6728\u306E\u30B5\u30A4\u30BA\u306F\u9AD8\u3005`2K-1`  \n    pub fn gen_auxiliary_tree(\n\
+    \        &self,\n        mut vertex_subset: Vec<usize>,\n    ) -> (Vec<usize>,\
+    \ Vec<(usize, usize)>, Option<usize>) {\n        if vertex_subset.is_empty() {\n\
+    \            return (vec![], vec![], None);\n        }\n        // pre-order\u9806\
+    \u306B\u30BD\u30FC\u30C8(\u30AA\u30A4\u30E9\u30FC\u30C4\u30A2\u30FC\u306Efirst_occurrence\u3067\
+    \u4EE3\u7528)\n        vertex_subset.sort_by_key(|&v| self.euler_tour.first_occurrence[v]);\n\
+    \        {\n            // LCA\u3092\u8FFD\u52A0\n            let mut append =\
+    \ Vec::with_capacity(vertex_subset.len() - 1);\n            for ad in vertex_subset.windows(2)\
+    \ {\n                append.push(self.euler_tour.lca(ad[0], ad[1]));\n       \
+    \     }\n            vertex_subset.append(&mut append);\n        }\n        //\
+    \ LCA\u3092\u8FFD\u52A0\u3057\u305F\u3082\u306E\u3092pre-order\u9806\u306B\u30BD\
+    \u30FC\u30C8\n        vertex_subset.sort_by_key(|&v| self.euler_tour.first_occurrence[v]);\n\
     \        // \u91CD\u8907\u524A\u9664\n        vertex_subset.dedup();\n\n     \
     \   // \u69CB\u7BC9\n        let mut par_v_pairs = Vec::with_capacity(vertex_subset.len()\
     \ - 1);\n        let mut stack = Vec::with_capacity(vertex_subset.len());\n  \
@@ -91,7 +81,7 @@ data:
   isVerificationFile: false
   path: crates/tree/auxiliary_tree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-09-28 12:55:28+09:00'
+  timestamp: '2024-10-06 15:56:08+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc359g_auxiliary/src/main.rs
