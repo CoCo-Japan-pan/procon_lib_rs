@@ -60,7 +60,7 @@ impl AuxiliaryTree {
         }
         let root = stack[0];
         // 将来圧縮グラフの構築時に二分探索することを見越して、番号そのままでソートしておく
-        vertex_subset.sort();
+        vertex_subset.sort_unstable();
         (vertex_subset, par_v_pairs, Some(root))
     }
 }

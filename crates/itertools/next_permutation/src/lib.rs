@@ -11,9 +11,9 @@ pub fn next_permutation<T: Ord>(a: &mut [T]) -> bool {
     true
 }
 
-/// ソートを行い、順列を列挙するイテレータを返す
+/// 最初にソートし、全ての順列を列挙するイテレータを返す
 pub fn permutations<T: Ord + Clone>(mut start_vec: Vec<T>) -> Permutations<T> {
-    start_vec.sort();
+    start_vec.sort_unstable();
     Permutations::new(start_vec)
 }
 

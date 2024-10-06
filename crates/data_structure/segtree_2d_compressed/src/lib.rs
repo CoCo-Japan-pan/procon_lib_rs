@@ -20,7 +20,7 @@ impl<M: Monoid + Commutative, T: Integral> SegTree2DCompressed<M, T> {
     pub fn new(update_queries: &[(T, T)]) -> Self {
         let height_compressed = {
             let mut tmp = update_queries.iter().map(|&(h, _)| h).collect::<Vec<_>>();
-            tmp.sort();
+            tmp.sort_unstable();
             tmp.dedup();
             tmp
         };
@@ -31,14 +31,14 @@ impl<M: Monoid + Commutative, T: Integral> SegTree2DCompressed<M, T> {
                 tmp[h].push(w);
             }
             for v in tmp.iter_mut() {
-                v.sort();
+                v.sort_unstable();
                 v.dedup();
             }
             for h in (1..height_compressed.len()).rev() {
                 let child_left = tmp[h * 2].clone();
                 let child_right = tmp[h * 2 + 1].clone();
                 tmp[h] = child_left.into_iter().chain(child_right).collect();
-                tmp[h].sort();
+                tmp[h].sort_unstable();
                 tmp[h].dedup();
             }
             tmp

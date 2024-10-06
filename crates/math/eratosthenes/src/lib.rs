@@ -72,7 +72,7 @@ impl Eratosthenes {
                 }
             }
         }
-        ret.sort();
+        ret.sort_unstable();
         ret
     }
 }
