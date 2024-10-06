@@ -41,15 +41,16 @@ data:
     \   for i in 0..cur_size {\n                let mut new_num = ret[i];\n      \
     \          for _ in 0..c {\n                    new_num *= p;\n              \
     \      ret.push(new_num);\n                }\n            }\n        }\n     \
-    \   ret.sort();\n        ret\n    }\n}\n\n#[cfg(test)]\nmod test {\n    use super::*;\n\
-    \n    #[test]\n    fn test_divisors_60() {\n        let era = Eratosthenes::new(60);\n\
-    \        let divisors_60 = era.divisors(60);\n        assert_eq!(divisors_60,\
-    \ [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60])\n    }\n}\n"
+    \   ret.sort_unstable();\n        ret\n    }\n}\n\n#[cfg(test)]\nmod test {\n\
+    \    use super::*;\n\n    #[test]\n    fn test_divisors_60() {\n        let era\
+    \ = Eratosthenes::new(60);\n        let divisors_60 = era.divisors(60);\n    \
+    \    assert_eq!(divisors_60, [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60])\n   \
+    \ }\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/math/eratosthenes/src/lib.rs
   requiredBy: []
-  timestamp: '2024-09-15 15:39:00+09:00'
+  timestamp: '2024-10-06 16:15:33+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/math/eratosthenes/src/lib.rs

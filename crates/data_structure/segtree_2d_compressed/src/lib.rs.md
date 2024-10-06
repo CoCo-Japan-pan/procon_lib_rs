@@ -44,17 +44,17 @@ data:
     \ Vec<Vec<T>>,\n    data: Vec<SegTree<M>>,\n}\n\nimpl<M: Monoid + Commutative,\
     \ T: Integral> SegTree2DCompressed<M, T> {\n    pub fn new(update_queries: &[(T,\
     \ T)]) -> Self {\n        let height_compressed = {\n            let mut tmp =\
-    \ update_queries.iter().map(|&(h, _)| h).collect::<Vec<_>>();\n            tmp.sort();\n\
+    \ update_queries.iter().map(|&(h, _)| h).collect::<Vec<_>>();\n            tmp.sort_unstable();\n\
     \            tmp.dedup();\n            tmp\n        };\n        let width_compressed\
     \ = {\n            let mut tmp = vec![vec![]; height_compressed.len() * 2];\n\
     \            for &(h, w) in update_queries.iter() {\n                let h = height_compressed.binary_search(&h).unwrap()\
     \ + height_compressed.len();\n                tmp[h].push(w);\n            }\n\
-    \            for v in tmp.iter_mut() {\n                v.sort();\n          \
-    \      v.dedup();\n            }\n            for h in (1..height_compressed.len()).rev()\
+    \            for v in tmp.iter_mut() {\n                v.sort_unstable();\n \
+    \               v.dedup();\n            }\n            for h in (1..height_compressed.len()).rev()\
     \ {\n                let child_left = tmp[h * 2].clone();\n                let\
     \ child_right = tmp[h * 2 + 1].clone();\n                tmp[h] = child_left.into_iter().chain(child_right).collect();\n\
-    \                tmp[h].sort();\n                tmp[h].dedup();\n           \
-    \ }\n            tmp\n        };\n        let data = (0..height_compressed.len()\
+    \                tmp[h].sort_unstable();\n                tmp[h].dedup();\n  \
+    \          }\n            tmp\n        };\n        let data = (0..height_compressed.len()\
     \ * 2)\n            .map(|i| SegTree::<M>::new(width_compressed[i].len()))\n \
     \           .collect();\n        Self {\n            height_compressed,\n    \
     \        width_compressed,\n            data,\n        }\n    }\n\n    pub fn\
@@ -129,7 +129,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/segtree_2d_compressed/src/lib.rs
   requiredBy: []
-  timestamp: '2024-09-16 18:40:00+09:00'
+  timestamp: '2024-10-06 16:15:33+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/rectangle_add_point_get/src/main.rs

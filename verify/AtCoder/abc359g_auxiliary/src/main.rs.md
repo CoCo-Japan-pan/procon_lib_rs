@@ -53,7 +53,7 @@ data:
   isVerificationFile: true
   path: verify/AtCoder/abc359g_auxiliary/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-06 15:56:08+09:00'
+  timestamp: '2024-10-06 16:15:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AtCoder/abc359g_auxiliary/src/main.rs

@@ -59,9 +59,9 @@ data:
     \ = stack[0];\n        // \u5C06\u6765\u5727\u7E2E\u30B0\u30E9\u30D5\u306E\u69CB\
     \u7BC9\u6642\u306B\u4E8C\u5206\u63A2\u7D22\u3059\u308B\u3053\u3068\u3092\u898B\
     \u8D8A\u3057\u3066\u3001\u756A\u53F7\u305D\u306E\u307E\u307E\u3067\u30BD\u30FC\
-    \u30C8\u3057\u3066\u304A\u304F\n        vertex_subset.sort();\n        (vertex_subset,\
-    \ par_v_pairs, Some(root))\n    }\n}\n\n#[cfg(test)]\nmod test {\n    use super::*;\n\
-    \n    #[test]\n    /// example from https://smijake3.hatenablog.com/entry/2019/09/15/200200\n\
+    \u30C8\u3057\u3066\u304A\u304F\n        vertex_subset.sort_unstable();\n     \
+    \   (vertex_subset, par_v_pairs, Some(root))\n    }\n}\n\n#[cfg(test)]\nmod test\
+    \ {\n    use super::*;\n\n    #[test]\n    /// example from https://smijake3.hatenablog.com/entry/2019/09/15/200200\n\
     \    fn test_auxiliary_tree() {\n        /*  0\n           / \\\n          1 \
     \  2\n             / \\\n            3   9\n            |   | \\\n           \
     \ 4   10 12\n           /|\\   \\\n          5 6 7   11\n              \\\n  \
@@ -81,7 +81,7 @@ data:
   isVerificationFile: false
   path: crates/tree/auxiliary_tree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-06 15:56:08+09:00'
+  timestamp: '2024-10-06 16:15:33+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc359g_auxiliary/src/main.rs

@@ -20,19 +20,20 @@ data:
     \ &mut [T]) -> bool {\n    let Some(i) = a.windows(2).rposition(|w| w[0] < w[1])\
     \ else {\n        return false;\n    };\n    let j = a.iter().rposition(|x| x\
     \ > &a[i]).unwrap();\n    a.swap(i, j);\n    a[i + 1..].reverse();\n    true\n\
-    }\n\n/// \u30BD\u30FC\u30C8\u3092\u884C\u3044\u3001\u9806\u5217\u3092\u5217\u6319\
-    \u3059\u308B\u30A4\u30C6\u30EC\u30FC\u30BF\u3092\u8FD4\u3059\npub fn permutations<T:\
-    \ Ord + Clone>(mut start_vec: Vec<T>) -> Permutations<T> {\n    start_vec.sort();\n\
-    \    Permutations::new(start_vec)\n}\n\npub struct Permutations<T: Ord + Clone>\
-    \ {\n    data: Vec<T>,\n    first: bool,\n}\n\nimpl<T: Ord + Clone> Permutations<T>\
-    \ {\n    fn new(data: Vec<T>) -> Self {\n        Permutations { data, first: true\
-    \ }\n    }\n}\n\nimpl<T: Ord + Clone> Iterator for Permutations<T> {\n    type\
-    \ Item = Vec<T>;\n\n    fn next(&mut self) -> Option<Self::Item> {\n        if\
-    \ self.first {\n            self.first = false;\n            return Some(self.data.clone());\n\
-    \        }\n        if next_permutation(&mut self.data) {\n            Some(self.data.clone())\n\
-    \        } else {\n            None\n        }\n    }\n}\n\n#[cfg(test)]\nmod\
-    \ tests {\n    use super::*;\n\n    #[test]\n    fn test_permutations() {\n  \
-    \      let mut perms = permutations((0..3).collect());\n        assert_eq!(perms.next().unwrap(),\
+    }\n\n/// \u6700\u521D\u306B\u30BD\u30FC\u30C8\u3057\u3001\u5168\u3066\u306E\u9806\
+    \u5217\u3092\u5217\u6319\u3059\u308B\u30A4\u30C6\u30EC\u30FC\u30BF\u3092\u8FD4\
+    \u3059\npub fn permutations<T: Ord + Clone>(mut start_vec: Vec<T>) -> Permutations<T>\
+    \ {\n    start_vec.sort_unstable();\n    Permutations::new(start_vec)\n}\n\npub\
+    \ struct Permutations<T: Ord + Clone> {\n    data: Vec<T>,\n    first: bool,\n\
+    }\n\nimpl<T: Ord + Clone> Permutations<T> {\n    fn new(data: Vec<T>) -> Self\
+    \ {\n        Permutations { data, first: true }\n    }\n}\n\nimpl<T: Ord + Clone>\
+    \ Iterator for Permutations<T> {\n    type Item = Vec<T>;\n\n    fn next(&mut\
+    \ self) -> Option<Self::Item> {\n        if self.first {\n            self.first\
+    \ = false;\n            return Some(self.data.clone());\n        }\n        if\
+    \ next_permutation(&mut self.data) {\n            Some(self.data.clone())\n  \
+    \      } else {\n            None\n        }\n    }\n}\n\n#[cfg(test)]\nmod tests\
+    \ {\n    use super::*;\n\n    #[test]\n    fn test_permutations() {\n        let\
+    \ mut perms = permutations((0..3).collect());\n        assert_eq!(perms.next().unwrap(),\
     \ vec![0, 1, 2]);\n        assert_eq!(perms.next().unwrap(), vec![0, 2, 1]);\n\
     \        assert_eq!(perms.next().unwrap(), vec![1, 0, 2]);\n        assert_eq!(perms.next().unwrap(),\
     \ vec![1, 2, 0]);\n        assert_eq!(perms.next().unwrap(), vec![2, 0, 1]);\n\
@@ -46,7 +47,7 @@ data:
   isVerificationFile: false
   path: crates/itertools/next_permutation/src/lib.rs
   requiredBy: []
-  timestamp: '2024-07-20 23:41:26+09:00'
+  timestamp: '2024-10-06 16:15:33+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/itertools/next_permutation/src/lib.rs
