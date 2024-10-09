@@ -7,14 +7,14 @@ data:
   - icon: ':warning:'
     path: crates/wavelet/bitdict/src/lib.rs
     title: crates/wavelet/bitdict/src/lib.rs
-  _extendedRequiredBy:
-  - icon: ':warning:'
-    path: verify/AtCoder/abc239e/src/main.rs
-    title: verify/AtCoder/abc239e/src/main.rs
+  _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: verify/AOJ/no_1549/src/main.rs
     title: verify/AOJ/no_1549/src/main.rs
+  - icon: ':heavy_check_mark:'
+    path: verify/AtCoder/abc239e/src/main.rs
+    title: verify/AtCoder/abc239e/src/main.rs
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/range_kth_smallest/src/main.rs
     title: verify/yosupo/range_kth_smallest/src/main.rs
@@ -228,12 +228,12 @@ data:
   - crates/wavelet/bitdict/src/lib.rs
   isVerificationFile: false
   path: crates/wavelet/wavelet_matrix/src/lib.rs
-  requiredBy:
-  - verify/AtCoder/abc239e/src/main.rs
+  requiredBy: []
   timestamp: '2024-10-09 22:07:44+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/range_kth_smallest/src/main.rs
+  - verify/AtCoder/abc239e/src/main.rs
   - verify/yukicoder/no_738/src/main.rs
   - verify/AOJ/no_1549/src/main.rs
 documentation_of: crates/wavelet/wavelet_matrix/src/lib.rs
