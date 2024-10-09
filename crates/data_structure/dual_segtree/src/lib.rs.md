@@ -95,8 +95,8 @@ data:
   timestamp: '2024-09-16 18:40:00+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/AOJ/dsl_2d_dual_seg_non_commutative/src/main.rs
   - verify/AOJ/dsl_2d_dual_seg/src/main.rs
+  - verify/AOJ/dsl_2d_dual_seg_non_commutative/src/main.rs
 documentation_of: crates/data_structure/dual_segtree/src/lib.rs
 layout: document
 redirect_from:

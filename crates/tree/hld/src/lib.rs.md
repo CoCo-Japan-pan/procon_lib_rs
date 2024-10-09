@@ -1,7 +1,10 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: verify/AtCoder/abc239e/src/main.rs
+    title: verify/AtCoder/abc239e/src/main.rs
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: verify/AOJ/no_2667/src/main.rs
@@ -134,16 +137,17 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: crates/tree/hld/src/lib.rs
-  requiredBy: []
+  requiredBy:
+  - verify/AtCoder/abc239e/src/main.rs
   timestamp: '2024-10-06 16:07:47+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/AOJ/no_2667/src/main.rs
-  - verify/yosupo/vertex_set_path_composite/src/main.rs
-  - verify/yosupo/vertex_add_path_sum/src/main.rs
   - verify/yosupo/vertex_add_subtree_sum/src/main.rs
+  - verify/yosupo/vertex_add_path_sum/src/main.rs
   - verify/yosupo/lca_hld/src/main.rs
+  - verify/yosupo/vertex_set_path_composite/src/main.rs
   - verify/AtCoder/abc294g/src/main.rs
+  - verify/AOJ/no_2667/src/main.rs
 documentation_of: crates/tree/hld/src/lib.rs
 layout: document
 redirect_from:

@@ -226,16 +226,16 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/tree/rerooting/src/lib.rs
       title: crates/tree/rerooting/src/lib.rs
-  - name: crates/wavelet/bitvec/benches
+  - name: crates/wavelet/bitdict/benches
     pages:
     - icon: ':warning:'
-      path: crates/wavelet/bitvec/benches/my_benchmark.rs
-      title: crates/wavelet/bitvec/benches/my_benchmark.rs
-  - name: crates/wavelet/bitvec/src
+      path: crates/wavelet/bitdict/benches/my_benchmark.rs
+      title: crates/wavelet/bitdict/benches/my_benchmark.rs
+  - name: crates/wavelet/bitdict/src
     pages:
     - icon: ':warning:'
-      path: crates/wavelet/bitvec/src/lib.rs
-      title: crates/wavelet/bitvec/src/lib.rs
+      path: crates/wavelet/bitdict/src/lib.rs
+      title: crates/wavelet/bitdict/src/lib.rs
   - name: crates/wavelet/wavelet_matrix/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -246,6 +246,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
       title: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
+  - name: verify/AtCoder/abc239e/src
+    pages:
+    - icon: ':warning:'
+      path: verify/AtCoder/abc239e/src/main.rs
+      title: verify/AtCoder/abc239e/src/main.rs
   - name: verify/AtCoder/abc291g/src
     pages:
     - icon: ':warning:'

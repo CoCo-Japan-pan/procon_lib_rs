@@ -52,8 +52,8 @@ data:
   isVerificationFile: false
   path: crates/data_structure/sparse_table/src/lib.rs
   requiredBy:
-  - crates/data_structure/sparse_table_on_segtree/src/lib.rs
   - crates/tree/euler_tour/src/lib.rs
+  - crates/data_structure/sparse_table_on_segtree/src/lib.rs
   timestamp: '2024-09-16 18:40:00+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

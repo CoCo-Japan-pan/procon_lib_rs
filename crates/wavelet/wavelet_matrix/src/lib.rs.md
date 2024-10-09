@@ -5,9 +5,12 @@ data:
     path: crates/internals/internal_bits/src/lib.rs
     title: crates/internals/internal_bits/src/lib.rs
   - icon: ':warning:'
-    path: crates/wavelet/bitvec/src/lib.rs
-    title: crates/wavelet/bitvec/src/lib.rs
-  _extendedRequiredBy: []
+    path: crates/wavelet/bitdict/src/lib.rs
+    title: crates/wavelet/bitdict/src/lib.rs
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: verify/AtCoder/abc239e/src/main.rs
+    title: verify/AtCoder/abc239e/src/main.rs
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: verify/AOJ/no_1549/src/main.rs
@@ -29,7 +32,7 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! [Wavelet Matrix](https://miti-7.hatenablog.com/entry/2018/04/28/152259)\n\
-    \nuse bitvec::BitVec;\nuse internal_bits::ceil_log2;\nuse std::ops::RangeBounds;\n\
+    \nuse bitdict::BitDict;\nuse internal_bits::ceil_log2;\nuse std::ops::RangeBounds;\n\
     \n/// 0\u4EE5\u4E0A\u306E\u9759\u7684\u306A\u6570\u5217\u3092\u6271\u3046  \n\
     /// \u6570\u5024\u306E\u7A2E\u985E\u6570\u3092\u03C3\u3068\u3057\u3066\u3001\u69D8\
     \u3005\u306A\u64CD\u4F5C\u3092O(log\u03C3)\u3067\u884C\u3048\u308B  \n/// \u8FFD\
@@ -37,7 +40,7 @@ data:
     \u3066\u3070\u3001range_sum\u3082O(log\u03C3)\u3067\u6C42\u3081\u3089\u308C\u308B\
     \n/// 0-based\n#[derive(Debug, Clone)]\npub struct WaveletMatrix {\n    upper_bound:\
     \ usize,\n    len: usize,\n    /// indices[i] = \u4E0B\u304B\u3089i\u30D3\u30C3\
-    \u30C8\u76EE\u306B\u95A2\u3059\u308B\u7D22\u5F15\n    indices: Vec<BitVec>,\n\
+    \u30C8\u76EE\u306B\u95A2\u3059\u308B\u7D22\u5F15\n    indices: Vec<BitDict>,\n\
     \    /// \u30BD\u30FC\u30C8\u3055\u308C\u305F\u6700\u7D42\u7684\u306A\u6570\u5217\
     \u306E\u8981\u7D20\u306E\u958B\u59CB\u4F4D\u7F6E\n    sorted_positions: Vec<Option<usize>>,\n\
     \    /// \u5404\u6570\u5024\u306E\u500B\u6570 select\u3067\u4E0D\u6B63\u306A\u64CD\
@@ -49,7 +52,7 @@ data:
     \u5F85\u3059\u308B\n    pub fn new(compressed_list: &[usize]) -> Self {\n    \
     \    let len = compressed_list.len();\n        let upper_bound = *compressed_list.iter().max().unwrap_or(&0)\
     \ + 1;\n        let log = ceil_log2(upper_bound as u32 + 1) as usize;\n      \
-    \  let mut indices = vec![BitVec::new(len); log];\n        // \u6CE8\u76EE\u3059\
+    \  let mut indices = vec![BitDict::new(len); log];\n        // \u6CE8\u76EE\u3059\
     \u308B\u6841\u306Ebit\u304C0\u3068\u306A\u308B\u6570\u30011\u3068\u306A\u308B\u6570\
     \n        let mut tmp = vec![Vec::with_capacity(len); 2];\n        let mut list\
     \ = compressed_list.to_vec();\n        for (ln, index) in indices.iter_mut().enumerate().rev()\
@@ -222,16 +225,17 @@ data:
     \ upper), real);\n        }\n    }\n}\n"
   dependsOn:
   - crates/internals/internal_bits/src/lib.rs
-  - crates/wavelet/bitvec/src/lib.rs
+  - crates/wavelet/bitdict/src/lib.rs
   isVerificationFile: false
   path: crates/wavelet/wavelet_matrix/src/lib.rs
-  requiredBy: []
-  timestamp: '2024-10-05 15:42:20+09:00'
+  requiredBy:
+  - verify/AtCoder/abc239e/src/main.rs
+  timestamp: '2024-10-09 22:07:44+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/AOJ/no_1549/src/main.rs
   - verify/yosupo/range_kth_smallest/src/main.rs
   - verify/yukicoder/no_738/src/main.rs
+  - verify/AOJ/no_1549/src/main.rs
 documentation_of: crates/wavelet/wavelet_matrix/src/lib.rs
 layout: document
 redirect_from:

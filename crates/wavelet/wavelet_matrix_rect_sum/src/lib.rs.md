@@ -8,8 +8,8 @@ data:
     path: crates/internals/internal_type_traits/src/lib.rs
     title: crates/internals/internal_type_traits/src/lib.rs
   - icon: ':warning:'
-    path: crates/wavelet/bitvec/src/lib.rs
-    title: crates/wavelet/bitvec/src/lib.rs
+    path: crates/wavelet/bitdict/src/lib.rs
+    title: crates/wavelet/bitdict/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
@@ -36,12 +36,12 @@ data:
     \u308B`range_sum`\u30AF\u30A8\u30EA\u306F\u3001\u5404\u70B9\u306E\u91CD\u307F\u3092\
     \n//! y\u5EA7\u6A19\u3068\u540C\u3058\u3082\u306E\u3068\u3059\u308B\u3053\u3068\
     \u3067\u3001\u77E9\u5F62\u548C\u306E\u30AF\u30A8\u30EA\u306B\u5E30\u7740\u3067\
-    \u304D\u308B\u3002\n\nuse bitvec::BitVec;\nuse internal_bits::ceil_log2;\nuse\
+    \u304D\u308B\u3002\n\nuse bitdict::BitDict;\nuse internal_bits::ceil_log2;\nuse\
     \ internal_type_traits::Integral;\nuse std::ops::RangeBounds;\n\n/// T\u306F\u91CD\
     \u3055\u306E\u578B\n#[derive(Debug, Clone)]\npub struct WaveletMatrixRectSum<T:\
     \ Integral> {\n    upper_bound: usize,\n    len: usize,\n    /// indices[i] =\
     \ \u4E0B\u304B\u3089i\u30D3\u30C3\u30C8\u76EE\u306B\u95A2\u3059\u308B\u7D22\u5F15\
-    \n    indices: Vec<BitVec>,\n    /// \u30D3\u30C3\u30C8\u3054\u3068\u306E\u7D2F\
+    \n    indices: Vec<BitDict>,\n    /// \u30D3\u30C3\u30C8\u3054\u3068\u306E\u7D2F\
     \u7A4D\u548C\n    cum_sum: Vec<Vec<T>>,\n}\n\nimpl<T: Integral> WaveletMatrixRectSum<T>\
     \ {\n    /// `compressed_list[x] = y` \u304C\u70B9(x, y)\u306B\u3001`weight_list[x]\
     \ = w` \u304C\u70B9(x, y)\u306E\u91CD\u307Fw\u306B\u5BFE\u5FDC\u3059\u308B  \n\
@@ -53,7 +53,7 @@ data:
     \ -> Self {\n        assert_eq!(compressed_list.len(), weight_list.len());\n \
     \       let len = compressed_list.len();\n        let upper_bound = *compressed_list.iter().max().unwrap_or(&0)\
     \ + 1;\n        let log = ceil_log2(upper_bound as u32 + 1) as usize;\n      \
-    \  let mut indices = vec![BitVec::new(len); log];\n        // \u6CE8\u76EE\u3059\
+    \  let mut indices = vec![BitDict::new(len); log];\n        // \u6CE8\u76EE\u3059\
     \u308B\u6841\u306Ebit\u304C0\u3068\u306A\u308B\u6570\u30011\u3068\u306A\u308B\u6570\
     \n        let mut tmp = vec![Vec::with_capacity(len); 2];\n        let mut list\
     \ = compressed_list.to_vec();\n        let mut weight_list = weight_list.to_vec();\n\
@@ -130,11 +130,11 @@ data:
   dependsOn:
   - crates/internals/internal_bits/src/lib.rs
   - crates/internals/internal_type_traits/src/lib.rs
-  - crates/wavelet/bitvec/src/lib.rs
+  - crates/wavelet/bitdict/src/lib.rs
   isVerificationFile: false
   path: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-05 15:04:13+09:00'
+  timestamp: '2024-10-09 22:07:44+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/rectangle_sum/src/main.rs
