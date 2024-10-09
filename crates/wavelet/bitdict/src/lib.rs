@@ -7,12 +7,12 @@
 /// キャッシュ効率のため、ブロックとその前のブロックまでの1の数をまとめて持つ
 #[derive(Debug, Clone, Copy)]
 struct Block {
-    block: u64,
+    bit: u64,
     cum_sum_popcnt: u32,
 }
 
 #[derive(Debug, Clone)]
-pub struct BitVec {
+pub struct BitDict {
     len: usize,
     blocks: Vec<Block>,
     all_popcnt: usize,
@@ -22,7 +22,7 @@ pub struct BitVec {
     zero_select: Vec<u32>,
 }
 
-impl From<&[bool]> for BitVec {
+impl From<&[bool]> for BitDict {
     fn from(bitvec: &[bool]) -> Self {
         let len = bitvec.len();
         let mut ret = Self::new(len);
@@ -36,14 +36,14 @@ impl From<&[bool]> for BitVec {
     }
 }
 
-impl BitVec {
+impl BitDict {
     /// 0で初期化されたビット列を作成
     pub fn new(len: usize) -> Self {
         Self {
             len,
             blocks: vec![
                 Block {
-                    block: 0,
+                    bit: 0,
                     cum_sum_popcnt: 0
                 };
                 (len >> 6) + 1
@@ -67,22 +67,18 @@ impl BitVec {
     /// i番目のビットを取得する O(1)
     pub fn access(&self, i: usize) -> bool {
         debug_assert!(i < self.len);
-        (self.blocks[i >> 6].block >> (i & 63)) & 1 == 1
+        (self.blocks[i >> 6].bit >> (i & 63)) & 1 == 1
     }
 
     /// i番目のビットを立てる new()で作成した場合はこちらで一つずつ立てる
     pub fn set(&mut self, i: usize) {
         debug_assert!(i < self.len);
-        self.blocks[i >> 6].block |= 1 << (i & 63);
+        self.blocks[i >> 6].bit |= 1 << (i & 63);
     }
 
     /// 直接setを用いた場合は最後にこれを必ず呼ぶ
     pub fn build(&mut self) {
-        let all_popcnt = self
-            .blocks
-            .iter()
-            .map(|b| b.block.count_ones())
-            .sum::<u32>() as usize;
+        let all_popcnt = self.blocks.iter().map(|b| b.bit.count_ones()).sum::<u32>() as usize;
         let mut popcnt = 0;
         let one_num = (all_popcnt >> 6) + 1;
         let zero_num = ((self.len - all_popcnt) >> 6) + 1;
@@ -96,7 +92,7 @@ impl BitVec {
                 zero_select.push(i as u32);
             }
             b.cum_sum_popcnt = popcnt;
-            popcnt += b.block.count_ones();
+            popcnt += b.bit.count_ones();
         }
         assert_eq!(popcnt as usize, all_popcnt);
         self.all_popcnt = all_popcnt;
@@ -108,7 +104,7 @@ impl BitVec {
     pub fn rank_1(&self, i: usize) -> usize {
         debug_assert!(i <= self.len);
         let Block {
-            block,
+            bit: block,
             cum_sum_popcnt,
         } = self.blocks[i >> 6];
         let mask = (1 << (i & 63)) - 1;
@@ -149,7 +145,7 @@ impl BitVec {
         }
         let rem = i - self.blocks[ok].cum_sum_popcnt;
         // okのブロックの中でのrem番目の1の位置
-        let offset = select1_u64(self.blocks[ok].block, rem as usize);
+        let offset = select1_u64(self.blocks[ok].bit, rem as usize);
         Some((ok << 6) + offset as usize)
     }
 
@@ -179,7 +175,7 @@ impl BitVec {
         }
         let rem = i - ((ok << 6) - self.blocks[ok].cum_sum_popcnt as usize);
         // okのブロックの中でのrem番目の0の位置
-        let offset = select1_u64(!self.blocks[ok].block, rem);
+        let offset = select1_u64(!self.blocks[ok].bit, rem);
         Some((ok << 6) + offset as usize)
     }
 }
@@ -217,7 +213,7 @@ mod test {
         fn test(size: usize) {
             let mut rng = thread_rng();
             let bool_vec = (0..size).map(|_| rng.gen_bool(0.5)).collect::<Vec<_>>();
-            let bit_vec = BitVec::from(&bool_vec[..]);
+            let bit_vec = BitDict::from(&bool_vec[..]);
             let mut ans1 = vec![0; size + 1];
             let mut ans0 = vec![0; size + 1];
             for i in 0..size {
@@ -239,7 +235,7 @@ mod test {
         fn test(size: usize) {
             let mut rng = thread_rng();
             let bool_vec = (0..size).map(|_| rng.gen_bool(0.5)).collect::<Vec<_>>();
-            let bit_vec = BitVec::from(&bool_vec[..]);
+            let bit_vec = BitDict::from(&bool_vec[..]);
             let mut one_indices = Vec::with_capacity(bit_vec.all_popcnt);
             let mut zero_indices = Vec::with_capacity(size - bit_vec.all_popcnt);
             for i in 0..size {
@@ -276,7 +272,7 @@ mod test {
         let mut rng = thread_rng();
         const SIZE: usize = 250000;
         let bool_vec = (0..SIZE).map(|_| rng.gen_bool(0.5)).collect::<Vec<_>>();
-        let bit_vec = BitVec::from(&bool_vec[..]);
+        let bit_vec = BitDict::from(&bool_vec[..]);
         let rand_nums = {
             let mut rand_nums = (0..SIZE).collect::<Vec<_>>();
             rand_nums.shuffle(&mut rng);

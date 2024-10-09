@@ -1,4 +1,4 @@
-use bitvec::BitVec;
+use bitdict::BitDict;
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 use rand::prelude::*;
 use rand_pcg::Pcg32;
@@ -7,7 +7,7 @@ pub fn rank1(c: &mut Criterion) {
     let mut rng = Pcg32::seed_from_u64(0);
     const SIZE: usize = 100000;
     let bool_vec: Vec<bool> = (0..SIZE).map(|_| rng.gen()).collect();
-    let bit_vec = BitVec::from(&bool_vec[..]);
+    let bit_vec = BitDict::from(&bool_vec[..]);
     c.bench_function("rank1_all", |b| {
         b.iter(|| {
             for i in 0..SIZE {
@@ -21,7 +21,7 @@ pub fn rank0(c: &mut Criterion) {
     let mut rng = Pcg32::seed_from_u64(0);
     const SIZE: usize = 100000;
     let bool_vec: Vec<bool> = (0..SIZE).map(|_| rng.gen()).collect();
-    let bit_vec = BitVec::from(&bool_vec[..]);
+    let bit_vec = BitDict::from(&bool_vec[..]);
     c.bench_function("rank0_all", |b| {
         b.iter(|| {
             for i in 0..SIZE {
@@ -35,7 +35,7 @@ pub fn select1(c: &mut Criterion) {
     let mut rng = Pcg32::seed_from_u64(0);
     const SIZE: usize = 100000;
     let bool_vec: Vec<bool> = (0..SIZE).map(|_| rng.gen()).collect();
-    let bit_vec = BitVec::from(&bool_vec[..]);
+    let bit_vec = BitDict::from(&bool_vec[..]);
     c.bench_function("select1_all", |b| {
         b.iter(|| {
             for i in 0..SIZE {
@@ -49,7 +49,7 @@ pub fn select0(c: &mut Criterion) {
     let mut rng = Pcg32::seed_from_u64(0);
     const SIZE: usize = 100000;
     let bool_vec: Vec<bool> = (0..SIZE).map(|_| rng.gen()).collect();
-    let bit_vec = BitVec::from(&bool_vec[..]);
+    let bit_vec = BitDict::from(&bool_vec[..]);
     c.bench_function("select0_all", |b| {
         b.iter(|| {
             for i in 0..SIZE {

@@ -2,7 +2,7 @@
 //! 数列の区間`[l, r)`のうちの`x <= c < y`を満たす数値の和を求める`range_sum`クエリは、各点の重みを
 //! y座標と同じものとすることで、矩形和のクエリに帰着できる。
 
-use bitvec::BitVec;
+use bitdict::BitDict;
 use internal_bits::ceil_log2;
 use internal_type_traits::Integral;
 use std::ops::RangeBounds;
@@ -13,7 +13,7 @@ pub struct WaveletMatrixRectSum<T: Integral> {
     upper_bound: usize,
     len: usize,
     /// indices[i] = 下からiビット目に関する索引
-    indices: Vec<BitVec>,
+    indices: Vec<BitDict>,
     /// ビットごとの累積和
     cum_sum: Vec<Vec<T>>,
 }
@@ -28,7 +28,7 @@ impl<T: Integral> WaveletMatrixRectSum<T> {
         let len = compressed_list.len();
         let upper_bound = *compressed_list.iter().max().unwrap_or(&0) + 1;
         let log = ceil_log2(upper_bound as u32 + 1) as usize;
-        let mut indices = vec![BitVec::new(len); log];
+        let mut indices = vec![BitDict::new(len); log];
         // 注目する桁のbitが0となる数、1となる数
         let mut tmp = vec![Vec::with_capacity(len); 2];
         let mut list = compressed_list.to_vec();
