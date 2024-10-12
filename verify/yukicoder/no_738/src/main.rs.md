@@ -5,8 +5,8 @@ data:
     path: crates/wavelet/wavelet_matrix/src/lib.rs
     title: crates/wavelet/wavelet_matrix/src/lib.rs
   - icon: ':heavy_check_mark:'
-    path: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
-    title: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
+    path: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
+    title: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -21,12 +21,12 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://yukicoder.me/problems/no/738\n\n\
-    use proconio::{fastout, input};\nuse wavelet_matrix::WaveletMatrix;\nuse wavelet_matrix_rect_sum::WaveletMatrixRectSum;\n\
+    use proconio::{fastout, input};\nuse wavelet_matrix::WaveletMatrix;\nuse wavelet_matrix_cum_sum::WaveletMatrixCumSum;\n\
     \n#[fastout]\nfn main() {\n    input! {\n        n: usize,\n        k: usize,\n\
     \        a: [i64; n],\n    }\n    let sorted = {\n        let mut ret = a.clone();\n\
     \        ret.sort();\n        ret.dedup();\n        ret\n    };\n    let compressed:\
     \ Vec<usize> = a.iter().map(|x| sorted.binary_search(x).unwrap()).collect();\n\
-    \    let wm = WaveletMatrix::new(&compressed);\n    let wm_sum = WaveletMatrixRectSum::new(&compressed,\
+    \    let wm = WaveletMatrix::new(&compressed);\n    let wm_sum = WaveletMatrixCumSum::new(&compressed,\
     \ &a);\n    let mid = k / 2;\n    let mut ans = i64::MAX;\n    for start in 0..=n\
     \ - k {\n        let end = start + k;\n        let medium = wm.quantile(start..end,\
     \ mid);\n        let (less, _, more) = wm.rank_less_eq_more(medium, start..end);\n\
@@ -37,11 +37,11 @@ data:
     }\n"
   dependsOn:
   - crates/wavelet/wavelet_matrix/src/lib.rs
-  - crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
+  - crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
   isVerificationFile: true
   path: verify/yukicoder/no_738/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-09 22:07:44+09:00'
+  timestamp: '2024-10-12 16:19:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yukicoder/no_738/src/main.rs

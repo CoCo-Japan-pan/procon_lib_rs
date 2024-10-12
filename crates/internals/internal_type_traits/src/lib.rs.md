@@ -27,8 +27,8 @@ data:
     path: crates/modint/static_modint/src/lib.rs
     title: crates/modint/static_modint/src/lib.rs
   - icon: ':heavy_check_mark:'
-    path: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
-    title: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
+    path: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
+    title: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
   _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: rs
@@ -67,7 +67,7 @@ data:
   path: crates/internals/internal_type_traits/src/lib.rs
   requiredBy:
   - crates/math/matrix/src/lib.rs
-  - crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
+  - crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
   - crates/flow/maxflow/src/lib.rs
   - crates/flow/maxflow_lower_bound/src/lib.rs
   - crates/fps/ntt/src/lib.rs

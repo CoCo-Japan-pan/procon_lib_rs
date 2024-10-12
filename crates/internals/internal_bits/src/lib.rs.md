@@ -21,8 +21,8 @@ data:
     path: crates/wavelet/wavelet_matrix/src/lib.rs
     title: crates/wavelet/wavelet_matrix/src/lib.rs
   - icon: ':heavy_check_mark:'
-    path: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
-    title: crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
+    path: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
+    title: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
   _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: rs
@@ -42,8 +42,8 @@ data:
   isVerificationFile: false
   path: crates/internals/internal_bits/src/lib.rs
   requiredBy:
-  - crates/wavelet/wavelet_matrix_rect_sum/src/lib.rs
   - crates/wavelet/wavelet_matrix/src/lib.rs
+  - crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
   - crates/fps/fps_utils/src/lib.rs
   - crates/data_structure/segtree_2d_dense/src/lib.rs
   - crates/data_structure/cht_offline/src/lib.rs
