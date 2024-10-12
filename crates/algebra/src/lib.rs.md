@@ -36,6 +36,9 @@ data:
     path: crates/tree/rerooting/src/lib.rs
     title: crates/tree/rerooting/src/lib.rs
   - icon: ':warning:'
+    path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
+    title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
+  - icon: ':warning:'
     path: verify/AtCoder/typical_068/src/main.rs
     title: verify/AtCoder/typical_068/src/main.rs
   _extendedVerifiedWith:
@@ -161,6 +164,7 @@ data:
   - crates/math/matrix/src/lib.rs
   - crates/tree/rerooting/src/lib.rs
   - crates/tree/euler_tour/src/lib.rs
+  - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   - crates/data_structure/segtree_2d_dense/src/lib.rs
   - crates/data_structure/sparse_table/src/lib.rs
   - crates/data_structure/potentialized_union_find/src/lib.rs

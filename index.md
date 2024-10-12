@@ -246,6 +246,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
       title: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
+  - name: crates/wavelet/wavelet_matrix_segtree/src
+    pages:
+    - icon: ':warning:'
+      path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
+      title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   - name: verify/AtCoder/abc291g/src
     pages:
     - icon: ':warning:'

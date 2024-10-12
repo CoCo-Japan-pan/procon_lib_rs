@@ -43,7 +43,7 @@ data:
     \ Clone)]\npub struct WaveletMatrixCumSum<T: Integral> {\n    upper_bound: usize,\n\
     \    len: usize,\n    /// indices[i] = \u4E0B\u304B\u3089i\u30D3\u30C3\u30C8\u76EE\
     \u306B\u95A2\u3059\u308B\u7D22\u5F15\n    indices: Vec<BitDict>,\n    /// \u30D3\
-    \u30C3\u30C8\u3054\u3068\u306E\u7D2F\u7A4D\u548C\n    cum_sum: Vec<Vec<T>>,\n\
+    \u30C3\u30C8\u3054\u3068\u306E\u7D2F\u7A4D\u548C\n    cumsum_per_bit: Vec<Vec<T>>,\n\
     }\n\nimpl<T: Integral> WaveletMatrixCumSum<T> {\n    /// `compressed_list[x] =\
     \ y` \u304C\u70B9(x, y)\u306B\u3001`weight_list[x] = w` \u304C\u70B9(x, y)\u306E\
     \u91CD\u307Fw\u306B\u5BFE\u5FDC\u3059\u308B  \n    /// compressed_list\u306F\u5EA7\
@@ -71,39 +71,40 @@ data:
     \ tmp_weight[1]);\n            for (i, &w) in weight_list.iter().enumerate() {\n\
     \                cum_sum[ln][i + 1] = cum_sum[ln][i] + w;\n            }\n   \
     \     }\n        Self {\n            upper_bound,\n            len,\n        \
-    \    indices,\n            cum_sum,\n        }\n    }\n\n    fn get_pos_range<R:\
-    \ RangeBounds<usize>>(&self, range: R) -> (usize, usize) {\n        use std::ops::Bound::*;\n\
-    \        let l = match range.start_bound() {\n            Included(&l) => l,\n\
-    \            Excluded(&l) => l + 1,\n            Unbounded => 0,\n        };\n\
-    \        let r = match range.end_bound() {\n            Included(&r) => r + 1,\n\
-    \            Excluded(&r) => r,\n            Unbounded => self.len,\n        };\n\
-    \        assert!(l <= r && r <= self.len);\n        (l, r)\n    }\n\n    fn get_num_range<R:\
-    \ RangeBounds<usize>>(&self, range: R) -> (usize, usize) {\n        use std::ops::Bound::*;\n\
-    \        let l = match range.start_bound() {\n            Included(&l) => l,\n\
-    \            Excluded(&l) => l + 1,\n            Unbounded => 0,\n        }\n\
-    \        .min(self.upper_bound);\n        let r = match range.end_bound() {\n\
+    \    indices,\n            cumsum_per_bit: cum_sum,\n        }\n    }\n\n    fn\
+    \ get_pos_range<R: RangeBounds<usize>>(&self, range: R) -> (usize, usize) {\n\
+    \        use std::ops::Bound::*;\n        let l = match range.start_bound() {\n\
+    \            Included(&l) => l,\n            Excluded(&l) => l + 1,\n        \
+    \    Unbounded => 0,\n        };\n        let r = match range.end_bound() {\n\
     \            Included(&r) => r + 1,\n            Excluded(&r) => r,\n        \
-    \    Unbounded => self.upper_bound,\n        }\n        .min(self.upper_bound);\n\
-    \        assert!(l <= r);\n        (l, r)\n    }\n\n    /// x\u5EA7\u6A19\u304C\
-    x_range\u5185\u3001y\u5EA7\u6A19\u306Fupper\u672A\u6E80\u306E\u70B9\u306E\u91CD\
-    \u307F\u306E\u548C\u3092\u6C42\u3081\u308B\n    fn rect_sum_sub<R: RangeBounds<usize>>(&self,\
-    \ x_range: R, upper: usize) -> T {\n        if upper == 0 {\n            return\
-    \ T::zero();\n        }\n        let (mut begin, mut end) = self.get_pos_range(x_range);\n\
-    \        let mut ret = T::zero();\n        for (ln, index) in self.indices.iter().enumerate().rev()\
+    \    Unbounded => self.len,\n        };\n        assert!(l <= r && r <= self.len);\n\
+    \        (l, r)\n    }\n\n    fn get_num_range<R: RangeBounds<usize>>(&self, range:\
+    \ R) -> (usize, usize) {\n        use std::ops::Bound::*;\n        let l = match\
+    \ range.start_bound() {\n            Included(&l) => l,\n            Excluded(&l)\
+    \ => l + 1,\n            Unbounded => 0,\n        }\n        .min(self.upper_bound);\n\
+    \        let r = match range.end_bound() {\n            Included(&r) => r + 1,\n\
+    \            Excluded(&r) => r,\n            Unbounded => self.upper_bound,\n\
+    \        }\n        .min(self.upper_bound);\n        assert!(l <= r);\n      \
+    \  (l, r)\n    }\n\n    /// x\u5EA7\u6A19\u304Cx_range\u5185\u3001y\u5EA7\u6A19\
+    \u306Fupper\u672A\u6E80\u306E\u70B9\u306E\u91CD\u307F\u306E\u548C\u3092\u6C42\u3081\
+    \u308B\n    pub fn prefix_rect_sum<R: RangeBounds<usize>>(&self, x_range: R, upper:\
+    \ usize) -> T {\n        if upper == 0 {\n            return T::zero();\n    \
+    \    }\n        let (mut begin, mut end) = self.get_pos_range(x_range);\n    \
+    \    let mut ret = T::zero();\n        for (ln, index) in self.indices.iter().enumerate().rev()\
     \ {\n            let bit = (upper >> ln) & 1;\n            let rank1_begin = index.rank_1(begin);\n\
     \            let rank1_end = index.rank_1(end);\n            let rank0_begin =\
     \ begin - rank1_begin;\n            let rank0_end = end - rank1_end;\n       \
-    \     if bit == 1 {\n                ret += self.cum_sum[ln][rank0_end] - self.cum_sum[ln][rank0_begin];\n\
-    \                begin = index.rank0_all() + rank1_begin;\n                end\
-    \ = index.rank0_all() + rank1_end;\n            } else {\n                begin\
-    \ = rank0_begin;\n                end = rank0_end;\n            }\n        }\n\
-    \        ret\n    }\n\n    /// \u77E9\u5F62\u533A\u9593\u548C\u5185\u306E\u70B9\
-    \u306E\u91CD\u307F\u306E\u548C\u3092\u6C42\u3081\u308B\n    pub fn rect_sum<R1:\
-    \ RangeBounds<usize> + Clone, R2: RangeBounds<usize>>(\n        &self,\n     \
-    \   x_range: R1,\n        y_range: R2,\n    ) -> T {\n        let (begin, end)\
-    \ = self.get_num_range(y_range);\n        self.rect_sum_sub(x_range.clone(), end)\
-    \ - self.rect_sum_sub(x_range, begin)\n    }\n}\n\n#[cfg(test)]\nmod test {\n\
-    \    use super::*;\n    use rand::prelude::*;\n\n    #[test]\n    fn test_rect_sum()\
+    \     if bit == 1 {\n                ret += self.cumsum_per_bit[ln][rank0_end]\
+    \ - self.cumsum_per_bit[ln][rank0_begin];\n                begin = index.rank0_all()\
+    \ + rank1_begin;\n                end = index.rank0_all() + rank1_end;\n     \
+    \       } else {\n                begin = rank0_begin;\n                end =\
+    \ rank0_end;\n            }\n        }\n        ret\n    }\n\n    /// \u77E9\u5F62\
+    \u533A\u9593\u548C\u5185\u306E\u70B9\u306E\u91CD\u307F\u306E\u548C\u3092\u6C42\
+    \u3081\u308B\n    pub fn rect_sum<R1: RangeBounds<usize> + Clone, R2: RangeBounds<usize>>(\n\
+    \        &self,\n        x_range: R1,\n        y_range: R2,\n    ) -> T {\n  \
+    \      let (begin, end) = self.get_num_range(y_range);\n        self.prefix_rect_sum(x_range.clone(),\
+    \ end) - self.prefix_rect_sum(x_range, begin)\n    }\n}\n\n#[cfg(test)]\nmod test\
+    \ {\n    use super::*;\n    use rand::prelude::*;\n\n    #[test]\n    fn test_rect_sum()\
     \ {\n        let mut rng = thread_rng();\n        const SIZE: usize = 10000;\n\
     \        let weight_list = (0..SIZE)\n            .map(|_| rng.gen_range(-1000_000_000..=1000_000_000))\n\
     \            .collect::<Vec<i64>>();\n        let y_list = (0..SIZE)\n       \
@@ -136,7 +137,7 @@ data:
   isVerificationFile: false
   path: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-12 16:19:35+09:00'
+  timestamp: '2024-10-12 17:59:59+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/rectangle_sum/src/main.rs

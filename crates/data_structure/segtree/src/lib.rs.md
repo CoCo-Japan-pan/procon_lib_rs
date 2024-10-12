@@ -11,6 +11,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/segtree_2d_compressed/src/lib.rs
     title: crates/data_structure/segtree_2d_compressed/src/lib.rs
+  - icon: ':warning:'
+    path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
+    title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/point_set_range_composite/src/main.rs
@@ -98,6 +101,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/segtree/src/lib.rs
   requiredBy:
+  - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   - crates/data_structure/segtree_2d_compressed/src/lib.rs
   timestamp: '2024-09-30 16:25:48+09:00'
   verificationStatus: LIBRARY_ALL_AC
