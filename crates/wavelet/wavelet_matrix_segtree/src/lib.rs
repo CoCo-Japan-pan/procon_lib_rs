@@ -193,7 +193,7 @@ impl<M: Monoid + Commutative> WaveletMatrixSegTree<M> {
         );
     }
 
-    pub fn set(&mut self, mut x: usize, new_val: &M::Target) {
+    pub fn set(&mut self, mut x: usize, new_val: M::Target) {
         assert!(x < self.len);
         for (ln, index) in self.indices.iter().enumerate().rev() {
             let bit = index.access(x);
@@ -204,6 +204,17 @@ impl<M: Monoid + Commutative> WaveletMatrixSegTree<M> {
             }
             self.segtree_per_bit[ln].set(x, new_val.clone());
         }
+    }
+
+    pub fn get_weight(&self, x: usize) -> M::Target {
+        assert!(x < self.len);
+        let index = self.indices.last().unwrap();
+        let x = if index.access(x) {
+            index.rank0_all() + index.rank_1(x)
+        } else {
+            index.rank_0(x)
+        };
+        self.segtree_per_bit.last().unwrap().get(x)
     }
 }
 
@@ -286,7 +297,29 @@ mod test {
             let pos = rng.gen_range(0..SIZE);
             let new_weight = rng.gen_range(-1000_000_000..=1000_000_000);
             weight_list[pos] = new_weight;
-            wm.set(pos, &new_weight);
+            wm.set(pos, new_weight);
+        }
+    }
+
+    #[test]
+    fn test_get_weight() {
+        let mut rng = thread_rng();
+        const SIZE: usize = 1000;
+        let mut weight_list = (0..SIZE)
+            .map(|_| rng.gen_range(-1000_000_000..=1000_000_000))
+            .collect::<Vec<i64>>();
+        let y_list = (0..SIZE)
+            .map(|_| rng.gen_range(0..=SIZE))
+            .collect::<Vec<usize>>();
+        let mut wm = WaveletMatrixSegTree::<AddGroup>::new(&y_list, &weight_list);
+        for _ in 0..1000 {
+            for i in 0..1000 {
+                assert_eq!(weight_list[i], wm.get_weight(i));
+            }
+            let pos = rng.gen_range(0..SIZE);
+            let new_weight = rng.gen_range(-1000_000_000..=1000_000_000);
+            weight_list[pos] = new_weight;
+            wm.set(pos, new_weight);
         }
     }
 }
