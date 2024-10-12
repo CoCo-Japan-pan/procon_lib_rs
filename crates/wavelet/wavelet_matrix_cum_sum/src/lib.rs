@@ -16,7 +16,7 @@ pub struct WaveletMatrixCumSum<T: Integral> {
     /// indices[i] = 下からiビット目に関する索引
     indices: Vec<BitDict>,
     /// ビットごとの累積和
-    cum_sum: Vec<Vec<T>>,
+    cumsum_per_bit: Vec<Vec<T>>,
 }
 
 impl<T: Integral> WaveletMatrixCumSum<T> {
@@ -60,7 +60,7 @@ impl<T: Integral> WaveletMatrixCumSum<T> {
             upper_bound,
             len,
             indices,
-            cum_sum,
+            cumsum_per_bit: cum_sum,
         }
     }
 
@@ -99,7 +99,7 @@ impl<T: Integral> WaveletMatrixCumSum<T> {
     }
 
     /// x座標がx_range内、y座標はupper未満の点の重みの和を求める
-    fn rect_sum_sub<R: RangeBounds<usize>>(&self, x_range: R, upper: usize) -> T {
+    pub fn prefix_rect_sum<R: RangeBounds<usize>>(&self, x_range: R, upper: usize) -> T {
         if upper == 0 {
             return T::zero();
         }
@@ -112,7 +112,7 @@ impl<T: Integral> WaveletMatrixCumSum<T> {
             let rank0_begin = begin - rank1_begin;
             let rank0_end = end - rank1_end;
             if bit == 1 {
-                ret += self.cum_sum[ln][rank0_end] - self.cum_sum[ln][rank0_begin];
+                ret += self.cumsum_per_bit[ln][rank0_end] - self.cumsum_per_bit[ln][rank0_begin];
                 begin = index.rank0_all() + rank1_begin;
                 end = index.rank0_all() + rank1_end;
             } else {
@@ -130,7 +130,7 @@ impl<T: Integral> WaveletMatrixCumSum<T> {
         y_range: R2,
     ) -> T {
         let (begin, end) = self.get_num_range(y_range);
-        self.rect_sum_sub(x_range.clone(), end) - self.rect_sum_sub(x_range, begin)
+        self.prefix_rect_sum(x_range.clone(), end) - self.prefix_rect_sum(x_range, begin)
     }
 }
 

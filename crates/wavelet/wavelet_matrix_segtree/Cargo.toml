@@ -1,0 +1,18 @@
+[package]
+name = "wavelet_matrix_segtree"
+version = "0.1.0"
+edition = "2021"
+license = "CC0-1.0"
+repository = "ssh://git@github.com/CoCo-Japan-pan/procon_lib_rs.git"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+algebra = { path = "../../algebra" }
+bitdict = { path = "../bitdict" }
+internal_bits = { path = "../../internals/internal_bits" }
+segtree = { path = "../../data_structure/segtree" }
+
+[dev-dependencies]
+rand = "0.8.5"
+wavelet_matrix_cum_sum = { path = "../wavelet_matrix_cum_sum" }
