@@ -35,7 +35,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/tree/rerooting/src/lib.rs
     title: crates/tree/rerooting/src/lib.rs
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
     title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   - icon: ':warning:'
@@ -75,6 +75,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
     title: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
+  - icon: ':heavy_check_mark:'
+    path: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
+    title: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/point_add_rectangle_sum/src/main.rs
     title: verify/yosupo/point_add_rectangle_sum/src/main.rs
@@ -182,6 +185,7 @@ data:
   - verify/yosupo/rectangle_add_point_get/src/main.rs
   - verify/yosupo/point_set_range_composite/src/main.rs
   - verify/yosupo/point_add_rectangle_sum/src/main.rs
+  - verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
   - verify/yosupo/staticrmq_sparse_table/src/main.rs
   - verify/yukicoder/no_1625/src/main.rs
   - verify/AtCoder/abc222f/src/main.rs

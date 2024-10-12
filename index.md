@@ -248,7 +248,7 @@ data:
       title: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
   - name: crates/wavelet/wavelet_matrix_segtree/src
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
       title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   - name: verify/AtCoder/abc291g/src
@@ -437,6 +437,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yosupo/log_of_formal_power_series/src/main.rs
       title: verify/yosupo/log_of_formal_power_series/src/main.rs
+  - name: verify/yosupo/point_add_rect_sum_wavelet/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
+      title: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
   - name: verify/yosupo/point_add_rectangle_sum/src
     pages:
     - icon: ':heavy_check_mark:'

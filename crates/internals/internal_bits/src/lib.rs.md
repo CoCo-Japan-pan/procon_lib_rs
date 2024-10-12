@@ -23,7 +23,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
     title: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
     title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   _extendedVerifiedWith: []

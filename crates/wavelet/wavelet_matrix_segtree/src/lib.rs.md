@@ -14,10 +14,13 @@ data:
     path: crates/wavelet/bitdict/src/lib.rs
     title: crates/wavelet/bitdict/src/lib.rs
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
+    title: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -124,12 +127,16 @@ data:
     \            ret,\n            ln,\n            rank0_all + rank1_xl,\n      \
     \      rank0_all + rank1_xr,\n            ymid,\n            yr,\n           \
     \ y_low,\n            y_hi,\n        );\n    }\n\n    pub fn set(&mut self, mut\
-    \ x: usize, new_val: &M::Target) {\n        assert!(x < self.len);\n        for\
+    \ x: usize, new_val: M::Target) {\n        assert!(x < self.len);\n        for\
     \ (ln, index) in self.indices.iter().enumerate().rev() {\n            let bit\
     \ = index.access(x);\n            if bit {\n                x = index.rank0_all()\
     \ + index.rank_1(x);\n            } else {\n                x = index.rank_0(x);\n\
     \            }\n            self.segtree_per_bit[ln].set(x, new_val.clone());\n\
-    \        }\n    }\n}\n\n#[cfg(test)]\nmod test {\n    use super::*;\n    use rand::prelude::*;\n\
+    \        }\n    }\n\n    pub fn get_weight(&self, x: usize) -> M::Target {\n \
+    \       assert!(x < self.len);\n        let index = self.indices.last().unwrap();\n\
+    \        let x = if index.access(x) {\n            index.rank0_all() + index.rank_1(x)\n\
+    \        } else {\n            index.rank_0(x)\n        };\n        self.segtree_per_bit.last().unwrap().get(x)\n\
+    \    }\n}\n\n#[cfg(test)]\nmod test {\n    use super::*;\n    use rand::prelude::*;\n\
     \n    // \u52A0\u7B97\u7FA4\n    struct AddGroup;\n    impl Monoid for AddGroup\
     \ {\n        type Target = i64;\n        fn id_element() -> Self::Target {\n \
     \           0\n        }\n        fn binary_operation(a: &Self::Target, b: &Self::Target)\
@@ -165,7 +172,17 @@ data:
     \       wm.rect_sum_monoid(x_left..x_right, y_left..y_right),\n              \
     \  real_sum\n            );\n            let pos = rng.gen_range(0..SIZE);\n \
     \           let new_weight = rng.gen_range(-1000_000_000..=1000_000_000);\n  \
-    \          weight_list[pos] = new_weight;\n            wm.set(pos, &new_weight);\n\
+    \          weight_list[pos] = new_weight;\n            wm.set(pos, new_weight);\n\
+    \        }\n    }\n\n    #[test]\n    fn test_get_weight() {\n        let mut\
+    \ rng = thread_rng();\n        const SIZE: usize = 1000;\n        let mut weight_list\
+    \ = (0..SIZE)\n            .map(|_| rng.gen_range(-1000_000_000..=1000_000_000))\n\
+    \            .collect::<Vec<i64>>();\n        let y_list = (0..SIZE)\n       \
+    \     .map(|_| rng.gen_range(0..=SIZE))\n            .collect::<Vec<usize>>();\n\
+    \        let mut wm = WaveletMatrixSegTree::<AddGroup>::new(&y_list, &weight_list);\n\
+    \        for _ in 0..1000 {\n            for i in 0..1000 {\n                assert_eq!(weight_list[i],\
+    \ wm.get_weight(i));\n            }\n            let pos = rng.gen_range(0..SIZE);\n\
+    \            let new_weight = rng.gen_range(-1000_000_000..=1000_000_000);\n \
+    \           weight_list[pos] = new_weight;\n            wm.set(pos, new_weight);\n\
     \        }\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
@@ -175,9 +192,10 @@ data:
   isVerificationFile: false
   path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-12 17:59:59+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  timestamp: '2024-10-12 18:56:02+09:00'
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
 documentation_of: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
 layout: document
 redirect_from:
