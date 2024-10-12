@@ -1,4 +1,4 @@
-//! Wavelet Matrix の索引として、ビットごとの累積和を載せることで、重み付きの点の矩形区間和を高速に求めることができる。  
+//! Wavelet Matrix の索引として、ビットごとの累積和を追加することで、重み付きの点の静的な矩形区間和を高速に求めることができる。  
 //! 数列の区間`[l, r)`のうちの`x <= c < y`を満たす数値の和を求める`range_sum`クエリは、各点の重みを
 //! y座標と同じものとすることで、矩形和のクエリに帰着できる。
 
@@ -7,9 +7,10 @@ use internal_bits::ceil_log2;
 use internal_type_traits::Integral;
 use std::ops::RangeBounds;
 
-/// Tは重さの型
+/// Tは重さの型  
+/// Wavelet Matrix にビットごとの累積和を追加したもの
 #[derive(Debug, Clone)]
-pub struct WaveletMatrixRectSum<T: Integral> {
+pub struct WaveletMatrixCumSum<T: Integral> {
     upper_bound: usize,
     len: usize,
     /// indices[i] = 下からiビット目に関する索引
@@ -18,7 +19,7 @@ pub struct WaveletMatrixRectSum<T: Integral> {
     cum_sum: Vec<Vec<T>>,
 }
 
-impl<T: Integral> WaveletMatrixRectSum<T> {
+impl<T: Integral> WaveletMatrixCumSum<T> {
     /// `compressed_list[x] = y` が点(x, y)に、`weight_list[x] = w` が点(x, y)の重みwに対応する  
     /// compressed_listは座標圧縮されていることを期待する  
     /// xは重複不可なので、順番を振りなおしてもらうことになる  
@@ -148,7 +149,7 @@ mod test {
         let y_list = (0..SIZE)
             .map(|_| rng.gen_range(0..=SIZE))
             .collect::<Vec<usize>>();
-        let wm = WaveletMatrixRectSum::new(&y_list, &weight_list);
+        let wm = WaveletMatrixCumSum::new(&y_list, &weight_list);
         for _ in 0..1000 {
             let x_left = rng.gen_range(0..=SIZE);
             let x_right = rng.gen_range(x_left..=SIZE);
@@ -174,7 +175,7 @@ mod test {
         let weight_list = (0..SIZE)
             .map(|_| rng.gen_range(0..=1000_000_000))
             .collect::<Vec<u64>>();
-        let wm = WaveletMatrixRectSum::new(&y_list, &weight_list);
+        let wm = WaveletMatrixCumSum::new(&y_list, &weight_list);
         for _ in 0..1000 {
             let x_left = rng.gen_range(0..=SIZE);
             let x_right = rng.gen_range(x_left..=SIZE);

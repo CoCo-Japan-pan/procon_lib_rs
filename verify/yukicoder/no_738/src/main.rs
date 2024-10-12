@@ -2,7 +2,7 @@
 
 use proconio::{fastout, input};
 use wavelet_matrix::WaveletMatrix;
-use wavelet_matrix_rect_sum::WaveletMatrixRectSum;
+use wavelet_matrix_cum_sum::WaveletMatrixCumSum;
 
 #[fastout]
 fn main() {
@@ -19,7 +19,7 @@ fn main() {
     };
     let compressed: Vec<usize> = a.iter().map(|x| sorted.binary_search(x).unwrap()).collect();
     let wm = WaveletMatrix::new(&compressed);
-    let wm_sum = WaveletMatrixRectSum::new(&compressed, &a);
+    let wm_sum = WaveletMatrixCumSum::new(&compressed, &a);
     let mid = k / 2;
     let mut ans = i64::MAX;
     for start in 0..=n - k {

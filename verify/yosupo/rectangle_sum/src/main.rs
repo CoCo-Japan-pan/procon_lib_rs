@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/rectangle_sum
 
 use proconio::{fastout, input};
-use wavelet_matrix_rect_sum::WaveletMatrixRectSum;
+use wavelet_matrix_cum_sum::WaveletMatrixCumSum;
 
 #[fastout]
 fn main() {
@@ -23,7 +23,7 @@ fn main() {
         .into_iter()
         .map(|y| sorted_y.binary_search(&y).unwrap())
         .collect::<Vec<_>>();
-    let wm = WaveletMatrixRectSum::new(&y, &w);
+    let wm = WaveletMatrixCumSum::new(&y, &w);
     for &(l, d, r, u) in &l_d_r_u {
         let l = x.partition_point(|&x| x < l);
         let r = x.partition_point(|&x| x < r);
