@@ -133,8 +133,8 @@ data:
   timestamp: '2024-07-27 16:12:09+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/AtCoder/abc293e/src/main.rs
   - verify/yukicoder/no_1092_modint_dynamic/src/main.rs
+  - verify/AtCoder/abc293e/src/main.rs
 documentation_of: crates/modint/dynamic_modint/src/lib.rs
 layout: document
 redirect_from:

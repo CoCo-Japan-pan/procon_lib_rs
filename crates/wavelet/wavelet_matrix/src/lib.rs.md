@@ -233,8 +233,8 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/range_kth_smallest/src/main.rs
-  - verify/AtCoder/abc239e/src/main.rs
   - verify/yukicoder/no_738/src/main.rs
+  - verify/AtCoder/abc239e/src/main.rs
   - verify/AOJ/no_1549/src/main.rs
 documentation_of: crates/wavelet/wavelet_matrix/src/lib.rs
 layout: document

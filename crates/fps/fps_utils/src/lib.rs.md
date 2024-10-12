@@ -107,8 +107,8 @@ data:
   timestamp: '2024-09-30 16:25:48+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/yosupo/exp_of_formal_power_series/src/main.rs
   - verify/yosupo/inv_of_formal_power_series/src/main.rs
+  - verify/yosupo/exp_of_formal_power_series/src/main.rs
   - verify/yosupo/log_of_formal_power_series/src/main.rs
 documentation_of: crates/fps/fps_utils/src/lib.rs
 layout: document
