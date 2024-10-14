@@ -30,7 +30,7 @@ data:
   isVerificationFile: false
   path: verify/yosupo/two_edge_connected_components/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-14 20:49:54+09:00'
+  timestamp: '2024-10-14 21:10:34+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: verify/yosupo/two_edge_connected_components/src/main.rs
