@@ -101,6 +101,11 @@ data:
     - icon: ':warning:'
       path: crates/graph/eulerian_trail/src/lib.rs
       title: crates/graph/eulerian_trail/src/lib.rs
+  - name: crates/graph/lowlink/src
+    pages:
+    - icon: ':warning:'
+      path: crates/graph/lowlink/src/lib.rs
+      title: crates/graph/lowlink/src/lib.rs
   - name: crates/graph/scc/src
     pages:
     - icon: ':warning:'
@@ -286,6 +291,11 @@ data:
     - icon: ':warning:'
       path: verify/yosupo/strongly_connected_components/src/main.rs
       title: verify/yosupo/strongly_connected_components/src/main.rs
+  - name: verify/yosupo/two_edge_connected_components/src
+    pages:
+    - icon: ':warning:'
+      path: verify/yosupo/two_edge_connected_components/src/main.rs
+      title: verify/yosupo/two_edge_connected_components/src/main.rs
   verificationCategories:
   - name: verify/AOJ/dsl_2d_dual_seg/src
     pages:
