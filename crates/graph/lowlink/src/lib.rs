@@ -56,7 +56,7 @@ impl<'a> InternalLowLink<'a> {
                 }
                 // ord[v] < low[to]ならば(v, to)は橋
                 if self.ord[v] < self.low[to] {
-                    self.bridges.push((v, to));
+                    self.bridges.push((v.min(to), v.max(to)));
                 }
             } else {
                 // 後退辺
@@ -73,15 +73,16 @@ impl<'a> InternalLowLink<'a> {
     }
 }
 
-/// `ord[v] < low[to]`ならば(v, to)は橋  
-/// vがDFS木の根である場合、DFS木における子が2つ以上ならばvは関節点  
-/// vがDFS木の根でない場合、その子toについて`ord[v] <= low[to]`ならばvは関節点
+/// 無向グラフに対するLowLink
 #[derive(Debug)]
 pub struct LowLink<'a> {
     graph: &'a Vec<Vec<usize>>,
+    /// pre-order
     pub ord: Vec<usize>,
     pub low: Vec<usize>,
+    /// 関節点 ソートはされていない
     pub articulation_points: Vec<usize>,
+    /// 橋 ソートはされていない
     pub bridges: Vec<(usize, usize)>,
 }
 
@@ -99,7 +100,8 @@ impl<'a> LowLink<'a> {
     }
 
     #[inline]
-    /// 頂点uとvを結ぶ辺が橋かどうかを返す
+    /// 頂点uとvを結ぶ辺が橋かどうかを返す `O(1)`    
+    /// ただしuとvが隣接していることを仮定しているので注意
     pub fn is_bridge(&self, u: usize, v: usize) -> bool {
         if self.ord[u] > self.ord[v] {
             self.is_bridge(v, u)
@@ -111,7 +113,7 @@ impl<'a> LowLink<'a> {
     /// 2重辺連結成分分解 `O(V + E)`  
     /// `(各連結成分の二重配列, 各頂点が属する二重辺連結成分のidxの配列)` を返す  
     /// 橋を消し、連結成分をまとめる 頂点を排他的に分解することになる  
-    /// 連結成分を縮約して頂点とみなし、橋を辺とみなすことで木になる
+    /// 連結成分を縮約して頂点とみなし、橋を辺とみなすことで森(元々連結なら木)になる
     pub fn two_edge_cc(&self) -> (Vec<Vec<usize>>, Vec<usize>) {
         let mut cur_cc_id = 0;
         let mut ccs = vec![];
