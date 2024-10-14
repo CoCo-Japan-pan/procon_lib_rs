@@ -21,6 +21,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yukicoder/no_738/src/main.rs
     title: verify/yukicoder/no_738/src/main.rs
+  - icon: ':heavy_check_mark:'
+    path: verify/yukicoder/no_919/src/main.rs
+    title: verify/yukicoder/no_919/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -234,6 +237,7 @@ data:
   verifiedWith:
   - verify/yosupo/range_kth_smallest/src/main.rs
   - verify/yukicoder/no_738/src/main.rs
+  - verify/yukicoder/no_919/src/main.rs
   - verify/AtCoder/abc239e/src/main.rs
   - verify/AOJ/no_1549/src/main.rs
 documentation_of: crates/wavelet/wavelet_matrix/src/lib.rs

@@ -547,6 +547,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yukicoder/no_803/src/main.rs
       title: verify/yukicoder/no_803/src/main.rs
+  - name: verify/yukicoder/no_919/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yukicoder/no_919/src/main.rs
+      title: verify/yukicoder/no_919/src/main.rs
 layout: toppage
 ---
 <a href = "doc/algebra/index.html" style = "font-size: 20px; color: green;">cargo-doc</a>
