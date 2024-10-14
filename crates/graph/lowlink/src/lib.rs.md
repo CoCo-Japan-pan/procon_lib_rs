@@ -65,37 +65,37 @@ data:
     \u304B\u3092\u8FD4\u3059 `O(1)`    \n    /// \u305F\u3060\u3057u\u3068v\u304C\u96A3\
     \u63A5\u3057\u3066\u3044\u308B\u3053\u3068\u3092\u4EEE\u5B9A\u3057\u3066\u3044\
     \u308B\u306E\u3067\u6CE8\u610F\n    pub fn is_bridge(&self, u: usize, v: usize)\
-    \ -> bool {\n        if self.ord[u] > self.ord[v] {\n            self.is_bridge(v,\
-    \ u)\n        } else {\n            self.ord[u] < self.low[v]\n        }\n   \
-    \ }\n\n    /// 2\u91CD\u8FBA\u9023\u7D50\u6210\u5206\u5206\u89E3 `O(V + E)`  \n\
-    \    /// `(\u5404\u9023\u7D50\u6210\u5206\u306E\u4E8C\u91CD\u914D\u5217, \u5404\
-    \u9802\u70B9\u304C\u5C5E\u3059\u308B\u4E8C\u91CD\u8FBA\u9023\u7D50\u6210\u5206\
-    \u306Eidx\u306E\u914D\u5217)` \u3092\u8FD4\u3059  \n    /// \u6A4B\u3092\u6D88\
-    \u3057\u3001\u9023\u7D50\u6210\u5206\u3092\u307E\u3068\u3081\u308B \u9802\u70B9\
-    \u3092\u6392\u4ED6\u7684\u306B\u5206\u89E3\u3059\u308B\u3053\u3068\u306B\u306A\
-    \u308B  \n    /// \u9023\u7D50\u6210\u5206\u3092\u7E2E\u7D04\u3057\u3066\u9802\
-    \u70B9\u3068\u307F\u306A\u3057\u3001\u6A4B\u3092\u8FBA\u3068\u307F\u306A\u3059\
-    \u3053\u3068\u3067\u68EE(\u5143\u3005\u9023\u7D50\u306A\u3089\u6728)\u306B\u306A\
-    \u308B\n    pub fn two_edge_cc(&self) -> (Vec<Vec<usize>>, Vec<usize>) {\n   \
-    \     let mut cur_cc_id = 0;\n        let mut ccs = vec![];\n        let mut cc_id\
-    \ = vec![!0; self.graph.len()];\n        for v in 0..self.graph.len() {\n    \
-    \        if cc_id[v] != !0 {\n                continue;\n            }\n     \
-    \       let mut component = vec![v];\n            cc_id[v] = cur_cc_id;\n    \
-    \        let mut que = VecDeque::new();\n            que.push_back(v);\n     \
-    \       while let Some(v) = que.pop_front() {\n                for &to in &self.graph[v]\
-    \ {\n                    if cc_id[to] != !0 {\n                        continue;\n\
-    \                    }\n                    // \u6A4B\n                    if\
-    \ self.is_bridge(v, to) {\n                        continue;\n               \
-    \     }\n                    cc_id[to] = cur_cc_id;\n                    component.push(to);\n\
-    \                    que.push_back(to);\n                }\n            }\n  \
-    \          cur_cc_id += 1;\n            ccs.push(component);\n        }\n    \
-    \    (ccs, cc_id)\n    }\n}\n"
+    \ -> bool {\n        if self.ord[u] > self.ord[v] {\n            self.ord[v] <\
+    \ self.low[u]\n        } else {\n            self.ord[u] < self.low[v]\n     \
+    \   }\n    }\n\n    /// 2\u91CD\u8FBA\u9023\u7D50\u6210\u5206\u5206\u89E3 `O(V\
+    \ + E)`  \n    /// `(\u5404\u9023\u7D50\u6210\u5206\u306E\u4E8C\u91CD\u914D\u5217\
+    , \u5404\u9802\u70B9\u304C\u5C5E\u3059\u308B\u4E8C\u91CD\u8FBA\u9023\u7D50\u6210\
+    \u5206\u306Eidx\u306E\u914D\u5217)` \u3092\u8FD4\u3059  \n    /// \u6A4B\u3092\
+    \u6D88\u3057\u3001\u9023\u7D50\u6210\u5206\u3092\u307E\u3068\u3081\u308B \u9802\
+    \u70B9\u3092\u6392\u4ED6\u7684\u306B\u5206\u89E3\u3059\u308B\u3053\u3068\u306B\
+    \u306A\u308B  \n    /// \u9023\u7D50\u6210\u5206\u3092\u7E2E\u7D04\u3057\u3066\
+    \u9802\u70B9\u3068\u307F\u306A\u3057\u3001\u6A4B\u3092\u8FBA\u3068\u307F\u306A\
+    \u3059\u3053\u3068\u3067\u68EE(\u5143\u3005\u9023\u7D50\u306A\u3089\u6728)\u306B\
+    \u306A\u308B\n    pub fn two_edge_cc(&self) -> (Vec<Vec<usize>>, Vec<usize>) {\n\
+    \        let mut cur_cc_id = 0;\n        let mut ccs = vec![];\n        let mut\
+    \ cc_id = vec![!0; self.graph.len()];\n        for v in 0..self.graph.len() {\n\
+    \            if cc_id[v] != !0 {\n                continue;\n            }\n \
+    \           let mut component = vec![v];\n            cc_id[v] = cur_cc_id;\n\
+    \            let mut que = VecDeque::new();\n            que.push_back(v);\n \
+    \           while let Some(v) = que.pop_front() {\n                for &to in\
+    \ &self.graph[v] {\n                    if cc_id[to] != !0 {\n               \
+    \         continue;\n                    }\n                    // \u6A4B\n  \
+    \                  if self.is_bridge(v, to) {\n                        continue;\n\
+    \                    }\n                    cc_id[to] = cur_cc_id;\n         \
+    \           component.push(to);\n                    que.push_back(to);\n    \
+    \            }\n            }\n            cur_cc_id += 1;\n            ccs.push(component);\n\
+    \        }\n        (ccs, cc_id)\n    }\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/graph/lowlink/src/lib.rs
   requiredBy:
   - verify/yosupo/two_edge_connected_components/src/main.rs
-  timestamp: '2024-10-14 21:10:34+09:00'
+  timestamp: '2024-10-14 21:26:28+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/graph/lowlink/src/lib.rs
