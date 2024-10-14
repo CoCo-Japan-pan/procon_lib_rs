@@ -18,10 +18,11 @@ pub struct WaveletMatrixSegTree<M: Monoid + Commutative> {
 
 impl<M: Monoid + Commutative> WaveletMatrixSegTree<M> {
     /// `compressed_list[x] = y` が点(x, y)に、`weight_list[x] = w` が点(x, y)の重みwに対応する  
+    /// compressed_listには今後更新クエリのある(x, y)も含める  
     /// compressed_listは座標圧縮されていることを期待する  
     /// xは重複不可なので、順番を振りなおしてもらうことになる  
     /// 全て0以上
-    pub fn new(compressed_list: &[usize], weight_list: &[M::Target]) -> Self {
+    pub fn from_weight(compressed_list: &[usize], weight_list: &[M::Target]) -> Self {
         assert_eq!(compressed_list.len(), weight_list.len());
         let len = compressed_list.len();
         let upper_bound = *compressed_list.iter().max().unwrap_or(&0) + 1;
@@ -58,6 +59,13 @@ impl<M: Monoid + Commutative> WaveletMatrixSegTree<M> {
             indices,
             segtree_per_bit,
         }
+    }
+
+    /// `compressed_list[x] = y` が点(x, y)に対応し、重みは単位元で初期化する  
+    /// `compressed_list`には今後更新クエリのある(x, y)も含める
+    pub fn from_identity(compressed_list: &[usize]) -> Self {
+        let weight_list = vec![M::id_element(); compressed_list.len()];
+        Self::from_weight(compressed_list, &weight_list)
     }
 
     fn get_pos_range<R: RangeBounds<usize>>(&self, range: R) -> (usize, usize) {
@@ -249,7 +257,7 @@ mod test {
         let num_list: Vec<usize> = (0..SIZE).map(|_| rng.gen_range(0..SIZE)).collect();
         let wm_cum_sum = WaveletMatrixCumSum::new(&num_list, &num_list);
         let num_list_i64: Vec<i64> = num_list.iter().map(|i| *i as i64).collect();
-        let wm_seg = WaveletMatrixSegTree::<AddGroup>::new(&num_list, &num_list_i64);
+        let wm_seg = WaveletMatrixSegTree::<AddGroup>::from_weight(&num_list, &num_list_i64);
 
         for _ in 0..SIZE {
             let xl = rng.gen_range(0..SIZE);
@@ -272,7 +280,7 @@ mod test {
         let y_list = (0..SIZE)
             .map(|_| rng.gen_range(0..=SIZE))
             .collect::<Vec<usize>>();
-        let mut wm = WaveletMatrixSegTree::<AddGroup>::new(&y_list, &weight_list);
+        let mut wm = WaveletMatrixSegTree::<AddGroup>::from_weight(&y_list, &weight_list);
         for _ in 0..1000 {
             let x_left = rng.gen_range(0..=SIZE);
             let x_right = rng.gen_range(x_left..=SIZE);
@@ -311,7 +319,7 @@ mod test {
         let y_list = (0..SIZE)
             .map(|_| rng.gen_range(0..=SIZE))
             .collect::<Vec<usize>>();
-        let mut wm = WaveletMatrixSegTree::<AddGroup>::new(&y_list, &weight_list);
+        let mut wm = WaveletMatrixSegTree::<AddGroup>::from_weight(&y_list, &weight_list);
         for _ in 0..1000 {
             for i in 0..1000 {
                 assert_eq!(weight_list[i], wm.get_weight(i));

@@ -91,7 +91,7 @@ fn main() {
         .into_iter()
         .map(|y| sorted_y.binary_search(&y).unwrap())
         .collect();
-    let mut wm_seg = WaveletMatrixSegTree::<AddGroup>::new(&y, &w);
+    let mut wm_seg = WaveletMatrixSegTree::<AddGroup>::from_weight(&y, &w);
     let x_y: Vec<(i32, usize)> = x.into_iter().zip(y).collect();
     for q in queries {
         match q {

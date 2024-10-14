@@ -17,6 +17,7 @@ pub struct SegTree2DCompressed<M: Monoid + Commutative, T: Integral> {
 }
 
 impl<M: Monoid + Commutative, T: Integral> SegTree2DCompressed<M, T> {
+    /// オフラインで読み込んだ更新クエリのある座標を与え、単位元で初期化
     pub fn new(update_queries: &[(T, T)]) -> Self {
         let height_compressed = {
             let mut tmp = update_queries.iter().map(|&(h, _)| h).collect::<Vec<_>>();

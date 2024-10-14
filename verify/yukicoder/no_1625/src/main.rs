@@ -59,7 +59,7 @@ fn main() {
     let mut segtree = SegTree2DCompressed::<MaxMonoid, i64>::new(&update_queries);
     for query in queries {
         match query {
-            Query::Add(l, r, area) => segtree.set(l, r, area),
+            Query::Add(l, r, area) => segtree.add(l, r, area),
             Query::Get(l, r) => println!("{}", segtree.prod(l..=r, l..=r)),
         }
     }
