@@ -98,8 +98,18 @@ impl<'a> LowLink<'a> {
         }
     }
 
+    #[inline]
+    /// 頂点uとvを結ぶ辺が橋かどうかを返す
+    pub fn is_bridge(&self, u: usize, v: usize) -> bool {
+        if self.ord[u] > self.ord[v] {
+            self.is_bridge(v, u)
+        } else {
+            self.ord[u] < self.low[v]
+        }
+    }
+
     /// 2重辺連結成分分解 `O(V + E)`  
-    /// `各連結成分の二重配列` を返す  
+    /// `(各連結成分の二重配列, 各頂点が属する二重辺連結成分のidxの配列)` を返す  
     /// 橋を消し、連結成分をまとめる 頂点を排他的に分解することになる  
     /// 連結成分を縮約して頂点とみなし、橋を辺とみなすことで木になる
     pub fn two_edge_cc(&self) -> (Vec<Vec<usize>>, Vec<usize>) {
@@ -120,15 +130,8 @@ impl<'a> LowLink<'a> {
                         continue;
                     }
                     // 橋
-                    {
-                        let (from, to) = if self.ord[v] < self.ord[to] {
-                            (v, to)
-                        } else {
-                            (to, v)
-                        };
-                        if self.ord[from] < self.low[to] {
-                            continue;
-                        }
+                    if self.is_bridge(v, to) {
+                        continue;
                     }
                     cc_id[to] = cur_cc_id;
                     component.push(to);
