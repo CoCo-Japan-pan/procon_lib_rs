@@ -522,6 +522,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yukicoder/no_1625/src/main.rs
       title: verify/yukicoder/no_1625/src/main.rs
+  - name: verify/yukicoder/no_1625_wavelet/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yukicoder/no_1625_wavelet/src/main.rs
+      title: verify/yukicoder/no_1625_wavelet/src/main.rs
   - name: verify/yukicoder/no_649_avl/src
     pages:
     - icon: ':heavy_check_mark:'

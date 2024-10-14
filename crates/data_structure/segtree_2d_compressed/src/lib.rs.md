@@ -41,17 +41,20 @@ data:
     \u6A19\u5727\u7E2E\u3059\u308B\u578B  \n#[derive(Debug)]\npub struct SegTree2DCompressed<M:\
     \ Monoid + Commutative, T: Integral> {\n    height_compressed: Vec<T>,\n    width_compressed:\
     \ Vec<Vec<T>>,\n    data: Vec<SegTree<M>>,\n}\n\nimpl<M: Monoid + Commutative,\
-    \ T: Integral> SegTree2DCompressed<M, T> {\n    pub fn new(update_queries: &[(T,\
-    \ T)]) -> Self {\n        let height_compressed = {\n            let mut tmp =\
-    \ update_queries.iter().map(|&(h, _)| h).collect::<Vec<_>>();\n            tmp.sort_unstable();\n\
-    \            tmp.dedup();\n            tmp\n        };\n        let width_compressed\
-    \ = {\n            let mut tmp = vec![vec![]; height_compressed.len() * 2];\n\
-    \            for &(h, w) in update_queries.iter() {\n                let h = height_compressed.binary_search(&h).unwrap()\
-    \ + height_compressed.len();\n                tmp[h].push(w);\n            }\n\
-    \            for v in tmp.iter_mut() {\n                v.sort_unstable();\n \
-    \               v.dedup();\n            }\n            for h in (1..height_compressed.len()).rev()\
-    \ {\n                let child_left = tmp[h * 2].clone();\n                let\
-    \ child_right = tmp[h * 2 + 1].clone();\n                tmp[h] = child_left.into_iter().chain(child_right).collect();\n\
+    \ T: Integral> SegTree2DCompressed<M, T> {\n    /// \u30AA\u30D5\u30E9\u30A4\u30F3\
+    \u3067\u8AAD\u307F\u8FBC\u3093\u3060\u66F4\u65B0\u30AF\u30A8\u30EA\u306E\u3042\
+    \u308B\u5EA7\u6A19\u3092\u4E0E\u3048\u3001\u5358\u4F4D\u5143\u3067\u521D\u671F\
+    \u5316\n    pub fn new(update_queries: &[(T, T)]) -> Self {\n        let height_compressed\
+    \ = {\n            let mut tmp = update_queries.iter().map(|&(h, _)| h).collect::<Vec<_>>();\n\
+    \            tmp.sort_unstable();\n            tmp.dedup();\n            tmp\n\
+    \        };\n        let width_compressed = {\n            let mut tmp = vec![vec![];\
+    \ height_compressed.len() * 2];\n            for &(h, w) in update_queries.iter()\
+    \ {\n                let h = height_compressed.binary_search(&h).unwrap() + height_compressed.len();\n\
+    \                tmp[h].push(w);\n            }\n            for v in tmp.iter_mut()\
+    \ {\n                v.sort_unstable();\n                v.dedup();\n        \
+    \    }\n            for h in (1..height_compressed.len()).rev() {\n          \
+    \      let child_left = tmp[h * 2].clone();\n                let child_right =\
+    \ tmp[h * 2 + 1].clone();\n                tmp[h] = child_left.into_iter().chain(child_right).collect();\n\
     \                tmp[h].sort_unstable();\n                tmp[h].dedup();\n  \
     \          }\n            tmp\n        };\n        let data = (0..height_compressed.len()\
     \ * 2)\n            .map(|i| SegTree::<M>::new(width_compressed[i].len()))\n \
@@ -128,7 +131,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/segtree_2d_compressed/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-06 16:15:33+09:00'
+  timestamp: '2024-10-14 11:18:10+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/rectangle_add_point_get/src/main.rs

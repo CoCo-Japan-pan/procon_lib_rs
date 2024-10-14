@@ -51,7 +51,7 @@ data:
     \ = {\n        let mut sorted_y = y.clone();\n        sorted_y.sort_unstable();\n\
     \        sorted_y.dedup();\n        sorted_y\n    };\n    let y: Vec<usize> =\
     \ y\n        .into_iter()\n        .map(|y| sorted_y.binary_search(&y).unwrap())\n\
-    \        .collect();\n    let mut wm_seg = WaveletMatrixSegTree::<AddGroup>::new(&y,\
+    \        .collect();\n    let mut wm_seg = WaveletMatrixSegTree::<AddGroup>::from_weight(&y,\
     \ &w);\n    let x_y: Vec<(i32, usize)> = x.into_iter().zip(y).collect();\n   \
     \ for q in queries {\n        match q {\n            Query::Add(x, y, w) => {\n\
     \                let y = sorted_y.binary_search(&y).unwrap();\n              \
@@ -69,7 +69,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-12 18:56:02+09:00'
+  timestamp: '2024-10-14 11:18:10+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs

@@ -99,6 +99,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yukicoder/no_1625/src/main.rs
     title: verify/yukicoder/no_1625/src/main.rs
+  - icon: ':heavy_check_mark:'
+    path: verify/yukicoder/no_1625_wavelet/src/main.rs
+    title: verify/yukicoder/no_1625_wavelet/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -187,6 +190,7 @@ data:
   - verify/yosupo/point_add_rectangle_sum/src/main.rs
   - verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
   - verify/yosupo/staticrmq_sparse_table/src/main.rs
+  - verify/yukicoder/no_1625_wavelet/src/main.rs
   - verify/yukicoder/no_1625/src/main.rs
   - verify/AtCoder/abc222f/src/main.rs
   - verify/AtCoder/abc312g/src/main.rs

@@ -40,7 +40,7 @@ data:
     \ r, _) => Some((*l, *r)),\n            _ => None,\n        })\n        .collect::<Vec<_>>();\n\
     \    let mut segtree = SegTree2DCompressed::<MaxMonoid, i64>::new(&update_queries);\n\
     \    for query in queries {\n        match query {\n            Query::Add(l,\
-    \ r, area) => segtree.set(l, r, area),\n            Query::Get(l, r) => println!(\"\
+    \ r, area) => segtree.add(l, r, area),\n            Query::Get(l, r) => println!(\"\
     {}\", segtree.prod(l..=r, l..=r)),\n        }\n    }\n}\n\nfn l_r_area(x: (i64,\
     \ i64, i64, i64, i64, i64)) -> Query {\n    let x_list = [x.0, x.2, x.4];\n  \
     \  let left = *x_list.iter().min().unwrap();\n    let right = *x_list.iter().max().unwrap();\n\
@@ -56,7 +56,7 @@ data:
   isVerificationFile: true
   path: verify/yukicoder/no_1625/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-06 16:15:33+09:00'
+  timestamp: '2024-10-14 11:18:10+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yukicoder/no_1625/src/main.rs

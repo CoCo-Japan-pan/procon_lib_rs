@@ -18,6 +18,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
     title: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
+  - icon: ':heavy_check_mark:'
+    path: verify/yukicoder/no_1625_wavelet/src/main.rs
+    title: verify/yukicoder/no_1625_wavelet/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -39,12 +42,14 @@ data:
     \    /// \u30D3\u30C3\u30C8\u3054\u3068\u306ESegTree\n    segtree_per_bit: Vec<SegTree<M>>,\n\
     }\n\nimpl<M: Monoid + Commutative> WaveletMatrixSegTree<M> {\n    /// `compressed_list[x]\
     \ = y` \u304C\u70B9(x, y)\u306B\u3001`weight_list[x] = w` \u304C\u70B9(x, y)\u306E\
-    \u91CD\u307Fw\u306B\u5BFE\u5FDC\u3059\u308B  \n    /// compressed_list\u306F\u5EA7\
-    \u6A19\u5727\u7E2E\u3055\u308C\u3066\u3044\u308B\u3053\u3068\u3092\u671F\u5F85\
-    \u3059\u308B  \n    /// x\u306F\u91CD\u8907\u4E0D\u53EF\u306A\u306E\u3067\u3001\
-    \u9806\u756A\u3092\u632F\u308A\u306A\u304A\u3057\u3066\u3082\u3089\u3046\u3053\
-    \u3068\u306B\u306A\u308B  \n    /// \u5168\u30660\u4EE5\u4E0A\n    pub fn new(compressed_list:\
-    \ &[usize], weight_list: &[M::Target]) -> Self {\n        assert_eq!(compressed_list.len(),\
+    \u91CD\u307Fw\u306B\u5BFE\u5FDC\u3059\u308B  \n    /// compressed_list\u306B\u306F\
+    \u4ECA\u5F8C\u66F4\u65B0\u30AF\u30A8\u30EA\u306E\u3042\u308B(x, y)\u3082\u542B\
+    \u3081\u308B  \n    /// compressed_list\u306F\u5EA7\u6A19\u5727\u7E2E\u3055\u308C\
+    \u3066\u3044\u308B\u3053\u3068\u3092\u671F\u5F85\u3059\u308B  \n    /// x\u306F\
+    \u91CD\u8907\u4E0D\u53EF\u306A\u306E\u3067\u3001\u9806\u756A\u3092\u632F\u308A\
+    \u306A\u304A\u3057\u3066\u3082\u3089\u3046\u3053\u3068\u306B\u306A\u308B  \n \
+    \   /// \u5168\u30660\u4EE5\u4E0A\n    pub fn from_weight(compressed_list: &[usize],\
+    \ weight_list: &[M::Target]) -> Self {\n        assert_eq!(compressed_list.len(),\
     \ weight_list.len());\n        let len = compressed_list.len();\n        let upper_bound\
     \ = *compressed_list.iter().max().unwrap_or(&0) + 1;\n        let log = ceil_log2(upper_bound\
     \ as u32 + 1) as usize;\n        let mut indices = vec![BitDict::new(len); log];\n\
@@ -64,24 +69,29 @@ data:
     \ tmp_weight[1]);\n            segtree_per_bit.push(SegTree::from(&weight_list));\n\
     \        }\n        segtree_per_bit.reverse();\n        Self {\n            upper_bound,\n\
     \            len,\n            indices,\n            segtree_per_bit,\n      \
-    \  }\n    }\n\n    fn get_pos_range<R: RangeBounds<usize>>(&self, range: R) ->\
-    \ (usize, usize) {\n        use std::ops::Bound::*;\n        let l = match range.start_bound()\
-    \ {\n            Included(&l) => l,\n            Excluded(&l) => l + 1,\n    \
-    \        Unbounded => 0,\n        };\n        let r = match range.end_bound()\
-    \ {\n            Included(&r) => r + 1,\n            Excluded(&r) => r,\n    \
-    \        Unbounded => self.len,\n        };\n        assert!(l <= r && r <= self.len);\n\
-    \        (l, r)\n    }\n\n    fn get_num_range<R: RangeBounds<usize>>(&self, range:\
-    \ R) -> (usize, usize) {\n        use std::ops::Bound::*;\n        let l = match\
-    \ range.start_bound() {\n            Included(&l) => l,\n            Excluded(&l)\
-    \ => l + 1,\n            Unbounded => 0,\n        }\n        .min(self.upper_bound);\n\
+    \  }\n    }\n\n    /// `compressed_list[x] = y` \u304C\u70B9(x, y)\u306B\u5BFE\
+    \u5FDC\u3057\u3001\u91CD\u307F\u306F\u5358\u4F4D\u5143\u3067\u521D\u671F\u5316\
+    \u3059\u308B  \n    /// `compressed_list`\u306B\u306F\u4ECA\u5F8C\u66F4\u65B0\u30AF\
+    \u30A8\u30EA\u306E\u3042\u308B(x, y)\u3082\u542B\u3081\u308B\n    pub fn from_identity(compressed_list:\
+    \ &[usize]) -> Self {\n        let weight_list = vec![M::id_element(); compressed_list.len()];\n\
+    \        Self::from_weight(compressed_list, &weight_list)\n    }\n\n    fn get_pos_range<R:\
+    \ RangeBounds<usize>>(&self, range: R) -> (usize, usize) {\n        use std::ops::Bound::*;\n\
+    \        let l = match range.start_bound() {\n            Included(&l) => l,\n\
+    \            Excluded(&l) => l + 1,\n            Unbounded => 0,\n        };\n\
     \        let r = match range.end_bound() {\n            Included(&r) => r + 1,\n\
-    \            Excluded(&r) => r,\n            Unbounded => self.upper_bound,\n\
-    \        }\n        .min(self.upper_bound);\n        assert!(l <= r);\n      \
-    \  (l, r)\n    }\n\n    /// x\u5EA7\u6A19\u304Cx_range\u5185\u3001y\u5EA7\u6A19\
-    \u306Fupper\u672A\u6E80\u306E\u70B9\u306E\u91CD\u307F\u306E\u548C\u3092\u6C42\u3081\
-    \u308B\n    pub fn prefix_rect_sum<R: RangeBounds<usize>>(&self, x_range: R, upper:\
-    \ usize) -> M::Target {\n        if upper == 0 {\n            return M::id_element();\n\
-    \        }\n        let (mut begin, mut end) = self.get_pos_range(x_range);\n\
+    \            Excluded(&r) => r,\n            Unbounded => self.len,\n        };\n\
+    \        assert!(l <= r && r <= self.len);\n        (l, r)\n    }\n\n    fn get_num_range<R:\
+    \ RangeBounds<usize>>(&self, range: R) -> (usize, usize) {\n        use std::ops::Bound::*;\n\
+    \        let l = match range.start_bound() {\n            Included(&l) => l,\n\
+    \            Excluded(&l) => l + 1,\n            Unbounded => 0,\n        }\n\
+    \        .min(self.upper_bound);\n        let r = match range.end_bound() {\n\
+    \            Included(&r) => r + 1,\n            Excluded(&r) => r,\n        \
+    \    Unbounded => self.upper_bound,\n        }\n        .min(self.upper_bound);\n\
+    \        assert!(l <= r);\n        (l, r)\n    }\n\n    /// x\u5EA7\u6A19\u304C\
+    x_range\u5185\u3001y\u5EA7\u6A19\u306Fupper\u672A\u6E80\u306E\u70B9\u306E\u91CD\
+    \u307F\u306E\u548C\u3092\u6C42\u3081\u308B\n    pub fn prefix_rect_sum<R: RangeBounds<usize>>(&self,\
+    \ x_range: R, upper: usize) -> M::Target {\n        if upper == 0 {\n        \
+    \    return M::id_element();\n        }\n        let (mut begin, mut end) = self.get_pos_range(x_range);\n\
     \        let mut ret = M::id_element();\n        for (ln, index) in self.indices.iter().enumerate().rev()\
     \ {\n            let bit = (upper >> ln) & 1;\n            let rank1_begin = index.rank_1(begin);\n\
     \            let rank1_end = index.rank_1(end);\n            let rank0_begin =\
@@ -148,9 +158,9 @@ data:
     \ Vec<usize> = (0..SIZE).map(|_| rng.gen_range(0..SIZE)).collect();\n        let\
     \ wm_cum_sum = WaveletMatrixCumSum::new(&num_list, &num_list);\n        let num_list_i64:\
     \ Vec<i64> = num_list.iter().map(|i| *i as i64).collect();\n        let wm_seg\
-    \ = WaveletMatrixSegTree::<AddGroup>::new(&num_list, &num_list_i64);\n\n     \
-    \   for _ in 0..SIZE {\n            let xl = rng.gen_range(0..SIZE);\n       \
-    \     let xr = rng.gen_range(xl..SIZE);\n            let yl = rng.gen_range(0..SIZE);\n\
+    \ = WaveletMatrixSegTree::<AddGroup>::from_weight(&num_list, &num_list_i64);\n\
+    \n        for _ in 0..SIZE {\n            let xl = rng.gen_range(0..SIZE);\n \
+    \           let xr = rng.gen_range(xl..SIZE);\n            let yl = rng.gen_range(0..SIZE);\n\
     \            let yr = rng.gen_range(yl..SIZE);\n            let cum_sum_ans =\
     \ wm_cum_sum.rect_sum(xl..xr, yl..yr) as i64;\n            assert_eq!(cum_sum_ans,\
     \ wm_seg.rect_sum_group(xl..xr, yl..yr));\n            assert_eq!(cum_sum_ans,\
@@ -159,7 +169,7 @@ data:
     \    const SIZE: usize = 10000;\n        let mut weight_list = (0..SIZE)\n   \
     \         .map(|_| rng.gen_range(-1000_000_000..=1000_000_000))\n            .collect::<Vec<i64>>();\n\
     \        let y_list = (0..SIZE)\n            .map(|_| rng.gen_range(0..=SIZE))\n\
-    \            .collect::<Vec<usize>>();\n        let mut wm = WaveletMatrixSegTree::<AddGroup>::new(&y_list,\
+    \            .collect::<Vec<usize>>();\n        let mut wm = WaveletMatrixSegTree::<AddGroup>::from_weight(&y_list,\
     \ &weight_list);\n        for _ in 0..1000 {\n            let x_left = rng.gen_range(0..=SIZE);\n\
     \            let x_right = rng.gen_range(x_left..=SIZE);\n            let y_left\
     \ = rng.gen_range(0..=SIZE);\n            let y_right = rng.gen_range(y_left..=SIZE);\n\
@@ -178,7 +188,7 @@ data:
     \ = (0..SIZE)\n            .map(|_| rng.gen_range(-1000_000_000..=1000_000_000))\n\
     \            .collect::<Vec<i64>>();\n        let y_list = (0..SIZE)\n       \
     \     .map(|_| rng.gen_range(0..=SIZE))\n            .collect::<Vec<usize>>();\n\
-    \        let mut wm = WaveletMatrixSegTree::<AddGroup>::new(&y_list, &weight_list);\n\
+    \        let mut wm = WaveletMatrixSegTree::<AddGroup>::from_weight(&y_list, &weight_list);\n\
     \        for _ in 0..1000 {\n            for i in 0..1000 {\n                assert_eq!(weight_list[i],\
     \ wm.get_weight(i));\n            }\n            let pos = rng.gen_range(0..SIZE);\n\
     \            let new_weight = rng.gen_range(-1000_000_000..=1000_000_000);\n \
@@ -192,10 +202,11 @@ data:
   isVerificationFile: false
   path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-12 18:56:02+09:00'
+  timestamp: '2024-10-14 11:18:10+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
+  - verify/yukicoder/no_1625_wavelet/src/main.rs
 documentation_of: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
 layout: document
 redirect_from:
