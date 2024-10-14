@@ -104,7 +104,7 @@ impl<'a> LowLink<'a> {
     /// ただしuとvが隣接していることを仮定しているので注意
     pub fn is_bridge(&self, u: usize, v: usize) -> bool {
         if self.ord[u] > self.ord[v] {
-            self.is_bridge(v, u)
+            self.ord[v] < self.low[u]
         } else {
             self.ord[u] < self.low[v]
         }
