@@ -69,8 +69,10 @@ impl Eratosthenes {
 
     /// 約数の個数オーダーで約数列挙 特に出力はソートしていないので注意
     pub fn enumerate_divisors(&self, n: usize) -> Vec<usize> {
-        let mut ret = vec![1];
         let pc = self.factorize(n);
+        let size = pc.iter().map(|(_, c)| c + 1).product::<usize>();
+        let mut ret = Vec::with_capacity(size);
+        ret.push(1);
         for (p, c) in pc {
             let cur_size = ret.len();
             for i in 0..cur_size {
