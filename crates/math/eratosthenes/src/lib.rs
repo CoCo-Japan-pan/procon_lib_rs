@@ -67,7 +67,7 @@ impl Eratosthenes {
         res
     }
 
-    /// 約数の個数オーダーで約数列挙 最後にソートしている
+    /// 約数の個数オーダーで約数列挙 特に出力はソートしていないので注意
     pub fn enumerate_divisors(&self, n: usize) -> Vec<usize> {
         let mut ret = vec![1];
         let pc = self.factorize(n);
@@ -81,7 +81,6 @@ impl Eratosthenes {
                 }
             }
         }
-        ret.sort_unstable();
         ret
     }
 
@@ -163,7 +162,8 @@ mod test {
     #[test]
     fn test_divisors_manual() {
         let era = Eratosthenes::new(60);
-        let divisors_60 = era.enumerate_divisors(60);
+        let mut divisors_60 = era.enumerate_divisors(60);
+        divisors_60.sort_unstable();
         assert_eq!(divisors_60, [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60])
     }
 
