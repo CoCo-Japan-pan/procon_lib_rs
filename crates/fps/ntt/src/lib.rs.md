@@ -184,8 +184,8 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/convolution_ntt/src/main.rs
-  - verify/yosupo/convolution_mod_1000000007_ntt/src/main.rs
   - verify/yosupo/frequency_table_of_tree_distance/src/main.rs
+  - verify/yosupo/convolution_mod_1000000007_ntt/src/main.rs
 documentation_of: crates/fps/ntt/src/lib.rs
 layout: document
 redirect_from:

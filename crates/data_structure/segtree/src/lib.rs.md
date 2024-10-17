@@ -101,13 +101,13 @@ data:
   isVerificationFile: false
   path: crates/data_structure/segtree/src/lib.rs
   requiredBy:
-  - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   - crates/data_structure/segtree_2d_compressed/src/lib.rs
+  - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   timestamp: '2024-09-30 16:25:48+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/yosupo/vertex_set_path_composite/src/main.rs
   - verify/yosupo/point_set_range_composite/src/main.rs
+  - verify/yosupo/vertex_set_path_composite/src/main.rs
 documentation_of: crates/data_structure/segtree/src/lib.rs
 layout: document
 redirect_from:

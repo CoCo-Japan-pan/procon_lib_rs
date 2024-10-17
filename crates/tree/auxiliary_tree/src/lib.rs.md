@@ -84,8 +84,8 @@ data:
   timestamp: '2024-10-06 16:15:33+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/AtCoder/abc340g/src/main.rs
   - verify/AtCoder/abc359g_auxiliary/src/main.rs
+  - verify/AtCoder/abc340g/src/main.rs
 documentation_of: crates/tree/auxiliary_tree/src/lib.rs
 layout: document
 redirect_from:
