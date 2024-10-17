@@ -38,18 +38,18 @@ data:
     \            let mut cnt = 0;\n            while self.min_factor[n] == p {\n \
     \               cnt += 1;\n                n /= p;\n            }\n          \
     \  res.push((p, cnt));\n        }\n        res\n    }\n\n    /// \u7D04\u6570\u306E\
-    \u500B\u6570\u30AA\u30FC\u30C0\u30FC\u3067\u7D04\u6570\u5217\u6319 \u6700\u5F8C\
-    \u306B\u30BD\u30FC\u30C8\u3057\u3066\u3044\u308B\n    pub fn enumerate_divisors(&self,\
-    \ n: usize) -> Vec<usize> {\n        let mut ret = vec![1];\n        let pc =\
-    \ self.factorize(n);\n        for (p, c) in pc {\n            let cur_size = ret.len();\n\
-    \            for i in 0..cur_size {\n                let mut new_num = ret[i];\n\
-    \                for _ in 0..c {\n                    new_num *= p;\n        \
-    \            ret.push(new_num);\n                }\n            }\n        }\n\
-    \        ret.sort_unstable();\n        ret\n    }\n\n    /// \u500D\u6570\u95A2\
-    \u4FC2\u306B\u95A2\u3059\u308B\u9AD8\u901F\u30BC\u30FC\u30BF\u5909\u63DB  \n \
-    \   /// 0\u756A\u76EE\u306E\u5024\u306B\u3064\u3044\u3066\u306F\u4F55\u3082\u3057\
-    \u306A\u3044\u306E\u3067\u6CE8\u610F\n    pub fn multiple_zeta_transfrom<T: AddAssign\
-    \ + Copy>(&self, list: &mut [T]) {\n        let n = list.len().saturating_sub(1);\n\
+    \u500B\u6570\u30AA\u30FC\u30C0\u30FC\u3067\u7D04\u6570\u5217\u6319 \u7279\u306B\
+    \u51FA\u529B\u306F\u30BD\u30FC\u30C8\u3057\u3066\u3044\u306A\u3044\u306E\u3067\
+    \u6CE8\u610F\n    pub fn enumerate_divisors(&self, n: usize) -> Vec<usize> {\n\
+    \        let mut ret = vec![1];\n        let pc = self.factorize(n);\n       \
+    \ for (p, c) in pc {\n            let cur_size = ret.len();\n            for i\
+    \ in 0..cur_size {\n                let mut new_num = ret[i];\n              \
+    \  for _ in 0..c {\n                    new_num *= p;\n                    ret.push(new_num);\n\
+    \                }\n            }\n        }\n        ret\n    }\n\n    /// \u500D\
+    \u6570\u95A2\u4FC2\u306B\u95A2\u3059\u308B\u9AD8\u901F\u30BC\u30FC\u30BF\u5909\
+    \u63DB  \n    /// 0\u756A\u76EE\u306E\u5024\u306B\u3064\u3044\u3066\u306F\u4F55\
+    \u3082\u3057\u306A\u3044\u306E\u3067\u6CE8\u610F\n    pub fn multiple_zeta_transfrom<T:\
+    \ AddAssign + Copy>(&self, list: &mut [T]) {\n        let n = list.len().saturating_sub(1);\n\
     \        assert!(n <= self.max_n);\n        for p in self.primes.iter().take_while(|&&p|\
     \ p <= n) {\n            for i in (1..=(n / p)).rev() {\n                list[i]\
     \ += list[i * p];\n            }\n        }\n    }\n\n    /// \u500D\u6570\u95A2\
@@ -84,19 +84,19 @@ data:
     \ {\n            for i in (1..=(n / p)).rev() {\n                list[i * p] -=\
     \ list[i];\n            }\n        }\n    }\n}\n\n#[cfg(test)]\nmod test {\n \
     \   use super::*;\n    use rand::prelude::*;\n\n    #[test]\n    fn test_divisors_manual()\
-    \ {\n        let era = Eratosthenes::new(60);\n        let divisors_60 = era.enumerate_divisors(60);\n\
-    \        assert_eq!(divisors_60, [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60])\n\
-    \    }\n\n    #[test]\n    fn test_multiple_zeta_manual() {\n        let mut list\
+    \ {\n        let era = Eratosthenes::new(60);\n        let mut divisors_60 = era.enumerate_divisors(60);\n\
+    \        divisors_60.sort_unstable();\n        assert_eq!(divisors_60, [1, 2,\
+    \ 3, 4, 5, 6, 10, 12, 15, 20, 30, 60])\n    }\n\n    #[test]\n    fn test_multiple_zeta_manual()\
+    \ {\n        let mut list = (0..=12).collect::<Vec<usize>>();\n        let era\
+    \ = Eratosthenes::new(12);\n        era.multiple_zeta_transfrom(&mut list);\n\
+    \        assert_eq!(list, [0, 78, 42, 30, 24, 15, 18, 7, 8, 9, 10, 11, 12]);\n\
+    \    }\n\n    #[test]\n    fn test_divisor_zeta_manual() {\n        let mut list\
     \ = (0..=12).collect::<Vec<usize>>();\n        let era = Eratosthenes::new(12);\n\
-    \        era.multiple_zeta_transfrom(&mut list);\n        assert_eq!(list, [0,\
-    \ 78, 42, 30, 24, 15, 18, 7, 8, 9, 10, 11, 12]);\n    }\n\n    #[test]\n    fn\
-    \ test_divisor_zeta_manual() {\n        let mut list = (0..=12).collect::<Vec<usize>>();\n\
-    \        let era = Eratosthenes::new(12);\n        era.divisor_zeta_transfrom(&mut\
-    \ list);\n        assert_eq!(list, [0, 1, 3, 4, 7, 6, 12, 8, 15, 13, 18, 12, 28]);\n\
-    \    }\n\n    #[test]\n    fn test_zeta_mobius() {\n        fn test(size: usize)\
-    \ {\n            let mut rng = thread_rng();\n            let list = (0..=size)\n\
-    \                .map(|_| rng.gen_range(-100_000_000..=100_000_000))\n       \
-    \         .collect::<Vec<i64>>();\n            let mut list_clone = list.clone();\n\
+    \        era.divisor_zeta_transfrom(&mut list);\n        assert_eq!(list, [0,\
+    \ 1, 3, 4, 7, 6, 12, 8, 15, 13, 18, 12, 28]);\n    }\n\n    #[test]\n    fn test_zeta_mobius()\
+    \ {\n        fn test(size: usize) {\n            let mut rng = thread_rng();\n\
+    \            let list = (0..=size)\n                .map(|_| rng.gen_range(-100_000_000..=100_000_000))\n\
+    \                .collect::<Vec<i64>>();\n            let mut list_clone = list.clone();\n\
     \            let era = Eratosthenes::new(size);\n            era.multiple_zeta_transfrom(&mut\
     \ list_clone);\n            era.multiple_mobius_transfrom(&mut list_clone);\n\
     \            assert_eq!(list, list_clone);\n            era.divisor_zeta_transfrom(&mut\
@@ -119,7 +119,7 @@ data:
   isVerificationFile: false
   path: crates/math/eratosthenes/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-17 16:52:54+09:00'
+  timestamp: '2024-10-17 21:08:09+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/math/eratosthenes/src/lib.rs
