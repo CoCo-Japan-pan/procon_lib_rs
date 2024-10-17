@@ -41,22 +41,24 @@ data:
     \u500B\u6570\u30AA\u30FC\u30C0\u30FC\u3067\u7D04\u6570\u5217\u6319 \u7279\u306B\
     \u51FA\u529B\u306F\u30BD\u30FC\u30C8\u3057\u3066\u3044\u306A\u3044\u306E\u3067\
     \u6CE8\u610F\n    pub fn enumerate_divisors(&self, n: usize) -> Vec<usize> {\n\
-    \        let mut ret = vec![1];\n        let pc = self.factorize(n);\n       \
-    \ for (p, c) in pc {\n            let cur_size = ret.len();\n            for i\
-    \ in 0..cur_size {\n                let mut new_num = ret[i];\n              \
-    \  for _ in 0..c {\n                    new_num *= p;\n                    ret.push(new_num);\n\
-    \                }\n            }\n        }\n        ret\n    }\n\n    /// \u500D\
-    \u6570\u95A2\u4FC2\u306B\u95A2\u3059\u308B\u9AD8\u901F\u30BC\u30FC\u30BF\u5909\
-    \u63DB  \n    /// 0\u756A\u76EE\u306E\u5024\u306B\u3064\u3044\u3066\u306F\u4F55\
-    \u3082\u3057\u306A\u3044\u306E\u3067\u6CE8\u610F\n    pub fn multiple_zeta_transfrom<T:\
-    \ AddAssign + Copy>(&self, list: &mut [T]) {\n        let n = list.len().saturating_sub(1);\n\
-    \        assert!(n <= self.max_n);\n        for p in self.primes.iter().take_while(|&&p|\
-    \ p <= n) {\n            for i in (1..=(n / p)).rev() {\n                list[i]\
-    \ += list[i * p];\n            }\n        }\n    }\n\n    /// \u500D\u6570\u95A2\
-    \u4FC2\u306B\u95A2\u3059\u308B\u9AD8\u901F\u30E1\u30D3\u30A6\u30B9\u5909\u63DB\
-    \  \n    /// 0\u756A\u76EE\u306E\u5024\u306B\u3064\u3044\u3066\u306F\u4F55\u3082\
-    \u3057\u306A\u3044\u306E\u3067\u6CE8\u610F\n    pub fn multiple_mobius_transfrom<T:\
-    \ SubAssign + Copy>(&self, list: &mut [T]) {\n        let n = list.len().saturating_sub(1);\n\
+    \        let pc = self.factorize(n);\n        let size = pc.iter().map(|(_, c)|\
+    \ c + 1).product::<usize>();\n        let mut ret = Vec::with_capacity(size);\n\
+    \        ret.push(1);\n        for (p, c) in pc {\n            let cur_size =\
+    \ ret.len();\n            for i in 0..cur_size {\n                let mut new_num\
+    \ = ret[i];\n                for _ in 0..c {\n                    new_num *= p;\n\
+    \                    ret.push(new_num);\n                }\n            }\n  \
+    \      }\n        ret\n    }\n\n    /// \u500D\u6570\u95A2\u4FC2\u306B\u95A2\u3059\
+    \u308B\u9AD8\u901F\u30BC\u30FC\u30BF\u5909\u63DB  \n    /// 0\u756A\u76EE\u306E\
+    \u5024\u306B\u3064\u3044\u3066\u306F\u4F55\u3082\u3057\u306A\u3044\u306E\u3067\
+    \u6CE8\u610F\n    pub fn multiple_zeta_transfrom<T: AddAssign + Copy>(&self, list:\
+    \ &mut [T]) {\n        let n = list.len().saturating_sub(1);\n        assert!(n\
+    \ <= self.max_n);\n        for p in self.primes.iter().take_while(|&&p| p <= n)\
+    \ {\n            for i in (1..=(n / p)).rev() {\n                list[i] += list[i\
+    \ * p];\n            }\n        }\n    }\n\n    /// \u500D\u6570\u95A2\u4FC2\u306B\
+    \u95A2\u3059\u308B\u9AD8\u901F\u30E1\u30D3\u30A6\u30B9\u5909\u63DB  \n    ///\
+    \ 0\u756A\u76EE\u306E\u5024\u306B\u3064\u3044\u3066\u306F\u4F55\u3082\u3057\u306A\
+    \u3044\u306E\u3067\u6CE8\u610F\n    pub fn multiple_mobius_transfrom<T: SubAssign\
+    \ + Copy>(&self, list: &mut [T]) {\n        let n = list.len().saturating_sub(1);\n\
     \        assert!(n <= self.max_n);\n        for p in self.primes.iter().take_while(|&&p|\
     \ p <= n) {\n            for i in 1..=(n / p) {\n                list[i] -= list[i\
     \ * p];\n            }\n        }\n    }\n\n    /// \u6DFB\u3048\u5B57gcd\u7573\
@@ -119,7 +121,7 @@ data:
   isVerificationFile: false
   path: crates/math/eratosthenes/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-17 21:08:09+09:00'
+  timestamp: '2024-10-17 21:48:47+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/math/eratosthenes/src/lib.rs
