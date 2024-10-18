@@ -1,6 +1,6 @@
 use internal_modint::{ModInt, RemEuclidU32};
 use internal_type_traits::{One, Zero};
-use std::fmt::Display;
+use std::fmt::{Debug, Display};
 use std::iter::{Product, Sum};
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 use std::str::FromStr;
@@ -8,7 +8,7 @@ use std::str::FromStr;
 pub type ModInt998244353 = StaticModInt<998244353>;
 pub type ModInt1000000007 = StaticModInt<1000000007>;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Default)]
 pub struct StaticModInt<const MOD: u32> {
     value: u32,
 }
@@ -22,6 +22,13 @@ impl<const MOD: u32> Zero for StaticModInt<MOD> {
 impl<const MOD: u32> One for StaticModInt<MOD> {
     fn one() -> Self {
         Self::new(1)
+    }
+}
+
+/// 見やすさのために、DebugはDisplayと同様にする
+impl<const MOD: u32> Debug for StaticModInt<MOD> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.value)
     }
 }
 

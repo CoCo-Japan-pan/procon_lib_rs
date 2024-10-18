@@ -5,8 +5,7 @@
 
 use internal_modint::{ModInt, RemEuclidU32};
 use internal_type_traits::{One, Zero};
-use std::fmt::Debug;
-use std::fmt::Display;
+use std::fmt::{Debug, Display};
 use std::iter::{Product, Sum};
 use std::marker::PhantomData;
 use std::num::ParseIntError;
@@ -44,7 +43,7 @@ macro_rules! define_modcontainer {
     };
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
+#[derive(Clone, Copy, PartialEq, Eq, Hash, Default)]
 pub struct DynamicModInt<MOD: ModContainer> {
     value: u32,
     phantom: PhantomData<MOD>,
@@ -59,6 +58,13 @@ impl<MOD: ModContainer> Zero for DynamicModInt<MOD> {
 impl<MOD: ModContainer> One for DynamicModInt<MOD> {
     fn one() -> Self {
         Self::new(1)
+    }
+}
+
+/// 見やすさのために、DebugはDisplayと同様にする
+impl<MOD: ModContainer> Debug for DynamicModInt<MOD> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.value)
     }
 }
 
