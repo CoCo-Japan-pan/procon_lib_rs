@@ -31,7 +31,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/log_of_formal_power_series/src/main.rs
   requiredBy: []
-  timestamp: '2024-07-20 13:46:09+09:00'
+  timestamp: '2024-10-18 21:12:10+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/log_of_formal_power_series/src/main.rs

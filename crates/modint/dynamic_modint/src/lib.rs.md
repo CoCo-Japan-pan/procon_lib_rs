@@ -34,33 +34,37 @@ data:
     \u51FA\u3057\u3066\u304B\u3089\u4F7F\u3046  \n//! \u8907\u6570\u306EMod\u3092\u4F7F\
     \u3044\u305F\u3044\u306A\u3089\u3001\u305D\u308C\u305E\u308C\u306EModContainer\u3092\
     \u5B9A\u7FA9\u3059\u308B  \n\nuse internal_modint::{ModInt, RemEuclidU32};\nuse\
-    \ internal_type_traits::{One, Zero};\nuse std::fmt::Debug;\nuse std::fmt::Display;\n\
-    use std::iter::{Product, Sum};\nuse std::marker::PhantomData;\nuse std::num::ParseIntError;\n\
-    use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};\n\
-    use std::str::FromStr;\nuse std::sync::OnceLock;\n\npub trait ModContainer: 'static\
-    \ + Debug + Clone + Copy + PartialEq + Eq + Default {\n    fn get_static_modulus()\
-    \ -> &'static OnceLock<u32>;\n    fn modulus() -> u32 {\n        *Self::get_static_modulus()\n\
-    \            .get()\n            .expect(\"haven't set modulus\")\n    }\n   \
-    \ fn set_modulus(modulus: u32) {\n        Self::get_static_modulus()\n       \
-    \     .set(modulus)\n            .expect(\"already set modulus\")\n    }\n}\n\n\
-    /// ModContainer\u3092\u5B9A\u7FA9\u3059\u308B\u30DE\u30AF\u30ED \u3053\u308C\u3092\
-    DynamicModInt\u306E\u30B8\u30A7\u30CD\u30EA\u30C3\u30AF\u5F15\u6570\u306B\u5165\
-    \u308C\u308B  \n/// \u5F8C\u3067set_modulus\u3092\u547C\u3076\u306E\u3092\u5FD8\
-    \u308C\u306A\u3044\u3088\u3046\u306B!\n#[macro_export]\nmacro_rules! define_modcontainer\
-    \ {\n    ($name:ident) => {\n        #[derive(Debug, Clone, Copy, PartialEq, Eq,\
-    \ Hash, Default)]\n        pub struct $name {}\n        impl $crate::ModContainer\
-    \ for $name {\n            fn get_static_modulus() -> &'static std::sync::OnceLock<u32>\
-    \ {\n                static ONCE: std::sync::OnceLock<u32> = std::sync::OnceLock::new();\n\
-    \                &ONCE\n            }\n        }\n    };\n}\n\n#[derive(Debug,\
-    \ Clone, Copy, PartialEq, Eq, Hash, Default)]\npub struct DynamicModInt<MOD: ModContainer>\
+    \ internal_type_traits::{One, Zero};\nuse std::fmt::{Debug, Display};\nuse std::iter::{Product,\
+    \ Sum};\nuse std::marker::PhantomData;\nuse std::num::ParseIntError;\nuse std::ops::{Add,\
+    \ AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};\nuse std::str::FromStr;\n\
+    use std::sync::OnceLock;\n\npub trait ModContainer: 'static + Debug + Clone +\
+    \ Copy + PartialEq + Eq + Default {\n    fn get_static_modulus() -> &'static OnceLock<u32>;\n\
+    \    fn modulus() -> u32 {\n        *Self::get_static_modulus()\n            .get()\n\
+    \            .expect(\"haven't set modulus\")\n    }\n    fn set_modulus(modulus:\
+    \ u32) {\n        Self::get_static_modulus()\n            .set(modulus)\n    \
+    \        .expect(\"already set modulus\")\n    }\n}\n\n/// ModContainer\u3092\u5B9A\
+    \u7FA9\u3059\u308B\u30DE\u30AF\u30ED \u3053\u308C\u3092DynamicModInt\u306E\u30B8\
+    \u30A7\u30CD\u30EA\u30C3\u30AF\u5F15\u6570\u306B\u5165\u308C\u308B  \n/// \u5F8C\
+    \u3067set_modulus\u3092\u547C\u3076\u306E\u3092\u5FD8\u308C\u306A\u3044\u3088\u3046\
+    \u306B!\n#[macro_export]\nmacro_rules! define_modcontainer {\n    ($name:ident)\
+    \ => {\n        #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]\n\
+    \        pub struct $name {}\n        impl $crate::ModContainer for $name {\n\
+    \            fn get_static_modulus() -> &'static std::sync::OnceLock<u32> {\n\
+    \                static ONCE: std::sync::OnceLock<u32> = std::sync::OnceLock::new();\n\
+    \                &ONCE\n            }\n        }\n    };\n}\n\n#[derive(Clone,\
+    \ Copy, PartialEq, Eq, Hash, Default)]\npub struct DynamicModInt<MOD: ModContainer>\
     \ {\n    value: u32,\n    phantom: PhantomData<MOD>,\n}\n\nimpl<MOD: ModContainer>\
     \ Zero for DynamicModInt<MOD> {\n    fn zero() -> Self {\n        Self::raw(0)\n\
     \    }\n}\n\nimpl<MOD: ModContainer> One for DynamicModInt<MOD> {\n    fn one()\
-    \ -> Self {\n        Self::new(1)\n    }\n}\n\nimpl<MOD: ModContainer> Display\
-    \ for DynamicModInt<MOD> {\n    fn fmt(&self, f: &mut std::fmt::Formatter<'_>)\
-    \ -> std::fmt::Result {\n        write!(f, \"{}\", self.value)\n    }\n}\n\nimpl<MOD:\
-    \ ModContainer, T> Sum<T> for DynamicModInt<MOD>\nwhere\n    Self: Add<T, Output\
-    \ = Self>,\n{\n    fn sum<I: Iterator<Item = T>>(iter: I) -> Self {\n        iter.fold(Self::raw(0),\
+    \ -> Self {\n        Self::new(1)\n    }\n}\n\n/// \u898B\u3084\u3059\u3055\u306E\
+    \u305F\u3081\u306B\u3001Debug\u306FDisplay\u3068\u540C\u69D8\u306B\u3059\u308B\
+    \nimpl<MOD: ModContainer> Debug for DynamicModInt<MOD> {\n    fn fmt(&self, f:\
+    \ &mut std::fmt::Formatter<'_>) -> std::fmt::Result {\n        write!(f, \"{}\"\
+    , self.value)\n    }\n}\n\nimpl<MOD: ModContainer> Display for DynamicModInt<MOD>\
+    \ {\n    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {\n\
+    \        write!(f, \"{}\", self.value)\n    }\n}\n\nimpl<MOD: ModContainer, T>\
+    \ Sum<T> for DynamicModInt<MOD>\nwhere\n    Self: Add<T, Output = Self>,\n{\n\
+    \    fn sum<I: Iterator<Item = T>>(iter: I) -> Self {\n        iter.fold(Self::raw(0),\
     \ Add::add)\n    }\n}\n\nimpl<MOD: ModContainer, T> Product<T> for DynamicModInt<MOD>\n\
     where\n    Self: Mul<T, Output = Self>,\n{\n    fn product<I: Iterator<Item =\
     \ T>>(iter: I) -> Self {\n        iter.fold(Self::new(1), Mul::mul)\n    }\n}\n\
@@ -130,7 +134,7 @@ data:
   path: crates/modint/dynamic_modint/src/lib.rs
   requiredBy:
   - crates/fps/ntt/src/lib.rs
-  timestamp: '2024-07-27 16:12:09+09:00'
+  timestamp: '2024-10-18 21:12:10+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc293e/src/main.rs

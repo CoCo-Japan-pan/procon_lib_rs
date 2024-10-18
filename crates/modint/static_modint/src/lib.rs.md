@@ -62,15 +62,19 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "use internal_modint::{ModInt, RemEuclidU32};\nuse internal_type_traits::{One,\
-    \ Zero};\nuse std::fmt::Display;\nuse std::iter::{Product, Sum};\nuse std::ops::{Add,\
-    \ AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};\nuse std::str::FromStr;\n\
-    \npub type ModInt998244353 = StaticModInt<998244353>;\npub type ModInt1000000007\
-    \ = StaticModInt<1000000007>;\n\n#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash,\
-    \ Default)]\npub struct StaticModInt<const MOD: u32> {\n    value: u32,\n}\n\n\
-    impl<const MOD: u32> Zero for StaticModInt<MOD> {\n    fn zero() -> Self {\n \
-    \       Self::raw(0)\n    }\n}\n\nimpl<const MOD: u32> One for StaticModInt<MOD>\
-    \ {\n    fn one() -> Self {\n        Self::new(1)\n    }\n}\n\nimpl<const MOD:\
-    \ u32> Display for StaticModInt<MOD> {\n    fn fmt(&self, f: &mut std::fmt::Formatter<'_>)\
+    \ Zero};\nuse std::fmt::{Debug, Display};\nuse std::iter::{Product, Sum};\nuse\
+    \ std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};\n\
+    use std::str::FromStr;\n\npub type ModInt998244353 = StaticModInt<998244353>;\n\
+    pub type ModInt1000000007 = StaticModInt<1000000007>;\n\n#[derive(Clone, Copy,\
+    \ PartialEq, Eq, Hash, Default)]\npub struct StaticModInt<const MOD: u32> {\n\
+    \    value: u32,\n}\n\nimpl<const MOD: u32> Zero for StaticModInt<MOD> {\n   \
+    \ fn zero() -> Self {\n        Self::raw(0)\n    }\n}\n\nimpl<const MOD: u32>\
+    \ One for StaticModInt<MOD> {\n    fn one() -> Self {\n        Self::new(1)\n\
+    \    }\n}\n\n/// \u898B\u3084\u3059\u3055\u306E\u305F\u3081\u306B\u3001Debug\u306F\
+    Display\u3068\u540C\u69D8\u306B\u3059\u308B\nimpl<const MOD: u32> Debug for StaticModInt<MOD>\
+    \ {\n    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {\n\
+    \        write!(f, \"{}\", self.value)\n    }\n}\n\nimpl<const MOD: u32> Display\
+    \ for StaticModInt<MOD> {\n    fn fmt(&self, f: &mut std::fmt::Formatter<'_>)\
     \ -> std::fmt::Result {\n        write!(f, \"{}\", self.value)\n    }\n}\n\nimpl<const\
     \ MOD: u32, T> Sum<T> for StaticModInt<MOD>\nwhere\n    Self: Add<T, Output =\
     \ Self>,\n{\n    fn sum<I: Iterator<Item = T>>(iter: I) -> Self {\n        iter.fold(Self::raw(0),\
@@ -170,7 +174,7 @@ data:
   requiredBy:
   - verify/AtCoder/typical_057/src/main.rs
   - crates/fps/ntt/src/lib.rs
-  timestamp: '2024-07-20 13:46:09+09:00'
+  timestamp: '2024-10-18 21:12:10+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/convolution_ntt/src/main.rs
