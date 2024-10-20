@@ -1,5 +1,5 @@
 use std::fmt::Display;
-use std::ops::{Add, AddAssign, Mul, MulAssign, Neg, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
 const MOD: u64 = (1 << 61) - 1;
 
@@ -57,6 +57,10 @@ impl ModIntMersenne {
             exp >>= 1;
         }
         result
+    }
+
+    pub fn inv(&self) -> Self {
+        self.pow(MOD - 2)
     }
 }
 
@@ -150,6 +154,13 @@ impl MulAssign for ModIntMersenne {
     }
 }
 
+#[allow(clippy::suspicious_op_assign_impl)]
+impl DivAssign for ModIntMersenne {
+    fn div_assign(&mut self, rhs: Self) {
+        *self *= rhs.inv();
+    }
+}
+
 macro_rules! impl_assign_to_rem_euclid {
     ($($t:ty), *) => {
         $(
@@ -166,6 +177,11 @@ macro_rules! impl_assign_to_rem_euclid {
             impl MulAssign<$t> for ModIntMersenne {
                 fn mul_assign(&mut self, rhs: $t) {
                     *self *= ModIntMersenne::new(rhs);
+                }
+            }
+            impl DivAssign<$t> for ModIntMersenne {
+                fn div_assign(&mut self, rhs: $t) {
+                    *self /= ModIntMersenne::new(rhs);
                 }
             }
         )*
@@ -192,6 +208,7 @@ macro_rules! impl_ops {
 impl_ops!(Add, add, AddAssign, add_assign);
 impl_ops!(Sub, sub, SubAssign, sub_assign);
 impl_ops!(Mul, mul, MulAssign, mul_assign);
+impl_ops!(Div, div, DivAssign, div_assign);
 
 #[cfg(test)]
 mod test {
@@ -223,5 +240,12 @@ mod test {
         let a = ModIntMersenne::new(2);
         let b = a.pow(3);
         assert_eq!(b.value(), 8);
+    }
+
+    #[test]
+    fn test_div() {
+        let a = ModIntMersenne::new(2);
+        let b = a / 2;
+        assert_eq!(b.value(), 1);
     }
 }
