@@ -14,14 +14,12 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
-    - https://creativecommons.org/publicdomain/zero/1.0/
     - https://github.com/to-omer/competitive-library/blob/master/crates/competitive/src/tools/capture.rs
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "//! From <https://github.com/to-omer/competitive-library/blob/master/crates/competitive/src/tools/capture.rs>\
-    \ Under [CC0-1.0 License](https://creativecommons.org/publicdomain/zero/1.0/)\n\
+  code: "//! From <https://github.com/to-omer/competitive-library/blob/master/crates/competitive/src/tools/capture.rs>\n\
     \n/// Macro that returns a recursive function that (semi-)automatically captures.\n\
     ///\n/// # Example\n/// default version\n/// ```\n/// # use capture::crecurse;\n\
     /// let mut res = 0usize;\n/// let coeff = 3usize;\n/// crecurse!(\n///     //\
@@ -123,14 +121,14 @@ data:
     \                    value\n                }\n            }\n        );\n   \
     \ };\n    (fn $name:ident ($($args:ident: $argsty:ty),* $(,)?) -> $ret:ty $body:block)\
     \ => {\n        $crate::memorize!(\n            @inner [\n                __memorize_map,\n\
-    \                ::rustc_hash::FxHashMap<($($argsty,)*), $ret>,\n            \
-    \    ::std::default::Default::default()\n            ]\n            fn $name ($($args:\
-    \ $argsty),*) -> $ret $body\n        );\n    }\n}\n"
+    \                ::std::collections::HashMap<($($argsty,)*), $ret>,\n        \
+    \        ::std::default::Default::default()\n            ]\n            fn $name\
+    \ ($($args: $argsty),*) -> $ret $body\n        );\n    }\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/tools/capture/src/lib.rs
   requiredBy: []
-  timestamp: '2024-07-21 00:05:33+09:00'
+  timestamp: '2024-10-20 16:41:21+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/frequency_table_of_tree_distance/src/main.rs

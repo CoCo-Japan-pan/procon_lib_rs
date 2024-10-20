@@ -57,7 +57,7 @@ data:
   isVerificationFile: true
   path: verify/AtCoder/abc359g_centroid/src/main.rs
   requiredBy: []
-  timestamp: '2024-07-21 00:05:33+09:00'
+  timestamp: '2024-10-20 16:41:21+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AtCoder/abc359g_centroid/src/main.rs

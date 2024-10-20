@@ -8,14 +8,12 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links:
-    - https://creativecommons.org/publicdomain/zero/1.0/
     - https://github.com/to-omer/competitive-library/blob/master/crates/competitive/src/tools/mlambda.rs
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "//! From <https://github.com/to-omer/competitive-library/blob/master/crates/competitive/src/tools/mlambda.rs>\
-    \ Under [CC0-1.0 License](https://creativecommons.org/publicdomain/zero/1.0/)\n\
+  code: "//! From <https://github.com/to-omer/competitive-library/blob/master/crates/competitive/src/tools/mlambda.rs>\n\
     \n/// Macro that define closure like macro. Unlike closure, this macro localizes\
     \ variable capture.\n///\n/// # Example\n/// ```\n/// # use localize_closure::mlambda;\n\
     /// let graph: Vec<Vec<usize>> = vec![vec![1, 2], vec![2], vec![]];\n/// let mut\
@@ -45,7 +43,7 @@ data:
   isVerificationFile: false
   path: crates/tools/localize_closure/src/lib.rs
   requiredBy: []
-  timestamp: '2024-07-14 21:41:05+09:00'
+  timestamp: '2024-10-20 16:41:21+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/tools/localize_closure/src/lib.rs

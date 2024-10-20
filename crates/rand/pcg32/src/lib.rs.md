@@ -8,12 +8,14 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links:
+    - https://creativecommons.org/licenses/by-sa/4.0/deed.en
     - https://ja.wikipedia.org/wiki/Permuted_congruential_generator
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "//! From <https://ja.wikipedia.org/wiki/Permuted_congruential_generator>\n\
+  code: "//! From <https://ja.wikipedia.org/wiki/Permuted_congruential_generator>\
+    \  \n//! Under CC BY-SA 4.0 <https://creativecommons.org/licenses/by-sa/4.0/deed.en>\n\
     \n#[derive(Debug, Clone, Copy)]\npub struct Pcg32 {\n    state: u64,\n}\n\nimpl\
     \ Pcg32 {\n    const MULTIPLIER: u64 = 6364136223846793005;\n    const INCREMENT:\
     \ u64 = 1442695040888963407;\n\n    pub fn init(seed: u64) -> Self {\n       \
@@ -30,7 +32,7 @@ data:
   isVerificationFile: false
   path: crates/rand/pcg32/src/lib.rs
   requiredBy: []
-  timestamp: '2024-09-22 14:50:24+09:00'
+  timestamp: '2024-10-20 16:41:21+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/rand/pcg32/src/lib.rs

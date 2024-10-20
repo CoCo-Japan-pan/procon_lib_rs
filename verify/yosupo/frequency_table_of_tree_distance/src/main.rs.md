@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/fps/ntt/src/lib.rs
     title: crates/fps/ntt/src/lib.rs
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/modint/static_modint/src/lib.rs
     title: crates/modint/static_modint/src/lib.rs
   - icon: ':heavy_check_mark:'
@@ -72,7 +72,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/frequency_table_of_tree_distance/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-18 21:12:10+09:00'
+  timestamp: '2024-10-20 16:41:21+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/frequency_table_of_tree_distance/src/main.rs
