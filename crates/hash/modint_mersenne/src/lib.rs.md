@@ -16,10 +16,12 @@ data:
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "use std::fmt::Display;\nuse std::ops::{Add, AddAssign, Div, DivAssign, Mul,\
-    \ MulAssign, Neg, Sub, SubAssign};\n\nconst MOD: u64 = (1 << 61) - 1;\n\n#[derive(Debug,\
-    \ Clone, Copy, PartialEq, Eq, Hash)]\npub struct ModIntMersenne {\n    value:\
-    \ u64,\n}\n\nimpl Display for ModIntMersenne {\n    fn fmt(&self, f: &mut std::fmt::Formatter<'_>)\
+  code: "use std::fmt::{Debug, Display};\nuse std::ops::{Add, AddAssign, Div, DivAssign,\
+    \ Mul, MulAssign, Neg, Sub, SubAssign};\n\nconst MOD: u64 = (1 << 61) - 1;\n\n\
+    #[derive(Clone, Copy, PartialEq, Eq, Hash)]\npub struct ModIntMersenne {\n   \
+    \ value: u64,\n}\n\nimpl Debug for ModIntMersenne {\n    fn fmt(&self, f: &mut\
+    \ std::fmt::Formatter<'_>) -> std::fmt::Result {\n        write!(f, \"{}\", self.value)\n\
+    \    }\n}\n\nimpl Display for ModIntMersenne {\n    fn fmt(&self, f: &mut std::fmt::Formatter<'_>)\
     \ -> std::fmt::Result {\n        write!(f, \"{}\", self.value)\n    }\n}\n\nimpl\
     \ ModIntMersenne {\n    pub fn new<T: RemEuclidU64>(x: T) -> Self {\n        x.rem_euclid_u64()\n\
     \    }\n    pub fn value(&self) -> u64 {\n        self.value\n    }\n    pub fn\
@@ -101,7 +103,7 @@ data:
   path: crates/hash/modint_mersenne/src/lib.rs
   requiredBy:
   - crates/string/rolling_hash/src/lib.rs
-  timestamp: '2024-10-20 21:32:40+09:00'
+  timestamp: '2024-10-20 21:51:11+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/hash/modint_mersenne/src/lib.rs
