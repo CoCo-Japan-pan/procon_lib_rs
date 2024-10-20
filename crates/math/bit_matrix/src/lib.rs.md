@@ -187,7 +187,7 @@ data:
   path: crates/math/bit_matrix/src/lib.rs
   requiredBy:
   - verify/AtCoder/typical_057/src/main.rs
-  timestamp: '2024-09-29 18:24:54+09:00'
+  timestamp: '2024-10-20 18:08:55+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_803/src/main.rs
