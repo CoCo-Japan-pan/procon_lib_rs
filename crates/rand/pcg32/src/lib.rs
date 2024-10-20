@@ -1,4 +1,5 @@
-//! From <https://ja.wikipedia.org/wiki/Permuted_congruential_generator>
+//! From <https://ja.wikipedia.org/wiki/Permuted_congruential_generator>  
+//! Under CC BY-SA 4.0 <https://creativecommons.org/licenses/by-sa/4.0/deed.en>
 
 #[derive(Debug, Clone, Copy)]
 pub struct Pcg32 {

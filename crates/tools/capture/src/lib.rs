@@ -1,4 +1,4 @@
-//! From <https://github.com/to-omer/competitive-library/blob/master/crates/competitive/src/tools/capture.rs> Under [CC0-1.0 License](https://creativecommons.org/publicdomain/zero/1.0/)
+//! From <https://github.com/to-omer/competitive-library/blob/master/crates/competitive/src/tools/capture.rs>
 
 /// Macro that returns a recursive function that (semi-)automatically captures.
 ///
@@ -220,7 +220,7 @@ macro_rules! memorize {
         $crate::memorize!(
             @inner [
                 __memorize_map,
-                ::rustc_hash::FxHashMap<($($argsty,)*), $ret>,
+                ::std::collections::HashMap<($($argsty,)*), $ret>,
                 ::std::default::Default::default()
             ]
             fn $name ($($args: $argsty),*) -> $ret $body

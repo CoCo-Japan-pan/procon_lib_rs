@@ -1,4 +1,4 @@
-//! From <https://github.com/to-omer/competitive-library/blob/master/crates/competitive/src/tools/mlambda.rs> Under [CC0-1.0 License](https://creativecommons.org/publicdomain/zero/1.0/)
+//! From <https://github.com/to-omer/competitive-library/blob/master/crates/competitive/src/tools/mlambda.rs>
 
 /// Macro that define closure like macro. Unlike closure, this macro localizes variable capture.
 ///
