@@ -1,14 +1,16 @@
 //! 内部でu64の配列を持ってビット演算をまとめて行い、64倍高速化を図る  
 //! `Vec<bool>`を用いたいDPなどで、ビット演算を使いたい場合等を想定  
-//! シフト演算やテストのコードについては
-//! [bitset-fixed](https://github.com/hatoo/bitset-fixed) Under [MIT License](https://opensource.org/license/mit)
-//! を使用させていただいています
+//! シフト演算のコードについては
+//! [bitset-fixed](https://crates.io/crates/bitset-fixed) Under [MIT License](https://choosealicense.com/licenses/mit/)
+//! を基にしています
 
 use std::ops::{
     BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Index, Not, Shl, ShlAssign,
     Shr, ShrAssign,
 };
 
+/// bitとしてはLSB -> MSBの順にu64の配列として保持する  
+/// 他のBitSetとの演算を行う場合はサイズが同じでないとパニックすることにしている(bitandの仕様が非自明かもしれないので)
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct BitSet {
     buf: Vec<u64>,
@@ -134,7 +136,8 @@ impl BitSet {
         self.count_ones() > 0
     }
 
-    /// 範囲外だが余分に持っているbitを0にする
+    /// 範囲外だが余分に持っているbitを0にする  
+    /// buffer_mut等で直接いじった場合に辻褄合わせ用に使う 普段は使わなくてよい
     #[inline]
     pub fn chomp(&mut self) {
         let r = self.size & 63;
@@ -160,17 +163,24 @@ impl BitSet {
         }
 
         if r == 0 {
+            // ちょうど-qずれ
             for i in (q..len).rev() {
-                *unsafe { self.buf.get_unchecked_mut(i) } |=
-                    *unsafe { self.buf.get_unchecked(i - q) };
+                unsafe {
+                    *self.buf.get_unchecked_mut(i) |= *self.buf.get_unchecked(i - q);
+                }
             }
         } else {
             for i in (q + 1..len).rev() {
-                *unsafe { self.buf.get_unchecked_mut(i) } |=
-                    (unsafe { self.buf.get_unchecked(i - q) } << r)
-                        | (unsafe { self.buf.get_unchecked(i - q - 1) } >> (64 - r));
+                // -qずれの下位64-rbit と -(q+1)ずれの上位rbit の連結
+                unsafe {
+                    *self.buf.get_unchecked_mut(i) |= (*self.buf.get_unchecked(i - q) << r)
+                        | (*self.buf.get_unchecked(i - q - 1) >> (64 - r));
+                }
             }
-            *unsafe { self.buf.get_unchecked_mut(q) } |= unsafe { self.buf.get_unchecked(0) } << r;
+            // 余りの下位64-rbit
+            unsafe {
+                *self.buf.get_unchecked_mut(q) |= *self.buf.get_unchecked(0) << r;
+            }
         }
 
         self.chomp();
@@ -191,17 +201,23 @@ impl BitSet {
 
         if r == 0 {
             for i in 0..len - q {
-                *unsafe { self.buf.get_unchecked_mut(i) } |=
-                    *unsafe { self.buf.get_unchecked(i + q) };
+                // ちょうど+qずれ
+                unsafe {
+                    *self.buf.get_unchecked_mut(i) |= *self.buf.get_unchecked(i + q);
+                }
             }
         } else {
             for i in 0..len - q - 1 {
-                *unsafe { self.buf.get_unchecked_mut(i) } |=
-                    (unsafe { self.buf.get_unchecked(i + q) } >> r)
-                        | (unsafe { self.buf.get_unchecked(i + q + 1) } << (64 - r));
+                unsafe {
+                    // +qずれの上位64-rbit と +(q+1)ずれの下位rbit の連結
+                    *self.buf.get_unchecked_mut(i) |= (*self.buf.get_unchecked(i + q) >> r)
+                        | (*self.buf.get_unchecked(i + q + 1) << (64 - r));
+                }
             }
-            *unsafe { self.buf.get_unchecked_mut(len - q - 1) } |=
-                unsafe { self.buf.get_unchecked(len - 1) } >> r;
+            // 余りの上位64-rbit
+            unsafe {
+                *self.buf.get_unchecked_mut(len - q - 1) |= *self.buf.get_unchecked(len - 1) >> r;
+            }
         }
 
         self.chomp();
@@ -226,6 +242,7 @@ impl Index<usize> for BitSet {
 impl<'a> BitXorAssign<&'a BitSet> for BitSet {
     #[inline]
     fn bitxor_assign(&mut self, rhs: &'a BitSet) {
+        assert_eq!(self.size, rhs.size);
         for (a, b) in self.buf.iter_mut().zip(&rhs.buf) {
             *a ^= *b;
         }
@@ -236,6 +253,7 @@ impl<'a> BitXorAssign<&'a BitSet> for BitSet {
 impl<'a> BitAndAssign<&'a BitSet> for BitSet {
     #[inline]
     fn bitand_assign(&mut self, rhs: &'a BitSet) {
+        assert_eq!(self.size, rhs.size);
         for (a, b) in self.buf.iter_mut().zip(&rhs.buf) {
             *a &= *b;
         }
@@ -245,6 +263,7 @@ impl<'a> BitAndAssign<&'a BitSet> for BitSet {
 impl<'a> BitOrAssign<&'a BitSet> for BitSet {
     #[inline]
     fn bitor_assign(&mut self, rhs: &'a BitSet) {
+        assert_eq!(self.size, rhs.size);
         for (a, b) in self.buf.iter_mut().zip(&rhs.buf) {
             *a |= *b;
         }
@@ -302,8 +321,9 @@ impl ShlAssign<usize> for BitSet {
     fn shl_assign(&mut self, rhs: usize) {
         let q = rhs >> 6;
         let r = rhs & 63;
+        let len = self.buf.len();
 
-        if q >= self.buf.len() {
+        if q >= len {
             for x in &mut self.buf {
                 *x = 0;
             }
@@ -311,17 +331,21 @@ impl ShlAssign<usize> for BitSet {
         }
 
         if r == 0 {
-            for i in (q..self.buf.len()).rev() {
-                *unsafe { self.buf.get_unchecked_mut(i) } =
-                    *unsafe { self.buf.get_unchecked(i - q) };
+            for i in (q..len).rev() {
+                unsafe {
+                    *self.buf.get_unchecked_mut(i) = *self.buf.get_unchecked(i - q);
+                }
             }
         } else {
-            for i in (q + 1..self.buf.len()).rev() {
-                *unsafe { self.buf.get_unchecked_mut(i) } =
-                    (unsafe { self.buf.get_unchecked(i - q) } << r)
-                        | (unsafe { self.buf.get_unchecked(i - q - 1) } >> (64 - r));
+            for i in (q + 1..len).rev() {
+                unsafe {
+                    *self.buf.get_unchecked_mut(i) = (*self.buf.get_unchecked(i - q) << r)
+                        | (*self.buf.get_unchecked(i - q - 1) >> (64 - r));
+                }
             }
-            *unsafe { self.buf.get_unchecked_mut(q) } = unsafe { self.buf.get_unchecked(0) } << r;
+            unsafe {
+                *self.buf.get_unchecked_mut(q) = *self.buf.get_unchecked(0) << r;
+            }
         }
 
         for x in &mut self.buf[..q] {
@@ -337,8 +361,9 @@ impl ShrAssign<usize> for BitSet {
     fn shr_assign(&mut self, rhs: usize) {
         let q = rhs >> 6;
         let r = rhs & 63;
+        let len = self.buf.len();
 
-        if q >= self.buf.len() {
+        if q >= len {
             for x in &mut self.buf {
                 *x = 0;
             }
@@ -346,22 +371,23 @@ impl ShrAssign<usize> for BitSet {
         }
 
         if r == 0 {
-            for i in 0..self.buf.len() - q {
-                *unsafe { self.buf.get_unchecked_mut(i) } =
-                    *unsafe { self.buf.get_unchecked(i + q) };
+            for i in 0..len - q {
+                unsafe {
+                    *self.buf.get_unchecked_mut(i) = *self.buf.get_unchecked(i + q);
+                }
             }
         } else {
-            for i in 0..self.buf.len() - q - 1 {
-                *unsafe { self.buf.get_unchecked_mut(i) } =
-                    (unsafe { self.buf.get_unchecked(i + q) } >> r)
-                        | (unsafe { self.buf.get_unchecked(i + q + 1) } << (64 - r));
+            for i in 0..len - q - 1 {
+                unsafe {
+                    *self.buf.get_unchecked_mut(i) = (*self.buf.get_unchecked(i + q) >> r)
+                        | (*self.buf.get_unchecked(i + q + 1) << (64 - r));
+                }
             }
-            let len = self.buf.len();
-            *unsafe { self.buf.get_unchecked_mut(len - q - 1) } =
-                unsafe { self.buf.get_unchecked(len - 1) } >> r;
+            unsafe {
+                *self.buf.get_unchecked_mut(len - q - 1) = *self.buf.get_unchecked(len - 1) >> r;
+            }
         }
 
-        let len = self.buf.len();
         for x in &mut self.buf[len - q..] {
             *x = 0;
         }
@@ -396,206 +422,231 @@ impl_shift_op!(Shr, shr_assign, shr);
 #[cfg(test)]
 mod test {
     use super::*;
+    use rand::prelude::*;
 
     #[test]
     fn test_shl_or() {
         let do_test = |size, shift| {
-            use rand::prelude::*;
             let mut set = BitSet::new(size);
             let mut v = vec![false; size];
             let mut rng = thread_rng();
-
             for i in 0..size {
-                let b = rng.next_u32() % 2 == 0;
-                set.set(i, b);
-                v[i] = b;
+                if rng.gen() {
+                    set.set(i, true);
+                    v[i] = true;
+                }
             }
-            for i in (shift..v.len()).rev() {
-                v[i] = v[i - shift];
-            }
-            for i in 0..std::cmp::min(size, shift) {
-                v[i] = false;
+            // shl_or
+            let mut shifted = vec![false; size];
+            for i in 0..size {
+                if i >= shift {
+                    shifted[i] = v[i - shift];
+                }
             }
             for i in 0..size {
-                v[i] |= set[i];
+                shifted[i] |= v[i];
             }
-
             set.shl_or(shift);
             for i in 0..size {
-                assert_eq!(set[i], v[i]);
+                assert_eq!(set[i], shifted[i]);
             }
         };
 
-        do_test(6400, 640);
-        do_test(6400, 114);
-        do_test(6400, 514);
-        do_test(6400, 6400);
-        do_test(6400, 16400);
+        let mut rng = thread_rng();
+        for _ in 0..100 {
+            let size = rng.gen_range(0..=10000);
+            let shift = rng.gen_range(0..=10000);
+            do_test(size, shift);
+        }
     }
 
     #[test]
     fn test_shr_or() {
+        use rand::prelude::*;
         let do_test = |size, shift| {
-            use rand::prelude::*;
             let mut set = BitSet::new(size);
             let mut v = vec![false; size];
             let mut rng = thread_rng();
-
             for i in 0..size {
-                let b = rng.next_u32() % 2 == 0;
-                set.set(i, b);
-                v[i] = b;
+                if rng.gen() {
+                    set.set(i, true);
+                    v[i] = true;
+                }
             }
-
-            let s = if size >= shift { size - shift } else { 0 };
-
-            for i in 0..s {
-                v[i] |= v[i + shift];
-            }
-
-            for i in s..size {
-                v[i] = false;
-            }
-
+            // shr_or
+            let mut shifted = vec![false; size];
             for i in 0..size {
-                v[i] |= set[i];
+                if i + shift < size {
+                    shifted[i] = v[i + shift];
+                }
             }
-
+            for i in 0..size {
+                shifted[i] |= v[i];
+            }
             set.shr_or(shift);
             for i in 0..size {
-                assert_eq!(set[i], v[i]);
+                assert_eq!(set[i], shifted[i]);
             }
         };
-
-        do_test(6400, 640);
-        do_test(6400, 114);
-        do_test(6400, 514);
-        do_test(63, 65);
-        do_test(6400, 6400);
-        do_test(6400, 16400);
+        let mut rng = thread_rng();
+        for _ in 0..100 {
+            let size = rng.gen_range(0..=10000);
+            let shift = rng.gen_range(0..=10000);
+            do_test(size, shift);
+        }
     }
 
     #[test]
     fn test_bitset_set_read() {
         use rand::prelude::*;
-        let size = 6400;
-        let mut set = BitSet::new(size);
-        let mut v = vec![false; size];
+        let do_test = |size| {
+            let mut set = BitSet::new(size);
+            let mut v = vec![false; size];
+            let mut rng = thread_rng();
+            for i in 0..size {
+                let b = rng.gen();
+                set.set(i, b);
+                v[i] = b;
+            }
+            for i in 0..size {
+                assert_eq!(set.get(i), v[i]);
+            }
+        };
         let mut rng = thread_rng();
-
-        for i in 0..size {
-            let b = rng.next_u32() % 2 == 0;
-            set.set(i, b);
-            v[i] = b;
-        }
-
-        for i in 0..size {
-            assert_eq!(set[i], v[i]);
+        for _ in 0..100 {
+            let size = rng.gen_range(0..=10000);
+            do_test(size);
         }
     }
 
     #[test]
     fn test_bitset_shl() {
+        use rand::prelude::*;
         let do_test = |size, shift| {
-            use rand::prelude::*;
             let mut set = BitSet::new(size);
             let mut v = vec![false; size];
             let mut rng = thread_rng();
-
             for i in 0..size {
-                let b = rng.next_u32() % 2 == 0;
+                let b = rng.gen();
                 set.set(i, b);
                 v[i] = b;
             }
-            for i in (shift..v.len()).rev() {
-                v[i] = v[i - shift];
+            // shl
+            let mut shifted = vec![false; size];
+            for i in 0..size {
+                if i >= shift {
+                    shifted[i] = v[i - shift];
+                }
             }
-            for i in 0..std::cmp::min(size, shift) {
-                v[i] = false;
-            }
-
             set <<= shift;
             for i in 0..size {
-                assert_eq!(set[i], v[i]);
+                assert_eq!(set[i], shifted[i]);
             }
         };
 
-        do_test(6400, 640);
-        do_test(6400, 114);
-        do_test(6400, 514);
-        do_test(6400, 6400);
-        do_test(6400, 16400);
+        let mut rng = thread_rng();
+        for _ in 0..100 {
+            let size = rng.gen_range(0..=10000);
+            let shift = rng.gen_range(0..=10000);
+            do_test(size, shift);
+        }
 
-        let mut t = BitSet::new(310);
-
-        for i in 0..31000 {
-            t <<= i;
+        let mut many_shift = BitSet::new(1000);
+        for _ in 0..1000 {
+            let shift = rng.gen_range(0..=1000);
+            many_shift <<= shift;
         }
     }
 
     #[test]
     fn test_bitset_shr() {
+        use rand::prelude::*;
         let do_test = |size, shift| {
-            use rand::prelude::*;
             let mut set = BitSet::new(size);
             let mut v = vec![false; size];
             let mut rng = thread_rng();
-
             for i in 0..size {
-                let b = rng.next_u32() % 2 == 0;
+                let b = rng.gen();
                 set.set(i, b);
                 v[i] = b;
             }
-
-            let s = if size >= shift { size - shift } else { 0 };
-
-            for i in 0..s {
-                v[i] = v[i + shift];
+            // shr
+            let mut shifted = vec![false; size];
+            for i in 0..size {
+                if i + shift < size {
+                    shifted[i] = v[i + shift];
+                }
             }
-
-            for i in s..size {
-                v[i] = false;
-            }
-
             set >>= shift;
             for i in 0..size {
-                assert_eq!(set[i], v[i]);
+                assert_eq!(set[i], shifted[i]);
             }
         };
 
-        do_test(6400, 640);
-        do_test(6400, 114);
-        do_test(6400, 514);
-        do_test(63, 65);
-        do_test(6400, 6400);
-        do_test(6400, 16400);
+        let mut rng = thread_rng();
+        for _ in 0..100 {
+            let size = rng.gen_range(0..=10000);
+            let shift = rng.gen_range(0..=10000);
+            do_test(size, shift);
+        }
 
-        let mut t = BitSet::new(310);
-
-        for i in 0..31000 {
-            t >>= i;
+        let mut many_shift = BitSet::new(1000);
+        for _ in 0..1000 {
+            let shift = rng.gen_range(0..=1000);
+            many_shift >>= shift;
         }
     }
 
     #[test]
-    fn test_bitset_chomp() {
-        let mut set1 = BitSet::new(4);
-        let mut set2 = BitSet::new(8);
+    fn test_bit_or_and_xor() {
+        use rand::prelude::*;
+        let do_test = |size| {
+            let mut set1 = BitSet::new(size);
+            let mut set2 = BitSet::new(size);
+            let mut v1 = vec![false; size];
+            let mut v2 = vec![false; size];
+            let mut rng = thread_rng();
+            for i in 0..size {
+                let b = rng.gen();
+                set1.set(i, b);
+                v1[i] = b;
+                set2.set(i, b);
+                v2[i] = b;
+            }
+            // or
+            let mut or = vec![false; size];
+            for i in 0..size {
+                or[i] = v1[i] | v2[i];
+            }
+            let res = &set1 | &set2;
+            for i in 0..size {
+                assert_eq!(res[i], or[i]);
+            }
 
-        for i in 0..4 {
-            set1.set(i, true);
-            set2.set(i, true);
+            // and
+            let mut and = vec![false; size];
+            for i in 0..size {
+                and[i] = v1[i] & v2[i];
+            }
+            let res = &set1 & &set2;
+            for i in 0..size {
+                assert_eq!(res[i], and[i]);
+            }
+
+            // xor
+            let mut xor = vec![false; size];
+            for i in 0..size {
+                xor[i] = v1[i] ^ v2[i];
+            }
+            let res = &set1 ^ &set2;
+            for i in 0..size {
+                assert_eq!(res[i], xor[i]);
+            }
+        };
+        let mut rng = thread_rng();
+        for _ in 0..100 {
+            let size = rng.gen_range(0..=10000);
+            do_test(size);
         }
-
-        for i in 4..8 {
-            set2.set(i, true);
-        }
-
-        set1 <<= 2;
-        assert_eq!(set1.count_ones(), 2);
-        assert_eq!(set1.count_zeros(), 2);
-        assert_eq!((&set1 | &set2).count_ones(), 4);
-        assert_eq!((&set1 & &set2).count_ones(), 2);
-        assert_eq!((&set1 ^ &set2).count_ones(), 2);
     }
 }
