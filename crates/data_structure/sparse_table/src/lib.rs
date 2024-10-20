@@ -32,15 +32,16 @@ impl<M: IdempotentMonoid> SparseTable<M> {
 
     /// `O(1)`
     pub fn prod<R: RangeBounds<usize>>(&self, range: R) -> M::Target {
+        use std::ops::Bound::*;
         let l = match range.start_bound() {
-            std::ops::Bound::Included(&l) => l,
-            std::ops::Bound::Excluded(&l) => l + 1,
-            std::ops::Bound::Unbounded => 0,
+            Included(&l) => l,
+            Excluded(&l) => l + 1,
+            Unbounded => 0,
         };
         let r = match range.end_bound() {
-            std::ops::Bound::Included(&r) => r + 1,
-            std::ops::Bound::Excluded(&r) => r,
-            std::ops::Bound::Unbounded => self.range_size,
+            Included(&r) => r + 1,
+            Excluded(&r) => r,
+            Unbounded => self.range_size,
         };
         assert!(l <= r && r <= self.range_size);
         if l == r {

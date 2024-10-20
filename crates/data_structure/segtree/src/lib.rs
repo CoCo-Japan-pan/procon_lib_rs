@@ -1,5 +1,4 @@
 //! From <https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs>
-//! Under [CC0-1.0](https://creativecommons.org/public-domain/cc0/)
 
 use algebra::Monoid;
 use internal_bits::ceil_log2;
@@ -53,15 +52,16 @@ impl<M: Monoid> SegTree<M> {
     }
 
     pub fn prod<R: RangeBounds<usize>>(&self, range: R) -> M::Target {
+        use std::ops::Bound::*;
         let mut l = match range.start_bound() {
-            std::ops::Bound::Included(&l) => l,
-            std::ops::Bound::Excluded(&l) => l + 1,
-            std::ops::Bound::Unbounded => 0,
+            Included(&l) => l,
+            Excluded(&l) => l + 1,
+            Unbounded => 0,
         };
         let mut r = match range.end_bound() {
-            std::ops::Bound::Included(&r) => r + 1,
-            std::ops::Bound::Excluded(&r) => r,
-            std::ops::Bound::Unbounded => self.range_size,
+            Included(&r) => r + 1,
+            Excluded(&r) => r,
+            Unbounded => self.range_size,
         };
         assert!(l <= r && r <= self.range_size);
         if l == 0 && r == self.range_size {

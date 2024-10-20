@@ -43,15 +43,16 @@ impl<M: IdempotentMonoid + Commutative + Clone> SparseTableOnSegTree<M> {
         height_range: R1,
         width_range: R2,
     ) -> M::Target {
+        use std::ops::Bound::*;
         let mut height_left = match height_range.start_bound() {
-            std::ops::Bound::Included(&l) => l,
-            std::ops::Bound::Excluded(&l) => l + 1,
-            std::ops::Bound::Unbounded => 0,
+            Included(&l) => l,
+            Excluded(&l) => l + 1,
+            Unbounded => 0,
         };
         let mut height_right = match height_range.end_bound() {
-            std::ops::Bound::Included(&r) => r + 1,
-            std::ops::Bound::Excluded(&r) => r,
-            std::ops::Bound::Unbounded => self.range_height,
+            Included(&r) => r + 1,
+            Excluded(&r) => r,
+            Unbounded => self.range_height,
         };
         assert!(height_left <= height_right && height_right <= self.range_height);
         let mut ret = M::id_element();

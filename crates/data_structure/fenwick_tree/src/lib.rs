@@ -34,14 +34,15 @@ impl<T: Clone + AddAssign + Sub<Output = T>> FenwickTree<T> {
     }
 
     pub fn sum<R: RangeBounds<usize>>(&self, range: R) -> T {
+        use std::ops::Bound::*;
         let start = match range.start_bound() {
-            std::ops::Bound::Included(&s) => s,
-            std::ops::Bound::Excluded(&s) => s + 1,
-            std::ops::Bound::Unbounded => 0,
+            Included(&s) => s,
+            Excluded(&s) => s + 1,
+            Unbounded => 0,
         };
         let end = match range.end_bound() {
-            std::ops::Bound::Included(&e) => e + 1,
-            std::ops::Bound::Excluded(&e) => e,
+            Included(&e) => e + 1,
+            Excluded(&e) => e,
             std::ops::Bound::Unbounded => self.size,
         };
         assert!(start <= end && end <= self.size);

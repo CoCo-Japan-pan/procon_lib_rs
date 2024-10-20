@@ -94,26 +94,27 @@ impl<M: Monoid + Commutative> SegTree2DDense<M> {
         height_range: R1,
         width_range: R2,
     ) -> M::Target {
+        use std::ops::Bound::*;
         let mut h_left = match height_range.start_bound() {
-            std::ops::Bound::Included(&l) => l,
-            std::ops::Bound::Excluded(&l) => l + 1,
-            std::ops::Bound::Unbounded => 0,
+            Included(&l) => l,
+            Excluded(&l) => l + 1,
+            Unbounded => 0,
         };
         let mut h_right = match height_range.end_bound() {
-            std::ops::Bound::Included(&r) => r + 1,
-            std::ops::Bound::Excluded(&r) => r,
-            std::ops::Bound::Unbounded => self.height,
+            Included(&r) => r + 1,
+            Excluded(&r) => r,
+            Unbounded => self.height,
         };
         assert!(h_left <= h_right && h_right <= self.height);
         let w_left = match width_range.start_bound() {
-            std::ops::Bound::Included(&l) => l,
-            std::ops::Bound::Excluded(&l) => l + 1,
-            std::ops::Bound::Unbounded => 0,
+            Included(&l) => l,
+            Excluded(&l) => l + 1,
+            Unbounded => 0,
         };
         let w_right = match width_range.end_bound() {
-            std::ops::Bound::Included(&r) => r + 1,
-            std::ops::Bound::Excluded(&r) => r,
-            std::ops::Bound::Unbounded => self.width,
+            Included(&r) => r + 1,
+            Excluded(&r) => r,
+            Unbounded => self.width,
         };
         assert!(w_left <= w_right && w_right <= self.width);
         if h_left == 0 && h_right == self.height && w_left == 0 && w_right == self.width {

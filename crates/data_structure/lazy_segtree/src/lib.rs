@@ -1,10 +1,9 @@
-//! From <https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/lazysegtree.rs>
-//! Under [CC0-1.0](https://creativecommons.org/public-domain/cc0/)  
+//! <https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/lazysegtree.rs> を基にしています  
 //! compositionやmappingに可変参照を用いているところと、作用が可変なら伝播を一部サボる部分が異なる
 
 use algebra::{ActionMonoid, Commutative, Monoid, NonCommutative};
 use internal_bits::ceil_log2;
-use std::ops::RangeBounds;
+use std::ops::{Bound::*, RangeBounds};
 
 #[derive(Debug)]
 pub struct LazySegTree<F: ActionMonoid> {
@@ -65,14 +64,14 @@ impl<F: ActionMonoid> LazySegTree<F> {
 
     pub fn prod<R: RangeBounds<usize>>(&mut self, range: R) -> <F::Monoid as Monoid>::Target {
         let mut l = match range.start_bound() {
-            std::ops::Bound::Included(&l) => l,
-            std::ops::Bound::Excluded(&l) => l + 1,
-            std::ops::Bound::Unbounded => 0,
+            Included(&l) => l,
+            Excluded(&l) => l + 1,
+            Unbounded => 0,
         };
         let mut r = match range.end_bound() {
-            std::ops::Bound::Included(&r) => r + 1,
-            std::ops::Bound::Excluded(&r) => r,
-            std::ops::Bound::Unbounded => self.range_size,
+            Included(&r) => r + 1,
+            Excluded(&r) => r,
+            Unbounded => self.range_size,
         };
         assert!(l <= r && r <= self.range_size);
         if l == r {
@@ -216,14 +215,14 @@ where
     /// 可換な作用の区間適用
     pub fn apply_range_commutative<R: RangeBounds<usize>>(&mut self, range: R, f: &F::Action) {
         let mut l = match range.start_bound() {
-            std::ops::Bound::Included(&l) => l,
-            std::ops::Bound::Excluded(&l) => l + 1,
-            std::ops::Bound::Unbounded => 0,
+            Included(&l) => l,
+            Excluded(&l) => l + 1,
+            Unbounded => 0,
         };
         let mut r = match range.end_bound() {
-            std::ops::Bound::Included(&r) => r + 1,
-            std::ops::Bound::Excluded(&r) => r,
-            std::ops::Bound::Unbounded => self.range_size,
+            Included(&r) => r + 1,
+            Excluded(&r) => r,
+            Unbounded => self.range_size,
         };
         assert!(l <= r && r <= self.range_size);
         if l == r {
@@ -278,14 +277,14 @@ where
     /// 非可換な作用の区間適用
     pub fn apply_range_non_commutative<R: RangeBounds<usize>>(&mut self, range: R, f: &F::Action) {
         let mut l = match range.start_bound() {
-            std::ops::Bound::Included(&l) => l,
-            std::ops::Bound::Excluded(&l) => l + 1,
-            std::ops::Bound::Unbounded => 0,
+            Included(&l) => l,
+            Excluded(&l) => l + 1,
+            Unbounded => 0,
         };
         let mut r = match range.end_bound() {
-            std::ops::Bound::Included(&r) => r + 1,
-            std::ops::Bound::Excluded(&r) => r,
-            std::ops::Bound::Unbounded => self.range_size,
+            Included(&r) => r + 1,
+            Excluded(&r) => r,
+            Unbounded => self.range_size,
         };
         assert!(l <= r && r <= self.range_size);
         if l == r {

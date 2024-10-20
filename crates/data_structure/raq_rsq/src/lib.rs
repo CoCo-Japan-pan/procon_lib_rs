@@ -3,7 +3,7 @@
 
 use fenwick_tree::FenwickTree;
 use std::fmt::Debug;
-use std::ops::{Add, AddAssign, Mul, Neg, RangeBounds, Sub};
+use std::ops::{Add, AddAssign, Bound::*, Mul, Neg, RangeBounds, Sub};
 
 pub struct RAQRSQ<
     T: Clone
@@ -50,14 +50,14 @@ where
     /// 区間加算
     pub fn add<R: RangeBounds<usize>>(&mut self, range: R, val: T) {
         let left = match range.start_bound() {
-            std::ops::Bound::Included(&s) => s,
-            std::ops::Bound::Excluded(&s) => s + 1,
-            std::ops::Bound::Unbounded => 0,
+            Included(&s) => s,
+            Excluded(&s) => s + 1,
+            Unbounded => 0,
         };
         let right = match range.end_bound() {
-            std::ops::Bound::Included(&e) => e + 1,
-            std::ops::Bound::Excluded(&e) => e,
-            std::ops::Bound::Unbounded => self.range_size,
+            Included(&e) => e + 1,
+            Excluded(&e) => e,
+            Unbounded => self.range_size,
         };
         self.ft1.add(left, -val.clone() * left.try_into().unwrap());
         self.ft2.add(left, val.clone());
@@ -67,14 +67,14 @@ where
 
     pub fn sum<R: RangeBounds<usize>>(&self, range: R) -> T {
         let start = match range.start_bound() {
-            std::ops::Bound::Included(&s) => s,
-            std::ops::Bound::Excluded(&s) => s + 1,
-            std::ops::Bound::Unbounded => 0,
+            Included(&s) => s,
+            Excluded(&s) => s + 1,
+            Unbounded => 0,
         };
         let end = match range.end_bound() {
-            std::ops::Bound::Included(&e) => e + 1,
-            std::ops::Bound::Excluded(&e) => e,
-            std::ops::Bound::Unbounded => self.range_size,
+            Included(&e) => e + 1,
+            Excluded(&e) => e,
+            Unbounded => self.range_size,
         };
         assert!(start <= end && end <= self.range_size);
         self.sum_from_first(end) - self.sum_from_first(start)

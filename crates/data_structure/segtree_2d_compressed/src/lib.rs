@@ -6,7 +6,7 @@
 use algebra::{Commutative, Monoid};
 use internal_type_traits::Integral;
 use segtree::SegTree;
-use std::ops::{Range, RangeBounds};
+use std::ops::{Bound::*, Range, RangeBounds};
 
 /// Tは座標圧縮する型  
 #[derive(Debug)]
@@ -126,14 +126,14 @@ impl<M: Monoid + Commutative, T: Integral> SegTree2DCompressed<M, T> {
         width_range: R2,
     ) -> M::Target {
         let height_left = match height_range.start_bound() {
-            std::ops::Bound::Included(&l) => l,
-            std::ops::Bound::Excluded(&l) => l + T::one(),
-            std::ops::Bound::Unbounded => T::min_value(),
+            Included(&l) => l,
+            Excluded(&l) => l + T::one(),
+            Unbounded => T::min_value(),
         };
         let height_right = match height_range.end_bound() {
-            std::ops::Bound::Included(&r) => r + T::one(),
-            std::ops::Bound::Excluded(&r) => r,
-            std::ops::Bound::Unbounded => T::max_value(),
+            Included(&r) => r + T::one(),
+            Excluded(&r) => r,
+            Unbounded => T::max_value(),
         };
         assert!(height_left <= height_right);
         let mut height_left = self.height_compressed.partition_point(|&h| h < height_left);
@@ -162,14 +162,14 @@ impl<M: Monoid + Commutative, T: Integral> SegTree2DCompressed<M, T> {
 
     fn calc_row_range<R1: RangeBounds<T>>(&self, h: usize, width_range: &R1) -> Range<usize> {
         let w_left = match width_range.start_bound() {
-            std::ops::Bound::Included(&l) => l,
-            std::ops::Bound::Excluded(&l) => l + T::one(),
-            std::ops::Bound::Unbounded => T::min_value(),
+            Included(&l) => l,
+            Excluded(&l) => l + T::one(),
+            Unbounded => T::min_value(),
         };
         let w_right = match width_range.end_bound() {
-            std::ops::Bound::Included(&r) => r + T::one(),
-            std::ops::Bound::Excluded(&r) => r,
-            std::ops::Bound::Unbounded => T::max_value(),
+            Included(&r) => r + T::one(),
+            Excluded(&r) => r,
+            Unbounded => T::max_value(),
         };
         let w_left = self.width_compressed[h].partition_point(|&w| w < w_left);
         let w_right = self.width_compressed[h].partition_point(|&w| w < w_right);

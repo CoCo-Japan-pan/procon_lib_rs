@@ -3,7 +3,7 @@
 //! 作用が可換でないなら作用の伝播をしてから適用する
 
 use algebra::{Action, Commutative, NonCommutative};
-use std::ops::RangeBounds;
+use std::ops::{Bound::*, RangeBounds};
 
 /// 作用を区間適用, 1点取得ができるデータ構造
 #[derive(Debug)]
@@ -58,14 +58,14 @@ impl<T: Action + Commutative> DualSegTree<T> {
     /// 区間に可換な作用を適用する 可換なので作用の伝播をしなくてOK
     pub fn apply_commutative<R: RangeBounds<usize>>(&mut self, range: R, map: &T) {
         let mut l = match range.start_bound() {
-            std::ops::Bound::Included(&l) => l,
-            std::ops::Bound::Excluded(&l) => l + 1,
-            std::ops::Bound::Unbounded => 0,
+            Included(&l) => l,
+            Excluded(&l) => l + 1,
+            Unbounded => 0,
         };
         let mut r = match range.end_bound() {
-            std::ops::Bound::Included(&r) => r + 1,
-            std::ops::Bound::Excluded(&r) => r,
-            std::ops::Bound::Unbounded => self.range_size,
+            Included(&r) => r + 1,
+            Excluded(&r) => r,
+            Unbounded => self.range_size,
         };
         assert!(l <= r && r <= self.range_size);
         if l == r {
@@ -92,14 +92,14 @@ impl<T: Action + NonCommutative> DualSegTree<T> {
     /// 区間に非可換な作用を適用する 非可換なので作用の伝播を先に行う必要がある
     pub fn apply_non_commutative<R: RangeBounds<usize>>(&mut self, range: R, map: &T) {
         let mut l = match range.start_bound() {
-            std::ops::Bound::Included(&l) => l,
-            std::ops::Bound::Excluded(&l) => l + 1,
-            std::ops::Bound::Unbounded => 0,
+            Included(&l) => l,
+            Excluded(&l) => l + 1,
+            Unbounded => 0,
         };
         let mut r = match range.end_bound() {
-            std::ops::Bound::Included(&r) => r + 1,
-            std::ops::Bound::Excluded(&r) => r,
-            std::ops::Bound::Unbounded => self.range_size,
+            Included(&r) => r + 1,
+            Excluded(&r) => r,
+            Unbounded => self.range_size,
         };
         assert!(l <= r && r <= self.range_size);
         if l == r {
