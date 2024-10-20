@@ -3,7 +3,7 @@ data:
   libraryCategories:
   - name: crates/algebra/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/algebra/src/lib.rs
       title: crates/algebra/src/lib.rs
   - name: crates/bitset/src
@@ -28,7 +28,7 @@ data:
       title: crates/data_structure/dual_segtree/src/lib.rs
   - name: crates/data_structure/fenwick_tree/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/data_structure/fenwick_tree/src/lib.rs
       title: crates/data_structure/fenwick_tree/src/lib.rs
   - name: crates/data_structure/lazy_segtree/src
@@ -48,12 +48,12 @@ data:
       title: crates/data_structure/raq_rsq/src/lib.rs
   - name: crates/data_structure/segtree/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/data_structure/segtree/src/lib.rs
       title: crates/data_structure/segtree/src/lib.rs
   - name: crates/data_structure/segtree_2d_compressed/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/data_structure/segtree_2d_compressed/src/lib.rs
       title: crates/data_structure/segtree_2d_compressed/src/lib.rs
   - name: crates/data_structure/segtree_2d_dense/src
@@ -178,7 +178,7 @@ data:
       title: crates/modint/dynamic_modint/src/lib.rs
   - name: crates/modint/static_modint/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/modint/static_modint/src/lib.rs
       title: crates/modint/static_modint/src/lib.rs
   - name: crates/rand/pcg32/src
@@ -223,7 +223,7 @@ data:
       title: crates/tree/euler_tour/src/lib.rs
   - name: crates/tree/hld/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/tree/hld/src/lib.rs
       title: crates/tree/hld/src/lib.rs
   - name: crates/tree/rerooting/src
@@ -509,12 +509,12 @@ data:
       title: verify/yosupo/vertex_add_path_sum/src/main.rs
   - name: verify/yosupo/vertex_add_subtree_sum/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yosupo/vertex_add_subtree_sum/src/main.rs
       title: verify/yosupo/vertex_add_subtree_sum/src/main.rs
   - name: verify/yosupo/vertex_set_path_composite/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yosupo/vertex_set_path_composite/src/main.rs
       title: verify/yosupo/vertex_set_path_composite/src/main.rs
   - name: verify/yosupo/zalgorithm_rolling_hash/src
@@ -529,7 +529,7 @@ data:
       title: verify/yukicoder/no_1092_modint_dynamic/src/main.rs
   - name: verify/yukicoder/no_1625/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yukicoder/no_1625/src/main.rs
       title: verify/yukicoder/no_1625/src/main.rs
   - name: verify/yukicoder/no_1625_wavelet/src
@@ -544,7 +544,7 @@ data:
       title: verify/yukicoder/no_649_avl/src/main.rs
   - name: verify/yukicoder/no_649_fenwick_tree/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yukicoder/no_649_fenwick_tree/src/main.rs
       title: verify/yukicoder/no_649_fenwick_tree/src/main.rs
   - name: verify/yukicoder/no_738/src

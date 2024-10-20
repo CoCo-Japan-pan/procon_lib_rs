@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/fenwick_tree/src/lib.rs
     title: crates/data_structure/fenwick_tree/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/tree/hld/src/lib.rs
     title: crates/tree/hld/src/lib.rs
   _extendedRequiredBy: []
@@ -48,7 +48,7 @@ data:
   isVerificationFile: true
   path: verify/AtCoder/abc294g/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-06 16:07:47+09:00'
+  timestamp: '2024-10-20 15:52:04+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AtCoder/abc294g/src/main.rs

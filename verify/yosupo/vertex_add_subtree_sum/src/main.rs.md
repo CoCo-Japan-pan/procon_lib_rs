@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/fenwick_tree/src/lib.rs
     title: crates/data_structure/fenwick_tree/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/tree/hld/src/lib.rs
     title: crates/tree/hld/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     PROBLEM: https://judge.yosupo.jp/problem/vertex_add_subtree_sum
     links:
@@ -39,8 +39,8 @@ data:
   isVerificationFile: true
   path: verify/yosupo/vertex_add_subtree_sum/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-06 16:07:47+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2024-10-20 15:52:04+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: verify/yosupo/vertex_add_subtree_sum/src/main.rs
 layout: document

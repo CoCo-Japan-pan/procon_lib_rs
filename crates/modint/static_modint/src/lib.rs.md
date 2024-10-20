@@ -45,15 +45,15 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
     title: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yosupo/vertex_set_path_composite/src/main.rs
     title: verify/yosupo/vertex_set_path_composite/src/main.rs
   - icon: ':heavy_check_mark:'
     path: verify/yukicoder/no_803/src/main.rs
     title: verify/yukicoder/no_803/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     links:
     - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/modint.rs
@@ -175,7 +175,7 @@ data:
   - verify/AtCoder/typical_057/src/main.rs
   - crates/fps/ntt/src/lib.rs
   timestamp: '2024-10-18 21:12:10+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - verify/yosupo/convolution_ntt/src/main.rs
   - verify/yosupo/point_set_range_composite/src/main.rs

@@ -1,14 +1,14 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   - icon: ':warning:'
     path: crates/internals/internal_bits/src/lib.rs
     title: crates/internals/internal_bits/src/lib.rs
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/segtree_2d_compressed/src/lib.rs
     title: crates/data_structure/segtree_2d_compressed/src/lib.rs
   - icon: ':heavy_check_mark:'
@@ -18,26 +18,24 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/point_set_range_composite/src/main.rs
     title: verify/yosupo/point_set_range_composite/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yosupo/vertex_set_path_composite/src/main.rs
     title: verify/yosupo/vertex_set_path_composite/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     links:
-    - https://creativecommons.org/public-domain/cc0/
     - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! From <https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs>\n\
-    //! Under [CC0-1.0](https://creativecommons.org/public-domain/cc0/)\n\nuse algebra::Monoid;\n\
-    use internal_bits::ceil_log2;\nuse std::ops::RangeBounds;\n\n#[derive(Debug, Clone,\
-    \ PartialEq, Eq)]\npub struct SegTree<M: Monoid> {\n    range_size: usize,\n \
-    \   leaf_size: usize,\n    log: usize,\n    data: Vec<M::Target>,\n}\n\nimpl<M:\
-    \ Monoid> From<&Vec<M::Target>> for SegTree<M> {\n    fn from(v: &Vec<M::Target>)\
+    \nuse algebra::Monoid;\nuse internal_bits::ceil_log2;\nuse std::ops::RangeBounds;\n\
+    \n#[derive(Debug, Clone, PartialEq, Eq)]\npub struct SegTree<M: Monoid> {\n  \
+    \  range_size: usize,\n    leaf_size: usize,\n    log: usize,\n    data: Vec<M::Target>,\n\
+    }\n\nimpl<M: Monoid> From<&Vec<M::Target>> for SegTree<M> {\n    fn from(v: &Vec<M::Target>)\
     \ -> Self {\n        let range_size = v.len();\n        let log = ceil_log2(range_size\
     \ as u32) as usize;\n        let leaf_size = 1 << log;\n        let mut data =\
     \ vec![M::id_element(); leaf_size * 2];\n        data[leaf_size..leaf_size + range_size].clone_from_slice(v);\n\
@@ -51,18 +49,18 @@ data:
     \ >> i);\n        }\n    }\n\n    pub fn get(&self, p: usize) -> M::Target {\n\
     \        assert!(p < self.range_size);\n        self.data[p + self.leaf_size].clone()\n\
     \    }\n\n    pub fn prod<R: RangeBounds<usize>>(&self, range: R) -> M::Target\
-    \ {\n        let mut l = match range.start_bound() {\n            std::ops::Bound::Included(&l)\
-    \ => l,\n            std::ops::Bound::Excluded(&l) => l + 1,\n            std::ops::Bound::Unbounded\
-    \ => 0,\n        };\n        let mut r = match range.end_bound() {\n         \
-    \   std::ops::Bound::Included(&r) => r + 1,\n            std::ops::Bound::Excluded(&r)\
-    \ => r,\n            std::ops::Bound::Unbounded => self.range_size,\n        };\n\
-    \        assert!(l <= r && r <= self.range_size);\n        if l == 0 && r == self.range_size\
-    \ {\n            return self.all_prod();\n        }\n\n        l += self.leaf_size;\n\
-    \        r += self.leaf_size;\n        let mut sml = M::id_element();\n      \
-    \  let mut smr = M::id_element();\n        while l < r {\n            if l & 1\
-    \ != 0 {\n                sml = M::binary_operation(&sml, &self.data[l]);\n  \
-    \              l += 1;\n            }\n            if r & 1 != 0 {\n         \
-    \       r -= 1;\n                smr = M::binary_operation(&self.data[r], &smr);\n\
+    \ {\n        use std::ops::Bound::*;\n        let mut l = match range.start_bound()\
+    \ {\n            Included(&l) => l,\n            Excluded(&l) => l + 1,\n    \
+    \        Unbounded => 0,\n        };\n        let mut r = match range.end_bound()\
+    \ {\n            Included(&r) => r + 1,\n            Excluded(&r) => r,\n    \
+    \        Unbounded => self.range_size,\n        };\n        assert!(l <= r &&\
+    \ r <= self.range_size);\n        if l == 0 && r == self.range_size {\n      \
+    \      return self.all_prod();\n        }\n\n        l += self.leaf_size;\n  \
+    \      r += self.leaf_size;\n        let mut sml = M::id_element();\n        let\
+    \ mut smr = M::id_element();\n        while l < r {\n            if l & 1 != 0\
+    \ {\n                sml = M::binary_operation(&sml, &self.data[l]);\n       \
+    \         l += 1;\n            }\n            if r & 1 != 0 {\n              \
+    \  r -= 1;\n                smr = M::binary_operation(&self.data[r], &smr);\n\
     \            }\n            l >>= 1;\n            r >>= 1;\n        }\n      \
     \  M::binary_operation(&sml, &smr)\n    }\n\n    pub fn all_prod(&self) -> M::Target\
     \ {\n        self.data[1].clone()\n    }\n\n    pub fn max_right<F>(&self, mut\
@@ -103,8 +101,8 @@ data:
   requiredBy:
   - crates/data_structure/segtree_2d_compressed/src/lib.rs
   - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
-  timestamp: '2024-09-30 16:25:48+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2024-10-20 15:52:04+09:00'
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - verify/yosupo/point_set_range_composite/src/main.rs
   - verify/yosupo/vertex_set_path_composite/src/main.rs

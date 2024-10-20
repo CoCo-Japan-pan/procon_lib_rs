@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/segtree_2d_compressed/src/lib.rs
     title: crates/data_structure/segtree_2d_compressed/src/lib.rs
   _extendedRequiredBy: []
@@ -63,7 +63,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/rectangle_add_point_get/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-14 11:18:10+09:00'
+  timestamp: '2024-10-20 15:52:04+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/rectangle_add_point_get/src/main.rs

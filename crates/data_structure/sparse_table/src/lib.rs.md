@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   _extendedRequiredBy:
@@ -38,15 +38,15 @@ data:
     \ {\n                *r = M::binary_operation(&data[i - 1][j], &data[i - 1][j\
     \ + (1 << (i - 1))]);\n            }\n            data.push(row);\n        }\n\
     \        Self { range_size, data }\n    }\n\n    /// `O(1)`\n    pub fn prod<R:\
-    \ RangeBounds<usize>>(&self, range: R) -> M::Target {\n        let l = match range.start_bound()\
-    \ {\n            std::ops::Bound::Included(&l) => l,\n            std::ops::Bound::Excluded(&l)\
-    \ => l + 1,\n            std::ops::Bound::Unbounded => 0,\n        };\n      \
-    \  let r = match range.end_bound() {\n            std::ops::Bound::Included(&r)\
-    \ => r + 1,\n            std::ops::Bound::Excluded(&r) => r,\n            std::ops::Bound::Unbounded\
-    \ => self.range_size,\n        };\n        assert!(l <= r && r <= self.range_size);\n\
-    \        if l == r {\n            return M::id_element();\n        }\n       \
-    \ let k = (r - l).ilog2() as usize;\n        M::binary_operation(&self.data[k][l],\
-    \ &self.data[k][r - (1 << k)])\n    }\n}\n"
+    \ RangeBounds<usize>>(&self, range: R) -> M::Target {\n        use std::ops::Bound::*;\n\
+    \        let l = match range.start_bound() {\n            Included(&l) => l,\n\
+    \            Excluded(&l) => l + 1,\n            Unbounded => 0,\n        };\n\
+    \        let r = match range.end_bound() {\n            Included(&r) => r + 1,\n\
+    \            Excluded(&r) => r,\n            Unbounded => self.range_size,\n \
+    \       };\n        assert!(l <= r && r <= self.range_size);\n        if l ==\
+    \ r {\n            return M::id_element();\n        }\n        let k = (r - l).ilog2()\
+    \ as usize;\n        M::binary_operation(&self.data[k][l], &self.data[k][r - (1\
+    \ << k)])\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
   isVerificationFile: false
@@ -54,7 +54,7 @@ data:
   requiredBy:
   - crates/data_structure/sparse_table_on_segtree/src/lib.rs
   - crates/tree/euler_tour/src/lib.rs
-  timestamp: '2024-09-16 18:40:00+09:00'
+  timestamp: '2024-10-20 15:52:04+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/staticrmq_sparse_table/src/main.rs

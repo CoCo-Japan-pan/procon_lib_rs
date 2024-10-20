@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/fenwick_tree/src/lib.rs
     title: crates/data_structure/fenwick_tree/src/lib.rs
   - icon: ':heavy_check_mark:'
@@ -49,7 +49,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/static_range_inversions_query/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-17 17:20:51+09:00'
+  timestamp: '2024-10-20 15:52:04+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/static_range_inversions_query/src/main.rs

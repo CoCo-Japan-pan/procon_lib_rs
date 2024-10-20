@@ -1,14 +1,14 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/fenwick_tree/src/lib.rs
     title: crates/data_structure/fenwick_tree/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     PROBLEM: https://yukicoder.me/problems/no/649
     links:
@@ -44,8 +44,8 @@ data:
   isVerificationFile: true
   path: verify/yukicoder/no_649_fenwick_tree/src/main.rs
   requiredBy: []
-  timestamp: '2024-04-14 12:40:51+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2024-10-20 15:52:04+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: verify/yukicoder/no_649_fenwick_tree/src/main.rs
 layout: document

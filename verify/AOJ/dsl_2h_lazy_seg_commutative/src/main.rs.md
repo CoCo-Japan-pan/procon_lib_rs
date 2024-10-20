@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   - icon: ':heavy_check_mark:'
@@ -47,7 +47,7 @@ data:
   isVerificationFile: true
   path: verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
   requiredBy: []
-  timestamp: '2024-09-16 21:21:56+09:00'
+  timestamp: '2024-10-20 15:52:04+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs

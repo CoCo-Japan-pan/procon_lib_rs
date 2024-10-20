@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/raq_rsq/src/lib.rs
     title: crates/data_structure/raq_rsq/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/tree/hld/src/lib.rs
     title: crates/tree/hld/src/lib.rs
   _extendedRequiredBy: []
@@ -41,7 +41,7 @@ data:
   isVerificationFile: true
   path: verify/AOJ/no_2667/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-06 16:07:47+09:00'
+  timestamp: '2024-10-20 15:52:04+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/no_2667/src/main.rs

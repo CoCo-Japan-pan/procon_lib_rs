@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   - icon: ':heavy_check_mark:'
@@ -45,28 +45,27 @@ data:
     \            );\n        }\n        Self { range_height, data }\n    }\n\n   \
     \ /// `O(logH)`\n    pub fn prod<R1: RangeBounds<usize>, R2: RangeBounds<usize>\
     \ + Clone>(\n        &self,\n        height_range: R1,\n        width_range: R2,\n\
-    \    ) -> M::Target {\n        let mut height_left = match height_range.start_bound()\
-    \ {\n            std::ops::Bound::Included(&l) => l,\n            std::ops::Bound::Excluded(&l)\
-    \ => l + 1,\n            std::ops::Bound::Unbounded => 0,\n        };\n      \
-    \  let mut height_right = match height_range.end_bound() {\n            std::ops::Bound::Included(&r)\
-    \ => r + 1,\n            std::ops::Bound::Excluded(&r) => r,\n            std::ops::Bound::Unbounded\
-    \ => self.range_height,\n        };\n        assert!(height_left <= height_right\
-    \ && height_right <= self.range_height);\n        let mut ret = M::id_element();\n\
-    \        height_left += self.range_height;\n        height_right += self.range_height;\n\
-    \        while height_left < height_right {\n            if height_left & 1 !=\
-    \ 0 {\n                ret = M::binary_operation(&ret, &self.data[height_left].prod(width_range.clone()));\n\
-    \                height_left += 1;\n            }\n            if height_right\
-    \ & 1 != 0 {\n                height_right -= 1;\n                ret = M::binary_operation(&ret,\
-    \ &self.data[height_right].prod(width_range.clone()));\n            }\n      \
-    \      height_left >>= 1;\n            height_right >>= 1;\n        }\n      \
-    \  ret\n    }\n}\n"
+    \    ) -> M::Target {\n        use std::ops::Bound::*;\n        let mut height_left\
+    \ = match height_range.start_bound() {\n            Included(&l) => l,\n     \
+    \       Excluded(&l) => l + 1,\n            Unbounded => 0,\n        };\n    \
+    \    let mut height_right = match height_range.end_bound() {\n            Included(&r)\
+    \ => r + 1,\n            Excluded(&r) => r,\n            Unbounded => self.range_height,\n\
+    \        };\n        assert!(height_left <= height_right && height_right <= self.range_height);\n\
+    \        let mut ret = M::id_element();\n        height_left += self.range_height;\n\
+    \        height_right += self.range_height;\n        while height_left < height_right\
+    \ {\n            if height_left & 1 != 0 {\n                ret = M::binary_operation(&ret,\
+    \ &self.data[height_left].prod(width_range.clone()));\n                height_left\
+    \ += 1;\n            }\n            if height_right & 1 != 0 {\n             \
+    \   height_right -= 1;\n                ret = M::binary_operation(&ret, &self.data[height_right].prod(width_range.clone()));\n\
+    \            }\n            height_left >>= 1;\n            height_right >>= 1;\n\
+    \        }\n        ret\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
   - crates/data_structure/sparse_table/src/lib.rs
   isVerificationFile: false
   path: crates/data_structure/sparse_table_on_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-09-16 18:40:00+09:00'
+  timestamp: '2024-10-20 15:52:04+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/no_1068/src/main.rs

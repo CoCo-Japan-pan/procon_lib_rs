@@ -15,15 +15,15 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/vertex_add_path_sum/src/main.rs
     title: verify/yosupo/vertex_add_path_sum/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yosupo/vertex_add_subtree_sum/src/main.rs
     title: verify/yosupo/vertex_add_subtree_sum/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yukicoder/no_649_fenwick_tree/src/main.rs
     title: verify/yukicoder/no_649_fenwick_tree/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     links:
     - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/fenwicktree.rs
@@ -44,22 +44,22 @@ data:
     \           idx += idx & idx.wrapping_neg()\n        }\n    }\n\n    pub fn set(&mut\
     \ self, idx: usize, val: T) {\n        assert!(idx < self.size);\n        self.add(idx,\
     \ val - self.sum(idx..=idx));\n    }\n\n    pub fn sum<R: RangeBounds<usize>>(&self,\
-    \ range: R) -> T {\n        let start = match range.start_bound() {\n        \
-    \    std::ops::Bound::Included(&s) => s,\n            std::ops::Bound::Excluded(&s)\
-    \ => s + 1,\n            std::ops::Bound::Unbounded => 0,\n        };\n      \
-    \  let end = match range.end_bound() {\n            std::ops::Bound::Included(&e)\
-    \ => e + 1,\n            std::ops::Bound::Excluded(&e) => e,\n            std::ops::Bound::Unbounded\
-    \ => self.size,\n        };\n        assert!(start <= end && end <= self.size);\n\
-    \        self.sum_from_first(end) - self.sum_from_first(start)\n    }\n\n    ///\
-    \ `a[0] + ... a[x] >= w` \u3068\u306A\u308B\u6700\u5C0F\u306E x \u3092\u8FD4\u3059\
-    \n    pub fn lower_bound(&self, mut w: T) -> usize\n    where\n        T: PartialOrd\
-    \ + SubAssign,\n    {\n        if w <= self.zero {\n            return 0;\n  \
-    \      }\n        let mut x = 0;\n        let mut k = self.pow_2_floor;\n    \
-    \    while k > 0 {\n            if x + k <= self.size && self.data[x + k] < w\
-    \ {\n                w -= self.data[x + k].clone();\n                x += k;\n\
-    \            }\n            k >>= 1;\n        }\n        x\n    }\n\n    fn sum_from_first(&self,\
-    \ mut idx: usize) -> T {\n        assert!(idx <= self.size);\n        let mut\
-    \ sum = self.zero.clone();\n        while idx > 0 {\n            sum += self.data[idx].clone();\n\
+    \ range: R) -> T {\n        use std::ops::Bound::*;\n        let start = match\
+    \ range.start_bound() {\n            Included(&s) => s,\n            Excluded(&s)\
+    \ => s + 1,\n            Unbounded => 0,\n        };\n        let end = match\
+    \ range.end_bound() {\n            Included(&e) => e + 1,\n            Excluded(&e)\
+    \ => e,\n            std::ops::Bound::Unbounded => self.size,\n        };\n  \
+    \      assert!(start <= end && end <= self.size);\n        self.sum_from_first(end)\
+    \ - self.sum_from_first(start)\n    }\n\n    /// `a[0] + ... a[x] >= w` \u3068\
+    \u306A\u308B\u6700\u5C0F\u306E x \u3092\u8FD4\u3059\n    pub fn lower_bound(&self,\
+    \ mut w: T) -> usize\n    where\n        T: PartialOrd + SubAssign,\n    {\n \
+    \       if w <= self.zero {\n            return 0;\n        }\n        let mut\
+    \ x = 0;\n        let mut k = self.pow_2_floor;\n        while k > 0 {\n     \
+    \       if x + k <= self.size && self.data[x + k] < w {\n                w -=\
+    \ self.data[x + k].clone();\n                x += k;\n            }\n        \
+    \    k >>= 1;\n        }\n        x\n    }\n\n    fn sum_from_first(&self, mut\
+    \ idx: usize) -> T {\n        assert!(idx <= self.size);\n        let mut sum\
+    \ = self.zero.clone();\n        while idx > 0 {\n            sum += self.data[idx].clone();\n\
     \            idx -= idx & idx.wrapping_neg();\n        }\n        sum\n    }\n\
     }\n\n/// From https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/fenwicktree.rs\n\
     #[cfg(test)]\nmod tests {\n    use super::*;\n    use std::ops::Bound::*;\n\n\
@@ -75,8 +75,8 @@ data:
   path: crates/data_structure/fenwick_tree/src/lib.rs
   requiredBy:
   - crates/data_structure/raq_rsq/src/lib.rs
-  timestamp: '2024-04-14 12:40:51+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2024-10-20 15:52:04+09:00'
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - verify/yosupo/vertex_add_path_sum/src/main.rs
   - verify/yosupo/vertex_add_subtree_sum/src/main.rs

@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/segtree/src/lib.rs
     title: crates/data_structure/segtree/src/lib.rs
   - icon: ':warning:'
@@ -18,12 +18,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/rectangle_add_point_get/src/main.rs
     title: verify/yosupo/rectangle_add_point_get/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yukicoder/no_1625/src/main.rs
     title: verify/yukicoder/no_1625/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     links:
     - https://drive.google.com/file/d/1bSjYiA-nSsHzBbCnLq1GeTpRzs2Ucm0q/view
@@ -37,8 +37,8 @@ data:
     \u3055\u308C\u3066\u3044\u308B\u3068\u4EEE\u5B9A\u3059\u308B  \n//! 2\u6B21\u5143\
     \u306A\u306E\u3067\u53EF\u63DB\u6027\u3092\u8981\u6C42  \n//! <https://drive.google.com/file/d/1bSjYiA-nSsHzBbCnLq1GeTpRzs2Ucm0q/view>\u3067\
     \u5B66\u3073\u307E\u3057\u305F  \n\nuse algebra::{Commutative, Monoid};\nuse internal_type_traits::Integral;\n\
-    use segtree::SegTree;\nuse std::ops::{Range, RangeBounds};\n\n/// T\u306F\u5EA7\
-    \u6A19\u5727\u7E2E\u3059\u308B\u578B  \n#[derive(Debug)]\npub struct SegTree2DCompressed<M:\
+    use segtree::SegTree;\nuse std::ops::{Bound::*, Range, RangeBounds};\n\n/// T\u306F\
+    \u5EA7\u6A19\u5727\u7E2E\u3059\u308B\u578B  \n#[derive(Debug)]\npub struct SegTree2DCompressed<M:\
     \ Monoid + Commutative, T: Integral> {\n    height_compressed: Vec<T>,\n    width_compressed:\
     \ Vec<Vec<T>>,\n    data: Vec<SegTree<M>>,\n}\n\nimpl<M: Monoid + Commutative,\
     \ T: Integral> SegTree2DCompressed<M, T> {\n    /// \u30AA\u30D5\u30E9\u30A4\u30F3\
@@ -96,12 +96,11 @@ data:
     \            }\n            pre_h = h;\n            h >>= 1;\n        }\n    }\n\
     \n    pub fn prod<R1: RangeBounds<T>, R2: RangeBounds<T>>(\n        &self,\n \
     \       height_range: R1,\n        width_range: R2,\n    ) -> M::Target {\n  \
-    \      let height_left = match height_range.start_bound() {\n            std::ops::Bound::Included(&l)\
-    \ => l,\n            std::ops::Bound::Excluded(&l) => l + T::one(),\n        \
-    \    std::ops::Bound::Unbounded => T::min_value(),\n        };\n        let height_right\
-    \ = match height_range.end_bound() {\n            std::ops::Bound::Included(&r)\
-    \ => r + T::one(),\n            std::ops::Bound::Excluded(&r) => r,\n        \
-    \    std::ops::Bound::Unbounded => T::max_value(),\n        };\n        assert!(height_left\
+    \      let height_left = match height_range.start_bound() {\n            Included(&l)\
+    \ => l,\n            Excluded(&l) => l + T::one(),\n            Unbounded => T::min_value(),\n\
+    \        };\n        let height_right = match height_range.end_bound() {\n   \
+    \         Included(&r) => r + T::one(),\n            Excluded(&r) => r,\n    \
+    \        Unbounded => T::max_value(),\n        };\n        assert!(height_left\
     \ <= height_right);\n        let mut height_left = self.height_compressed.partition_point(|&h|\
     \ h < height_left);\n        let mut height_right = self\n            .height_compressed\n\
     \            .partition_point(|&h| h < height_right);\n        height_left +=\
@@ -116,12 +115,11 @@ data:
     \ >>= 1;\n            height_right >>= 1;\n        }\n        ret\n    }\n\n \
     \   fn calc_row_range<R1: RangeBounds<T>>(&self, h: usize, width_range: &R1) ->\
     \ Range<usize> {\n        let w_left = match width_range.start_bound() {\n   \
-    \         std::ops::Bound::Included(&l) => l,\n            std::ops::Bound::Excluded(&l)\
-    \ => l + T::one(),\n            std::ops::Bound::Unbounded => T::min_value(),\n\
-    \        };\n        let w_right = match width_range.end_bound() {\n         \
-    \   std::ops::Bound::Included(&r) => r + T::one(),\n            std::ops::Bound::Excluded(&r)\
-    \ => r,\n            std::ops::Bound::Unbounded => T::max_value(),\n        };\n\
-    \        let w_left = self.width_compressed[h].partition_point(|&w| w < w_left);\n\
+    \         Included(&l) => l,\n            Excluded(&l) => l + T::one(),\n    \
+    \        Unbounded => T::min_value(),\n        };\n        let w_right = match\
+    \ width_range.end_bound() {\n            Included(&r) => r + T::one(),\n     \
+    \       Excluded(&r) => r,\n            Unbounded => T::max_value(),\n       \
+    \ };\n        let w_left = self.width_compressed[h].partition_point(|&w| w < w_left);\n\
     \        let w_right = self.width_compressed[h].partition_point(|&w| w < w_right);\n\
     \        w_left..w_right\n    }\n}\n"
   dependsOn:
@@ -131,8 +129,8 @@ data:
   isVerificationFile: false
   path: crates/data_structure/segtree_2d_compressed/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-14 11:18:10+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2024-10-20 15:52:04+09:00'
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - verify/yosupo/rectangle_add_point_get/src/main.rs
   - verify/yosupo/point_add_rectangle_sum/src/main.rs
