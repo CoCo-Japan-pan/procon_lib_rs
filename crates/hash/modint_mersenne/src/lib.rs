@@ -27,7 +27,7 @@ impl ModIntMersenne {
     pub fn value(&self) -> u64 {
         self.value
     }
-    pub fn modulus() -> u64 {
+    pub const fn modulus() -> u64 {
         MOD
     }
     #[inline]

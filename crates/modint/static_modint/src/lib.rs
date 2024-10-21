@@ -68,8 +68,7 @@ impl<const MOD: u32> StaticModInt<MOD> {
     pub fn value(&self) -> u32 {
         self.value
     }
-    #[inline]
-    pub fn modulus() -> u32 {
+    pub const fn modulus() -> u32 {
         MOD
     }
     #[inline]
