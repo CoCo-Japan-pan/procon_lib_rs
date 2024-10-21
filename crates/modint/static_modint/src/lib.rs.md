@@ -85,7 +85,7 @@ data:
     \ FromStr>::Err;\n    fn from_str(s: &str) -> Result<Self, Self::Err> {\n    \
     \    i64::from_str(s).map(Self::new)\n    }\n}\n\nimpl<const MOD: u32> StaticModInt<MOD>\
     \ {\n    #[inline]\n    pub fn value(&self) -> u32 {\n        self.value\n   \
-    \ }\n    #[inline]\n    pub fn modulus() -> u32 {\n        MOD\n    }\n    #[inline]\n\
+    \ }\n    pub const fn modulus() -> u32 {\n        MOD\n    }\n    #[inline]\n\
     \    pub fn new<T: RemEuclidU32>(x: T) -> Self {\n        ModInt::new(x)\n   \
     \ }\n    #[inline]\n    pub fn raw(x: u32) -> Self {\n        Self { value: x\
     \ }\n    }\n    #[inline]\n    pub fn pow(&self, n: u64) -> Self {\n        ModInt::pow(self,\
@@ -174,7 +174,7 @@ data:
   requiredBy:
   - verify/AtCoder/typical_057/src/main.rs
   - crates/fps/ntt/src/lib.rs
-  timestamp: '2024-10-18 21:12:10+09:00'
+  timestamp: '2024-10-21 15:52:33+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/convolution_ntt/src/main.rs

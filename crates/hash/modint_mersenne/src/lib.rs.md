@@ -24,16 +24,16 @@ data:
     \    }\n}\n\nimpl Display for ModIntMersenne {\n    fn fmt(&self, f: &mut std::fmt::Formatter<'_>)\
     \ -> std::fmt::Result {\n        write!(f, \"{}\", self.value)\n    }\n}\n\nimpl\
     \ ModIntMersenne {\n    pub fn new<T: RemEuclidU64>(x: T) -> Self {\n        x.rem_euclid_u64()\n\
-    \    }\n    pub fn value(&self) -> u64 {\n        self.value\n    }\n    pub fn\
-    \ modulus() -> u64 {\n        MOD\n    }\n    #[inline]\n    fn calc_mod(x: u64)\
-    \ -> u64 {\n        let tmp = (x >> 61) + (x & MOD);\n        if tmp >= MOD {\n\
-    \            tmp - MOD\n        } else {\n            tmp\n        }\n    }\n\
-    \    /// From <https://qiita.com/keymoon/items/11fac5627672a6d6a9f6>\n    #[inline]\n\
-    \    fn mul(a: u64, b: u64) -> u64 {\n        let au = a >> 31;\n        let ad\
-    \ = a & ((1 << 31) - 1);\n        let bu = b >> 31;\n        let bd = b & ((1\
-    \ << 31) - 1);\n        let mid = ad * bu + au * bd;\n        let midu = mid >>\
-    \ 30;\n        let midd = mid & ((1 << 30) - 1);\n        Self::calc_mod(au *\
-    \ bu * 2 + midu + (midd << 31) + ad * bd)\n    }\n\n    pub fn pow(&self, mut\
+    \    }\n    pub fn value(&self) -> u64 {\n        self.value\n    }\n    pub const\
+    \ fn modulus() -> u64 {\n        MOD\n    }\n    #[inline]\n    fn calc_mod(x:\
+    \ u64) -> u64 {\n        let tmp = (x >> 61) + (x & MOD);\n        if tmp >= MOD\
+    \ {\n            tmp - MOD\n        } else {\n            tmp\n        }\n   \
+    \ }\n    /// From <https://qiita.com/keymoon/items/11fac5627672a6d6a9f6>\n   \
+    \ #[inline]\n    fn mul(a: u64, b: u64) -> u64 {\n        let au = a >> 31;\n\
+    \        let ad = a & ((1 << 31) - 1);\n        let bu = b >> 31;\n        let\
+    \ bd = b & ((1 << 31) - 1);\n        let mid = ad * bu + au * bd;\n        let\
+    \ midu = mid >> 30;\n        let midd = mid & ((1 << 30) - 1);\n        Self::calc_mod(au\
+    \ * bu * 2 + midu + (midd << 31) + ad * bd)\n    }\n\n    pub fn pow(&self, mut\
     \ exp: u64) -> Self {\n        let mut result = ModIntMersenne::new(1);\n    \
     \    let mut base = *self;\n        while exp > 0 {\n            if exp & 1 ==\
     \ 1 {\n                result *= base;\n            }\n            base *= base;\n\
@@ -103,7 +103,7 @@ data:
   path: crates/hash/modint_mersenne/src/lib.rs
   requiredBy:
   - crates/string/rolling_hash/src/lib.rs
-  timestamp: '2024-10-20 21:51:11+09:00'
+  timestamp: '2024-10-21 15:52:33+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/hash/modint_mersenne/src/lib.rs
