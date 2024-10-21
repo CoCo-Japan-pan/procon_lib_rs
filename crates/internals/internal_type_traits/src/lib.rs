@@ -1,7 +1,7 @@
 use std::fmt::{Debug, Display};
 use std::ops::{Add, AddAssign, Sub, SubAssign};
 
-/// 数値型を使いたいときのトレイト  
+/// 整数型を使いたいときのトレイト  
 /// 加算・減算・比較・0・1・最小値・最大値を持つ  
 pub trait Integral:
     Copy
