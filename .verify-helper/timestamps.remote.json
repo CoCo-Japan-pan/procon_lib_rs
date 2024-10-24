@@ -39,6 +39,7 @@
 "verify/yosupo/segment_add_get_min/src/main.rs": "2024-07-15 21:52:20 +0900",
 "verify/yosupo/static_range_inversions_query/src/main.rs": "2024-10-20 15:52:04 +0900",
 "verify/yosupo/staticrmq_sparse_table/src/main.rs": "2024-10-20 15:52:04 +0900",
+"verify/yosupo/sum_of_floor_of_linear/src/main.rs": "2024-10-24 13:48:38 +0900",
 "verify/yosupo/unionfind/src/main.rs": "2024-04-13 18:41:44 +0900",
 "verify/yosupo/vertex_add_path_sum/src/main.rs": "2024-10-20 15:52:04 +0900",
 "verify/yosupo/vertex_add_subtree_sum/src/main.rs": "2024-10-20 15:52:04 +0900",
