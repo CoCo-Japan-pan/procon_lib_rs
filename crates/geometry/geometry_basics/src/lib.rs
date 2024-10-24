@@ -34,6 +34,10 @@ impl Point {
     pub fn cross(self, rhs: Self) -> i64 {
         self.x * rhs.y - self.y * rhs.x
     }
+    /// (0, 0)からのユークリッド距離の二乗 `x^2 + y^2`
+    pub fn square_dist(self) -> i64 {
+        self.dot(self)
+    }
 }
 
 impl Add for Point {

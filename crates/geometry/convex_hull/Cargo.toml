@@ -9,3 +9,6 @@ repository = "ssh://git@github.com/CoCo-Japan-pan/procon_lib_rs.git"
 
 [dependencies]
 geometry_basics = { path = "../geometry_basics" }
+
+[dev-dependencies]
+rand = "0.8.5"
