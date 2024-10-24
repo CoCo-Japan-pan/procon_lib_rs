@@ -158,7 +158,7 @@ data:
       title: crates/math/eratosthenes/src/lib.rs
   - name: crates/math/floor_sum/src
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: crates/math/floor_sum/src/lib.rs
       title: crates/math/floor_sum/src/lib.rs
   - name: crates/math/matrix/src
@@ -502,6 +502,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yosupo/staticrmq_sparse_table/src/main.rs
       title: verify/yosupo/staticrmq_sparse_table/src/main.rs
+  - name: verify/yosupo/sum_of_floor_of_linear/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yosupo/sum_of_floor_of_linear/src/main.rs
+      title: verify/yosupo/sum_of_floor_of_linear/src/main.rs
   - name: verify/yosupo/unionfind/src
     pages:
     - icon: ':heavy_check_mark:'
