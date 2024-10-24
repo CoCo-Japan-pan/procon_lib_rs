@@ -156,11 +156,11 @@ data:
     - icon: ':warning:'
       path: crates/math/eratosthenes/src/lib.rs
       title: crates/math/eratosthenes/src/lib.rs
-  - name: crates/math/floor_sum/src
+  - name: crates/math/floor_ceil_sum/src
     pages:
     - icon: ':heavy_check_mark:'
-      path: crates/math/floor_sum/src/lib.rs
-      title: crates/math/floor_sum/src/lib.rs
+      path: crates/math/floor_ceil_sum/src/lib.rs
+      title: crates/math/floor_ceil_sum/src/lib.rs
   - name: crates/math/matrix/src
     pages:
     - icon: ':heavy_check_mark:'
