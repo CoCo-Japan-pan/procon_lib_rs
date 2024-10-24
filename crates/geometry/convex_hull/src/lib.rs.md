@@ -6,12 +6,12 @@ data:
     title: crates/geometry/geometry_basics/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/AOJ/cgl_4a/src/main.rs
     title: verify/AOJ/cgl_4a/src/main.rs
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -72,7 +72,7 @@ data:
   path: crates/geometry/convex_hull/src/lib.rs
   requiredBy: []
   timestamp: '2024-10-24 23:45:33+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/cgl_4a/src/main.rs
 documentation_of: crates/geometry/convex_hull/src/lib.rs

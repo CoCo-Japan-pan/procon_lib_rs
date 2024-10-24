@@ -2,7 +2,7 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: crates/geometry/convex_hull/src/lib.rs
     title: crates/geometry/convex_hull/src/lib.rs
   _extendedVerifiedWith: []

@@ -98,7 +98,7 @@ data:
       title: crates/fps/ntt/src/lib.rs
   - name: crates/geometry/convex_hull/src
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: crates/geometry/convex_hull/src/lib.rs
       title: crates/geometry/convex_hull/src/lib.rs
   - name: crates/geometry/geometry_basics/src
@@ -314,7 +314,7 @@ data:
   verificationCategories:
   - name: verify/AOJ/cgl_4a/src
     pages:
-    - icon: ':x:'
+    - icon: ':heavy_check_mark:'
       path: verify/AOJ/cgl_4a/src/main.rs
       title: verify/AOJ/cgl_4a/src/main.rs
   - name: verify/AOJ/dsl_2d_dual_seg/src
