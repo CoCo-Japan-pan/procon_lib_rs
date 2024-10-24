@@ -29,7 +29,7 @@ data:
   isVerificationFile: true
   path: verify/AOJ/cgl_4a/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-24 22:08:20+09:00'
+  timestamp: '2024-10-24 23:20:41+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: verify/AOJ/cgl_4a/src/main.rs

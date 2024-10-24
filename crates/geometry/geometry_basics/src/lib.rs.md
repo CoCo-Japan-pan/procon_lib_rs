@@ -29,19 +29,22 @@ data:
     \u8A08\u56DE\u308A180\u5EA6\u4EE5\u5185\u3067\u884C\u3051\u308B  \n    /// \u3053\
     \u308C\u304C0\u4EE5\u4E0B\u306A\u3089\u3001self -> rhs \u3078\u306F\u6642\u8A08\
     \u56DE\u308A180\u5EA6\u4EE5\u5185\u3067\u884C\u3051\u308B\n    pub fn cross(self,\
-    \ rhs: Self) -> i64 {\n        self.x * rhs.y - self.y * rhs.x\n    }\n}\n\nimpl\
-    \ Add for Point {\n    type Output = Self;\n    fn add(self, rhs: Self) -> Self::Output\
-    \ {\n        Point::new(self.x + rhs.x, self.y + rhs.y)\n    }\n}\n\nimpl Sub\
-    \ for Point {\n    type Output = Self;\n    fn sub(self, rhs: Self) -> Self::Output\
-    \ {\n        Point::new(self.x - rhs.x, self.y - rhs.y)\n    }\n}\n\nimpl Mul<i64>\
-    \ for Point {\n    type Output = Self;\n    fn mul(self, rhs: i64) -> Self::Output\
-    \ {\n        Point::new(self.x * rhs, self.y * rhs)\n    }\n}\n"
+    \ rhs: Self) -> i64 {\n        self.x * rhs.y - self.y * rhs.x\n    }\n    ///\
+    \ (0, 0)\u304B\u3089\u306E\u30E6\u30FC\u30AF\u30EA\u30C3\u30C9\u8DDD\u96E2\u306E\
+    \u4E8C\u4E57 `x^2 + y^2`\n    pub fn square_dist(self) -> i64 {\n        self.dot(self)\n\
+    \    }\n}\n\nimpl Add for Point {\n    type Output = Self;\n    fn add(self, rhs:\
+    \ Self) -> Self::Output {\n        Point::new(self.x + rhs.x, self.y + rhs.y)\n\
+    \    }\n}\n\nimpl Sub for Point {\n    type Output = Self;\n    fn sub(self, rhs:\
+    \ Self) -> Self::Output {\n        Point::new(self.x - rhs.x, self.y - rhs.y)\n\
+    \    }\n}\n\nimpl Mul<i64> for Point {\n    type Output = Self;\n    fn mul(self,\
+    \ rhs: i64) -> Self::Output {\n        Point::new(self.x * rhs, self.y * rhs)\n\
+    \    }\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/geometry/geometry_basics/src/lib.rs
   requiredBy:
   - crates/geometry/convex_hull/src/lib.rs
-  timestamp: '2024-10-24 22:08:20+09:00'
+  timestamp: '2024-10-24 23:20:41+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/geometry/geometry_basics/src/lib.rs
