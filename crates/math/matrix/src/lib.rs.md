@@ -104,7 +104,7 @@ data:
   isVerificationFile: false
   path: crates/math/matrix/src/lib.rs
   requiredBy: []
-  timestamp: '2024-09-16 18:40:00+09:00'
+  timestamp: '2024-10-21 22:30:46+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc293e/src/main.rs

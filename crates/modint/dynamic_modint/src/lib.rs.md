@@ -134,7 +134,7 @@ data:
   path: crates/modint/dynamic_modint/src/lib.rs
   requiredBy:
   - crates/fps/ntt/src/lib.rs
-  timestamp: '2024-10-18 21:12:10+09:00'
+  timestamp: '2024-10-21 22:30:46+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc293e/src/main.rs

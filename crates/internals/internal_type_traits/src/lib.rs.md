@@ -40,7 +40,7 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "use std::fmt::{Debug, Display};\nuse std::ops::{Add, AddAssign, Sub, SubAssign};\n\
-    \n/// \u6570\u5024\u578B\u3092\u4F7F\u3044\u305F\u3044\u3068\u304D\u306E\u30C8\
+    \n/// \u6574\u6570\u578B\u3092\u4F7F\u3044\u305F\u3044\u3068\u304D\u306E\u30C8\
     \u30EC\u30A4\u30C8  \n/// \u52A0\u7B97\u30FB\u6E1B\u7B97\u30FB\u6BD4\u8F03\u30FB\
     0\u30FB1\u30FB\u6700\u5C0F\u5024\u30FB\u6700\u5927\u5024\u3092\u6301\u3064  \n\
     pub trait Integral:\n    Copy\n    + Add<Output = Self>\n    + AddAssign\n   \
@@ -75,7 +75,7 @@ data:
   - crates/flow/maxflow/src/lib.rs
   - crates/flow/maxflow_lower_bound/src/lib.rs
   - crates/fps/ntt/src/lib.rs
-  timestamp: '2024-07-06 23:41:25+09:00'
+  timestamp: '2024-10-21 22:30:46+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/internals/internal_type_traits/src/lib.rs

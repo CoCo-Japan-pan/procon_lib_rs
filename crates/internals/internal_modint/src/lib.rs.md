@@ -91,7 +91,7 @@ data:
   - crates/math/binom/src/lib.rs
   - crates/math/enumerate_inv_mods/src/lib.rs
   - crates/fps/ntt/src/lib.rs
-  timestamp: '2024-07-20 13:46:09+09:00'
+  timestamp: '2024-10-21 22:30:46+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/internals/internal_modint/src/lib.rs

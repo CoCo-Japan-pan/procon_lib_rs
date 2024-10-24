@@ -137,7 +137,7 @@ data:
   isVerificationFile: false
   path: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-12 17:59:59+09:00'
+  timestamp: '2024-10-21 22:30:46+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/rectangle_sum/src/main.rs
