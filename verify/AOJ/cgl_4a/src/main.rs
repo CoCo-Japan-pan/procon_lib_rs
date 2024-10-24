@@ -11,9 +11,15 @@ fn main() {
     }
     let mut points = x_y.into_iter().map(|p| p.into()).collect::<Vec<_>>();
     points.sort_unstable();
-    let ch = monotone_chain(&points, true);
-    println!("{}", ch.len() - 1);
-    for p in ch.iter().take(ch.len() - 1) {
+    let hull = {
+        let (mut lower_hull, mut upper_hull) = monotone_chain(&points, true);
+        lower_hull.pop();
+        upper_hull.pop();
+        lower_hull.append(&mut upper_hull);
+        lower_hull
+    };
+    println!("{}", hull.len());
+    for p in hull {
         println!("{}", p);
     }
 }

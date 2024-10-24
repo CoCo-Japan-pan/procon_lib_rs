@@ -1,38 +1,33 @@
 pub use geometry_basics::Point;
 
 /// ソート済みの点列から凸包を求める `O(n)`  
-/// 辞書順最小の点から、反時計周りに並べて返す(辞書順最小の点は最初と最後の二回登場するので注意!!!)  
-/// つまり`lower_hull(左->右) -> upper_hull(右->左)`の順に連結している  
+/// ここでは`(lowerhull, upperhull)`の形で返す  
+/// 各hullは辞書順最小の点<->辞書順最大の点の間へと反時計回りになっている  
+/// つまり辞書順最小・最大の点は両方に含まれるので注意  
 /// 同一直線上の点を含めるなら、`contain_mid_point`は`true`にする  
-pub fn monotone_chain(points: &[Point], contain_mid_point: bool) -> Vec<Point> {
+pub fn monotone_chain(points: &[Point], contain_mid_point: bool) -> (Vec<Point>, Vec<Point>) {
     for ls in points.windows(2) {
         assert!(ls[0] <= ls[1], "please sort the input for graham scan!!!");
     }
-    let mut hull = Vec::with_capacity(points.len() * 2);
-    for &p in points.iter() {
+    let lower_hull = calc_hull(points.len(), points.iter(), contain_mid_point);
+    let upper_hull = calc_hull(points.len(), points.iter().rev(), contain_mid_point);
+    (lower_hull, upper_hull)
+}
+
+fn calc_hull<'a, T: Iterator<Item = &'a Point>>(
+    len: usize,
+    points: T,
+    contain_mid_point: bool,
+) -> Vec<Point> {
+    let mut hull = Vec::with_capacity(len);
+    for &p in points {
         while hull.len() > 1 {
-            if is_clock_wise(
-                hull[hull.len() - 2],
-                hull[hull.len() - 1],
-                p,
-                !contain_mid_point,
-            ) {
-                hull.pop();
-            } else {
-                break;
-            }
-        }
-        hull.push(p);
-    }
-    let upper_hull_len = hull.len();
-    for &p in points.iter().rev().skip(1) {
-        while hull.len() > upper_hull_len {
-            if is_clock_wise(
-                hull[hull.len() - 2],
-                hull[hull.len() - 1],
-                p,
-                !contain_mid_point,
-            ) {
+            let second = hull[hull.len() - 2];
+            let first = hull[hull.len() - 1];
+            let from = second - first;
+            let to = p - first;
+            let cross = from.cross(to);
+            if cross > 0 || (!contain_mid_point && cross == 0) {
                 hull.pop();
             } else {
                 break;
@@ -44,20 +39,14 @@ pub fn monotone_chain(points: &[Point], contain_mid_point: bool) -> Vec<Point> {
     hull
 }
 
-#[inline]
-fn is_clock_wise(second: Point, first: Point, new_point: Point, exclude_zero: bool) -> bool {
-    let from = second - first;
-    let to = new_point - first;
-    let cross = from.cross(to);
-    cross > 0 || (exclude_zero && cross == 0)
-}
-
 /// ソート済みの点列から、最遠点対の距離の二乗を求める `O(n)`
 pub fn calc_farthest_point_pair(points: &[Point]) -> i64 {
     let ch = {
-        let mut ret = monotone_chain(points, false);
-        ret.pop();
-        ret
+        let (mut lower_hull, mut upper_hull) = monotone_chain(points, false);
+        lower_hull.pop();
+        upper_hull.pop();
+        lower_hull.append(&mut upper_hull);
+        lower_hull
     };
     // rotating calipers
     let len = ch.len();
