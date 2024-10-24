@@ -1,5 +1,5 @@
 [package]
-name = "floor_sum"
+name = "floor_ceil_sum"
 version = "0.1.0"
 edition = "2021"
 license = "CC0-1.0"

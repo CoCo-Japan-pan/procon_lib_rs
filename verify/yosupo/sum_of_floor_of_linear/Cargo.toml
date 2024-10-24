@@ -7,4 +7,4 @@ edition = "2021"
 
 [dependencies]
 proconio = { version = "=0.4.5", features = ["derive"] }
-floor_sum = { path = "../../../crates/math/floor_sum" }
+floor_ceil_sum = { path = "../../../crates/math/floor_ceil_sum" }

@@ -1,6 +1,6 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/sum_of_floor_of_linear
 
-use floor_sum::floor_sum;
+use floor_ceil_sum::floor_sum;
 use proconio::{fastout, input};
 
 #[fastout]
