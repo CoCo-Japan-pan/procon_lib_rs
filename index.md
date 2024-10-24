@@ -96,6 +96,16 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/fps/ntt/src/lib.rs
       title: crates/fps/ntt/src/lib.rs
+  - name: crates/geometry/convex_hull/src
+    pages:
+    - icon: ':x:'
+      path: crates/geometry/convex_hull/src/lib.rs
+      title: crates/geometry/convex_hull/src/lib.rs
+  - name: crates/geometry/geometry_basics/src
+    pages:
+    - icon: ':warning:'
+      path: crates/geometry/geometry_basics/src/lib.rs
+      title: crates/geometry/geometry_basics/src/lib.rs
   - name: crates/graph/eulerian_trail/src
     pages:
     - icon: ':warning:'
@@ -302,6 +312,11 @@ data:
       path: verify/yosupo/two_edge_connected_components/src/main.rs
       title: verify/yosupo/two_edge_connected_components/src/main.rs
   verificationCategories:
+  - name: verify/AOJ/cgl_4a/src
+    pages:
+    - icon: ':x:'
+      path: verify/AOJ/cgl_4a/src/main.rs
+      title: verify/AOJ/cgl_4a/src/main.rs
   - name: verify/AOJ/dsl_2d_dual_seg/src
     pages:
     - icon: ':heavy_check_mark:'
