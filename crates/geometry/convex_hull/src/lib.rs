@@ -7,7 +7,10 @@ pub use geometry_basics::Point;
 /// 同一直線上の点を含めるなら、`contain_mid_point`は`true`にする  
 pub fn monotone_chain(points: &[Point], contain_mid_point: bool) -> (Vec<Point>, Vec<Point>) {
     for ls in points.windows(2) {
-        assert!(ls[0] <= ls[1], "please sort the input for graham scan!!!");
+        assert!(
+            ls[0] <= ls[1],
+            "please sort the input for monotone chain!!!"
+        );
     }
     let lower_hull = calc_hull(points.len(), points.iter(), contain_mid_point);
     let upper_hull = calc_hull(points.len(), points.iter().rev(), contain_mid_point);
