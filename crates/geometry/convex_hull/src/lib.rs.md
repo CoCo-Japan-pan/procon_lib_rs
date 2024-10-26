@@ -28,36 +28,36 @@ data:
     \u308C\u308B\u306E\u3067\u6CE8\u610F  \n/// \u540C\u4E00\u76F4\u7DDA\u4E0A\u306E\
     \u70B9\u3092\u542B\u3081\u308B\u306A\u3089\u3001`contain_mid_point`\u306F`true`\u306B\
     \u3059\u308B  \npub fn monotone_chain(points: &[Point], contain_mid_point: bool)\
-    \ -> (Vec<Point>, Vec<Point>) {\n    for ls in points.windows(2) {\n        assert!(ls[0]\
-    \ <= ls[1], \"please sort the input for graham scan!!!\");\n    }\n    let lower_hull\
-    \ = calc_hull(points.len(), points.iter(), contain_mid_point);\n    let upper_hull\
-    \ = calc_hull(points.len(), points.iter().rev(), contain_mid_point);\n    (lower_hull,\
-    \ upper_hull)\n}\n\nfn calc_hull<'a, T: Iterator<Item = &'a Point>>(\n    len:\
-    \ usize,\n    points: T,\n    contain_mid_point: bool,\n) -> Vec<Point> {\n  \
-    \  let mut hull = Vec::with_capacity(len);\n    for &p in points {\n        while\
-    \ hull.len() > 1 {\n            let second = hull[hull.len() - 2];\n         \
-    \   let first = hull[hull.len() - 1];\n            let from = second - first;\n\
-    \            let to = p - first;\n            let cross = from.cross(to);\n  \
-    \          if cross > 0 || (!contain_mid_point && cross == 0) {\n            \
-    \    hull.pop();\n            } else {\n                break;\n            }\n\
-    \        }\n        hull.push(p);\n    }\n    hull.shrink_to(0);\n    hull\n}\n\
-    \n/// \u30BD\u30FC\u30C8\u6E08\u307F\u306E\u70B9\u5217\u304B\u3089\u3001\u6700\
-    \u9060\u70B9\u5BFE\u306E\u8DDD\u96E2\u306E\u4E8C\u4E57\u3092\u6C42\u3081\u308B\
-    \ `O(n)`\npub fn calc_farthest_point_pair(points: &[Point]) -> i64 {\n    let\
-    \ ch = {\n        let (mut lower_hull, mut upper_hull) = monotone_chain(points,\
-    \ false);\n        lower_hull.pop();\n        upper_hull.pop();\n        lower_hull.append(&mut\
-    \ upper_hull);\n        lower_hull\n    };\n    // rotating calipers\n    let\
-    \ len = ch.len();\n    if len == 2 {\n        return (ch[0] - ch[1]).square_dist();\n\
-    \    }\n    let mut i = ch.iter().enumerate().min_by_key(|(_, p)| **p).unwrap().0;\n\
-    \    let mut j = ch.iter().enumerate().max_by_key(|(_, p)| **p).unwrap().0;\n\
-    \    let mut dist = 0;\n    let si = i;\n    let sj = j;\n    while i != sj ||\
-    \ j != si {\n        dist = dist.max((ch[i] - ch[j]).square_dist());\n       \
-    \ let i_i1 = ch[(i + 1) % len] - ch[i];\n        let j_j1 = ch[(j + 1) % len]\
-    \ - ch[j];\n        if i_i1.cross(j_j1) < 0 {\n            i = (i + 1) % len;\n\
-    \        } else {\n            j = (j + 1) % len;\n        }\n    }\n    dist\n\
-    }\n\n#[cfg(test)]\nmod test {\n    use super::*;\n    use rand::prelude::*;\n\n\
-    \    #[test]\n    fn test_farthest_pairs() {\n        for _ in 0..10 {\n     \
-    \       let mut rng = thread_rng();\n            let n = 1000;\n            let\
+    \ -> (Vec<Point>, Vec<Point>) {\n    for ls in points.windows(2) {\n        assert!(\n\
+    \            ls[0] <= ls[1],\n            \"please sort the input for monotone\
+    \ chain!!!\"\n        );\n    }\n    let lower_hull = calc_hull(points.len(),\
+    \ points.iter(), contain_mid_point);\n    let upper_hull = calc_hull(points.len(),\
+    \ points.iter().rev(), contain_mid_point);\n    (lower_hull, upper_hull)\n}\n\n\
+    fn calc_hull<'a, T: Iterator<Item = &'a Point>>(\n    len: usize,\n    points:\
+    \ T,\n    contain_mid_point: bool,\n) -> Vec<Point> {\n    let mut hull = Vec::with_capacity(len);\n\
+    \    for &p in points {\n        while hull.len() > 1 {\n            let second\
+    \ = hull[hull.len() - 2];\n            let first = hull[hull.len() - 1];\n   \
+    \         let from = second - first;\n            let to = p - first;\n      \
+    \      let cross = from.cross(to);\n            if cross > 0 || (!contain_mid_point\
+    \ && cross == 0) {\n                hull.pop();\n            } else {\n      \
+    \          break;\n            }\n        }\n        hull.push(p);\n    }\n  \
+    \  hull.shrink_to(0);\n    hull\n}\n\n/// \u30BD\u30FC\u30C8\u6E08\u307F\u306E\
+    \u70B9\u5217\u304B\u3089\u3001\u6700\u9060\u70B9\u5BFE\u306E\u8DDD\u96E2\u306E\
+    \u4E8C\u4E57\u3092\u6C42\u3081\u308B `O(n)`\npub fn calc_farthest_point_pair(points:\
+    \ &[Point]) -> i64 {\n    let ch = {\n        let (mut lower_hull, mut upper_hull)\
+    \ = monotone_chain(points, false);\n        lower_hull.pop();\n        upper_hull.pop();\n\
+    \        lower_hull.append(&mut upper_hull);\n        lower_hull\n    };\n   \
+    \ // rotating calipers\n    let len = ch.len();\n    if len == 2 {\n        return\
+    \ (ch[0] - ch[1]).square_dist();\n    }\n    let mut i = ch.iter().enumerate().min_by_key(|(_,\
+    \ p)| **p).unwrap().0;\n    let mut j = ch.iter().enumerate().max_by_key(|(_,\
+    \ p)| **p).unwrap().0;\n    let mut dist = 0;\n    let si = i;\n    let sj = j;\n\
+    \    while i != sj || j != si {\n        dist = dist.max((ch[i] - ch[j]).square_dist());\n\
+    \        let i_i1 = ch[(i + 1) % len] - ch[i];\n        let j_j1 = ch[(j + 1)\
+    \ % len] - ch[j];\n        if i_i1.cross(j_j1) < 0 {\n            i = (i + 1)\
+    \ % len;\n        } else {\n            j = (j + 1) % len;\n        }\n    }\n\
+    \    dist\n}\n\n#[cfg(test)]\nmod test {\n    use super::*;\n    use rand::prelude::*;\n\
+    \n    #[test]\n    fn test_farthest_pairs() {\n        for _ in 0..10 {\n    \
+    \        let mut rng = thread_rng();\n            let n = 1000;\n            let\
     \ mut points = vec![];\n            for _ in 0..n {\n                points.push(Point::new(\n\
     \                    rng.gen_range(-1000_000_000..=1000_000_000),\n          \
     \          rng.gen_range(-1000_000_000..=1000_000_000),\n                ));\n\
@@ -71,7 +71,7 @@ data:
   isVerificationFile: false
   path: crates/geometry/convex_hull/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-24 23:45:33+09:00'
+  timestamp: '2024-10-26 13:44:28+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/cgl_4a/src/main.rs
