@@ -1,3 +1,0 @@
-(function() {var implementors = {
-"range_chminmax_add_sum":[["impl <a class=\"trait\" href=\"algebra/trait.Action.html\" title=\"trait algebra::Action\">Action</a> for <a class=\"struct\" href=\"range_chminmax_add_sum/struct.ChminMaxAddAction.html\" title=\"struct range_chminmax_add_sum::ChminMaxAddAction\">ChminMaxAddAction</a>"]]
-};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

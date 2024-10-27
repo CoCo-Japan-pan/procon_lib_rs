@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: crates/data_structure/segtree_2d_compressed/src/lib.rs
     title: crates/data_structure/segtree_2d_compressed/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     PROBLEM: https://judge.yosupo.jp/problem/point_add_rectangle_sum
     links:
@@ -58,8 +58,8 @@ data:
   isVerificationFile: true
   path: verify/yosupo/point_add_rectangle_sum/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-27 17:04:41+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2024-10-27 20:17:51+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: verify/yosupo/point_add_rectangle_sum/src/main.rs
 layout: document

@@ -1,4 +1,0 @@
-(function() {var implementors = {
-"euler_tour":[["impl <a class=\"trait\" href=\"algebra/trait.Monoid.html\" title=\"trait algebra::Monoid\">Monoid</a> for <a class=\"struct\" href=\"euler_tour/struct.MinMonoid.html\" title=\"struct euler_tour::MinMonoid\">MinMonoid</a>"]],
-"range_chminmax_add_sum":[["impl <a class=\"trait\" href=\"algebra/trait.Monoid.html\" title=\"trait algebra::Monoid\">Monoid</a> for <a class=\"struct\" href=\"range_chminmax_add_sum/struct.Node.html\" title=\"struct range_chminmax_add_sum::Node\">Node</a>"]]
-};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

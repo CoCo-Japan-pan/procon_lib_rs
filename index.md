@@ -3,7 +3,7 @@ data:
   libraryCategories:
   - name: crates/algebra/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/algebra/src/lib.rs
       title: crates/algebra/src/lib.rs
   - name: crates/bitset/src
@@ -33,7 +33,7 @@ data:
       title: crates/data_structure/fenwick_tree/src/lib.rs
   - name: crates/data_structure/lazy_segtree/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/data_structure/lazy_segtree/src/lib.rs
       title: crates/data_structure/lazy_segtree/src/lib.rs
   - name: crates/data_structure/potentialized_union_find/src
@@ -41,11 +41,6 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/data_structure/potentialized_union_find/src/lib.rs
       title: crates/data_structure/potentialized_union_find/src/lib.rs
-  - name: crates/data_structure/range_chminmax_add_sum/src
-    pages:
-    - icon: ':warning:'
-      path: crates/data_structure/range_chminmax_add_sum/src/lib.rs
-      title: crates/data_structure/range_chminmax_add_sum/src/lib.rs
   - name: crates/data_structure/raq_rsq/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -53,12 +48,12 @@ data:
       title: crates/data_structure/raq_rsq/src/lib.rs
   - name: crates/data_structure/segtree/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: crates/data_structure/segtree/src/lib.rs
       title: crates/data_structure/segtree/src/lib.rs
   - name: crates/data_structure/segtree_2d_compressed/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: crates/data_structure/segtree_2d_compressed/src/lib.rs
       title: crates/data_structure/segtree_2d_compressed/src/lib.rs
   - name: crates/data_structure/segtree_2d_dense/src
@@ -68,7 +63,7 @@ data:
       title: crates/data_structure/segtree_2d_dense/src/lib.rs
   - name: crates/data_structure/sparse_table/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: crates/data_structure/sparse_table/src/lib.rs
       title: crates/data_structure/sparse_table/src/lib.rs
   - name: crates/data_structure/sparse_table_on_segtree/src
@@ -198,7 +193,7 @@ data:
       title: crates/modint/dynamic_modint/src/lib.rs
   - name: crates/modint/static_modint/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/modint/static_modint/src/lib.rs
       title: crates/modint/static_modint/src/lib.rs
   - name: crates/rand/pcg32/src
@@ -243,7 +238,7 @@ data:
       title: crates/tree/euler_tour/src/lib.rs
   - name: crates/tree/hld/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/tree/hld/src/lib.rs
       title: crates/tree/hld/src/lib.rs
   - name: crates/tree/rerooting/src
@@ -273,7 +268,7 @@ data:
       title: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
   - name: crates/wavelet/wavelet_matrix_segtree/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
       title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   - name: verify/AtCoder/abc291g/src
@@ -424,7 +419,7 @@ data:
       title: verify/AtCoder/abc359g_centroid/src/main.rs
   - name: verify/AtCoder/alpc_l_lazy_seg/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
       title: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   - name: verify/yosupo/convolution_mod_1000000007_ntt/src
@@ -474,22 +469,22 @@ data:
       title: verify/yosupo/log_of_formal_power_series/src/main.rs
   - name: verify/yosupo/point_add_rect_sum_wavelet/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
       title: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
   - name: verify/yosupo/point_add_rectangle_sum/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yosupo/point_add_rectangle_sum/src/main.rs
       title: verify/yosupo/point_add_rectangle_sum/src/main.rs
   - name: verify/yosupo/point_set_range_composite/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yosupo/point_set_range_composite/src/main.rs
       title: verify/yosupo/point_set_range_composite/src/main.rs
   - name: verify/yosupo/range_affine_range_sum_lazy_seg/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
       title: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
   - name: verify/yosupo/range_kth_smallest/src
@@ -499,7 +494,7 @@ data:
       title: verify/yosupo/range_kth_smallest/src/main.rs
   - name: verify/yosupo/rectangle_add_point_get/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yosupo/rectangle_add_point_get/src/main.rs
       title: verify/yosupo/rectangle_add_point_get/src/main.rs
   - name: verify/yosupo/rectangle_sum/src
@@ -519,7 +514,7 @@ data:
       title: verify/yosupo/static_range_inversions_query/src/main.rs
   - name: verify/yosupo/staticrmq_sparse_table/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yosupo/staticrmq_sparse_table/src/main.rs
       title: verify/yosupo/staticrmq_sparse_table/src/main.rs
   - name: verify/yosupo/sum_of_floor_of_linear/src
@@ -544,7 +539,7 @@ data:
       title: verify/yosupo/vertex_add_subtree_sum/src/main.rs
   - name: verify/yosupo/vertex_set_path_composite/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yosupo/vertex_set_path_composite/src/main.rs
       title: verify/yosupo/vertex_set_path_composite/src/main.rs
   - name: verify/yosupo/zalgorithm_rolling_hash/src
@@ -559,12 +554,12 @@ data:
       title: verify/yukicoder/no_1092_modint_dynamic/src/main.rs
   - name: verify/yukicoder/no_1625/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yukicoder/no_1625/src/main.rs
       title: verify/yukicoder/no_1625/src/main.rs
   - name: verify/yukicoder/no_1625_wavelet/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yukicoder/no_1625_wavelet/src/main.rs
       title: verify/yukicoder/no_1625_wavelet/src/main.rs
   - name: verify/yukicoder/no_649_avl/src

@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"struct":["ChminMaxAddAction","ChminmaxAddActionMonoid","Node"],"type":["LazySegChminMaxAddSum"]};

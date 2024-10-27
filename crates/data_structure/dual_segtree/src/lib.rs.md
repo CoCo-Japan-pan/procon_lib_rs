@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   _extendedRequiredBy: []
@@ -90,7 +90,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/dual_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-27 17:04:41+09:00'
+  timestamp: '2024-10-27 20:17:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/dsl_2d_dual_seg/src/main.rs

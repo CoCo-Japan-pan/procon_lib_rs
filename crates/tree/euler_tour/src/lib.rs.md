@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: crates/data_structure/sparse_table/src/lib.rs
     title: crates/data_structure/sparse_table/src/lib.rs
   _extendedRequiredBy:
@@ -86,7 +86,7 @@ data:
   path: crates/tree/euler_tour/src/lib.rs
   requiredBy:
   - crates/tree/auxiliary_tree/src/lib.rs
-  timestamp: '2024-10-27 17:04:41+09:00'
+  timestamp: '2024-10-27 20:17:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/lca_euler_tour/src/main.rs

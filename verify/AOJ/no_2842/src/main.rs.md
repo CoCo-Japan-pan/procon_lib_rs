@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   - icon: ':heavy_check_mark:'
@@ -57,7 +57,7 @@ data:
   isVerificationFile: true
   path: verify/AOJ/no_2842/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-27 17:04:41+09:00'
+  timestamp: '2024-10-27 20:17:51+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/no_2842/src/main.rs
