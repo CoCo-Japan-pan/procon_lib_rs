@@ -33,7 +33,6 @@ pub trait Monoid {
 
 /// 自己準同型性を要求  
 /// つまり区間和への適用と、各要素への適用の区間和が一致することを要求  
-/// typeのMonoid,Actionだけ指定することを想定(メソッドのオーバーライドはしないでください)  
 pub trait ActionMonoid {
     /// 作用の対象のモノイド
     type M: Monoid;
