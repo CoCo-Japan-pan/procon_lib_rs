@@ -5,10 +5,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/cht_offline/src/lib.rs
     title: crates/data_structure/cht_offline/src/lib.rs
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/data_structure/lazy_segtree/src/lib.rs
     title: crates/data_structure/lazy_segtree/src/lib.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: crates/data_structure/segtree/src/lib.rs
     title: crates/data_structure/segtree/src/lib.rs
   - icon: ':heavy_check_mark:'
@@ -23,7 +23,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
     title: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
     title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   _extendedVerifiedWith: []

@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: crates/data_structure/segtree/src/lib.rs
     title: crates/data_structure/segtree/src/lib.rs
   - icon: ':warning:'
@@ -15,15 +15,15 @@ data:
     title: crates/wavelet/bitdict/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
     title: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yukicoder/no_1625_wavelet/src/main.rs
     title: verify/yukicoder/no_1625_wavelet/src/main.rs
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -203,7 +203,7 @@ data:
   path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   requiredBy: []
   timestamp: '2024-10-27 20:17:51+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
   - verify/yukicoder/no_1625_wavelet/src/main.rs
