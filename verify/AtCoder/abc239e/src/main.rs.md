@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/tree/hld/src/lib.rs
     title: crates/tree/hld/src/lib.rs
   - icon: ':heavy_check_mark:'

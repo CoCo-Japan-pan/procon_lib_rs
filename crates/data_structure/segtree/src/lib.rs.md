@@ -1,29 +1,29 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   - icon: ':warning:'
     path: crates/internals/internal_bits/src/lib.rs
     title: crates/internals/internal_bits/src/lib.rs
   _extendedRequiredBy:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: crates/data_structure/segtree_2d_compressed/src/lib.rs
     title: crates/data_structure/segtree_2d_compressed/src/lib.rs
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
     title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/point_set_range_composite/src/main.rs
     title: verify/yosupo/point_set_range_composite/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/vertex_set_path_composite/src/main.rs
     title: verify/yosupo/vertex_set_path_composite/src/main.rs
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
     - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs
@@ -102,7 +102,7 @@ data:
   - crates/data_structure/segtree_2d_compressed/src/lib.rs
   - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   timestamp: '2024-10-27 17:04:41+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/point_set_range_composite/src/main.rs
   - verify/yosupo/vertex_set_path_composite/src/main.rs

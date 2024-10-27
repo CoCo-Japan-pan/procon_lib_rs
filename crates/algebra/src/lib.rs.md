@@ -5,22 +5,25 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/dual_segtree/src/lib.rs
     title: crates/data_structure/dual_segtree/src/lib.rs
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/data_structure/lazy_segtree/src/lib.rs
     title: crates/data_structure/lazy_segtree/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/potentialized_union_find/src/lib.rs
     title: crates/data_structure/potentialized_union_find/src/lib.rs
-  - icon: ':x:'
+  - icon: ':warning:'
+    path: crates/data_structure/range_chminmax_add_sum/src/lib.rs
+    title: crates/data_structure/range_chminmax_add_sum/src/lib.rs
+  - icon: ':heavy_check_mark:'
     path: crates/data_structure/segtree/src/lib.rs
     title: crates/data_structure/segtree/src/lib.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: crates/data_structure/segtree_2d_compressed/src/lib.rs
     title: crates/data_structure/segtree_2d_compressed/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/segtree_2d_dense/src/lib.rs
     title: crates/data_structure/segtree_2d_dense/src/lib.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: crates/data_structure/sparse_table/src/lib.rs
     title: crates/data_structure/sparse_table/src/lib.rs
   - icon: ':heavy_check_mark:'
@@ -35,7 +38,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/tree/rerooting/src/lib.rs
     title: crates/tree/rerooting/src/lib.rs
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
     title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   - icon: ':warning:'
@@ -78,33 +81,33 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
     title: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/point_add_rectangle_sum/src/main.rs
     title: verify/yosupo/point_add_rectangle_sum/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/point_set_range_composite/src/main.rs
     title: verify/yosupo/point_set_range_composite/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
     title: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/rectangle_add_point_get/src/main.rs
     title: verify/yosupo/rectangle_add_point_get/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/staticrmq_sparse_table/src/main.rs
     title: verify/yosupo/staticrmq_sparse_table/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/vertex_set_path_composite/src/main.rs
     title: verify/yosupo/vertex_set_path_composite/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yukicoder/no_1625/src/main.rs
     title: verify/yukicoder/no_1625/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yukicoder/no_1625_wavelet/src/main.rs
     title: verify/yukicoder/no_1625_wavelet/src/main.rs
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
     - https://rsm9.hatenablog.com/entry/2021/02/01/220408)
@@ -177,6 +180,7 @@ data:
   - crates/math/matrix/src/lib.rs
   - crates/data_structure/potentialized_union_find/src/lib.rs
   - crates/data_structure/dual_segtree/src/lib.rs
+  - crates/data_structure/range_chminmax_add_sum/src/lib.rs
   - crates/data_structure/segtree_2d_dense/src/lib.rs
   - crates/data_structure/sparse_table/src/lib.rs
   - crates/data_structure/segtree/src/lib.rs
@@ -187,7 +191,7 @@ data:
   - crates/tree/rerooting/src/lib.rs
   - crates/tree/euler_tour/src/lib.rs
   timestamp: '2024-10-27 17:04:41+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/dsl_2d_dual_seg/src/main.rs
   - verify/AOJ/dsl_2d_dual_seg_non_commutative/src/main.rs

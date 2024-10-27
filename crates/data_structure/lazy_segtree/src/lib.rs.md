@@ -1,13 +1,16 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   - icon: ':warning:'
     path: crates/internals/internal_bits/src/lib.rs
     title: crates/internals/internal_bits/src/lib.rs
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: crates/data_structure/range_chminmax_add_sum/src/lib.rs
+    title: crates/data_structure/range_chminmax_add_sum/src/lib.rs
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: verify/AOJ/dsl_2f_lazy_seg/src/main.rs
@@ -18,12 +21,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
     title: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
     title: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
     - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/lazysegtree.rs
@@ -217,9 +220,10 @@ data:
   - crates/internals/internal_bits/src/lib.rs
   isVerificationFile: false
   path: crates/data_structure/lazy_segtree/src/lib.rs
-  requiredBy: []
+  requiredBy:
+  - crates/data_structure/range_chminmax_add_sum/src/lib.rs
   timestamp: '2024-10-27 17:04:41+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/dsl_2f_lazy_seg/src/main.rs
   - verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
