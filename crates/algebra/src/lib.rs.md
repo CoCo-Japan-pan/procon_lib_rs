@@ -5,22 +5,22 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/dual_segtree/src/lib.rs
     title: crates/data_structure/dual_segtree/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/lazy_segtree/src/lib.rs
     title: crates/data_structure/lazy_segtree/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/potentialized_union_find/src/lib.rs
     title: crates/data_structure/potentialized_union_find/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: crates/data_structure/segtree/src/lib.rs
     title: crates/data_structure/segtree/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: crates/data_structure/segtree_2d_compressed/src/lib.rs
     title: crates/data_structure/segtree_2d_compressed/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/segtree_2d_dense/src/lib.rs
     title: crates/data_structure/segtree_2d_dense/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: crates/data_structure/sparse_table/src/lib.rs
     title: crates/data_structure/sparse_table/src/lib.rs
   - icon: ':heavy_check_mark:'
@@ -35,7 +35,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/tree/rerooting/src/lib.rs
     title: crates/tree/rerooting/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
     title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   - icon: ':warning:'
@@ -78,33 +78,33 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
     title: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yosupo/point_add_rectangle_sum/src/main.rs
     title: verify/yosupo/point_add_rectangle_sum/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yosupo/point_set_range_composite/src/main.rs
     title: verify/yosupo/point_set_range_composite/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
     title: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yosupo/rectangle_add_point_get/src/main.rs
     title: verify/yosupo/rectangle_add_point_get/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yosupo/staticrmq_sparse_table/src/main.rs
     title: verify/yosupo/staticrmq_sparse_table/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yosupo/vertex_set_path_composite/src/main.rs
     title: verify/yosupo/vertex_set_path_composite/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yukicoder/no_1625/src/main.rs
     title: verify/yukicoder/no_1625/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yukicoder/no_1625_wavelet/src/main.rs
     title: verify/yukicoder/no_1625_wavelet/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -137,32 +137,22 @@ data:
     \u5B9A\u3059\u308B\u3053\u3068\u3092\u60F3\u5B9A(\u30E1\u30BD\u30C3\u30C9\u306E\
     \u30AA\u30FC\u30D0\u30FC\u30E9\u30A4\u30C9\u306F\u3057\u306A\u3044\u3067\u304F\
     \u3060\u3055\u3044)  \npub trait ActionMonoid {\n    /// \u4F5C\u7528\u306E\u5BFE\
-    \u8C61\u306E\u30E2\u30CE\u30A4\u30C9\n    type Monoid: Monoid;\n    /// \u4F5C\
-    \u7528\u7D20\u306E\u30E2\u30CE\u30A4\u30C9\n    type Action: Action<Target = <Self::Monoid\
-    \ as Monoid>::Target>;\n    /// \u5358\u4F4D\u5143\n    fn id_element() -> <Self::Monoid\
-    \ as Monoid>::Target {\n        Self::Monoid::id_element()\n    }\n    /// \u4E8C\
-    \u9805\u6F14\u7B97\n    fn binary_operation(\n        a: &<Self::Monoid as Monoid>::Target,\n\
-    \        b: &<Self::Monoid as Monoid>::Target,\n    ) -> <Self::Monoid as Monoid>::Target\
-    \ {\n        Self::Monoid::binary_operation(a, b)\n    }\n    /// \u6052\u7B49\
-    \u5199\u50CF\n    fn id_action() -> Self::Action {\n        Self::Action::id_action()\n\
-    \    }\n    /// \u4F5C\u7528\u306E\u5408\u6210(f\u304C\u5148\u3001g\u304C\u5F8C\
-    )\n    fn composition(f: &mut Self::Action, g: &Self::Action) {\n        f.composition(g)\n\
-    \    }\n    /// \u4F5C\u7528\u306E\u9069\u7528\n    fn apply(x: &mut <Self::Monoid\
-    \ as Monoid>::Target, f: &Self::Action) {\n        f.apply(x)\n    }\n}\n\n///\
-    \ \u51AA\u7B49\u306A\u30E2\u30CE\u30A4\u30C9  \n/// \u3064\u307E\u308A x = x op\
-    \ x \u304C\u6210\u308A\u7ACB\u3064\u3088\u3046\u306A\u30E2\u30CE\u30A4\u30C9 \
-    \ \n/// SparseTable\u306B\u4E57\u308B\npub trait IdempotentMonoid: Monoid {}\n\
-    \n/// \u7FA4   \n/// \u30E2\u30CE\u30A4\u30C9\u306B\u52A0\u3048\u3066\u3001\u9006\
-    \u5143\u3092\u6301\u3064  \npub trait Group: Monoid {\n    fn inverse(a: &Self::Target)\
-    \ -> Self::Target;\n}\n\n/// \u534A\u74B0  \n/// \u52A0\u7B97\u306F\u53EF\u63DB\
-    \u30E2\u30CE\u30A4\u30C9  \n/// \u4E57\u7B97\u306F\u30E2\u30CE\u30A4\u30C9  \n\
-    /// \u4E57\u7B97\u306F\u52A0\u6CD5\u306B\u5BFE\u3057\u3066\u5206\u914D\u6CD5\u5247\
-    \u3092\u6E80\u305F\u3059 a*(b+c) = a*b + a*c, (a+b)*c = a*c + b*c  \n/// \u52A0\
-    \u7B97\u306E\u5358\u4F4D\u5143\u306F\u4E57\u7B97\u306E\u96F6\u5143 0*a=a*0=0\n\
-    pub trait Semiring: Debug + Clone + Eq {\n    type Target: Debug + Clone + Eq;\n\
-    \    fn zero() -> Self::Target;\n    fn one() -> Self::Target;\n    fn add_assign(a:\
-    \ &mut Self::Target, b: &Self::Target);\n    fn mul(a: &Self::Target, b: &Self::Target)\
-    \ -> Self::Target;\n}\n"
+    \u8C61\u306E\u30E2\u30CE\u30A4\u30C9\n    type M: Monoid;\n    /// \u4F5C\u7528\
+    \u7D20\u306E\u30E2\u30CE\u30A4\u30C9\n    type A: Action<Target = <Self::M as\
+    \ Monoid>::Target>;\n}\n\n/// \u51AA\u7B49\u306A\u30E2\u30CE\u30A4\u30C9  \n///\
+    \ \u3064\u307E\u308A x = x op x \u304C\u6210\u308A\u7ACB\u3064\u3088\u3046\u306A\
+    \u30E2\u30CE\u30A4\u30C9  \n/// SparseTable\u306B\u4E57\u308B\npub trait IdempotentMonoid:\
+    \ Monoid {}\n\n/// \u7FA4   \n/// \u30E2\u30CE\u30A4\u30C9\u306B\u52A0\u3048\u3066\
+    \u3001\u9006\u5143\u3092\u6301\u3064  \npub trait Group: Monoid {\n    fn inverse(a:\
+    \ &Self::Target) -> Self::Target;\n}\n\n/// \u534A\u74B0  \n/// \u52A0\u7B97\u306F\
+    \u53EF\u63DB\u30E2\u30CE\u30A4\u30C9  \n/// \u4E57\u7B97\u306F\u30E2\u30CE\u30A4\
+    \u30C9  \n/// \u4E57\u7B97\u306F\u52A0\u6CD5\u306B\u5BFE\u3057\u3066\u5206\u914D\
+    \u6CD5\u5247\u3092\u6E80\u305F\u3059 a*(b+c) = a*b + a*c, (a+b)*c = a*c + b*c\
+    \  \n/// \u52A0\u7B97\u306E\u5358\u4F4D\u5143\u306F\u4E57\u7B97\u306E\u96F6\u5143\
+    \ 0*a=a*0=0\npub trait Semiring: Debug + Clone + Eq {\n    type Target: Debug\
+    \ + Clone + Eq;\n    fn zero() -> Self::Target;\n    fn one() -> Self::Target;\n\
+    \    fn add_assign(a: &mut Self::Target, b: &Self::Target);\n    fn mul(a: &Self::Target,\
+    \ b: &Self::Target) -> Self::Target;\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/algebra/src/lib.rs
@@ -180,8 +170,8 @@ data:
   - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   - crates/tree/rerooting/src/lib.rs
   - crates/tree/euler_tour/src/lib.rs
-  timestamp: '2024-09-16 18:40:00+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2024-10-27 16:42:13+09:00'
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - verify/AOJ/dsl_2d_dual_seg/src/main.rs
   - verify/AOJ/dsl_2d_dual_seg_non_commutative/src/main.rs

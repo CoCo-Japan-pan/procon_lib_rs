@@ -1,20 +1,20 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/lazy_segtree/src/lib.rs
     title: crates/data_structure/lazy_segtree/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/modint/static_modint/src/lib.rs
     title: crates/modint/static_modint/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     PROBLEM: https://judge.yosupo.jp/problem/range_affine_range_sum
     links:
@@ -41,9 +41,9 @@ data:
     \ *= rhs.b;\n    }\n    fn apply(&self, target: &mut Self::Target) {\n       \
     \ target.sum = self.b * target.sum + self.c * target.len;\n    }\n}\nimpl NonCommutative\
     \ for AffineMap {}\n\nstruct AffineRangeSum;\nimpl ActionMonoid for AffineRangeSum\
-    \ {\n    type Action = AffineMap;\n    type Monoid = AddMonoid;\n}\n\n#[fastout]\n\
-    fn main() {\n    input! {\n        n: usize,\n        q: usize,\n        a: [u32;\
-    \ n],\n    }\n    let a: Vec<AddMonoid> = a\n        .into_iter()\n        .map(|a|\
+    \ {\n    type A = AffineMap;\n    type M = AddMonoid;\n}\n\n#[fastout]\nfn main()\
+    \ {\n    input! {\n        n: usize,\n        q: usize,\n        a: [u32; n],\n\
+    \    }\n    let a: Vec<AddMonoid> = a\n        .into_iter()\n        .map(|a|\
     \ AddMonoid {\n            sum: ModInt998244353::raw(a),\n            len: ModInt998244353::raw(1),\n\
     \        })\n        .collect();\n    let mut seg = LazySegTree::<AffineRangeSum>::from(a);\n\
     \    for _ in 0..q {\n        input! {t: u32}\n        if t == 0 {\n         \
@@ -59,8 +59,8 @@ data:
   isVerificationFile: true
   path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-21 15:52:33+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2024-10-27 16:42:13+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
 layout: document

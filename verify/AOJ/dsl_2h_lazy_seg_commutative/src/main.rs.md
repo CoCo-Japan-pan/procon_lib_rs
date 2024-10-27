@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/lazy_segtree/src/lib.rs
     title: crates/data_structure/lazy_segtree/src/lib.rs
   _extendedRequiredBy: []
@@ -31,8 +31,8 @@ data:
     \        self.add_val += rhs.add_val;\n    }\n    fn apply(&self, target: &mut\
     \ Self::Target) {\n        *target += self.add_val;\n    }\n}\nimpl algebra::Commutative\
     \ for AddMap {}\nstruct RmqRaq {}\nimpl algebra::ActionMonoid for RmqRaq {\n \
-    \   type Monoid = MinMonoid;\n    type Action = AddMap;\n}\n\n#[fastout]\nfn main()\
-    \ {\n    input! {\n        n: usize,\n        q: usize,\n    }\n    let mut lazy_seg\
+    \   type M = MinMonoid;\n    type A = AddMap;\n}\n\n#[fastout]\nfn main() {\n\
+    \    input! {\n        n: usize,\n        q: usize,\n    }\n    let mut lazy_seg\
     \ = LazySegTree::<RmqRaq>::from(vec![0; n]);\n    for _ in 0..q {\n        input!\
     \ {\n            com: usize,\n        }\n        if com == 0 {\n            input!\
     \ {\n                s: usize,\n                t: usize,\n                x:\
@@ -47,7 +47,7 @@ data:
   isVerificationFile: true
   path: verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-20 15:52:04+09:00'
+  timestamp: '2024-10-27 16:42:13+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs

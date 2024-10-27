@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/lazy_segtree/src/lib.rs
     title: crates/data_structure/lazy_segtree/src/lib.rs
   _extendedRequiredBy: []
@@ -43,8 +43,8 @@ data:
     \ target.zero_num * target.one_num - target.inv_num,\n                zero_num:\
     \ target.one_num,\n                one_num: target.zero_num,\n            }\n\
     \        }\n    }\n}\nimpl algebra::Commutative for FlipMap {}\nstruct MyMapMonoid;\n\
-    impl algebra::ActionMonoid for MyMapMonoid {\n    type Monoid = InvNum;\n    type\
-    \ Action = FlipMap;\n}\n\n#[fastout]\nfn main() {\n    input! {\n        n: usize,\n\
+    impl algebra::ActionMonoid for MyMapMonoid {\n    type M = InvNum;\n    type A\
+    \ = FlipMap;\n}\n\n#[fastout]\nfn main() {\n    input! {\n        n: usize,\n\
     \        q: usize,\n        a: [u32; n],\n    }\n    let mut lazy_seg =\n    \
     \    LazySegTree::<MyMapMonoid>::from(a.iter().map(|&x| InvNum::new(x)).collect::<Vec<_>>());\n\
     \    for _ in 0..q {\n        input! {t: u32, l: Usize1, r: Usize1}\n        match\
@@ -58,7 +58,7 @@ data:
   isVerificationFile: true
   path: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-20 15:52:04+09:00'
+  timestamp: '2024-10-27 16:42:13+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AtCoder/alpc_l_lazy_seg/src/main.rs

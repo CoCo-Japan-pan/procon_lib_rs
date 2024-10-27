@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
     title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     PROBLEM: https://yukicoder.me/problems/no/1625
     links:
@@ -72,8 +72,8 @@ data:
   isVerificationFile: true
   path: verify/yukicoder/no_1625_wavelet/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-14 11:18:10+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2024-10-27 16:42:13+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: verify/yukicoder/no_1625_wavelet/src/main.rs
 layout: document
