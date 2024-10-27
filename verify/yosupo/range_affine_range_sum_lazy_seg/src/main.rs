@@ -51,8 +51,8 @@ impl NonCommutative for AffineMap {}
 
 struct AffineRangeSum;
 impl ActionMonoid for AffineRangeSum {
-    type Action = AffineMap;
-    type Monoid = AddMonoid;
+    type A = AffineMap;
+    type M = AddMonoid;
 }
 
 #[fastout]

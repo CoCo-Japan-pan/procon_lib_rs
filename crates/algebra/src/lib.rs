@@ -36,32 +36,9 @@ pub trait Monoid {
 /// typeのMonoid,Actionだけ指定することを想定(メソッドのオーバーライドはしないでください)  
 pub trait ActionMonoid {
     /// 作用の対象のモノイド
-    type Monoid: Monoid;
+    type M: Monoid;
     /// 作用素のモノイド
-    type Action: Action<Target = <Self::Monoid as Monoid>::Target>;
-    /// 単位元
-    fn id_element() -> <Self::Monoid as Monoid>::Target {
-        Self::Monoid::id_element()
-    }
-    /// 二項演算
-    fn binary_operation(
-        a: &<Self::Monoid as Monoid>::Target,
-        b: &<Self::Monoid as Monoid>::Target,
-    ) -> <Self::Monoid as Monoid>::Target {
-        Self::Monoid::binary_operation(a, b)
-    }
-    /// 恒等写像
-    fn id_action() -> Self::Action {
-        Self::Action::id_action()
-    }
-    /// 作用の合成(fが先、gが後)
-    fn composition(f: &mut Self::Action, g: &Self::Action) {
-        f.composition(g)
-    }
-    /// 作用の適用
-    fn apply(x: &mut <Self::Monoid as Monoid>::Target, f: &Self::Action) {
-        f.apply(x)
-    }
+    type A: Action<Target = <Self::M as Monoid>::Target>;
 }
 
 /// 冪等なモノイド  

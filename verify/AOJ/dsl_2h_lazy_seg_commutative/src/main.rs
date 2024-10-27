@@ -32,8 +32,8 @@ impl algebra::Action for AddMap {
 impl algebra::Commutative for AddMap {}
 struct RmqRaq {}
 impl algebra::ActionMonoid for RmqRaq {
-    type Monoid = MinMonoid;
-    type Action = AddMap;
+    type M = MinMonoid;
+    type A = AddMap;
 }
 
 #[fastout]

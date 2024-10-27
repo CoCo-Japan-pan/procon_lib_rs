@@ -38,8 +38,8 @@ impl algebra::Monoid for MinMonoid {
 
 struct RmqRuq {}
 impl algebra::ActionMonoid for RmqRuq {
-    type Monoid = MinMonoid;
-    type Action = MyMap;
+    type M = MinMonoid;
+    type A = MyMap;
 }
 
 #[fastout]

@@ -1,7 +1,7 @@
 //! <https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/lazysegtree.rs> を基にしています  
 //! compositionやmappingに可変参照を用いているところと、作用が可変なら伝播を一部サボる部分が異なる
 
-use algebra::{ActionMonoid, Commutative, Monoid, NonCommutative};
+use algebra::{Action, ActionMonoid, Commutative, Monoid, NonCommutative};
 use internal_bits::ceil_log2;
 use std::ops::{Bound::*, RangeBounds};
 
@@ -10,17 +10,17 @@ pub struct LazySegTree<F: ActionMonoid> {
     range_size: usize,
     leaf_size: usize,
     log: usize,
-    data: Vec<<F::Monoid as Monoid>::Target>,
-    lazy: Vec<F::Action>,
+    data: Vec<<F::M as Monoid>::Target>,
+    lazy: Vec<F::A>,
 }
 
-impl<F: ActionMonoid> From<Vec<<F::Monoid as Monoid>::Target>> for LazySegTree<F> {
-    fn from(v: Vec<<F::Monoid as Monoid>::Target>) -> Self {
+impl<F: ActionMonoid> From<Vec<<F::M as Monoid>::Target>> for LazySegTree<F> {
+    fn from(v: Vec<<F::M as Monoid>::Target>) -> Self {
         let range_size = v.len();
         let log = ceil_log2(range_size as u32) as usize;
         let leaf_size = 1 << log;
-        let mut data = vec![F::id_element(); 2 * leaf_size];
-        let lazy = vec![F::id_action(); leaf_size];
+        let mut data = vec![F::M::id_element(); 2 * leaf_size];
+        let lazy = vec![F::A::id_action(); leaf_size];
         data[leaf_size..(leaf_size + range_size)].clone_from_slice(&v);
         let mut ret = Self {
             range_size,
@@ -38,10 +38,10 @@ impl<F: ActionMonoid> From<Vec<<F::Monoid as Monoid>::Target>> for LazySegTree<F
 
 impl<F: ActionMonoid> LazySegTree<F> {
     pub fn new(n: usize) -> Self {
-        vec![F::id_element(); n].into()
+        vec![F::M::id_element(); n].into()
     }
 
-    pub fn set(&mut self, mut p: usize, x: <F::Monoid as Monoid>::Target) {
+    pub fn set(&mut self, mut p: usize, x: <F::M as Monoid>::Target) {
         assert!(p < self.range_size);
         p += self.leaf_size;
         for i in (1..=self.log).rev() {
@@ -53,7 +53,7 @@ impl<F: ActionMonoid> LazySegTree<F> {
         }
     }
 
-    pub fn get(&mut self, mut p: usize) -> <F::Monoid as Monoid>::Target {
+    pub fn get(&mut self, mut p: usize) -> <F::M as Monoid>::Target {
         assert!(p < self.range_size);
         p += self.leaf_size;
         for i in (1..=self.log).rev() {
@@ -62,7 +62,7 @@ impl<F: ActionMonoid> LazySegTree<F> {
         self.data[p].clone()
     }
 
-    pub fn prod<R: RangeBounds<usize>>(&mut self, range: R) -> <F::Monoid as Monoid>::Target {
+    pub fn prod<R: RangeBounds<usize>>(&mut self, range: R) -> <F::M as Monoid>::Target {
         let mut l = match range.start_bound() {
             Included(&l) => l,
             Excluded(&l) => l + 1,
@@ -75,7 +75,7 @@ impl<F: ActionMonoid> LazySegTree<F> {
         };
         assert!(l <= r && r <= self.range_size);
         if l == r {
-            return F::id_element();
+            return F::M::id_element();
         }
         if l == 0 && r == self.range_size {
             return self.all_prod();
@@ -93,35 +93,35 @@ impl<F: ActionMonoid> LazySegTree<F> {
             }
         }
 
-        let mut sml = F::id_element();
-        let mut smr = F::id_element();
+        let mut sml = F::M::id_element();
+        let mut smr = F::M::id_element();
         while l < r {
             if l & 1 != 0 {
-                sml = F::binary_operation(&sml, &self.data[l]);
+                sml = F::M::binary_operation(&sml, &self.data[l]);
                 l += 1;
             }
             if r & 1 != 0 {
                 r -= 1;
-                smr = F::binary_operation(&self.data[r], &smr);
+                smr = F::M::binary_operation(&self.data[r], &smr);
             }
             l >>= 1;
             r >>= 1;
         }
 
-        F::binary_operation(&sml, &smr)
+        F::M::binary_operation(&sml, &smr)
     }
 
-    pub fn all_prod(&self) -> <F::Monoid as Monoid>::Target {
+    pub fn all_prod(&self) -> <F::M as Monoid>::Target {
         self.data[1].clone()
     }
 
-    pub fn apply(&mut self, mut p: usize, f: &F::Action) {
+    pub fn apply(&mut self, mut p: usize, f: &F::A) {
         assert!(p < self.range_size);
         p += self.leaf_size;
         for i in (1..=self.log).rev() {
             self.push(p >> i);
         }
-        F::apply(&mut self.data[p], f);
+        f.apply(&mut self.data[p]);
         for i in 1..=self.log {
             self.update(p >> i);
         }
@@ -129,10 +129,10 @@ impl<F: ActionMonoid> LazySegTree<F> {
 
     pub fn max_right<G>(&mut self, mut l: usize, g: G) -> usize
     where
-        G: Fn(&<F::Monoid as Monoid>::Target) -> bool,
+        G: Fn(&<F::M as Monoid>::Target) -> bool,
     {
         assert!(l <= self.range_size);
-        assert!(g(&F::id_element()));
+        assert!(g(&F::M::id_element()));
         if l == self.range_size {
             return self.range_size;
         }
@@ -140,16 +140,16 @@ impl<F: ActionMonoid> LazySegTree<F> {
         for i in (1..=self.log).rev() {
             self.push(l >> i);
         }
-        let mut sm = F::id_element();
+        let mut sm = F::M::id_element();
         while {
             while l % 2 == 0 {
                 l >>= 1;
             }
-            if !g(&F::binary_operation(&sm, &self.data[l])) {
+            if !g(&F::M::binary_operation(&sm, &self.data[l])) {
                 while l < self.leaf_size {
                     self.push(l);
                     l *= 2;
-                    let res = F::binary_operation(&sm, &self.data[l]);
+                    let res = F::M::binary_operation(&sm, &self.data[l]);
                     if g(&res) {
                         sm = res;
                         l += 1;
@@ -157,7 +157,7 @@ impl<F: ActionMonoid> LazySegTree<F> {
                 }
                 return l - self.leaf_size;
             }
-            sm = F::binary_operation(&sm, &self.data[l]);
+            sm = F::M::binary_operation(&sm, &self.data[l]);
             l += 1;
             {
                 let l = l as isize;
@@ -169,10 +169,10 @@ impl<F: ActionMonoid> LazySegTree<F> {
 
     pub fn min_left<G>(&mut self, mut r: usize, g: G) -> usize
     where
-        G: Fn(&<F::Monoid as Monoid>::Target) -> bool,
+        G: Fn(&<F::M as Monoid>::Target) -> bool,
     {
         assert!(r <= self.range_size);
-        assert!(g(&F::id_element()));
+        assert!(g(&F::M::id_element()));
         if r == 0 {
             return 0;
         }
@@ -180,17 +180,17 @@ impl<F: ActionMonoid> LazySegTree<F> {
         for i in (1..=self.log).rev() {
             self.push((r - 1) >> i);
         }
-        let mut sm = F::id_element();
+        let mut sm = F::M::id_element();
         while {
             r -= 1;
             while r > 1 && r % 2 != 0 {
                 r >>= 1;
             }
-            if !g(&F::binary_operation(&self.data[r], &sm)) {
+            if !g(&F::M::binary_operation(&self.data[r], &sm)) {
                 while r < self.leaf_size {
                     self.push(r);
                     r = 2 * r + 1;
-                    let res = F::binary_operation(&self.data[r], &sm);
+                    let res = F::M::binary_operation(&self.data[r], &sm);
                     if g(&res) {
                         sm = res;
                         r -= 1;
@@ -198,7 +198,7 @@ impl<F: ActionMonoid> LazySegTree<F> {
                 }
                 return r + 1 - self.leaf_size;
             }
-            sm = F::binary_operation(&self.data[r], &sm);
+            sm = F::M::binary_operation(&self.data[r], &sm);
             {
                 let r = r as isize;
                 (r & -r) != r
@@ -210,10 +210,10 @@ impl<F: ActionMonoid> LazySegTree<F> {
 
 impl<F: ActionMonoid> LazySegTree<F>
 where
-    F::Action: Commutative,
+    F::A: Commutative,
 {
     /// 可換な作用の区間適用
-    pub fn apply_range_commutative<R: RangeBounds<usize>>(&mut self, range: R, f: &F::Action) {
+    pub fn apply_range_commutative<R: RangeBounds<usize>>(&mut self, range: R, f: &F::A) {
         let mut l = match range.start_bound() {
             Included(&l) => l,
             Excluded(&l) => l + 1,
@@ -265,17 +265,17 @@ where
     }
 
     fn update_considering_lazy(&mut self, k: usize) {
-        self.data[k] = F::binary_operation(&self.data[2 * k], &self.data[2 * k + 1]);
-        F::apply(&mut self.data[k], &self.lazy[k]);
+        self.data[k] = F::M::binary_operation(&self.data[2 * k], &self.data[2 * k + 1]);
+        self.lazy[k].apply(&mut self.data[k]);
     }
 }
 
 impl<F: ActionMonoid> LazySegTree<F>
 where
-    F::Action: NonCommutative,
+    F::A: NonCommutative,
 {
     /// 非可換な作用の区間適用
-    pub fn apply_range_non_commutative<R: RangeBounds<usize>>(&mut self, range: R, f: &F::Action) {
+    pub fn apply_range_non_commutative<R: RangeBounds<usize>>(&mut self, range: R, f: &F::A) {
         let mut l = match range.start_bound() {
             Included(&l) => l,
             Excluded(&l) => l + 1,
@@ -338,18 +338,18 @@ where
 impl<F: ActionMonoid> LazySegTree<F> {
     /// dataを子から更新する
     fn update(&mut self, k: usize) {
-        self.data[k] = F::binary_operation(&self.data[2 * k], &self.data[2 * k + 1]);
+        self.data[k] = F::M::binary_operation(&self.data[2 * k], &self.data[2 * k + 1]);
     }
     /// 作用を適用し、lazyノードがあれば(子があれば)作用を合成する
-    fn all_apply(&mut self, k: usize, f: &F::Action) {
-        F::apply(&mut self.data[k], f);
+    fn all_apply(&mut self, k: usize, f: &F::A) {
+        f.apply(&mut self.data[k]);
         if k < self.leaf_size {
-            F::composition(&mut self.lazy[k], f);
+            self.lazy[k].composition(f);
         }
     }
     /// 作用を子に押し込む
     fn push(&mut self, k: usize) {
-        let mut parent = F::id_action();
+        let mut parent = F::A::id_action();
         std::mem::swap(&mut parent, &mut self.lazy[k]);
         self.all_apply(2 * k, &parent);
         self.all_apply(2 * k + 1, &parent);
@@ -401,8 +401,8 @@ mod test {
 
         struct RARRSQ;
         impl ActionMonoid for RARRSQ {
-            type Monoid = SumMonoid;
-            type Action = AddAction;
+            type M = SumMonoid;
+            type A = AddAction;
         }
 
         let mut rng = rand::thread_rng();

@@ -71,8 +71,8 @@ impl algebra::Action for FlipMap {
 impl algebra::Commutative for FlipMap {}
 struct MyMapMonoid;
 impl algebra::ActionMonoid for MyMapMonoid {
-    type Monoid = InvNum;
-    type Action = FlipMap;
+    type M = InvNum;
+    type A = FlipMap;
 }
 
 #[fastout]
