@@ -51,7 +51,7 @@ data:
   isVerificationFile: false
   path: verify/AtCoder/typical_068/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-27 16:42:13+09:00'
+  timestamp: '2024-10-27 17:04:41+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: verify/AtCoder/typical_068/src/main.rs

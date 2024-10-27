@@ -27,6 +27,7 @@ data:
   attributes:
     links:
     - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/lazysegtree.rs
+    - https://rsm9.hatenablog.com/entry/2021/02/01/220408
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
@@ -35,19 +36,21 @@ data:
     \ \u3092\u57FA\u306B\u3057\u3066\u3044\u307E\u3059  \n//! composition\u3084mapping\u306B\
     \u53EF\u5909\u53C2\u7167\u3092\u7528\u3044\u3066\u3044\u308B\u3068\u3053\u308D\
     \u3068\u3001\u4F5C\u7528\u304C\u53EF\u5909\u306A\u3089\u4F1D\u64AD\u3092\u4E00\
-    \u90E8\u30B5\u30DC\u308B\u90E8\u5206\u304C\u7570\u306A\u308B\n\nuse algebra::{Action,\
-    \ ActionMonoid, Commutative, Monoid, NonCommutative};\nuse internal_bits::ceil_log2;\n\
-    use std::ops::{Bound::*, RangeBounds};\n\n#[derive(Debug)]\npub struct LazySegTree<F:\
-    \ ActionMonoid> {\n    range_size: usize,\n    leaf_size: usize,\n    log: usize,\n\
-    \    data: Vec<<F::M as Monoid>::Target>,\n    lazy: Vec<F::A>,\n}\n\nimpl<F:\
-    \ ActionMonoid> From<Vec<<F::M as Monoid>::Target>> for LazySegTree<F> {\n   \
-    \ fn from(v: Vec<<F::M as Monoid>::Target>) -> Self {\n        let range_size\
-    \ = v.len();\n        let log = ceil_log2(range_size as u32) as usize;\n     \
-    \   let leaf_size = 1 << log;\n        let mut data = vec![F::M::id_element();\
-    \ 2 * leaf_size];\n        let lazy = vec![F::A::id_action(); leaf_size];\n  \
-    \      data[leaf_size..(leaf_size + range_size)].clone_from_slice(&v);\n     \
-    \   let mut ret = Self {\n            range_size,\n            leaf_size,\n  \
-    \          log,\n            data,\n            lazy,\n        };\n        for\
+    \u90E8\u30B5\u30DC\u308B\u90E8\u5206\u304C\u7570\u306A\u308B  \n//! `ActionMonoid`\u306E\
+    `action_has_failed`\u3092\u30AA\u30FC\u30D0\u30FC\u30E9\u30A4\u30C9\u3059\u308B\
+    \u3053\u3068\u3067\u3001[SegmentTreeBeats](https://rsm9.hatenablog.com/entry/2021/02/01/220408)\u306E\
+    \u5B9F\u88C5\u3068\u306A\u308B\n\nuse algebra::{Action, ActionMonoid, Commutative,\
+    \ Monoid, NonCommutative};\nuse internal_bits::ceil_log2;\nuse std::ops::{Bound::*,\
+    \ RangeBounds};\n\n#[derive(Debug)]\npub struct LazySegTree<F: ActionMonoid> {\n\
+    \    range_size: usize,\n    leaf_size: usize,\n    log: usize,\n    data: Vec<<F::M\
+    \ as Monoid>::Target>,\n    lazy: Vec<F::A>,\n}\n\nimpl<F: ActionMonoid> From<Vec<<F::M\
+    \ as Monoid>::Target>> for LazySegTree<F> {\n    fn from(v: Vec<<F::M as Monoid>::Target>)\
+    \ -> Self {\n        let range_size = v.len();\n        let log = ceil_log2(range_size\
+    \ as u32) as usize;\n        let leaf_size = 1 << log;\n        let mut data =\
+    \ vec![F::M::id_element(); 2 * leaf_size];\n        let lazy = vec![F::A::id_action();\
+    \ leaf_size];\n        data[leaf_size..(leaf_size + range_size)].clone_from_slice(&v);\n\
+    \        let mut ret = Self {\n            range_size,\n            leaf_size,\n\
+    \            log,\n            data,\n            lazy,\n        };\n        for\
     \ i in (1..leaf_size).rev() {\n            ret.update(i);\n        }\n       \
     \ ret\n    }\n}\n\nimpl<F: ActionMonoid> LazySegTree<F> {\n    pub fn new(n: usize)\
     \ -> Self {\n        vec![F::M::id_element(); n].into()\n    }\n\n    pub fn set(&mut\
@@ -168,7 +171,11 @@ data:
     \u3001lazy\u30CE\u30FC\u30C9\u304C\u3042\u308C\u3070(\u5B50\u304C\u3042\u308C\u3070\
     )\u4F5C\u7528\u3092\u5408\u6210\u3059\u308B\n    fn all_apply(&mut self, k: usize,\
     \ f: &F::A) {\n        f.apply(&mut self.data[k]);\n        if k < self.leaf_size\
-    \ {\n            self.lazy[k].composition(f);\n        }\n    }\n    /// \u4F5C\
+    \ {\n            self.lazy[k].composition(f);\n            // \u4F5C\u7528\u5931\
+    \u6557\u6642\u306F\u3001\u304B\u308F\u308A\u306B\u5B50\u3078\u306E\u4F5C\u7528\
+    \u3092\u518D\u5E30\u7684\u306B\u8A66\u307F\u308B(SegmentTreeBeats)\n         \
+    \   if F::action_has_failed(&self.data[k]) {\n                self.push(k);\n\
+    \                self.update(k);\n            }\n        }\n    }\n    /// \u4F5C\
     \u7528\u3092\u5B50\u306B\u62BC\u3057\u8FBC\u3080\n    fn push(&mut self, k: usize)\
     \ {\n        let mut parent = F::A::id_action();\n        std::mem::swap(&mut\
     \ parent, &mut self.lazy[k]);\n        self.all_apply(2 * k, &parent);\n     \
@@ -211,7 +218,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/lazy_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-27 16:42:13+09:00'
+  timestamp: '2024-10-27 17:04:41+09:00'
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - verify/AOJ/dsl_2f_lazy_seg/src/main.rs

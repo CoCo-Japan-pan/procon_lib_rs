@@ -36,7 +36,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/staticrmq_sparse_table/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-27 16:42:13+09:00'
+  timestamp: '2024-10-27 17:04:41+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: verify/yosupo/staticrmq_sparse_table/src/main.rs

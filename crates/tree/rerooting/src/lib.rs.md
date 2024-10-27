@@ -83,7 +83,7 @@ data:
   isVerificationFile: false
   path: crates/tree/rerooting/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-27 16:42:13+09:00'
+  timestamp: '2024-10-27 17:04:41+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc312g/src/main.rs

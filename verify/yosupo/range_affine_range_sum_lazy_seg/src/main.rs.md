@@ -59,7 +59,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-27 16:42:13+09:00'
+  timestamp: '2024-10-27 17:04:41+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs

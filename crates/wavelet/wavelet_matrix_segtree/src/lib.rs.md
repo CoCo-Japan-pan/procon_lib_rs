@@ -202,7 +202,7 @@ data:
   isVerificationFile: false
   path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-27 16:42:13+09:00'
+  timestamp: '2024-10-27 17:04:41+09:00'
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
