@@ -24,30 +24,29 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://judge.yosupo.jp/problem/range_affine_range_sum\n\
-    \nuse algebra::{ActionMonoid, NonCommutative};\nuse lazy_segtree::LazySegTree;\n\
-    use proconio::{fastout, input};\nuse static_modint::ModInt998244353;\n\n#[derive(Clone,\
-    \ Copy, Debug, PartialEq, Eq)]\nstruct AddMonoid {\n    sum: ModInt998244353,\n\
-    \    len: ModInt998244353,\n}\nimpl algebra::Monoid for AddMonoid {\n    type\
-    \ Target = Self;\n    fn id_element() -> Self::Target {\n        Self {\n    \
-    \        sum: ModInt998244353::raw(0),\n            len: ModInt998244353::raw(0),\n\
-    \        }\n    }\n    fn binary_operation(a: &Self::Target, b: &Self::Target)\
-    \ -> Self::Target {\n        Self {\n            sum: a.sum + b.sum,\n       \
-    \     len: a.len + b.len,\n        }\n    }\n}\n\n#[derive(Clone, Copy, Debug,\
-    \ PartialEq, Eq)]\nstruct AffineMap {\n    b: ModInt998244353,\n    c: ModInt998244353,\n\
-    }\nimpl algebra::Action for AffineMap {\n    type Target = AddMonoid;\n    fn\
-    \ id_action() -> Self {\n        Self {\n            b: ModInt998244353::raw(1),\n\
-    \            c: ModInt998244353::raw(0),\n        }\n    }\n    fn composition(&mut\
-    \ self, rhs: &Self) {\n        self.c = self.c * rhs.b + rhs.c;\n        self.b\
-    \ *= rhs.b;\n    }\n    fn apply(&self, target: &mut Self::Target) {\n       \
-    \ target.sum = self.b * target.sum + self.c * target.len;\n    }\n}\nimpl NonCommutative\
-    \ for AffineMap {}\n\nstruct AffineRangeSum;\nimpl ActionMonoid for AffineRangeSum\
+    \nuse algebra::ActionMonoid;\nuse lazy_segtree::LazySegTree;\nuse proconio::{fastout,\
+    \ input};\nuse static_modint::ModInt998244353;\n\n#[derive(Clone, Copy, Debug,\
+    \ PartialEq, Eq)]\nstruct AddMonoid {\n    sum: ModInt998244353,\n    len: ModInt998244353,\n\
+    }\nimpl algebra::Monoid for AddMonoid {\n    type Target = Self;\n    fn id_element()\
+    \ -> Self::Target {\n        Self {\n            sum: ModInt998244353::raw(0),\n\
+    \            len: ModInt998244353::raw(0),\n        }\n    }\n    fn binary_operation(a:\
+    \ &Self::Target, b: &Self::Target) -> Self::Target {\n        Self {\n       \
+    \     sum: a.sum + b.sum,\n            len: a.len + b.len,\n        }\n    }\n\
+    }\n\n#[derive(Clone, Copy, Debug, PartialEq, Eq)]\nstruct AffineMap {\n    b:\
+    \ ModInt998244353,\n    c: ModInt998244353,\n}\nimpl algebra::Action for AffineMap\
+    \ {\n    type Target = AddMonoid;\n    fn id_action() -> Self {\n        Self\
+    \ {\n            b: ModInt998244353::raw(1),\n            c: ModInt998244353::raw(0),\n\
+    \        }\n    }\n    fn composition(&mut self, rhs: &Self) {\n        self.c\
+    \ = self.c * rhs.b + rhs.c;\n        self.b *= rhs.b;\n    }\n    fn apply(&self,\
+    \ target: &mut Self::Target) {\n        target.sum = self.b * target.sum + self.c\
+    \ * target.len;\n    }\n}\n\nstruct AffineRangeSum;\nimpl ActionMonoid for AffineRangeSum\
     \ {\n    type A = AffineMap;\n    type M = AddMonoid;\n}\n\n#[fastout]\nfn main()\
     \ {\n    input! {\n        n: usize,\n        q: usize,\n        a: [u32; n],\n\
     \    }\n    let a: Vec<AddMonoid> = a\n        .into_iter()\n        .map(|a|\
     \ AddMonoid {\n            sum: ModInt998244353::raw(a),\n            len: ModInt998244353::raw(1),\n\
     \        })\n        .collect();\n    let mut seg = LazySegTree::<AffineRangeSum>::from(a);\n\
     \    for _ in 0..q {\n        input! {t: u32}\n        if t == 0 {\n         \
-    \   input! {l: usize, r: usize, b: u32, c: u32}\n            seg.apply_range_non_commutative(\n\
+    \   input! {l: usize, r: usize, b: u32, c: u32}\n            seg.apply_range(\n\
     \                l..r,\n                &AffineMap {\n                    b: ModInt998244353::raw(b),\n\
     \                    c: ModInt998244353::raw(c),\n                },\n       \
     \     );\n        } else {\n            input! {l: usize, r: usize}\n        \
@@ -59,7 +58,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-28 22:30:37+09:00'
+  timestamp: '2024-10-28 22:46:07+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs

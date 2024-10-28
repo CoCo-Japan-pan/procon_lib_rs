@@ -26,44 +26,29 @@ data:
     \u306A\u3089\u4F5C\u7528\u306E\u4F1D\u64AD\u3092\u3057\u306A\u304F\u3066OK  \n\
     //! \u4F5C\u7528\u304C\u53EF\u63DB\u3067\u306A\u3044\u306A\u3089\u4F5C\u7528\u306E\
     \u4F1D\u64AD\u3092\u3057\u3066\u304B\u3089\u9069\u7528\u3059\u308B\n\nuse algebra::{Action,\
-    \ Commutative, NonCommutative};\nuse std::ops::{Bound::*, RangeBounds};\n\n///\
-    \ \u4F5C\u7528\u3092\u533A\u9593\u9069\u7528, 1\u70B9\u53D6\u5F97\u304C\u3067\u304D\
-    \u308B\u30C7\u30FC\u30BF\u69CB\u9020\n#[derive(Debug)]\npub struct DualSegTree<T:\
-    \ Action> {\n    range_size: usize,\n    leaf_size: usize,\n    log: usize,\n\
-    \    lazy_nodes: Vec<T>,\n}\n\nimpl<T: Action> DualSegTree<T> {\n    pub fn new(size:\
-    \ usize) -> Self {\n        let mut leaf_size = 1;\n        let mut log = 0;\n\
-    \        while leaf_size < size {\n            leaf_size *= 2;\n            log\
-    \ += 1;\n        }\n        Self {\n            range_size: size,\n          \
-    \  leaf_size,\n            log,\n            lazy_nodes: vec![T::id_action();\
-    \ 2 * leaf_size],\n        }\n    }\n\n    /// \u4E00\u70B9\u53D6\u5F97(\u305D\
-    \u306E\u70B9\u3078\u306E\u4F5C\u7528\u3092\u9069\u7528\u3057\u305F\u7D50\u679C\
-    \u3092\u8FD4\u3059)\n    pub fn get_mapped(&self, i: usize, mut target: T::Target)\
-    \ -> T::Target {\n        assert!(i < self.range_size);\n        let mut i = i\
-    \ + self.leaf_size;\n        while i > 0 {\n            self.lazy_nodes[i].apply(&mut\
-    \ target);\n            i >>= 1;\n        }\n        target\n    }\n\n    ///\
-    \ \u4E00\u70B9\u53D6\u5F97(\u305D\u306E\u70B9\u3078\u306E\u4F5C\u7528\u306E\u5408\
-    \u6210\u3092\u8FD4\u3059)\n    pub fn get_composition(&self, i: usize) -> T {\n\
-    \        assert!(i < self.range_size);\n        let mut i = i + self.leaf_size;\n\
-    \        let mut res = T::id_action();\n        while i > 0 {\n            res.composition(&self.lazy_nodes[i]);\n\
-    \            i >>= 1;\n        }\n        res\n    }\n}\n\nimpl<T: Action + Commutative>\
-    \ DualSegTree<T> {\n    /// \u533A\u9593\u306B\u53EF\u63DB\u306A\u4F5C\u7528\u3092\
-    \u9069\u7528\u3059\u308B \u53EF\u63DB\u306A\u306E\u3067\u4F5C\u7528\u306E\u4F1D\
-    \u64AD\u3092\u3057\u306A\u304F\u3066OK\n    pub fn apply_commutative<R: RangeBounds<usize>>(&mut\
-    \ self, range: R, map: &T) {\n        let mut l = match range.start_bound() {\n\
-    \            Included(&l) => l,\n            Excluded(&l) => l + 1,\n        \
-    \    Unbounded => 0,\n        };\n        let mut r = match range.end_bound()\
-    \ {\n            Included(&r) => r + 1,\n            Excluded(&r) => r,\n    \
-    \        Unbounded => self.range_size,\n        };\n        assert!(l <= r &&\
-    \ r <= self.range_size);\n        if l == r {\n            return;\n        }\n\
-    \        l += self.leaf_size;\n        r += self.leaf_size;\n        while l <\
-    \ r {\n            if l & 1 == 1 {\n                self.lazy_nodes[l].composition(map);\n\
-    \                l += 1;\n            }\n            if r & 1 == 1 {\n       \
-    \         r -= 1;\n                self.lazy_nodes[r].composition(map);\n    \
-    \        }\n            l >>= 1;\n            r >>= 1;\n        }\n    }\n}\n\n\
-    impl<T: Action + NonCommutative> DualSegTree<T> {\n    /// \u533A\u9593\u306B\u975E\
-    \u53EF\u63DB\u306A\u4F5C\u7528\u3092\u9069\u7528\u3059\u308B \u975E\u53EF\u63DB\
-    \u306A\u306E\u3067\u4F5C\u7528\u306E\u4F1D\u64AD\u3092\u5148\u306B\u884C\u3046\
-    \u5FC5\u8981\u304C\u3042\u308B\n    pub fn apply_non_commutative<R: RangeBounds<usize>>(&mut\
+    \ Commutative};\nuse std::ops::{Bound::*, RangeBounds};\n\n/// \u4F5C\u7528\u3092\
+    \u533A\u9593\u9069\u7528, 1\u70B9\u53D6\u5F97\u304C\u3067\u304D\u308B\u30C7\u30FC\
+    \u30BF\u69CB\u9020\n#[derive(Debug)]\npub struct DualSegTree<T: Action> {\n  \
+    \  range_size: usize,\n    leaf_size: usize,\n    log: usize,\n    lazy_nodes:\
+    \ Vec<T>,\n}\n\nimpl<T: Action> DualSegTree<T> {\n    pub fn new(size: usize)\
+    \ -> Self {\n        let mut leaf_size = 1;\n        let mut log = 0;\n      \
+    \  while leaf_size < size {\n            leaf_size *= 2;\n            log += 1;\n\
+    \        }\n        Self {\n            range_size: size,\n            leaf_size,\n\
+    \            log,\n            lazy_nodes: vec![T::id_action(); 2 * leaf_size],\n\
+    \        }\n    }\n\n    /// \u4E00\u70B9\u53D6\u5F97(\u305D\u306E\u70B9\u3078\
+    \u306E\u4F5C\u7528\u3092\u9069\u7528\u3057\u305F\u7D50\u679C\u3092\u8FD4\u3059\
+    )\n    pub fn get_mapped(&self, i: usize, mut target: T::Target) -> T::Target\
+    \ {\n        assert!(i < self.range_size);\n        let mut i = i + self.leaf_size;\n\
+    \        while i > 0 {\n            self.lazy_nodes[i].apply(&mut target);\n \
+    \           i >>= 1;\n        }\n        target\n    }\n\n    /// \u4E00\u70B9\
+    \u53D6\u5F97(\u305D\u306E\u70B9\u3078\u306E\u4F5C\u7528\u306E\u5408\u6210\u3092\
+    \u8FD4\u3059)\n    pub fn get_composition(&self, i: usize) -> T {\n        assert!(i\
+    \ < self.range_size);\n        let mut i = i + self.leaf_size;\n        let mut\
+    \ res = T::id_action();\n        while i > 0 {\n            res.composition(&self.lazy_nodes[i]);\n\
+    \            i >>= 1;\n        }\n        res\n    }\n\n    /// \u53EF\u63DB\u6027\
+    \u3092\u4EEE\u5B9A\u3057\u306A\u3044\u4F5C\u7528\u306E\u533A\u9593\u9069\u7528\
+    \  \n    /// \u53EF\u63DB\u306A\u4F5C\u7528\u306F`apply_range_commutative`\u306E\
+    \u65B9\u304C\u5B9A\u6570\u500D\u9AD8\u901F\n    pub fn apply_range<R: RangeBounds<usize>>(&mut\
     \ self, range: R, map: &T) {\n        let mut l = match range.start_bound() {\n\
     \            Included(&l) => l,\n            Excluded(&l) => l + 1,\n        \
     \    Unbounded => 0,\n        };\n        let mut r = match range.end_bound()\
@@ -84,13 +69,27 @@ data:
     \u3089\u5B50\u30CE\u30FC\u30C9\u3078\u306E\u4F5C\u7528\u306E\u4F1D\u64AD\n   \
     \     let mut parent = T::id_action();\n        std::mem::swap(&mut parent, &mut\
     \ self.lazy_nodes[i]);\n        self.lazy_nodes[i * 2].composition(&parent);\n\
-    \        self.lazy_nodes[i * 2 + 1].composition(&parent);\n    }\n}\n"
+    \        self.lazy_nodes[i * 2 + 1].composition(&parent);\n    }\n}\n\nimpl<T:\
+    \ Action + Commutative> DualSegTree<T> {\n    /// \u533A\u9593\u306B\u53EF\u63DB\
+    \u306A\u4F5C\u7528\u3092\u9069\u7528\u3059\u308B \u53EF\u63DB\u306A\u306E\u3067\
+    \u4F5C\u7528\u306E\u4F1D\u64AD\u3092\u3057\u306A\u304F\u3066OK\n    pub fn apply_range_commutative<R:\
+    \ RangeBounds<usize>>(&mut self, range: R, map: &T) {\n        let mut l = match\
+    \ range.start_bound() {\n            Included(&l) => l,\n            Excluded(&l)\
+    \ => l + 1,\n            Unbounded => 0,\n        };\n        let mut r = match\
+    \ range.end_bound() {\n            Included(&r) => r + 1,\n            Excluded(&r)\
+    \ => r,\n            Unbounded => self.range_size,\n        };\n        assert!(l\
+    \ <= r && r <= self.range_size);\n        if l == r {\n            return;\n \
+    \       }\n        l += self.leaf_size;\n        r += self.leaf_size;\n      \
+    \  while l < r {\n            if l & 1 == 1 {\n                self.lazy_nodes[l].composition(map);\n\
+    \                l += 1;\n            }\n            if r & 1 == 1 {\n       \
+    \         r -= 1;\n                self.lazy_nodes[r].composition(map);\n    \
+    \        }\n            l >>= 1;\n            r >>= 1;\n        }\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
   isVerificationFile: false
   path: crates/data_structure/dual_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-27 20:17:51+09:00'
+  timestamp: '2024-10-28 22:46:07+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/dsl_2d_dual_seg/src/main.rs

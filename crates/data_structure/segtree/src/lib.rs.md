@@ -101,7 +101,7 @@ data:
   requiredBy:
   - crates/data_structure/segtree_2d_compressed/src/lib.rs
   - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
-  timestamp: '2024-10-27 20:17:51+09:00'
+  timestamp: '2024-10-28 22:46:07+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/point_set_range_composite/src/main.rs

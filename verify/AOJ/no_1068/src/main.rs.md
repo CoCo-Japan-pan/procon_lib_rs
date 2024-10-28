@@ -41,7 +41,7 @@ data:
   isVerificationFile: true
   path: verify/AOJ/no_1068/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-27 20:17:51+09:00'
+  timestamp: '2024-10-28 22:46:07+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/no_1068/src/main.rs

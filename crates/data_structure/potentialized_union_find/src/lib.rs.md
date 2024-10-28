@@ -86,7 +86,7 @@ data:
   path: crates/data_structure/potentialized_union_find/src/lib.rs
   requiredBy:
   - verify/AtCoder/typical_068/src/main.rs
-  timestamp: '2024-10-27 20:17:51+09:00'
+  timestamp: '2024-10-28 22:46:07+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AtCoder/abc328f/src/main.rs

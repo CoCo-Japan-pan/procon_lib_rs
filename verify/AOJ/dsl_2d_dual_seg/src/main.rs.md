@@ -36,18 +36,18 @@ data:
     \    }\n        if query_type == 0 {\n            input! {\n                s:\
     \ usize,\n                t: usize,\n                x: u32,\n            }\n\
     \            let map = RUQ {\n                time_stamp,\n                value:\
-    \ x,\n            };\n            seg.apply_commutative(s..=t, &map);\n      \
-    \  } else {\n            input! {\n                i: usize,\n            }\n\
-    \            let composed = seg.get_composition(i);\n            let mut target\
-    \ = RUQ::id_action();\n            composed.apply(&mut target);\n            println!(\"\
-    {}\", target.value);\n        }\n    }\n}\n"
+    \ x,\n            };\n            seg.apply_range_commutative(s..=t, &map);\n\
+    \        } else {\n            input! {\n                i: usize,\n         \
+    \   }\n            let composed = seg.get_composition(i);\n            let mut\
+    \ target = RUQ::id_action();\n            composed.apply(&mut target);\n     \
+    \       println!(\"{}\", target.value);\n        }\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
   - crates/data_structure/dual_segtree/src/lib.rs
   isVerificationFile: true
   path: verify/AOJ/dsl_2d_dual_seg/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-27 20:17:51+09:00'
+  timestamp: '2024-10-28 22:46:07+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/dsl_2d_dual_seg/src/main.rs

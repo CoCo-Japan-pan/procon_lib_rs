@@ -114,19 +114,18 @@ data:
   code: "//! `Algrebra`\u3067\u306F\u3001\u30C7\u30FC\u30BF\u69CB\u9020\u306B\u4E57\
     \u305B\u308B\u4EE3\u6570\u69CB\u9020\u306Etrait\u3092\u63D0\u4F9B\u3057\u307E\u3059\
     \u3002\nuse std::fmt::Debug;\n\n/// \u53EF\u63DB  \npub trait Commutative {}\n\
-    /// \u975E\u53EF\u63DB\npub trait NonCommutative {}\n\n/// \u4F5C\u7528  \n///\
-    \ \u4F5C\u7528\u81EA\u4F53\u3082\u30E2\u30CE\u30A4\u30C9\u3067\u3042\u308B\u3053\
-    \u3068\u3092\u8981\u6C42  \n/// \u4F5C\u7528\u7D20\u3092\u5408\u6210\u3055\u305B\
-    \u3066\u304B\u3089\u4F5C\u7528\u3055\u305B\u308B\u306E\u3068\u3001\u4F5C\u7528\
-    \u7D20\u3092\u4E00\u3064\u4E00\u3064\u4F5C\u7528\u3055\u305B\u308B\u7D50\u679C\
-    \u304C\u540C\u3058\u3067\u3042\u308B\u3053\u3068\u3092\u8981\u6C42\npub trait\
-    \ Action: Debug + Clone {\n    /// \u4F5C\u7528\u306E\u5BFE\u8C61\n    type Target:\
-    \ Clone;\n    /// \u6052\u7B49\u5199\u50CF\n    fn id_action() -> Self;\n    ///\
-    \ \u4F5C\u7528\u306E\u5408\u6210(self\u304C\u5148\u3001rhs\u304C\u5F8C)  \n  \
-    \  /// (atcoder library\u3068\u306F\u4F5C\u7528\u306E\u9806\u304C\u9006\u306A\u306E\
-    \u3067\u6CE8\u610F)\n    fn composition(&mut self, rhs: &Self);\n    /// \u4F5C\
-    \u7528\u306E\u9069\u7528\n    fn apply(&self, target: &mut Self::Target);\n}\n\
-    \n/// \u30E2\u30CE\u30A4\u30C9\npub trait Monoid {\n    /// \u30E2\u30CE\u30A4\
+    \n/// \u4F5C\u7528  \n/// \u4F5C\u7528\u81EA\u4F53\u3082\u30E2\u30CE\u30A4\u30C9\
+    \u3067\u3042\u308B\u3053\u3068\u3092\u8981\u6C42  \n/// \u4F5C\u7528\u7D20\u3092\
+    \u5408\u6210\u3055\u305B\u3066\u304B\u3089\u4F5C\u7528\u3055\u305B\u308B\u306E\
+    \u3068\u3001\u4F5C\u7528\u7D20\u3092\u4E00\u3064\u4E00\u3064\u4F5C\u7528\u3055\
+    \u305B\u308B\u7D50\u679C\u304C\u540C\u3058\u3067\u3042\u308B\u3053\u3068\u3092\
+    \u8981\u6C42\npub trait Action: Debug + Clone {\n    /// \u4F5C\u7528\u306E\u5BFE\
+    \u8C61\n    type Target: Clone;\n    /// \u6052\u7B49\u5199\u50CF\n    fn id_action()\
+    \ -> Self;\n    /// \u4F5C\u7528\u306E\u5408\u6210(self\u304C\u5148\u3001rhs\u304C\
+    \u5F8C)  \n    /// (atcoder library\u3068\u306F\u4F5C\u7528\u306E\u9806\u304C\u9006\
+    \u306A\u306E\u3067\u6CE8\u610F)\n    fn composition(&mut self, rhs: &Self);\n\
+    \    /// \u4F5C\u7528\u306E\u9069\u7528\n    fn apply(&self, target: &mut Self::Target);\n\
+    }\n\n/// \u30E2\u30CE\u30A4\u30C9\npub trait Monoid {\n    /// \u30E2\u30CE\u30A4\
     \u30C9\u306E\u8981\u7D20\n    type Target: Debug + Clone + Eq;\n    /// \u5358\
     \u4F4D\u5143\n    fn id_element() -> Self::Target;\n    /// \u4E8C\u9805\u6F14\
     \u7B97\n    fn binary_operation(a: &Self::Target, b: &Self::Target) -> Self::Target;\n\
@@ -167,7 +166,7 @@ data:
   - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   - crates/tree/rerooting/src/lib.rs
   - crates/tree/euler_tour/src/lib.rs
-  timestamp: '2024-10-27 20:17:51+09:00'
+  timestamp: '2024-10-28 22:46:07+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/dsl_2d_dual_seg/src/main.rs

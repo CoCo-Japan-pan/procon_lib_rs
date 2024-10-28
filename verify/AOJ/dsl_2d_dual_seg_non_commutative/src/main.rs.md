@@ -28,22 +28,22 @@ data:
     \ &Self) {\n        if rhs.value.is_some() {\n            *self = *rhs;\n    \
     \    }\n    }\n    fn apply(&self, target: &mut Self::Target) {\n        if let\
     \ Some(value) = self.value {\n            *target = value;\n        }\n    }\n\
-    }\n\nimpl algebra::NonCommutative for RUQ {}\n\n#[fastout]\nfn main() {\n    input!\
-    \ {\n        n: usize,\n        q: usize,\n    }\n    let mut seg = DualSegTree::<RUQ>::new(n);\n\
-    \    for _ in 0..q {\n        input! {\n            query_type: u32,\n       \
-    \ }\n        if query_type == 0 {\n            input! {\n                s: usize,\n\
-    \                t: usize,\n                x: u32,\n            }\n         \
-    \   let map = RUQ { value: Some(x) };\n            seg.apply_non_commutative(s..=t,\
-    \ &map);\n        } else {\n            input! {\n                i: usize,\n\
-    \            }\n            let mapped = seg.get_mapped(i, (1_u32 << 31) - 1);\n\
-    \            println!(\"{}\", mapped);\n        }\n    }\n}\n"
+    }\n\n#[fastout]\nfn main() {\n    input! {\n        n: usize,\n        q: usize,\n\
+    \    }\n    let mut seg = DualSegTree::<RUQ>::new(n);\n    for _ in 0..q {\n \
+    \       input! {\n            query_type: u32,\n        }\n        if query_type\
+    \ == 0 {\n            input! {\n                s: usize,\n                t:\
+    \ usize,\n                x: u32,\n            }\n            let map = RUQ {\
+    \ value: Some(x) };\n            seg.apply_range(s..=t, &map);\n        } else\
+    \ {\n            input! {\n                i: usize,\n            }\n        \
+    \    let mapped = seg.get_mapped(i, (1_u32 << 31) - 1);\n            println!(\"\
+    {}\", mapped);\n        }\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
   - crates/data_structure/dual_segtree/src/lib.rs
   isVerificationFile: true
   path: verify/AOJ/dsl_2d_dual_seg_non_commutative/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-27 20:17:51+09:00'
+  timestamp: '2024-10-28 22:46:07+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/dsl_2d_dual_seg_non_commutative/src/main.rs
