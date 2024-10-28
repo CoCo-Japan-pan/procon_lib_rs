@@ -2,7 +2,7 @@
 //! 作用が可換なら作用の伝播をしなくてOK  
 //! 作用が可換でないなら作用の伝播をしてから適用する
 
-use algebra::{Action, Commutative, NonCommutative};
+use algebra::{Action, Commutative};
 use std::ops::{Bound::*, RangeBounds};
 
 /// 作用を区間適用, 1点取得ができるデータ構造
@@ -52,45 +52,10 @@ impl<T: Action> DualSegTree<T> {
         }
         res
     }
-}
 
-impl<T: Action + Commutative> DualSegTree<T> {
-    /// 区間に可換な作用を適用する 可換なので作用の伝播をしなくてOK
-    pub fn apply_commutative<R: RangeBounds<usize>>(&mut self, range: R, map: &T) {
-        let mut l = match range.start_bound() {
-            Included(&l) => l,
-            Excluded(&l) => l + 1,
-            Unbounded => 0,
-        };
-        let mut r = match range.end_bound() {
-            Included(&r) => r + 1,
-            Excluded(&r) => r,
-            Unbounded => self.range_size,
-        };
-        assert!(l <= r && r <= self.range_size);
-        if l == r {
-            return;
-        }
-        l += self.leaf_size;
-        r += self.leaf_size;
-        while l < r {
-            if l & 1 == 1 {
-                self.lazy_nodes[l].composition(map);
-                l += 1;
-            }
-            if r & 1 == 1 {
-                r -= 1;
-                self.lazy_nodes[r].composition(map);
-            }
-            l >>= 1;
-            r >>= 1;
-        }
-    }
-}
-
-impl<T: Action + NonCommutative> DualSegTree<T> {
-    /// 区間に非可換な作用を適用する 非可換なので作用の伝播を先に行う必要がある
-    pub fn apply_non_commutative<R: RangeBounds<usize>>(&mut self, range: R, map: &T) {
+    /// 可換性を仮定しない作用の区間適用  
+    /// 可換な作用は`apply_range_commutative`の方が定数倍高速
+    pub fn apply_range<R: RangeBounds<usize>>(&mut self, range: R, map: &T) {
         let mut l = match range.start_bound() {
             Included(&l) => l,
             Excluded(&l) => l + 1,
@@ -136,5 +101,39 @@ impl<T: Action + NonCommutative> DualSegTree<T> {
         std::mem::swap(&mut parent, &mut self.lazy_nodes[i]);
         self.lazy_nodes[i * 2].composition(&parent);
         self.lazy_nodes[i * 2 + 1].composition(&parent);
+    }
+}
+
+impl<T: Action + Commutative> DualSegTree<T> {
+    /// 区間に可換な作用を適用する 可換なので作用の伝播をしなくてOK
+    pub fn apply_range_commutative<R: RangeBounds<usize>>(&mut self, range: R, map: &T) {
+        let mut l = match range.start_bound() {
+            Included(&l) => l,
+            Excluded(&l) => l + 1,
+            Unbounded => 0,
+        };
+        let mut r = match range.end_bound() {
+            Included(&r) => r + 1,
+            Excluded(&r) => r,
+            Unbounded => self.range_size,
+        };
+        assert!(l <= r && r <= self.range_size);
+        if l == r {
+            return;
+        }
+        l += self.leaf_size;
+        r += self.leaf_size;
+        while l < r {
+            if l & 1 == 1 {
+                self.lazy_nodes[l].composition(map);
+                l += 1;
+            }
+            if r & 1 == 1 {
+                r -= 1;
+                self.lazy_nodes[r].composition(map);
+            }
+            l >>= 1;
+            r >>= 1;
+        }
     }
 }

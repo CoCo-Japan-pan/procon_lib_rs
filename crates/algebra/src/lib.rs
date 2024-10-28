@@ -3,8 +3,6 @@ use std::fmt::Debug;
 
 /// 可換  
 pub trait Commutative {}
-/// 非可換
-pub trait NonCommutative {}
 
 /// 作用  
 /// 作用自体もモノイドであることを要求  

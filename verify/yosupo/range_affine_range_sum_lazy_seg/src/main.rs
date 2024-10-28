@@ -1,6 +1,6 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/range_affine_range_sum
 
-use algebra::{ActionMonoid, NonCommutative};
+use algebra::ActionMonoid;
 use lazy_segtree::LazySegTree;
 use proconio::{fastout, input};
 use static_modint::ModInt998244353;
@@ -47,7 +47,6 @@ impl algebra::Action for AffineMap {
         target.sum = self.b * target.sum + self.c * target.len;
     }
 }
-impl NonCommutative for AffineMap {}
 
 struct AffineRangeSum;
 impl ActionMonoid for AffineRangeSum {
@@ -74,7 +73,7 @@ fn main() {
         input! {t: u32}
         if t == 0 {
             input! {l: usize, r: usize, b: u32, c: u32}
-            seg.apply_range_non_commutative(
+            seg.apply_range(
                 l..r,
                 &AffineMap {
                     b: ModInt998244353::raw(b),

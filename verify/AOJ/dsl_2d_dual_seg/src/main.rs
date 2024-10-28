@@ -53,7 +53,7 @@ fn main() {
                 time_stamp,
                 value: x,
             };
-            seg.apply_commutative(s..=t, &map);
+            seg.apply_range_commutative(s..=t, &map);
         } else {
             input! {
                 i: usize,

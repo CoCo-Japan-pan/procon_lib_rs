@@ -1,7 +1,7 @@
 //! <https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/lazysegtree.rs> を基にしています  
 //! compositionやmappingに可変参照を用いているところと、作用が可変なら伝播を一部サボる部分が異なる
 
-use algebra::{Action, ActionMonoid, Commutative, Monoid, NonCommutative};
+use algebra::{Action, ActionMonoid, Commutative, Monoid};
 use internal_bits::ceil_log2;
 use std::ops::{Bound::*, RangeBounds};
 
@@ -129,6 +129,57 @@ impl<F: ActionMonoid> LazySegTree<F> {
         f.apply(&mut self.data[p]);
         for i in 1..=self.log {
             self.update(p >> i);
+        }
+    }
+
+    /// 作用の可換性を仮定しない上での区間適用  
+    /// 可換な作用は`apply_range_commutative`の方が定数倍高速
+    pub fn apply_range<R: RangeBounds<usize>>(&mut self, range: R, f: &F::A) {
+        let (mut l, mut r) = self.get_range(range);
+        if l == r {
+            return;
+        }
+
+        l += self.leaf_size;
+        r += self.leaf_size;
+
+        // 非可換なので、先に上から伝播しておく
+        for i in (1..=self.log).rev() {
+            if ((l >> i) << i) != l {
+                self.push(l >> i);
+            }
+            if ((r >> i) << i) != r {
+                self.push((r - 1) >> i);
+            }
+        }
+
+        {
+            let l_copy = l;
+            let r_copy = r;
+            while l < r {
+                if l & 1 != 0 {
+                    self.all_apply(l, f);
+                    l += 1;
+                }
+                if r & 1 != 0 {
+                    r -= 1;
+                    self.all_apply(r, f);
+                }
+                l >>= 1;
+                r >>= 1;
+            }
+            l = l_copy;
+            r = r_copy;
+        }
+
+        // 先に伝播しているのでlazyの値を考慮せずに更新できる
+        for i in 1..=self.log {
+            if ((l >> i) << i) != l {
+                self.update(l >> i);
+            }
+            if ((r >> i) << i) != r {
+                self.update((r - 1) >> i);
+            }
         }
     }
 
@@ -262,61 +313,6 @@ where
     fn update_considering_lazy(&mut self, k: usize) {
         self.data[k] = F::M::binary_operation(&self.data[2 * k], &self.data[2 * k + 1]);
         self.lazy[k].apply(&mut self.data[k]);
-    }
-}
-
-impl<F: ActionMonoid> LazySegTree<F>
-where
-    F::A: NonCommutative,
-{
-    /// 非可換な作用の区間適用
-    pub fn apply_range_non_commutative<R: RangeBounds<usize>>(&mut self, range: R, f: &F::A) {
-        let (mut l, mut r) = self.get_range(range);
-        if l == r {
-            return;
-        }
-
-        l += self.leaf_size;
-        r += self.leaf_size;
-
-        // 非可換なので、先に上から伝播しておく
-        for i in (1..=self.log).rev() {
-            if ((l >> i) << i) != l {
-                self.push(l >> i);
-            }
-            if ((r >> i) << i) != r {
-                self.push((r - 1) >> i);
-            }
-        }
-
-        {
-            let l_copy = l;
-            let r_copy = r;
-            while l < r {
-                if l & 1 != 0 {
-                    self.all_apply(l, f);
-                    l += 1;
-                }
-                if r & 1 != 0 {
-                    r -= 1;
-                    self.all_apply(r, f);
-                }
-                l >>= 1;
-                r >>= 1;
-            }
-            l = l_copy;
-            r = r_copy;
-        }
-
-        // 先に伝播しているのでlazyの値を考慮せずに更新できる
-        for i in 1..=self.log {
-            if ((l >> i) << i) != l {
-                self.update(l >> i);
-            }
-            if ((r >> i) << i) != r {
-                self.update((r - 1) >> i);
-            }
-        }
     }
 }
 

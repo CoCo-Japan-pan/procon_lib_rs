@@ -25,8 +25,6 @@ impl algebra::Action for RUQ {
     }
 }
 
-impl algebra::NonCommutative for RUQ {}
-
 #[fastout]
 fn main() {
     input! {
@@ -45,7 +43,7 @@ fn main() {
                 x: u32,
             }
             let map = RUQ { value: Some(x) };
-            seg.apply_non_commutative(s..=t, &map);
+            seg.apply_range(s..=t, &map);
         } else {
             input! {
                 i: usize,

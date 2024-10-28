@@ -23,7 +23,6 @@ impl algebra::Action for MyMap {
         }
     }
 }
-impl algebra::NonCommutative for MyMap {}
 
 struct MinMonoid {}
 impl algebra::Monoid for MinMonoid {
@@ -60,7 +59,7 @@ fn main() {
                 x: u32,
             }
             let map = MyMap { update: Some(x) };
-            lazy_seg.apply_range_non_commutative(s..=t, &map);
+            lazy_seg.apply_range(s..=t, &map);
         } else {
             input! {
                 s: usize,
