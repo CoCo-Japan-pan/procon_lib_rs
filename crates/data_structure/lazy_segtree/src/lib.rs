@@ -62,18 +62,23 @@ impl<F: ActionMonoid> LazySegTree<F> {
         self.data[p].clone()
     }
 
-    pub fn prod<R: RangeBounds<usize>>(&mut self, range: R) -> <F::M as Monoid>::Target {
-        let mut l = match range.start_bound() {
+    fn get_range<R: RangeBounds<usize>>(&self, range: R) -> (usize, usize) {
+        let l = match range.start_bound() {
             Included(&l) => l,
             Excluded(&l) => l + 1,
             Unbounded => 0,
         };
-        let mut r = match range.end_bound() {
+        let r = match range.end_bound() {
             Included(&r) => r + 1,
             Excluded(&r) => r,
             Unbounded => self.range_size,
         };
         assert!(l <= r && r <= self.range_size);
+        (l, r)
+    }
+
+    pub fn prod<R: RangeBounds<usize>>(&mut self, range: R) -> <F::M as Monoid>::Target {
+        let (mut l, mut r) = self.get_range(range);
         if l == r {
             return F::M::id_element();
         }
@@ -89,7 +94,7 @@ impl<F: ActionMonoid> LazySegTree<F> {
                 self.push(l >> i);
             }
             if ((r >> i) << i) != r {
-                self.push(r >> i);
+                self.push((r - 1) >> i);
             }
         }
 
@@ -214,17 +219,7 @@ where
 {
     /// 可換な作用の区間適用
     pub fn apply_range_commutative<R: RangeBounds<usize>>(&mut self, range: R, f: &F::A) {
-        let mut l = match range.start_bound() {
-            Included(&l) => l,
-            Excluded(&l) => l + 1,
-            Unbounded => 0,
-        };
-        let mut r = match range.end_bound() {
-            Included(&r) => r + 1,
-            Excluded(&r) => r,
-            Unbounded => self.range_size,
-        };
-        assert!(l <= r && r <= self.range_size);
+        let (mut l, mut r) = self.get_range(range);
         if l == r {
             return;
         }
@@ -276,17 +271,7 @@ where
 {
     /// 非可換な作用の区間適用
     pub fn apply_range_non_commutative<R: RangeBounds<usize>>(&mut self, range: R, f: &F::A) {
-        let mut l = match range.start_bound() {
-            Included(&l) => l,
-            Excluded(&l) => l + 1,
-            Unbounded => 0,
-        };
-        let mut r = match range.end_bound() {
-            Included(&r) => r + 1,
-            Excluded(&r) => r,
-            Unbounded => self.range_size,
-        };
-        assert!(l <= r && r <= self.range_size);
+        let (mut l, mut r) = self.get_range(range);
         if l == r {
             return;
         }
