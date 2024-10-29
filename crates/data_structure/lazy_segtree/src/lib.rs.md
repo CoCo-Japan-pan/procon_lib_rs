@@ -40,11 +40,12 @@ data:
     \ RangeBounds};\n\n#[derive(Debug)]\npub struct LazySegTree<F: ActionMonoid> {\n\
     \    range_size: usize,\n    leaf_size: usize,\n    log: usize,\n    data: Vec<<F::M\
     \ as Monoid>::Target>,\n    lazy: Vec<F::A>,\n}\n\nimpl<F: ActionMonoid> From<Vec<<F::M\
-    \ as Monoid>::Target>> for LazySegTree<F> {\n    fn from(v: Vec<<F::M as Monoid>::Target>)\
+    \ as Monoid>::Target>> for LazySegTree<F> {\n    fn from(mut v: Vec<<F::M as Monoid>::Target>)\
     \ -> Self {\n        let range_size = v.len();\n        let log = ceil_log2(range_size\
     \ as u32) as usize;\n        let leaf_size = 1 << log;\n        let mut data =\
-    \ vec![F::M::id_element(); 2 * leaf_size];\n        let lazy = vec![F::A::id_action();\
-    \ leaf_size];\n        data[leaf_size..(leaf_size + range_size)].clone_from_slice(&v);\n\
+    \ vec![F::M::id_element(); leaf_size];\n        data.reserve(leaf_size);\n   \
+    \     data.append(&mut v);\n        data.append(&mut vec![F::M::id_element();\
+    \ leaf_size - range_size]);\n        let lazy = vec![F::A::id_action(); leaf_size];\n\
     \        let mut ret = Self {\n            range_size,\n            leaf_size,\n\
     \            log,\n            data,\n            lazy,\n        };\n        for\
     \ i in (1..leaf_size).rev() {\n            ret.update(i);\n        }\n       \
@@ -204,7 +205,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/lazy_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-28 22:46:07+09:00'
+  timestamp: '2024-10-29 14:36:52+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/dsl_2f_lazy_seg/src/main.rs

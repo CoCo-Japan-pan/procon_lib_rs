@@ -8,6 +8,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/lazy_segtree/src/lib.rs
     title: crates/data_structure/lazy_segtree/src/lib.rs
+  - icon: ':warning:'
+    path: crates/data_structure/lazy_segtree_beats/src/lib.rs
+    title: crates/data_structure/lazy_segtree_beats/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/segtree/src/lib.rs
     title: crates/data_structure/segtree/src/lib.rs
@@ -45,6 +48,7 @@ data:
   isVerificationFile: false
   path: crates/internals/internal_bits/src/lib.rs
   requiredBy:
+  - crates/data_structure/lazy_segtree_beats/src/lib.rs
   - crates/data_structure/cht_offline/src/lib.rs
   - crates/data_structure/segtree_2d_dense/src/lib.rs
   - crates/data_structure/segtree/src/lib.rs
