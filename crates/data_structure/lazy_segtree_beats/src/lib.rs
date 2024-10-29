@@ -11,13 +11,16 @@ use internal_bits::ceil_log2;
 use std::ops::{Bound::*, RangeBounds};
 
 /// Segment Tree Beats における内部のノード  
-/// モノイド構造を持ちつつ、部分的な作用の伝播も行う
+/// モノイド構造を持ちつつ、作用が成功した遅延情報も持つ
+/// (作用が適用されたモノイド自体から復元できるならば遅延情報は必要ない)  
+/// この遅延情報は、自身には適用済みだが、子孫には反映されていない(pushをして初めて子に伝播する)
 pub trait BeatsNode: Clone {
     type Action;
     fn id_node() -> Self;
     fn binary_operation(lhs: &Self, rhs: &Self) -> Self;
-    /// 成功した作用の情報を載せたノードからその子ノードへの伝播
-    fn push(&self, child_node: &mut Self);
+    /// 成功した作用の情報を載せたノードからその子ノードへの伝播し、そのノードの遅延を解消  
+    /// 特定のノードに成功する作用は、その半分の区間である子ノードでも成功するはず
+    fn push(&mut self, child_node_left: &mut Self, child_node_right: &mut Self);
     /// 作用の適用 成功したら`true`、失敗したら`false`を返す  
     /// 区間の長さ1に対しては必ず成功する
     fn apply(&mut self, action: &Self::Action) -> bool;
@@ -54,6 +57,9 @@ impl<Node: BeatsNode> From<Vec<Node>> for LazySegtreeBeats<Node> {
 }
 
 impl<Node: BeatsNode> LazySegtreeBeats<Node> {
+    pub fn new(n: usize) -> Self {
+        vec![Node::id_node(); n].into()
+    }
     pub fn prod<R: RangeBounds<usize>>(&mut self, range: R) -> Node {
         let (mut l, mut r) = self.get_range(range);
         if l == r {
@@ -148,8 +154,7 @@ impl<Node: BeatsNode> LazySegtreeBeats<Node> {
     fn push(&mut self, i: usize) {
         let ptr = self.nodes.as_mut_ptr();
         unsafe {
-            self.nodes[i].push(&mut *ptr.add(i << 1));
-            self.nodes[i].push(&mut *ptr.add((i << 1) | 1));
+            self.nodes[i].push(&mut *ptr.add(i << 1), &mut *ptr.add((i << 1) | 1));
         }
     }
     fn update(&mut self, i: usize) {

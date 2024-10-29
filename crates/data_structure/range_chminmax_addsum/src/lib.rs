@@ -1,14 +1,531 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
+//! Range chmin/chMax, add, update query  
+//! Range min/max, sum query  
+//! に対応する(i64型)
+
+use lazy_segtree_beats::{BeatsNode, LazySegtreeBeats};
+use std::cmp::Ordering;
+use InnerMonoid::*;
+use RangeActions::*;
+
+#[derive(Debug, Clone, Copy)]
+pub enum InnerMonoid {
+    ZeroValue,
+    OneValue {
+        val: i64,
+        len: usize,
+    },
+    TwoValues {
+        min: i64,
+        min_cnt: usize,
+        max: i64,
+        max_cnt: usize,
+    },
+    ThreeOrMoreValues {
+        min: i64,
+        min_cnt: usize,
+        min_second: i64,
+        max: i64,
+        max_cnt: usize,
+        max_second: i64,
+        len: usize,
+        sum: i64,
+    },
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+impl InnerMonoid {
+    pub fn get_sum(&self) -> i64 {
+        match self {
+            ZeroValue => 0,
+            OneValue { val, len } => *val * *len as i64,
+            TwoValues {
+                min,
+                min_cnt,
+                max,
+                max_cnt,
+            } => min * *min_cnt as i64 + max * *max_cnt as i64,
+            ThreeOrMoreValues { sum, .. } => *sum,
+        }
+    }
+    pub fn get_max(&self) -> i64 {
+        match self {
+            ZeroValue => i64::MIN,
+            OneValue { val: max, .. } | TwoValues { max, .. } | ThreeOrMoreValues { max, .. } => {
+                *max
+            }
+        }
+    }
+    fn get_max_cnt(&self) -> usize {
+        match self {
+            ZeroValue => 0,
+            OneValue { len: max_cnt, .. }
+            | TwoValues { max_cnt, .. }
+            | ThreeOrMoreValues { max_cnt, .. } => *max_cnt,
+        }
+    }
+    pub fn get_min(&self) -> i64 {
+        match self {
+            ZeroValue => i64::MAX,
+            OneValue { val: min, .. } | TwoValues { min, .. } | ThreeOrMoreValues { min, .. } => {
+                *min
+            }
+        }
+    }
+    fn get_min_cnt(&self) -> usize {
+        match self {
+            ZeroValue => 0,
+            OneValue { len: min_cnt, .. }
+            | TwoValues { min_cnt, .. }
+            | ThreeOrMoreValues { min_cnt, .. } => *min_cnt,
+        }
+    }
+    fn len(&self) -> usize {
+        match self {
+            ZeroValue => 0,
+            OneValue { len, .. } | ThreeOrMoreValues { len, .. } => *len,
+            TwoValues {
+                min_cnt, max_cnt, ..
+            } => min_cnt + max_cnt,
+        }
+    }
+    fn get_min_second(&self) -> Option<i64> {
+        match self {
+            ZeroValue | OneValue { .. } => None,
+            TwoValues {
+                max: min_second, ..
+            }
+            | ThreeOrMoreValues { min_second, .. } => Some(*min_second),
+        }
+    }
+    fn get_max_second(&self) -> Option<i64> {
+        match self {
+            ZeroValue | OneValue { .. } => None,
+            TwoValues {
+                min: max_second, ..
+            }
+            | ThreeOrMoreValues { max_second, .. } => Some(*max_second),
+        }
+    }
+}
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+#[derive(Debug, Clone, Copy)]
+/// (モノイド、遅延したAdd)
+pub struct InnerNode(InnerMonoid, i64);
+
+#[derive(Debug, Clone, Copy)]
+pub enum RangeActions {
+    /// Chmin
+    UpperBound(i64),
+    /// ChMax
+    LowerBound(i64),
+    AddAll(i64),
+    Update(i64),
+}
+
+impl BeatsNode for InnerNode {
+    type Action = RangeActions;
+    fn id_node() -> Self {
+        Self(ZeroValue, 0)
+    }
+    fn binary_operation(lhs: &Self, rhs: &Self) -> Self {
+        let monoid = match (lhs.0, rhs.0) {
+            (ZeroValue, node) | (node, ZeroValue) => node,
+            (
+                OneValue {
+                    val: l_val,
+                    len: l_len,
+                },
+                OneValue {
+                    val: r_val,
+                    len: r_len,
+                },
+            ) => match l_val.cmp(&r_val) {
+                Ordering::Equal => OneValue {
+                    val: l_val,
+                    len: l_len + r_len,
+                },
+                Ordering::Less => TwoValues {
+                    min: l_val,
+                    min_cnt: l_len,
+                    max: r_val,
+                    max_cnt: r_len,
+                },
+                Ordering::Greater => TwoValues {
+                    min: r_val,
+                    min_cnt: r_len,
+                    max: l_val,
+                    max_cnt: l_len,
+                },
+            },
+            (
+                OneValue { val, len },
+                TwoValues {
+                    min,
+                    min_cnt,
+                    max,
+                    max_cnt,
+                },
+            )
+            | (
+                TwoValues {
+                    min,
+                    min_cnt,
+                    max,
+                    max_cnt,
+                },
+                OneValue { val, len },
+            ) => {
+                if val == min {
+                    TwoValues {
+                        min,
+                        min_cnt: min_cnt + len,
+                        max,
+                        max_cnt,
+                    }
+                } else if val == max {
+                    TwoValues {
+                        min,
+                        min_cnt,
+                        max,
+                        max_cnt: max_cnt + len,
+                    }
+                } else {
+                    let mid = {
+                        let mut ary = [min, val, max];
+                        ary.sort_unstable();
+                        ary[1]
+                    };
+                    ThreeOrMoreValues {
+                        min: val.min(min),
+                        min_cnt: if min < val { min_cnt } else { len },
+                        min_second: mid,
+                        max: val.max(max),
+                        max_cnt: if max > val { max_cnt } else { len },
+                        max_second: mid,
+                        len: min_cnt + max_cnt + len,
+                        sum: val * len as i64 + min * min_cnt as i64 + max * max_cnt as i64,
+                    }
+                }
+            }
+            (
+                TwoValues {
+                    min: l_min,
+                    min_cnt: l_min_cnt,
+                    max: l_max,
+                    max_cnt: l_max_cnt,
+                },
+                TwoValues {
+                    min: r_min,
+                    min_cnt: r_min_cnt,
+                    max: r_max,
+                    max_cnt: r_max_cnt,
+                },
+            ) => {
+                if l_min == r_min && l_max == r_max {
+                    TwoValues {
+                        min: l_min,
+                        min_cnt: l_min_cnt + r_min_cnt,
+                        max: l_max,
+                        max_cnt: l_max_cnt + r_max_cnt,
+                    }
+                } else {
+                    let min_cnt = match l_min.cmp(&r_min) {
+                        Ordering::Equal => l_min_cnt + r_min_cnt,
+                        Ordering::Less => l_min_cnt,
+                        Ordering::Greater => r_min_cnt,
+                    };
+                    let max_cnt = match l_max.cmp(&r_max) {
+                        Ordering::Equal => l_max_cnt + r_max_cnt,
+                        Ordering::Greater => l_max_cnt,
+                        Ordering::Less => r_max_cnt,
+                    };
+                    let mut vals = vec![l_min, l_max, r_min, r_max];
+                    vals.sort_unstable();
+                    vals.dedup();
+                    ThreeOrMoreValues {
+                        min: l_min.min(r_min),
+                        min_cnt,
+                        min_second: vals[1],
+                        max: l_max.max(r_max),
+                        max_cnt,
+                        max_second: vals[vals.len() - 2],
+                        len: lhs.0.len() + rhs.0.len(),
+                        sum: lhs.0.get_sum() + rhs.0.get_sum(),
+                    }
+                }
+            }
+            // あとはどうやっても3種必要
+            _ => {
+                let mut vals = vec![
+                    Some(lhs.0.get_min()),
+                    Some(rhs.0.get_min()),
+                    lhs.0.get_min_second(),
+                    rhs.0.get_min_second(),
+                ]
+                .into_iter()
+                .flatten()
+                .collect::<Vec<_>>();
+                vals.sort_unstable();
+                vals.dedup();
+                let (min, min_second) = (vals[0], vals[1]);
+                let mut vals = vec![
+                    Some(lhs.0.get_max()),
+                    Some(rhs.0.get_max()),
+                    lhs.0.get_max_second(),
+                    rhs.0.get_max_second(),
+                ]
+                .into_iter()
+                .flatten()
+                .collect::<Vec<_>>();
+                vals.sort_unstable();
+                vals.reverse();
+                let (max, max_second) = (vals[0], vals[1]);
+                ThreeOrMoreValues {
+                    min,
+                    min_cnt: match lhs.0.get_min().cmp(&rhs.0.get_min()) {
+                        Ordering::Equal => lhs.0.get_min_cnt() + rhs.0.get_min_cnt(),
+                        Ordering::Less => lhs.0.get_min_cnt(),
+                        Ordering::Greater => rhs.0.get_min_cnt(),
+                    },
+                    min_second,
+                    max,
+                    max_cnt: match lhs.0.get_max().cmp(&rhs.0.get_max()) {
+                        Ordering::Equal => lhs.0.get_max_cnt() + rhs.0.get_max_cnt(),
+                        Ordering::Greater => lhs.0.get_max_cnt(),
+                        Ordering::Less => rhs.0.get_max_cnt(),
+                    },
+                    max_second,
+                    len: lhs.0.len() + rhs.0.len(),
+                    sum: lhs.0.get_sum() + rhs.0.get_sum(),
+                }
+            }
+        };
+        Self(monoid, 0)
+    }
+    fn apply(&mut self, action: &Self::Action) -> bool {
+        if matches!(self.0, ZeroValue) {
+            return true;
+        }
+        match *action {
+            Update(val) => {
+                *self = Self(
+                    match self.0 {
+                        ZeroValue => ZeroValue,
+                        OneValue { len, .. } | ThreeOrMoreValues { len, .. } => {
+                            OneValue { val, len }
+                        }
+                        TwoValues {
+                            min_cnt, max_cnt, ..
+                        } => OneValue {
+                            val,
+                            len: min_cnt + max_cnt,
+                        },
+                    },
+                    0,
+                )
+            }
+            AddAll(add) => {
+                *self = Self(
+                    match self.0 {
+                        ZeroValue => ZeroValue,
+                        OneValue { val, len } => OneValue {
+                            val: val + add,
+                            len,
+                        },
+                        TwoValues {
+                            min,
+                            min_cnt,
+                            max,
+                            max_cnt,
+                        } => TwoValues {
+                            min: min + add,
+                            min_cnt,
+                            max: max + add,
+                            max_cnt,
+                        },
+                        ThreeOrMoreValues {
+                            min,
+                            min_cnt,
+                            min_second,
+                            max,
+                            max_cnt,
+                            max_second,
+                            len,
+                            sum,
+                        } => ThreeOrMoreValues {
+                            min: min + add,
+                            min_cnt,
+                            min_second: min_second + add,
+                            max: max + add,
+                            max_cnt,
+                            max_second: max_second + add,
+                            len,
+                            sum: sum + add * len as i64,
+                        },
+                    },
+                    self.1 + add,
+                )
+            }
+            LowerBound(lb) => {
+                if self.0.get_min() < lb {
+                    let new_monoid = match self.0 {
+                        ZeroValue => ZeroValue,
+                        OneValue { val, len } => OneValue {
+                            val: val.max(lb),
+                            len,
+                        },
+                        TwoValues {
+                            min_cnt,
+                            max,
+                            max_cnt,
+                            ..
+                        } => {
+                            if max <= lb {
+                                OneValue {
+                                    val: lb,
+                                    len: min_cnt + max_cnt,
+                                }
+                            } else {
+                                TwoValues {
+                                    min: lb,
+                                    min_cnt,
+                                    max,
+                                    max_cnt,
+                                }
+                            }
+                        }
+                        ThreeOrMoreValues {
+                            max,
+                            max_cnt,
+                            max_second,
+                            len,
+                            ..
+                        } => {
+                            if max <= lb {
+                                OneValue { val: lb, len }
+                            } else if max_second <= lb {
+                                TwoValues {
+                                    min: lb,
+                                    min_cnt: len - max_cnt,
+                                    max,
+                                    max_cnt,
+                                }
+                            } else {
+                                return false;
+                            }
+                        }
+                    };
+                    self.0 = new_monoid;
+                }
+            }
+            UpperBound(ub) => {
+                if self.0.get_max() > ub {
+                    let new_monoid = match self.0 {
+                        ZeroValue => ZeroValue,
+                        OneValue { val, len } => OneValue {
+                            val: val.min(ub),
+                            len,
+                        },
+                        TwoValues {
+                            min,
+                            min_cnt,
+                            max_cnt,
+                            ..
+                        } => {
+                            if ub <= min {
+                                OneValue {
+                                    val: ub,
+                                    len: min_cnt + max_cnt,
+                                }
+                            } else {
+                                TwoValues {
+                                    min,
+                                    min_cnt,
+                                    max: ub,
+                                    max_cnt,
+                                }
+                            }
+                        }
+                        ThreeOrMoreValues {
+                            min,
+                            min_cnt,
+                            min_second,
+                            len,
+                            ..
+                        } => {
+                            if ub <= min {
+                                OneValue { val: ub, len }
+                            } else if ub <= min_second {
+                                TwoValues {
+                                    min,
+                                    min_cnt,
+                                    max: ub,
+                                    max_cnt: len - min_cnt,
+                                }
+                            } else {
+                                return false;
+                            }
+                        }
+                    };
+                    self.0 = new_monoid;
+                }
+            }
+        }
+        true
+    }
+    fn push(&mut self, child_node_left: &mut Self, child_node_right: &mut Self) {
+        if self.1 != 0 {
+            child_node_left.apply(&AddAll(self.1));
+            child_node_right.apply(&AddAll(self.1));
+            self.1 = 0;
+        }
+        match &self.0 {
+            ZeroValue => (),
+            OneValue { val, .. } => {
+                child_node_left.apply(&Update(*val));
+                child_node_right.apply(&Update(*val));
+            }
+            TwoValues { min, max, .. } | ThreeOrMoreValues { min, max, .. } => {
+                child_node_left.apply(&LowerBound(*min));
+                child_node_left.apply(&UpperBound(*max));
+                child_node_right.apply(&LowerBound(*min));
+                child_node_right.apply(&UpperBound(*max));
+            }
+        }
+    }
+}
+
+use std::ops::RangeBounds;
+pub type RangeChminMaxAddSum = LazySegtreeBeats<InnerNode>;
+pub trait QueryWrapper {
+    fn from_vec(v: Vec<i64>) -> Self;
+    fn range_chmin<R: RangeBounds<usize>>(&mut self, range: R, chmin: i64);
+    fn range_chmax<R: RangeBounds<usize>>(&mut self, range: R, chmax: i64);
+    fn range_update<R: RangeBounds<usize>>(&mut self, range: R, update: i64);
+    fn range_add<R: RangeBounds<usize>>(&mut self, range: R, add: i64);
+    fn prod<R: RangeBounds<usize>>(&mut self, range: R) -> InnerMonoid;
+}
+
+impl QueryWrapper for RangeChminMaxAddSum {
+    fn from_vec(v: Vec<i64>) -> Self {
+        Self::from(
+            v.into_iter()
+                .map(|val| InnerNode(OneValue { val, len: 1 }, 0))
+                .collect::<Vec<_>>(),
+        )
+    }
+    fn range_add<R: RangeBounds<usize>>(&mut self, range: R, add: i64) {
+        self.apply_range(range, &AddAll(add));
+    }
+    fn range_chmax<R: RangeBounds<usize>>(&mut self, range: R, chmax: i64) {
+        self.apply_range(range, &LowerBound(chmax));
+    }
+    fn range_chmin<R: RangeBounds<usize>>(&mut self, range: R, chmin: i64) {
+        self.apply_range(range, &UpperBound(chmin));
+    }
+    fn range_update<R: RangeBounds<usize>>(&mut self, range: R, update: i64) {
+        self.apply_range(range, &Update(update));
+    }
+    fn prod<R: RangeBounds<usize>>(&mut self, range: R) -> InnerMonoid {
+        self.prod(range).0
     }
 }
