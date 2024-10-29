@@ -5,6 +5,5 @@
 [cargo-equip](https://github.com/qryxip/cargo-equip)を用いるため、クレートをなるべく分割している
 
 ## 将来追加したいもの
-- segment tree beats
 - 区間をsetで管理
 - kD-tree
