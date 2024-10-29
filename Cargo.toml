@@ -23,5 +23,4 @@ members = [
     "verify/AtCoder/*",
     "verify/yukicoder/*",
 ]
-exclude = ["template"]
 resolver = "2"
