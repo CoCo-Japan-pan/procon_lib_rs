@@ -29,22 +29,25 @@ data:
     \u3001\u4F5C\u7528\u306E\u5408\u6210\u306F\u5B9A\u7FA9\u305B\u305A\u3001\n//!\
     \ \u6210\u529F\u3057\u305F\u4F5C\u7528\u306E\u60C5\u5831\u3092\u8F09\u305B\u305F\
     \u30CE\u30FC\u30C9\u304B\u3089\u305D\u306E\u5B50\u30CE\u30FC\u30C9\u3078\u306E\
-    `push`\u3092\u5B9A\u7FA9\u3059\u308B  \n//! \u4F5C\u7528\u306B\u3064\u3044\u3066\
-    \u306F\u3001`apply`\u3067\u5B9A\u7FA9\u3057\u3001\u6210\u529F\u3057\u305F\u3089\
-    `true`\u3001\u5931\u6557\u3057\u305F\u3089`false`\u3092\u8FD4\u3059\u3088\u3046\
-    \u306B\u3059\u308B\n\nuse internal_bits::ceil_log2;\n\n/// Segment Tree Beats\
-    \ \u306B\u304A\u3051\u308B\u5185\u90E8\u306E\u30CE\u30FC\u30C9  \n/// \u30E2\u30CE\
-    \u30A4\u30C9\u69CB\u9020\u3092\u6301\u3061\u3064\u3064\u3001\u90E8\u5206\u7684\
-    \u306A\u4F5C\u7528\u306E\u4F1D\u64AD\u3082\u884C\u3046\npub trait BeatsNode: Clone\
-    \ {\n    type Action;\n    fn id_node() -> Self;\n    fn binary_operation(lhs:\
-    \ &Self, rhs: &Self) -> Self;\n    /// \u6210\u529F\u3057\u305F\u4F5C\u7528\u306E\
-    \u60C5\u5831\u3092\u8F09\u305B\u305F\u30CE\u30FC\u30C9\u304B\u3089\u305D\u306E\
-    \u5B50\u30CE\u30FC\u30C9\u3078\u306E\u4F1D\u64AD\n    fn push(&self, child_node:\
-    \ &mut Self);\n    /// \u4F5C\u7528\u306E\u9069\u7528 \u6210\u529F\u3057\u305F\
-    \u3089`true`\u3001\u5931\u6557\u3057\u305F\u3089`false`\u3092\u8FD4\u3059  \n\
-    \    /// \u533A\u9593\u306E\u9577\u30551\u306B\u305F\u3044\u3057\u3066\u306F\u5FC5\
-    \u305A\u6210\u529F\u3059\u308B\n    fn apply(&mut self, action: &Self::Action)\
-    \ -> bool;\n}\n\n#[derive(Debug)]\n#[allow(dead_code)]\npub struct LazySegtreeBeats<Node:\
+    `push`\u3092\u5B9A\u7FA9\u3059\u308B  \n//! \u3064\u307E\u308A\u30CE\u30FC\u30C9\
+    \u306F\u4F5C\u7528\u306E\u3046\u3061\u6210\u529F\u3057\u3066\u3044\u308B(=\u4F1D\
+    \u64AD\u53EF\u80FD\u306A)\u90E8\u5206\u7684\u306A\u60C5\u5831\u3092\u30E2\u30CE\
+    \u30A4\u30C9\u306B\u52A0\u3048\u3066\u6301\u3064  \n//! \u4F5C\u7528\u306B\u3064\
+    \u3044\u3066\u306F\u3001`apply`\u3067\u5B9A\u7FA9\u3057\u3001\u6210\u529F\u3057\
+    \u305F\u3089`true`\u3001\u5931\u6557\u3057\u305F\u3089`false`\u3092\u8FD4\u3059\
+    \u3088\u3046\u306B\u3059\u308B\n\nuse internal_bits::ceil_log2;\nuse std::ops::{Bound::*,\
+    \ RangeBounds};\n\n/// Segment Tree Beats \u306B\u304A\u3051\u308B\u5185\u90E8\
+    \u306E\u30CE\u30FC\u30C9  \n/// \u30E2\u30CE\u30A4\u30C9\u69CB\u9020\u3092\u6301\
+    \u3061\u3064\u3064\u3001\u90E8\u5206\u7684\u306A\u4F5C\u7528\u306E\u4F1D\u64AD\
+    \u3082\u884C\u3046\npub trait BeatsNode: Clone {\n    type Action;\n    fn id_node()\
+    \ -> Self;\n    fn binary_operation(lhs: &Self, rhs: &Self) -> Self;\n    ///\
+    \ \u6210\u529F\u3057\u305F\u4F5C\u7528\u306E\u60C5\u5831\u3092\u8F09\u305B\u305F\
+    \u30CE\u30FC\u30C9\u304B\u3089\u305D\u306E\u5B50\u30CE\u30FC\u30C9\u3078\u306E\
+    \u4F1D\u64AD\n    fn push(&self, child_node: &mut Self);\n    /// \u4F5C\u7528\
+    \u306E\u9069\u7528 \u6210\u529F\u3057\u305F\u3089`true`\u3001\u5931\u6557\u3057\
+    \u305F\u3089`false`\u3092\u8FD4\u3059  \n    /// \u533A\u9593\u306E\u9577\u3055\
+    1\u306B\u5BFE\u3057\u3066\u306F\u5FC5\u305A\u6210\u529F\u3059\u308B\n    fn apply(&mut\
+    \ self, action: &Self::Action) -> bool;\n}\n\n#[derive(Debug)]\npub struct LazySegtreeBeats<Node:\
     \ BeatsNode> {\n    range_size: usize,\n    leaf_size: usize,\n    log: usize,\n\
     \    nodes: Vec<Node>,\n}\n\nimpl<Node: BeatsNode> From<Vec<Node>> for LazySegtreeBeats<Node>\
     \ {\n    fn from(mut v: Vec<Node>) -> Self {\n        let range_size = v.len();\n\
@@ -55,15 +58,58 @@ data:
     \ {\n            range_size,\n            leaf_size,\n            log,\n     \
     \       nodes,\n        };\n        for i in (1..leaf_size).rev() {\n        \
     \    ret.update(i);\n        }\n        ret\n    }\n}\n\nimpl<Node: BeatsNode>\
-    \ LazySegtreeBeats<Node> {\n    fn update(&mut self, k: usize) {\n        self.nodes[k]\
-    \ = Node::binary_operation(&self.nodes[k << 1], &self.nodes[(k << 1) | 1]);\n\
-    \    }\n}\n"
+    \ LazySegtreeBeats<Node> {\n    pub fn prod<R: RangeBounds<usize>>(&mut self,\
+    \ range: R) -> Node {\n        let (mut l, mut r) = self.get_range(range);\n \
+    \       if l == r {\n            return Node::id_node();\n        }\n        l\
+    \ += self.leaf_size;\n        r += self.leaf_size;\n        for i in (1..=self.log).rev()\
+    \ {\n            if ((l >> i) << i) != l {\n                self.push(l >> i);\n\
+    \            }\n            if ((r >> i) << i) != r {\n                self.push((r\
+    \ - 1) >> i);\n            }\n        }\n\n        let mut sml = Node::id_node();\n\
+    \        let mut smr = Node::id_node();\n        while l < r {\n            if\
+    \ l & 1 != 0 {\n                sml = Node::binary_operation(&sml, &self.nodes[l]);\n\
+    \                l += 1;\n            }\n            if r & 1 != 0 {\n       \
+    \         r -= 1;\n                smr = Node::binary_operation(&self.nodes[r],\
+    \ &smr);\n            }\n            l >>= 1;\n            r >>= 1;\n        }\n\
+    \        Node::binary_operation(&sml, &smr)\n    }\n\n    pub fn apply_range<R:\
+    \ RangeBounds<usize>>(&mut self, range: R, action: &Node::Action) {\n        let\
+    \ (mut l, mut r) = self.get_range(range);\n        if l == r {\n            return;\n\
+    \        }\n        l += self.leaf_size;\n        r += self.leaf_size;\n     \
+    \   for i in (1..=self.log).rev() {\n            if ((l >> i) << i) != l {\n \
+    \               self.push(l >> i);\n            }\n            if ((r >> i) <<\
+    \ i) != r {\n                self.push((r - 1) >> i);\n            }\n       \
+    \ }\n        {\n            let l_copy = l;\n            let r_copy = r;\n   \
+    \         while l < r {\n                if l & 1 != 0 {\n                   \
+    \ self.apply(l, action);\n                    l += 1;\n                }\n   \
+    \             if r & 1 != 0 {\n                    r -= 1;\n                 \
+    \   self.apply(r, action);\n                }\n                l >>= 1;\n    \
+    \            r >>= 1;\n            }\n            l = l_copy;\n            r =\
+    \ r_copy;\n        }\n        for i in 1..=self.log {\n            if ((l >> i)\
+    \ << i) != l {\n                self.update(l >> i);\n            }\n        \
+    \    if ((r >> i) << i) != r {\n                self.update((r - 1) >> i);\n \
+    \           }\n        }\n    }\n\n    fn get_range<R: RangeBounds<usize>>(&self,\
+    \ range: R) -> (usize, usize) {\n        let l = match range.start_bound() {\n\
+    \            Included(&l) => l,\n            Excluded(&l) => l + 1,\n        \
+    \    Unbounded => 0,\n        };\n        let r = match range.end_bound() {\n\
+    \            Included(&r) => r + 1,\n            Excluded(&r) => r,\n        \
+    \    Unbounded => self.range_size,\n        };\n        assert!(l <= r && r <=\
+    \ self.range_size);\n        (l, r)\n    }\n\n    fn push(&mut self, i: usize)\
+    \ {\n        let ptr = self.nodes.as_mut_ptr();\n        unsafe {\n          \
+    \  self.nodes[i].push(&mut *ptr.add(i << 1));\n            self.nodes[i].push(&mut\
+    \ *ptr.add((i << 1) | 1));\n        }\n    }\n    fn update(&mut self, i: usize)\
+    \ {\n        self.nodes[i] = Node::binary_operation(&self.nodes[i << 1], &self.nodes[(i\
+    \ << 1) | 1]);\n    }\n    fn apply(&mut self, i: usize, action: &Node::Action)\
+    \ {\n        let res = self.nodes[i].apply(action);\n        // \u4F5C\u7528\u304C\
+    \u5931\u6557\u3057\u305F\u3089\u5B50\u30CE\u30FC\u30C9\u306B\u4EFB\u305B\u3066\
+    \u30DC\u30C8\u30E0\u30A2\u30C3\u30D7\u306B\u8A08\u7B97\n        if (i < self.leaf_size)\
+    \ && !res {\n            self.push(i);\n            self.apply(i << 1, action);\n\
+    \            self.apply((i << 1) | 1, action);\n            self.update(i);\n\
+    \        }\n    }\n}\n"
   dependsOn:
   - crates/internals/internal_bits/src/lib.rs
   isVerificationFile: false
   path: crates/data_structure/lazy_segtree_beats/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-29 14:41:30+09:00'
+  timestamp: '2024-10-29 15:55:15+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/data_structure/lazy_segtree_beats/src/lib.rs

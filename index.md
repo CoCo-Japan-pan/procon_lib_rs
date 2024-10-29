@@ -46,6 +46,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/data_structure/potentialized_union_find/src/lib.rs
       title: crates/data_structure/potentialized_union_find/src/lib.rs
+  - name: crates/data_structure/range_chminmax_addsum/src
+    pages:
+    - icon: ':warning:'
+      path: crates/data_structure/range_chminmax_addsum/src/lib.rs
+      title: crates/data_structure/range_chminmax_addsum/src/lib.rs
   - name: crates/data_structure/raq_rsq/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -211,11 +216,6 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/string/rolling_hash/src/lib.rs
       title: crates/string/rolling_hash/src/lib.rs
-  - name: crates/string/sa_lcp_array/src
-    pages:
-    - icon: ':warning:'
-      path: crates/string/sa_lcp_array/src/lib.rs
-      title: crates/string/sa_lcp_array/src/lib.rs
   - name: crates/tools/capture/src
     pages:
     - icon: ':heavy_check_mark:'
