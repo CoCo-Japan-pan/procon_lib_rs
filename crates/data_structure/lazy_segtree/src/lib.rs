@@ -15,13 +15,15 @@ pub struct LazySegTree<F: ActionMonoid> {
 }
 
 impl<F: ActionMonoid> From<Vec<<F::M as Monoid>::Target>> for LazySegTree<F> {
-    fn from(v: Vec<<F::M as Monoid>::Target>) -> Self {
+    fn from(mut v: Vec<<F::M as Monoid>::Target>) -> Self {
         let range_size = v.len();
         let log = ceil_log2(range_size as u32) as usize;
         let leaf_size = 1 << log;
-        let mut data = vec![F::M::id_element(); 2 * leaf_size];
+        let mut data = vec![F::M::id_element(); leaf_size];
+        data.reserve(leaf_size);
+        data.append(&mut v);
+        data.append(&mut vec![F::M::id_element(); leaf_size - range_size]);
         let lazy = vec![F::A::id_action(); leaf_size];
-        data[leaf_size..(leaf_size + range_size)].clone_from_slice(&v);
         let mut ret = Self {
             range_size,
             leaf_size,
