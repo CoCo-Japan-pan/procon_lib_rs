@@ -21,6 +21,7 @@ members = [
     "verify/yosupo/*",
     "verify/AOJ/*",
     "verify/AtCoder/*",
-    "verify/yukicoder/*"
+    "verify/yukicoder/*",
 ]
+exclude = ["template"]
 resolver = "2"
