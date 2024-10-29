@@ -4,6 +4,7 @@
 //! 作用の失敗回数によい上界が存在するように設計する必要がある  
 //! 作用の成功部分を部分的に伝播させたいので、作用の合成は定義せず、
 //! 成功した作用の情報を載せたノードからその子ノードへの`push`を定義する  
+//! つまりノードは作用のうち成功している(=伝播可能な)部分的な情報をモノイドに加えて持つ  
 //! 作用については、`apply`で定義し、成功したら`true`、失敗したら`false`を返すようにする
 
 use internal_bits::ceil_log2;
@@ -156,6 +157,7 @@ impl<Node: BeatsNode> LazySegtreeBeats<Node> {
     }
     fn apply(&mut self, i: usize, action: &Node::Action) {
         let res = self.nodes[i].apply(action);
+        // 作用が失敗したら子ノードに任せてボトムアップに計算
         if (i < self.leaf_size) && !res {
             self.push(i);
             self.apply(i << 1, action);
