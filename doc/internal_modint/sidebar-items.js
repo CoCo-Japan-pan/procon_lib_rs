@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["inv_gcd","safe_mod"],"trait":["ModInt","RemEuclidU32"]};
