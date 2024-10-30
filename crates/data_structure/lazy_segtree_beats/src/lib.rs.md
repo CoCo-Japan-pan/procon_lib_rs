@@ -5,7 +5,7 @@ data:
     path: crates/internals/internal_bits/src/lib.rs
     title: crates/internals/internal_bits/src/lib.rs
   _extendedRequiredBy:
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: crates/data_structure/range_chminmax_addsum/src/lib.rs
     title: crates/data_structure/range_chminmax_addsum/src/lib.rs
   _extendedVerifiedWith: []

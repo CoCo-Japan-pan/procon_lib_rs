@@ -5,10 +5,13 @@ data:
     path: crates/data_structure/lazy_segtree_beats/src/lib.rs
     title: crates/data_structure/lazy_segtree_beats/src/lib.rs
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: verify/yosupo/range_chmin_chmax_add_range_sum/src/main.rs
+    title: verify/yosupo/range_chmin_chmax_add_range_sum/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.10.15/x64/lib/python3.10/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -18,36 +21,38 @@ data:
   code: "//! Range chmin/chMax, add, update query  \n//! Range min/max, sum query\
     \  \n//! \u306B\u5BFE\u5FDC\u3059\u308B(i64\u578B)\n\nuse lazy_segtree_beats::{BeatsNode,\
     \ LazySegtreeBeats};\nuse std::cmp::Ordering;\nuse InnerMonoid::*;\nuse RangeActions::*;\n\
-    \n#[derive(Debug, Clone, Copy)]\npub enum InnerMonoid {\n    ZeroValue,\n    OneValue\
-    \ {\n        val: i64,\n        len: usize,\n    },\n    TwoValues {\n       \
-    \ min: i64,\n        min_cnt: usize,\n        max: i64,\n        max_cnt: usize,\n\
-    \    },\n    ThreeOrMoreValues {\n        min: i64,\n        min_cnt: usize,\n\
-    \        min_second: i64,\n        max: i64,\n        max_cnt: usize,\n      \
-    \  max_second: i64,\n        len: usize,\n        sum: i64,\n    },\n}\n\nimpl\
-    \ InnerMonoid {\n    pub fn get_sum(&self) -> i64 {\n        match self {\n  \
-    \          ZeroValue => 0,\n            OneValue { val, len } => *val * *len as\
-    \ i64,\n            TwoValues {\n                min,\n                min_cnt,\n\
-    \                max,\n                max_cnt,\n            } => min * *min_cnt\
-    \ as i64 + max * *max_cnt as i64,\n            ThreeOrMoreValues { sum, .. } =>\
-    \ *sum,\n        }\n    }\n    pub fn get_max(&self) -> i64 {\n        match self\
-    \ {\n            ZeroValue => i64::MIN,\n            OneValue { val: max, .. }\
-    \ | TwoValues { max, .. } | ThreeOrMoreValues { max, .. } => {\n             \
-    \   *max\n            }\n        }\n    }\n    fn get_max_cnt(&self) -> usize\
-    \ {\n        match self {\n            ZeroValue => 0,\n            OneValue {\
-    \ len: max_cnt, .. }\n            | TwoValues { max_cnt, .. }\n            | ThreeOrMoreValues\
-    \ { max_cnt, .. } => *max_cnt,\n        }\n    }\n    pub fn get_min(&self) ->\
-    \ i64 {\n        match self {\n            ZeroValue => i64::MAX,\n          \
-    \  OneValue { val: min, .. } | TwoValues { min, .. } | ThreeOrMoreValues { min,\
-    \ .. } => {\n                *min\n            }\n        }\n    }\n    fn get_min_cnt(&self)\
-    \ -> usize {\n        match self {\n            ZeroValue => 0,\n            OneValue\
-    \ { len: min_cnt, .. }\n            | TwoValues { min_cnt, .. }\n            |\
-    \ ThreeOrMoreValues { min_cnt, .. } => *min_cnt,\n        }\n    }\n    fn len(&self)\
-    \ -> usize {\n        match self {\n            ZeroValue => 0,\n            OneValue\
-    \ { len, .. } | ThreeOrMoreValues { len, .. } => *len,\n            TwoValues\
-    \ {\n                min_cnt, max_cnt, ..\n            } => min_cnt + max_cnt,\n\
-    \        }\n    }\n    fn get_min_second(&self) -> Option<i64> {\n        match\
-    \ self {\n            ZeroValue | OneValue { .. } => None,\n            TwoValues\
-    \ {\n                max: min_second, ..\n            }\n            | ThreeOrMoreValues\
+    \n/// \u5185\u90E8\u3067\u6301\u3064\u30E2\u30CE\u30A4\u30C9 \u9045\u5EF6\u60C5\
+    \u5831\u306F\u5225\u306B\u6301\u3064\n#[derive(Debug, Clone, Copy)]\npub enum\
+    \ InnerMonoid {\n    ZeroValue,\n    OneValue {\n        val: i64,\n        len:\
+    \ usize,\n    },\n    TwoValues {\n        min: i64,\n        min_cnt: usize,\n\
+    \        max: i64,\n        max_cnt: usize,\n    },\n    ThreeOrMoreValues {\n\
+    \        min: i64,\n        min_cnt: usize,\n        min_second: i64,\n      \
+    \  max: i64,\n        max_cnt: usize,\n        max_second: i64,\n        len:\
+    \ usize,\n        sum: i64,\n    },\n}\n\nimpl InnerMonoid {\n    pub fn get_sum(&self)\
+    \ -> i64 {\n        match self {\n            ZeroValue => 0,\n            OneValue\
+    \ { val, len } => *val * *len as i64,\n            TwoValues {\n             \
+    \   min,\n                min_cnt,\n                max,\n                max_cnt,\n\
+    \            } => min * *min_cnt as i64 + max * *max_cnt as i64,\n           \
+    \ ThreeOrMoreValues { sum, .. } => *sum,\n        }\n    }\n    pub fn get_max(&self)\
+    \ -> i64 {\n        match self {\n            ZeroValue => i64::MIN,\n       \
+    \     OneValue { val: max, .. } | TwoValues { max, .. } | ThreeOrMoreValues {\
+    \ max, .. } => {\n                *max\n            }\n        }\n    }\n    fn\
+    \ get_max_cnt(&self) -> usize {\n        match self {\n            ZeroValue =>\
+    \ 0,\n            OneValue { len: max_cnt, .. }\n            | TwoValues { max_cnt,\
+    \ .. }\n            | ThreeOrMoreValues { max_cnt, .. } => *max_cnt,\n       \
+    \ }\n    }\n    pub fn get_min(&self) -> i64 {\n        match self {\n       \
+    \     ZeroValue => i64::MAX,\n            OneValue { val: min, .. } | TwoValues\
+    \ { min, .. } | ThreeOrMoreValues { min, .. } => {\n                *min\n   \
+    \         }\n        }\n    }\n    fn get_min_cnt(&self) -> usize {\n        match\
+    \ self {\n            ZeroValue => 0,\n            OneValue { len: min_cnt, ..\
+    \ }\n            | TwoValues { min_cnt, .. }\n            | ThreeOrMoreValues\
+    \ { min_cnt, .. } => *min_cnt,\n        }\n    }\n    fn len(&self) -> usize {\n\
+    \        match self {\n            ZeroValue => 0,\n            OneValue { len,\
+    \ .. } | ThreeOrMoreValues { len, .. } => *len,\n            TwoValues {\n   \
+    \             min_cnt, max_cnt, ..\n            } => min_cnt + max_cnt,\n    \
+    \    }\n    }\n    fn get_min_second(&self) -> Option<i64> {\n        match self\
+    \ {\n            ZeroValue | OneValue { .. } => None,\n            TwoValues {\n\
+    \                max: min_second, ..\n            }\n            | ThreeOrMoreValues\
     \ { min_second, .. } => Some(*min_second),\n        }\n    }\n    fn get_max_second(&self)\
     \ -> Option<i64> {\n        match self {\n            ZeroValue | OneValue { ..\
     \ } => None,\n            TwoValues {\n                min: max_second, ..\n \
@@ -128,10 +133,11 @@ data:
     \                    Some(rhs.0.get_max()),\n                    lhs.0.get_max_second(),\n\
     \                    rhs.0.get_max_second(),\n                ]\n            \
     \    .into_iter()\n                .flatten()\n                .collect::<Vec<_>>();\n\
-    \                vals.sort_unstable();\n                vals.reverse();\n    \
-    \            let (max, max_second) = (vals[0], vals[1]);\n                ThreeOrMoreValues\
-    \ {\n                    min,\n                    min_cnt: match lhs.0.get_min().cmp(&rhs.0.get_min())\
-    \ {\n                        Ordering::Equal => lhs.0.get_min_cnt() + rhs.0.get_min_cnt(),\n\
+    \                vals.sort_unstable();\n                vals.dedup();\n      \
+    \          vals.reverse();\n                let (max, max_second) = (vals[0],\
+    \ vals[1]);\n                ThreeOrMoreValues {\n                    min,\n \
+    \                   min_cnt: match lhs.0.get_min().cmp(&rhs.0.get_min()) {\n \
+    \                       Ordering::Equal => lhs.0.get_min_cnt() + rhs.0.get_min_cnt(),\n\
     \                        Ordering::Less => lhs.0.get_min_cnt(),\n            \
     \            Ordering::Greater => rhs.0.get_min_cnt(),\n                    },\n\
     \                    min_second,\n                    max,\n                 \
@@ -152,117 +158,163 @@ data:
     \                        } => OneValue {\n                            val,\n \
     \                           len: min_cnt + max_cnt,\n                        },\n\
     \                    },\n                    0,\n                )\n         \
-    \   }\n            AddAll(add) => {\n                *self = Self(\n         \
-    \           match self.0 {\n                        ZeroValue => ZeroValue,\n\
-    \                        OneValue { val, len } => OneValue {\n               \
-    \             val: val + add,\n                            len,\n            \
-    \            },\n                        TwoValues {\n                       \
-    \     min,\n                            min_cnt,\n                           \
-    \ max,\n                            max_cnt,\n                        } => TwoValues\
-    \ {\n                            min: min + add,\n                           \
-    \ min_cnt,\n                            max: max + add,\n                    \
-    \        max_cnt,\n                        },\n                        ThreeOrMoreValues\
-    \ {\n                            min,\n                            min_cnt,\n\
-    \                            min_second,\n                            max,\n \
-    \                           max_cnt,\n                            max_second,\n\
-    \                            len,\n                            sum,\n        \
-    \                } => ThreeOrMoreValues {\n                            min: min\
-    \ + add,\n                            min_cnt,\n                            min_second:\
-    \ min_second + add,\n                            max: max + add,\n           \
-    \                 max_cnt,\n                            max_second: max_second\
-    \ + add,\n                            len,\n                            sum: sum\
-    \ + add * len as i64,\n                        },\n                    },\n  \
-    \                  self.1 + add,\n                )\n            }\n         \
-    \   LowerBound(lb) => {\n                if self.0.get_min() < lb {\n        \
-    \            let new_monoid = match self.0 {\n                        ZeroValue\
-    \ => ZeroValue,\n                        OneValue { val, len } => OneValue {\n\
-    \                            val: val.max(lb),\n                            len,\n\
-    \                        },\n                        TwoValues {\n           \
-    \                 min_cnt,\n                            max,\n               \
-    \             max_cnt,\n                            ..\n                     \
-    \   } => {\n                            if max <= lb {\n                     \
-    \           OneValue {\n                                    val: lb,\n       \
-    \                             len: min_cnt + max_cnt,\n                      \
-    \          }\n                            } else {\n                         \
-    \       TwoValues {\n                                    min: lb,\n          \
-    \                          min_cnt,\n                                    max,\n\
-    \                                    max_cnt,\n                              \
-    \  }\n                            }\n                        }\n             \
-    \           ThreeOrMoreValues {\n                            max,\n          \
-    \                  max_cnt,\n                            max_second,\n       \
-    \                     len,\n                            ..\n                 \
-    \       } => {\n                            if max <= lb {\n                 \
-    \               OneValue { val: lb, len }\n                            } else\
-    \ if max_second <= lb {\n                                TwoValues {\n       \
-    \                             min: lb,\n                                    min_cnt:\
-    \ len - max_cnt,\n                                    max,\n                 \
-    \                   max_cnt,\n                                }\n            \
-    \                } else {\n                                return false;\n   \
-    \                         }\n                        }\n                    };\n\
-    \                    self.0 = new_monoid;\n                }\n            }\n\
-    \            UpperBound(ub) => {\n                if self.0.get_max() > ub {\n\
-    \                    let new_monoid = match self.0 {\n                       \
-    \ ZeroValue => ZeroValue,\n                        OneValue { val, len } => OneValue\
-    \ {\n                            val: val.min(ub),\n                         \
-    \   len,\n                        },\n                        TwoValues {\n  \
-    \                          min,\n                            min_cnt,\n      \
-    \                      max_cnt,\n                            ..\n            \
-    \            } => {\n                            if ub <= min {\n            \
-    \                    OneValue {\n                                    val: ub,\n\
-    \                                    len: min_cnt + max_cnt,\n               \
-    \                 }\n                            } else {\n                  \
-    \              TwoValues {\n                                    min,\n       \
-    \                             min_cnt,\n                                    max:\
-    \ ub,\n                                    max_cnt,\n                        \
-    \        }\n                            }\n                        }\n       \
-    \                 ThreeOrMoreValues {\n                            min,\n    \
-    \                        min_cnt,\n                            min_second,\n \
-    \                           len,\n                            ..\n           \
-    \             } => {\n                            if ub <= min {\n           \
-    \                     OneValue { val: ub, len }\n                            }\
-    \ else if ub <= min_second {\n                                TwoValues {\n  \
-    \                                  min,\n                                    min_cnt,\n\
+    \   }\n            AddAll(add) => {\n                self.1 += add;\n        \
+    \        self.0 = match self.0 {\n                    ZeroValue => ZeroValue,\n\
+    \                    OneValue { val, len } => OneValue {\n                   \
+    \     val: val + add,\n                        len,\n                    },\n\
+    \                    TwoValues {\n                        min,\n             \
+    \           min_cnt,\n                        max,\n                        max_cnt,\n\
+    \                    } => TwoValues {\n                        min: min + add,\n\
+    \                        min_cnt,\n                        max: max + add,\n \
+    \                       max_cnt,\n                    },\n                   \
+    \ ThreeOrMoreValues {\n                        min,\n                        min_cnt,\n\
+    \                        min_second,\n                        max,\n         \
+    \               max_cnt,\n                        max_second,\n              \
+    \          len,\n                        sum,\n                    } => ThreeOrMoreValues\
+    \ {\n                        min: min + add,\n                        min_cnt,\n\
+    \                        min_second: min_second + add,\n                     \
+    \   max: max + add,\n                        max_cnt,\n                      \
+    \  max_second: max_second + add,\n                        len,\n             \
+    \           sum: sum + add * len as i64,\n                    },\n           \
+    \     };\n            }\n            LowerBound(lb) => {\n                if self.0.get_min()\
+    \ < lb {\n                    let new_monoid = match self.0 {\n              \
+    \          ZeroValue => ZeroValue,\n                        OneValue { val, len\
+    \ } => OneValue {\n                            val: val.max(lb),\n           \
+    \                 len,\n                        },\n                        TwoValues\
+    \ {\n                            min_cnt,\n                            max,\n\
+    \                            max_cnt,\n                            ..\n      \
+    \                  } => {\n                            if max <= lb {\n      \
+    \                          OneValue {\n                                    val:\
+    \ lb,\n                                    len: min_cnt + max_cnt,\n         \
+    \                       }\n                            } else {\n            \
+    \                    TwoValues {\n                                    min: lb,\n\
+    \                                    min_cnt,\n                              \
+    \      max,\n                                    max_cnt,\n                  \
+    \              }\n                            }\n                        }\n \
+    \                       ThreeOrMoreValues {\n                            max,\n\
+    \                            max_cnt,\n                            max_second,\n\
+    \                            len,\n                            min_second,\n \
+    \                           min,\n                            min_cnt,\n     \
+    \                       sum,\n                        } => {\n               \
+    \             if max <= lb {\n                                OneValue { val:\
+    \ lb, len }\n                            } else if max_second <= lb {\n      \
+    \                          TwoValues {\n                                    min:\
+    \ lb,\n                                    min_cnt: len - max_cnt,\n         \
+    \                           max,\n                                    max_cnt,\n\
+    \                                }\n                            } else if lb <\
+    \ min_second {\n                                ThreeOrMoreValues {\n        \
+    \                            min: lb,\n                                    min_cnt,\n\
+    \                                    min_second,\n                           \
+    \         max,\n                                    max_cnt,\n               \
+    \                     max_second,\n                                    len,\n\
+    \                                    sum: sum + (lb - min) * min_cnt as i64,\n\
+    \                                }\n                            } else {\n   \
+    \                             return false;\n                            }\n \
+    \                       }\n                    };\n                    self.0\
+    \ = new_monoid;\n                }\n            }\n            UpperBound(ub)\
+    \ => {\n                if self.0.get_max() > ub {\n                    let new_monoid\
+    \ = match self.0 {\n                        ZeroValue => ZeroValue,\n        \
+    \                OneValue { val, len } => OneValue {\n                       \
+    \     val: val.min(ub),\n                            len,\n                  \
+    \      },\n                        TwoValues {\n                            min,\n\
+    \                            min_cnt,\n                            max_cnt,\n\
+    \                            ..\n                        } => {\n            \
+    \                if ub <= min {\n                                OneValue {\n\
+    \                                    val: ub,\n                              \
+    \      len: min_cnt + max_cnt,\n                                }\n          \
+    \                  } else {\n                                TwoValues {\n   \
+    \                                 min,\n                                    min_cnt,\n\
     \                                    max: ub,\n                              \
-    \      max_cnt: len - min_cnt,\n                                }\n          \
-    \                  } else {\n                                return false;\n \
-    \                           }\n                        }\n                   \
-    \ };\n                    self.0 = new_monoid;\n                }\n          \
-    \  }\n        }\n        true\n    }\n    fn push(&mut self, child_node_left:\
-    \ &mut Self, child_node_right: &mut Self) {\n        if self.1 != 0 {\n      \
-    \      child_node_left.apply(&AddAll(self.1));\n            child_node_right.apply(&AddAll(self.1));\n\
-    \            self.1 = 0;\n        }\n        match &self.0 {\n            ZeroValue\
-    \ => (),\n            OneValue { val, .. } => {\n                child_node_left.apply(&Update(*val));\n\
-    \                child_node_right.apply(&Update(*val));\n            }\n     \
-    \       TwoValues { min, max, .. } | ThreeOrMoreValues { min, max, .. } => {\n\
-    \                child_node_left.apply(&LowerBound(*min));\n                child_node_left.apply(&UpperBound(*max));\n\
-    \                child_node_right.apply(&LowerBound(*min));\n                child_node_right.apply(&UpperBound(*max));\n\
-    \            }\n        }\n    }\n}\n\nuse std::ops::RangeBounds;\npub type RangeChminMaxAddSum\
-    \ = LazySegtreeBeats<InnerNode>;\npub trait QueryWrapper {\n    fn from_vec(v:\
-    \ Vec<i64>) -> Self;\n    fn range_chmin<R: RangeBounds<usize>>(&mut self, range:\
-    \ R, chmin: i64);\n    fn range_chmax<R: RangeBounds<usize>>(&mut self, range:\
-    \ R, chmax: i64);\n    fn range_update<R: RangeBounds<usize>>(&mut self, range:\
-    \ R, update: i64);\n    fn range_add<R: RangeBounds<usize>>(&mut self, range:\
-    \ R, add: i64);\n    fn prod<R: RangeBounds<usize>>(&mut self, range: R) -> InnerMonoid;\n\
-    }\n\nimpl QueryWrapper for RangeChminMaxAddSum {\n    fn from_vec(v: Vec<i64>)\
-    \ -> Self {\n        Self::from(\n            v.into_iter()\n                .map(|val|\
-    \ InnerNode(OneValue { val, len: 1 }, 0))\n                .collect::<Vec<_>>(),\n\
-    \        )\n    }\n    fn range_add<R: RangeBounds<usize>>(&mut self, range: R,\
-    \ add: i64) {\n        self.apply_range(range, &AddAll(add));\n    }\n    fn range_chmax<R:\
-    \ RangeBounds<usize>>(&mut self, range: R, chmax: i64) {\n        self.apply_range(range,\
-    \ &LowerBound(chmax));\n    }\n    fn range_chmin<R: RangeBounds<usize>>(&mut\
-    \ self, range: R, chmin: i64) {\n        self.apply_range(range, &UpperBound(chmin));\n\
-    \    }\n    fn range_update<R: RangeBounds<usize>>(&mut self, range: R, update:\
-    \ i64) {\n        self.apply_range(range, &Update(update));\n    }\n    fn prod<R:\
-    \ RangeBounds<usize>>(&mut self, range: R) -> InnerMonoid {\n        self.prod(range).0\n\
-    \    }\n}\n"
+    \      max_cnt,\n                                }\n                         \
+    \   }\n                        }\n                        ThreeOrMoreValues {\n\
+    \                            min,\n                            min_cnt,\n    \
+    \                        min_second,\n                            len,\n     \
+    \                       max,\n                            max_cnt,\n         \
+    \                   max_second,\n                            sum,\n          \
+    \              } => {\n                            if ub <= min {\n          \
+    \                      OneValue { val: ub, len }\n                           \
+    \ } else if ub <= min_second {\n                                TwoValues {\n\
+    \                                    min,\n                                  \
+    \  min_cnt,\n                                    max: ub,\n                  \
+    \                  max_cnt: len - min_cnt,\n                                }\n\
+    \                            } else if max_second < ub {\n                   \
+    \             ThreeOrMoreValues {\n                                    max: ub,\n\
+    \                                    max_cnt,\n                              \
+    \      max_second,\n                                    min,\n               \
+    \                     min_cnt,\n                                    min_second,\n\
+    \                                    len,\n                                  \
+    \  sum: sum + (ub - max) * max_cnt as i64,\n                                }\n\
+    \                            } else {\n                                return\
+    \ false;\n                            }\n                        }\n         \
+    \           };\n                    self.0 = new_monoid;\n                }\n\
+    \            }\n        }\n        true\n    }\n    fn push(&mut self, child_node_left:\
+    \ &mut Self, child_node_right: &mut Self) {\n        if let OneValue { val, ..\
+    \ } = self.0 {\n            child_node_left.apply(&Update(val));\n           \
+    \ child_node_right.apply(&Update(val));\n            return;\n        }\n    \
+    \    if self.1 != 0 {\n            child_node_left.apply(&AddAll(self.1));\n \
+    \           child_node_right.apply(&AddAll(self.1));\n            self.1 = 0;\n\
+    \        }\n        if self.0.get_max() < child_node_left.0.get_max() {\n    \
+    \        assert!(\n                child_node_left.apply(&UpperBound(self.0.get_max())),\n\
+    \                \"parent:{:?}, left:{:?}\",\n                self,\n        \
+    \        child_node_left\n            );\n        }\n        if self.0.get_max()\
+    \ < child_node_right.0.get_max() {\n            assert!(\n                child_node_right.apply(&UpperBound(self.0.get_max())),\n\
+    \                \"parent:{:?}, right:{:?}\",\n                self,\n       \
+    \         child_node_right\n            );\n        }\n        if self.0.get_min()\
+    \ > child_node_left.0.get_min() {\n            assert!(\n                child_node_left.apply(&LowerBound(self.0.get_min())),\n\
+    \                \"parent:{:?}, left:{:?}\",\n                self,\n        \
+    \        child_node_left\n            );\n        }\n        if self.0.get_min()\
+    \ > child_node_right.0.get_min() {\n            assert!(\n                child_node_right.apply(&LowerBound(self.0.get_min())),\n\
+    \                \"parent:{:?}, right:{:?}\",\n                self,\n       \
+    \         child_node_right\n            );\n        }\n    }\n}\n\nuse std::ops::RangeBounds;\n\
+    pub type RangeChminMaxAddSum = LazySegtreeBeats<InnerNode>;\npub trait QueryWrapper\
+    \ {\n    fn from_vec(v: Vec<i64>) -> Self;\n    fn range_chmin<R: RangeBounds<usize>>(&mut\
+    \ self, range: R, chmin: i64);\n    fn range_chmax<R: RangeBounds<usize>>(&mut\
+    \ self, range: R, chmax: i64);\n    fn range_update<R: RangeBounds<usize>>(&mut\
+    \ self, range: R, update: i64);\n    fn range_add<R: RangeBounds<usize>>(&mut\
+    \ self, range: R, add: i64);\n    fn prod_monoid<R: RangeBounds<usize>>(&mut self,\
+    \ range: R) -> InnerMonoid;\n}\n\nimpl QueryWrapper for RangeChminMaxAddSum {\n\
+    \    fn from_vec(v: Vec<i64>) -> Self {\n        Self::from(\n            v.into_iter()\n\
+    \                .map(|val| InnerNode(OneValue { val, len: 1 }, 0))\n        \
+    \        .collect::<Vec<_>>(),\n        )\n    }\n    fn range_add<R: RangeBounds<usize>>(&mut\
+    \ self, range: R, add: i64) {\n        self.apply_range(range, &AddAll(add));\n\
+    \    }\n    fn range_chmax<R: RangeBounds<usize>>(&mut self, range: R, chmax:\
+    \ i64) {\n        self.apply_range(range, &LowerBound(chmax));\n    }\n    fn\
+    \ range_chmin<R: RangeBounds<usize>>(&mut self, range: R, chmin: i64) {\n    \
+    \    self.apply_range(range, &UpperBound(chmin));\n    }\n    fn range_update<R:\
+    \ RangeBounds<usize>>(&mut self, range: R, update: i64) {\n        self.apply_range(range,\
+    \ &Update(update));\n    }\n    fn prod_monoid<R: RangeBounds<usize>>(&mut self,\
+    \ range: R) -> InnerMonoid {\n        self.prod(range).0\n    }\n}\n\n#[cfg(test)]\n\
+    mod test {\n    use super::*;\n    use rand::prelude::*;\n    #[test]\n    fn\
+    \ test() {\n        const SIZE: usize = 1000;\n        let mut rng = thread_rng();\n\
+    \        let mut vec = (0..SIZE)\n            .map(|_| rng.gen_range(-1000..=1000))\n\
+    \            .collect::<Vec<_>>();\n        let mut seg = RangeChminMaxAddSum::from_vec(vec.clone());\n\
+    \        for _ in 0..1000 {\n            let l = rng.gen_range(0..SIZE);\n   \
+    \         let r = rng.gen_range(l..SIZE);\n            let t = rng.gen_range(0..3);\n\
+    \            match t {\n                0 => {\n                    let chmin\
+    \ = rng.gen_range(-1000..=1000);\n                    for i in l..r {\n      \
+    \                  vec[i] = vec[i].min(chmin);\n                    }\n      \
+    \              seg.range_chmin(l..r, chmin);\n                }\n            \
+    \    1 => {\n                    let chmax = rng.gen_range(-1000..=1000);\n  \
+    \                  for i in l..r {\n                        vec[i] = vec[i].max(chmax);\n\
+    \                    }\n                    seg.range_chmax(l..r, chmax);\n  \
+    \              }\n                2 => {\n                    let add = rng.gen_range(-100..=100);\n\
+    \                    for i in l..r {\n                        vec[i] += add;\n\
+    \                    }\n                    seg.range_add(l..r, add);\n      \
+    \          }\n                _ => unreachable!(),\n            }\n          \
+    \  let l = rng.gen_range(0..SIZE);\n            let r = rng.gen_range(l..SIZE);\n\
+    \            assert_eq!(\n                seg.prod_monoid(l..r).get_sum(),\n \
+    \               vec[l..r].iter().sum::<i64>()\n            );\n        }\n   \
+    \     for i in 0..SIZE {\n            assert_eq!(seg.prod_monoid(i..i + 1).get_sum(),\
+    \ vec[i]);\n        }\n    }\n}\n"
   dependsOn:
   - crates/data_structure/lazy_segtree_beats/src/lib.rs
   isVerificationFile: false
   path: crates/data_structure/range_chminmax_addsum/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-29 23:43:00+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  timestamp: '2024-10-30 15:21:58+09:00'
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - verify/yosupo/range_chmin_chmax_add_range_sum/src/main.rs
 documentation_of: crates/data_structure/range_chminmax_addsum/src/lib.rs
 layout: document
 redirect_from:

@@ -48,7 +48,7 @@ data:
       title: crates/data_structure/potentialized_union_find/src/lib.rs
   - name: crates/data_structure/range_chminmax_addsum/src
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: crates/data_structure/range_chminmax_addsum/src/lib.rs
       title: crates/data_structure/range_chminmax_addsum/src/lib.rs
   - name: crates/data_structure/raq_rsq/src
@@ -492,6 +492,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
       title: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
+  - name: verify/yosupo/range_chmin_chmax_add_range_sum/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yosupo/range_chmin_chmax_add_range_sum/src/main.rs
+      title: verify/yosupo/range_chmin_chmax_add_range_sum/src/main.rs
   - name: verify/yosupo/range_kth_smallest/src
     pages:
     - icon: ':heavy_check_mark:'
