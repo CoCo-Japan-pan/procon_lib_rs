@@ -7,6 +7,7 @@ use std::cmp::Ordering;
 use InnerMonoid::*;
 use RangeActions::*;
 
+/// 内部で持つモノイド 遅延情報は別に持つ
 #[derive(Debug, Clone, Copy)]
 pub enum InnerMonoid {
     ZeroValue,
@@ -277,6 +278,7 @@ impl BeatsNode for InnerNode {
                 .flatten()
                 .collect::<Vec<_>>();
                 vals.sort_unstable();
+                vals.dedup();
                 vals.reverse();
                 let (max, max_second) = (vals[0], vals[1]);
                 ThreeOrMoreValues {
@@ -324,46 +326,44 @@ impl BeatsNode for InnerNode {
                 )
             }
             AddAll(add) => {
-                *self = Self(
-                    match self.0 {
-                        ZeroValue => ZeroValue,
-                        OneValue { val, len } => OneValue {
-                            val: val + add,
-                            len,
-                        },
-                        TwoValues {
-                            min,
-                            min_cnt,
-                            max,
-                            max_cnt,
-                        } => TwoValues {
-                            min: min + add,
-                            min_cnt,
-                            max: max + add,
-                            max_cnt,
-                        },
-                        ThreeOrMoreValues {
-                            min,
-                            min_cnt,
-                            min_second,
-                            max,
-                            max_cnt,
-                            max_second,
-                            len,
-                            sum,
-                        } => ThreeOrMoreValues {
-                            min: min + add,
-                            min_cnt,
-                            min_second: min_second + add,
-                            max: max + add,
-                            max_cnt,
-                            max_second: max_second + add,
-                            len,
-                            sum: sum + add * len as i64,
-                        },
+                self.1 += add;
+                self.0 = match self.0 {
+                    ZeroValue => ZeroValue,
+                    OneValue { val, len } => OneValue {
+                        val: val + add,
+                        len,
                     },
-                    self.1 + add,
-                )
+                    TwoValues {
+                        min,
+                        min_cnt,
+                        max,
+                        max_cnt,
+                    } => TwoValues {
+                        min: min + add,
+                        min_cnt,
+                        max: max + add,
+                        max_cnt,
+                    },
+                    ThreeOrMoreValues {
+                        min,
+                        min_cnt,
+                        min_second,
+                        max,
+                        max_cnt,
+                        max_second,
+                        len,
+                        sum,
+                    } => ThreeOrMoreValues {
+                        min: min + add,
+                        min_cnt,
+                        min_second: min_second + add,
+                        max: max + add,
+                        max_cnt,
+                        max_second: max_second + add,
+                        len,
+                        sum: sum + add * len as i64,
+                    },
+                };
             }
             LowerBound(lb) => {
                 if self.0.get_min() < lb {
@@ -398,7 +398,10 @@ impl BeatsNode for InnerNode {
                             max_cnt,
                             max_second,
                             len,
-                            ..
+                            min_second,
+                            min,
+                            min_cnt,
+                            sum,
                         } => {
                             if max <= lb {
                                 OneValue { val: lb, len }
@@ -408,6 +411,17 @@ impl BeatsNode for InnerNode {
                                     min_cnt: len - max_cnt,
                                     max,
                                     max_cnt,
+                                }
+                            } else if lb < min_second {
+                                ThreeOrMoreValues {
+                                    min: lb,
+                                    min_cnt,
+                                    min_second,
+                                    max,
+                                    max_cnt,
+                                    max_second,
+                                    len,
+                                    sum: sum + (lb - min) * min_cnt as i64,
                                 }
                             } else {
                                 return false;
@@ -450,7 +464,10 @@ impl BeatsNode for InnerNode {
                             min_cnt,
                             min_second,
                             len,
-                            ..
+                            max,
+                            max_cnt,
+                            max_second,
+                            sum,
                         } => {
                             if ub <= min {
                                 OneValue { val: ub, len }
@@ -460,6 +477,17 @@ impl BeatsNode for InnerNode {
                                     min_cnt,
                                     max: ub,
                                     max_cnt: len - min_cnt,
+                                }
+                            } else if max_second < ub {
+                                ThreeOrMoreValues {
+                                    max: ub,
+                                    max_cnt,
+                                    max_second,
+                                    min,
+                                    min_cnt,
+                                    min_second,
+                                    len,
+                                    sum: sum + (ub - max) * max_cnt as i64,
                                 }
                             } else {
                                 return false;
@@ -473,23 +501,47 @@ impl BeatsNode for InnerNode {
         true
     }
     fn push(&mut self, child_node_left: &mut Self, child_node_right: &mut Self) {
+        if let OneValue { val, .. } = self.0 {
+            child_node_left.apply(&Update(val));
+            child_node_right.apply(&Update(val));
+            return;
+        }
         if self.1 != 0 {
             child_node_left.apply(&AddAll(self.1));
             child_node_right.apply(&AddAll(self.1));
             self.1 = 0;
         }
-        match &self.0 {
-            ZeroValue => (),
-            OneValue { val, .. } => {
-                child_node_left.apply(&Update(*val));
-                child_node_right.apply(&Update(*val));
-            }
-            TwoValues { min, max, .. } | ThreeOrMoreValues { min, max, .. } => {
-                child_node_left.apply(&LowerBound(*min));
-                child_node_left.apply(&UpperBound(*max));
-                child_node_right.apply(&LowerBound(*min));
-                child_node_right.apply(&UpperBound(*max));
-            }
+        if self.0.get_max() < child_node_left.0.get_max() {
+            assert!(
+                child_node_left.apply(&UpperBound(self.0.get_max())),
+                "parent:{:?}, left:{:?}",
+                self,
+                child_node_left
+            );
+        }
+        if self.0.get_max() < child_node_right.0.get_max() {
+            assert!(
+                child_node_right.apply(&UpperBound(self.0.get_max())),
+                "parent:{:?}, right:{:?}",
+                self,
+                child_node_right
+            );
+        }
+        if self.0.get_min() > child_node_left.0.get_min() {
+            assert!(
+                child_node_left.apply(&LowerBound(self.0.get_min())),
+                "parent:{:?}, left:{:?}",
+                self,
+                child_node_left
+            );
+        }
+        if self.0.get_min() > child_node_right.0.get_min() {
+            assert!(
+                child_node_right.apply(&LowerBound(self.0.get_min())),
+                "parent:{:?}, right:{:?}",
+                self,
+                child_node_right
+            );
         }
     }
 }
@@ -502,7 +554,7 @@ pub trait QueryWrapper {
     fn range_chmax<R: RangeBounds<usize>>(&mut self, range: R, chmax: i64);
     fn range_update<R: RangeBounds<usize>>(&mut self, range: R, update: i64);
     fn range_add<R: RangeBounds<usize>>(&mut self, range: R, add: i64);
-    fn prod<R: RangeBounds<usize>>(&mut self, range: R) -> InnerMonoid;
+    fn prod_monoid<R: RangeBounds<usize>>(&mut self, range: R) -> InnerMonoid;
 }
 
 impl QueryWrapper for RangeChminMaxAddSum {
@@ -525,7 +577,60 @@ impl QueryWrapper for RangeChminMaxAddSum {
     fn range_update<R: RangeBounds<usize>>(&mut self, range: R, update: i64) {
         self.apply_range(range, &Update(update));
     }
-    fn prod<R: RangeBounds<usize>>(&mut self, range: R) -> InnerMonoid {
+    fn prod_monoid<R: RangeBounds<usize>>(&mut self, range: R) -> InnerMonoid {
         self.prod(range).0
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    use rand::prelude::*;
+    #[test]
+    fn test() {
+        const SIZE: usize = 1000;
+        let mut rng = thread_rng();
+        let mut vec = (0..SIZE)
+            .map(|_| rng.gen_range(-1000..=1000))
+            .collect::<Vec<_>>();
+        let mut seg = RangeChminMaxAddSum::from_vec(vec.clone());
+        for _ in 0..1000 {
+            let l = rng.gen_range(0..SIZE);
+            let r = rng.gen_range(l..SIZE);
+            let t = rng.gen_range(0..3);
+            match t {
+                0 => {
+                    let chmin = rng.gen_range(-1000..=1000);
+                    for i in l..r {
+                        vec[i] = vec[i].min(chmin);
+                    }
+                    seg.range_chmin(l..r, chmin);
+                }
+                1 => {
+                    let chmax = rng.gen_range(-1000..=1000);
+                    for i in l..r {
+                        vec[i] = vec[i].max(chmax);
+                    }
+                    seg.range_chmax(l..r, chmax);
+                }
+                2 => {
+                    let add = rng.gen_range(-100..=100);
+                    for i in l..r {
+                        vec[i] += add;
+                    }
+                    seg.range_add(l..r, add);
+                }
+                _ => unreachable!(),
+            }
+            let l = rng.gen_range(0..SIZE);
+            let r = rng.gen_range(l..SIZE);
+            assert_eq!(
+                seg.prod_monoid(l..r).get_sum(),
+                vec[l..r].iter().sum::<i64>()
+            );
+        }
+        for i in 0..SIZE {
+            assert_eq!(seg.prod_monoid(i..i + 1).get_sum(), vec[i]);
+        }
     }
 }

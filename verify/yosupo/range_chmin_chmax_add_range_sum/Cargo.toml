@@ -1,0 +1,10 @@
+[package]
+name = "range_chmin_chmax_add_range_sum"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+proconio = { version = "=0.4.5", features = ["derive"] }
+range_chminmax_addsum = { path = "../../../crates/data_structure/range_chminmax_addsum" }

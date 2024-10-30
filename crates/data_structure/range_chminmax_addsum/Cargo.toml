@@ -11,3 +11,6 @@ publish = false
 
 [dependencies]
 lazy_segtree_beats = { path = "../lazy_segtree_beats" }
+
+[dev-dependencies]
+rand = "0.8.5"
