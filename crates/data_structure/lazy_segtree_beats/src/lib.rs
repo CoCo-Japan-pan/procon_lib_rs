@@ -21,9 +21,11 @@ pub trait BeatsNode: Clone {
     fn id_node() -> Self;
     fn binary_operation(lhs: &Self, rhs: &Self) -> Self;
     /// 成功した作用の情報を載せたノードからその子ノードへの伝播し、そのノードの遅延を解消  
-    /// 特定のノードに成功する作用は、その半分の区間である子ノードでも成功するはず
+    /// 特定のノードに成功する作用は、その子ノードでも成功するはず  
+    /// つまり tag/break condition のどちらかになるはずである
     fn push(&mut self, child_node_left: &mut Self, child_node_right: &mut Self);
     /// 作用の適用 成功したら`true`、失敗したら`false`を返す  
+    /// break condition (何も作用しない) や tag condition (モノイドを作用に基づき更新できる) なら`true`を返すということ  
     /// 失敗したら子ノードにpushした上で同じ作用を適用するので、失敗する場合は特に変更しなくてよい  
     /// 区間の長さ1に対しては必ず成功するはず
     fn apply(&mut self, action: &Self::Action) -> bool;
