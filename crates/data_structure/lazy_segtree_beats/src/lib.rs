@@ -7,6 +7,8 @@
 //! つまりノードは作用のうち成功している(=伝播可能な)部分的な情報をモノイドに加えて持つ  
 //! 作用については、`apply`で定義し、成功したら`true`、失敗したら`false`を返すようにする
 
+//! TODO tag/break condition を明示的に用いた実装にする
+
 use internal_bits::ceil_log2;
 use std::ops::{Bound::*, RangeBounds};
 
