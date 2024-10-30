@@ -311,7 +311,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/range_chminmax_addsum/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-30 15:21:58+09:00'
+  timestamp: '2024-10-30 15:48:30+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/range_chmin_chmax_add_range_sum/src/main.rs

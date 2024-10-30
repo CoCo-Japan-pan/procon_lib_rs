@@ -59,26 +59,29 @@ data:
     \u3059\u308B\u306F\u305A\n    fn push(&mut self, child_node_left: &mut Self, child_node_right:\
     \ &mut Self);\n    /// \u4F5C\u7528\u306E\u9069\u7528 \u6210\u529F\u3057\u305F\
     \u3089`true`\u3001\u5931\u6557\u3057\u305F\u3089`false`\u3092\u8FD4\u3059  \n\
-    \    /// \u533A\u9593\u306E\u9577\u30551\u306B\u5BFE\u3057\u3066\u306F\u5FC5\u305A\
-    \u6210\u529F\u3059\u308B\n    fn apply(&mut self, action: &Self::Action) -> bool;\n\
-    }\n\n#[derive(Debug)]\npub struct LazySegtreeBeats<Node: BeatsNode> {\n    range_size:\
-    \ usize,\n    leaf_size: usize,\n    log: usize,\n    nodes: Vec<Node>,\n}\n\n\
-    impl<Node: BeatsNode> From<Vec<Node>> for LazySegtreeBeats<Node> {\n    fn from(mut\
-    \ v: Vec<Node>) -> Self {\n        let range_size = v.len();\n        let log\
-    \ = ceil_log2(range_size as u32) as usize;\n        let leaf_size = 1 << log;\n\
-    \        let mut nodes = vec![Node::id_node(); leaf_size];\n        nodes.reserve(leaf_size);\n\
-    \        nodes.append(&mut v);\n        nodes.append(&mut vec![Node::id_node();\
-    \ leaf_size - range_size]);\n        let mut ret = Self {\n            range_size,\n\
-    \            leaf_size,\n            log,\n            nodes,\n        };\n  \
-    \      for i in (1..leaf_size).rev() {\n            ret.update(i);\n        }\n\
-    \        ret\n    }\n}\n\nimpl<Node: BeatsNode> LazySegtreeBeats<Node> {\n   \
-    \ pub fn new(n: usize) -> Self {\n        vec![Node::id_node(); n].into()\n  \
-    \  }\n    pub fn prod<R: RangeBounds<usize>>(&mut self, range: R) -> Node {\n\
-    \        let (mut l, mut r) = self.get_range(range);\n        if l == r {\n  \
-    \          return Node::id_node();\n        }\n        l += self.leaf_size;\n\
-    \        r += self.leaf_size;\n        for i in (1..=self.log).rev() {\n     \
-    \       if ((l >> i) << i) != l {\n                self.push(l >> i);\n      \
-    \      }\n            if ((r >> i) << i) != r {\n                self.push((r\
+    \    /// \u5931\u6557\u3057\u305F\u3089\u5B50\u30CE\u30FC\u30C9\u306Bpush\u3057\
+    \u305F\u4E0A\u3067\u540C\u3058\u4F5C\u7528\u3092\u9069\u7528\u3059\u308B\u306E\
+    \u3067\u3001\u5931\u6557\u3059\u308B\u5834\u5408\u306F\u7279\u306B\u5909\u66F4\
+    \u3057\u306A\u304F\u3066\u3088\u3044  \n    /// \u533A\u9593\u306E\u9577\u3055\
+    1\u306B\u5BFE\u3057\u3066\u306F\u5FC5\u305A\u6210\u529F\u3059\u308B\u306F\u305A\
+    \n    fn apply(&mut self, action: &Self::Action) -> bool;\n}\n\n#[derive(Debug)]\n\
+    pub struct LazySegtreeBeats<Node: BeatsNode> {\n    range_size: usize,\n    leaf_size:\
+    \ usize,\n    log: usize,\n    nodes: Vec<Node>,\n}\n\nimpl<Node: BeatsNode> From<Vec<Node>>\
+    \ for LazySegtreeBeats<Node> {\n    fn from(mut v: Vec<Node>) -> Self {\n    \
+    \    let range_size = v.len();\n        let log = ceil_log2(range_size as u32)\
+    \ as usize;\n        let leaf_size = 1 << log;\n        let mut nodes = vec![Node::id_node();\
+    \ leaf_size];\n        nodes.reserve(leaf_size);\n        nodes.append(&mut v);\n\
+    \        nodes.append(&mut vec![Node::id_node(); leaf_size - range_size]);\n \
+    \       let mut ret = Self {\n            range_size,\n            leaf_size,\n\
+    \            log,\n            nodes,\n        };\n        for i in (1..leaf_size).rev()\
+    \ {\n            ret.update(i);\n        }\n        ret\n    }\n}\n\nimpl<Node:\
+    \ BeatsNode> LazySegtreeBeats<Node> {\n    pub fn new(n: usize) -> Self {\n  \
+    \      vec![Node::id_node(); n].into()\n    }\n    pub fn prod<R: RangeBounds<usize>>(&mut\
+    \ self, range: R) -> Node {\n        let (mut l, mut r) = self.get_range(range);\n\
+    \        if l == r {\n            return Node::id_node();\n        }\n       \
+    \ l += self.leaf_size;\n        r += self.leaf_size;\n        for i in (1..=self.log).rev()\
+    \ {\n            if ((l >> i) << i) != l {\n                self.push(l >> i);\n\
+    \            }\n            if ((r >> i) << i) != r {\n                self.push((r\
     \ - 1) >> i);\n            }\n        }\n\n        let mut sml = Node::id_node();\n\
     \        let mut smr = Node::id_node();\n        while l < r {\n            if\
     \ l & 1 != 0 {\n                sml = Node::binary_operation(&sml, &self.nodes[l]);\n\
@@ -125,7 +128,7 @@ data:
   path: crates/data_structure/lazy_segtree_beats/src/lib.rs
   requiredBy:
   - crates/data_structure/range_chminmax_addsum/src/lib.rs
-  timestamp: '2024-10-29 23:43:00+09:00'
+  timestamp: '2024-10-30 15:48:30+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/data_structure/lazy_segtree_beats/src/lib.rs
