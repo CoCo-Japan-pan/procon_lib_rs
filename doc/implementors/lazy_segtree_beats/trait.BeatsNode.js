@@ -1,0 +1,3 @@
+(function() {var implementors = {
+"range_chminmax_addsum":[["impl <a class=\"trait\" href=\"lazy_segtree_beats/trait.BeatsNode.html\" title=\"trait lazy_segtree_beats::BeatsNode\">BeatsNode</a> for <a class=\"struct\" href=\"range_chminmax_addsum/struct.InnerNode.html\" title=\"struct range_chminmax_addsum::InnerNode\">InnerNode</a>"]]
+};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
