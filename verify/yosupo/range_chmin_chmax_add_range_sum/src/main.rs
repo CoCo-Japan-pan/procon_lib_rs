@@ -1,3 +1,5 @@
+// verification-helper: PROBLEM https://judge.yosupo.jp/problem/range_chmin_chmax_add_range_sum
+
 use proconio::{fastout, input};
 use range_chminmax_addsum::{QueryWrapper, RangeChminMaxAddSum};
 
