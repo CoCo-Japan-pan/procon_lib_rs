@@ -171,9 +171,8 @@ data:
     \              min_second: *v1,\n                    max: *v1,\n             \
     \       max_cnt: *l1,\n                    max_second: *v2,\n                \
     \    len: l1 + l2,\n                    sum: s1 + s2,\n                },\n  \
-    \          },\n            _ => {\n                let l_len = lhs.len();\n  \
-    \              let r_len = rhs.len();\n                let l_max = lhs.max();\n\
-    \                let r_max = rhs.max();\n                let max = l_max.max(r_max);\n\
+    \          },\n            _ => {\n                let l_max = lhs.max();\n  \
+    \              let r_max = rhs.max();\n                let max = l_max.max(r_max);\n\
     \                let max_cnt = lhs.max_cnt() * (l_max == max) as usize\n     \
     \               + rhs.max_cnt() * (r_max == max) as usize;\n                let\
     \ max_second = *match (lhs, rhs) {\n                    (\n                  \
@@ -220,7 +219,7 @@ data:
     \ };\n                Self::TwoOrMore {\n                    min,\n          \
     \          min_cnt,\n                    min_second,\n                    max,\n\
     \                    max_cnt,\n                    max_second,\n             \
-    \       len: l_len + r_len,\n                    sum: lhs.sum() + rhs.sum(),\n\
+    \       len: lhs.len() + rhs.len(),\n                    sum: lhs.sum() + rhs.sum(),\n\
     \                }\n            }\n        }\n    }\n    fn sum(&self) -> i64\
     \ {\n        match self {\n            Self::Unit => 0,\n            Self::AllSame\
     \ { sum, .. } | Self::TwoOrMore { sum, .. } => *sum,\n        }\n    }\n    fn\
@@ -328,7 +327,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/range_chmin_max_add_sum/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-31 13:28:31+09:00'
+  timestamp: '2024-10-31 16:00:30+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/range_chmin_chmax_add_range_sum/src/main.rs

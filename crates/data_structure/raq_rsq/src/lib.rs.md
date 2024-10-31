@@ -37,30 +37,28 @@ data:
     \            ft2: FenwickTree::new(size + 1, zero),\n        }\n    }\n\n    ///\
     \ 1\u70B9\u52A0\u7B97\n    pub fn add_point(&mut self, idx: usize, val: T) {\n\
     \        assert!(idx < self.range_size);\n        self.ft1.add(idx, val);\n  \
-    \  }\n\n    /// \u533A\u9593\u52A0\u7B97\n    pub fn add<R: RangeBounds<usize>>(&mut\
-    \ self, range: R, val: T) {\n        let left = match range.start_bound() {\n\
-    \            Included(&s) => s,\n            Excluded(&s) => s + 1,\n        \
-    \    Unbounded => 0,\n        };\n        let right = match range.end_bound()\
-    \ {\n            Included(&e) => e + 1,\n            Excluded(&e) => e,\n    \
-    \        Unbounded => self.range_size,\n        };\n        self.ft1.add(left,\
-    \ -val.clone() * left.try_into().unwrap());\n        self.ft2.add(left, val.clone());\n\
-    \        self.ft1.add(right, val.clone() * right.try_into().unwrap());\n     \
-    \   self.ft2.add(right, -val);\n    }\n\n    pub fn sum<R: RangeBounds<usize>>(&self,\
-    \ range: R) -> T {\n        let start = match range.start_bound() {\n        \
-    \    Included(&s) => s,\n            Excluded(&s) => s + 1,\n            Unbounded\
-    \ => 0,\n        };\n        let end = match range.end_bound() {\n           \
-    \ Included(&e) => e + 1,\n            Excluded(&e) => e,\n            Unbounded\
-    \ => self.range_size,\n        };\n        assert!(start <= end && end <= self.range_size);\n\
-    \        self.sum_from_first(end) - self.sum_from_first(start)\n    }\n\n    fn\
-    \ sum_from_first(&self, idx: usize) -> T {\n        assert!(idx <= self.range_size);\n\
-    \        self.ft1.sum(0..idx) + self.ft2.sum(0..idx) * idx.try_into().unwrap()\n\
-    \    }\n}\n"
+    \  }\n\n    fn get_range<R: RangeBounds<usize>>(&self, range: R) -> (usize, usize)\
+    \ {\n        let begin = match range.start_bound() {\n            Included(&s)\
+    \ => s,\n            Excluded(&s) => s + 1,\n            Unbounded => 0,\n   \
+    \     };\n        let end = match range.end_bound() {\n            Included(&e)\
+    \ => e + 1,\n            Excluded(&e) => e,\n            Unbounded => self.range_size,\n\
+    \        };\n        assert!(begin <= end && end <= self.range_size);\n      \
+    \  (begin, end)\n    }\n\n    /// \u533A\u9593\u52A0\u7B97\n    pub fn add<R:\
+    \ RangeBounds<usize>>(&mut self, range: R, val: T) {\n        let (begin, end)\
+    \ = self.get_range(range);\n        self.ft1\n            .add(begin, -val.clone()\
+    \ * begin.try_into().unwrap());\n        self.ft2.add(begin, val.clone());\n \
+    \       self.ft1.add(end, val.clone() * end.try_into().unwrap());\n        self.ft2.add(end,\
+    \ -val);\n    }\n\n    pub fn sum<R: RangeBounds<usize>>(&self, range: R) -> T\
+    \ {\n        let (begin, end) = self.get_range(range);\n        self.sum_from_first(end)\
+    \ - self.sum_from_first(begin)\n    }\n\n    fn sum_from_first(&self, idx: usize)\
+    \ -> T {\n        assert!(idx <= self.range_size);\n        self.ft1.sum(0..idx)\
+    \ + self.ft2.sum(0..idx) * idx.try_into().unwrap()\n    }\n}\n"
   dependsOn:
   - crates/data_structure/fenwick_tree/src/lib.rs
   isVerificationFile: false
   path: crates/data_structure/raq_rsq/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-20 15:52:04+09:00'
+  timestamp: '2024-10-31 16:00:30+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/no_2667/src/main.rs
