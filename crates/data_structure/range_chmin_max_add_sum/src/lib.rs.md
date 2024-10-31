@@ -33,15 +33,17 @@ data:
     \ fn range_add<R: RangeBounds<usize>>(&mut self, range: R, add: i64) {\n     \
     \   self.apply_range(range, QueryType::Add(add));\n    }\n    pub fn range_update<R:\
     \ RangeBounds<usize>>(&mut self, range: R, update: i64) {\n        self.apply_range(range,\
-    \ QueryType::Update(update));\n    }\n    pub fn prod_max<R: RangeBounds<usize>>(&mut\
+    \ QueryType::Update(update));\n    }\n    /// range\u306E\u9577\u3055\u304C0\u306E\
+    \u5834\u5408\u306F`i64::MIN`\u3092\u8FD4\u3059\n    pub fn prod_max<R: RangeBounds<usize>>(&mut\
     \ self, range: R) -> i64 {\n        self.fold::<R, { Self::PROD_MAX }>(range)\n\
-    \    }\n    pub fn prod_min<R: RangeBounds<usize>>(&mut self, range: R) -> i64\
-    \ {\n        self.fold::<R, { Self::PROD_MIN }>(range)\n    }\n    pub fn prod_sum<R:\
-    \ RangeBounds<usize>>(&mut self, range: R) -> i64 {\n        self.fold::<R, {\
-    \ Self::PROD_SUM }>(range)\n    }\n}\n\n#[derive(Debug, Clone, Copy)]\nenum QueryType\
-    \ {\n    Chmin(i64),\n    Chmax(i64),\n    Add(i64),\n    Update(i64),\n}\n\n\
-    impl From<Vec<i64>> for RangeChminMaxAddSum {\n    fn from(v: Vec<i64>) -> Self\
-    \ {\n        let range_size = v.len();\n        let log = ceil_log2(range_size\
+    \    }\n    /// range\u306E\u9577\u3055\u304C0\u306E\u5834\u5408\u306F`i64::MAX`\u3092\
+    \u8FD4\u3059\n    pub fn prod_min<R: RangeBounds<usize>>(&mut self, range: R)\
+    \ -> i64 {\n        self.fold::<R, { Self::PROD_MIN }>(range)\n    }\n    pub\
+    \ fn prod_sum<R: RangeBounds<usize>>(&mut self, range: R) -> i64 {\n        self.fold::<R,\
+    \ { Self::PROD_SUM }>(range)\n    }\n}\n\n#[derive(Debug, Clone, Copy)]\nenum\
+    \ QueryType {\n    Chmin(i64),\n    Chmax(i64),\n    Add(i64),\n    Update(i64),\n\
+    }\n\nimpl From<Vec<i64>> for RangeChminMaxAddSum {\n    fn from(v: Vec<i64>) ->\
+    \ Self {\n        let range_size = v.len();\n        let log = ceil_log2(range_size\
     \ as u32) as usize;\n        let leaf_size = 1 << log;\n        let mut data =\
     \ vec![Node::default(); leaf_size];\n        let mut nodes = v.into_iter().map(Node::new).collect();\n\
     \        data.append(&mut nodes);\n        data.append(&mut vec![Node::default();\
@@ -315,17 +317,18 @@ data:
     \            let r = rng.gen_range(l..=SIZE);\n            let v = rng.gen_range(MIN..=MAX);\n\
     \            seg.range_update(l..r, v);\n            for i in l..r {\n       \
     \         data[i] = v;\n            }\n            let l = rng.gen_range(0..SIZE);\n\
-    \            let r = rng.gen_range(l..SIZE);\n            assert_eq!(*data[l..=r].iter().min().unwrap(),\
-    \ seg.prod_min(l..=r));\n            assert_eq!(*data[l..=r].iter().max().unwrap(),\
-    \ seg.prod_max(l..=r));\n            assert_eq!(data[l..=r].iter().sum::<i64>(),\
-    \ seg.prod_sum(l..=r));\n        }\n        for i in 0..SIZE {\n            assert_eq!(data[i],\
+    \            let r = rng.gen_range(l..=SIZE);\n            assert_eq!(\n     \
+    \           *data[l..r].iter().min().unwrap_or(&i64::MAX),\n                seg.prod_min(l..r)\n\
+    \            );\n            assert_eq!(\n                *data[l..r].iter().max().unwrap_or(&i64::MIN),\n\
+    \                seg.prod_max(l..r)\n            );\n            assert_eq!(data[l..r].iter().sum::<i64>(),\
+    \ seg.prod_sum(l..r));\n        }\n        for i in 0..SIZE {\n            assert_eq!(data[i],\
     \ seg.prod_sum(i..=i));\n        }\n    }\n}\n"
   dependsOn:
   - crates/internals/internal_bits/src/lib.rs
   isVerificationFile: false
   path: crates/data_structure/range_chmin_max_add_sum/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-31 10:29:40+09:00'
+  timestamp: '2024-10-31 13:28:31+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/range_chmin_chmax_add_range_sum/src/main.rs
