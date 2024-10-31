@@ -375,8 +375,6 @@ impl Node {
                 },
             },
             _ => {
-                let l_len = lhs.len();
-                let r_len = rhs.len();
                 let l_max = lhs.max();
                 let r_max = rhs.max();
                 let max = l_max.max(r_max);
@@ -464,7 +462,7 @@ impl Node {
                     max,
                     max_cnt,
                     max_second,
-                    len: l_len + r_len,
+                    len: lhs.len() + rhs.len(),
                     sum: lhs.sum() + rhs.sum(),
                 }
             }
