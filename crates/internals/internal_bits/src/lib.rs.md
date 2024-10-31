@@ -12,6 +12,9 @@ data:
     path: crates/data_structure/lazy_segtree_beats/src/lib.rs
     title: crates/data_structure/lazy_segtree_beats/src/lib.rs
   - icon: ':heavy_check_mark:'
+    path: crates/data_structure/range_chmin_max_add_sum/src/lib.rs
+    title: crates/data_structure/range_chmin_max_add_sum/src/lib.rs
+  - icon: ':heavy_check_mark:'
     path: crates/data_structure/segtree/src/lib.rs
     title: crates/data_structure/segtree/src/lib.rs
   - icon: ':heavy_check_mark:'
@@ -54,6 +57,7 @@ data:
   - crates/data_structure/cht_offline/src/lib.rs
   - crates/data_structure/segtree_2d_dense/src/lib.rs
   - crates/data_structure/segtree/src/lib.rs
+  - crates/data_structure/range_chmin_max_add_sum/src/lib.rs
   - crates/data_structure/lazy_segtree/src/lib.rs
   - crates/wavelet/wavelet_matrix/src/lib.rs
   - crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs

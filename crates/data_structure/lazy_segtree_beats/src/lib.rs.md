@@ -4,10 +4,7 @@ data:
   - icon: ':warning:'
     path: crates/internals/internal_bits/src/lib.rs
     title: crates/internals/internal_bits/src/lib.rs
-  _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
-    path: crates/data_structure/range_chminmax_addsum/src/lib.rs
-    title: crates/data_structure/range_chminmax_addsum/src/lib.rs
+  _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: rs
@@ -58,33 +55,38 @@ data:
     \u5B50\u30CE\u30FC\u30C9\u3078\u306E\u4F1D\u64AD\u3057\u3001\u305D\u306E\u30CE\
     \u30FC\u30C9\u306E\u9045\u5EF6\u3092\u89E3\u6D88  \n    /// \u7279\u5B9A\u306E\
     \u30CE\u30FC\u30C9\u306B\u6210\u529F\u3059\u308B\u4F5C\u7528\u306F\u3001\u305D\
-    \u306E\u534A\u5206\u306E\u533A\u9593\u3067\u3042\u308B\u5B50\u30CE\u30FC\u30C9\
-    \u3067\u3082\u6210\u529F\u3059\u308B\u306F\u305A\n    fn push(&mut self, child_node_left:\
+    \u306E\u5B50\u30CE\u30FC\u30C9\u3067\u3082\u6210\u529F\u3059\u308B\u306F\u305A\
+    \  \n    /// \u3064\u307E\u308A tag/break condition \u306E\u3069\u3061\u3089\u304B\
+    \u306B\u306A\u308B\u306F\u305A\u3067\u3042\u308B\n    fn push(&mut self, child_node_left:\
     \ &mut Self, child_node_right: &mut Self);\n    /// \u4F5C\u7528\u306E\u9069\u7528\
     \ \u6210\u529F\u3057\u305F\u3089`true`\u3001\u5931\u6557\u3057\u305F\u3089`false`\u3092\
-    \u8FD4\u3059  \n    /// \u5931\u6557\u3057\u305F\u3089\u5B50\u30CE\u30FC\u30C9\
-    \u306Bpush\u3057\u305F\u4E0A\u3067\u540C\u3058\u4F5C\u7528\u3092\u9069\u7528\u3059\
-    \u308B\u306E\u3067\u3001\u5931\u6557\u3059\u308B\u5834\u5408\u306F\u7279\u306B\
-    \u5909\u66F4\u3057\u306A\u304F\u3066\u3088\u3044  \n    /// \u533A\u9593\u306E\
-    \u9577\u30551\u306B\u5BFE\u3057\u3066\u306F\u5FC5\u305A\u6210\u529F\u3059\u308B\
-    \u306F\u305A\n    fn apply(&mut self, action: &Self::Action) -> bool;\n}\n\n#[derive(Debug)]\n\
-    pub struct LazySegtreeBeats<Node: BeatsNode> {\n    range_size: usize,\n    leaf_size:\
-    \ usize,\n    log: usize,\n    nodes: Vec<Node>,\n}\n\nimpl<Node: BeatsNode> From<Vec<Node>>\
-    \ for LazySegtreeBeats<Node> {\n    fn from(mut v: Vec<Node>) -> Self {\n    \
-    \    let range_size = v.len();\n        let log = ceil_log2(range_size as u32)\
-    \ as usize;\n        let leaf_size = 1 << log;\n        let mut nodes = vec![Node::id_node();\
-    \ leaf_size];\n        nodes.reserve(leaf_size);\n        nodes.append(&mut v);\n\
-    \        nodes.append(&mut vec![Node::id_node(); leaf_size - range_size]);\n \
-    \       let mut ret = Self {\n            range_size,\n            leaf_size,\n\
-    \            log,\n            nodes,\n        };\n        for i in (1..leaf_size).rev()\
-    \ {\n            ret.update(i);\n        }\n        ret\n    }\n}\n\nimpl<Node:\
-    \ BeatsNode> LazySegtreeBeats<Node> {\n    pub fn new(n: usize) -> Self {\n  \
-    \      vec![Node::id_node(); n].into()\n    }\n    pub fn prod<R: RangeBounds<usize>>(&mut\
-    \ self, range: R) -> Node {\n        let (mut l, mut r) = self.get_range(range);\n\
-    \        if l == r {\n            return Node::id_node();\n        }\n       \
-    \ l += self.leaf_size;\n        r += self.leaf_size;\n        for i in (1..=self.log).rev()\
-    \ {\n            if ((l >> i) << i) != l {\n                self.push(l >> i);\n\
-    \            }\n            if ((r >> i) << i) != r {\n                self.push((r\
+    \u8FD4\u3059  \n    /// break condition (\u4F55\u3082\u4F5C\u7528\u3057\u306A\u3044\
+    ) \u3084 tag condition (\u30E2\u30CE\u30A4\u30C9\u3092\u4F5C\u7528\u306B\u57FA\
+    \u3065\u304D\u66F4\u65B0\u3067\u304D\u308B) \u306A\u3089`true`\u3092\u8FD4\u3059\
+    \u3068\u3044\u3046\u3053\u3068  \n    /// \u5931\u6557\u3057\u305F\u3089\u5B50\
+    \u30CE\u30FC\u30C9\u306Bpush\u3057\u305F\u4E0A\u3067\u540C\u3058\u4F5C\u7528\u3092\
+    \u9069\u7528\u3059\u308B\u306E\u3067\u3001\u5931\u6557\u3059\u308B\u5834\u5408\
+    \u306F\u7279\u306B\u5909\u66F4\u3057\u306A\u304F\u3066\u3088\u3044  \n    ///\
+    \ \u533A\u9593\u306E\u9577\u30551\u306B\u5BFE\u3057\u3066\u306F\u5FC5\u305A\u6210\
+    \u529F\u3059\u308B\u306F\u305A\n    fn apply(&mut self, action: &Self::Action)\
+    \ -> bool;\n}\n\n#[derive(Debug)]\npub struct LazySegtreeBeats<Node: BeatsNode>\
+    \ {\n    range_size: usize,\n    leaf_size: usize,\n    log: usize,\n    nodes:\
+    \ Vec<Node>,\n}\n\nimpl<Node: BeatsNode> From<Vec<Node>> for LazySegtreeBeats<Node>\
+    \ {\n    fn from(mut v: Vec<Node>) -> Self {\n        let range_size = v.len();\n\
+    \        let log = ceil_log2(range_size as u32) as usize;\n        let leaf_size\
+    \ = 1 << log;\n        let mut nodes = vec![Node::id_node(); leaf_size];\n   \
+    \     nodes.reserve(leaf_size);\n        nodes.append(&mut v);\n        nodes.append(&mut\
+    \ vec![Node::id_node(); leaf_size - range_size]);\n        let mut ret = Self\
+    \ {\n            range_size,\n            leaf_size,\n            log,\n     \
+    \       nodes,\n        };\n        for i in (1..leaf_size).rev() {\n        \
+    \    ret.update(i);\n        }\n        ret\n    }\n}\n\nimpl<Node: BeatsNode>\
+    \ LazySegtreeBeats<Node> {\n    pub fn new(n: usize) -> Self {\n        vec![Node::id_node();\
+    \ n].into()\n    }\n    pub fn prod<R: RangeBounds<usize>>(&mut self, range: R)\
+    \ -> Node {\n        let (mut l, mut r) = self.get_range(range);\n        if l\
+    \ == r {\n            return Node::id_node();\n        }\n        l += self.leaf_size;\n\
+    \        r += self.leaf_size;\n        for i in (1..=self.log).rev() {\n     \
+    \       if ((l >> i) << i) != l {\n                self.push(l >> i);\n      \
+    \      }\n            if ((r >> i) << i) != r {\n                self.push((r\
     \ - 1) >> i);\n            }\n        }\n\n        let mut sml = Node::id_node();\n\
     \        let mut smr = Node::id_node();\n        while l < r {\n            if\
     \ l & 1 != 0 {\n                sml = Node::binary_operation(&sml, &self.nodes[l]);\n\
@@ -129,9 +131,8 @@ data:
   - crates/internals/internal_bits/src/lib.rs
   isVerificationFile: false
   path: crates/data_structure/lazy_segtree_beats/src/lib.rs
-  requiredBy:
-  - crates/data_structure/range_chminmax_addsum/src/lib.rs
-  timestamp: '2024-10-30 16:07:30+09:00'
+  requiredBy: []
+  timestamp: '2024-10-30 23:13:15+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/data_structure/lazy_segtree_beats/src/lib.rs

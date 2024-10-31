@@ -2,8 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: crates/data_structure/range_chminmax_addsum/src/lib.rs
-    title: crates/data_structure/range_chminmax_addsum/src/lib.rs
+    path: crates/data_structure/range_chmin_max_add_sum/src/lib.rs
+    title: crates/data_structure/range_chmin_max_add_sum/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -20,9 +20,9 @@ data:
     \  File \"/opt/hostedtoolcache/Python/3.13.0/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://judge.yosupo.jp/problem/range_chmin_chmax_add_range_sum\n\
-    \nuse proconio::{fastout, input};\nuse range_chminmax_addsum::{QueryWrapper, RangeChminMaxAddSum};\n\
+    \nuse proconio::{fastout, input};\nuse range_chmin_max_add_sum::RangeChminMaxAddSum;\n\
     \n#[fastout]\nfn main() {\n    input! {\n        n: usize,\n        q: usize,\n\
-    \        a: [i64; n],\n    }\n    let mut seg = RangeChminMaxAddSum::from_vec(a);\n\
+    \        a: [i64; n],\n    }\n    let mut seg = RangeChminMaxAddSum::from(a);\n\
     \    for _ in 0..q {\n        input! {\n            t: u8,\n            l: usize,\n\
     \            r: usize,\n        }\n        match t {\n            0 => {\n   \
     \             input! {\n                    chmin: i64,\n                }\n \
@@ -31,15 +31,15 @@ data:
     \   }\n                seg.range_chmax(l..r, chmax);\n            }\n        \
     \    2 => {\n                input! {\n                    add: i64,\n       \
     \         }\n                seg.range_add(l..r, add);\n            }\n      \
-    \      3 => {\n                let ans = seg.prod_monoid(l..r).get_sum();\n  \
-    \              println!(\"{}\", ans);\n            }\n            _ => unreachable!(),\n\
-    \        }\n    }\n}\n"
+    \      3 => {\n                let ans = seg.prod_sum(l..r);\n               \
+    \ println!(\"{}\", ans);\n            }\n            _ => unreachable!(),\n  \
+    \      }\n    }\n}\n"
   dependsOn:
-  - crates/data_structure/range_chminmax_addsum/src/lib.rs
+  - crates/data_structure/range_chmin_max_add_sum/src/lib.rs
   isVerificationFile: true
   path: verify/yosupo/range_chmin_chmax_add_range_sum/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-30 15:23:00+09:00'
+  timestamp: '2024-10-31 10:29:40+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/range_chmin_chmax_add_range_sum/src/main.rs

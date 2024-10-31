@@ -46,11 +46,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/data_structure/potentialized_union_find/src/lib.rs
       title: crates/data_structure/potentialized_union_find/src/lib.rs
-  - name: crates/data_structure/range_chminmax_addsum/src
+  - name: crates/data_structure/range_chmin_max_add_sum/src
     pages:
     - icon: ':heavy_check_mark:'
-      path: crates/data_structure/range_chminmax_addsum/src/lib.rs
-      title: crates/data_structure/range_chminmax_addsum/src/lib.rs
+      path: crates/data_structure/range_chmin_max_add_sum/src/lib.rs
+      title: crates/data_structure/range_chmin_max_add_sum/src/lib.rs
   - name: crates/data_structure/raq_rsq/src
     pages:
     - icon: ':heavy_check_mark:'
