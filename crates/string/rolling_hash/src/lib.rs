@@ -1,4 +1,4 @@
-use modint_mersenne::ModIntMersenne;
+use modint_mersenne::{ModIntMersenne, RemEuclidU64};
 use std::iter::once;
 use std::ops::RangeBounds;
 use std::time::SystemTime;
@@ -24,15 +24,11 @@ impl RollingHash {
     }
     /// sのrolling hashを構築 `O(|s|)`  
     /// 複数の文字列に用いられる場合はbaseを指定する
-    pub fn new<T: Into<u64> + Copy>(s: &[T], base: Option<u64>) -> Self {
+    pub fn new<T: RemEuclidU64 + Copy>(s: &[T], base: Option<u64>) -> Self {
         // baseとしてNoneが指定されてたら乱数を生成(randクレートを使えない場合を考慮して時間で)
-        let base = if let Some(base) = base {
-            assert!(base > 1 && base < ModIntMersenne::modulus() - 1);
-            base
-        } else {
-            Self::get_random_base()
-        };
+        let base = base.unwrap_or_else(Self::get_random_base);
         let base = ModIntMersenne::new(base);
+        assert!(base.value() > 1 && base.value() < ModIntMersenne::modulus() - 1);
         let base_pow_table: Vec<ModIntMersenne> = once(ModIntMersenne::new(1))
             .chain((0..s.len()).scan(ModIntMersenne::new(1), |acc, _| {
                 *acc *= base;
@@ -41,7 +37,7 @@ impl RollingHash {
             .collect();
         let prefix_hash_table: Vec<ModIntMersenne> = once(ModIntMersenne::new(0))
             .chain(s.iter().scan(ModIntMersenne::new(0), |acc, s| {
-                *acc = *acc * base + ModIntMersenne::new(Into::<u64>::into(*s));
+                *acc = *acc * base + ModIntMersenne::new(*s);
                 Some(*acc)
             }))
             .collect();
@@ -62,15 +58,16 @@ impl RollingHash {
 
     /// 部分列`s[range]`のhash値を返す `O(1)`
     pub fn get_hash<R: RangeBounds<usize>>(&self, range: R) -> ModIntMersenne {
+        use std::ops::Bound::*;
         let l = match range.start_bound() {
-            std::ops::Bound::Included(&l) => l,
-            std::ops::Bound::Excluded(&l) => l + 1,
-            std::ops::Bound::Unbounded => 0,
+            Included(&l) => l,
+            Excluded(&l) => l + 1,
+            Unbounded => 0,
         };
         let r = match range.end_bound() {
-            std::ops::Bound::Included(&r) => r + 1,
-            std::ops::Bound::Excluded(&r) => r,
-            std::ops::Bound::Unbounded => self.len,
+            Included(&r) => r + 1,
+            Excluded(&r) => r,
+            Unbounded => self.len,
         };
         assert!(l <= r && r <= self.len);
         self.prefix_hash_table[r] - self.prefix_hash_table[l] * self.base_pow_table[r - l]

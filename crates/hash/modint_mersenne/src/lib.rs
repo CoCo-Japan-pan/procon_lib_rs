@@ -98,6 +98,13 @@ impl RemEuclidU64 for u64 {
     }
 }
 
+impl RemEuclidU64 for char {
+    fn rem_euclid_u64(self) -> ModIntMersenne {
+        let casted: u64 = self.into();
+        casted.rem_euclid_u64()
+    }
+}
+
 impl RemEuclidU64 for usize {
     fn rem_euclid_u64(self) -> ModIntMersenne {
         let casted: u64 = self.try_into().unwrap();
