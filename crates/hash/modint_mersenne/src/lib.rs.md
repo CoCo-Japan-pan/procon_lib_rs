@@ -49,8 +49,10 @@ data:
     impl_rem_for_small_unsigned!(u8, u16, u32);\n\nimpl RemEuclidU64 for u64 {\n \
     \   fn rem_euclid_u64(self) -> ModIntMersenne {\n        ModIntMersenne {\n  \
     \          value: ModIntMersenne::calc_mod(self),\n        }\n    }\n}\n\nimpl\
-    \ RemEuclidU64 for usize {\n    fn rem_euclid_u64(self) -> ModIntMersenne {\n\
-    \        let casted: u64 = self.try_into().unwrap();\n        casted.rem_euclid_u64()\n\
+    \ RemEuclidU64 for char {\n    fn rem_euclid_u64(self) -> ModIntMersenne {\n \
+    \       let casted: u64 = self.into();\n        casted.rem_euclid_u64()\n    }\n\
+    }\n\nimpl RemEuclidU64 for usize {\n    fn rem_euclid_u64(self) -> ModIntMersenne\
+    \ {\n        let casted: u64 = self.try_into().unwrap();\n        casted.rem_euclid_u64()\n\
     \    }\n}\n\nmacro_rules! impl_rem_for_signed {\n    ($($t:ty),*) => {\n     \
     \   $(\n            impl RemEuclidU64 for $t {\n                fn rem_euclid_u64(self)\
     \ -> ModIntMersenne {\n                    if self < 0 {\n                   \
@@ -105,7 +107,7 @@ data:
   path: crates/hash/modint_mersenne/src/lib.rs
   requiredBy:
   - crates/string/rolling_hash/src/lib.rs
-  timestamp: '2024-10-21 15:52:33+09:00'
+  timestamp: '2024-10-31 15:27:16+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/hash/modint_mersenne/src/lib.rs
