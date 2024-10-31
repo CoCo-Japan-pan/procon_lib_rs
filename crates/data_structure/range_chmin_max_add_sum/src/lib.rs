@@ -696,10 +696,16 @@ mod test {
                 data[i] = v;
             }
             let l = rng.gen_range(0..SIZE);
-            let r = rng.gen_range(l..SIZE);
-            assert_eq!(*data[l..=r].iter().min().unwrap(), seg.prod_min(l..=r));
-            assert_eq!(*data[l..=r].iter().max().unwrap(), seg.prod_max(l..=r));
-            assert_eq!(data[l..=r].iter().sum::<i64>(), seg.prod_sum(l..=r));
+            let r = rng.gen_range(l..=SIZE);
+            assert_eq!(
+                *data[l..r].iter().min().unwrap_or(&i64::MAX),
+                seg.prod_min(l..r)
+            );
+            assert_eq!(
+                *data[l..r].iter().max().unwrap_or(&i64::MIN),
+                seg.prod_max(l..r)
+            );
+            assert_eq!(data[l..r].iter().sum::<i64>(), seg.prod_sum(l..r));
         }
         for i in 0..SIZE {
             assert_eq!(data[i], seg.prod_sum(i..=i));
