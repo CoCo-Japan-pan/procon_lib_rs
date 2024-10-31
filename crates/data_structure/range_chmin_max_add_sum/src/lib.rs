@@ -29,9 +29,11 @@ impl RangeChminMaxAddSum {
     pub fn range_update<R: RangeBounds<usize>>(&mut self, range: R, update: i64) {
         self.apply_range(range, QueryType::Update(update));
     }
+    /// rangeの長さが0の場合は`i64::MIN`を返す
     pub fn prod_max<R: RangeBounds<usize>>(&mut self, range: R) -> i64 {
         self.fold::<R, { Self::PROD_MAX }>(range)
     }
+    /// rangeの長さが0の場合は`i64::MAX`を返す
     pub fn prod_min<R: RangeBounds<usize>>(&mut self, range: R) -> i64 {
         self.fold::<R, { Self::PROD_MIN }>(range)
     }
