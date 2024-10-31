@@ -1,5 +1,5 @@
 [package]
-name = "range_chminmax_addsum"
+name = "range_chmin_max_add_sum"
 version = "0.1.0"
 edition = "2021"
 license = "CC0-1.0"
@@ -10,7 +10,8 @@ publish = false
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-lazy_segtree_beats = { path = "../lazy_segtree_beats" }
+internal_bits = { path = "../../internals/internal_bits" }
 
 [dev-dependencies]
 rand = "0.8.5"
+raq_rsq = { path = "../raq_rsq" }

@@ -7,4 +7,4 @@ edition = "2021"
 
 [dependencies]
 proconio = { version = "=0.4.5", features = ["derive"] }
-range_chminmax_addsum = { path = "../../../crates/data_structure/range_chminmax_addsum" }
+range_chmin_max_add_sum = { path = "../../../crates/data_structure/range_chmin_max_add_sum" }

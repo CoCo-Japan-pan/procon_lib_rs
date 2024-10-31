@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/range_chmin_chmax_add_range_sum
 
 use proconio::{fastout, input};
-use range_chminmax_addsum::{QueryWrapper, RangeChminMaxAddSum};
+use range_chmin_max_add_sum::RangeChminMaxAddSum;
 
 #[fastout]
 fn main() {
@@ -10,7 +10,7 @@ fn main() {
         q: usize,
         a: [i64; n],
     }
-    let mut seg = RangeChminMaxAddSum::from_vec(a);
+    let mut seg = RangeChminMaxAddSum::from(a);
     for _ in 0..q {
         input! {
             t: u8,
@@ -37,7 +37,7 @@ fn main() {
                 seg.range_add(l..r, add);
             }
             3 => {
-                let ans = seg.prod_monoid(l..r).get_sum();
+                let ans = seg.prod_sum(l..r);
                 println!("{}", ans);
             }
             _ => unreachable!(),
