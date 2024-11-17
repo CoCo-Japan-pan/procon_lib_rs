@@ -19,6 +19,12 @@ impl<K: Ord> From<Vec<K>> for MultiSet<K> {
     }
 }
 
+impl Default for MultiSet<usize> {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl<K: Ord> MultiSet<K> {
     pub fn new() -> Self {
         Self {
@@ -45,56 +51,56 @@ impl<K: Ord> MultiSet<K> {
     }
 
     /// keyを一つ削除する
-    pub fn remove_one<Q>(&mut self, key: &Q) 
+    pub fn remove_one<Q>(&mut self, key: &Q)
     where
         K: Borrow<Q>,
         Q: Ord + ?Sized,
     {
-        if let Some(v) = self.map.get_mut(&key) {
+        if let Some(v) = self.map.get_mut(key) {
             *v -= 1;
             if *v == 0 {
-                self.map.remove(&key);
+                self.map.remove(key);
             }
         }
     }
 
     /// keyをc個削除する
-    pub fn remove_bunch<Q>(&mut self, key: &Q, c: usize) 
+    pub fn remove_bunch<Q>(&mut self, key: &Q, c: usize)
     where
         K: Borrow<Q>,
         Q: Ord + ?Sized,
     {
-        if let Some(v) = self.map.get_mut(&key) {
+        if let Some(v) = self.map.get_mut(key) {
             *v = v.saturating_sub(c);
             if *v == 0 {
-                self.map.remove(&key);
+                self.map.remove(key);
             }
         }
     }
 
     /// keyをすべて削除する
-    pub fn remove_all<Q>(&mut self, key: &Q) 
+    pub fn remove_all<Q>(&mut self, key: &Q)
     where
         K: Borrow<Q>,
         Q: Ord + ?Sized,
     {
-        self.map.remove(&key);
+        self.map.remove(key);
     }
 
-    pub fn contains_key<Q>(&self, key: &Q) -> bool 
+    pub fn contains_key<Q>(&self, key: &Q) -> bool
     where
         K: Borrow<Q>,
         Q: Ord + ?Sized,
     {
-        self.map.contains_key(&key)
+        self.map.contains_key(key)
     }
 
-    pub fn count<Q>(&self, key: &Q) -> usize 
+    pub fn count<Q>(&self, key: &Q) -> usize
     where
         K: Borrow<Q>,
         Q: Ord + ?Sized,
     {
-        self.map.get(&key).copied().unwrap_or(0)
+        self.map.get(key).copied().unwrap_or(0)
     }
 
     pub fn is_empty(&self) -> bool {
