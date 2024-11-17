@@ -226,6 +226,11 @@ data:
     - icon: ':warning:'
       path: crates/tools/localize_closure/src/lib.rs
       title: crates/tools/localize_closure/src/lib.rs
+  - name: crates/tools/multiset/src
+    pages:
+    - icon: ':warning:'
+      path: crates/tools/multiset/src/lib.rs
+      title: crates/tools/multiset/src/lib.rs
   - name: crates/tree/auxiliary_tree/src
     pages:
     - icon: ':heavy_check_mark:'
