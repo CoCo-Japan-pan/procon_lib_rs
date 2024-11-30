@@ -4,8 +4,134 @@
 use algebra::{Commutative, Group, Monoid};
 use bitdict::BitDict;
 use internal_bits::ceil_log2;
+use internal_type_traits::Integral;
 use segtree::SegTree;
 use std::ops::RangeBounds;
+
+/// 座標圧縮をするWrapper Tが座標圧縮する型
+pub struct WMSegWrapper<M: Monoid + Commutative, T: Integral> {
+    wm: WaveletMatrixSegTree<M>,
+    sorted_y: Vec<T>,
+    x_y: Vec<(T, T)>,
+}
+
+impl<M: Monoid + Commutative, T: Integral> WMSegWrapper<M, T> {
+    pub fn new(update_points: Vec<(T, T)>) -> Self {
+        Self::from_weight(update_points, vec![])
+    }
+
+    /// update_pointsは更新クエリのある点の座標のリスト ただしinit_weightsの点も含める  
+    /// init_weightsは初期状態の点の座標と重みのリスト (x, y, w)  
+    /// init_weightsは重複しないことを前提とする
+    pub fn from_weight(
+        mut update_points: Vec<(T, T)>,
+        mut init_weights: Vec<(T, T, M::Target)>,
+    ) -> Self {
+        update_points.sort_unstable();
+        update_points.dedup();
+        let mut sorted_y = update_points
+            .iter()
+            .map(|(_, y)| y)
+            .copied()
+            .collect::<Vec<_>>();
+        sorted_y.sort_unstable();
+        let compressed_list = update_points
+            .iter()
+            .map(|(_, y)| sorted_y.binary_search(y).unwrap())
+            .collect::<Vec<_>>();
+        let mut weight_list = vec![M::id_element(); update_points.len()];
+        init_weights.sort_unstable_by_key(|&(x, y, _)| (x, y));
+        for ls in init_weights.windows(2) {
+            let (x1, y1) = (ls[0].0, ls[0].1);
+            let (x2, y2) = (ls[1].0, ls[1].1);
+            assert_ne!((x1, y1), (x2, y2), "init_weights has duplicated points!!!");
+        }
+        for (x, y, w) in init_weights {
+            let idx = update_points.binary_search(&(x, y)).unwrap();
+            weight_list[idx] = w.clone();
+        }
+        let wm = WaveletMatrixSegTree::<M>::from_weight(&compressed_list, &weight_list);
+        Self {
+            wm,
+            sorted_y,
+            x_y: update_points,
+        }
+    }
+
+    fn get_pos_range<R: RangeBounds<T>>(&self, range: R) -> (usize, usize) {
+        use std::ops::Bound::*;
+        let l = match range.start_bound() {
+            Included(&l) => l,
+            Excluded(&l) => l + T::one(),
+            Unbounded => T::min_value(),
+        };
+        let r = match range.end_bound() {
+            Included(&r) => r + T::one(),
+            Excluded(&r) => r,
+            Unbounded => T::max_value(),
+        };
+        assert!(l <= r);
+        let l = self.x_y.partition_point(|&(x, _)| x < l);
+        let r = self.x_y.partition_point(|&(x, _)| x < r);
+        (l, r)
+    }
+
+    fn get_num_range<R: RangeBounds<T>>(&self, range: R) -> (usize, usize) {
+        use std::ops::Bound::*;
+        let l = match range.start_bound() {
+            Included(&l) => l,
+            Excluded(&l) => l + T::one(),
+            Unbounded => T::min_value(),
+        };
+        let r = match range.end_bound() {
+            Included(&r) => r + T::one(),
+            Excluded(&r) => r,
+            Unbounded => T::max_value(),
+        };
+        assert!(l <= r);
+        let l = self.sorted_y.partition_point(|&y| y < l);
+        let r = self.sorted_y.partition_point(|&y| y < r);
+        (l, r)
+    }
+
+    pub fn set(&mut self, x: T, y: T, new_val: M::Target) {
+        let x = self
+            .x_y
+            .binary_search(&(x, y))
+            .expect("(x, y) is not in update_queries!!!");
+        self.wm.set(x, new_val);
+    }
+
+    pub fn get(&self, x: T, y: T) -> M::Target {
+        let Ok(x) = self.x_y.binary_search(&(x, y)) else {
+            return M::id_element();
+        };
+        self.wm.get_weight(x)
+    }
+
+    pub fn rect_sum_monoid<R1: RangeBounds<T>, R2: RangeBounds<T>>(
+        &self,
+        x_range: R1,
+        y_range: R2,
+    ) -> M::Target {
+        let (xl, xr) = self.get_pos_range(x_range);
+        let (y_low, y_hi) = self.get_num_range(y_range);
+        self.wm.rect_sum_monoid(xl..xr, y_low..y_hi)
+    }
+
+    pub fn rect_sum_group<R1: RangeBounds<T>, R2: RangeBounds<T>>(
+        &self,
+        x_range: R1,
+        y_range: R2,
+    ) -> M::Target
+    where
+        M: Group,
+    {
+        let (xl, xr) = self.get_pos_range(x_range);
+        let (y_low, y_hi) = self.get_num_range(y_range);
+        self.wm.rect_sum_group(xl..xr, y_low..y_hi)
+    }
+}
 
 pub struct WaveletMatrixSegTree<M: Monoid + Commutative> {
     upper_bound: usize,

@@ -1,7 +1,7 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/point_add_rectangle_sum
 use algebra::{Commutative, Group, Monoid};
 use proconio::{fastout, input};
-use wavelet_matrix_segtree::WaveletMatrixSegTree;
+use wavelet_matrix_segtree::WMSegWrapper;
 
 #[derive(Clone, Copy, Debug)]
 enum Query {
@@ -32,7 +32,7 @@ fn main() {
     input! {
         n: usize,
         q: usize,
-        x_y_w: [(i32, i32, i64); n],
+        mut x_y_w: [(i32, i32, i64); n],
     }
     let queries = {
         let mut queries = Vec::with_capacity(q);
@@ -63,49 +63,29 @@ fn main() {
         }
         queries
     };
-    let (x, (y, w)): (Vec<_>, (Vec<_>, Vec<_>)) = {
-        let add_cnt = queries
-            .iter()
-            .filter(|q| matches!(q, Query::Add(..)))
-            .count();
-        let mut offline_x_y_w = x_y_w.clone();
-        offline_x_y_w.reserve(add_cnt);
-        for &q in &queries {
-            if let Query::Add(x, y, _) = q {
-                offline_x_y_w.push((x, y, 0));
-            }
+    let update_points = x_y_w
+        .iter()
+        .map(|&(x, y, _)| (x, y))
+        .chain(queries.iter().filter_map(|q| match q {
+            Query::Add(x, y, _) => Some((*x, *y)),
+            Query::Prod(..) => None,
+        }))
+        .collect::<Vec<_>>();
+    x_y_w.sort_unstable();
+    x_y_w.dedup_by(|(x1, y1, w1), (x2, y2, w2)| {
+        (x1, y1) == (x2, y2) && {
+            *w2 += *w1;
+            true
         }
-        offline_x_y_w.sort_by_key(|(x, y, _)| (*x, *y));
-        offline_x_y_w
-            .into_iter()
-            .map(|(a, b, c)| (a, (b, c)))
-            .unzip()
-    };
-    let sorted_y = {
-        let mut sorted_y = y.clone();
-        sorted_y.sort_unstable();
-        sorted_y.dedup();
-        sorted_y
-    };
-    let y: Vec<usize> = y
-        .into_iter()
-        .map(|y| sorted_y.binary_search(&y).unwrap())
-        .collect();
-    let mut wm_seg = WaveletMatrixSegTree::<AddGroup>::from_weight(&y, &w);
-    let x_y: Vec<(i32, usize)> = x.into_iter().zip(y).collect();
+    });
+    let mut wm_seg = WMSegWrapper::<AddGroup, _>::from_weight(update_points, x_y_w);
     for q in queries {
         match q {
             Query::Add(x, y, w) => {
-                let y = sorted_y.binary_search(&y).unwrap();
-                let id = x_y.binary_search(&(x, y)).unwrap();
-                let old_weight = wm_seg.get_weight(id);
-                wm_seg.set(id, w + old_weight);
+                let prev = wm_seg.get(x, y);
+                wm_seg.set(x, y, prev + w);
             }
             Query::Prod(xl, yl, xr, yr) => {
-                let xl = x_y.partition_point(|(x, _)| *x < xl);
-                let xr = x_y.partition_point(|(x, _)| *x < xr);
-                let yl = sorted_y.partition_point(|y| *y < yl);
-                let yr = sorted_y.partition_point(|y| *y < yr);
                 let ans = wm_seg.rect_sum_group(xl..xr, yl..yr);
                 println!("{}", ans);
             }

@@ -13,6 +13,7 @@ publish = false
 algebra = { path = "../../algebra" }
 bitdict = { path = "../bitdict" }
 internal_bits = { path = "../../internals/internal_bits" }
+internal_type_traits = { path = "../../internals/internal_type_traits" }
 segtree = { path = "../../data_structure/segtree" }
 
 [dev-dependencies]
