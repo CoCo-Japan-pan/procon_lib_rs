@@ -39,12 +39,13 @@ data:
     \ Tree\u3092\u8FFD\u52A0\u3059\u308B\u3053\u3068\u3067\u3001\n//! \u4E8C\u6B21\
     \u5143\u30BB\u30B0\u6728\u3068\u540C\u69D8\u306B(\u30AA\u30D5\u30E9\u30A4\u30F3\
     \u306A)1\u70B9\u66F4\u65B0\u3001\u77E9\u5F62\u548C\u3092\u6C42\u3081\u3089\u308C\
-    \u308B\n\nuse algebra::{Commutative, Group, Monoid};\nuse bitdict::BitDict;\n\
-    use internal_bits::ceil_log2;\nuse internal_type_traits::Integral;\nuse segtree::SegTree;\n\
-    use std::ops::RangeBounds;\n\n/// \u5EA7\u6A19\u5727\u7E2E\u3092\u3059\u308BWrapper\
-    \ T\u304C\u5EA7\u6A19\u5727\u7E2E\u3059\u308B\u578B\npub struct WMSegWrapper<M:\
-    \ Monoid + Commutative, T: Integral> {\n    wm: WaveletMatrixSegTree<M>,\n   \
-    \ sorted_y: Vec<T>,\n    x_y: Vec<(T, T)>,\n}\n\nimpl<M: Monoid + Commutative,\
+    \u308B  \n//! \u73FE\u72B6\u5EA7\u6A19\u5727\u7E2E\u4E8C\u6B21\u5143\u30BB\u30B0\
+    \u6728\u3088\u308A\u3082\u9AD8\u901F\n\nuse algebra::{Commutative, Group, Monoid};\n\
+    use bitdict::BitDict;\nuse internal_bits::ceil_log2;\nuse internal_type_traits::Integral;\n\
+    use segtree::SegTree;\nuse std::ops::RangeBounds;\n\n/// \u5EA7\u6A19\u5727\u7E2E\
+    \u3092\u3059\u308BWrapper T\u304C\u5EA7\u6A19\u5727\u7E2E\u3059\u308B\u578B\n\
+    pub struct WMSegWrapper<M: Monoid + Commutative, T: Integral> {\n    wm: WaveletMatrixSegTree<M>,\n\
+    \    sorted_y: Vec<T>,\n    x_y: Vec<(T, T)>,\n}\n\nimpl<M: Monoid + Commutative,\
     \ T: Integral> WMSegWrapper<M, T> {\n    pub fn new(update_points: Vec<(T, T)>)\
     \ -> Self {\n        Self::from_weight(update_points, vec![])\n    }\n\n    ///\
     \ update_points\u306F\u66F4\u65B0\u30AF\u30A8\u30EA\u306E\u3042\u308B\u70B9\u306E\
@@ -64,17 +65,18 @@ data:
     \ in init_weights.windows(2) {\n            let (x1, y1) = (ls[0].0, ls[0].1);\n\
     \            let (x2, y2) = (ls[1].0, ls[1].1);\n            assert_ne!((x1, y1),\
     \ (x2, y2), \"init_weights has duplicated points!!!\");\n        }\n        for\
-    \ (x, y, w) in init_weights {\n            let idx = update_points.binary_search(&(x,\
-    \ y)).unwrap();\n            weight_list[idx] = w.clone();\n        }\n      \
-    \  let wm = WaveletMatrixSegTree::<M>::from_weight(&compressed_list, &weight_list);\n\
-    \        Self {\n            wm,\n            sorted_y,\n            x_y: update_points,\n\
-    \        }\n    }\n\n    fn get_pos_range<R: RangeBounds<T>>(&self, range: R)\
-    \ -> (usize, usize) {\n        use std::ops::Bound::*;\n        let l = match\
-    \ range.start_bound() {\n            Included(&l) => l,\n            Excluded(&l)\
-    \ => l + T::one(),\n            Unbounded => T::min_value(),\n        };\n   \
-    \     let r = match range.end_bound() {\n            Included(&r) => r + T::one(),\n\
-    \            Excluded(&r) => r,\n            Unbounded => T::max_value(),\n  \
-    \      };\n        assert!(l <= r);\n        let l = self.x_y.partition_point(|&(x,\
+    \ (x, y, w) in init_weights {\n            let idx = update_points\n         \
+    \       .binary_search(&(x, y))\n                .expect(\"init_weight points\
+    \ are not in update_points!!!\");\n            weight_list[idx] = w.clone();\n\
+    \        }\n        let wm = WaveletMatrixSegTree::<M>::from_weight(&compressed_list,\
+    \ &weight_list);\n        Self {\n            wm,\n            sorted_y,\n   \
+    \         x_y: update_points,\n        }\n    }\n\n    fn get_pos_range<R: RangeBounds<T>>(&self,\
+    \ range: R) -> (usize, usize) {\n        use std::ops::Bound::*;\n        let\
+    \ l = match range.start_bound() {\n            Included(&l) => l,\n          \
+    \  Excluded(&l) => l + T::one(),\n            Unbounded => T::min_value(),\n \
+    \       };\n        let r = match range.end_bound() {\n            Included(&r)\
+    \ => r + T::one(),\n            Excluded(&r) => r,\n            Unbounded => T::max_value(),\n\
+    \        };\n        assert!(l <= r);\n        let l = self.x_y.partition_point(|&(x,\
     \ _)| x < l);\n        let r = self.x_y.partition_point(|&(x, _)| x < r);\n  \
     \      (l, r)\n    }\n\n    fn get_num_range<R: RangeBounds<T>>(&self, range:\
     \ R) -> (usize, usize) {\n        use std::ops::Bound::*;\n        let l = match\
@@ -264,7 +266,7 @@ data:
   isVerificationFile: false
   path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-12-01 01:17:13+09:00'
+  timestamp: '2024-12-01 13:32:56+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/point_add_rect_sum_wavelet/src/main.rs

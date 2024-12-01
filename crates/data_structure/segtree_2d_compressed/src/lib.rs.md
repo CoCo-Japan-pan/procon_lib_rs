@@ -38,18 +38,22 @@ data:
     \u308B  \n//! \u3082\u3068\u3082\u3068\u5358\u4F4D\u5143\u3067\u521D\u671F\u5316\
     \u3055\u308C\u3066\u3044\u308B\u3068\u4EEE\u5B9A\u3059\u308B  \n//! 2\u6B21\u5143\
     \u306A\u306E\u3067\u53EF\u63DB\u6027\u3092\u8981\u6C42  \n//! <https://drive.google.com/file/d/1bSjYiA-nSsHzBbCnLq1GeTpRzs2Ucm0q/view>\u3067\
-    \u5B66\u3073\u307E\u3057\u305F  \n\nuse algebra::{Commutative, Monoid};\nuse internal_type_traits::Integral;\n\
-    use segtree::SegTree;\nuse std::ops::{Bound::*, Range, RangeBounds};\n\n/// T\u306F\
-    \u5EA7\u6A19\u5727\u7E2E\u3059\u308B\u578B  \n#[derive(Debug)]\npub struct SegTree2DCompressed<M:\
-    \ Monoid + Commutative, T: Integral> {\n    height_compressed: Vec<T>,\n    width_compressed:\
-    \ Vec<Vec<T>>,\n    data: Vec<SegTree<M>>,\n}\n\nimpl<M: Monoid + Commutative,\
-    \ T: Integral> SegTree2DCompressed<M, T> {\n    /// \u30AA\u30D5\u30E9\u30A4\u30F3\
-    \u3067\u8AAD\u307F\u8FBC\u3093\u3060\u66F4\u65B0\u30AF\u30A8\u30EA\u306E\u3042\
-    \u308B\u5EA7\u6A19\u3092\u4E0E\u3048\u3001\u5358\u4F4D\u5143\u3067\u521D\u671F\
-    \u5316\n    pub fn new(update_queries: &[(T, T)]) -> Self {\n        let height_compressed\
-    \ = {\n            let mut tmp = update_queries.iter().map(|&(h, _)| h).collect::<Vec<_>>();\n\
-    \            tmp.sort_unstable();\n            tmp.dedup();\n            tmp\n\
-    \        };\n        let width_compressed = {\n            let mut tmp = vec![vec![];\
+    \u5B66\u3073\u307E\u3057\u305F  \n//! WaveletMatrix\u306BSegmentTree\u3092\u8F09\
+    \u305B\u305F\u3082\u306E\u306E\u307B\u3046\u304C\u901F\u305D\u3046\u306A\u306E\
+    \u3067\u3001\u57FA\u672C\u3053\u308C\u306F\u4F7F\u308F\u306A\u3044\u3067\u3088\
+    \u3044\u304B\u3082\u3057\u308C\u306A\u3044\u3067\u3059\n\nuse algebra::{Commutative,\
+    \ Monoid};\nuse internal_type_traits::Integral;\nuse segtree::SegTree;\nuse std::ops::{Bound::*,\
+    \ Range, RangeBounds};\n\n/// T\u306F\u5EA7\u6A19\u5727\u7E2E\u3059\u308B\u578B\
+    \  \n#[derive(Debug)]\npub struct SegTree2DCompressed<M: Monoid + Commutative,\
+    \ T: Integral> {\n    height_compressed: Vec<T>,\n    width_compressed: Vec<Vec<T>>,\n\
+    \    data: Vec<SegTree<M>>,\n}\n\nimpl<M: Monoid + Commutative, T: Integral> SegTree2DCompressed<M,\
+    \ T> {\n    /// \u30AA\u30D5\u30E9\u30A4\u30F3\u3067\u8AAD\u307F\u8FBC\u3093\u3060\
+    \u66F4\u65B0\u30AF\u30A8\u30EA\u306E\u3042\u308B\u5EA7\u6A19\u3092\u4E0E\u3048\
+    \u3001\u5358\u4F4D\u5143\u3067\u521D\u671F\u5316\n    pub fn new(update_queries:\
+    \ &[(T, T)]) -> Self {\n        let height_compressed = {\n            let mut\
+    \ tmp = update_queries.iter().map(|&(h, _)| h).collect::<Vec<_>>();\n        \
+    \    tmp.sort_unstable();\n            tmp.dedup();\n            tmp\n       \
+    \ };\n        let width_compressed = {\n            let mut tmp = vec![vec![];\
     \ height_compressed.len() * 2];\n            for &(h, w) in update_queries.iter()\
     \ {\n                let h = height_compressed.binary_search(&h).unwrap() + height_compressed.len();\n\
     \                tmp[h].push(w);\n            }\n            for v in tmp.iter_mut()\
@@ -131,7 +135,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/segtree_2d_compressed/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-28 22:46:07+09:00'
+  timestamp: '2024-12-01 13:32:56+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/rectangle_add_point_get/src/main.rs

@@ -65,7 +65,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/rectangle_add_point_get/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-28 22:46:07+09:00'
+  timestamp: '2024-12-01 13:32:56+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/rectangle_add_point_get/src/main.rs
