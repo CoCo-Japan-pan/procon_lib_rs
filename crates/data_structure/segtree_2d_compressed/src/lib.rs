@@ -2,6 +2,7 @@
 //! もともと単位元で初期化されていると仮定する  
 //! 2次元なので可換性を要求  
 //! <https://drive.google.com/file/d/1bSjYiA-nSsHzBbCnLq1GeTpRzs2Ucm0q/view>で学びました  
+//! WaveletMatrixにSegmentTreeを載せたもののほうが速そうなので、基本これは使わないでよいかもしれないです
 
 use algebra::{Commutative, Monoid};
 use internal_type_traits::Integral;

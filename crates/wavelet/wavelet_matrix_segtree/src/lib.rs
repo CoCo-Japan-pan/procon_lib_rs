@@ -1,5 +1,6 @@
 //! Wavelet Matrix に、ビットごとのSegment Treeを追加することで、
-//! 二次元セグ木と同様に(オフラインな)1点更新、矩形和を求められる
+//! 二次元セグ木と同様に(オフラインな)1点更新、矩形和を求められる  
+//! 現状座標圧縮二次元セグ木よりも高速
 
 use algebra::{Commutative, Group, Monoid};
 use bitdict::BitDict;
@@ -47,7 +48,9 @@ impl<M: Monoid + Commutative, T: Integral> WMSegWrapper<M, T> {
             assert_ne!((x1, y1), (x2, y2), "init_weights has duplicated points!!!");
         }
         for (x, y, w) in init_weights {
-            let idx = update_points.binary_search(&(x, y)).unwrap();
+            let idx = update_points
+                .binary_search(&(x, y))
+                .expect("init_weight points are not in update_points!!!");
             weight_list[idx] = w.clone();
         }
         let wm = WaveletMatrixSegTree::<M>::from_weight(&compressed_list, &weight_list);
