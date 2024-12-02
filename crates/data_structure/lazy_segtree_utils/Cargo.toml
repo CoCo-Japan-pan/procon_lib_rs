@@ -1,0 +1,15 @@
+[package]
+name = "lazy_segtree_utils"
+version = "0.1.0"
+edition = "2021"
+license = "CC0-1.0"
+authors = ["CoCo-Japan-pan"]
+repository = "https://github.com/CoCo-Japan-pan/procon_lib_rs.git"
+publish = false
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+algebra = { path = "../../algebra" }
+internal_type_traits = { path = "../../internals/internal_type_traits" }
+lazy_segtree = { path = "../lazy_segtree" }

@@ -1,14 +1,16 @@
 use std::fmt::{Debug, Display};
-use std::ops::{Add, AddAssign, Sub, SubAssign};
+use std::ops::{Add, AddAssign, Mul, MulAssign, Sub, SubAssign};
 
 /// 整数型を使いたいときのトレイト  
-/// 加算・減算・比較・0・1・最小値・最大値を持つ  
+/// 加算・減算・乗算・比較・0・1・最小値・最大値を持つ  
 pub trait Integral:
     Copy
     + Add<Output = Self>
     + AddAssign
     + Sub<Output = Self>
     + SubAssign
+    + Mul<Output = Self>
+    + MulAssign
     + Ord
     + Zero
     + One
