@@ -17,17 +17,15 @@ pub struct WMSegWrapper<M: Monoid + Commutative, T: Integral> {
 }
 
 impl<M: Monoid + Commutative, T: Integral> WMSegWrapper<M, T> {
+    /// すべて単位元で初期化する場合
     pub fn new(update_points: Vec<(T, T)>) -> Self {
-        Self::from_weight(update_points, vec![])
+        Self::from_weight(update_points, &[])
     }
 
     /// update_pointsは更新クエリのある点の座標のリスト ただしinit_weightsの点も含める  
     /// init_weightsは初期状態の点の座標と重みのリスト (x, y, w)  
-    /// init_weightsは重複しないことを前提とする
-    pub fn from_weight(
-        mut update_points: Vec<(T, T)>,
-        mut init_weights: Vec<(T, T, M::Target)>,
-    ) -> Self {
+    /// もしinit_weightsの点が重複する場合は、それらmonoidの積として初期化するので注意(上書きしたい場合は事前に重複を消す前処理をしてください)
+    pub fn from_weight(mut update_points: Vec<(T, T)>, init_weights: &[(T, T, M::Target)]) -> Self {
         update_points.sort_unstable();
         update_points.dedup();
         let mut sorted_y = update_points
@@ -41,17 +39,11 @@ impl<M: Monoid + Commutative, T: Integral> WMSegWrapper<M, T> {
             .map(|(_, y)| sorted_y.binary_search(y).unwrap())
             .collect::<Vec<_>>();
         let mut weight_list = vec![M::id_element(); update_points.len()];
-        init_weights.sort_unstable_by_key(|&(x, y, _)| (x, y));
-        for ls in init_weights.windows(2) {
-            let (x1, y1) = (ls[0].0, ls[0].1);
-            let (x2, y2) = (ls[1].0, ls[1].1);
-            assert_ne!((x1, y1), (x2, y2), "init_weights has duplicated points!!!");
-        }
         for (x, y, w) in init_weights {
             let idx = update_points
-                .binary_search(&(x, y))
+                .binary_search(&(*x, *y))
                 .expect("init_weight points are not in update_points!!!");
-            weight_list[idx] = w.clone();
+            weight_list[idx] = M::binary_operation(&weight_list[idx], w);
         }
         let wm = WaveletMatrixSegTree::<M>::from_weight(&compressed_list, &weight_list);
         Self {
@@ -119,7 +111,7 @@ impl<M: Monoid + Commutative, T: Integral> WMSegWrapper<M, T> {
     ) -> M::Target {
         let (xl, xr) = self.get_pos_range(x_range);
         let (y_low, y_hi) = self.get_num_range(y_range);
-        self.wm.rect_sum_monoid(xl..xr, y_low..y_hi)
+        self.wm.rect_sum_monoid(xl, xr, y_low, y_hi)
     }
 
     pub fn rect_sum_group<R1: RangeBounds<T>, R2: RangeBounds<T>>(
@@ -132,12 +124,11 @@ impl<M: Monoid + Commutative, T: Integral> WMSegWrapper<M, T> {
     {
         let (xl, xr) = self.get_pos_range(x_range);
         let (y_low, y_hi) = self.get_num_range(y_range);
-        self.wm.rect_sum_group(xl..xr, y_low..y_hi)
+        self.wm.rect_sum_group(xl, xr, y_low, y_hi)
     }
 }
 
-pub struct WaveletMatrixSegTree<M: Monoid + Commutative> {
-    upper_bound: usize,
+struct WaveletMatrixSegTree<M: Monoid + Commutative> {
     len: usize,
     /// indices[i] = 下からiビット目に関する索引
     indices: Vec<BitDict>,
@@ -183,60 +174,17 @@ impl<M: Monoid + Commutative> WaveletMatrixSegTree<M> {
         }
         segtree_per_bit.reverse();
         Self {
-            upper_bound,
             len,
             indices,
             segtree_per_bit,
         }
     }
 
-    /// `compressed_list[x] = y` が点(x, y)に対応し、重みは単位元で初期化する  
-    /// `compressed_list`には今後更新クエリのある(x, y)も含める
-    pub fn from_identity(compressed_list: &[usize]) -> Self {
-        let weight_list = vec![M::id_element(); compressed_list.len()];
-        Self::from_weight(compressed_list, &weight_list)
-    }
-
-    fn get_pos_range<R: RangeBounds<usize>>(&self, range: R) -> (usize, usize) {
-        use std::ops::Bound::*;
-        let l = match range.start_bound() {
-            Included(&l) => l,
-            Excluded(&l) => l + 1,
-            Unbounded => 0,
-        };
-        let r = match range.end_bound() {
-            Included(&r) => r + 1,
-            Excluded(&r) => r,
-            Unbounded => self.len,
-        };
-        assert!(l <= r && r <= self.len);
-        (l, r)
-    }
-
-    fn get_num_range<R: RangeBounds<usize>>(&self, range: R) -> (usize, usize) {
-        use std::ops::Bound::*;
-        let l = match range.start_bound() {
-            Included(&l) => l,
-            Excluded(&l) => l + 1,
-            Unbounded => 0,
-        }
-        .min(self.upper_bound);
-        let r = match range.end_bound() {
-            Included(&r) => r + 1,
-            Excluded(&r) => r,
-            Unbounded => self.upper_bound,
-        }
-        .min(self.upper_bound);
-        assert!(l <= r);
-        (l, r)
-    }
-
-    /// x座標がx_range内、y座標はupper未満の点の重みの和を求める
-    pub fn prefix_rect_sum<R: RangeBounds<usize>>(&self, x_range: R, upper: usize) -> M::Target {
+    /// x座標が[begin, end)内、y座標はupper未満の点の重みの和を求める
+    pub fn prefix_rect_sum(&self, mut begin: usize, mut end: usize, upper: usize) -> M::Target {
         if upper == 0 {
             return M::id_element();
         }
-        let (mut begin, mut end) = self.get_pos_range(x_range);
         let mut ret = M::id_element();
         for (ln, index) in self.indices.iter().enumerate().rev() {
             let bit = (upper >> ln) & 1;
@@ -261,29 +209,24 @@ impl<M: Monoid + Commutative> WaveletMatrixSegTree<M> {
 
     /// 群を重みとして載せている場合における、矩形区間和内の点の重みの和を求める  
     /// prefix_sumを二度求めて引く 非再帰なので定数倍が良いはず
-    pub fn rect_sum_group<R1: RangeBounds<usize> + Clone, R2: RangeBounds<usize>>(
+    pub fn rect_sum_group(
         &self,
-        x_range: R1,
-        y_range: R2,
+        x_begin: usize,
+        x_end: usize,
+        y_begin: usize,
+        y_end: usize,
     ) -> M::Target
     where
         M: Group,
     {
-        let (begin, end) = self.get_num_range(y_range);
-        let s2 = self.prefix_rect_sum(x_range.clone(), end);
-        let s1 = self.prefix_rect_sum(x_range, begin);
+        let s2 = self.prefix_rect_sum(x_begin, x_end, y_end);
+        let s1 = self.prefix_rect_sum(x_begin, x_end, y_begin);
         M::binary_operation(&M::inverse(&s1), &s2)
     }
 
     /// モノイドを重みとして載せている場合における、矩形区間和内の点の重みの和を求める  
     /// 完全に覆うか外れるかするまで再帰的に二冪の長さの区間に分けていく
-    pub fn rect_sum_monoid<R1: RangeBounds<usize>, R2: RangeBounds<usize>>(
-        &self,
-        x_range: R1,
-        y_range: R2,
-    ) -> M::Target {
-        let (xl, xr) = self.get_pos_range(x_range);
-        let (y_low, y_hi) = self.get_num_range(y_range);
+    pub fn rect_sum_monoid(&self, xl: usize, xr: usize, y_low: usize, y_hi: usize) -> M::Target {
         let mut ret = M::id_element();
         let ln = self.indices.len();
         self.dfs(&mut ret, ln, xl, xr, 0, 1 << ln, y_low, y_hi);
@@ -394,8 +337,8 @@ mod test {
             let yl = rng.gen_range(0..SIZE);
             let yr = rng.gen_range(yl..SIZE);
             let cum_sum_ans = wm_cum_sum.rect_sum(xl..xr, yl..yr) as i64;
-            assert_eq!(cum_sum_ans, wm_seg.rect_sum_group(xl..xr, yl..yr));
-            assert_eq!(cum_sum_ans, wm_seg.rect_sum_monoid(xl..xr, yl..yr))
+            assert_eq!(cum_sum_ans, wm_seg.rect_sum_group(xl, xr, yl, yr));
+            assert_eq!(cum_sum_ans, wm_seg.rect_sum_monoid(xl, xr, yl, yr))
         }
     }
 
@@ -424,11 +367,11 @@ mod test {
                 .map(|(_, &w)| w)
                 .sum::<i64>();
             assert_eq!(
-                wm.rect_sum_group(x_left..x_right, y_left..y_right),
+                wm.rect_sum_group(x_left, x_right, y_left, y_right),
                 real_sum
             );
             assert_eq!(
-                wm.rect_sum_monoid(x_left..x_right, y_left..y_right),
+                wm.rect_sum_monoid(x_left, x_right, y_left, y_right),
                 real_sum
             );
             let pos = rng.gen_range(0..SIZE);

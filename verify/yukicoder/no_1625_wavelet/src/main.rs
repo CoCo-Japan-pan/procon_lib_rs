@@ -2,7 +2,7 @@
 
 use algebra::{Commutative, Monoid};
 use proconio::{fastout, input};
-use wavelet_matrix_segtree::WaveletMatrixSegTree;
+use wavelet_matrix_segtree::WMSegWrapper;
 
 #[derive(Clone, Copy, Debug)]
 enum Query {
@@ -49,53 +49,30 @@ fn main() {
         }
     }
     let queries = queries;
-    let x_y = {
-        let mut x_y = queries
-            .iter()
-            .filter_map(|query| match query {
-                Query::Add(x, y, _) => Some((*x, *y)),
-                Query::Get(_, _) => None,
-            })
-            .collect::<Vec<_>>();
-        x_y.sort_unstable();
-        x_y.dedup();
-        x_y
-    };
-    let init_weight = {
-        let mut init_weight = vec![-1; x_y.len()];
-        for query in queries.iter().take(n) {
-            if let Query::Add(x, y, area) = query {
-                let id = x_y.binary_search(&(*x, *y)).unwrap();
-                init_weight[id] = init_weight[id].max(*area);
-            }
-        }
-        init_weight
-    };
-    let y = x_y.iter().map(|(_, y)| *y).collect::<Vec<_>>();
-    let sorted_y = {
-        let mut sorted_y = y.clone();
-        sorted_y.sort_unstable();
-        sorted_y.dedup();
-        sorted_y
-    };
-    let y = y
-        .into_iter()
-        .map(|y| sorted_y.binary_search(&y).unwrap())
+    let update_points = queries
+        .iter()
+        .filter_map(|query| match query {
+            Query::Add(x, y, _) => Some((*x, *y)),
+            _ => None,
+        })
         .collect::<Vec<_>>();
-    let mut wm_seg = WaveletMatrixSegTree::<MaxMonoid>::from_weight(&y, &init_weight);
+    let init_weight = queries
+        .iter()
+        .take(n)
+        .map(|query| match query {
+            Query::Add(x, y, area) => (*x, *y, *area),
+            _ => unreachable!(),
+        })
+        .collect::<Vec<_>>();
+    let mut wm_seg = WMSegWrapper::<MaxMonoid, _>::from_weight(update_points, &init_weight);
     for query in queries.into_iter().skip(n) {
         match query {
             Query::Add(x, y, area) => {
-                let id = x_y.binary_search(&(x, y)).unwrap();
-                let old_val = wm_seg.get_weight(id);
-                wm_seg.set(id, old_val.max(area));
+                let old_val = wm_seg.get(x, y);
+                wm_seg.set(x, y, old_val.max(area));
             }
             Query::Get(l, r) => {
-                let xl = x_y.partition_point(|&(x, _)| x < l);
-                let xr = x_y.partition_point(|&(x, _)| x <= r);
-                let yl = sorted_y.partition_point(|&y| y < l);
-                let yr = sorted_y.partition_point(|&y| y <= r);
-                let ans = wm_seg.rect_sum_monoid(xl..xr, yl..yr);
+                let ans = wm_seg.rect_sum_monoid(l..=r, l..=r);
                 println!("{}", ans);
             }
         }

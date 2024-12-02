@@ -78,7 +78,7 @@ fn main() {
             true
         }
     });
-    let mut wm_seg = WMSegWrapper::<AddGroup, _>::from_weight(update_points, x_y_w);
+    let mut wm_seg = WMSegWrapper::<AddGroup, _>::from_weight(update_points, &x_y_w);
     for q in queries {
         match q {
             Query::Add(x, y, w) => {
