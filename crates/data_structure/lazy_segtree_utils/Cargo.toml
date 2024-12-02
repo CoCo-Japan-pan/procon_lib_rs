@@ -13,3 +13,6 @@ publish = false
 algebra = { path = "../../algebra" }
 internal_type_traits = { path = "../../internals/internal_type_traits" }
 lazy_segtree = { path = "../lazy_segtree" }
+
+[dev-dependencies]
+rand = "0.8.5"

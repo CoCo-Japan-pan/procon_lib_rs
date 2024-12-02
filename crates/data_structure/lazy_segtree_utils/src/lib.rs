@@ -1,6 +1,8 @@
 //! 使用頻度の高い遅延セグ木達
 
+use internal_type_traits::Integral;
 use lazy_segtree::LazySegTree;
+use std::ops::RangeBounds;
 
 pub mod inner_types {
     use algebra::{Action, ActionMonoid, Commutative, Monoid};
@@ -59,6 +61,12 @@ pub mod inner_types {
     }
     impl<T: Integral> Commutative for AddAction<T> {}
 
+    impl<T: Integral> From<T> for AddAction<T> {
+        fn from(value: T) -> Self {
+            AddAction(value)
+        }
+    }
+
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
     pub struct AddActionSum<T: Integral>(T);
     impl<T: Integral> Action for AddActionSum<T> {
@@ -74,6 +82,12 @@ pub mod inner_types {
         }
     }
     impl<T: Integral> Commutative for AddActionSum<T> {}
+
+    impl<T: Integral> From<T> for AddActionSum<T> {
+        fn from(value: T) -> Self {
+            AddActionSum(value)
+        }
+    }
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
     pub struct UpdateAction<T: Integral>(Option<T>);
@@ -92,6 +106,12 @@ pub mod inner_types {
         }
     }
 
+    impl<T: Integral> From<T> for UpdateAction<T> {
+        fn from(value: T) -> Self {
+            UpdateAction(Some(value))
+        }
+    }
+
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
     pub struct UpdateActionSum<T: Integral>(Option<T>);
     impl<T: Integral> Action for UpdateActionSum<T> {
@@ -106,6 +126,12 @@ pub mod inner_types {
             if let Some(x) = self.0 {
                 target.0 = x * target.1;
             }
+        }
+    }
+
+    impl<T: Integral> From<T> for UpdateActionSum<T> {
+        fn from(value: T) -> Self {
+            UpdateActionSum(Some(value))
         }
     }
 
@@ -159,3 +185,195 @@ pub type AddSumLazySegTree<T> = LazySegTree<AddSum<T>>;
 pub type UpdateMaxLazySegTree<T> = LazySegTree<UpdateMax<T>>;
 pub type UpdateMinLazySegTree<T> = LazySegTree<UpdateMin<T>>;
 pub type UpdateSumLazySegTree<T> = LazySegTree<UpdateSum<T>>;
+
+/// Sumモノイドを載せた遅延セグ木の、配列からの初期化と、区間SumクエリのWrapper
+pub trait SumWrapper<T: Integral> {
+    fn from_vec(list: Vec<T>) -> Self;
+    fn sum<R: RangeBounds<usize>>(&mut self, range: R) -> T;
+}
+
+impl<T: Integral> SumWrapper<T> for UpdateSumLazySegTree<T> {
+    fn from_vec(list: Vec<T>) -> Self {
+        Self::from(
+            list.into_iter()
+                .map(|v| (v, T::one()))
+                .collect::<Vec<(T, T)>>(),
+        )
+    }
+    fn sum<R: RangeBounds<usize>>(&mut self, range: R) -> T {
+        self.prod(range).0
+    }
+}
+
+impl<T: Integral> SumWrapper<T> for AddSumLazySegTree<T> {
+    fn from_vec(list: Vec<T>) -> Self {
+        Self::from(
+            list.into_iter()
+                .map(|v| (v, T::one()))
+                .collect::<Vec<(T, T)>>(),
+        )
+    }
+    fn sum<R: RangeBounds<usize>>(&mut self, range: R) -> T {
+        self.prod(range).0
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    use rand::prelude::*;
+
+    #[test]
+    fn test_update_max() {
+        let mut rng = thread_rng();
+        const SIZE: usize = 1000;
+        let mut list = (0..SIZE).map(|_| rng.gen()).collect::<Vec<i64>>();
+        let mut seg = UpdateMaxLazySegTree::from(list.clone());
+
+        for _ in 0..SIZE {
+            let l = rng.gen_range(0..SIZE);
+            let r = rng.gen_range(l..SIZE);
+            let new_val = rng.gen();
+            for id in l..r {
+                list[id] = new_val;
+            }
+            seg.apply_range(l..r, &new_val.into());
+
+            let l = rng.gen_range(0..SIZE);
+            let r = rng.gen_range(l..SIZE);
+            let max = list[l..r].iter().max().copied().unwrap_or(i64::MIN);
+            assert_eq!(max, seg.prod(l..r));
+        }
+    }
+
+    #[test]
+    fn test_update_min() {
+        let mut rng = thread_rng();
+        const SIZE: usize = 1000;
+        let mut list = (0..SIZE).map(|_| rng.gen()).collect::<Vec<i64>>();
+        let mut seg = UpdateMinLazySegTree::from(list.clone());
+
+        for _ in 0..SIZE {
+            let l = rng.gen_range(0..SIZE);
+            let r = rng.gen_range(l..SIZE);
+            let new_val = rng.gen();
+            for id in l..r {
+                list[id] = new_val;
+            }
+            seg.apply_range(l..r, &new_val.into());
+
+            let l = rng.gen_range(0..SIZE);
+            let r = rng.gen_range(l..SIZE);
+            let min = list[l..r].iter().min().copied().unwrap_or(i64::MAX);
+            assert_eq!(min, seg.prod(l..r));
+        }
+    }
+
+    #[test]
+    fn test_update_sum() {
+        let mut rng = thread_rng();
+        const SIZE: usize = 1000;
+        const MIN: i64 = -1000_000_000;
+        const MAX: i64 = 1000_000_000;
+        let mut list = (0..SIZE)
+            .map(|_| rng.gen_range(MIN..=MAX))
+            .collect::<Vec<i64>>();
+        let mut seg = UpdateSumLazySegTree::from_vec(list.clone());
+
+        for _ in 0..SIZE {
+            let l = rng.gen_range(0..SIZE);
+            let r = rng.gen_range(l..SIZE);
+            let new_val = rng.gen_range(MIN..=MAX);
+            for id in l..r {
+                list[id] = new_val;
+            }
+            seg.apply_range(l..r, &new_val.into());
+
+            let l = rng.gen_range(0..SIZE);
+            let r = rng.gen_range(l..SIZE);
+            let sum: i64 = list[l..r].iter().sum();
+            assert_eq!(sum, seg.sum(l..r));
+        }
+    }
+
+    #[test]
+    fn test_add_max() {
+        let mut rng = thread_rng();
+        const SIZE: usize = 1000;
+        const MIN: i64 = -1000_000_000;
+        const MAX: i64 = 1000_000_000;
+        let mut list = (0..SIZE)
+            .map(|_| rng.gen_range(MIN..=MAX))
+            .collect::<Vec<i64>>();
+        let mut seg = AddMaxLazySegTree::from(list.clone());
+
+        for _ in 0..SIZE {
+            let l = rng.gen_range(0..SIZE);
+            let r = rng.gen_range(l..SIZE);
+            let new_val = rng.gen_range(MIN..=MAX);
+            for id in l..r {
+                list[id] += new_val;
+            }
+            seg.apply_range(l..r, &new_val.into());
+
+            let l = rng.gen_range(0..SIZE);
+            let r = rng.gen_range(l..SIZE);
+            let max = list[l..r].iter().max().copied().unwrap_or(i64::MIN);
+            assert_eq!(max, seg.prod(l..r));
+        }
+    }
+
+    #[test]
+    fn test_add_min() {
+        let mut rng = thread_rng();
+        const SIZE: usize = 1000;
+        const MIN: i64 = -1000_000_000;
+        const MAX: i64 = 1000_000_000;
+        let mut list = (0..SIZE)
+            .map(|_| rng.gen_range(MIN..=MAX))
+            .collect::<Vec<i64>>();
+        let mut seg = AddMinLazySegTree::from(list.clone());
+
+        for _ in 0..SIZE {
+            let l = rng.gen_range(0..SIZE);
+            let r = rng.gen_range(l..SIZE);
+            let new_val = rng.gen_range(MIN..=MAX);
+            for id in l..r {
+                list[id] += new_val;
+            }
+            seg.apply_range(l..r, &new_val.into());
+
+            let l = rng.gen_range(0..SIZE);
+            let r = rng.gen_range(l..SIZE);
+            let min = list[l..r].iter().min().copied().unwrap_or(i64::MAX);
+            assert_eq!(min, seg.prod(l..r));
+        }
+    }
+
+    #[test]
+    fn test_add_sum() {
+        let mut rng = thread_rng();
+        const SIZE: usize = 1000;
+        const MIN: i64 = -1000_000_000;
+        const MAX: i64 = 1000_000_000;
+        let mut list = (0..SIZE)
+            .map(|_| rng.gen_range(MIN..=MAX))
+            .collect::<Vec<i64>>();
+        let mut seg = AddSumLazySegTree::from_vec(list.clone());
+
+        for _ in 0..SIZE {
+            let l = rng.gen_range(0..SIZE);
+            let r = rng.gen_range(l..SIZE);
+            let new_val = rng.gen_range(MIN..=MAX);
+            for id in l..r {
+                list[id] += new_val;
+            }
+            seg.apply_range(l..r, &new_val.into());
+
+            let l = rng.gen_range(0..SIZE);
+            let r = rng.gen_range(l..SIZE);
+            let sum: i64 = list[l..r].iter().sum();
+            assert_eq!(sum, seg.sum(l..r));
+        }
+    }
+}
