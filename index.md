@@ -41,6 +41,11 @@ data:
     - icon: ':warning:'
       path: crates/data_structure/lazy_segtree_beats/src/lib.rs
       title: crates/data_structure/lazy_segtree_beats/src/lib.rs
+  - name: crates/data_structure/lazy_segtree_utils/src
+    pages:
+    - icon: ':warning:'
+      path: crates/data_structure/lazy_segtree_utils/src/lib.rs
+      title: crates/data_structure/lazy_segtree_utils/src/lib.rs
   - name: crates/data_structure/potentialized_union_find/src
     pages:
     - icon: ':heavy_check_mark:'

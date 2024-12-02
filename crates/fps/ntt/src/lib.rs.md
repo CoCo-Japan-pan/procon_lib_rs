@@ -182,7 +182,7 @@ data:
   path: crates/fps/ntt/src/lib.rs
   requiredBy:
   - crates/fps/fps_utils/src/lib.rs
-  timestamp: '2024-10-21 22:30:46+09:00'
+  timestamp: '2024-12-02 17:06:04+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/convolution_ntt/src/main.rs

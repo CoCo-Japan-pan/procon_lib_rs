@@ -8,6 +8,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/lazy_segtree/src/lib.rs
     title: crates/data_structure/lazy_segtree/src/lib.rs
+  - icon: ':warning:'
+    path: crates/data_structure/lazy_segtree_utils/src/lib.rs
+    title: crates/data_structure/lazy_segtree_utils/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/potentialized_union_find/src/lib.rs
     title: crates/data_structure/potentialized_union_find/src/lib.rs
@@ -164,6 +167,7 @@ data:
   - crates/data_structure/segtree/src/lib.rs
   - crates/data_structure/sparse_table_on_segtree/src/lib.rs
   - crates/data_structure/segtree_2d_compressed/src/lib.rs
+  - crates/data_structure/lazy_segtree_utils/src/lib.rs
   - crates/data_structure/lazy_segtree/src/lib.rs
   - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   - crates/tree/rerooting/src/lib.rs

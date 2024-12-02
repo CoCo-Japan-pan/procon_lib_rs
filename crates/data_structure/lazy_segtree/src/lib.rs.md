@@ -7,7 +7,10 @@ data:
   - icon: ':warning:'
     path: crates/internals/internal_bits/src/lib.rs
     title: crates/internals/internal_bits/src/lib.rs
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':warning:'
+    path: crates/data_structure/lazy_segtree_utils/src/lib.rs
+    title: crates/data_structure/lazy_segtree_utils/src/lib.rs
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: verify/AOJ/dsl_2f_lazy_seg/src/main.rs
@@ -206,7 +209,8 @@ data:
   - crates/internals/internal_bits/src/lib.rs
   isVerificationFile: false
   path: crates/data_structure/lazy_segtree/src/lib.rs
-  requiredBy: []
+  requiredBy:
+  - crates/data_structure/lazy_segtree_utils/src/lib.rs
   timestamp: '2024-10-29 14:36:52+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
