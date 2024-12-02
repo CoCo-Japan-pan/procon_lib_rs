@@ -101,19 +101,19 @@ data:
     \u305F\u9045\u5EF6\u30BB\u30B0\u6728\u306E\u3001\u914D\u5217\u304B\u3089\u306E\
     \u521D\u671F\u5316\u3068\u3001\u533A\u9593Sum\u30AF\u30A8\u30EA\u306EWrapper\n\
     pub trait SumWrapper<T: Integral> {\n    fn from_vec(list: Vec<T>) -> Self;\n\
-    \    fn sum<R: RangeBounds<usize>>(&mut self, range: R) -> T;\n}\n\nimpl<T: Integral>\
-    \ SumWrapper<T> for UpdateSumLazySegTree<T> {\n    fn from_vec(list: Vec<T>) ->\
-    \ Self {\n        Self::from(\n            list.into_iter()\n                .map(|v|\
-    \ (v, T::one()))\n                .collect::<Vec<(T, T)>>(),\n        )\n    }\n\
-    \    fn sum<R: RangeBounds<usize>>(&mut self, range: R) -> T {\n        self.prod(range).0\n\
-    \    }\n}\n\nimpl<T: Integral> SumWrapper<T> for AddSumLazySegTree<T> {\n    fn\
-    \ from_vec(list: Vec<T>) -> Self {\n        Self::from(\n            list.into_iter()\n\
-    \                .map(|v| (v, T::one()))\n                .collect::<Vec<(T, T)>>(),\n\
-    \        )\n    }\n    fn sum<R: RangeBounds<usize>>(&mut self, range: R) -> T\
-    \ {\n        self.prod(range).0\n    }\n}\n\n#[cfg(test)]\nmod test {\n    use\
-    \ super::*;\n    use rand::prelude::*;\n\n    #[test]\n    fn test_update_max()\
-    \ {\n        let mut rng = thread_rng();\n        const SIZE: usize = 1000;\n\
-    \        let mut list = (0..SIZE).map(|_| rng.gen()).collect::<Vec<i64>>();\n\
+    \    fn prod_sum<R: RangeBounds<usize>>(&mut self, range: R) -> T;\n}\n\nimpl<T:\
+    \ Integral> SumWrapper<T> for UpdateSumLazySegTree<T> {\n    fn from_vec(list:\
+    \ Vec<T>) -> Self {\n        Self::from(\n            list.into_iter()\n     \
+    \           .map(|v| (v, T::one()))\n                .collect::<Vec<(T, T)>>(),\n\
+    \        )\n    }\n    fn prod_sum<R: RangeBounds<usize>>(&mut self, range: R)\
+    \ -> T {\n        self.prod(range).0\n    }\n}\n\nimpl<T: Integral> SumWrapper<T>\
+    \ for AddSumLazySegTree<T> {\n    fn from_vec(list: Vec<T>) -> Self {\n      \
+    \  Self::from(\n            list.into_iter()\n                .map(|v| (v, T::one()))\n\
+    \                .collect::<Vec<(T, T)>>(),\n        )\n    }\n    fn prod_sum<R:\
+    \ RangeBounds<usize>>(&mut self, range: R) -> T {\n        self.prod(range).0\n\
+    \    }\n}\n\n#[cfg(test)]\nmod test {\n    use super::*;\n    use rand::prelude::*;\n\
+    \n    #[test]\n    fn test_update_max() {\n        let mut rng = thread_rng();\n\
+    \        const SIZE: usize = 1000;\n        let mut list = (0..SIZE).map(|_| rng.gen()).collect::<Vec<i64>>();\n\
     \        let mut seg = UpdateMaxLazySegTree::from(list.clone());\n\n        for\
     \ _ in 0..SIZE {\n            let l = rng.gen_range(0..SIZE);\n            let\
     \ r = rng.gen_range(l..SIZE);\n            let new_val = rng.gen();\n        \
@@ -141,9 +141,9 @@ data:
     \   }\n            seg.apply_range(l..r, &new_val.into());\n\n            let\
     \ l = rng.gen_range(0..SIZE);\n            let r = rng.gen_range(l..SIZE);\n \
     \           let sum: i64 = list[l..r].iter().sum();\n            assert_eq!(sum,\
-    \ seg.sum(l..r));\n        }\n    }\n\n    #[test]\n    fn test_add_max() {\n\
-    \        let mut rng = thread_rng();\n        const SIZE: usize = 1000;\n    \
-    \    const MIN: i64 = -1000_000_000;\n        const MAX: i64 = 1000_000_000;\n\
+    \ seg.prod_sum(l..r));\n        }\n    }\n\n    #[test]\n    fn test_add_max()\
+    \ {\n        let mut rng = thread_rng();\n        const SIZE: usize = 1000;\n\
+    \        const MIN: i64 = -1000_000_000;\n        const MAX: i64 = 1000_000_000;\n\
     \        let mut list = (0..SIZE)\n            .map(|_| rng.gen_range(MIN..=MAX))\n\
     \            .collect::<Vec<i64>>();\n        let mut seg = AddMaxLazySegTree::from(list.clone());\n\
     \n        for _ in 0..SIZE {\n            let l = rng.gen_range(0..SIZE);\n  \
@@ -174,7 +174,7 @@ data:
     \    }\n            seg.apply_range(l..r, &new_val.into());\n\n            let\
     \ l = rng.gen_range(0..SIZE);\n            let r = rng.gen_range(l..SIZE);\n \
     \           let sum: i64 = list[l..r].iter().sum();\n            assert_eq!(sum,\
-    \ seg.sum(l..r));\n        }\n    }\n}\n"
+    \ seg.prod_sum(l..r));\n        }\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
   - crates/data_structure/lazy_segtree/src/lib.rs
@@ -182,7 +182,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/lazy_segtree_utils/src/lib.rs
   requiredBy: []
-  timestamp: '2024-12-02 17:42:41+09:00'
+  timestamp: '2024-12-02 17:51:20+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/data_structure/lazy_segtree_utils/src/lib.rs
