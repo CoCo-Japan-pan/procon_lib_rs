@@ -46,29 +46,29 @@ data:
     \u3092\u3059\u308BWrapper T\u304C\u5EA7\u6A19\u5727\u7E2E\u3059\u308B\u578B\n\
     pub struct WMSegWrapper<M: Monoid + Commutative, T: Integral> {\n    wm: WaveletMatrixSegTree<M>,\n\
     \    sorted_y: Vec<T>,\n    x_y: Vec<(T, T)>,\n}\n\nimpl<M: Monoid + Commutative,\
-    \ T: Integral> WMSegWrapper<M, T> {\n    pub fn new(update_points: Vec<(T, T)>)\
-    \ -> Self {\n        Self::from_weight(update_points, vec![])\n    }\n\n    ///\
-    \ update_points\u306F\u66F4\u65B0\u30AF\u30A8\u30EA\u306E\u3042\u308B\u70B9\u306E\
-    \u5EA7\u6A19\u306E\u30EA\u30B9\u30C8 \u305F\u3060\u3057init_weights\u306E\u70B9\
-    \u3082\u542B\u3081\u308B  \n    /// init_weights\u306F\u521D\u671F\u72B6\u614B\
-    \u306E\u70B9\u306E\u5EA7\u6A19\u3068\u91CD\u307F\u306E\u30EA\u30B9\u30C8 (x, y,\
-    \ w)  \n    /// init_weights\u306F\u91CD\u8907\u3057\u306A\u3044\u3053\u3068\u3092\
-    \u524D\u63D0\u3068\u3059\u308B\n    pub fn from_weight(\n        mut update_points:\
-    \ Vec<(T, T)>,\n        mut init_weights: Vec<(T, T, M::Target)>,\n    ) -> Self\
-    \ {\n        update_points.sort_unstable();\n        update_points.dedup();\n\
+    \ T: Integral> WMSegWrapper<M, T> {\n    /// \u3059\u3079\u3066\u5358\u4F4D\u5143\
+    \u3067\u521D\u671F\u5316\u3059\u308B\u5834\u5408\n    pub fn new(update_points:\
+    \ Vec<(T, T)>) -> Self {\n        Self::from_weight(update_points, &[])\n    }\n\
+    \n    /// update_points\u306F\u66F4\u65B0\u30AF\u30A8\u30EA\u306E\u3042\u308B\u70B9\
+    \u306E\u5EA7\u6A19\u306E\u30EA\u30B9\u30C8 \u305F\u3060\u3057init_weights\u306E\
+    \u70B9\u3082\u542B\u3081\u308B  \n    /// init_weights\u306F\u521D\u671F\u72B6\
+    \u614B\u306E\u70B9\u306E\u5EA7\u6A19\u3068\u91CD\u307F\u306E\u30EA\u30B9\u30C8\
+    \ (x, y, w)  \n    /// \u3082\u3057init_weights\u306E\u70B9\u304C\u91CD\u8907\u3059\
+    \u308B\u5834\u5408\u306F\u3001\u305D\u308C\u3089monoid\u306E\u7A4D\u3068\u3057\
+    \u3066\u521D\u671F\u5316\u3059\u308B\u306E\u3067\u6CE8\u610F(\u4E0A\u66F8\u304D\
+    \u3057\u305F\u3044\u5834\u5408\u306F\u4E8B\u524D\u306B\u91CD\u8907\u3092\u6D88\
+    \u3059\u524D\u51E6\u7406\u3092\u3057\u3066\u304F\u3060\u3055\u3044)\n    pub fn\
+    \ from_weight(mut update_points: Vec<(T, T)>, init_weights: &[(T, T, M::Target)])\
+    \ -> Self {\n        update_points.sort_unstable();\n        update_points.dedup();\n\
     \        let mut sorted_y = update_points\n            .iter()\n            .map(|(_,\
     \ y)| y)\n            .copied()\n            .collect::<Vec<_>>();\n        sorted_y.sort_unstable();\n\
     \        let compressed_list = update_points\n            .iter()\n          \
     \  .map(|(_, y)| sorted_y.binary_search(y).unwrap())\n            .collect::<Vec<_>>();\n\
     \        let mut weight_list = vec![M::id_element(); update_points.len()];\n \
-    \       init_weights.sort_unstable_by_key(|&(x, y, _)| (x, y));\n        for ls\
-    \ in init_weights.windows(2) {\n            let (x1, y1) = (ls[0].0, ls[0].1);\n\
-    \            let (x2, y2) = (ls[1].0, ls[1].1);\n            assert_ne!((x1, y1),\
-    \ (x2, y2), \"init_weights has duplicated points!!!\");\n        }\n        for\
-    \ (x, y, w) in init_weights {\n            let idx = update_points\n         \
-    \       .binary_search(&(x, y))\n                .expect(\"init_weight points\
-    \ are not in update_points!!!\");\n            weight_list[idx] = w.clone();\n\
-    \        }\n        let wm = WaveletMatrixSegTree::<M>::from_weight(&compressed_list,\
+    \       for (x, y, w) in init_weights {\n            let idx = update_points\n\
+    \                .binary_search(&(*x, *y))\n                .expect(\"init_weight\
+    \ points are not in update_points!!!\");\n            weight_list[idx] = M::binary_operation(&weight_list[idx],\
+    \ w);\n        }\n        let wm = WaveletMatrixSegTree::<M>::from_weight(&compressed_list,\
     \ &weight_list);\n        Self {\n            wm,\n            sorted_y,\n   \
     \         x_y: update_points,\n        }\n    }\n\n    fn get_pos_range<R: RangeBounds<T>>(&self,\
     \ range: R) -> (usize, usize) {\n        use std::ops::Bound::*;\n        let\
@@ -94,67 +94,48 @@ data:
     \        };\n        self.wm.get_weight(x)\n    }\n\n    pub fn rect_sum_monoid<R1:\
     \ RangeBounds<T>, R2: RangeBounds<T>>(\n        &self,\n        x_range: R1,\n\
     \        y_range: R2,\n    ) -> M::Target {\n        let (xl, xr) = self.get_pos_range(x_range);\n\
-    \        let (y_low, y_hi) = self.get_num_range(y_range);\n        self.wm.rect_sum_monoid(xl..xr,\
-    \ y_low..y_hi)\n    }\n\n    pub fn rect_sum_group<R1: RangeBounds<T>, R2: RangeBounds<T>>(\n\
-    \        &self,\n        x_range: R1,\n        y_range: R2,\n    ) -> M::Target\n\
-    \    where\n        M: Group,\n    {\n        let (xl, xr) = self.get_pos_range(x_range);\n\
-    \        let (y_low, y_hi) = self.get_num_range(y_range);\n        self.wm.rect_sum_group(xl..xr,\
-    \ y_low..y_hi)\n    }\n}\n\npub struct WaveletMatrixSegTree<M: Monoid + Commutative>\
-    \ {\n    upper_bound: usize,\n    len: usize,\n    /// indices[i] = \u4E0B\u304B\
-    \u3089i\u30D3\u30C3\u30C8\u76EE\u306B\u95A2\u3059\u308B\u7D22\u5F15\n    indices:\
-    \ Vec<BitDict>,\n    /// \u30D3\u30C3\u30C8\u3054\u3068\u306ESegTree\n    segtree_per_bit:\
-    \ Vec<SegTree<M>>,\n}\n\nimpl<M: Monoid + Commutative> WaveletMatrixSegTree<M>\
-    \ {\n    /// `compressed_list[x] = y` \u304C\u70B9(x, y)\u306B\u3001`weight_list[x]\
-    \ = w` \u304C\u70B9(x, y)\u306E\u91CD\u307Fw\u306B\u5BFE\u5FDC\u3059\u308B  \n\
-    \    /// compressed_list\u306B\u306F\u4ECA\u5F8C\u66F4\u65B0\u30AF\u30A8\u30EA\
-    \u306E\u3042\u308B(x, y)\u3082\u542B\u3081\u308B  \n    /// compressed_list\u306F\
-    \u5EA7\u6A19\u5727\u7E2E\u3055\u308C\u3066\u3044\u308B\u3053\u3068\u3092\u671F\
-    \u5F85\u3059\u308B  \n    /// x\u306F\u91CD\u8907\u4E0D\u53EF\u306A\u306E\u3067\
-    \u3001\u9806\u756A\u3092\u632F\u308A\u306A\u304A\u3057\u3066\u3082\u3089\u3046\
-    \u3053\u3068\u306B\u306A\u308B  \n    /// \u5168\u30660\u4EE5\u4E0A\n    pub fn\
-    \ from_weight(compressed_list: &[usize], weight_list: &[M::Target]) -> Self {\n\
-    \        assert_eq!(compressed_list.len(), weight_list.len());\n        let len\
-    \ = compressed_list.len();\n        let upper_bound = *compressed_list.iter().max().unwrap_or(&0)\
-    \ + 1;\n        let log = ceil_log2(upper_bound as u32 + 1) as usize;\n      \
-    \  let mut indices = vec![BitDict::new(len); log];\n        // \u6CE8\u76EE\u3059\
-    \u308B\u6841\u306Ebit\u304C0\u3068\u306A\u308B\u6570\u30011\u3068\u306A\u308B\u6570\
-    \n        let mut tmp = vec![Vec::with_capacity(len); 2];\n        let mut list\
-    \ = compressed_list.to_vec();\n        let mut weight_list = weight_list.to_vec();\n\
-    \        let mut tmp_weight = vec![Vec::with_capacity(len); 2];\n        let mut\
-    \ segtree_per_bit = Vec::with_capacity(log);\n        for (ln, index) in indices.iter_mut().enumerate().rev()\
-    \ {\n            for (x, (y, w)) in list.drain(..).zip(weight_list.drain(..)).enumerate()\
-    \ {\n                if (y >> ln) & 1 == 1 {\n                    index.set(x);\n\
-    \                    tmp[1].push(y);\n                    tmp_weight[1].push(w);\n\
-    \                } else {\n                    tmp[0].push(y);\n             \
-    \       tmp_weight[0].push(w);\n                }\n            }\n           \
-    \ index.build();\n            list.append(&mut tmp[0]);\n            list.append(&mut\
-    \ tmp[1]);\n            weight_list.append(&mut tmp_weight[0]);\n            weight_list.append(&mut\
+    \        let (y_low, y_hi) = self.get_num_range(y_range);\n        self.wm.rect_sum_monoid(xl,\
+    \ xr, y_low, y_hi)\n    }\n\n    pub fn rect_sum_group<R1: RangeBounds<T>, R2:\
+    \ RangeBounds<T>>(\n        &self,\n        x_range: R1,\n        y_range: R2,\n\
+    \    ) -> M::Target\n    where\n        M: Group,\n    {\n        let (xl, xr)\
+    \ = self.get_pos_range(x_range);\n        let (y_low, y_hi) = self.get_num_range(y_range);\n\
+    \        self.wm.rect_sum_group(xl, xr, y_low, y_hi)\n    }\n}\n\nstruct WaveletMatrixSegTree<M:\
+    \ Monoid + Commutative> {\n    len: usize,\n    /// indices[i] = \u4E0B\u304B\u3089\
+    i\u30D3\u30C3\u30C8\u76EE\u306B\u95A2\u3059\u308B\u7D22\u5F15\n    indices: Vec<BitDict>,\n\
+    \    /// \u30D3\u30C3\u30C8\u3054\u3068\u306ESegTree\n    segtree_per_bit: Vec<SegTree<M>>,\n\
+    }\n\nimpl<M: Monoid + Commutative> WaveletMatrixSegTree<M> {\n    /// `compressed_list[x]\
+    \ = y` \u304C\u70B9(x, y)\u306B\u3001`weight_list[x] = w` \u304C\u70B9(x, y)\u306E\
+    \u91CD\u307Fw\u306B\u5BFE\u5FDC\u3059\u308B  \n    /// compressed_list\u306B\u306F\
+    \u4ECA\u5F8C\u66F4\u65B0\u30AF\u30A8\u30EA\u306E\u3042\u308B(x, y)\u3082\u542B\
+    \u3081\u308B  \n    /// compressed_list\u306F\u5EA7\u6A19\u5727\u7E2E\u3055\u308C\
+    \u3066\u3044\u308B\u3053\u3068\u3092\u671F\u5F85\u3059\u308B  \n    /// x\u306F\
+    \u91CD\u8907\u4E0D\u53EF\u306A\u306E\u3067\u3001\u9806\u756A\u3092\u632F\u308A\
+    \u306A\u304A\u3057\u3066\u3082\u3089\u3046\u3053\u3068\u306B\u306A\u308B  \n \
+    \   /// \u5168\u30660\u4EE5\u4E0A\n    pub fn from_weight(compressed_list: &[usize],\
+    \ weight_list: &[M::Target]) -> Self {\n        assert_eq!(compressed_list.len(),\
+    \ weight_list.len());\n        let len = compressed_list.len();\n        let upper_bound\
+    \ = *compressed_list.iter().max().unwrap_or(&0) + 1;\n        let log = ceil_log2(upper_bound\
+    \ as u32 + 1) as usize;\n        let mut indices = vec![BitDict::new(len); log];\n\
+    \        // \u6CE8\u76EE\u3059\u308B\u6841\u306Ebit\u304C0\u3068\u306A\u308B\u6570\
+    \u30011\u3068\u306A\u308B\u6570\n        let mut tmp = vec![Vec::with_capacity(len);\
+    \ 2];\n        let mut list = compressed_list.to_vec();\n        let mut weight_list\
+    \ = weight_list.to_vec();\n        let mut tmp_weight = vec![Vec::with_capacity(len);\
+    \ 2];\n        let mut segtree_per_bit = Vec::with_capacity(log);\n        for\
+    \ (ln, index) in indices.iter_mut().enumerate().rev() {\n            for (x, (y,\
+    \ w)) in list.drain(..).zip(weight_list.drain(..)).enumerate() {\n           \
+    \     if (y >> ln) & 1 == 1 {\n                    index.set(x);\n           \
+    \         tmp[1].push(y);\n                    tmp_weight[1].push(w);\n      \
+    \          } else {\n                    tmp[0].push(y);\n                   \
+    \ tmp_weight[0].push(w);\n                }\n            }\n            index.build();\n\
+    \            list.append(&mut tmp[0]);\n            list.append(&mut tmp[1]);\n\
+    \            weight_list.append(&mut tmp_weight[0]);\n            weight_list.append(&mut\
     \ tmp_weight[1]);\n            segtree_per_bit.push(SegTree::from(&weight_list));\n\
-    \        }\n        segtree_per_bit.reverse();\n        Self {\n            upper_bound,\n\
-    \            len,\n            indices,\n            segtree_per_bit,\n      \
-    \  }\n    }\n\n    /// `compressed_list[x] = y` \u304C\u70B9(x, y)\u306B\u5BFE\
-    \u5FDC\u3057\u3001\u91CD\u307F\u306F\u5358\u4F4D\u5143\u3067\u521D\u671F\u5316\
-    \u3059\u308B  \n    /// `compressed_list`\u306B\u306F\u4ECA\u5F8C\u66F4\u65B0\u30AF\
-    \u30A8\u30EA\u306E\u3042\u308B(x, y)\u3082\u542B\u3081\u308B\n    pub fn from_identity(compressed_list:\
-    \ &[usize]) -> Self {\n        let weight_list = vec![M::id_element(); compressed_list.len()];\n\
-    \        Self::from_weight(compressed_list, &weight_list)\n    }\n\n    fn get_pos_range<R:\
-    \ RangeBounds<usize>>(&self, range: R) -> (usize, usize) {\n        use std::ops::Bound::*;\n\
-    \        let l = match range.start_bound() {\n            Included(&l) => l,\n\
-    \            Excluded(&l) => l + 1,\n            Unbounded => 0,\n        };\n\
-    \        let r = match range.end_bound() {\n            Included(&r) => r + 1,\n\
-    \            Excluded(&r) => r,\n            Unbounded => self.len,\n        };\n\
-    \        assert!(l <= r && r <= self.len);\n        (l, r)\n    }\n\n    fn get_num_range<R:\
-    \ RangeBounds<usize>>(&self, range: R) -> (usize, usize) {\n        use std::ops::Bound::*;\n\
-    \        let l = match range.start_bound() {\n            Included(&l) => l,\n\
-    \            Excluded(&l) => l + 1,\n            Unbounded => 0,\n        }\n\
-    \        .min(self.upper_bound);\n        let r = match range.end_bound() {\n\
-    \            Included(&r) => r + 1,\n            Excluded(&r) => r,\n        \
-    \    Unbounded => self.upper_bound,\n        }\n        .min(self.upper_bound);\n\
-    \        assert!(l <= r);\n        (l, r)\n    }\n\n    /// x\u5EA7\u6A19\u304C\
-    x_range\u5185\u3001y\u5EA7\u6A19\u306Fupper\u672A\u6E80\u306E\u70B9\u306E\u91CD\
-    \u307F\u306E\u548C\u3092\u6C42\u3081\u308B\n    pub fn prefix_rect_sum<R: RangeBounds<usize>>(&self,\
-    \ x_range: R, upper: usize) -> M::Target {\n        if upper == 0 {\n        \
-    \    return M::id_element();\n        }\n        let (mut begin, mut end) = self.get_pos_range(x_range);\n\
+    \        }\n        segtree_per_bit.reverse();\n        Self {\n            len,\n\
+    \            indices,\n            segtree_per_bit,\n        }\n    }\n\n    ///\
+    \ x\u5EA7\u6A19\u304C[begin, end)\u5185\u3001y\u5EA7\u6A19\u306Fupper\u672A\u6E80\
+    \u306E\u70B9\u306E\u91CD\u307F\u306E\u548C\u3092\u6C42\u3081\u308B\n    pub fn\
+    \ prefix_rect_sum(&self, mut begin: usize, mut end: usize, upper: usize) -> M::Target\
+    \ {\n        if upper == 0 {\n            return M::id_element();\n        }\n\
     \        let mut ret = M::id_element();\n        for (ln, index) in self.indices.iter().enumerate().rev()\
     \ {\n            let bit = (upper >> ln) & 1;\n            let rank1_begin = index.rank_1(begin);\n\
     \            let rank1_end = index.rank_1(end);\n            let rank0_begin =\
@@ -169,23 +150,20 @@ data:
     \u3001\u77E9\u5F62\u533A\u9593\u548C\u5185\u306E\u70B9\u306E\u91CD\u307F\u306E\
     \u548C\u3092\u6C42\u3081\u308B  \n    /// prefix_sum\u3092\u4E8C\u5EA6\u6C42\u3081\
     \u3066\u5F15\u304F \u975E\u518D\u5E30\u306A\u306E\u3067\u5B9A\u6570\u500D\u304C\
-    \u826F\u3044\u306F\u305A\n    pub fn rect_sum_group<R1: RangeBounds<usize> + Clone,\
-    \ R2: RangeBounds<usize>>(\n        &self,\n        x_range: R1,\n        y_range:\
-    \ R2,\n    ) -> M::Target\n    where\n        M: Group,\n    {\n        let (begin,\
-    \ end) = self.get_num_range(y_range);\n        let s2 = self.prefix_rect_sum(x_range.clone(),\
-    \ end);\n        let s1 = self.prefix_rect_sum(x_range, begin);\n        M::binary_operation(&M::inverse(&s1),\
-    \ &s2)\n    }\n\n    /// \u30E2\u30CE\u30A4\u30C9\u3092\u91CD\u307F\u3068\u3057\
-    \u3066\u8F09\u305B\u3066\u3044\u308B\u5834\u5408\u306B\u304A\u3051\u308B\u3001\
-    \u77E9\u5F62\u533A\u9593\u548C\u5185\u306E\u70B9\u306E\u91CD\u307F\u306E\u548C\
-    \u3092\u6C42\u3081\u308B  \n    /// \u5B8C\u5168\u306B\u8986\u3046\u304B\u5916\
-    \u308C\u308B\u304B\u3059\u308B\u307E\u3067\u518D\u5E30\u7684\u306B\u4E8C\u51AA\
-    \u306E\u9577\u3055\u306E\u533A\u9593\u306B\u5206\u3051\u3066\u3044\u304F\n   \
-    \ pub fn rect_sum_monoid<R1: RangeBounds<usize>, R2: RangeBounds<usize>>(\n  \
-    \      &self,\n        x_range: R1,\n        y_range: R2,\n    ) -> M::Target\
-    \ {\n        let (xl, xr) = self.get_pos_range(x_range);\n        let (y_low,\
-    \ y_hi) = self.get_num_range(y_range);\n        let mut ret = M::id_element();\n\
-    \        let ln = self.indices.len();\n        self.dfs(&mut ret, ln, xl, xr,\
-    \ 0, 1 << ln, y_low, y_hi);\n        ret\n    }\n\n    #[allow(clippy::too_many_arguments)]\n\
+    \u826F\u3044\u306F\u305A\n    pub fn rect_sum_group(\n        &self,\n       \
+    \ x_begin: usize,\n        x_end: usize,\n        y_begin: usize,\n        y_end:\
+    \ usize,\n    ) -> M::Target\n    where\n        M: Group,\n    {\n        let\
+    \ s2 = self.prefix_rect_sum(x_begin, x_end, y_end);\n        let s1 = self.prefix_rect_sum(x_begin,\
+    \ x_end, y_begin);\n        M::binary_operation(&M::inverse(&s1), &s2)\n    }\n\
+    \n    /// \u30E2\u30CE\u30A4\u30C9\u3092\u91CD\u307F\u3068\u3057\u3066\u8F09\u305B\
+    \u3066\u3044\u308B\u5834\u5408\u306B\u304A\u3051\u308B\u3001\u77E9\u5F62\u533A\
+    \u9593\u548C\u5185\u306E\u70B9\u306E\u91CD\u307F\u306E\u548C\u3092\u6C42\u3081\
+    \u308B  \n    /// \u5B8C\u5168\u306B\u8986\u3046\u304B\u5916\u308C\u308B\u304B\
+    \u3059\u308B\u307E\u3067\u518D\u5E30\u7684\u306B\u4E8C\u51AA\u306E\u9577\u3055\
+    \u306E\u533A\u9593\u306B\u5206\u3051\u3066\u3044\u304F\n    pub fn rect_sum_monoid(&self,\
+    \ xl: usize, xr: usize, y_low: usize, y_hi: usize) -> M::Target {\n        let\
+    \ mut ret = M::id_element();\n        let ln = self.indices.len();\n        self.dfs(&mut\
+    \ ret, ln, xl, xr, 0, 1 << ln, y_low, y_hi);\n        ret\n    }\n\n    #[allow(clippy::too_many_arguments)]\n\
     \    fn dfs(\n        &self,\n        ret: &mut M::Target,\n        ln: usize,\n\
     \        xl: usize,\n        xr: usize,\n        yl: usize,\n        yr: usize,\n\
     \        y_low: usize,\n        y_hi: usize,\n    ) {\n        assert_eq!(yr -\
@@ -226,8 +204,8 @@ data:
     \           let xr = rng.gen_range(xl..SIZE);\n            let yl = rng.gen_range(0..SIZE);\n\
     \            let yr = rng.gen_range(yl..SIZE);\n            let cum_sum_ans =\
     \ wm_cum_sum.rect_sum(xl..xr, yl..yr) as i64;\n            assert_eq!(cum_sum_ans,\
-    \ wm_seg.rect_sum_group(xl..xr, yl..yr));\n            assert_eq!(cum_sum_ans,\
-    \ wm_seg.rect_sum_monoid(xl..xr, yl..yr))\n        }\n    }\n\n    #[test]\n \
+    \ wm_seg.rect_sum_group(xl, xr, yl, yr));\n            assert_eq!(cum_sum_ans,\
+    \ wm_seg.rect_sum_monoid(xl, xr, yl, yr))\n        }\n    }\n\n    #[test]\n \
     \   fn test_point_add_rect_sum() {\n        let mut rng = thread_rng();\n    \
     \    const SIZE: usize = 10000;\n        let mut weight_list = (0..SIZE)\n   \
     \         .map(|_| rng.gen_range(-1000_000_000..=1000_000_000))\n            .collect::<Vec<i64>>();\n\
@@ -240,12 +218,12 @@ data:
     \     .enumerate()\n                .skip(x_left)\n                .take(x_right\
     \ - x_left)\n                .filter(|&(i, _)| y_left <= y_list[i] && y_list[i]\
     \ < y_right)\n                .map(|(_, &w)| w)\n                .sum::<i64>();\n\
-    \            assert_eq!(\n                wm.rect_sum_group(x_left..x_right, y_left..y_right),\n\
-    \                real_sum\n            );\n            assert_eq!(\n         \
-    \       wm.rect_sum_monoid(x_left..x_right, y_left..y_right),\n              \
-    \  real_sum\n            );\n            let pos = rng.gen_range(0..SIZE);\n \
-    \           let new_weight = rng.gen_range(-1000_000_000..=1000_000_000);\n  \
-    \          weight_list[pos] = new_weight;\n            wm.set(pos, new_weight);\n\
+    \            assert_eq!(\n                wm.rect_sum_group(x_left, x_right, y_left,\
+    \ y_right),\n                real_sum\n            );\n            assert_eq!(\n\
+    \                wm.rect_sum_monoid(x_left, x_right, y_left, y_right),\n     \
+    \           real_sum\n            );\n            let pos = rng.gen_range(0..SIZE);\n\
+    \            let new_weight = rng.gen_range(-1000_000_000..=1000_000_000);\n \
+    \           weight_list[pos] = new_weight;\n            wm.set(pos, new_weight);\n\
     \        }\n    }\n\n    #[test]\n    fn test_get_weight() {\n        let mut\
     \ rng = thread_rng();\n        const SIZE: usize = 1000;\n        let mut weight_list\
     \ = (0..SIZE)\n            .map(|_| rng.gen_range(-1000_000_000..=1000_000_000))\n\
@@ -266,7 +244,7 @@ data:
   isVerificationFile: false
   path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-12-01 13:32:56+09:00'
+  timestamp: '2024-12-02 14:06:45+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/point_add_rect_sum_wavelet/src/main.rs

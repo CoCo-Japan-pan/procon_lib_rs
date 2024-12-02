@@ -48,7 +48,7 @@ data:
     \ => None,\n        }))\n        .collect::<Vec<_>>();\n    x_y_w.sort_unstable();\n\
     \    x_y_w.dedup_by(|(x1, y1, w1), (x2, y2, w2)| {\n        (x1, y1) == (x2, y2)\
     \ && {\n            *w2 += *w1;\n            true\n        }\n    });\n    let\
-    \ mut wm_seg = WMSegWrapper::<AddGroup, _>::from_weight(update_points, x_y_w);\n\
+    \ mut wm_seg = WMSegWrapper::<AddGroup, _>::from_weight(update_points, &x_y_w);\n\
     \    for q in queries {\n        match q {\n            Query::Add(x, y, w) =>\
     \ {\n                let prev = wm_seg.get(x, y);\n                wm_seg.set(x,\
     \ y, prev + w);\n            }\n            Query::Prod(xl, yl, xr, yr) => {\n\
@@ -60,7 +60,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
   requiredBy: []
-  timestamp: '2024-12-01 13:32:56+09:00'
+  timestamp: '2024-12-02 14:06:45+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
