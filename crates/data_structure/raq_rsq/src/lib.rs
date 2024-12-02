@@ -2,7 +2,6 @@
 //! fenwick tree を二つ用いて、区間加算、区間和クエリを処理します  
 
 use fenwick_tree::FenwickTree;
-use std::fmt::Debug;
 use std::ops::{Add, AddAssign, Bound::*, Mul, Neg, RangeBounds, Sub};
 
 pub struct RAQRSQ<
@@ -11,11 +10,9 @@ pub struct RAQRSQ<
         + AddAssign
         + Sub<Output = T>
         + Neg<Output = T>
-        + TryFrom<usize>
+        + From<u32>
         + Mul<Output = T>,
-> where
-    <T as TryFrom<usize>>::Error: Debug,
-{
+> {
     range_size: usize,
     ft1: FenwickTree<T>,
     ft2: FenwickTree<T>,
@@ -27,11 +24,9 @@ impl<
             + AddAssign
             + Sub<Output = T>
             + Neg<Output = T>
-            + TryFrom<usize>
+            + From<u32>
             + Mul<Output = T>,
     > RAQRSQ<T>
-where
-    <T as TryFrom<usize>>::Error: Debug,
 {
     pub fn new(size: usize, zero: T) -> Self {
         Self {
@@ -65,10 +60,9 @@ where
     /// 区間加算
     pub fn add<R: RangeBounds<usize>>(&mut self, range: R, val: T) {
         let (begin, end) = self.get_range(range);
-        self.ft1
-            .add(begin, -val.clone() * begin.try_into().unwrap());
+        self.ft1.add(begin, -val.clone() * (begin as u32).into());
         self.ft2.add(begin, val.clone());
-        self.ft1.add(end, val.clone() * end.try_into().unwrap());
+        self.ft1.add(end, val.clone() * (end as u32).into());
         self.ft2.add(end, -val);
     }
 
@@ -79,6 +73,6 @@ where
 
     fn sum_from_first(&self, idx: usize) -> T {
         assert!(idx <= self.range_size);
-        self.ft1.sum(0..idx) + self.ft2.sum(0..idx) * idx.try_into().unwrap()
+        self.ft1.sum(0..idx) + self.ft2.sum(0..idx) * (idx as u32).into()
     }
 }
