@@ -189,7 +189,7 @@ pub type UpdateSumLazySegTree<T> = LazySegTree<UpdateSum<T>>;
 /// Sumモノイドを載せた遅延セグ木の、配列からの初期化と、区間SumクエリのWrapper
 pub trait SumWrapper<T: Integral> {
     fn from_vec(list: Vec<T>) -> Self;
-    fn sum<R: RangeBounds<usize>>(&mut self, range: R) -> T;
+    fn prod_sum<R: RangeBounds<usize>>(&mut self, range: R) -> T;
 }
 
 impl<T: Integral> SumWrapper<T> for UpdateSumLazySegTree<T> {
@@ -200,7 +200,7 @@ impl<T: Integral> SumWrapper<T> for UpdateSumLazySegTree<T> {
                 .collect::<Vec<(T, T)>>(),
         )
     }
-    fn sum<R: RangeBounds<usize>>(&mut self, range: R) -> T {
+    fn prod_sum<R: RangeBounds<usize>>(&mut self, range: R) -> T {
         self.prod(range).0
     }
 }
@@ -213,7 +213,7 @@ impl<T: Integral> SumWrapper<T> for AddSumLazySegTree<T> {
                 .collect::<Vec<(T, T)>>(),
         )
     }
-    fn sum<R: RangeBounds<usize>>(&mut self, range: R) -> T {
+    fn prod_sum<R: RangeBounds<usize>>(&mut self, range: R) -> T {
         self.prod(range).0
     }
 }
@@ -292,7 +292,7 @@ mod test {
             let l = rng.gen_range(0..SIZE);
             let r = rng.gen_range(l..SIZE);
             let sum: i64 = list[l..r].iter().sum();
-            assert_eq!(sum, seg.sum(l..r));
+            assert_eq!(sum, seg.prod_sum(l..r));
         }
     }
 
@@ -373,7 +373,7 @@ mod test {
             let l = rng.gen_range(0..SIZE);
             let r = rng.gen_range(l..SIZE);
             let sum: i64 = list[l..r].iter().sum();
-            assert_eq!(sum, seg.sum(l..r));
+            assert_eq!(sum, seg.prod_sum(l..r));
         }
     }
 }
