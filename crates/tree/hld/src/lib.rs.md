@@ -31,11 +31,11 @@ data:
     links:
     - https://codeforces.com/blog/entry/53170
     - https://hcpc-hokudai.github.io/archive/graph_tree_001.pdf
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.0/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
-    \  File \"/opt/hostedtoolcache/Python/3.13.0/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \  File \"/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! [HCPC\u306E\u8CC7\u6599](https://hcpc-hokudai.github.io/archive/graph_tree_001.pdf)\
     \  \n//! [HLD\u306E\u4E2D\u306Bsubtree\u30AF\u30A8\u30EA\u3082\u5BFE\u5FDC\u3055\
@@ -143,13 +143,13 @@ data:
   timestamp: '2024-10-06 16:07:47+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/AOJ/no_2667/src/main.rs
-  - verify/yosupo/vertex_add_path_sum/src/main.rs
   - verify/yosupo/vertex_add_subtree_sum/src/main.rs
+  - verify/yosupo/vertex_add_path_sum/src/main.rs
   - verify/yosupo/vertex_set_path_composite/src/main.rs
   - verify/yosupo/lca_hld/src/main.rs
-  - verify/AtCoder/abc294g/src/main.rs
+  - verify/AOJ/no_2667/src/main.rs
   - verify/AtCoder/abc239e/src/main.rs
+  - verify/AtCoder/abc294g/src/main.rs
 documentation_of: crates/tree/hld/src/lib.rs
 layout: document
 redirect_from:

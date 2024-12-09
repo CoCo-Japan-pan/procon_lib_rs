@@ -16,11 +16,11 @@ data:
     PROBLEM: https://judge.yosupo.jp/problem/staticrmq
     links:
     - https://judge.yosupo.jp/problem/staticrmq
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.0/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
-    \  File \"/opt/hostedtoolcache/Python/3.13.0/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \  File \"/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://judge.yosupo.jp/problem/staticrmq\n\
     use algebra::{IdempotentMonoid, Monoid};\nuse proconio::{fastout, input};\nuse\
@@ -38,7 +38,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/staticrmq_sparse_table/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-28 22:46:07+09:00'
+  timestamp: '2024-12-09 18:16:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/staticrmq_sparse_table/src/main.rs

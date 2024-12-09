@@ -18,11 +18,11 @@ data:
   attributes:
     links:
     - https://maspypy.github.io/library/ds/sparse_table/sparse_table_on_segtree.hpp
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.0/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
-    \  File \"/opt/hostedtoolcache/Python/3.13.0/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \  File \"/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! 2D Sparse Table\u3068\u3067\u304D\u308B\u3053\u3068\u306F\u540C\u3058\
     \u3060\u304C\u3001SegmentTree\u3068SparseTable\u3092\u7D44\u307F\u5408\u308F\u305B\
@@ -67,7 +67,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/sparse_table_on_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-28 22:46:07+09:00'
+  timestamp: '2024-12-09 18:16:33+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/no_1068/src/main.rs

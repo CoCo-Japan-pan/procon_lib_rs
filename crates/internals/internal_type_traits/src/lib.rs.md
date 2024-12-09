@@ -29,6 +29,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/modint/static_modint/src/lib.rs
     title: crates/modint/static_modint/src/lib.rs
+  - icon: ':warning:'
+    path: crates/utils/monoid_utils/src/lib.rs
+    title: crates/utils/monoid_utils/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
     title: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
@@ -41,11 +44,11 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.0/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
-    \  File \"/opt/hostedtoolcache/Python/3.13.0/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \  File \"/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "use std::fmt::{Debug, Display};\nuse std::ops::{Add, AddAssign, Mul, MulAssign,\
     \ Sub, SubAssign};\n\n/// \u6574\u6570\u578B\u3092\u4F7F\u3044\u305F\u3044\u3068\
@@ -75,14 +78,15 @@ data:
   isVerificationFile: false
   path: crates/internals/internal_type_traits/src/lib.rs
   requiredBy:
-  - crates/modint/static_modint/src/lib.rs
-  - crates/modint/dynamic_modint/src/lib.rs
   - crates/math/matrix/src/lib.rs
+  - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
+  - crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
+  - crates/internals/internal_modint/src/lib.rs
+  - crates/modint/dynamic_modint/src/lib.rs
+  - crates/modint/static_modint/src/lib.rs
   - crates/data_structure/segtree_2d_compressed/src/lib.rs
   - crates/data_structure/lazy_segtree_utils/src/lib.rs
-  - crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
-  - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
-  - crates/internals/internal_modint/src/lib.rs
+  - crates/utils/monoid_utils/src/lib.rs
   - crates/flow/maxflow/src/lib.rs
   - crates/flow/maxflow_lower_bound/src/lib.rs
   - crates/fps/ntt/src/lib.rs

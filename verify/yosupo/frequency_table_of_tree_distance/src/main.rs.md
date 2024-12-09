@@ -8,11 +8,11 @@ data:
     path: crates/modint/static_modint/src/lib.rs
     title: crates/modint/static_modint/src/lib.rs
   - icon: ':heavy_check_mark:'
-    path: crates/tools/capture/src/lib.rs
-    title: crates/tools/capture/src/lib.rs
-  - icon: ':heavy_check_mark:'
     path: crates/tree/centroid_decomposition/src/lib.rs
     title: crates/tree/centroid_decomposition/src/lib.rs
+  - icon: ':heavy_check_mark:'
+    path: crates/utils/capture/src/lib.rs
+    title: crates/utils/capture/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -22,11 +22,11 @@ data:
     PROBLEM: https://judge.yosupo.jp/problem/frequency_table_of_tree_distance
     links:
     - https://judge.yosupo.jp/problem/frequency_table_of_tree_distance
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.0/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
-    \  File \"/opt/hostedtoolcache/Python/3.13.0/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \  File \"/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://judge.yosupo.jp/problem/frequency_table_of_tree_distance\n\
     \nuse capture::crecurse;\nuse centroid_decomposition::CentroidDecomposition;\n\
@@ -69,12 +69,12 @@ data:
   dependsOn:
   - crates/fps/ntt/src/lib.rs
   - crates/modint/static_modint/src/lib.rs
-  - crates/tools/capture/src/lib.rs
   - crates/tree/centroid_decomposition/src/lib.rs
+  - crates/utils/capture/src/lib.rs
   isVerificationFile: true
   path: verify/yosupo/frequency_table_of_tree_distance/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-21 15:52:33+09:00'
+  timestamp: '2024-12-09 18:05:27+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/frequency_table_of_tree_distance/src/main.rs

@@ -221,21 +221,6 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/string/rolling_hash/src/lib.rs
       title: crates/string/rolling_hash/src/lib.rs
-  - name: crates/tools/capture/src
-    pages:
-    - icon: ':heavy_check_mark:'
-      path: crates/tools/capture/src/lib.rs
-      title: crates/tools/capture/src/lib.rs
-  - name: crates/tools/localize_closure/src
-    pages:
-    - icon: ':warning:'
-      path: crates/tools/localize_closure/src/lib.rs
-      title: crates/tools/localize_closure/src/lib.rs
-  - name: crates/tools/multiset/src
-    pages:
-    - icon: ':warning:'
-      path: crates/tools/multiset/src/lib.rs
-      title: crates/tools/multiset/src/lib.rs
   - name: crates/tree/auxiliary_tree/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -261,6 +246,26 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/tree/rerooting/src/lib.rs
       title: crates/tree/rerooting/src/lib.rs
+  - name: crates/utils/capture/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: crates/utils/capture/src/lib.rs
+      title: crates/utils/capture/src/lib.rs
+  - name: crates/utils/localize_closure/src
+    pages:
+    - icon: ':warning:'
+      path: crates/utils/localize_closure/src/lib.rs
+      title: crates/utils/localize_closure/src/lib.rs
+  - name: crates/utils/monoid_utils/src
+    pages:
+    - icon: ':warning:'
+      path: crates/utils/monoid_utils/src/lib.rs
+      title: crates/utils/monoid_utils/src/lib.rs
+  - name: crates/utils/multiset/src
+    pages:
+    - icon: ':warning:'
+      path: crates/utils/multiset/src/lib.rs
+      title: crates/utils/multiset/src/lib.rs
   - name: crates/wavelet/bitdict/benches
     pages:
     - icon: ':warning:'

@@ -2,11 +2,11 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: crates/tools/capture/src/lib.rs
-    title: crates/tools/capture/src/lib.rs
-  - icon: ':heavy_check_mark:'
     path: crates/tree/centroid_decomposition/src/lib.rs
     title: crates/tree/centroid_decomposition/src/lib.rs
+  - icon: ':heavy_check_mark:'
+    path: crates/utils/capture/src/lib.rs
+    title: crates/utils/capture/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -16,11 +16,11 @@ data:
     PROBLEM: https://atcoder.jp/contests/abc359/tasks/abc359_g
     links:
     - https://atcoder.jp/contests/abc359/tasks/abc359_g
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.0/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
-    \  File \"/opt/hostedtoolcache/Python/3.13.0/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \  File \"/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://atcoder.jp/contests/abc359/tasks/abc359_g\n\
     use capture::crecurse;\nuse centroid_decomposition::CentroidDecomposition;\nuse\
@@ -54,12 +54,12 @@ data:
     \ let Some(&(sum, _)) = map.get(&color_list[centroid]) {\n            ans += sum;\n\
     \        }\n    };\n    cd.run(func);\n    println!(\"{}\", ans);\n}\n"
   dependsOn:
-  - crates/tools/capture/src/lib.rs
   - crates/tree/centroid_decomposition/src/lib.rs
+  - crates/utils/capture/src/lib.rs
   isVerificationFile: true
   path: verify/AtCoder/abc359g_centroid/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-20 16:41:21+09:00'
+  timestamp: '2024-12-09 18:05:27+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AtCoder/abc359g_centroid/src/main.rs
