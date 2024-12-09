@@ -7,7 +7,7 @@ edition = "2021"
 
 [dependencies]
 proconio = { version = "=0.4.5", features = ["derive"] }
-capture = { path = "../../../crates/tools/capture" }
+capture = { path = "../../../crates/utils/capture" }
 centroid_decomposition = { path = "../../../crates/tree/centroid_decomposition" }
 ntt = { path = "../../../crates/fps/ntt" }
 static_modint = { path = "../../../crates/modint/static_modint" }

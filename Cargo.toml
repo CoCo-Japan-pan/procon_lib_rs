@@ -16,7 +16,7 @@ members = [
     "crates/graph/*",
     "crates/rand/*",
     "crates/itertools/*",
-    "crates/tools/*",
+    "crates/utils/*",
     "crates/geometry/*",
     "verify/yosupo/*",
     "verify/AOJ/*",
