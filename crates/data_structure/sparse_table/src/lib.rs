@@ -2,7 +2,11 @@
 //! Disjoint Sparse Table に比べて定数倍早い  
 
 use algebra::IdempotentMonoid;
+use monoid_utils::{MaxMonoid, MinMonoid};
 use std::ops::RangeBounds;
+
+pub type MinSparseTable<T> = SparseTable<MinMonoid<T>>;
+pub type MaxSparseTable<T> = SparseTable<MaxMonoid<T>>;
 
 #[derive(Debug, Clone)]
 pub struct SparseTable<M: IdempotentMonoid> {
