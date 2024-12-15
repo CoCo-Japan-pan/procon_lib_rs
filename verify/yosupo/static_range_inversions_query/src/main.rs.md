@@ -25,16 +25,16 @@ data:
   code: "// verification-helper: PROBLEM https://judge.yosupo.jp/problem/static_range_inversions_query\n\
     \nuse fenwick_tree::FenwickTree;\nuse mo::{MoFuncs, MoRunner};\nuse proconio::{fastout,\
     \ input};\n\nstruct MoStates {\n    compressed_a: Vec<usize>,\n    ft: FenwickTree<i64>,\n\
-    \    ans: Vec<i64>,\n    cur_inv: i64,\n}\n\nimpl MoFuncs for MoStates {\n   \
-    \ fn add_left(&mut self, left: usize) {\n        let num = self.compressed_a[left];\n\
+    \    cur_inv: i64,\n    ans: Vec<i64>,\n}\n\nimpl MoFuncs for MoStates {\n   \
+    \ fn x_minus(&mut self, x: usize) {\n        let num = self.compressed_a[x - 1];\n\
     \        self.cur_inv += self.ft.sum(..num);\n        self.ft.add(num, 1);\n \
-    \   }\n    fn add_right(&mut self, right: usize) {\n        let num = self.compressed_a[right];\n\
+    \   }\n    fn y_plus(&mut self, y: usize) {\n        let num = self.compressed_a[y];\n\
     \        self.cur_inv += self.ft.sum(num + 1..);\n        self.ft.add(num, 1);\n\
-    \    }\n    fn remove_left(&mut self, left: usize) {\n        let num = self.compressed_a[left];\n\
+    \    }\n    fn x_plus(&mut self, x: usize) {\n        let num = self.compressed_a[x];\n\
     \        self.cur_inv -= self.ft.sum(..num);\n        self.ft.add(num, -1);\n\
-    \    }\n    fn remove_right(&mut self, right: usize) {\n        let num = self.compressed_a[right];\n\
-    \        self.cur_inv -= self.ft.sum(num + 1..);\n        self.ft.add(num, -1);\n\
-    \    }\n    fn memo(&mut self, id: usize) {\n        self.ans[id] = self.cur_inv;\n\
+    \    }\n    fn y_minus(&mut self, y: usize) {\n        let num = self.compressed_a[y\
+    \ - 1];\n        self.cur_inv -= self.ft.sum(num + 1..);\n        self.ft.add(num,\
+    \ -1);\n    }\n    fn memo(&mut self, idx: usize) {\n        self.ans[idx] = self.cur_inv;\n\
     \    }\n}\n\n#[fastout]\nfn main() {\n    input! {\n        n: usize,\n      \
     \  q: usize,\n        a: [i64; n],\n        l_r: [(usize, usize); q],\n    }\n\
     \    let a = {\n        let mut a_cpy = a.clone();\n        a_cpy.sort();\n  \
@@ -42,16 +42,16 @@ data:
     \ a) in ret.iter_mut().zip(a) {\n            *r = a_cpy.binary_search(&a).unwrap();\n\
     \        }\n        ret\n    };\n    let mut mo_state = MoStates {\n        ft:\
     \ FenwickTree::new(a.len(), 0),\n        compressed_a: a,\n        ans: vec![0;\
-    \ q],\n        cur_inv: 0,\n    };\n    let mo_runner = MoRunner::new(n, l_r);\n\
-    \    mo_runner.run(&mut mo_state);\n    for ans in mo_state.ans {\n        println!(\"\
-    {}\", ans);\n    }\n}\n"
+    \ q],\n        cur_inv: 0,\n    };\n    let mo_runner = MoRunner::new(&l_r, n,\
+    \ n);\n    mo_runner.run(&mut mo_state);\n    for ans in mo_state.ans {\n    \
+    \    println!(\"{}\", ans);\n    }\n}\n"
   dependsOn:
   - crates/data_structure/fenwick_tree/src/lib.rs
   - crates/misc/mo/src/lib.rs
   isVerificationFile: true
   path: verify/yosupo/static_range_inversions_query/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-20 15:52:04+09:00'
+  timestamp: '2024-12-15 22:00:14+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/static_range_inversions_query/src/main.rs

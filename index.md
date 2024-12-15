@@ -296,6 +296,11 @@ data:
     - icon: ':warning:'
       path: verify/AtCoder/abc291g/src/main.rs
       title: verify/AtCoder/abc291g/src/main.rs
+  - name: verify/AtCoder/abc384g/src
+    pages:
+    - icon: ':warning:'
+      path: verify/AtCoder/abc384g/src/main.rs
+      title: verify/AtCoder/abc384g/src/main.rs
   - name: verify/AtCoder/typical_057/src
     pages:
     - icon: ':warning:'

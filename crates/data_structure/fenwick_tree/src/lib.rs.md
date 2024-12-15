@@ -5,6 +5,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/raq_rsq/src/lib.rs
     title: crates/data_structure/raq_rsq/src/lib.rs
+  - icon: ':warning:'
+    path: verify/AtCoder/abc384g/src/main.rs
+    title: verify/AtCoder/abc384g/src/main.rs
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: verify/AtCoder/abc294g/src/main.rs
@@ -76,6 +79,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/fenwick_tree/src/lib.rs
   requiredBy:
+  - verify/AtCoder/abc384g/src/main.rs
   - crates/data_structure/raq_rsq/src/lib.rs
   timestamp: '2024-10-20 15:52:04+09:00'
   verificationStatus: LIBRARY_ALL_AC
