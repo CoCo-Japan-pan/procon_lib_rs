@@ -7,33 +7,33 @@ use proconio::{fastout, input};
 struct MoStates {
     compressed_a: Vec<usize>,
     ft: FenwickTree<i64>,
-    ans: Vec<i64>,
     cur_inv: i64,
+    ans: Vec<i64>,
 }
 
 impl MoFuncs for MoStates {
-    fn add_left(&mut self, left: usize) {
-        let num = self.compressed_a[left];
+    fn x_minus(&mut self, x: usize) {
+        let num = self.compressed_a[x - 1];
         self.cur_inv += self.ft.sum(..num);
         self.ft.add(num, 1);
     }
-    fn add_right(&mut self, right: usize) {
-        let num = self.compressed_a[right];
+    fn y_plus(&mut self, y: usize) {
+        let num = self.compressed_a[y];
         self.cur_inv += self.ft.sum(num + 1..);
         self.ft.add(num, 1);
     }
-    fn remove_left(&mut self, left: usize) {
-        let num = self.compressed_a[left];
+    fn x_plus(&mut self, x: usize) {
+        let num = self.compressed_a[x];
         self.cur_inv -= self.ft.sum(..num);
         self.ft.add(num, -1);
     }
-    fn remove_right(&mut self, right: usize) {
-        let num = self.compressed_a[right];
+    fn y_minus(&mut self, y: usize) {
+        let num = self.compressed_a[y - 1];
         self.cur_inv -= self.ft.sum(num + 1..);
         self.ft.add(num, -1);
     }
-    fn memo(&mut self, id: usize) {
-        self.ans[id] = self.cur_inv;
+    fn memo(&mut self, idx: usize) {
+        self.ans[idx] = self.cur_inv;
     }
 }
 
@@ -61,7 +61,7 @@ fn main() {
         ans: vec![0; q],
         cur_inv: 0,
     };
-    let mo_runner = MoRunner::new(n, l_r);
+    let mo_runner = MoRunner::new(&l_r, n, n);
     mo_runner.run(&mut mo_state);
     for ans in mo_state.ans {
         println!("{}", ans);
