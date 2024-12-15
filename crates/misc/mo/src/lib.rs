@@ -62,8 +62,9 @@ impl<'a> MoRunner<'a> {
     }
 }
 
-/// クエリの左右端+-1変化が少なくなるように、クエリ番号[0,1,...Q)をソートした配列を返す
-fn calc_mo_friendly_order(query_ranges: &[(usize, usize)], nx: usize, ny: usize) -> Vec<usize> {
+/// クエリの左右端+-1変化が少なくなるように、クエリ番号[0,1,...Q)をソートした配列を返す  
+/// 各クエリ`(x, y)`は、`0 <= x <= nx, 0 <= y <= ny` とする
+pub fn calc_mo_friendly_order(query_ranges: &[(usize, usize)], nx: usize, ny: usize) -> Vec<usize> {
     if query_ranges.is_empty() {
         return vec![];
     }
