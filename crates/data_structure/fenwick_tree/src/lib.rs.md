@@ -28,8 +28,7 @@ data:
   _pathExtension: rs
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    links:
-    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/fenwicktree.rs
+    links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
@@ -48,40 +47,60 @@ data:
     \     while idx <= self.size {\n            self.data[idx] += val.clone();\n \
     \           idx += idx & idx.wrapping_neg()\n        }\n    }\n\n    pub fn set(&mut\
     \ self, idx: usize, val: T) {\n        assert!(idx < self.size);\n        self.add(idx,\
-    \ val - self.sum(idx..=idx));\n    }\n\n    pub fn sum<R: RangeBounds<usize>>(&self,\
-    \ range: R) -> T {\n        use std::ops::Bound::*;\n        let start = match\
-    \ range.start_bound() {\n            Included(&s) => s,\n            Excluded(&s)\
-    \ => s + 1,\n            Unbounded => 0,\n        };\n        let end = match\
-    \ range.end_bound() {\n            Included(&e) => e + 1,\n            Excluded(&e)\
-    \ => e,\n            std::ops::Bound::Unbounded => self.size,\n        };\n  \
-    \      assert!(start <= end && end <= self.size);\n        self.sum_from_first(end)\
-    \ - self.sum_from_first(start)\n    }\n\n    /// `a[0] + ... a[x] >= w` \u3068\
-    \u306A\u308B\u6700\u5C0F\u306E x \u3092\u8FD4\u3059\n    pub fn lower_bound(&self,\
-    \ mut w: T) -> usize\n    where\n        T: PartialOrd + SubAssign,\n    {\n \
-    \       if w <= self.zero {\n            return 0;\n        }\n        let mut\
-    \ x = 0;\n        let mut k = self.pow_2_floor;\n        while k > 0 {\n     \
-    \       if x + k <= self.size && self.data[x + k] < w {\n                w -=\
-    \ self.data[x + k].clone();\n                x += k;\n            }\n        \
-    \    k >>= 1;\n        }\n        x\n    }\n\n    fn sum_from_first(&self, mut\
-    \ idx: usize) -> T {\n        assert!(idx <= self.size);\n        let mut sum\
-    \ = self.zero.clone();\n        while idx > 0 {\n            sum += self.data[idx].clone();\n\
-    \            idx -= idx & idx.wrapping_neg();\n        }\n        sum\n    }\n\
-    }\n\n/// From https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/fenwicktree.rs\n\
-    #[cfg(test)]\nmod tests {\n    use super::*;\n    use std::ops::Bound::*;\n\n\
-    \    #[test]\n    fn fenwick_tree_works() {\n        let mut bit = FenwickTree::<i64>::new(5,\
-    \ 0i64);\n        // [1, 2, 3, 4, 5]\n        for i in 0..5 {\n            bit.add(i,\
-    \ i as i64 + 1);\n        }\n        assert_eq!(bit.sum(0..5), 15);\n        assert_eq!(bit.sum(0..4),\
-    \ 10);\n        assert_eq!(bit.sum(1..3), 5);\n\n        assert_eq!(bit.sum(..),\
-    \ 15);\n        assert_eq!(bit.sum(..2), 3);\n        assert_eq!(bit.sum(..=2),\
-    \ 6);\n        assert_eq!(bit.sum(1..), 14);\n        assert_eq!(bit.sum(1..=3),\
-    \ 9);\n        assert_eq!(bit.sum((Excluded(0), Included(2))), 5);\n    }\n}\n"
+    \ val - self.get(idx));\n    }\n\n    pub fn get(&self, idx: usize) -> T {\n \
+    \       assert!(idx < self.size);\n        if (idx & 1) == 0 {\n            self.data[idx\
+    \ + 1].clone()\n        } else {\n            self.sum(idx..=idx)\n        }\n\
+    \    }\n\n    pub fn sum<R: RangeBounds<usize>>(&self, range: R) -> T {\n    \
+    \    use std::ops::Bound::*;\n        let start = match range.start_bound() {\n\
+    \            Included(&s) => s,\n            Excluded(&s) => s + 1,\n        \
+    \    Unbounded => 0,\n        };\n        let end = match range.end_bound() {\n\
+    \            Included(&e) => e + 1,\n            Excluded(&e) => e,\n        \
+    \    Unbounded => self.size,\n        };\n        assert!(start <= end && end\
+    \ <= self.size);\n        self.sum_from_first(end) - self.sum_from_first(start)\n\
+    \    }\n\n    /// `a[0] + ... + a[x - 1] < w` \u3092\u6E80\u305F\u3059\u6700\u5927\
+    \u306E `x` \u3092\u8FD4\u3059  \n    /// \u306A\u3051\u308C\u3070 `self.size`\
+    \ \u3092\u8FD4\u3059\n    pub fn lower_bound(&self, mut w: T) -> usize\n    where\n\
+    \        T: PartialOrd + SubAssign,\n    {\n        if w <= self.zero {\n    \
+    \        return 0;\n        }\n        let mut x = 0;\n        let mut k = self.pow_2_floor;\n\
+    \        while k > 0 {\n            if x + k <= self.size && self.data[x + k]\
+    \ < w {\n                w -= self.data[x + k].clone();\n                x +=\
+    \ k;\n            }\n            k >>= 1;\n        }\n        x\n    }\n\n   \
+    \ fn sum_from_first(&self, mut idx: usize) -> T {\n        assert!(idx <= self.size);\n\
+    \        let mut sum = self.zero.clone();\n        while idx > 0 {\n         \
+    \   sum += self.data[idx].clone();\n            idx -= idx & idx.wrapping_neg();\n\
+    \        }\n        sum\n    }\n}\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\
+    \    use rand::prelude::*;\n\n    #[test]\n    fn test_sum_get() {\n        const\
+    \ SIZE: usize = 1000;\n        let mut rng = thread_rng();\n        let mut ft\
+    \ = FenwickTree::new(SIZE, 0_i64);\n        let mut list = vec![0; SIZE];\n  \
+    \      const MIN: i64 = -1000_000_000;\n        const MAX: i64 = 1000_000_000;\n\
+    \n        for id in 0..SIZE {\n            let add = rng.gen_range(MIN..=MAX);\n\
+    \            ft.add(id, add);\n            list[id] += add;\n        }\n\n   \
+    \     for _ in 0..SIZE {\n            let idx = rng.gen_range(0..SIZE);\n    \
+    \        let add = rng.gen_range(MIN..=MAX);\n            ft.add(idx, add);\n\
+    \            list[idx] += add;\n\n            let left = rng.gen_range(0..SIZE);\n\
+    \            let right = rng.gen_range(left..=SIZE);\n            let sum = list[left..right].iter().sum::<i64>();\n\
+    \            assert_eq!(ft.sum(left..right), sum);\n        }\n\n        for id\
+    \ in 0..SIZE {\n            assert_eq!(ft.get(id), list[id]);\n        }\n   \
+    \ }\n\n    #[test]\n    fn test_lower_bound() {\n        let mut rng = thread_rng();\n\
+    \        const SIZE: usize = 1000;\n        const MAX: i64 = 10;\n        let\
+    \ mut ft = FenwickTree::new(SIZE, 0_i64);\n        let mut list = vec![0; SIZE];\n\
+    \        for id in 0..SIZE {\n            let add = rng.gen_range(0..=MAX);\n\
+    \            ft.add(id, add);\n            list[id] += add;\n        }\n     \
+    \   for _ in 0..SIZE {\n            let id = rng.gen_range(0..SIZE);\n       \
+    \     let add = rng.gen_range(0..=MAX);\n            ft.add(id, add);\n      \
+    \      list[id] += add;\n\n            let lower_bound = rng.gen_range(1..list.iter().sum::<i64>());\n\
+    \            let id = ft.lower_bound(lower_bound);\n            let sum = list[..id].iter().sum::<i64>();\n\
+    \            assert!(sum < lower_bound);\n            assert!(sum + list[id] >=\
+    \ lower_bound);\n\n            let lower_bound = list.iter().sum::<i64>() + 1;\n\
+    \            let id = ft.lower_bound(lower_bound);\n            assert_eq!(id,\
+    \ SIZE);\n        }\n    }\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/data_structure/fenwick_tree/src/lib.rs
   requiredBy:
   - verify/AtCoder/abc384g/src/main.rs
   - crates/data_structure/raq_rsq/src/lib.rs
-  timestamp: '2024-10-20 15:52:04+09:00'
+  timestamp: '2024-12-16 12:58:27+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/vertex_add_subtree_sum/src/main.rs

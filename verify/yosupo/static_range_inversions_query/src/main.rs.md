@@ -51,7 +51,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/static_range_inversions_query/src/main.rs
   requiredBy: []
-  timestamp: '2024-12-15 22:00:14+09:00'
+  timestamp: '2024-12-16 12:58:27+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/static_range_inversions_query/src/main.rs
