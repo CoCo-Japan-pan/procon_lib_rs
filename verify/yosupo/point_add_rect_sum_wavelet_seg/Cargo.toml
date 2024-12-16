@@ -1,5 +1,5 @@
 [package]
-name = "point_add_rectangle_sum"
+name = "point_add_rect_sum_wavelet_seg"
 version = "0.1.0"
 edition = "2021"
 
@@ -8,4 +8,4 @@ edition = "2021"
 [dependencies]
 proconio = { version = "=0.4.5", features = ["derive"] }
 algebra = { path = "../../../crates/algebra" }
-segtree_2d_compressed = { path = "../../../crates/data_structure/segtree_2d_compressed" }
+wavelet_matrix_segtree = { path = "../../../crates/wavelet/wavelet_matrix_segtree" }
