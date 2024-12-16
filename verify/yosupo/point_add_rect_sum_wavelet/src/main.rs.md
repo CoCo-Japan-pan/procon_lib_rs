@@ -60,7 +60,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
   requiredBy: []
-  timestamp: '2024-12-02 14:06:45+09:00'
+  timestamp: '2024-12-16 14:54:34+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs

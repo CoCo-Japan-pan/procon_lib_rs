@@ -63,7 +63,7 @@ data:
   isVerificationFile: true
   path: verify/yukicoder/no_1625_wavelet/src/main.rs
   requiredBy: []
-  timestamp: '2024-12-02 14:06:45+09:00'
+  timestamp: '2024-12-16 14:54:34+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yukicoder/no_1625_wavelet/src/main.rs

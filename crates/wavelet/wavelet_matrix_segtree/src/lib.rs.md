@@ -43,32 +43,36 @@ data:
     \u6728\u3088\u308A\u3082\u9AD8\u901F\n\nuse algebra::{Commutative, Group, Monoid};\n\
     use bitdict::BitDict;\nuse internal_bits::ceil_log2;\nuse internal_type_traits::Integral;\n\
     use segtree::SegTree;\nuse std::ops::RangeBounds;\n\n/// \u5EA7\u6A19\u5727\u7E2E\
-    \u3092\u3059\u308BWrapper T\u304C\u5EA7\u6A19\u5727\u7E2E\u3059\u308B\u578B\n\
-    pub struct WMSegWrapper<M: Monoid + Commutative, T: Integral> {\n    wm: WaveletMatrixSegTree<M>,\n\
-    \    sorted_y: Vec<T>,\n    x_y: Vec<(T, T)>,\n}\n\nimpl<M: Monoid + Commutative,\
-    \ T: Integral> WMSegWrapper<M, T> {\n    /// \u3059\u3079\u3066\u5358\u4F4D\u5143\
-    \u3067\u521D\u671F\u5316\u3059\u308B\u5834\u5408\n    pub fn new(update_points:\
-    \ Vec<(T, T)>) -> Self {\n        Self::from_weight(update_points, &[])\n    }\n\
-    \n    /// update_points\u306F\u66F4\u65B0\u30AF\u30A8\u30EA\u306E\u3042\u308B\u70B9\
-    \u306E\u5EA7\u6A19\u306E\u30EA\u30B9\u30C8 \u305F\u3060\u3057init_weights\u306E\
-    \u70B9\u3082\u542B\u3081\u308B  \n    /// init_weights\u306F\u521D\u671F\u72B6\
-    \u614B\u306E\u70B9\u306E\u5EA7\u6A19\u3068\u91CD\u307F\u306E\u30EA\u30B9\u30C8\
-    \ (x, y, w)  \n    /// \u3082\u3057init_weights\u306E\u70B9\u304C\u91CD\u8907\u3059\
-    \u308B\u5834\u5408\u306F\u3001\u305D\u308C\u3089monoid\u306E\u7A4D\u3068\u3057\
-    \u3066\u521D\u671F\u5316\u3059\u308B\u306E\u3067\u6CE8\u610F(\u4E0A\u66F8\u304D\
-    \u3057\u305F\u3044\u5834\u5408\u306F\u4E8B\u524D\u306B\u91CD\u8907\u3092\u6D88\
-    \u3059\u524D\u51E6\u7406\u3092\u3057\u3066\u304F\u3060\u3055\u3044)\n    pub fn\
-    \ from_weight(mut update_points: Vec<(T, T)>, init_weights: &[(T, T, M::Target)])\
-    \ -> Self {\n        update_points.sort_unstable();\n        update_points.dedup();\n\
-    \        let mut sorted_y = update_points\n            .iter()\n            .map(|(_,\
-    \ y)| y)\n            .copied()\n            .collect::<Vec<_>>();\n        sorted_y.sort_unstable();\n\
-    \        let compressed_list = update_points\n            .iter()\n          \
-    \  .map(|(_, y)| sorted_y.binary_search(y).unwrap())\n            .collect::<Vec<_>>();\n\
-    \        let mut weight_list = vec![M::id_element(); update_points.len()];\n \
-    \       for (x, y, w) in init_weights {\n            let idx = update_points\n\
-    \                .binary_search(&(*x, *y))\n                .expect(\"init_weight\
-    \ points are not in update_points!!!\");\n            weight_list[idx] = M::binary_operation(&weight_list[idx],\
-    \ w);\n        }\n        let wm = WaveletMatrixSegTree::<M>::from_weight(&compressed_list,\
+    \u3068x\u5EA7\u6A19\u306E\u91CD\u8907\u9664\u53BB\u3092\u884C\u3046Wrapper T\u304C\
+    \u5EA7\u6A19\u5727\u7E2E\u3059\u308B\u578B  \n/// \u53EF\u63DB\u306A\u30E2\u30CE\
+    \u30A4\u30C9\u306E\u30AA\u30D5\u30E9\u30A4\u30F3\u306A1\u70B9\u66F4\u65B0\u3001\
+    \u4E8C\u6B21\u5143\u77E9\u5F62\u533A\u9593\u548C\u30AF\u30A8\u30EA\u306B\u5BFE\
+    \u5FDC\npub struct WMSegWrapper<M: Monoid + Commutative, T: Integral> {\n    wm:\
+    \ WaveletMatrixSegTree<M>,\n    sorted_y: Vec<T>,\n    x_y: Vec<(T, T)>,\n}\n\n\
+    impl<M: Monoid + Commutative, T: Integral> WMSegWrapper<M, T> {\n    /// \u3059\
+    \u3079\u3066\u5358\u4F4D\u5143\u3067\u521D\u671F\u5316\u3059\u308B\u5834\u5408\
+    \n    pub fn new(update_points: Vec<(T, T)>) -> Self {\n        Self::from_weight(update_points,\
+    \ &[])\n    }\n\n    /// update_points\u306F\u66F4\u65B0\u30AF\u30A8\u30EA\u306E\
+    \u3042\u308B\u70B9\u306E\u5EA7\u6A19\u306E\u30EA\u30B9\u30C8 \u305F\u3060\u3057\
+    init_weights\u306E\u70B9\u3082\u542B\u3081\u308B  \n    /// init_weights\u306F\
+    \u521D\u671F\u72B6\u614B\u306E\u70B9\u306E\u5EA7\u6A19\u3068\u91CD\u307F\u306E\
+    \u30EA\u30B9\u30C8 (x, y, w)  \n    /// \u3082\u3057init_weights\u306E\u70B9\u304C\
+    \u91CD\u8907\u3059\u308B\u5834\u5408\u306F\u3001\u305D\u308C\u3089monoid\u306E\
+    \u7A4D\u3068\u3057\u3066\u521D\u671F\u5316\u3059\u308B\u306E\u3067\u6CE8\u610F\
+    (\u4E0A\u66F8\u304D\u3057\u305F\u3044\u5834\u5408\u306F\u4E8B\u524D\u306B\u91CD\
+    \u8907\u3092\u6D88\u3059\u524D\u51E6\u7406\u3092\u3057\u3066\u304F\u3060\u3055\
+    \u3044)\n    pub fn from_weight(mut update_points: Vec<(T, T)>, init_weights:\
+    \ &[(T, T, M::Target)]) -> Self {\n        update_points.sort_unstable();\n  \
+    \      update_points.dedup();\n        let mut sorted_y = update_points\n    \
+    \        .iter()\n            .map(|(_, y)| y)\n            .copied()\n      \
+    \      .collect::<Vec<_>>();\n        sorted_y.sort_unstable();\n        let compressed_list\
+    \ = update_points\n            .iter()\n            .map(|(_, y)| sorted_y.binary_search(y).unwrap())\n\
+    \            .collect::<Vec<_>>();\n        let mut weight_list = vec![M::id_element();\
+    \ update_points.len()];\n        for (x, y, w) in init_weights {\n           \
+    \ let idx = update_points\n                .binary_search(&(*x, *y))\n       \
+    \         .expect(\"init_weight points are not in update_points!!!\");\n     \
+    \       weight_list[idx] = M::binary_operation(&weight_list[idx], w);\n      \
+    \  }\n        let wm = WaveletMatrixSegTree::<M>::from_weight(&compressed_list,\
     \ &weight_list);\n        Self {\n            wm,\n            sorted_y,\n   \
     \         x_y: update_points,\n        }\n    }\n\n    fn get_pos_range<R: RangeBounds<T>>(&self,\
     \ range: R) -> (usize, usize) {\n        use std::ops::Bound::*;\n        let\
@@ -86,20 +90,32 @@ data:
     \            Excluded(&r) => r,\n            Unbounded => T::max_value(),\n  \
     \      };\n        assert!(l <= r);\n        let l = self.sorted_y.partition_point(|&y|\
     \ y < l);\n        let r = self.sorted_y.partition_point(|&y| y < r);\n      \
-    \  (l, r)\n    }\n\n    pub fn set(&mut self, x: T, y: T, new_val: M::Target)\
+    \  (l, r)\n    }\n\n    /// \u70B9(x, y)\u306E\u91CD\u307F\u3092new_val\u306B\u66F4\
+    \u65B0\u3059\u308B\n    pub fn set(&mut self, x: T, y: T, new_val: M::Target)\
     \ {\n        let x = self\n            .x_y\n            .binary_search(&(x, y))\n\
     \            .expect(\"(x, y) is not in update_queries!!!\");\n        self.wm.set(x,\
-    \ new_val);\n    }\n\n    pub fn get(&self, x: T, y: T) -> M::Target {\n     \
-    \   let Ok(x) = self.x_y.binary_search(&(x, y)) else {\n            return M::id_element();\n\
-    \        };\n        self.wm.get_weight(x)\n    }\n\n    pub fn rect_sum_monoid<R1:\
-    \ RangeBounds<T>, R2: RangeBounds<T>>(\n        &self,\n        x_range: R1,\n\
-    \        y_range: R2,\n    ) -> M::Target {\n        let (xl, xr) = self.get_pos_range(x_range);\n\
-    \        let (y_low, y_hi) = self.get_num_range(y_range);\n        self.wm.rect_sum_monoid(xl,\
-    \ xr, y_low, y_hi)\n    }\n\n    pub fn rect_sum_group<R1: RangeBounds<T>, R2:\
-    \ RangeBounds<T>>(\n        &self,\n        x_range: R1,\n        y_range: R2,\n\
-    \    ) -> M::Target\n    where\n        M: Group,\n    {\n        let (xl, xr)\
-    \ = self.get_pos_range(x_range);\n        let (y_low, y_hi) = self.get_num_range(y_range);\n\
-    \        self.wm.rect_sum_group(xl, xr, y_low, y_hi)\n    }\n}\n\nstruct WaveletMatrixSegTree<M:\
+    \ new_val);\n    }\n\n    /// \u70B9(x, y)\u306E\u91CD\u307F\u3092\u53D6\u5F97\
+    \u3059\u308B\n    pub fn get(&self, x: T, y: T) -> M::Target {\n        let Ok(x)\
+    \ = self.x_y.binary_search(&(x, y)) else {\n            return M::id_element();\n\
+    \        };\n        self.wm.get_weight(x)\n    }\n\n    /// \u30E2\u30CE\u30A4\
+    \u30C9\u3092\u91CD\u307F\u3068\u3057\u3066\u8F09\u305B\u3066\u3044\u308B\u5834\
+    \u5408\u306B\u304A\u3051\u308B\u3001`[x_begin, x_end)`, `[y_begin, y_end)`\u5185\
+    \u306E\u70B9\u306E\u91CD\u307F\u306E\u548C\u3092\u6C42\u3081\u308B\n    pub fn\
+    \ rect_sum_monoid<R1: RangeBounds<T>, R2: RangeBounds<T>>(\n        &self,\n \
+    \       x_range: R1,\n        y_range: R2,\n    ) -> M::Target {\n        let\
+    \ (xl, xr) = self.get_pos_range(x_range);\n        let (y_low, y_hi) = self.get_num_range(y_range);\n\
+    \        self.wm.rect_sum_monoid(xl, xr, y_low, y_hi)\n    }\n\n    /// \u7FA4\
+    \u3092\u91CD\u307F\u3068\u3057\u3066\u8F09\u305B\u3066\u3044\u308B\u5834\u5408\
+    \u306B\u304A\u3051\u308B\u3001`[x_begin, x_end)`, `[y_begin, y_end)`\u5185\u306E\
+    \u70B9\u306E\u91CD\u307F\u306E\u548C\u3092\u6C42\u3081\u308B  \n    /// prefix_sum\u3092\
+    \u4E8C\u5EA6\u6C42\u3081\u308B\u975E\u518D\u5E30\u306E\u5B9F\u88C5\u306A\u306E\
+    \u3067\u30E2\u30CE\u30A4\u30C9\u7248\u3088\u308A\u5B9A\u6570\u500D\u304C\u826F\
+    \u3044\u306F\u305A\n    pub fn rect_sum_group<R1: RangeBounds<T>, R2: RangeBounds<T>>(\n\
+    \        &self,\n        x_range: R1,\n        y_range: R2,\n    ) -> M::Target\n\
+    \    where\n        M: Group,\n    {\n        let (xl, xr) = self.get_pos_range(x_range);\n\
+    \        let (y_low, y_hi) = self.get_num_range(y_range);\n        self.wm.rect_sum_group(xl,\
+    \ xr, y_low, y_hi)\n    }\n}\n\n/// Wavelet Matrix \u306B\u30D3\u30C3\u30C8\u3054\
+    \u3068\u306ESegment Tree\u3092\u8FFD\u52A0\u3057\u305F\u3082\u306E  \nstruct WaveletMatrixSegTree<M:\
     \ Monoid + Commutative> {\n    len: usize,\n    /// indices[i] = \u4E0B\u304B\u3089\
     i\u30D3\u30C3\u30C8\u76EE\u306B\u95A2\u3059\u308B\u7D22\u5F15\n    indices: Vec<BitDict>,\n\
     \    /// \u30D3\u30C3\u30C8\u3054\u3068\u306ESegTree\n    segtree_per_bit: Vec<SegTree<M>>,\n\
@@ -147,28 +163,30 @@ data:
     \                begin = rank0_begin;\n                end = rank0_end;\n    \
     \        }\n        }\n        ret\n    }\n\n    /// \u7FA4\u3092\u91CD\u307F\u3068\
     \u3057\u3066\u8F09\u305B\u3066\u3044\u308B\u5834\u5408\u306B\u304A\u3051\u308B\
-    \u3001\u77E9\u5F62\u533A\u9593\u548C\u5185\u306E\u70B9\u306E\u91CD\u307F\u306E\
-    \u548C\u3092\u6C42\u3081\u308B  \n    /// prefix_sum\u3092\u4E8C\u5EA6\u6C42\u3081\
-    \u3066\u5F15\u304F \u975E\u518D\u5E30\u306A\u306E\u3067\u5B9A\u6570\u500D\u304C\
-    \u826F\u3044\u306F\u305A\n    pub fn rect_sum_group(\n        &self,\n       \
-    \ x_begin: usize,\n        x_end: usize,\n        y_begin: usize,\n        y_end:\
-    \ usize,\n    ) -> M::Target\n    where\n        M: Group,\n    {\n        let\
-    \ s2 = self.prefix_rect_sum(x_begin, x_end, y_end);\n        let s1 = self.prefix_rect_sum(x_begin,\
-    \ x_end, y_begin);\n        M::binary_operation(&M::inverse(&s1), &s2)\n    }\n\
-    \n    /// \u30E2\u30CE\u30A4\u30C9\u3092\u91CD\u307F\u3068\u3057\u3066\u8F09\u305B\
-    \u3066\u3044\u308B\u5834\u5408\u306B\u304A\u3051\u308B\u3001\u77E9\u5F62\u533A\
-    \u9593\u548C\u5185\u306E\u70B9\u306E\u91CD\u307F\u306E\u548C\u3092\u6C42\u3081\
-    \u308B  \n    /// \u5B8C\u5168\u306B\u8986\u3046\u304B\u5916\u308C\u308B\u304B\
-    \u3059\u308B\u307E\u3067\u518D\u5E30\u7684\u306B\u4E8C\u51AA\u306E\u9577\u3055\
-    \u306E\u533A\u9593\u306B\u5206\u3051\u3066\u3044\u304F\n    pub fn rect_sum_monoid(&self,\
-    \ xl: usize, xr: usize, y_low: usize, y_hi: usize) -> M::Target {\n        let\
-    \ mut ret = M::id_element();\n        let ln = self.indices.len();\n        self.dfs(&mut\
-    \ ret, ln, xl, xr, 0, 1 << ln, y_low, y_hi);\n        ret\n    }\n\n    #[allow(clippy::too_many_arguments)]\n\
-    \    fn dfs(\n        &self,\n        ret: &mut M::Target,\n        ln: usize,\n\
-    \        xl: usize,\n        xr: usize,\n        yl: usize,\n        yr: usize,\n\
-    \        y_low: usize,\n        y_hi: usize,\n    ) {\n        assert_eq!(yr -\
-    \ yl, 1 << ln);\n        if y_hi <= yl || yr <= y_low {\n            return;\n\
-    \        }\n        if y_low <= yl && yr <= y_hi {\n            *ret = M::binary_operation(ret,\
+    \u3001`[x_begin, x_end)`, `[y_begin, y_end)`\u5185\u306E\u70B9\u306E\u91CD\u307F\
+    \u306E\u548C\u3092\u6C42\u3081\u308B  \n    /// prefix_sum\u3092\u4E8C\u5EA6\u6C42\
+    \u3081\u3066\u5F15\u304F \u975E\u518D\u5E30\u306A\u306E\u3067\u5B9A\u6570\u500D\
+    \u304C\u826F\u3044\u306F\u305A\n    pub fn rect_sum_group(\n        &self,\n \
+    \       x_begin: usize,\n        x_end: usize,\n        y_begin: usize,\n    \
+    \    y_end: usize,\n    ) -> M::Target\n    where\n        M: Group,\n    {\n\
+    \        let s2 = self.prefix_rect_sum(x_begin, x_end, y_end);\n        let s1\
+    \ = self.prefix_rect_sum(x_begin, x_end, y_begin);\n        M::binary_operation(&M::inverse(&s1),\
+    \ &s2)\n    }\n\n    /// \u30E2\u30CE\u30A4\u30C9\u3092\u91CD\u307F\u3068\u3057\
+    \u3066\u8F09\u305B\u3066\u3044\u308B\u5834\u5408\u306B\u304A\u3051\u308B\u3001\
+    `[x_begin, x_end)`, `[y_begin, y_end)`\u5185\u306E\u70B9\u306E\u91CD\u307F\u306E\
+    \u548C\u3092\u6C42\u3081\u308B  \n    /// \u5B8C\u5168\u306B\u8986\u3046\u304B\
+    \u5916\u308C\u308B\u304B\u3059\u308B\u307E\u3067\u518D\u5E30\u7684\u306B\u4E8C\
+    \u51AA\u306E\u9577\u3055\u306E\u533A\u9593\u306B\u5206\u3051\u3066\u3044\u304F\
+    \n    pub fn rect_sum_monoid(\n        &self,\n        x_begin: usize,\n     \
+    \   x_end: usize,\n        y_begin: usize,\n        y_end: usize,\n    ) -> M::Target\
+    \ {\n        let mut ret = M::id_element();\n        let ln = self.indices.len();\n\
+    \        self.dfs(&mut ret, ln, x_begin, x_end, 0, 1 << ln, y_begin, y_end);\n\
+    \        ret\n    }\n\n    #[allow(clippy::too_many_arguments)]\n    fn dfs(\n\
+    \        &self,\n        ret: &mut M::Target,\n        ln: usize,\n        xl:\
+    \ usize,\n        xr: usize,\n        yl: usize,\n        yr: usize,\n       \
+    \ y_low: usize,\n        y_hi: usize,\n    ) {\n        assert_eq!(yr - yl, 1\
+    \ << ln);\n        if y_hi <= yl || yr <= y_low {\n            return;\n     \
+    \   }\n        if y_low <= yl && yr <= y_hi {\n            *ret = M::binary_operation(ret,\
     \ &self.segtree_per_bit[ln].prod(xl..xr));\n            return;\n        }\n \
     \       let ln = ln - 1;\n        let rank1_xl = self.indices[ln].rank_1(xl);\n\
     \        let rank1_xr = self.indices[ln].rank_1(xr);\n        let rank0_all =\
@@ -244,7 +262,7 @@ data:
   isVerificationFile: false
   path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2024-12-02 17:06:04+09:00'
+  timestamp: '2024-12-16 14:54:34+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/point_add_rect_sum_wavelet/src/main.rs

@@ -40,14 +40,12 @@ data:
     \nuse bitdict::BitDict;\nuse internal_bits::ceil_log2;\nuse std::ops::RangeBounds;\n\
     \n/// 0\u4EE5\u4E0A\u306E\u9759\u7684\u306A\u6570\u5217\u3092\u6271\u3046  \n\
     /// \u6570\u5024\u306E\u7A2E\u985E\u6570\u3092\u03C3\u3068\u3057\u3066\u3001\u69D8\
-    \u3005\u306A\u64CD\u4F5C\u3092O(log\u03C3)\u3067\u884C\u3048\u308B  \n/// \u8FFD\
-    \u52A0\u3067\u7D2F\u7A4D\u548C\u3092\u30D3\u30C3\u30C8\u3054\u3068\u306B\u6301\
-    \u3066\u3070\u3001range_sum\u3082O(log\u03C3)\u3067\u6C42\u3081\u3089\u308C\u308B\
-    \n/// 0-based\n#[derive(Debug, Clone)]\npub struct WaveletMatrix {\n    upper_bound:\
-    \ usize,\n    len: usize,\n    /// indices[i] = \u4E0B\u304B\u3089i\u30D3\u30C3\
-    \u30C8\u76EE\u306B\u95A2\u3059\u308B\u7D22\u5F15\n    indices: Vec<BitDict>,\n\
-    \    /// \u30BD\u30FC\u30C8\u3055\u308C\u305F\u6700\u7D42\u7684\u306A\u6570\u5217\
-    \u306E\u8981\u7D20\u306E\u958B\u59CB\u4F4D\u7F6E\n    sorted_positions: Vec<Option<usize>>,\n\
+    \u3005\u306A\u64CD\u4F5C\u3092O(log\u03C3)\u3067\u884C\u3048\u308B  \n/// 0-based\n\
+    #[derive(Debug, Clone)]\npub struct WaveletMatrix {\n    upper_bound: usize,\n\
+    \    len: usize,\n    /// indices[i] = \u4E0B\u304B\u3089i\u30D3\u30C3\u30C8\u76EE\
+    \u306B\u95A2\u3059\u308B\u7D22\u5F15\n    indices: Vec<BitDict>,\n    /// \u30BD\
+    \u30FC\u30C8\u3055\u308C\u305F\u6700\u7D42\u7684\u306A\u6570\u5217\u306E\u8981\
+    \u7D20\u306E\u958B\u59CB\u4F4D\u7F6E\n    sorted_positions: Vec<Option<usize>>,\n\
     \    /// \u5404\u6570\u5024\u306E\u500B\u6570 select\u3067\u4E0D\u6B63\u306A\u64CD\
     \u4F5C\u3092\u9632\u3050\u305F\u3081\n    counts: Vec<usize>,\n}\n\nimpl WaveletMatrix\
     \ {\n    /// 0\u4EE5\u4E0A\u306E\u6570\u5217\u3092\u53D7\u3051\u53D6\u308A\u3001\
@@ -234,7 +232,7 @@ data:
   isVerificationFile: false
   path: crates/wavelet/wavelet_matrix/src/lib.rs
   requiredBy: []
-  timestamp: '2024-10-09 22:07:44+09:00'
+  timestamp: '2024-12-16 14:54:34+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/range_kth_smallest/src/main.rs
