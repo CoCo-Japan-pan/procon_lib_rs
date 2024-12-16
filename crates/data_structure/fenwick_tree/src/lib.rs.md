@@ -61,38 +61,40 @@ data:
     \    Unbounded => self.size,\n        };\n        assert!(start <= end && end\
     \ <= self.size);\n        self.sum_from_first(end) - self.sum_from_first(start)\n\
     \    }\n\n    /// `a[0] + ... + a[x - 1] < w` \u3092\u6E80\u305F\u3059\u6700\u5927\
-    \u306E `x` \u3092\u8FD4\u3059  \n    /// \u306A\u3051\u308C\u3070 `self.size`\
-    \ \u3092\u8FD4\u3059\n    pub fn lower_bound(&self, mut w: T) -> usize\n    where\n\
-    \        T: PartialOrd + SubAssign,\n    {\n        if w <= self.zero {\n    \
-    \        return 0;\n        }\n        let mut x = 0;\n        let mut k = self.pow_2_floor;\n\
-    \        while k > 0 {\n            if x + k <= self.size && self.data[x + k]\
-    \ < w {\n                w -= self.data[x + k].clone();\n                x +=\
-    \ k;\n            }\n            k >>= 1;\n        }\n        x\n    }\n\n   \
-    \ fn sum_from_first(&self, mut idx: usize) -> T {\n        assert!(idx <= self.size);\n\
-    \        let mut sum = self.zero.clone();\n        while idx > 0 {\n         \
-    \   sum += self.data[idx].clone();\n            idx -= idx & idx.wrapping_neg();\n\
-    \        }\n        sum\n    }\n}\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n\
-    \    use rand::prelude::*;\n\n    #[test]\n    fn test_sum_get() {\n        const\
-    \ SIZE: usize = 1000;\n        let mut rng = thread_rng();\n        let mut ft\
-    \ = FenwickTree::new(SIZE, 0_i64);\n        let mut list = vec![0; SIZE];\n  \
-    \      const MIN: i64 = -1000_000_000;\n        const MAX: i64 = 1000_000_000;\n\
-    \n        for id in 0..SIZE {\n            let add = rng.gen_range(MIN..=MAX);\n\
-    \            ft.add(id, add);\n            list[id] += add;\n        }\n\n   \
-    \     for _ in 0..SIZE {\n            let idx = rng.gen_range(0..SIZE);\n    \
-    \        let add = rng.gen_range(MIN..=MAX);\n            ft.add(idx, add);\n\
-    \            list[idx] += add;\n\n            let left = rng.gen_range(0..SIZE);\n\
-    \            let right = rng.gen_range(left..=SIZE);\n            let sum = list[left..right].iter().sum::<i64>();\n\
-    \            assert_eq!(ft.sum(left..right), sum);\n        }\n\n        for id\
-    \ in 0..SIZE {\n            assert_eq!(ft.get(id), list[id]);\n        }\n   \
-    \ }\n\n    #[test]\n    fn test_lower_bound() {\n        let mut rng = thread_rng();\n\
-    \        const SIZE: usize = 1000;\n        const MAX: i64 = 10;\n        let\
-    \ mut ft = FenwickTree::new(SIZE, 0_i64);\n        let mut list = vec![0; SIZE];\n\
-    \        for id in 0..SIZE {\n            let add = rng.gen_range(0..=MAX);\n\
-    \            ft.add(id, add);\n            list[id] += add;\n        }\n     \
-    \   for _ in 0..SIZE {\n            let id = rng.gen_range(0..SIZE);\n       \
-    \     let add = rng.gen_range(0..=MAX);\n            ft.add(id, add);\n      \
-    \      list[id] += add;\n\n            let lower_bound = rng.gen_range(1..list.iter().sum::<i64>());\n\
-    \            let id = ft.lower_bound(lower_bound);\n            let sum = list[..id].iter().sum::<i64>();\n\
+    \u306E `x` \u3092\u8FD4\u3059  \n    /// \u5358\u8ABF\u6027(w\u672A\u6E80\u3068\
+    w\u4EE5\u4E0A\u304C\u5206\u304B\u308C\u3066\u3044\u308B)\u3092\u4EEE\u5B9A  \n\
+    \    /// `w <= zero` \u306E\u3068\u304D\u306F `0` \u3092\u8FD4\u3059\n    pub\
+    \ fn lower_bound(&self, mut w: T) -> usize\n    where\n        T: PartialOrd +\
+    \ SubAssign,\n    {\n        if w <= self.zero {\n            return 0;\n    \
+    \    }\n        let mut x = 0;\n        let mut k = self.pow_2_floor;\n      \
+    \  while k > 0 {\n            if x + k <= self.size && self.data[x + k] < w {\n\
+    \                w -= self.data[x + k].clone();\n                x += k;\n   \
+    \         }\n            k >>= 1;\n        }\n        x\n    }\n\n    fn sum_from_first(&self,\
+    \ mut idx: usize) -> T {\n        assert!(idx <= self.size);\n        let mut\
+    \ sum = self.zero.clone();\n        while idx > 0 {\n            sum += self.data[idx].clone();\n\
+    \            idx -= idx & idx.wrapping_neg();\n        }\n        sum\n    }\n\
+    }\n\n#[cfg(test)]\nmod tests {\n    use super::*;\n    use rand::prelude::*;\n\
+    \n    #[test]\n    fn test_sum_get() {\n        const SIZE: usize = 1000;\n  \
+    \      let mut rng = thread_rng();\n        let mut ft = FenwickTree::new(SIZE,\
+    \ 0_i64);\n        let mut list = vec![0; SIZE];\n        const MIN: i64 = -1000_000_000;\n\
+    \        const MAX: i64 = 1000_000_000;\n\n        for id in 0..SIZE {\n     \
+    \       let add = rng.gen_range(MIN..=MAX);\n            ft.add(id, add);\n  \
+    \          list[id] += add;\n        }\n\n        for _ in 0..SIZE {\n       \
+    \     let idx = rng.gen_range(0..SIZE);\n            let add = rng.gen_range(MIN..=MAX);\n\
+    \            ft.add(idx, add);\n            list[idx] += add;\n\n            let\
+    \ left = rng.gen_range(0..SIZE);\n            let right = rng.gen_range(left..=SIZE);\n\
+    \            let sum = list[left..right].iter().sum::<i64>();\n            assert_eq!(ft.sum(left..right),\
+    \ sum);\n        }\n\n        for id in 0..SIZE {\n            assert_eq!(ft.get(id),\
+    \ list[id]);\n        }\n    }\n\n    #[test]\n    fn test_lower_bound() {\n \
+    \       let mut rng = thread_rng();\n        const SIZE: usize = 1000;\n     \
+    \   const MAX: i64 = 10;\n        let mut ft = FenwickTree::new(SIZE, 0_i64);\n\
+    \        let mut list = vec![0; SIZE];\n        for id in 0..SIZE {\n        \
+    \    let add = rng.gen_range(0..=MAX);\n            ft.add(id, add);\n       \
+    \     list[id] += add;\n        }\n        for _ in 0..SIZE {\n            let\
+    \ id = rng.gen_range(0..SIZE);\n            let add = rng.gen_range(0..=MAX);\n\
+    \            ft.add(id, add);\n            list[id] += add;\n\n            let\
+    \ lower_bound = rng.gen_range(1..list.iter().sum::<i64>());\n            let id\
+    \ = ft.lower_bound(lower_bound);\n            let sum = list[..id].iter().sum::<i64>();\n\
     \            assert!(sum < lower_bound);\n            assert!(sum + list[id] >=\
     \ lower_bound);\n\n            let lower_bound = list.iter().sum::<i64>() + 1;\n\
     \            let id = ft.lower_bound(lower_bound);\n            assert_eq!(id,\
@@ -104,7 +106,7 @@ data:
   - verify/AtCoder/abc384g/src/main.rs
   - crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
   - crates/data_structure/raq_rsq/src/lib.rs
-  timestamp: '2024-12-16 12:58:27+09:00'
+  timestamp: '2024-12-16 15:58:03+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/vertex_add_subtree_sum/src/main.rs

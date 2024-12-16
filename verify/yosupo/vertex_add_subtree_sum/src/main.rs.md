@@ -41,7 +41,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/vertex_add_subtree_sum/src/main.rs
   requiredBy: []
-  timestamp: '2024-12-16 12:58:27+09:00'
+  timestamp: '2024-12-16 15:58:03+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/vertex_add_subtree_sum/src/main.rs
