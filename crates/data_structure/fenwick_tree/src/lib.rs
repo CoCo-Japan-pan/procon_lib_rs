@@ -30,7 +30,16 @@ impl<T: Clone + AddAssign + Sub<Output = T>> FenwickTree<T> {
 
     pub fn set(&mut self, idx: usize, val: T) {
         assert!(idx < self.size);
-        self.add(idx, val - self.sum(idx..=idx));
+        self.add(idx, val - self.get(idx));
+    }
+
+    pub fn get(&self, idx: usize) -> T {
+        assert!(idx < self.size);
+        if (idx & 1) == 0 {
+            self.data[idx + 1].clone()
+        } else {
+            self.sum(idx..=idx)
+        }
     }
 
     pub fn sum<R: RangeBounds<usize>>(&self, range: R) -> T {
@@ -43,13 +52,14 @@ impl<T: Clone + AddAssign + Sub<Output = T>> FenwickTree<T> {
         let end = match range.end_bound() {
             Included(&e) => e + 1,
             Excluded(&e) => e,
-            std::ops::Bound::Unbounded => self.size,
+            Unbounded => self.size,
         };
         assert!(start <= end && end <= self.size);
         self.sum_from_first(end) - self.sum_from_first(start)
     }
 
-    /// `a[0] + ... a[x] >= w` となる最小の x を返す
+    /// `a[0] + ... + a[x - 1] < w` を満たす最大の `x` を返す  
+    /// なければ `self.size` を返す
     pub fn lower_bound(&self, mut w: T) -> usize
     where
         T: PartialOrd + SubAssign,
@@ -80,28 +90,70 @@ impl<T: Clone + AddAssign + Sub<Output = T>> FenwickTree<T> {
     }
 }
 
-/// From https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/fenwicktree.rs
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::ops::Bound::*;
+    use rand::prelude::*;
 
     #[test]
-    fn fenwick_tree_works() {
-        let mut bit = FenwickTree::<i64>::new(5, 0i64);
-        // [1, 2, 3, 4, 5]
-        for i in 0..5 {
-            bit.add(i, i as i64 + 1);
-        }
-        assert_eq!(bit.sum(0..5), 15);
-        assert_eq!(bit.sum(0..4), 10);
-        assert_eq!(bit.sum(1..3), 5);
+    fn test_sum_get() {
+        const SIZE: usize = 1000;
+        let mut rng = thread_rng();
+        let mut ft = FenwickTree::new(SIZE, 0_i64);
+        let mut list = vec![0; SIZE];
+        const MIN: i64 = -1000_000_000;
+        const MAX: i64 = 1000_000_000;
 
-        assert_eq!(bit.sum(..), 15);
-        assert_eq!(bit.sum(..2), 3);
-        assert_eq!(bit.sum(..=2), 6);
-        assert_eq!(bit.sum(1..), 14);
-        assert_eq!(bit.sum(1..=3), 9);
-        assert_eq!(bit.sum((Excluded(0), Included(2))), 5);
+        for id in 0..SIZE {
+            let add = rng.gen_range(MIN..=MAX);
+            ft.add(id, add);
+            list[id] += add;
+        }
+
+        for _ in 0..SIZE {
+            let idx = rng.gen_range(0..SIZE);
+            let add = rng.gen_range(MIN..=MAX);
+            ft.add(idx, add);
+            list[idx] += add;
+
+            let left = rng.gen_range(0..SIZE);
+            let right = rng.gen_range(left..=SIZE);
+            let sum = list[left..right].iter().sum::<i64>();
+            assert_eq!(ft.sum(left..right), sum);
+        }
+
+        for id in 0..SIZE {
+            assert_eq!(ft.get(id), list[id]);
+        }
+    }
+
+    #[test]
+    fn test_lower_bound() {
+        let mut rng = thread_rng();
+        const SIZE: usize = 1000;
+        const MAX: i64 = 10;
+        let mut ft = FenwickTree::new(SIZE, 0_i64);
+        let mut list = vec![0; SIZE];
+        for id in 0..SIZE {
+            let add = rng.gen_range(0..=MAX);
+            ft.add(id, add);
+            list[id] += add;
+        }
+        for _ in 0..SIZE {
+            let id = rng.gen_range(0..SIZE);
+            let add = rng.gen_range(0..=MAX);
+            ft.add(id, add);
+            list[id] += add;
+
+            let lower_bound = rng.gen_range(1..list.iter().sum::<i64>());
+            let id = ft.lower_bound(lower_bound);
+            let sum = list[..id].iter().sum::<i64>();
+            assert!(sum < lower_bound);
+            assert!(sum + list[id] >= lower_bound);
+
+            let lower_bound = list.iter().sum::<i64>() + 1;
+            let id = ft.lower_bound(lower_bound);
+            assert_eq!(id, SIZE);
+        }
     }
 }
