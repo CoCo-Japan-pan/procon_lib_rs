@@ -59,7 +59,8 @@ impl<T: Clone + AddAssign + Sub<Output = T>> FenwickTree<T> {
     }
 
     /// `a[0] + ... + a[x - 1] < w` を満たす最大の `x` を返す  
-    /// なければ `self.size` を返す
+    /// 単調性(w未満とw以上が分かれている)を仮定  
+    /// `w <= zero` のときは `0` を返す
     pub fn lower_bound(&self, mut w: T) -> usize
     where
         T: PartialOrd + SubAssign,
