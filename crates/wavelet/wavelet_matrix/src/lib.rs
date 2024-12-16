@@ -6,7 +6,6 @@ use std::ops::RangeBounds;
 
 /// 0以上の静的な数列を扱う  
 /// 数値の種類数をσとして、様々な操作をO(logσ)で行える  
-/// 追加で累積和をビットごとに持てば、range_sumもO(logσ)で求められる
 /// 0-based
 #[derive(Debug, Clone)]
 pub struct WaveletMatrix {

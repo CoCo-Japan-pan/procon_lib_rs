@@ -9,7 +9,8 @@ use internal_type_traits::Integral;
 use segtree::SegTree;
 use std::ops::RangeBounds;
 
-/// 座標圧縮をするWrapper Tが座標圧縮する型
+/// 座標圧縮とx座標の重複除去を行うWrapper Tが座標圧縮する型  
+/// 可換なモノイドのオフラインな1点更新、二次元矩形区間和クエリに対応
 pub struct WMSegWrapper<M: Monoid + Commutative, T: Integral> {
     wm: WaveletMatrixSegTree<M>,
     sorted_y: Vec<T>,
@@ -89,6 +90,7 @@ impl<M: Monoid + Commutative, T: Integral> WMSegWrapper<M, T> {
         (l, r)
     }
 
+    /// 点(x, y)の重みをnew_valに更新する
     pub fn set(&mut self, x: T, y: T, new_val: M::Target) {
         let x = self
             .x_y
@@ -97,6 +99,7 @@ impl<M: Monoid + Commutative, T: Integral> WMSegWrapper<M, T> {
         self.wm.set(x, new_val);
     }
 
+    /// 点(x, y)の重みを取得する
     pub fn get(&self, x: T, y: T) -> M::Target {
         let Ok(x) = self.x_y.binary_search(&(x, y)) else {
             return M::id_element();
@@ -104,6 +107,7 @@ impl<M: Monoid + Commutative, T: Integral> WMSegWrapper<M, T> {
         self.wm.get_weight(x)
     }
 
+    /// モノイドを重みとして載せている場合における、`[x_begin, x_end)`, `[y_begin, y_end)`内の点の重みの和を求める
     pub fn rect_sum_monoid<R1: RangeBounds<T>, R2: RangeBounds<T>>(
         &self,
         x_range: R1,
@@ -114,6 +118,8 @@ impl<M: Monoid + Commutative, T: Integral> WMSegWrapper<M, T> {
         self.wm.rect_sum_monoid(xl, xr, y_low, y_hi)
     }
 
+    /// 群を重みとして載せている場合における、`[x_begin, x_end)`, `[y_begin, y_end)`内の点の重みの和を求める  
+    /// prefix_sumを二度求める非再帰の実装なのでモノイド版より定数倍が良いはず
     pub fn rect_sum_group<R1: RangeBounds<T>, R2: RangeBounds<T>>(
         &self,
         x_range: R1,
@@ -128,6 +134,7 @@ impl<M: Monoid + Commutative, T: Integral> WMSegWrapper<M, T> {
     }
 }
 
+/// Wavelet Matrix にビットごとのSegment Treeを追加したもの  
 struct WaveletMatrixSegTree<M: Monoid + Commutative> {
     len: usize,
     /// indices[i] = 下からiビット目に関する索引
@@ -207,7 +214,7 @@ impl<M: Monoid + Commutative> WaveletMatrixSegTree<M> {
         ret
     }
 
-    /// 群を重みとして載せている場合における、矩形区間和内の点の重みの和を求める  
+    /// 群を重みとして載せている場合における、`[x_begin, x_end)`, `[y_begin, y_end)`内の点の重みの和を求める  
     /// prefix_sumを二度求めて引く 非再帰なので定数倍が良いはず
     pub fn rect_sum_group(
         &self,
@@ -224,12 +231,18 @@ impl<M: Monoid + Commutative> WaveletMatrixSegTree<M> {
         M::binary_operation(&M::inverse(&s1), &s2)
     }
 
-    /// モノイドを重みとして載せている場合における、矩形区間和内の点の重みの和を求める  
+    /// モノイドを重みとして載せている場合における、`[x_begin, x_end)`, `[y_begin, y_end)`内の点の重みの和を求める  
     /// 完全に覆うか外れるかするまで再帰的に二冪の長さの区間に分けていく
-    pub fn rect_sum_monoid(&self, xl: usize, xr: usize, y_low: usize, y_hi: usize) -> M::Target {
+    pub fn rect_sum_monoid(
+        &self,
+        x_begin: usize,
+        x_end: usize,
+        y_begin: usize,
+        y_end: usize,
+    ) -> M::Target {
         let mut ret = M::id_element();
         let ln = self.indices.len();
-        self.dfs(&mut ret, ln, xl, xr, 0, 1 << ln, y_low, y_hi);
+        self.dfs(&mut ret, ln, x_begin, x_end, 0, 1 << ln, y_begin, y_end);
         ret
     }
 
