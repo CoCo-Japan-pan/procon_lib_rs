@@ -35,6 +35,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
     title: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
+  - icon: ':warning:'
+    path: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
+    title: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
     title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
@@ -81,6 +84,7 @@ data:
   - crates/math/matrix/src/lib.rs
   - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   - crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
+  - crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
   - crates/internals/internal_modint/src/lib.rs
   - crates/modint/dynamic_modint/src/lib.rs
   - crates/modint/static_modint/src/lib.rs

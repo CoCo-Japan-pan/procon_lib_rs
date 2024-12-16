@@ -6,6 +6,9 @@ data:
     path: crates/data_structure/raq_rsq/src/lib.rs
     title: crates/data_structure/raq_rsq/src/lib.rs
   - icon: ':warning:'
+    path: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
+    title: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
+  - icon: ':warning:'
     path: verify/AtCoder/abc384g/src/main.rs
     title: verify/AtCoder/abc384g/src/main.rs
   _extendedVerifiedWith:
@@ -99,6 +102,7 @@ data:
   path: crates/data_structure/fenwick_tree/src/lib.rs
   requiredBy:
   - verify/AtCoder/abc384g/src/main.rs
+  - crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
   - crates/data_structure/raq_rsq/src/lib.rs
   timestamp: '2024-12-16 12:58:27+09:00'
   verificationStatus: LIBRARY_ALL_AC

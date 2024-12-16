@@ -19,8 +19,8 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
-    title: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
+    path: verify/yosupo/point_add_rect_sum_wavelet_seg/src/main.rs
+    title: verify/yosupo/point_add_rect_sum_wavelet_seg/src/main.rs
   - icon: ':heavy_check_mark:'
     path: verify/yukicoder/no_1625_wavelet/src/main.rs
     title: verify/yukicoder/no_1625_wavelet/src/main.rs
@@ -265,7 +265,7 @@ data:
   timestamp: '2024-12-16 14:54:34+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
+  - verify/yosupo/point_add_rect_sum_wavelet_seg/src/main.rs
   - verify/yukicoder/no_1625_wavelet/src/main.rs
 documentation_of: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
 layout: document

@@ -286,6 +286,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
       title: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
+  - name: crates/wavelet/wavelet_matrix_fenwick/src
+    pages:
+    - icon: ':warning:'
+      path: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
+      title: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
   - name: crates/wavelet/wavelet_matrix_segtree/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -492,16 +497,16 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yosupo/log_of_formal_power_series/src/main.rs
       title: verify/yosupo/log_of_formal_power_series/src/main.rs
-  - name: verify/yosupo/point_add_rect_sum_wavelet/src
+  - name: verify/yosupo/point_add_rect_sum_wavelet_seg/src
     pages:
     - icon: ':heavy_check_mark:'
-      path: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
-      title: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
-  - name: verify/yosupo/point_add_rectangle_sum/src
+      path: verify/yosupo/point_add_rect_sum_wavelet_seg/src/main.rs
+      title: verify/yosupo/point_add_rect_sum_wavelet_seg/src/main.rs
+  - name: verify/yosupo/point_add_rectangle_sum_seg2d/src
     pages:
     - icon: ':heavy_check_mark:'
-      path: verify/yosupo/point_add_rectangle_sum/src/main.rs
-      title: verify/yosupo/point_add_rectangle_sum/src/main.rs
+      path: verify/yosupo/point_add_rectangle_sum_seg2d/src/main.rs
+      title: verify/yosupo/point_add_rectangle_sum_seg2d/src/main.rs
   - name: verify/yosupo/point_set_range_composite/src
     pages:
     - icon: ':heavy_check_mark:'

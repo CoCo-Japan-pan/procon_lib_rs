@@ -13,8 +13,8 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
-    path: verify/yosupo/point_add_rectangle_sum/src/main.rs
-    title: verify/yosupo/point_add_rectangle_sum/src/main.rs
+    path: verify/yosupo/point_add_rectangle_sum_seg2d/src/main.rs
+    title: verify/yosupo/point_add_rectangle_sum_seg2d/src/main.rs
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/rectangle_add_point_get/src/main.rs
     title: verify/yosupo/rectangle_add_point_get/src/main.rs
@@ -138,7 +138,7 @@ data:
   timestamp: '2024-12-02 17:06:04+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/yosupo/point_add_rectangle_sum/src/main.rs
+  - verify/yosupo/point_add_rectangle_sum_seg2d/src/main.rs
   - verify/yosupo/rectangle_add_point_get/src/main.rs
   - verify/yukicoder/no_1625/src/main.rs
 documentation_of: crates/data_structure/segtree_2d_compressed/src/lib.rs

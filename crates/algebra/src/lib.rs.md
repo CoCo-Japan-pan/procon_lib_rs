@@ -41,6 +41,9 @@ data:
   - icon: ':warning:'
     path: crates/utils/monoid_utils/src/lib.rs
     title: crates/utils/monoid_utils/src/lib.rs
+  - icon: ':warning:'
+    path: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
+    title: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
     title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
@@ -82,11 +85,11 @@ data:
     path: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
     title: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   - icon: ':heavy_check_mark:'
-    path: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
-    title: verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
+    path: verify/yosupo/point_add_rect_sum_wavelet_seg/src/main.rs
+    title: verify/yosupo/point_add_rect_sum_wavelet_seg/src/main.rs
   - icon: ':heavy_check_mark:'
-    path: verify/yosupo/point_add_rectangle_sum/src/main.rs
-    title: verify/yosupo/point_add_rectangle_sum/src/main.rs
+    path: verify/yosupo/point_add_rectangle_sum_seg2d/src/main.rs
+    title: verify/yosupo/point_add_rectangle_sum_seg2d/src/main.rs
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/point_set_range_composite/src/main.rs
     title: verify/yosupo/point_set_range_composite/src/main.rs
@@ -164,6 +167,7 @@ data:
   - verify/AtCoder/typical_068/src/main.rs
   - crates/math/matrix/src/lib.rs
   - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
+  - crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
   - crates/tree/euler_tour/src/lib.rs
   - crates/tree/rerooting/src/lib.rs
   - crates/data_structure/lazy_segtree/src/lib.rs
@@ -180,12 +184,12 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/staticrmq_sparse_table/src/main.rs
-  - verify/yosupo/point_add_rect_sum_wavelet/src/main.rs
   - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
+  - verify/yosupo/point_add_rectangle_sum_seg2d/src/main.rs
   - verify/yosupo/vertex_set_path_composite/src/main.rs
-  - verify/yosupo/point_add_rectangle_sum/src/main.rs
   - verify/yosupo/point_set_range_composite/src/main.rs
   - verify/yosupo/rectangle_add_point_get/src/main.rs
+  - verify/yosupo/point_add_rect_sum_wavelet_seg/src/main.rs
   - verify/AOJ/no_1068/src/main.rs
   - verify/AOJ/dsl_2d_dual_seg_non_commutative/src/main.rs
   - verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs

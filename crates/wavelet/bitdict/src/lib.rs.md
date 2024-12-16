@@ -11,6 +11,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
     title: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
+  - icon: ':warning:'
+    path: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
+    title: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
     title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
@@ -172,6 +175,7 @@ data:
   - crates/wavelet/wavelet_matrix/src/lib.rs
   - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   - crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
+  - crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
   - crates/wavelet/bitdict/benches/my_benchmark.rs
   timestamp: '2024-10-09 22:07:44+09:00'
   verificationStatus: LIBRARY_NO_TESTS
