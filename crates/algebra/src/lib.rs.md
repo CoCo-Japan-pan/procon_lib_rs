@@ -41,7 +41,7 @@ data:
   - icon: ':warning:'
     path: crates/utils/monoid_utils/src/lib.rs
     title: crates/utils/monoid_utils/src/lib.rs
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
     title: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
   - icon: ':heavy_check_mark:'

@@ -5,7 +5,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/raq_rsq/src/lib.rs
     title: crates/data_structure/raq_rsq/src/lib.rs
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
     title: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
   - icon: ':warning:'

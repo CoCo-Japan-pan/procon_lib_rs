@@ -17,10 +17,13 @@ data:
     path: crates/wavelet/bitdict/src/lib.rs
     title: crates/wavelet/bitdict/src/lib.rs
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: verify/yosupo/point_add_rect_sum_wavelet_fenwick/src/main.rs
+    title: verify/yosupo/point_add_rect_sum_wavelet_fenwick/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -171,8 +174,9 @@ data:
   path: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
   requiredBy: []
   timestamp: '2024-12-16 15:29:02+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - verify/yosupo/point_add_rect_sum_wavelet_fenwick/src/main.rs
 documentation_of: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
 layout: document
 redirect_from:
