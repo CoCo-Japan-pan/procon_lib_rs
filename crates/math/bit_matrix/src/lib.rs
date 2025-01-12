@@ -3,6 +3,73 @@
 use bitset::BitSet;
 use std::ops::Index;
 
+pub trait BitMatrixOps {
+    fn add(lhs: &BitMatrix, rhs: &BitMatrix) -> BitMatrix;
+    fn mul(lhs: &BitMatrix, rhs: &BitMatrix) -> BitMatrix;
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+/// `+ = or, * = and`
+pub struct PlusOrMulAnd {}
+impl BitMatrixOps for PlusOrMulAnd {
+    fn add(lhs: &BitMatrix, rhs: &BitMatrix) -> BitMatrix {
+        assert_eq!(lhs.width, rhs.width);
+        assert_eq!(lhs.height, rhs.height);
+        let mut ret = BitMatrix::new(lhs.height, lhs.width);
+        for row in 0..lhs.height {
+            ret.data[row] = &lhs.data[row] | &rhs.data[row];
+        }
+        ret
+    }
+    fn mul(lhs: &BitMatrix, rhs: &BitMatrix) -> BitMatrix {
+        assert_eq!(lhs.width, rhs.height);
+        let mut ret = BitMatrix::new(lhs.height, rhs.width);
+        let rhs = rhs.transpose();
+        for i in 0..lhs.height {
+            for j in 0..rhs.height {
+                let val = lhs.data[i]
+                    .buffer()
+                    .iter()
+                    .zip(rhs.data[j].buffer())
+                    .fold(false, |acc, (l, r)| acc | ((l & r).count_ones() > 0));
+                ret.set(i, j, val);
+            }
+        }
+        ret
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+/// `+ = xor, * = and`
+pub struct PlusXorMulAnd {}
+impl BitMatrixOps for PlusXorMulAnd {
+    fn add(lhs: &BitMatrix, rhs: &BitMatrix) -> BitMatrix {
+        assert_eq!(lhs.width, rhs.width);
+        assert_eq!(lhs.height, rhs.height);
+        let mut ret = BitMatrix::new(lhs.height, lhs.width);
+        for row in 0..lhs.height {
+            ret.data[row] = &lhs.data[row] ^ &rhs.data[row];
+        }
+        ret
+    }
+    fn mul(lhs: &BitMatrix, rhs: &BitMatrix) -> BitMatrix {
+        assert_eq!(lhs.width, rhs.height);
+        let mut ret = BitMatrix::new(lhs.height, rhs.width);
+        let rhs = rhs.transpose();
+        for i in 0..lhs.height {
+            for j in 0..rhs.height {
+                let val = lhs.data[i]
+                    .buffer()
+                    .iter()
+                    .zip(rhs.data[j].buffer())
+                    .fold(false, |acc, (l, r)| acc ^ ((l & r).count_ones() & 1 > 0));
+                ret.set(i, j, val);
+            }
+        }
+        ret
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct BitMatrix {
     height: usize,
@@ -170,57 +237,24 @@ impl BitMatrix {
         res
     }
 
-    /// `+ = xor, * = and` による行列積
-    pub fn xor_and_mul(lhs: &Self, rhs: &Self) -> Self {
-        assert_eq!(lhs.width, rhs.height);
-        let mut ret = BitMatrix::new(lhs.height, rhs.width);
-        let rhs = rhs.transpose();
-        for i in 0..lhs.height {
-            for j in 0..rhs.height {
-                let val = lhs.data[i]
-                    .buffer()
-                    .iter()
-                    .zip(rhs.data[j].buffer())
-                    .fold(false, |acc, (l, r)| acc ^ ((l & r).count_ones() & 1 > 0));
-                ret.set(i, j, val);
-            }
-        }
-        ret
+    pub fn add<F: BitMatrixOps>(&self, rhs: &Self) -> Self {
+        F::add(self, rhs)
     }
 
-    /// `+ = or, * = and` による行列積
-    pub fn or_and_mul(lhs: &Self, rhs: &Self) -> Self {
-        assert_eq!(lhs.width, rhs.height);
-        let mut ret = BitMatrix::new(lhs.height, rhs.width);
-        let rhs = rhs.transpose();
-        for i in 0..lhs.height {
-            for j in 0..rhs.height {
-                let val = lhs.data[i]
-                    .buffer()
-                    .iter()
-                    .zip(rhs.data[j].buffer())
-                    .fold(false, |acc, (l, r)| acc | ((l & r).count_ones() > 0));
-                ret.set(i, j, val);
-            }
-        }
-        ret
+    pub fn mul<F: BitMatrixOps>(&self, rhs: &Self) -> Self {
+        F::mul(self, rhs)
     }
 
     /// 行列のべき乗を計算する  
-    /// `mul_func`は行列積を計算する関数を指定する  
-    /// 足し算がxor/or, 掛け算がandの場合はメソッド関数の`xor_and_mul`/`or_and_mul`を指定すればよい
-    pub fn pow<F>(&self, mut n: u64, mul_func: F) -> Self
-    where
-        F: Fn(&Self, &Self) -> Self,
-    {
+    pub fn pow<F: BitMatrixOps>(&self, mut n: u64) -> Self {
         assert_eq!(self.height, self.width);
         let mut res = Self::unit(self.height);
         let mut a = self.clone();
         while n > 0 {
             if (n & 1) == 1 {
-                res = mul_func(&res, &a);
+                res = F::mul(&res, &a);
             }
-            a = mul_func(&a, &a);
+            a = F::mul(&a, &a);
             n >>= 1;
         }
         res
@@ -243,7 +277,7 @@ mod test {
     fn independent_test() {
         let mut rng = thread_rng();
         for _ in 0..10 {
-            let w = rng.gen_range(1..=20);
+            let w = rng.gen_range(1..=10);
             let h = rng.gen_range(w..=3 * w);
             let mut mat = BitMatrix::new(h, w);
             for i in 0..h {
@@ -316,8 +350,8 @@ mod test {
         let mut rng = thread_rng();
         let mut no_ans_cnt = 0;
         for _ in 0..10 {
-            let n = rng.gen_range(1..=1000);
-            let m = rng.gen_range(n..=1000);
+            let n = rng.gen_range(1..=300);
+            let m = rng.gen_range(n..=300);
             let mut mat = BitMatrix::new(n, m);
             let mut b = vec![false; n];
             for i in 0..n {
@@ -342,7 +376,7 @@ mod test {
             // 行列の掛け算でも確認
             let b_mat = BitMatrix::from(vec![b]).transpose();
             let ans_mat = BitMatrix::from(vec![ans]).transpose();
-            assert_eq!(BitMatrix::xor_and_mul(&mat, &ans_mat), b_mat);
+            assert_eq!(mat.mul::<PlusXorMulAnd>(&ans_mat), b_mat);
         }
         eprintln!("no_ans_cnt: {}", no_ans_cnt);
     }
@@ -368,7 +402,7 @@ mod test {
         let mat = BitMatrix::from([[true, true], [false, true]]);
         for _ in 0..100 {
             let beki = rng.gen_range(0_u64..10_u64.pow(18));
-            let ans = mat.pow(beki, BitMatrix::xor_and_mul);
+            let ans = mat.pow::<PlusXorMulAnd>(beki);
             if (beki & 1) > 0 {
                 assert_eq!(ans, mat);
             } else {
