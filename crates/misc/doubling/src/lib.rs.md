@@ -37,12 +37,21 @@ data:
     \ = Doubling::new(&func, max_pow);\n        for _ in 0..100 {\n            let\
     \ index = rng.gen_range(0..SIZE);\n            let x = rng.gen_range(0..max_pow);\n\
     \            let expected = (0..x).fold(index, |i, _| func[i]);\n            assert_eq!(doubling.query(index,\
+    \ x as u64), expected);\n        }\n    }\n\n    #[test]\n    fn test_two_beki()\
+    \ {\n        let mut rng = thread_rng();\n        const SIZE: usize = 1024;\n\
+    \        let func = (0..SIZE)\n            .map(|_| rng.gen_range(0..SIZE))\n\
+    \            .collect::<Vec<_>>();\n        let max_pow = 1024;\n        let doubling\
+    \ = Doubling::new(&func, max_pow);\n        for bit in 0..=10 {\n            let\
+    \ index = rng.gen_range(0..SIZE);\n            let x = 1 << bit;\n           \
+    \ let expected = (0..x).fold(index, |i, _| func[i]);\n            assert_eq!(doubling.query(index,\
+    \ x as u64), expected);\n            let x = x - 1;\n            let expected\
+    \ = (0..x).fold(index, |i, _| func[i]);\n            assert_eq!(doubling.query(index,\
     \ x as u64), expected);\n        }\n    }\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/misc/doubling/src/lib.rs
   requiredBy: []
-  timestamp: '2025-01-12 13:23:48+09:00'
+  timestamp: '2025-01-12 13:34:04+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/misc/doubling/src/lib.rs
