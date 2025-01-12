@@ -63,4 +63,24 @@ mod test {
             assert_eq!(doubling.query(index, x as u64), expected);
         }
     }
+
+    #[test]
+    fn test_two_beki() {
+        let mut rng = thread_rng();
+        const SIZE: usize = 1024;
+        let func = (0..SIZE)
+            .map(|_| rng.gen_range(0..SIZE))
+            .collect::<Vec<_>>();
+        let max_pow = 1024;
+        let doubling = Doubling::new(&func, max_pow);
+        for bit in 0..=10 {
+            let index = rng.gen_range(0..SIZE);
+            let x = 1 << bit;
+            let expected = (0..x).fold(index, |i, _| func[i]);
+            assert_eq!(doubling.query(index, x as u64), expected);
+            let x = x - 1;
+            let expected = (0..x).fold(index, |i, _| func[i]);
+            assert_eq!(doubling.query(index, x as u64), expected);
+        }
+    }
 }
