@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":["inner_types"],"trait":["SumWrapper"],"type":["AddMaxLazySegTree","AddMinLazySegTree","AddSumLazySegTree","UpdateMaxLazySegTree","UpdateMinLazySegTree","UpdateSumLazySegTree"]};

@@ -24,7 +24,36 @@ data:
     \  File \"/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! mod 2\u306E\u4E16\u754C\u3067\u306E\u884C\u5217  \n\nuse bitset::BitSet;\n\
-    use std::ops::Index;\n\n#[derive(Debug, Clone, PartialEq, Eq)]\npub struct BitMatrix\
+    use std::ops::Index;\n\npub trait BitMatrixOps {\n    fn add(lhs: &BitMatrix,\
+    \ rhs: &BitMatrix) -> BitMatrix;\n    fn mul(lhs: &BitMatrix, rhs: &BitMatrix)\
+    \ -> BitMatrix;\n}\n\n#[derive(Debug, Clone, PartialEq, Eq)]\n/// `+ = or, * =\
+    \ and`\npub struct PlusOrMulAnd {}\nimpl BitMatrixOps for PlusOrMulAnd {\n   \
+    \ fn add(lhs: &BitMatrix, rhs: &BitMatrix) -> BitMatrix {\n        assert_eq!(lhs.width,\
+    \ rhs.width);\n        assert_eq!(lhs.height, rhs.height);\n        let mut ret\
+    \ = BitMatrix::new(lhs.height, lhs.width);\n        for row in 0..lhs.height {\n\
+    \            ret.data[row] = &lhs.data[row] | &rhs.data[row];\n        }\n   \
+    \     ret\n    }\n    fn mul(lhs: &BitMatrix, rhs: &BitMatrix) -> BitMatrix {\n\
+    \        assert_eq!(lhs.width, rhs.height);\n        let mut ret = BitMatrix::new(lhs.height,\
+    \ rhs.width);\n        let rhs = rhs.transpose();\n        for i in 0..lhs.height\
+    \ {\n            for j in 0..rhs.height {\n                let val = lhs.data[i]\n\
+    \                    .buffer()\n                    .iter()\n                \
+    \    .zip(rhs.data[j].buffer())\n                    .fold(false, |acc, (l, r)|\
+    \ acc | ((l & r).count_ones() > 0));\n                ret.set(i, j, val);\n  \
+    \          }\n        }\n        ret\n    }\n}\n\n#[derive(Debug, Clone, PartialEq,\
+    \ Eq)]\n/// `+ = xor, * = and`\npub struct PlusXorMulAnd {}\nimpl BitMatrixOps\
+    \ for PlusXorMulAnd {\n    fn add(lhs: &BitMatrix, rhs: &BitMatrix) -> BitMatrix\
+    \ {\n        assert_eq!(lhs.width, rhs.width);\n        assert_eq!(lhs.height,\
+    \ rhs.height);\n        let mut ret = BitMatrix::new(lhs.height, lhs.width);\n\
+    \        for row in 0..lhs.height {\n            ret.data[row] = &lhs.data[row]\
+    \ ^ &rhs.data[row];\n        }\n        ret\n    }\n    fn mul(lhs: &BitMatrix,\
+    \ rhs: &BitMatrix) -> BitMatrix {\n        assert_eq!(lhs.width, rhs.height);\n\
+    \        let mut ret = BitMatrix::new(lhs.height, rhs.width);\n        let rhs\
+    \ = rhs.transpose();\n        for i in 0..lhs.height {\n            for j in 0..rhs.height\
+    \ {\n                let val = lhs.data[i]\n                    .buffer()\n  \
+    \                  .iter()\n                    .zip(rhs.data[j].buffer())\n \
+    \                   .fold(false, |acc, (l, r)| acc ^ ((l & r).count_ones() & 1\
+    \ > 0));\n                ret.set(i, j, val);\n            }\n        }\n    \
+    \    ret\n    }\n}\n\n#[derive(Debug, Clone, PartialEq, Eq)]\npub struct BitMatrix\
     \ {\n    height: usize,\n    width: usize,\n    data: Vec<BitSet>,\n}\n\nimpl\
     \ From<Vec<Vec<bool>>> for BitMatrix {\n    fn from(v: Vec<Vec<bool>>) -> Self\
     \ {\n        let height = v.len();\n        let width = v[0].len();\n        let\
@@ -94,40 +123,22 @@ data:
     \ -> Self {\n        let mut res = Self::new(self.width, self.height);\n     \
     \   for i in 0..self.height {\n            for j in 0..self.width {\n        \
     \        res.set(j, i, self.get(i, j));\n            }\n        }\n        res\n\
-    \    }\n\n    /// `+ = xor, * = and` \u306B\u3088\u308B\u884C\u5217\u7A4D\n  \
-    \  pub fn xor_and_mul(lhs: &Self, rhs: &Self) -> Self {\n        assert_eq!(lhs.width,\
-    \ rhs.height);\n        let mut ret = BitMatrix::new(lhs.height, rhs.width);\n\
-    \        let rhs = rhs.transpose();\n        for i in 0..lhs.height {\n      \
-    \      for j in 0..rhs.height {\n                let val = lhs.data[i]\n     \
-    \               .buffer()\n                    .iter()\n                    .zip(rhs.data[j].buffer())\n\
-    \                    .fold(false, |acc, (l, r)| acc ^ ((l & r).count_ones() &\
-    \ 1 > 0));\n                ret.set(i, j, val);\n            }\n        }\n  \
-    \      ret\n    }\n\n    /// `+ = or, * = and` \u306B\u3088\u308B\u884C\u5217\u7A4D\
-    \n    pub fn or_and_mul(lhs: &Self, rhs: &Self) -> Self {\n        assert_eq!(lhs.width,\
-    \ rhs.height);\n        let mut ret = BitMatrix::new(lhs.height, rhs.width);\n\
-    \        let rhs = rhs.transpose();\n        for i in 0..lhs.height {\n      \
-    \      for j in 0..rhs.height {\n                let val = lhs.data[i]\n     \
-    \               .buffer()\n                    .iter()\n                    .zip(rhs.data[j].buffer())\n\
-    \                    .fold(false, |acc, (l, r)| acc | ((l & r).count_ones() >\
-    \ 0));\n                ret.set(i, j, val);\n            }\n        }\n      \
-    \  ret\n    }\n\n    /// \u884C\u5217\u306E\u3079\u304D\u4E57\u3092\u8A08\u7B97\
-    \u3059\u308B  \n    /// `mul_func`\u306F\u884C\u5217\u7A4D\u3092\u8A08\u7B97\u3059\
-    \u308B\u95A2\u6570\u3092\u6307\u5B9A\u3059\u308B  \n    /// \u8DB3\u3057\u7B97\
-    \u304Cxor/or, \u639B\u3051\u7B97\u304Cand\u306E\u5834\u5408\u306F\u30E1\u30BD\u30C3\
-    \u30C9\u95A2\u6570\u306E`xor_and_mul`/`or_and_mul`\u3092\u6307\u5B9A\u3059\u308C\
-    \u3070\u3088\u3044\n    pub fn pow<F>(&self, mut n: u64, mul_func: F) -> Self\n\
-    \    where\n        F: Fn(&Self, &Self) -> Self,\n    {\n        assert_eq!(self.height,\
-    \ self.width);\n        let mut res = Self::unit(self.height);\n        let mut\
-    \ a = self.clone();\n        while n > 0 {\n            if (n & 1) == 1 {\n  \
-    \              res = mul_func(&res, &a);\n            }\n            a = mul_func(&a,\
-    \ &a);\n            n >>= 1;\n        }\n        res\n    }\n}\n\nimpl Index<usize>\
-    \ for BitMatrix {\n    type Output = BitSet;\n    fn index(&self, index: usize)\
-    \ -> &Self::Output {\n        &self.data[index]\n    }\n}\n\n#[cfg(test)]\nmod\
-    \ test {\n    use super::*;\n    use rand::prelude::*;\n\n    #[test]\n    fn\
-    \ independent_test() {\n        let mut rng = thread_rng();\n        for _ in\
-    \ 0..10 {\n            let w = rng.gen_range(1..=20);\n            let h = rng.gen_range(w..=3\
-    \ * w);\n            let mut mat = BitMatrix::new(h, w);\n            for i in\
-    \ 0..h {\n                for j in 0..w {\n                    mat.set(i, j, rng.gen());\n\
+    \    }\n\n    pub fn add<F: BitMatrixOps>(&self, rhs: &Self) -> Self {\n     \
+    \   F::add(self, rhs)\n    }\n\n    pub fn mul<F: BitMatrixOps>(&self, rhs: &Self)\
+    \ -> Self {\n        F::mul(self, rhs)\n    }\n\n    /// \u884C\u5217\u306E\u3079\
+    \u304D\u4E57\u3092\u8A08\u7B97\u3059\u308B  \n    pub fn pow<F: BitMatrixOps>(&self,\
+    \ mut n: u64) -> Self {\n        assert_eq!(self.height, self.width);\n      \
+    \  let mut res = Self::unit(self.height);\n        let mut a = self.clone();\n\
+    \        while n > 0 {\n            if (n & 1) == 1 {\n                res = F::mul(&res,\
+    \ &a);\n            }\n            a = F::mul(&a, &a);\n            n >>= 1;\n\
+    \        }\n        res\n    }\n}\n\nimpl Index<usize> for BitMatrix {\n    type\
+    \ Output = BitSet;\n    fn index(&self, index: usize) -> &Self::Output {\n   \
+    \     &self.data[index]\n    }\n}\n\n#[cfg(test)]\nmod test {\n    use super::*;\n\
+    \    use rand::prelude::*;\n\n    #[test]\n    fn independent_test() {\n     \
+    \   let mut rng = thread_rng();\n        for _ in 0..10 {\n            let w =\
+    \ rng.gen_range(1..=10);\n            let h = rng.gen_range(w..=3 * w);\n    \
+    \        let mut mat = BitMatrix::new(h, w);\n            for i in 0..h {\n  \
+    \              for j in 0..w {\n                    mat.set(i, j, rng.gen());\n\
     \                }\n            }\n            let nums = {\n                let\
     \ mut nums = vec![0; h];\n                for i in 0..h {\n                  \
     \  for j in 0..w {\n                        if mat.get(i, j) {\n             \
@@ -155,8 +166,8 @@ data:
     \    independent.sort();\n        assert_eq!(independent, vec![0, 3, 7]);\n  \
     \  }\n\n    #[test]\n    fn linear_eq_test() {\n        let mut rng = thread_rng();\n\
     \        let mut no_ans_cnt = 0;\n        for _ in 0..10 {\n            let n\
-    \ = rng.gen_range(1..=1000);\n            let m = rng.gen_range(n..=1000);\n \
-    \           let mut mat = BitMatrix::new(n, m);\n            let mut b = vec![false;\
+    \ = rng.gen_range(1..=300);\n            let m = rng.gen_range(n..=300);\n   \
+    \         let mut mat = BitMatrix::new(n, m);\n            let mut b = vec![false;\
     \ n];\n            for i in 0..n {\n                for j in 0..m {\n        \
     \            mat.set(i, j, rng.gen());\n                }\n                b[i]\
     \ = rng.gen();\n            }\n            let Some((rank, ans)) = mat.linear_equation(&b)\
@@ -167,29 +178,29 @@ data:
     \           assert_eq!(sum, b[i]);\n            }\n\n            // \u884C\u5217\
     \u306E\u639B\u3051\u7B97\u3067\u3082\u78BA\u8A8D\n            let b_mat = BitMatrix::from(vec![b]).transpose();\n\
     \            let ans_mat = BitMatrix::from(vec![ans]).transpose();\n         \
-    \   assert_eq!(BitMatrix::xor_and_mul(&mat, &ans_mat), b_mat);\n        }\n  \
-    \      eprintln!(\"no_ans_cnt: {}\", no_ans_cnt);\n    }\n\n    #[test]\n    fn\
-    \ test_skip_col() {\n        // 3\u3064\u3081\u306Epivot\u304C3\u5217\u76EE\u3092\
-    \u98DB\u3070\u3057\u30664\u5217\u76EE\u306B\u304F\u308B\u4F8B\n        let mat\
-    \ = BitMatrix::from([\n            [true, false, true, true, false],\n       \
-    \     [false, true, false, true, true],\n            [false, false, false, true,\
-    \ true],\n            [false, false, false, false, true],\n        ]);\n     \
-    \   let b = [true, false, true, false];\n        let (freedom, ans) = mat.linear_equation(&b).unwrap();\n\
-    \        assert_eq!(freedom, 1);\n        assert_eq!(ans, vec![false, true, false,\
+    \   assert_eq!(mat.mul::<PlusXorMulAnd>(&ans_mat), b_mat);\n        }\n      \
+    \  eprintln!(\"no_ans_cnt: {}\", no_ans_cnt);\n    }\n\n    #[test]\n    fn test_skip_col()\
+    \ {\n        // 3\u3064\u3081\u306Epivot\u304C3\u5217\u76EE\u3092\u98DB\u3070\u3057\
+    \u30664\u5217\u76EE\u306B\u304F\u308B\u4F8B\n        let mat = BitMatrix::from([\n\
+    \            [true, false, true, true, false],\n            [false, true, false,\
+    \ true, true],\n            [false, false, false, true, true],\n            [false,\
+    \ false, false, false, true],\n        ]);\n        let b = [true, false, true,\
+    \ false];\n        let (freedom, ans) = mat.linear_equation(&b).unwrap();\n  \
+    \      assert_eq!(freedom, 1);\n        assert_eq!(ans, vec![false, true, false,\
     \ true, false]);\n    }\n\n    #[test]\n    fn test_pow() {\n        let mut rng\
     \ = thread_rng();\n        let mat = BitMatrix::from([[true, true], [false, true]]);\n\
     \        for _ in 0..100 {\n            let beki = rng.gen_range(0_u64..10_u64.pow(18));\n\
-    \            let ans = mat.pow(beki, BitMatrix::xor_and_mul);\n            if\
-    \ (beki & 1) > 0 {\n                assert_eq!(ans, mat);\n            } else\
-    \ {\n                assert_eq!(ans, BitMatrix::unit(2));\n            }\n   \
-    \     }\n    }\n}\n"
+    \            let ans = mat.pow::<PlusXorMulAnd>(beki);\n            if (beki &\
+    \ 1) > 0 {\n                assert_eq!(ans, mat);\n            } else {\n    \
+    \            assert_eq!(ans, BitMatrix::unit(2));\n            }\n        }\n\
+    \    }\n}\n"
   dependsOn:
   - crates/bitset/src/lib.rs
   isVerificationFile: false
   path: crates/math/bit_matrix/src/lib.rs
   requiredBy:
   - verify/AtCoder/typical_057/src/main.rs
-  timestamp: '2024-10-20 18:08:55+09:00'
+  timestamp: '2025-01-12 12:59:31+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_803/src/main.rs

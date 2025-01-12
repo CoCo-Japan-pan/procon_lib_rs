@@ -191,11 +191,21 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/math/matrix/src/lib.rs
       title: crates/math/matrix/src/lib.rs
+  - name: crates/misc/doubling/src
+    pages:
+    - icon: ':warning:'
+      path: crates/misc/doubling/src/lib.rs
+      title: crates/misc/doubling/src/lib.rs
   - name: crates/misc/mo/src
     pages:
     - icon: ':heavy_check_mark:'
       path: crates/misc/mo/src/lib.rs
       title: crates/misc/mo/src/lib.rs
+  - name: crates/misc/multiset/src
+    pages:
+    - icon: ':warning:'
+      path: crates/misc/multiset/src/lib.rs
+      title: crates/misc/multiset/src/lib.rs
   - name: crates/misc/top2/src
     pages:
     - icon: ':warning:'
@@ -261,11 +271,6 @@ data:
     - icon: ':warning:'
       path: crates/utils/monoid_utils/src/lib.rs
       title: crates/utils/monoid_utils/src/lib.rs
-  - name: crates/utils/multiset/src
-    pages:
-    - icon: ':warning:'
-      path: crates/utils/multiset/src/lib.rs
-      title: crates/utils/multiset/src/lib.rs
   - name: crates/wavelet/bitdict/benches
     pages:
     - icon: ':warning:'
