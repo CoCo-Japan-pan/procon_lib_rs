@@ -1,4 +1,4 @@
-// verification-helper: PROBLEM https://atcoder.jp/contests/abc290/tasks/abc290_f
+// https://atcoder.jp/contests/abc290/tasks/abc290_f
 
 #![allow(non_snake_case)]
 use binom::Binom;
