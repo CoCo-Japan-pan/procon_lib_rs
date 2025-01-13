@@ -1,17 +1,17 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: crates/math/binom/src/lib.rs
     title: crates/math/binom/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/modint/static_modint/src/lib.rs
     title: crates/modint/static_modint/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     PROBLEM: https://atcoder.jp/contests/abc290/tasks/abc290_f
     links:
@@ -30,8 +30,8 @@ data:
     \ {\n            N: usize,\n        }\n        // 2N-2\u30921\u4EE5\u4E0A\u306E\
     \u6574\u6570N\u500B\u306E\u548C\u306B\u5206\u89E3\u3059\u308B\n        // \u3053\
     \u306E\u3068\u304D\u6700\u5927\u306E\u76F4\u5F84\u306F\u3001N+1-(1\u306E\u6570\
-    )\n        // 1\u306E\u6570\u306F2~N-1\u500B\n        let ans = binom.cmp(2 *\
-    \ N - 3, N - 2) * (N + 1) - binom.cmp(2 * N - 4, N - 2) * N;\n        println!(\"\
+    )\n        // 1\u306E\u6570\u306F2~N-1\u500B\n        let ans = binom.comb(2 *\
+    \ N - 3, N - 2) * (N + 1) - binom.comb(2 * N - 4, N - 2) * N;\n        println!(\"\
     {}\", ans);\n    }\n}\n"
   dependsOn:
   - crates/math/binom/src/lib.rs
@@ -39,8 +39,8 @@ data:
   isVerificationFile: true
   path: verify/AtCoder/abc290f/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-21 15:52:33+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2025-01-13 11:38:32+09:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: verify/AtCoder/abc290f/src/main.rs
 layout: document

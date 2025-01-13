@@ -163,7 +163,7 @@ data:
       title: crates/itertools/next_permutation/src/lib.rs
   - name: crates/math/binom/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: crates/math/binom/src/lib.rs
       title: crates/math/binom/src/lib.rs
   - name: crates/math/bit_matrix/src
@@ -218,7 +218,7 @@ data:
       title: crates/modint/dynamic_modint/src/lib.rs
   - name: crates/modint/static_modint/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/modint/static_modint/src/lib.rs
       title: crates/modint/static_modint/src/lib.rs
   - name: crates/rand/pcg32/src
@@ -409,7 +409,7 @@ data:
       title: verify/AtCoder/abc285g/src/main.rs
   - name: verify/AtCoder/abc290f/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/AtCoder/abc290f/src/main.rs
       title: verify/AtCoder/abc290f/src/main.rs
   - name: verify/AtCoder/abc293e/src

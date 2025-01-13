@@ -6,12 +6,12 @@ data:
     title: crates/internals/internal_modint/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/AtCoder/abc290f/src/main.rs
     title: verify/AtCoder/abc290f/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -20,28 +20,34 @@ data:
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
     \  File \"/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "use internal_modint::ModInt;\n\npub struct Binom<T: ModInt> {\n    max_n:\
-    \ usize,\n    fact: Vec<T>,\n    ifact: Vec<T>,\n}\n\nimpl<T: ModInt> Binom<T>\
-    \ {\n    pub fn new(max_n: usize) -> Self {\n        let mut fact = vec![T::raw(0);\
-    \ max_n + 1];\n        let mut ifact = vec![T::raw(0); max_n + 1];\n        fact[0]\
-    \ = T::raw(1);\n        for i in 1..=max_n {\n            fact[i] = fact[i - 1]\
-    \ * T::new(i as u64);\n        }\n        ifact[max_n] = fact[max_n].inv();\n\
-    \        for i in (1..=max_n).rev() {\n            ifact[i - 1] = ifact[i] * T::new(i\
-    \ as u64);\n        }\n        Self { max_n, fact, ifact }\n    }\n\n    /// nCk\u306E\
-    \u8A08\u7B97(n<k\u306E\u5834\u5408\u306F0\u3068\u3059\u308B)\n    pub fn cmp(&self,\
-    \ n: usize, k: usize) -> T {\n        assert!(n <= self.max_n);\n        if n\
-    \ < k {\n            T::raw(0)\n        } else {\n            self.fact[n] * self.ifact[k]\
-    \ * self.ifact[n - k]\n        }\n    }\n\n    /// n!\n    pub fn get_fact(&self,\
-    \ n: usize) -> T {\n        assert!(n <= self.max_n);\n        self.fact[n]\n\
-    \    }\n\n    /// n!\u306E\u9006\u5143\n    pub fn get_ifact(&self, n: usize)\
-    \ -> T {\n        assert!(n <= self.max_n);\n        self.ifact[n]\n    }\n}\n"
+  code: "//! \u968E\u4E57\u3068\u305D\u306E\u9006\u5143\u3092\u524D\u8A08\u7B97\u3057\
+    \u3001\u4E8C\u9805\u4FC2\u6570\u3092\u8A08\u7B97\u3059\u308B\n\nuse internal_modint::ModInt;\n\
+    \npub struct Binom<T: ModInt> {\n    max_n: usize,\n    fact: Vec<T>,\n    ifact:\
+    \ Vec<T>,\n}\n\nimpl<T: ModInt> Binom<T> {\n    pub fn new(max_n: usize) -> Self\
+    \ {\n        let mut fact = vec![T::raw(0); max_n + 1];\n        let mut ifact\
+    \ = vec![T::raw(0); max_n + 1];\n        fact[0] = T::raw(1);\n        for i in\
+    \ 1..=max_n {\n            fact[i] = fact[i - 1] * T::new(i as u64);\n       \
+    \ }\n        ifact[max_n] = fact[max_n].inv();\n        for i in (1..=max_n).rev()\
+    \ {\n            ifact[i - 1] = ifact[i] * T::new(i as u64);\n        }\n    \
+    \    Self { max_n, fact, ifact }\n    }\n\n    /// nCk\u306E\u8A08\u7B97(n<k\u306E\
+    \u5834\u5408\u306F0\u3068\u3059\u308B)\n    pub fn comb(&self, n: usize, k: usize)\
+    \ -> T {\n        assert!(n <= self.max_n);\n        if n < k {\n            T::raw(0)\n\
+    \        } else {\n            self.fact[n] * self.ifact[k] * self.ifact[n - k]\n\
+    \        }\n    }\n\n    /// nPk\u306E\u8A08\u7B97(n<k\u306E\u5834\u5408\u306F\
+    0\u3068\u3059\u308B)\n    pub fn perm(&self, n: usize, k: usize) -> T {\n    \
+    \    assert!(n <= self.max_n);\n        if n < k {\n            T::raw(0)\n  \
+    \      } else {\n            self.fact[n] * self.ifact[n - k]\n        }\n   \
+    \ }\n\n    /// n!\n    pub fn get_fact(&self, n: usize) -> T {\n        assert!(n\
+    \ <= self.max_n);\n        self.fact[n]\n    }\n\n    /// n!\u306E\u9006\u5143\
+    \n    pub fn get_ifact(&self, n: usize) -> T {\n        assert!(n <= self.max_n);\n\
+    \        self.ifact[n]\n    }\n}\n"
   dependsOn:
   - crates/internals/internal_modint/src/lib.rs
   isVerificationFile: false
   path: crates/math/binom/src/lib.rs
   requiredBy: []
-  timestamp: '2024-09-17 11:37:54+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  timestamp: '2025-01-13 11:38:32+09:00'
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - verify/AtCoder/abc290f/src/main.rs
 documentation_of: crates/math/binom/src/lib.rs
