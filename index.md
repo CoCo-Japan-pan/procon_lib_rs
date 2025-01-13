@@ -163,7 +163,7 @@ data:
       title: crates/itertools/next_permutation/src/lib.rs
   - name: crates/math/binom/src
     pages:
-    - icon: ':x:'
+    - icon: ':warning:'
       path: crates/math/binom/src/lib.rs
       title: crates/math/binom/src/lib.rs
   - name: crates/math/bit_matrix/src
@@ -218,7 +218,7 @@ data:
       title: crates/modint/dynamic_modint/src/lib.rs
   - name: crates/modint/static_modint/src
     pages:
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: crates/modint/static_modint/src/lib.rs
       title: crates/modint/static_modint/src/lib.rs
   - name: crates/rand/pcg32/src
@@ -301,6 +301,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
       title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
+  - name: verify/AtCoder/abc290f/src
+    pages:
+    - icon: ':warning:'
+      path: verify/AtCoder/abc290f/src/main.rs
+      title: verify/AtCoder/abc290f/src/main.rs
   - name: verify/AtCoder/abc291g/src
     pages:
     - icon: ':warning:'
@@ -407,11 +412,6 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/AtCoder/abc285g/src/main.rs
       title: verify/AtCoder/abc285g/src/main.rs
-  - name: verify/AtCoder/abc290f/src
-    pages:
-    - icon: ':x:'
-      path: verify/AtCoder/abc290f/src/main.rs
-      title: verify/AtCoder/abc290f/src/main.rs
   - name: verify/AtCoder/abc293e/src
     pages:
     - icon: ':heavy_check_mark:'

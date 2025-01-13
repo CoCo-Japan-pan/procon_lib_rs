@@ -12,12 +12,12 @@ data:
     path: crates/fps/ntt/src/lib.rs
     title: crates/fps/ntt/src/lib.rs
   - icon: ':warning:'
+    path: verify/AtCoder/abc290f/src/main.rs
+    title: verify/AtCoder/abc290f/src/main.rs
+  - icon: ':warning:'
     path: verify/AtCoder/typical_057/src/main.rs
     title: verify/AtCoder/typical_057/src/main.rs
   _extendedVerifiedWith:
-  - icon: ':x:'
-    path: verify/AtCoder/abc290f/src/main.rs
-    title: verify/AtCoder/abc290f/src/main.rs
   - icon: ':heavy_check_mark:'
     path: verify/AtCoder/abc340g/src/main.rs
     title: verify/AtCoder/abc340g/src/main.rs
@@ -51,9 +51,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yukicoder/no_803/src/main.rs
     title: verify/yukicoder/no_803/src/main.rs
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
     - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/modint.rs
@@ -174,10 +174,11 @@ data:
   isVerificationFile: false
   path: crates/modint/static_modint/src/lib.rs
   requiredBy:
+  - verify/AtCoder/abc290f/src/main.rs
   - verify/AtCoder/typical_057/src/main.rs
   - crates/fps/ntt/src/lib.rs
   timestamp: '2024-12-02 17:06:04+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/log_of_formal_power_series/src/main.rs
   - verify/yosupo/inv_of_formal_power_series/src/main.rs
@@ -188,7 +189,6 @@ data:
   - verify/yosupo/frequency_table_of_tree_distance/src/main.rs
   - verify/yosupo/convolution_ntt/src/main.rs
   - verify/yosupo/convolution_mod_1000000007_ntt/src/main.rs
-  - verify/AtCoder/abc290f/src/main.rs
   - verify/AtCoder/abc340g/src/main.rs
   - verify/yukicoder/no_803/src/main.rs
 documentation_of: crates/modint/static_modint/src/lib.rs

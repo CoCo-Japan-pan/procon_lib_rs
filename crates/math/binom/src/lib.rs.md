@@ -4,14 +4,14 @@ data:
   - icon: ':warning:'
     path: crates/internals/internal_modint/src/lib.rs
     title: crates/internals/internal_modint/src/lib.rs
-  _extendedRequiredBy: []
-  _extendedVerifiedWith:
-  - icon: ':x:'
+  _extendedRequiredBy:
+  - icon: ':warning:'
     path: verify/AtCoder/abc290f/src/main.rs
     title: verify/AtCoder/abc290f/src/main.rs
-  _isVerificationFailed: true
+  _extendedVerifiedWith: []
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -45,11 +45,11 @@ data:
   - crates/internals/internal_modint/src/lib.rs
   isVerificationFile: false
   path: crates/math/binom/src/lib.rs
-  requiredBy: []
-  timestamp: '2025-01-13 11:38:32+09:00'
-  verificationStatus: LIBRARY_ALL_WA
-  verifiedWith:
+  requiredBy:
   - verify/AtCoder/abc290f/src/main.rs
+  timestamp: '2025-01-13 11:38:32+09:00'
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
 documentation_of: crates/math/binom/src/lib.rs
 layout: document
 redirect_from:

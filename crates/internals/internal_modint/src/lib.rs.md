@@ -8,7 +8,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/fps/ntt/src/lib.rs
     title: crates/fps/ntt/src/lib.rs
-  - icon: ':x:'
+  - icon: ':warning:'
     path: crates/math/binom/src/lib.rs
     title: crates/math/binom/src/lib.rs
   - icon: ':warning:'
@@ -17,7 +17,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/modint/dynamic_modint/src/lib.rs
     title: crates/modint/dynamic_modint/src/lib.rs
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/modint/static_modint/src/lib.rs
     title: crates/modint/static_modint/src/lib.rs
   _extendedVerifiedWith: []
