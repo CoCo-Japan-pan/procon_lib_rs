@@ -1,3 +1,5 @@
+//! 階乗とその逆元を前計算し、二項係数を計算する
+
 use internal_modint::ModInt;
 
 pub struct Binom<T: ModInt> {
@@ -22,12 +24,22 @@ impl<T: ModInt> Binom<T> {
     }
 
     /// nCkの計算(n<kの場合は0とする)
-    pub fn cmp(&self, n: usize, k: usize) -> T {
+    pub fn comb(&self, n: usize, k: usize) -> T {
         assert!(n <= self.max_n);
         if n < k {
             T::raw(0)
         } else {
             self.fact[n] * self.ifact[k] * self.ifact[n - k]
+        }
+    }
+
+    /// nPkの計算(n<kの場合は0とする)
+    pub fn perm(&self, n: usize, k: usize) -> T {
+        assert!(n <= self.max_n);
+        if n < k {
+            T::raw(0)
+        } else {
+            self.fact[n] * self.ifact[n - k]
         }
     }
 

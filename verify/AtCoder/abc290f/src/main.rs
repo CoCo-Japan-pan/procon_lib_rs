@@ -20,7 +20,7 @@ fn main() {
         // 2N-2を1以上の整数N個の和に分解する
         // このとき最大の直径は、N+1-(1の数)
         // 1の数は2~N-1個
-        let ans = binom.cmp(2 * N - 3, N - 2) * (N + 1) - binom.cmp(2 * N - 4, N - 2) * N;
+        let ans = binom.comb(2 * N - 3, N - 2) * (N + 1) - binom.comb(2 * N - 4, N - 2) * N;
         println!("{}", ans);
     }
 }
