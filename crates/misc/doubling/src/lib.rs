@@ -4,21 +4,22 @@
 pub struct Doubling {
     n: usize,
     max_pow: u64,
-    table: Vec<Vec<usize>>,
+    table: Vec<Vec<u32>>,
 }
 
 impl Doubling {
     /// [0, n) -> [0, n) の写像funcを受け取る  
+    /// nは32bit以下で収まると仮定している  
     /// 写像はmax_pow乗までのみ考える
     pub fn new(func: &[usize], max_pow: u64) -> Self {
         let n = func.len();
-        let mut table = vec![func.to_vec()];
+        let mut table = vec![func.iter().map(|&x| x as u32).collect::<Vec<_>>()];
         let mut cur_pow = max_pow >> 1;
         while cur_pow > 0 {
             let mut next = vec![0; n];
             let last_table = table.last().unwrap();
             for i in 0..n {
-                next[i] = last_table[last_table[i]];
+                next[i] = last_table[last_table[i] as usize];
             }
             table.push(next);
             cur_pow >>= 1;
@@ -33,7 +34,7 @@ impl Doubling {
         let mut table_index = 0;
         while x > 0 {
             if x & 1 == 1 {
-                index = self.table[table_index][index];
+                index = self.table[table_index][index] as usize;
             }
             table_index += 1;
             x >>= 1;
