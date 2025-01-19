@@ -1,4 +1,4 @@
-// verification-helper: PROBLEM https://atcoder.jp/contests/abc294/tasks/abc294_g
+// https://atcoder.jp/contests/abc294/tasks/abc294_g
 
 use fenwick_tree::FenwickTree;
 use hld::{Path, HLD};

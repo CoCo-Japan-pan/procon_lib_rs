@@ -157,4 +157,23 @@ mod tests {
             assert_eq!(id, SIZE);
         }
     }
+
+    #[test]
+    fn test_0_1_lowerbound() {
+        let mut rng = thread_rng();
+        const SIZE: usize = 10000;
+        let mut ft = FenwickTree::new(SIZE, 0_i64);
+        let mut num_ids = vec![];
+        for id in 0..SIZE {
+            if rng.gen() {
+                ft.add(id, 1);
+                num_ids.push(id);
+            }
+        }
+        for (num, num_id) in num_ids.into_iter().enumerate() {
+            let lw_id = ft.lower_bound(num as i64 + 1);
+            assert_eq!(lw_id, num_id);
+            assert_eq!(ft.sum(0..lw_id), num as i64);
+        }
+    }
 }
