@@ -173,7 +173,7 @@ data:
   isVerificationFile: false
   path: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
   requiredBy: []
-  timestamp: '2024-12-16 15:58:03+09:00'
+  timestamp: '2025-01-19 12:17:00+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/point_add_rect_sum_wavelet_fenwick/src/main.rs

@@ -80,7 +80,7 @@ data:
   isVerificationFile: false
   path: verify/AtCoder/abc384g/src/main.rs
   requiredBy: []
-  timestamp: '2024-12-16 15:58:03+09:00'
+  timestamp: '2025-01-19 12:17:00+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: verify/AtCoder/abc384g/src/main.rs

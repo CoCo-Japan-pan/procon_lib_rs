@@ -9,12 +9,12 @@ data:
     path: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
     title: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
   - icon: ':warning:'
+    path: verify/AtCoder/abc294g/src/main.rs
+    title: verify/AtCoder/abc294g/src/main.rs
+  - icon: ':warning:'
     path: verify/AtCoder/abc384g/src/main.rs
     title: verify/AtCoder/abc384g/src/main.rs
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
-    path: verify/AtCoder/abc294g/src/main.rs
-    title: verify/AtCoder/abc294g/src/main.rs
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/static_range_inversions_query/src/main.rs
     title: verify/yosupo/static_range_inversions_query/src/main.rs
@@ -98,21 +98,28 @@ data:
     \            assert!(sum < lower_bound);\n            assert!(sum + list[id] >=\
     \ lower_bound);\n\n            let lower_bound = list.iter().sum::<i64>() + 1;\n\
     \            let id = ft.lower_bound(lower_bound);\n            assert_eq!(id,\
-    \ SIZE);\n        }\n    }\n}\n"
+    \ SIZE);\n        }\n    }\n\n    #[test]\n    fn test_0_1_lowerbound() {\n  \
+    \      let mut rng = thread_rng();\n        const SIZE: usize = 10000;\n     \
+    \   let mut ft = FenwickTree::new(SIZE, 0_i64);\n        let mut num_ids = vec![];\n\
+    \        for id in 0..SIZE {\n            if rng.gen() {\n                ft.add(id,\
+    \ 1);\n                num_ids.push(id);\n            }\n        }\n        for\
+    \ (num, num_id) in num_ids.into_iter().enumerate() {\n            let lw_id =\
+    \ ft.lower_bound(num as i64 + 1);\n            assert_eq!(lw_id, num_id);\n  \
+    \          assert_eq!(ft.sum(0..lw_id), num as i64);\n        }\n    }\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/data_structure/fenwick_tree/src/lib.rs
   requiredBy:
   - verify/AtCoder/abc384g/src/main.rs
+  - verify/AtCoder/abc294g/src/main.rs
   - crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
   - crates/data_structure/raq_rsq/src/lib.rs
-  timestamp: '2024-12-16 15:58:03+09:00'
+  timestamp: '2025-01-19 12:17:00+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/vertex_add_subtree_sum/src/main.rs
   - verify/yosupo/vertex_add_path_sum/src/main.rs
   - verify/yosupo/static_range_inversions_query/src/main.rs
-  - verify/AtCoder/abc294g/src/main.rs
   - verify/yukicoder/no_649_fenwick_tree/src/main.rs
 documentation_of: crates/data_structure/fenwick_tree/src/lib.rs
 layout: document

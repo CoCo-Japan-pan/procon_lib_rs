@@ -311,6 +311,11 @@ data:
     - icon: ':warning:'
       path: verify/AtCoder/abc291g/src/main.rs
       title: verify/AtCoder/abc291g/src/main.rs
+  - name: verify/AtCoder/abc294g/src
+    pages:
+    - icon: ':warning:'
+      path: verify/AtCoder/abc294g/src/main.rs
+      title: verify/AtCoder/abc294g/src/main.rs
   - name: verify/AtCoder/abc384g/src
     pages:
     - icon: ':warning:'
@@ -417,11 +422,6 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/AtCoder/abc293e/src/main.rs
       title: verify/AtCoder/abc293e/src/main.rs
-  - name: verify/AtCoder/abc294g/src
-    pages:
-    - icon: ':heavy_check_mark:'
-      path: verify/AtCoder/abc294g/src/main.rs
-      title: verify/AtCoder/abc294g/src/main.rs
   - name: verify/AtCoder/abc312g/src
     pages:
     - icon: ':heavy_check_mark:'
