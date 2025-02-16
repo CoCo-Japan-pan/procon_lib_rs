@@ -20,11 +20,11 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
-    \  File \"/opt/hostedtoolcache/Python/3.13.1/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! \u5168\u65B9\u4F4D\u6728DP  \n//! \u8FBA\u304C\u5411\u304D\u3064\u304D\
     \u3067\u884C\u304D\u3068\u5E30\u308A\u3067\u7570\u306A\u308B\u5834\u5408\u306B\
@@ -88,9 +88,9 @@ data:
   timestamp: '2024-10-28 22:46:07+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/AtCoder/abc312g/src/main.rs
-  - verify/AtCoder/abc222f/src/main.rs
   - verify/AtCoder/abc348e/src/main.rs
+  - verify/AtCoder/abc222f/src/main.rs
+  - verify/AtCoder/abc312g/src/main.rs
 documentation_of: crates/tree/rerooting/src/lib.rs
 layout: document
 redirect_from:
