@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"trait":["BoundedAbove","BoundedBelow","Integral","One","Zero"]};
