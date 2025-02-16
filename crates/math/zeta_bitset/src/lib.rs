@@ -4,7 +4,7 @@
 use std::ops::Sub;
 
 /// bitの上位集合に関する高速ゼータ変換  
-/// list[i] = func({list[iのsuperset達]}) に変換する  
+/// `list[i] = func({list[iのsuperset達]})` に変換する  
 /// 可換な二項演算`func`を指定する
 pub fn superset_zeta<T: Copy>(mut list: Vec<T>, func: impl Fn(T, T) -> T) -> Vec<T> {
     let len = list.len();
@@ -35,8 +35,8 @@ pub fn superset_mobius<T: Sub<Output = T> + Copy>(mut list: Vec<T>) -> Vec<T> {
     list
 }
 
-/// bitの下位集合に関する高速ゼータ変換
-/// list[i] = func({list[iのsubset達]}) に変換する
+/// bitの下位集合に関する高速ゼータ変換  
+/// `list[i] = func({list[iのsubset達]})` に変換する  
 /// 可換な二項演算`func`を指定する
 pub fn subset_zeta<T: Copy>(mut list: Vec<T>, func: impl Fn(T, T) -> T) -> Vec<T> {
     let len = list.len();
