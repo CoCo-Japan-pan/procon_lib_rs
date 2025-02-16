@@ -19,8 +19,8 @@ data:
     \u308B\u9AD8\u901F\u30BC\u30FC\u30BF\u30FB\u30E1\u30D3\u30A6\u30B9\u5909\u63DB\
     \  \n//! <https://ikatakos.com/pot/programming_algorithm/dynamic_programming/subset_convolution>\n\
     \nuse std::ops::Sub;\n\n/// bit\u306E\u4E0A\u4F4D\u96C6\u5408\u306B\u95A2\u3059\
-    \u308B\u9AD8\u901F\u30BC\u30FC\u30BF\u5909\u63DB  \n/// list[i] = func({list[i\u306E\
-    superset\u9054]}) \u306B\u5909\u63DB\u3059\u308B  \n/// \u53EF\u63DB\u306A\u4E8C\
+    \u308B\u9AD8\u901F\u30BC\u30FC\u30BF\u5909\u63DB  \n/// `list[i] = func({list[i\u306E\
+    superset\u9054]})` \u306B\u5909\u63DB\u3059\u308B  \n/// \u53EF\u63DB\u306A\u4E8C\
     \u9805\u6F14\u7B97`func`\u3092\u6307\u5B9A\u3059\u308B\npub fn superset_zeta<T:\
     \ Copy>(mut list: Vec<T>, func: impl Fn(T, T) -> T) -> Vec<T> {\n    let len =\
     \ list.len();\n    assert!(len.is_power_of_two());\n    let bit = len.trailing_zeros();\n\
@@ -34,10 +34,10 @@ data:
     \ 0..len {\n            if i & (1 << j) == 0 {\n                list[i] = list[i]\
     \ - list[i | (1 << j)];\n            }\n        }\n    }\n    list\n}\n\n/// bit\u306E\
     \u4E0B\u4F4D\u96C6\u5408\u306B\u95A2\u3059\u308B\u9AD8\u901F\u30BC\u30FC\u30BF\
-    \u5909\u63DB\n/// list[i] = func({list[i\u306Esubset\u9054]}) \u306B\u5909\u63DB\
-    \u3059\u308B\n/// \u53EF\u63DB\u306A\u4E8C\u9805\u6F14\u7B97`func`\u3092\u6307\
-    \u5B9A\u3059\u308B\npub fn subset_zeta<T: Copy>(mut list: Vec<T>, func: impl Fn(T,\
-    \ T) -> T) -> Vec<T> {\n    let len = list.len();\n    assert!(len.is_power_of_two());\n\
+    \u5909\u63DB  \n/// `list[i] = func({list[i\u306Esubset\u9054]})` \u306B\u5909\
+    \u63DB\u3059\u308B  \n/// \u53EF\u63DB\u306A\u4E8C\u9805\u6F14\u7B97`func`\u3092\
+    \u6307\u5B9A\u3059\u308B\npub fn subset_zeta<T: Copy>(mut list: Vec<T>, func:\
+    \ impl Fn(T, T) -> T) -> Vec<T> {\n    let len = list.len();\n    assert!(len.is_power_of_two());\n\
     \    let bit = len.trailing_zeros();\n    for j in 0..bit {\n        for i in\
     \ 0..len {\n            if i & (1 << j) != 0 {\n                list[i] = func(list[i],\
     \ list[i ^ (1 << j)]);\n            }\n        }\n    }\n    list\n}\n\n/// bit\u306E\
@@ -78,7 +78,7 @@ data:
   isVerificationFile: false
   path: crates/math/zeta_bitset/src/lib.rs
   requiredBy: []
-  timestamp: '2025-02-16 13:49:39+09:00'
+  timestamp: '2025-02-16 13:57:11+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/math/zeta_bitset/src/lib.rs
