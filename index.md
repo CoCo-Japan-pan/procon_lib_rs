@@ -191,6 +191,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/math/matrix/src/lib.rs
       title: crates/math/matrix/src/lib.rs
+  - name: crates/math/zeta_bitset/src
+    pages:
+    - icon: ':warning:'
+      path: crates/math/zeta_bitset/src/lib.rs
+      title: crates/math/zeta_bitset/src/lib.rs
   - name: crates/misc/doubling/src
     pages:
     - icon: ':warning:'
