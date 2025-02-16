@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["AddAction","AddActionSum","AddMax","AddMin","AddSum","MaxMonoid","MinMonoid","SumMonoid","UpdateAction","UpdateActionSum","UpdateMax","UpdateMin","UpdateSum"]};
