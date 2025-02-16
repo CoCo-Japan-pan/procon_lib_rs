@@ -1,6 +1,6 @@
 //! [エラトステネスの篩](https://qiita.com/drken/items/3beb679e54266f20ab63)
 
-use std::ops::{AddAssign, MulAssign, SubAssign};
+use std::ops::{Add, MulAssign, SubAssign};
 
 pub struct Eratosthenes {
     max_n: usize,
@@ -87,18 +87,20 @@ impl Eratosthenes {
     }
 
     /// 倍数関係に関する高速ゼータ変換  
+    /// `list[i] = func({list[iの倍数達]})` に変換する  
+    /// 可換な二項演算`func`を指定する  
     /// 0番目の値については何もしないので注意
-    pub fn multiple_zeta_transfrom<T: AddAssign + Copy>(&self, list: &mut [T]) {
+    pub fn multiple_zeta_transfrom<T: Copy>(&self, list: &mut [T], func: impl Fn(T, T) -> T) {
         let n = list.len().saturating_sub(1);
         assert!(n <= self.max_n);
         for p in self.primes.iter().take_while(|&&p| p <= n) {
             for i in (1..=(n / p)).rev() {
-                list[i] += list[i * p];
+                list[i] = func(list[i], list[i * p]);
             }
         }
     }
 
-    /// 倍数関係に関する高速メビウス変換  
+    /// 倍数関係に関する高速メビウス変換(加算の逆演算)  
     /// 0番目の値については何もしないので注意
     pub fn multiple_mobius_transfrom<T: SubAssign + Copy>(&self, list: &mut [T]) {
         let n = list.len().saturating_sub(1);
@@ -112,7 +114,7 @@ impl Eratosthenes {
 
     /// 添え字gcd畳み込み  
     /// 0番目の値については何もしないので注意
-    pub fn gcd_convolution<T: AddAssign + SubAssign + MulAssign + Copy>(
+    pub fn gcd_convolution<T: Add<Output = T> + SubAssign + MulAssign + Copy>(
         &self,
         f: &[T],
         g: &[T],
@@ -121,9 +123,9 @@ impl Eratosthenes {
         let n = f.len().saturating_sub(1);
         assert!(n <= self.max_n);
         let mut f = f.to_vec();
-        self.multiple_zeta_transfrom(&mut f);
+        self.multiple_zeta_transfrom(&mut f, |a, b| a + b);
         let mut g = g.to_vec();
-        self.multiple_zeta_transfrom(&mut g);
+        self.multiple_zeta_transfrom(&mut g, |a, b| a + b);
         for i in 1..=n {
             f[i] *= g[i];
         }
@@ -132,18 +134,20 @@ impl Eratosthenes {
     }
 
     /// 約数関係に関する高速ゼータ変換  
+    /// `list[i] = func({list[iの約数達]})` に変換する  
+    /// 可換な二項演算`func`を指定する  
     /// 0番目の値については何もしないので注意
-    pub fn divisor_zeta_transfrom<T: AddAssign + Copy>(&self, list: &mut [T]) {
+    pub fn divisor_zeta_transfrom<T: Copy>(&self, list: &mut [T], func: impl Fn(T, T) -> T) {
         let n = list.len().saturating_sub(1);
         assert!(n <= self.max_n);
         for p in self.primes.iter().take_while(|&&p| p <= n) {
             for i in 1..=(n / p) {
-                list[i * p] += list[i];
+                list[i * p] = func(list[i * p], list[i]);
             }
         }
     }
 
-    /// 約数関係に関する高速メビウス変換  
+    /// 約数関係に関する高速メビウス変換(加算の逆演算)  
     /// 0番目の値については何もしないので注意
     pub fn divisor_mobius_transfrom<T: SubAssign + Copy>(&self, list: &mut [T]) {
         let n = list.len().saturating_sub(1);
@@ -173,7 +177,7 @@ mod test {
     fn test_multiple_zeta_manual() {
         let mut list = (0..=12).collect::<Vec<usize>>();
         let era = Eratosthenes::new(12);
-        era.multiple_zeta_transfrom(&mut list);
+        era.multiple_zeta_transfrom(&mut list, |a, b| a + b);
         assert_eq!(list, [0, 78, 42, 30, 24, 15, 18, 7, 8, 9, 10, 11, 12]);
     }
 
@@ -181,7 +185,7 @@ mod test {
     fn test_divisor_zeta_manual() {
         let mut list = (0..=12).collect::<Vec<usize>>();
         let era = Eratosthenes::new(12);
-        era.divisor_zeta_transfrom(&mut list);
+        era.divisor_zeta_transfrom(&mut list, |a, b| a + b);
         assert_eq!(list, [0, 1, 3, 4, 7, 6, 12, 8, 15, 13, 18, 12, 28]);
     }
 
@@ -194,10 +198,10 @@ mod test {
                 .collect::<Vec<i64>>();
             let mut list_clone = list.clone();
             let era = Eratosthenes::new(size);
-            era.multiple_zeta_transfrom(&mut list_clone);
+            era.multiple_zeta_transfrom(&mut list_clone, |a, b| a + b);
             era.multiple_mobius_transfrom(&mut list_clone);
             assert_eq!(list, list_clone);
-            era.divisor_zeta_transfrom(&mut list_clone);
+            era.divisor_zeta_transfrom(&mut list_clone, |a, b| a + b);
             era.divisor_mobius_transfrom(&mut list_clone);
             assert_eq!(list, list_clone);
         }
