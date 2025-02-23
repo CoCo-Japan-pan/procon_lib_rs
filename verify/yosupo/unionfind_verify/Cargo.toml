@@ -1,5 +1,5 @@
 [package]
-name = "unionfind"
+name = "unionfind_verify"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,4 +7,4 @@ edition = "2021"
 
 [dependencies]
 proconio = { version = "=0.4.5", features = ["derive"] }
-union_find = { path = "../../../crates/data_structure/union_find" }
+unionfind = { path = "../../../crates/data_structure/unionfind" }

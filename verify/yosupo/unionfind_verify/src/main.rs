@@ -1,6 +1,6 @@
 // verification-helper: PROBLEM https://judge.yosupo.jp/problem/unionfind
 use proconio::{fastout, input};
-use union_find::UnionFind;
+use unionfind::UnionFind;
 
 #[fastout]
 fn main() {
