@@ -46,6 +46,11 @@ data:
     - icon: ':warning:'
       path: crates/data_structure/lazy_segtree_utils/src/lib.rs
       title: crates/data_structure/lazy_segtree_utils/src/lib.rs
+  - name: crates/data_structure/partially_persistent_unionfind/src
+    pages:
+    - icon: ':warning:'
+      path: crates/data_structure/partially_persistent_unionfind/src/lib.rs
+      title: crates/data_structure/partially_persistent_unionfind/src/lib.rs
   - name: crates/data_structure/potentialized_union_find/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -86,11 +91,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/data_structure/sparse_table_on_segtree/src/lib.rs
       title: crates/data_structure/sparse_table_on_segtree/src/lib.rs
-  - name: crates/data_structure/union_find/src
+  - name: crates/data_structure/unionfind/src
     pages:
     - icon: ':heavy_check_mark:'
-      path: crates/data_structure/union_find/src/lib.rs
-      title: crates/data_structure/union_find/src/lib.rs
+      path: crates/data_structure/unionfind/src/lib.rs
+      title: crates/data_structure/unionfind/src/lib.rs
   - name: crates/flow/maxflow/src
     pages:
     - icon: ':warning:'
@@ -572,11 +577,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yosupo/sum_of_floor_of_linear/src/main.rs
       title: verify/yosupo/sum_of_floor_of_linear/src/main.rs
-  - name: verify/yosupo/unionfind/src
+  - name: verify/yosupo/unionfind_verify/src
     pages:
     - icon: ':heavy_check_mark:'
-      path: verify/yosupo/unionfind/src/main.rs
-      title: verify/yosupo/unionfind/src/main.rs
+      path: verify/yosupo/unionfind_verify/src/main.rs
+      title: verify/yosupo/unionfind_verify/src/main.rs
   - name: verify/yosupo/vertex_add_path_sum/src
     pages:
     - icon: ':heavy_check_mark:'
