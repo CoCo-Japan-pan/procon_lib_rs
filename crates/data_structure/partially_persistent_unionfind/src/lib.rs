@@ -1,6 +1,6 @@
 //! 部分永続UnionFind  
 //! 全バージョンにアクセス可能であり、最新バージョンのみ更新可能なUnionFind  
-//! 経路圧縮はできないのでクエリはならしO(logN)  
+//! 経路圧縮はできないのでクエリはO(logN)  
 //! <https://blog.tiramister.net/posts/persistent-unionfind/>
 
 pub struct PartiallyPersistentUnionFind {
@@ -95,10 +95,10 @@ mod tests {
     #[test]
     fn test() {
         let mut rng = rand::rng();
-        const SIZE: usize = 1000;
+        const SIZE: usize = 100;
         let mut puf = PartiallyPersistentUnionFind::new(SIZE);
         let mut ufs = vec![UnionFind::new(SIZE)];
-        for _ in 0..SIZE {
+        for _ in 0..SIZE * 2 {
             let a = rng.random_range(0..SIZE);
             let b = rng.random_range(0..SIZE);
             let mut last = ufs.last().unwrap().clone();
@@ -106,10 +106,12 @@ mod tests {
             ufs.push(last);
             puf.merge(a, b);
         }
-        for t in 0..=SIZE {
-            let a = rng.random_range(0..SIZE);
-            let b = rng.random_range(0..SIZE);
-            assert_eq!(ufs[t].same(a, b), puf.same(a, b, t));
+        for t in 0..=SIZE * 2 {
+            for i in 0..SIZE {
+                for j in 0..SIZE {
+                    assert_eq!(ufs[t].same(i, j), puf.same(i, j, t));
+                }
+            }
             for i in 0..SIZE {
                 assert_eq!(ufs[t].size(i), puf.size(i, t));
             }
