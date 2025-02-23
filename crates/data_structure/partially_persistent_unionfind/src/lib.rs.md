@@ -19,7 +19,7 @@ data:
     \u30F3\u306B\u30A2\u30AF\u30BB\u30B9\u53EF\u80FD\u3067\u3042\u308A\u3001\u6700\
     \u65B0\u30D0\u30FC\u30B8\u30E7\u30F3\u306E\u307F\u66F4\u65B0\u53EF\u80FD\u306A\
     UnionFind  \n//! \u7D4C\u8DEF\u5727\u7E2E\u306F\u3067\u304D\u306A\u3044\u306E\u3067\
-    \u30AF\u30A8\u30EA\u306F\u306A\u3089\u3057O(logN)  \n//! <https://blog.tiramister.net/posts/persistent-unionfind/>\n\
+    \u30AF\u30A8\u30EA\u306FO(logN)  \n//! <https://blog.tiramister.net/posts/persistent-unionfind/>\n\
     \npub struct PartiallyPersistentUnionFind {\n    size: usize,\n    /// \u73FE\u5728\
     \u6642\u523B\n    now: usize,\n    /// \u5404\u30CE\u30FC\u30C9\u306E\u89AA(\u6839\
     \u306E\u5834\u5408\u306F\u81EA\u8EAB)\n    par: Vec<usize>,\n    /// \u5404\u30CE\
@@ -58,20 +58,21 @@ data:
     \ = mid;\n            }\n        }\n        self.num[x][ok].1\n    }\n}\n\n#[cfg(test)]\n\
     mod tests {\n    use super::*;\n    use rand::prelude::*;\n    use unionfind::UnionFind;\n\
     \n    #[test]\n    fn test() {\n        let mut rng = rand::rng();\n        const\
-    \ SIZE: usize = 1000;\n        let mut puf = PartiallyPersistentUnionFind::new(SIZE);\n\
-    \        let mut ufs = vec![UnionFind::new(SIZE)];\n        for _ in 0..SIZE {\n\
-    \            let a = rng.random_range(0..SIZE);\n            let b = rng.random_range(0..SIZE);\n\
+    \ SIZE: usize = 100;\n        let mut puf = PartiallyPersistentUnionFind::new(SIZE);\n\
+    \        let mut ufs = vec![UnionFind::new(SIZE)];\n        for _ in 0..SIZE *\
+    \ 2 {\n            let a = rng.random_range(0..SIZE);\n            let b = rng.random_range(0..SIZE);\n\
     \            let mut last = ufs.last().unwrap().clone();\n            last.merge(a,\
     \ b);\n            ufs.push(last);\n            puf.merge(a, b);\n        }\n\
-    \        for t in 0..=SIZE {\n            let a = rng.random_range(0..SIZE);\n\
-    \            let b = rng.random_range(0..SIZE);\n            assert_eq!(ufs[t].same(a,\
-    \ b), puf.same(a, b, t));\n            for i in 0..SIZE {\n                assert_eq!(ufs[t].size(i),\
-    \ puf.size(i, t));\n            }\n        }\n    }\n}\n"
+    \        for t in 0..=SIZE * 2 {\n            for i in 0..SIZE {\n           \
+    \     for j in 0..SIZE {\n                    assert_eq!(ufs[t].same(i, j), puf.same(i,\
+    \ j, t));\n                }\n            }\n            for i in 0..SIZE {\n\
+    \                assert_eq!(ufs[t].size(i), puf.size(i, t));\n            }\n\
+    \        }\n    }\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/data_structure/partially_persistent_unionfind/src/lib.rs
   requiredBy: []
-  timestamp: '2025-02-23 13:41:48+09:00'
+  timestamp: '2025-02-23 14:02:59+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/data_structure/partially_persistent_unionfind/src/lib.rs
