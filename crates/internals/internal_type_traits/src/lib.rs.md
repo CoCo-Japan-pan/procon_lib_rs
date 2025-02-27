@@ -81,19 +81,19 @@ data:
   isVerificationFile: false
   path: crates/internals/internal_type_traits/src/lib.rs
   requiredBy:
-  - crates/modint/static_modint/src/lib.rs
+  - crates/internals/internal_modint/src/lib.rs
+  - crates/math/matrix/src/lib.rs
   - crates/modint/dynamic_modint/src/lib.rs
+  - crates/modint/static_modint/src/lib.rs
+  - crates/utils/monoid_utils/src/lib.rs
   - crates/flow/maxflow/src/lib.rs
   - crates/flow/maxflow_lower_bound/src/lib.rs
-  - crates/utils/monoid_utils/src/lib.rs
-  - crates/math/matrix/src/lib.rs
+  - crates/data_structure/lazy_segtree_utils/src/lib.rs
+  - crates/data_structure/segtree_2d_compressed/src/lib.rs
   - crates/fps/ntt/src/lib.rs
   - crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
   - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   - crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
-  - crates/internals/internal_modint/src/lib.rs
-  - crates/data_structure/segtree_2d_compressed/src/lib.rs
-  - crates/data_structure/lazy_segtree_utils/src/lib.rs
   timestamp: '2024-12-02 17:06:04+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

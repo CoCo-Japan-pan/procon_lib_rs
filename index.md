@@ -246,6 +246,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/tree/auxiliary_tree/src/lib.rs
       title: crates/tree/auxiliary_tree/src/lib.rs
+  - name: crates/tree/cartesian_tree/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: crates/tree/cartesian_tree/src/lib.rs
+      title: crates/tree/cartesian_tree/src/lib.rs
   - name: crates/tree/centroid_decomposition/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -467,6 +472,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
       title: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
+  - name: verify/yosupo/cartesian_tree_ysp/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yosupo/cartesian_tree_ysp/src/main.rs
+      title: verify/yosupo/cartesian_tree_ysp/src/main.rs
   - name: verify/yosupo/convolution_mod_1000000007_ntt/src
     pages:
     - icon: ':heavy_check_mark:'

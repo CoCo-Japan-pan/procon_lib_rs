@@ -164,45 +164,45 @@ data:
   isVerificationFile: false
   path: crates/algebra/src/lib.rs
   requiredBy:
-  - crates/utils/monoid_utils/src/lib.rs
+  - verify/AtCoder/typical_068/src/main.rs
+  - crates/tree/rerooting/src/lib.rs
+  - crates/tree/euler_tour/src/lib.rs
   - crates/math/matrix/src/lib.rs
-  - crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
-  - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
+  - crates/utils/monoid_utils/src/lib.rs
+  - crates/data_structure/lazy_segtree_utils/src/lib.rs
   - crates/data_structure/segtree/src/lib.rs
   - crates/data_structure/lazy_segtree/src/lib.rs
-  - crates/data_structure/segtree_2d_compressed/src/lib.rs
-  - crates/data_structure/sparse_table/src/lib.rs
-  - crates/data_structure/lazy_segtree_utils/src/lib.rs
   - crates/data_structure/dual_segtree/src/lib.rs
+  - crates/data_structure/potentialized_union_find/src/lib.rs
   - crates/data_structure/sparse_table_on_segtree/src/lib.rs
   - crates/data_structure/segtree_2d_dense/src/lib.rs
-  - crates/data_structure/potentialized_union_find/src/lib.rs
-  - crates/tree/euler_tour/src/lib.rs
-  - crates/tree/rerooting/src/lib.rs
-  - verify/AtCoder/typical_068/src/main.rs
+  - crates/data_structure/sparse_table/src/lib.rs
+  - crates/data_structure/segtree_2d_compressed/src/lib.rs
+  - crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
+  - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   timestamp: '2024-10-28 22:46:07+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - verify/AOJ/dsl_2f_lazy_seg/src/main.rs
+  - verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
+  - verify/AOJ/no_2842/src/main.rs
+  - verify/AOJ/no_1068/src/main.rs
+  - verify/AOJ/dsl_2d_dual_seg_non_commutative/src/main.rs
+  - verify/AOJ/dsl_2d_dual_seg/src/main.rs
   - verify/yukicoder/no_1625_wavelet/src/main.rs
   - verify/yukicoder/no_1625/src/main.rs
-  - verify/AOJ/dsl_2d_dual_seg_non_commutative/src/main.rs
-  - verify/AOJ/no_2842/src/main.rs
-  - verify/AOJ/dsl_2f_lazy_seg/src/main.rs
-  - verify/AOJ/dsl_2d_dual_seg/src/main.rs
-  - verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
-  - verify/AOJ/no_1068/src/main.rs
-  - verify/yosupo/point_add_rectangle_sum_seg2d/src/main.rs
   - verify/yosupo/point_set_range_composite/src/main.rs
+  - verify/yosupo/staticrmq_sparse_table/src/main.rs
+  - verify/yosupo/point_add_rect_sum_wavelet_seg/src/main.rs
   - verify/yosupo/rectangle_add_point_get/src/main.rs
   - verify/yosupo/vertex_set_path_composite/src/main.rs
+  - verify/yosupo/point_add_rectangle_sum_seg2d/src/main.rs
   - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
-  - verify/yosupo/point_add_rect_sum_wavelet_seg/src/main.rs
-  - verify/yosupo/staticrmq_sparse_table/src/main.rs
-  - verify/AtCoder/abc328f/src/main.rs
   - verify/AtCoder/abc348e/src/main.rs
   - verify/AtCoder/abc222f/src/main.rs
   - verify/AtCoder/abc312g/src/main.rs
   - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
+  - verify/AtCoder/abc328f/src/main.rs
 documentation_of: crates/algebra/src/lib.rs
 layout: document
 redirect_from:

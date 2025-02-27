@@ -139,8 +139,8 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_1625/src/main.rs
-  - verify/yosupo/point_add_rectangle_sum_seg2d/src/main.rs
   - verify/yosupo/rectangle_add_point_get/src/main.rs
+  - verify/yosupo/point_add_rectangle_sum_seg2d/src/main.rs
 documentation_of: crates/data_structure/segtree_2d_compressed/src/lib.rs
 layout: document
 redirect_from:

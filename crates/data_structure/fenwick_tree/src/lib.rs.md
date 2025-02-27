@@ -110,17 +110,17 @@ data:
   isVerificationFile: false
   path: crates/data_structure/fenwick_tree/src/lib.rs
   requiredBy:
-  - crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
-  - crates/data_structure/raq_rsq/src/lib.rs
   - verify/AtCoder/abc384g/src/main.rs
   - verify/AtCoder/abc294g/src/main.rs
+  - crates/data_structure/raq_rsq/src/lib.rs
+  - crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
   timestamp: '2025-01-19 12:17:00+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_649_fenwick_tree/src/main.rs
+  - verify/yosupo/static_range_inversions_query/src/main.rs
   - verify/yosupo/vertex_add_path_sum/src/main.rs
   - verify/yosupo/vertex_add_subtree_sum/src/main.rs
-  - verify/yosupo/static_range_inversions_query/src/main.rs
 documentation_of: crates/data_structure/fenwick_tree/src/lib.rs
 layout: document
 redirect_from:
