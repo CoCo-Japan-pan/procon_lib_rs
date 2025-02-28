@@ -124,6 +124,9 @@ fn convolution_ntt_friendly<const NTT_MOD: u32, const PRIMITIVE_ROOT: u32>(
 
 /// 取りうる最大値を超えるmodを表現できるようなmodの組を選んで畳み込み、Garnerで復元
 fn convolution_aribtrary_u32_mod<M: ModInt>(a: &[M], b: &[M]) -> Vec<M> {
+    if a.len().min(b.len()) <= 60 {
+        return convolution_naive(a, b);
+    }
     const G_MOD1: u32 = 167_772_161;
     const G_MOD2: u32 = 469_762_049;
     const G_MOD3: u32 = 1_224_736_769;
