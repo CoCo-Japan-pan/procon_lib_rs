@@ -13,3 +13,8 @@ publish = false
 ntt = { path = "../ntt" }
 internal_bits = { path = "../../internals/internal_bits" }
 enumerate_inv_mods = { path = "../../math/enumerate_inv_mods" }
+
+[dev-dependencies]
+rand = "0.8.5"
+matrix = { path = "../../math/matrix" }
+static_modint = {  path = "../../modint/static_modint" }
