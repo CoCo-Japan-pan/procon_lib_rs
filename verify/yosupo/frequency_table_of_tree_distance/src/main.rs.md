@@ -74,7 +74,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/frequency_table_of_tree_distance/src/main.rs
   requiredBy: []
-  timestamp: '2024-12-09 18:05:27+09:00'
+  timestamp: '2025-02-28 13:20:48+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/frequency_table_of_tree_distance/src/main.rs

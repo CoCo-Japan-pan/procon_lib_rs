@@ -101,7 +101,8 @@ data:
     \u3046\u308B\u6700\u5927\u5024\u3092\u8D85\u3048\u308Bmod\u3092\u8868\u73FE\u3067\
     \u304D\u308B\u3088\u3046\u306Amod\u306E\u7D44\u3092\u9078\u3093\u3067\u7573\u307F\
     \u8FBC\u307F\u3001Garner\u3067\u5FA9\u5143\nfn convolution_aribtrary_u32_mod<M:\
-    \ ModInt>(a: &[M], b: &[M]) -> Vec<M> {\n    const G_MOD1: u32 = 167_772_161;\n\
+    \ ModInt>(a: &[M], b: &[M]) -> Vec<M> {\n    if a.len().min(b.len()) <= 60 {\n\
+    \        return convolution_naive(a, b);\n    }\n    const G_MOD1: u32 = 167_772_161;\n\
     \    const G_MOD2: u32 = 469_762_049;\n    const G_MOD3: u32 = 1_224_736_769;\n\
     \    let x = convolution_ntt_friendly::<G_MOD1, 3>(\n        a.iter()\n      \
     \      .map(|x| StaticModInt::<G_MOD1>::new(x.value()))\n            .collect::<Vec<_>>()\n\
@@ -182,7 +183,7 @@ data:
   path: crates/fps/ntt/src/lib.rs
   requiredBy:
   - crates/fps/fps_utils/src/lib.rs
-  timestamp: '2024-12-02 17:06:04+09:00'
+  timestamp: '2025-02-28 13:20:48+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/convolution_ntt/src/main.rs
