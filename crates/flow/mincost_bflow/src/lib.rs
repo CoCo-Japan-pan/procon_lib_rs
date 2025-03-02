@@ -7,6 +7,8 @@ use std::ops::Neg;
 
 #[derive(Debug, Clone, Default)]
 pub struct MinCostBFlowResult<T> {
+    /// もしs-tを指定している場合、その間に流れる流量 (ただのb-flowの場合は0)
+    pub st_flow: T,
     /// 総コスト
     pub cost: T,
     /// 復元した流量
@@ -154,30 +156,20 @@ impl<T: Integral + Neg<Output = T>> MinCostBFlow<T> {
     /// sからtに自由なだけ流せる場合の最小費用b-flowを解く  
     /// これはただtからsに無限容量、コスト0の辺を張ってb-flowを解くだけ  
     /// bの条件を満たせない(infeasible)ならNoneを返す  
-    /// sからtに流れた量と、MinCostBFlowResultのペアを返す
-    pub fn st_mincost_freeflow(
-        &mut self,
-        s: usize,
-        t: usize,
-    ) -> Option<(T, &MinCostBFlowResult<T>)> {
+    pub fn st_mincost_freeflow(&mut self, s: usize, t: usize) -> Option<&MinCostBFlowResult<T>> {
         assert!(s < self.size && t < self.size && s != t);
         let t_to_s_id = self.mcf.add_edge(t, s, T::max_value(), T::zero());
         if !self.reduce_to_st_flow() {
             return None;
         }
-        let flow = self.mcf.get_edge(t_to_s_id).flow;
+        self.result.st_flow = self.mcf.get_edge(t_to_s_id).flow;
         self.recover_flow_potential();
-        Some((flow, &self.result))
+        Some(&self.result)
     }
 
-    /// 最小費用最大流を解く  
+    /// sからtに流せるだけ流さないといけない場合の最小費用b-flowを解く  
     /// bの条件を満たせない(infeasible)ならNoneを返す  
-    /// sに+f, tに-fした後の制約を満たすようなフローが存在するような最大のfと、MinCostBFlowResultのペアを返す
-    pub fn st_mincost_maxflow(
-        &mut self,
-        s: usize,
-        t: usize,
-    ) -> Option<(T, &MinCostBFlowResult<T>)> {
+    pub fn st_mincost_maxflow(&mut self, s: usize, t: usize) -> Option<&MinCostBFlowResult<T>> {
         assert!(s < self.size && t < self.size && s != t);
         // まずsからtに自由に流せるときを求める
         let t_to_s_id = self.mcf.add_edge(t, s, T::max_value(), T::zero());
@@ -187,8 +179,9 @@ impl<T: Integral + Neg<Output = T>> MinCostBFlow<T> {
         let first_flow = self.mcf.get_edge(t_to_s_id).flow;
         // sに+無限、tに-無限と考えて流す
         let (add_flow, add_cost) = self.mcf.flow(s, t, T::max_value());
+        self.result.st_flow = first_flow + add_flow;
         self.result.cost += add_cost;
         self.recover_flow_potential();
-        Some((first_flow + add_flow, &self.result))
+        Some(&self.result)
     }
 }
