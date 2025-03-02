@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"macro":["define_modcontainer"],"struct":["DynamicModInt"],"trait":["ModContainer"]};
