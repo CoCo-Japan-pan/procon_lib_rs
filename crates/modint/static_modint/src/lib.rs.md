@@ -177,7 +177,7 @@ data:
   - verify/AtCoder/typical_057/src/main.rs
   - verify/AtCoder/abc290f/src/main.rs
   - crates/fps/ntt/src/lib.rs
-  timestamp: '2024-12-02 17:06:04+09:00'
+  timestamp: '2025-03-02 17:25:42+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_803/src/main.rs

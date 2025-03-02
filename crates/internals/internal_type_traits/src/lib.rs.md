@@ -9,11 +9,17 @@ data:
     path: crates/data_structure/segtree_2d_compressed/src/lib.rs
     title: crates/data_structure/segtree_2d_compressed/src/lib.rs
   - icon: ':warning:'
+    path: crates/flow/atcoder_mincostflow/src/lib.rs
+    title: crates/flow/atcoder_mincostflow/src/lib.rs
+  - icon: ':warning:'
     path: crates/flow/maxflow/src/lib.rs
     title: crates/flow/maxflow/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/flow/maxflow_lower_bound/src/lib.rs
     title: crates/flow/maxflow_lower_bound/src/lib.rs
+  - icon: ':warning:'
+    path: crates/flow/mincost_bflow/src/lib.rs
+    title: crates/flow/mincost_bflow/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/fps/ntt/src/lib.rs
     title: crates/fps/ntt/src/lib.rs
@@ -60,23 +66,23 @@ data:
     \u5927\u5024\u3092\u6301\u3064  \npub trait Integral:\n    Copy\n    + Add<Output\
     \ = Self>\n    + AddAssign\n    + Sub<Output = Self>\n    + SubAssign\n    + Mul<Output\
     \ = Self>\n    + MulAssign\n    + Ord\n    + Zero\n    + One\n    + BoundedBelow\n\
-    \    + BoundedAbove\n    + Display\n    + Debug\n{\n}\n\n/// Class that has additive\
-    \ identity element\npub trait Zero {\n    /// The additive identity element\n\
-    \    fn zero() -> Self;\n}\n\n/// Class that has multiplicative identity element\n\
-    pub trait One {\n    /// The multiplicative identity element\n    fn one() ->\
-    \ Self;\n}\n\npub trait BoundedBelow {\n    fn min_value() -> Self;\n}\n\npub\
-    \ trait BoundedAbove {\n    fn max_value() -> Self;\n}\n\nmacro_rules! impl_integral\
-    \ {\n    ($($ty:ty),*) => {\n        $(\n            impl Zero for $ty {\n   \
-    \             #[inline]\n                fn zero() -> Self {\n               \
-    \     0\n                }\n            }\n\n            impl One for $ty {\n\
-    \                #[inline]\n                fn one() -> Self {\n             \
-    \       1\n                }\n            }\n\n            impl BoundedBelow for\
-    \ $ty {\n                #[inline]\n                fn min_value() -> Self {\n\
-    \                    Self::MIN\n                }\n            }\n\n         \
-    \   impl BoundedAbove for $ty {\n                #[inline]\n                fn\
-    \ max_value() -> Self {\n                    Self::MAX\n                }\n  \
-    \          }\n\n            impl Integral for $ty {}\n        )*\n    };\n}\n\n\
-    impl_integral!(i8, i16, i32, i64, i128, isize, u8, u16, u32, u64, u128, usize);\n"
+    \    + BoundedAbove\n    + Display\n    + Debug\n    + Default\n{\n}\n\n/// Class\
+    \ that has additive identity element\npub trait Zero {\n    /// The additive identity\
+    \ element\n    fn zero() -> Self;\n}\n\n/// Class that has multiplicative identity\
+    \ element\npub trait One {\n    /// The multiplicative identity element\n    fn\
+    \ one() -> Self;\n}\n\npub trait BoundedBelow {\n    fn min_value() -> Self;\n\
+    }\n\npub trait BoundedAbove {\n    fn max_value() -> Self;\n}\n\nmacro_rules!\
+    \ impl_integral {\n    ($($ty:ty),*) => {\n        $(\n            impl Zero for\
+    \ $ty {\n                #[inline]\n                fn zero() -> Self {\n    \
+    \                0\n                }\n            }\n\n            impl One for\
+    \ $ty {\n                #[inline]\n                fn one() -> Self {\n     \
+    \               1\n                }\n            }\n\n            impl BoundedBelow\
+    \ for $ty {\n                #[inline]\n                fn min_value() -> Self\
+    \ {\n                    Self::MIN\n                }\n            }\n\n     \
+    \       impl BoundedAbove for $ty {\n                #[inline]\n             \
+    \   fn max_value() -> Self {\n                    Self::MAX\n                }\n\
+    \            }\n\n            impl Integral for $ty {}\n        )*\n    };\n}\n\
+    \nimpl_integral!(i8, i16, i32, i64, i128, isize, u8, u16, u32, u64, u128, usize);\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/internals/internal_type_traits/src/lib.rs
@@ -86,6 +92,8 @@ data:
   - crates/modint/dynamic_modint/src/lib.rs
   - crates/modint/static_modint/src/lib.rs
   - crates/utils/monoid_utils/src/lib.rs
+  - crates/flow/atcoder_mincostflow/src/lib.rs
+  - crates/flow/mincost_bflow/src/lib.rs
   - crates/flow/maxflow/src/lib.rs
   - crates/flow/maxflow_lower_bound/src/lib.rs
   - crates/data_structure/lazy_segtree_utils/src/lib.rs
@@ -94,7 +102,7 @@ data:
   - crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
   - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   - crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
-  timestamp: '2024-12-02 17:06:04+09:00'
+  timestamp: '2025-03-02 17:25:42+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/internals/internal_type_traits/src/lib.rs

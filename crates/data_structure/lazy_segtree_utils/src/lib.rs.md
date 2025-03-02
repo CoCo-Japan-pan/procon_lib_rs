@@ -182,7 +182,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/lazy_segtree_utils/src/lib.rs
   requiredBy: []
-  timestamp: '2024-12-02 17:51:20+09:00'
+  timestamp: '2025-03-02 17:25:42+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/data_structure/lazy_segtree_utils/src/lib.rs

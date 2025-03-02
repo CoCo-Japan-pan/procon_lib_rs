@@ -96,6 +96,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/data_structure/unionfind/src/lib.rs
       title: crates/data_structure/unionfind/src/lib.rs
+  - name: crates/flow/atcoder_mincostflow/src
+    pages:
+    - icon: ':warning:'
+      path: crates/flow/atcoder_mincostflow/src/lib.rs
+      title: crates/flow/atcoder_mincostflow/src/lib.rs
   - name: crates/flow/maxflow/src
     pages:
     - icon: ':warning:'
@@ -106,6 +111,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/flow/maxflow_lower_bound/src/lib.rs
       title: crates/flow/maxflow_lower_bound/src/lib.rs
+  - name: crates/flow/mincost_bflow/src
+    pages:
+    - icon: ':warning:'
+      path: crates/flow/mincost_bflow/src/lib.rs
+      title: crates/flow/mincost_bflow/src/lib.rs
   - name: crates/fps/fps_utils/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -361,6 +371,11 @@ data:
     - icon: ':warning:'
       path: verify/yosupo/eulerian_trail_undirected/src/main.rs
       title: verify/yosupo/eulerian_trail_undirected/src/main.rs
+  - name: verify/yosupo/min_cost_b_flow/src
+    pages:
+    - icon: ':warning:'
+      path: verify/yosupo/min_cost_b_flow/src/main.rs
+      title: verify/yosupo/min_cost_b_flow/src/main.rs
   - name: verify/yosupo/strongly_connected_components/src
     pages:
     - icon: ':warning:'

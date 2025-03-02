@@ -135,7 +135,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/segtree_2d_compressed/src/lib.rs
   requiredBy: []
-  timestamp: '2024-12-02 17:06:04+09:00'
+  timestamp: '2025-03-02 17:25:42+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_1625/src/main.rs

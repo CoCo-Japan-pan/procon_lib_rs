@@ -188,7 +188,7 @@ data:
   isVerificationFile: false
   path: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
   requiredBy: []
-  timestamp: '2024-12-16 14:54:34+09:00'
+  timestamp: '2025-03-02 17:25:42+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_738/src/main.rs
