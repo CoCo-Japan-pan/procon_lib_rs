@@ -35,7 +35,7 @@ data:
   isVerificationFile: false
   path: verify/yosupo/min_cost_b_flow/src/main.rs
   requiredBy: []
-  timestamp: '2025-03-02 17:56:59+09:00'
+  timestamp: '2025-03-02 18:27:14+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: verify/yosupo/min_cost_b_flow/src/main.rs

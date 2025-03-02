@@ -42,35 +42,38 @@ data:
     \            size: n,\n            mcf: MinCostFlowGraph::new(n + 2),\n      \
     \      b_list: vec![T::zero(); n],\n            rev: vec![],\n        }\n    }\n\
     \n    /// `from -> to` \u306B\u3001`lower <= cap <= upper` \u306E\u6D41\u91CF\u5236\
-    \u9650\u304C\u3042\u308B\u8FBA\u3092\u5F35\u308B\n    pub fn add_edge(\n     \
-    \   &mut self,\n        mut from: usize,\n        mut to: usize,\n        mut\
-    \ lower: T,\n        mut upper: T,\n        mut cost: T,\n    ) -> usize {\n \
-    \       assert!(from < self.size);\n        assert!(to < self.size);\n       \
-    \ assert!(T::zero() <= lower);\n        assert!(lower <= upper);\n        let\
-    \ minus_edge = cost < T::zero();\n        self.rev.push(minus_edge);\n       \
-    \ // \u8CA0\u8FBA\u306E\u5834\u5408\u306F\u6700\u5927\u307E\u3067\u3042\u3089\u304B\
-    \u3058\u3081\u6D41\u3057\u3001\u9006\u306E\u8FBA\u3092\u5F35\u308B\n        if\
-    \ minus_edge {\n            std::mem::swap(&mut from, &mut to);\n            (lower,\
-    \ upper) = (-upper, -lower);\n            cost = -cost;\n        }\n        //\
-    \ from -> to \u306B\u3042\u3089\u304B\u3058\u3081lower\u3060\u3051\u6D41\u3057\
-    \u3066\u304A\u304F\n        self.b_list[from] -= lower;\n        self.b_list[to]\
-    \ += lower;\n        self.result.flow.push(lower);\n        self.result.cost +=\
-    \ lower * cost;\n        self.mcf.add_edge(from, to, upper - lower, cost)\n  \
-    \  }\n\n    /// \u9802\u70B9v\u306Bsupply\u5206\u306E\u6E67\u304D\u51FA\u3057\u3092\
-    \u8FFD\u52A0\n    pub fn add_supply(&mut self, v: usize, supply: T) {\n      \
-    \  assert!(v < self.size);\n        assert!(supply >= T::zero());\n        self.b_list[v]\
-    \ += supply;\n    }\n\n    /// \u9802\u70B9v\u306Bdemand\u5206\u306E\u5438\u3044\
-    \u8FBC\u307F\u3092\u8FFD\u52A0\n    pub fn add_demand(&mut self, v: usize, demand:\
-    \ T) {\n        assert!(v < self.size);\n        assert!(demand >= T::zero());\n\
-    \        self.b_list[v] -= demand;\n    }\n\n    /// \u8D85\u9802\u70B9\u3092\u7528\
-    \u610F\u3057\u3066st-flow\u306B\u5E30\u7740\u3057\u6D41\u3057\u3001\u7DCF\u30B3\
-    \u30B9\u30C8\u3082\u66F4\u65B0  \n    /// b\u306E\u6B63\u306E\u548C\u3068\u8CA0\
-    \u306E\u7D76\u5BFE\u5024\u306E\u548C\u304C\u7B49\u3057\u304F\u306A\u3044\u5834\
-    \u5408\u306Ffalse\u3092\u8FD4\u3059  \n    /// \u3053\u306E\u3068\u304D\u6700\u5927\
-    \u307E\u3067\u6D41\u305B\u308C\u3070true\u3092\u8FD4\u3059\n    fn reduce_to_st_flow(&mut\
-    \ self) -> bool {\n        let dummy_source = self.size;\n        let dummy_sink\
-    \ = self.size + 1;\n        let mut positive_sum = T::zero();\n        let mut\
-    \ negative_sum = T::zero();\n        for (v, &b) in self.b_list.iter().enumerate()\
+    \u9650\u304C\u3042\u308B\u8FBA\u3092\u5F35\u308B  \n    /// \u8CA0\u8FBA\u306E\
+    \u5834\u5408\u306F\u3042\u3089\u304B\u3058\u3081upper\u3060\u3051\u6D41\u3059\u306E\
+    \u3067\u3001\u3053\u3053\u306FINF\u306B\u305B\u305A\u3001\u30AA\u30FC\u30D0\u30D5\
+    \u30ED\u30FC\u3057\u306A\u3044\u4E0A\u9650\u3092\u6307\u5B9A\u3059\u308B\uFF01\
+    \n    pub fn add_edge(\n        &mut self,\n        mut from: usize,\n       \
+    \ mut to: usize,\n        mut lower: T,\n        mut upper: T,\n        mut cost:\
+    \ T,\n    ) -> usize {\n        assert!(from < self.size);\n        assert!(to\
+    \ < self.size);\n        assert!(T::zero() <= lower);\n        assert!(lower <=\
+    \ upper);\n        let minus_edge = cost < T::zero();\n        self.rev.push(minus_edge);\n\
+    \        // \u8CA0\u8FBA\u306E\u5834\u5408\u306F\u6700\u5927\u307E\u3067\u3042\
+    \u3089\u304B\u3058\u3081\u6D41\u3057\u3001\u9006\u306E\u8FBA\u3092\u5F35\u308B\
+    \n        if minus_edge {\n            std::mem::swap(&mut from, &mut to);\n \
+    \           (lower, upper) = (-upper, -lower);\n            cost = -cost;\n  \
+    \      }\n        // from -> to \u306B\u3042\u3089\u304B\u3058\u3081lower\u3060\
+    \u3051\u6D41\u3057\u3066\u304A\u304F\n        self.b_list[from] -= lower;\n  \
+    \      self.b_list[to] += lower;\n        self.result.flow.push(lower);\n    \
+    \    self.result.cost += lower * cost;\n        self.mcf.add_edge(from, to, upper\
+    \ - lower, cost)\n    }\n\n    /// \u9802\u70B9v\u306Bsupply\u5206\u306E\u6E67\
+    \u304D\u51FA\u3057\u3092\u8FFD\u52A0\n    pub fn add_supply(&mut self, v: usize,\
+    \ supply: T) {\n        assert!(v < self.size);\n        assert!(supply >= T::zero());\n\
+    \        self.b_list[v] += supply;\n    }\n\n    /// \u9802\u70B9v\u306Bdemand\u5206\
+    \u306E\u5438\u3044\u8FBC\u307F\u3092\u8FFD\u52A0\n    pub fn add_demand(&mut self,\
+    \ v: usize, demand: T) {\n        assert!(v < self.size);\n        assert!(demand\
+    \ >= T::zero());\n        self.b_list[v] -= demand;\n    }\n\n    /// \u8D85\u9802\
+    \u70B9\u3092\u7528\u610F\u3057\u3066st-flow\u306B\u5E30\u7740\u3057\u6D41\u3057\
+    \u3001\u7DCF\u30B3\u30B9\u30C8\u3082\u66F4\u65B0  \n    /// b\u306E\u6B63\u306E\
+    \u548C\u3068\u8CA0\u306E\u7D76\u5BFE\u5024\u306E\u548C\u304C\u7B49\u3057\u304F\
+    \u306A\u3044\u5834\u5408\u306Ffalse\u3092\u8FD4\u3059  \n    /// \u3053\u306E\u3068\
+    \u304D\u6700\u5927\u307E\u3067\u6D41\u305B\u308C\u3070true\u3092\u8FD4\u3059\n\
+    \    fn reduce_to_st_flow(&mut self) -> bool {\n        let dummy_source = self.size;\n\
+    \        let dummy_sink = self.size + 1;\n        let mut positive_sum = T::zero();\n\
+    \        let mut negative_sum = T::zero();\n        for (v, &b) in self.b_list.iter().enumerate()\
     \ {\n            use std::cmp::Ordering::*;\n            match b.cmp(&T::zero())\
     \ {\n                Less => {\n                    self.mcf.add_edge(v, dummy_sink,\
     \ -b, T::zero());\n                    negative_sum += -b;\n                }\n\
@@ -136,7 +139,7 @@ data:
   path: crates/flow/mincost_bflow/src/lib.rs
   requiredBy:
   - verify/yosupo/min_cost_b_flow/src/main.rs
-  timestamp: '2025-03-02 17:56:59+09:00'
+  timestamp: '2025-03-02 18:27:14+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/flow/mincost_bflow/src/lib.rs
