@@ -36,7 +36,9 @@ impl<T: Integral + Neg<Output = T>> MinCostBFlow<T> {
         }
     }
 
-    /// `from -> to` に、`lower <= cap <= upper` の流量制限がある辺を張る
+    /// `from -> to` に、`lower <= cap <= upper` の流量制限がある辺を張る  
+    /// 負辺の場合はあらかじめupperだけ流すので、ここはINFにせず、オーバフローしない上限を指定する！  
+    /// 流量が増えるので、TLEする場合、負辺はうまく下駄をはかせる等の対処が必要かも
     pub fn add_edge(
         &mut self,
         mut from: usize,
