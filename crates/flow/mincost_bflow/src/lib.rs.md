@@ -30,15 +30,18 @@ data:
     \u306B\u3001atcoder\u306E\u30E9\u30A4\u30D6\u30E9\u30EA\u3092\u5229\u7528\u3057\
     \u3066\u3044\u308B\n\nuse atcoder_mincostflow::MinCostFlowGraph;\nuse internal_type_traits::Integral;\n\
     use std::ops::Neg;\n\n#[derive(Debug, Clone, Default)]\npub struct MinCostBFlowResult<T>\
-    \ {\n    /// \u7DCF\u30B3\u30B9\u30C8\n    pub cost: T,\n    /// \u5FA9\u5143\u3057\
-    \u305F\u6D41\u91CF\n    pub flow: Vec<T>,\n    /// \u30DD\u30C6\u30F3\u30B7\u30E3\
-    \u30EB\n    pub potential: Vec<T>,\n}\n\n#[derive(Debug, Clone)]\npub struct MinCostBFlow<T:\
-    \ Integral + Neg<Output = T>> {\n    result: MinCostBFlowResult<T>,\n    size:\
-    \ usize,\n    mcf: MinCostFlowGraph<T>,\n    b_list: Vec<T>,\n    /// \u8CA0\u8FBA\
-    \u306E\u5834\u5408\u306F\u9006\u306B\u3057\u3066\u3044\u308B \u8CA0\u8FBA\u306E\
-    \u5404id\u3054\u3068\u306B\u3001\u9006\u306B\u3057\u3066\u3044\u308C\u3070true\n\
-    \    rev: Vec<bool>,\n}\n\nimpl<T: Integral + Neg<Output = T>> MinCostBFlow<T>\
-    \ {\n    pub fn new(n: usize) -> Self {\n        Self {\n            result: MinCostBFlowResult::default(),\n\
+    \ {\n    /// \u3082\u3057s-t\u3092\u6307\u5B9A\u3057\u3066\u3044\u308B\u5834\u5408\
+    \u3001\u305D\u306E\u9593\u306B\u6D41\u308C\u308B\u6D41\u91CF (\u305F\u3060\u306E\
+    b-flow\u306E\u5834\u5408\u306F0)\n    pub st_flow: T,\n    /// \u7DCF\u30B3\u30B9\
+    \u30C8\n    pub cost: T,\n    /// \u5FA9\u5143\u3057\u305F\u6D41\u91CF\n    pub\
+    \ flow: Vec<T>,\n    /// \u30DD\u30C6\u30F3\u30B7\u30E3\u30EB\n    pub potential:\
+    \ Vec<T>,\n}\n\n#[derive(Debug, Clone)]\npub struct MinCostBFlow<T: Integral +\
+    \ Neg<Output = T>> {\n    result: MinCostBFlowResult<T>,\n    size: usize,\n \
+    \   mcf: MinCostFlowGraph<T>,\n    b_list: Vec<T>,\n    /// \u8CA0\u8FBA\u306E\
+    \u5834\u5408\u306F\u9006\u306B\u3057\u3066\u3044\u308B \u8CA0\u8FBA\u306E\u5404\
+    id\u3054\u3068\u306B\u3001\u9006\u306B\u3057\u3066\u3044\u308C\u3070true\n   \
+    \ rev: Vec<bool>,\n}\n\nimpl<T: Integral + Neg<Output = T>> MinCostBFlow<T> {\n\
+    \    pub fn new(n: usize) -> Self {\n        Self {\n            result: MinCostBFlowResult::default(),\n\
     \            size: n,\n            mcf: MinCostFlowGraph::new(n + 2),\n      \
     \      b_list: vec![T::zero(); n],\n            rev: vec![],\n        }\n    }\n\
     \n    /// `from -> to` \u306B\u3001`lower <= cap <= upper` \u306E\u6D41\u91CF\u5236\
@@ -112,29 +115,26 @@ data:
     s\u306B\u7121\u9650\u5BB9\u91CF\u3001\u30B3\u30B9\u30C80\u306E\u8FBA\u3092\u5F35\
     \u3063\u3066b-flow\u3092\u89E3\u304F\u3060\u3051  \n    /// b\u306E\u6761\u4EF6\
     \u3092\u6E80\u305F\u305B\u306A\u3044(infeasible)\u306A\u3089None\u3092\u8FD4\u3059\
-    \  \n    /// s\u304B\u3089t\u306B\u6D41\u308C\u305F\u91CF\u3068\u3001MinCostBFlowResult\u306E\
-    \u30DA\u30A2\u3092\u8FD4\u3059\n    pub fn st_mincost_freeflow(\n        &mut\
-    \ self,\n        s: usize,\n        t: usize,\n    ) -> Option<(T, &MinCostBFlowResult<T>)>\
+    \  \n    pub fn st_mincost_freeflow(&mut self, s: usize, t: usize) -> Option<&MinCostBFlowResult<T>>\
     \ {\n        assert!(s < self.size && t < self.size && s != t);\n        let t_to_s_id\
     \ = self.mcf.add_edge(t, s, T::max_value(), T::zero());\n        if !self.reduce_to_st_flow()\
-    \ {\n            return None;\n        }\n        let flow = self.mcf.get_edge(t_to_s_id).flow;\n\
-    \        self.recover_flow_potential();\n        Some((flow, &self.result))\n\
-    \    }\n\n    /// \u6700\u5C0F\u8CBB\u7528\u6700\u5927\u6D41\u3092\u89E3\u304F\
-    \  \n    /// b\u306E\u6761\u4EF6\u3092\u6E80\u305F\u305B\u306A\u3044(infeasible)\u306A\
-    \u3089None\u3092\u8FD4\u3059  \n    /// s\u306B+f, t\u306B-f\u3057\u305F\u5F8C\
-    \u306E\u5236\u7D04\u3092\u6E80\u305F\u3059\u3088\u3046\u306A\u30D5\u30ED\u30FC\
-    \u304C\u5B58\u5728\u3059\u308B\u3088\u3046\u306A\u6700\u5927\u306Ef\u3068\u3001\
-    MinCostBFlowResult\u306E\u30DA\u30A2\u3092\u8FD4\u3059\n    pub fn st_mincost_maxflow(\n\
-    \        &mut self,\n        s: usize,\n        t: usize,\n    ) -> Option<(T,\
-    \ &MinCostBFlowResult<T>)> {\n        assert!(s < self.size && t < self.size &&\
-    \ s != t);\n        // \u307E\u305As\u304B\u3089t\u306B\u81EA\u7531\u306B\u6D41\
-    \u305B\u308B\u3068\u304D\u3092\u6C42\u3081\u308B\n        let t_to_s_id = self.mcf.add_edge(t,\
-    \ s, T::max_value(), T::zero());\n        if !self.reduce_to_st_flow() {\n   \
-    \         return None;\n        }\n        let first_flow = self.mcf.get_edge(t_to_s_id).flow;\n\
-    \        // s\u306B+\u7121\u9650\u3001t\u306B-\u7121\u9650\u3068\u8003\u3048\u3066\
-    \u6D41\u3059\n        let (add_flow, add_cost) = self.mcf.flow(s, t, T::max_value());\n\
-    \        self.result.cost += add_cost;\n        self.recover_flow_potential();\n\
-    \        Some((first_flow + add_flow, &self.result))\n    }\n}\n"
+    \ {\n            return None;\n        }\n        self.result.st_flow = self.mcf.get_edge(t_to_s_id).flow;\n\
+    \        self.recover_flow_potential();\n        Some(&self.result)\n    }\n\n\
+    \    /// s\u304B\u3089t\u306B\u6D41\u305B\u308B\u3060\u3051\u6D41\u3055\u306A\u3044\
+    \u3068\u3044\u3051\u306A\u3044\u5834\u5408\u306E\u6700\u5C0F\u8CBB\u7528b-flow\u3092\
+    \u89E3\u304F  \n    /// b\u306E\u6761\u4EF6\u3092\u6E80\u305F\u305B\u306A\u3044\
+    (infeasible)\u306A\u3089None\u3092\u8FD4\u3059  \n    pub fn st_mincost_maxflow(&mut\
+    \ self, s: usize, t: usize) -> Option<&MinCostBFlowResult<T>> {\n        assert!(s\
+    \ < self.size && t < self.size && s != t);\n        // \u307E\u305As\u304B\u3089\
+    t\u306B\u81EA\u7531\u306B\u6D41\u305B\u308B\u3068\u304D\u3092\u6C42\u3081\u308B\
+    \n        let t_to_s_id = self.mcf.add_edge(t, s, T::max_value(), T::zero());\n\
+    \        if !self.reduce_to_st_flow() {\n            return None;\n        }\n\
+    \        let first_flow = self.mcf.get_edge(t_to_s_id).flow;\n        // s\u306B\
+    +\u7121\u9650\u3001t\u306B-\u7121\u9650\u3068\u8003\u3048\u3066\u6D41\u3059\n\
+    \        let (add_flow, add_cost) = self.mcf.flow(s, t, T::max_value());\n   \
+    \     self.result.st_flow = first_flow + add_flow;\n        self.result.cost +=\
+    \ add_cost;\n        self.recover_flow_potential();\n        Some(&self.result)\n\
+    \    }\n}\n"
   dependsOn:
   - crates/flow/atcoder_mincostflow/src/lib.rs
   - crates/internals/internal_type_traits/src/lib.rs
@@ -142,7 +142,7 @@ data:
   path: crates/flow/mincost_bflow/src/lib.rs
   requiredBy:
   - verify/yosupo/min_cost_b_flow/src/main.rs
-  timestamp: '2025-03-02 18:29:55+09:00'
+  timestamp: '2025-03-02 18:38:44+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/flow/mincost_bflow/src/lib.rs
