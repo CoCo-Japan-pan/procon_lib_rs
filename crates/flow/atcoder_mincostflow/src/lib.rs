@@ -53,7 +53,6 @@ where
     pub fn add_edge(&mut self, from: usize, to: usize, cap: T, cost: T) -> usize {
         assert!(from < self.g.len());
         assert!(to < self.g.len());
-        assert_ne!(from, to);
         assert!(cap >= T::zero());
         assert!(cost >= T::zero());
 

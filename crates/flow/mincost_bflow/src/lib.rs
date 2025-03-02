@@ -47,6 +47,7 @@ impl<T: Integral + Neg<Output = T>> MinCostBFlow<T> {
     ) -> usize {
         assert!(from < self.size);
         assert!(to < self.size);
+        assert!(T::zero() <= lower);
         assert!(lower <= upper);
         let minus_edge = cost < T::zero();
         self.rev.push(minus_edge);
@@ -60,6 +61,7 @@ impl<T: Integral + Neg<Output = T>> MinCostBFlow<T> {
         self.b_list[from] -= lower;
         self.b_list[to] += lower;
         self.result.flow.push(lower);
+        self.result.cost += lower * cost;
         self.mcf.add_edge(from, to, upper - lower, cost)
     }
 
@@ -78,6 +80,7 @@ impl<T: Integral + Neg<Output = T>> MinCostBFlow<T> {
     }
 
     /// 超頂点を用意してst-flowに帰着し流し、総コストも更新  
+    /// bの正の和と負の絶対値の和が等しくない場合はfalseを返す  
     /// このとき最大まで流せればtrueを返す
     fn reduce_to_st_flow(&mut self) -> bool {
         let dummy_source = self.size;
@@ -98,7 +101,9 @@ impl<T: Integral + Neg<Output = T>> MinCostBFlow<T> {
                 Equal => {}
             }
         }
-        assert_eq!(positive_sum, negative_sum);
+        if positive_sum != negative_sum {
+            return false;
+        }
         let (flow, cost) = self.mcf.flow(dummy_source, dummy_sink, positive_sum);
         self.result.cost += cost;
         flow == positive_sum
