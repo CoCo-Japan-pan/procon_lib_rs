@@ -46,8 +46,11 @@ data:
     \u5834\u5408\u306F\u3042\u3089\u304B\u3058\u3081upper\u3060\u3051\u6D41\u3059\u306E\
     \u3067\u3001\u3053\u3053\u306FINF\u306B\u305B\u305A\u3001\u30AA\u30FC\u30D0\u30D5\
     \u30ED\u30FC\u3057\u306A\u3044\u4E0A\u9650\u3092\u6307\u5B9A\u3059\u308B\uFF01\
-    \n    pub fn add_edge(\n        &mut self,\n        mut from: usize,\n       \
-    \ mut to: usize,\n        mut lower: T,\n        mut upper: T,\n        mut cost:\
+    \  \n    /// \u6D41\u91CF\u304C\u5897\u3048\u308B\u306E\u3067\u3001TLE\u3059\u308B\
+    \u5834\u5408\u3001\u8CA0\u8FBA\u306F\u3046\u307E\u304F\u4E0B\u99C4\u3092\u306F\
+    \u304B\u305B\u308B\u7B49\u306E\u5BFE\u51E6\u304C\u5FC5\u8981\u304B\u3082\n   \
+    \ pub fn add_edge(\n        &mut self,\n        mut from: usize,\n        mut\
+    \ to: usize,\n        mut lower: T,\n        mut upper: T,\n        mut cost:\
     \ T,\n    ) -> usize {\n        assert!(from < self.size);\n        assert!(to\
     \ < self.size);\n        assert!(T::zero() <= lower);\n        assert!(lower <=\
     \ upper);\n        let minus_edge = cost < T::zero();\n        self.rev.push(minus_edge);\n\
@@ -139,7 +142,7 @@ data:
   path: crates/flow/mincost_bflow/src/lib.rs
   requiredBy:
   - verify/yosupo/min_cost_b_flow/src/main.rs
-  timestamp: '2025-03-02 18:27:14+09:00'
+  timestamp: '2025-03-02 18:29:55+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/flow/mincost_bflow/src/lib.rs

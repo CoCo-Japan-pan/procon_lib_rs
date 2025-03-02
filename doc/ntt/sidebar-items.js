@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["convolution","convolution_i64"],"trait":["ConvHelper"]};
