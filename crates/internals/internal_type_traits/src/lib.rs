@@ -18,6 +18,7 @@ pub trait Integral:
     + BoundedAbove
     + Display
     + Debug
+    + Default
 {
 }
 
