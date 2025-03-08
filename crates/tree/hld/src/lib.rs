@@ -1,6 +1,7 @@
 //! [HCPCの資料](https://hcpc-hokudai.github.io/archive/graph_tree_001.pdf)  
 //! [HLDの中にsubtreeクエリも対応させる](https://codeforces.com/blog/entry/53170)  
 
+/// hld_inを使うのを忘れない!!! heavy pathが並ぶような頂点列を求めるアルゴリズムです
 #[derive(Debug)]
 pub struct HLD {
     /// 各頂点について、heavypath(descending)が最初に来るようswapされている
