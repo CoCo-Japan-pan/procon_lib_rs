@@ -5,7 +5,7 @@ data:
   - icon: ':warning:'
     path: crates/wavelet/bitdict/benches/my_benchmark.rs
     title: crates/wavelet/bitdict/benches/my_benchmark.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/wavelet/wavelet_matrix/src/lib.rs
     title: crates/wavelet/wavelet_matrix/src/lib.rs
   - icon: ':heavy_check_mark:'

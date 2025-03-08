@@ -273,7 +273,7 @@ data:
       title: crates/tree/euler_tour/src/lib.rs
   - name: crates/tree/hld/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/tree/hld/src/lib.rs
       title: crates/tree/hld/src/lib.rs
   - name: crates/tree/rerooting/src
@@ -308,7 +308,7 @@ data:
       title: crates/wavelet/bitdict/src/lib.rs
   - name: crates/wavelet/wavelet_matrix/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/wavelet/wavelet_matrix/src/lib.rs
       title: crates/wavelet/wavelet_matrix/src/lib.rs
   - name: crates/wavelet/wavelet_matrix_cum_sum/src
@@ -439,7 +439,7 @@ data:
       title: verify/AtCoder/abc222f/src/main.rs
   - name: verify/AtCoder/abc239e/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/AtCoder/abc239e/src/main.rs
       title: verify/AtCoder/abc239e/src/main.rs
   - name: verify/AtCoder/abc285g/src

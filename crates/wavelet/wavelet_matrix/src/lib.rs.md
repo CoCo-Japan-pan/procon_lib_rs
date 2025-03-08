@@ -12,7 +12,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/AOJ/no_1549/src/main.rs
     title: verify/AOJ/no_1549/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/AtCoder/abc239e/src/main.rs
     title: verify/AtCoder/abc239e/src/main.rs
   - icon: ':heavy_check_mark:'
@@ -24,9 +24,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yukicoder/no_919/src/main.rs
     title: verify/yukicoder/no_919/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     links:
     - https://miti-7.hatenablog.com/entry/2018/04/28/152259
@@ -233,7 +233,7 @@ data:
   path: crates/wavelet/wavelet_matrix/src/lib.rs
   requiredBy: []
   timestamp: '2024-12-16 14:54:34+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - verify/AOJ/no_1549/src/main.rs
   - verify/yukicoder/no_738/src/main.rs

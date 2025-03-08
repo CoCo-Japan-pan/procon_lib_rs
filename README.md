@@ -5,5 +5,7 @@
 [cargo-equip](https://github.com/qryxip/cargo-equip)を用いるため、クレートをなるべく分割している
 
 ## 将来追加したいもの
+- mincostflowにおいて、負の容量や、容量スケーリングに対応
+- 平衡二分木にモノイドを載せて、反転やシフトもできるセグ木にする
 - 区間をsetで管理
 - kD-tree

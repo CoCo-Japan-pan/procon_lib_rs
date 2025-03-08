@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/fenwick_tree/src/lib.rs
     title: crates/data_structure/fenwick_tree/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/tree/hld/src/lib.rs
     title: crates/tree/hld/src/lib.rs
   _extendedRequiredBy: []
@@ -41,7 +41,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/vertex_add_subtree_sum/src/main.rs
   requiredBy: []
-  timestamp: '2025-01-19 12:17:00+09:00'
+  timestamp: '2025-03-09 01:10:53+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/vertex_add_subtree_sum/src/main.rs
