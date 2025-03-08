@@ -21,8 +21,8 @@ jobs:
           python-version: "3.13"
 
     - name: Install dependencies
-    # pip3 install -U online-judge-verify-helper
-      run: pip3 install git+https://github.com/CoCo-Japan-pan/verification-helper.git@for-usage
+    # pip3 install git+https://github.com/CoCo-Japan-pan/verification-helper.git@for-usage
+      run: pip3 install -U online-judge-verify-helper
 
     - name: Set Toolchain
       # https://github.com/dtolnay/rust-toolchain
@@ -56,9 +56,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         YUKICODER_TOKEN: ${{ secrets.YUKICODER_TOKEN }}
         GH_PAT: ${{ secrets.GH_PAT }}
-        DROPBOX_REFRESH_TOKEN: ${{ secrets.DROPBOX_REFRESH_TOKEN }}
-        DROPBOX_APP_KEY: ${{ secrets.DROPBOX_APP_KEY }}
-        DROPBOX_APP_SECRET: ${{ secrets.DROPBOX_APP_SECRET }}
       run: oj-verify all
 
     - name: Upload docs
