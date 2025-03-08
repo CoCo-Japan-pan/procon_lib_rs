@@ -23,7 +23,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/fps/fps_utils/src/lib.rs
     title: crates/fps/fps_utils/src/lib.rs
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix/src/lib.rs
     title: crates/wavelet/wavelet_matrix/src/lib.rs
   - icon: ':heavy_check_mark:'
@@ -41,7 +41,7 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links:
-    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/internal_bit.rs
+    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/internal_bit.rs>
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \

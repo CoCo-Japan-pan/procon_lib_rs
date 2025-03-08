@@ -8,7 +8,7 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links:
-    - https://github.com/to-omer/competitive-library/blob/master/crates/competitive/src/tools/mlambda.rs
+    - https://github.com/to-omer/competitive-library/blob/master/crates/competitive/src/tools/mlambda.rs>
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \

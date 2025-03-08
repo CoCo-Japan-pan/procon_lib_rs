@@ -18,7 +18,7 @@ data:
     - https://creativecommons.org/licenses/by-sa/3.0/deed.en
     - https://gist.github.com/MiSawa/47b1d99c372daffb6891662db1a2b686
     - https://github.com/atcoder/ac-library/issues/5
-    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/maxflow.rs
+    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/maxflow.rs>
     - https://github.com/rust-lang-ja/ac-library-rs/pull/24#discussion_r485343451
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\

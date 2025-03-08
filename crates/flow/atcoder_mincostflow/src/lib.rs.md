@@ -15,7 +15,7 @@ data:
   attributes:
     links:
     - https://github.com/atcoder/ac-library/blob/300e66a7d73efe27d02f38133239711148092030/test/unittest/mincostflow_test.cpp#L83-L90
-    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/mincostflow.rs
+    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/mincostflow.rs>
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
