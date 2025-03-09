@@ -186,6 +186,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/math/bit_matrix/src/lib.rs
       title: crates/math/bit_matrix/src/lib.rs
+  - name: crates/math/bitwise_convolution/src
+    pages:
+    - icon: ':warning:'
+      path: crates/math/bitwise_convolution/src/lib.rs
+      title: crates/math/bitwise_convolution/src/lib.rs
   - name: crates/math/enumerate_inv_mods/src
     pages:
     - icon: ':warning:'
@@ -206,11 +211,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/math/matrix/src/lib.rs
       title: crates/math/matrix/src/lib.rs
-  - name: crates/math/zeta_bitset/src
+  - name: crates/math/zeta_mobius_bitset/src
     pages:
     - icon: ':warning:'
-      path: crates/math/zeta_bitset/src/lib.rs
-      title: crates/math/zeta_bitset/src/lib.rs
+      path: crates/math/zeta_mobius_bitset/src/lib.rs
+      title: crates/math/zeta_mobius_bitset/src/lib.rs
   - name: crates/misc/doubling/src
     pages:
     - icon: ':warning:'
