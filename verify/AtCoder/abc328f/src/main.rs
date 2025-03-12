@@ -1,8 +1,8 @@
-// verification-helper: PROBLEM https://atcoder.jp/contests/abc328/tasks/abc328_f
+//! https://atcoder.jp/contests/abc328/tasks/abc328_f
 
 use algebra::{Commutative, Group, Monoid};
 use itertools::Itertools;
-use potentialized_union_find::PotentializedUnionFind;
+use potentialized_unionfind::PotentializedUnionFind;
 use proconio::{fastout, input, marker::Usize1};
 
 #[derive(Debug)]

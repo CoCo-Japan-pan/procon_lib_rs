@@ -27,6 +27,7 @@ impl<M: Group> PotentializedUnionFind<M> {
     }
 
     /// xからみたyの差分を追加する  
+    /// つまり `potential[x] ◦ diff = potential[y]` となるようにする  
     /// 今までの関係と矛盾しない場合、呼び出し前に差分が未定義なら`Ok(true)`、定義済みなら`Ok(false)`を返す  
     /// 今までの関係と矛盾する場合、元々定義されているxから見たyの差分をeとして`Err(e)`を返す
     pub fn relate(&mut self, x: usize, y: usize, diff: M::Target) -> Result<bool, M::Target> {
@@ -60,7 +61,8 @@ impl<M: Group> PotentializedUnionFind<M> {
         }
     }
 
-    /// 代表元と、それから見た差分を求める
+    /// 代表元と、それから見た差分を求める  
+    /// つまり代表元を`root`として、`potential[root] ◦ diff = potential[x]` となるようなdiff
     pub fn root_and_diff(&self, x: usize) -> (usize, M::Target) {
         assert!(x < self.n);
         let mut pot = self.potential.borrow_mut();
@@ -89,7 +91,8 @@ impl<M: Group> PotentializedUnionFind<M> {
         }
     }
 
-    /// xから見たyの差分が定義されていれば返す
+    /// xから見たyの差分が定義されていれば返す  
+    /// つまり`potential[x] ◦ diff = potential[y]` となるようなdiff
     pub fn diff(&self, x: usize, y: usize) -> Option<M::Target> {
         assert!(x < self.n);
         assert!(y < self.n);

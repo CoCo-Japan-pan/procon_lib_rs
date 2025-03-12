@@ -1,7 +1,7 @@
 //! https://atcoder.jp/contests/typical90/tasks/typical90_bp
 
 use algebra::{Group, Monoid};
-use potentialized_union_find::PotentializedUnionFind;
+use potentialized_unionfind::PotentializedUnionFind;
 use proconio::{fastout, input, marker::Usize1};
 
 /// y = +-x + bias を表す群
