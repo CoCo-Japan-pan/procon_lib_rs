@@ -5,15 +5,14 @@ data:
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   - icon: ':heavy_check_mark:'
-    path: crates/data_structure/potentialized_union_find/src/lib.rs
-    title: crates/data_structure/potentialized_union_find/src/lib.rs
+    path: crates/data_structure/potentialized_unionfind/src/lib.rs
+    title: crates/data_structure/potentialized_unionfind/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':warning:'
   attributes:
-    PROBLEM: https://atcoder.jp/contests/abc328/tasks/abc328_f
     links:
     - https://atcoder.jp/contests/abc328/tasks/abc328_f
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -22,8 +21,8 @@ data:
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
     \  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "// verification-helper: PROBLEM https://atcoder.jp/contests/abc328/tasks/abc328_f\n\
-    \nuse algebra::{Commutative, Group, Monoid};\nuse itertools::Itertools;\nuse potentialized_union_find::PotentializedUnionFind;\n\
+  code: "//! https://atcoder.jp/contests/abc328/tasks/abc328_f\n\nuse algebra::{Commutative,\
+    \ Group, Monoid};\nuse itertools::Itertools;\nuse potentialized_unionfind::PotentializedUnionFind;\n\
     use proconio::{fastout, input, marker::Usize1};\n\n#[derive(Debug)]\nstruct AddGroup\
     \ {}\nimpl Monoid for AddGroup {\n    type Target = i64;\n    fn binary_operation(a:\
     \ &Self::Target, b: &Self::Target) -> Self::Target {\n        a + b\n    }\n \
@@ -37,17 +36,17 @@ data:
     \       }\n    }\n    println!(\"{}\", ans.iter().format(\" \"));\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
-  - crates/data_structure/potentialized_union_find/src/lib.rs
-  isVerificationFile: true
+  - crates/data_structure/potentialized_unionfind/src/lib.rs
+  isVerificationFile: false
   path: verify/AtCoder/abc328f/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-28 22:46:07+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '2025-03-13 00:09:19+09:00'
+  verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: verify/AtCoder/abc328f/src/main.rs
 layout: document
 redirect_from:
-- /verify/verify/AtCoder/abc328f/src/main.rs
-- /verify/verify/AtCoder/abc328f/src/main.rs.html
+- /library/verify/AtCoder/abc328f/src/main.rs
+- /library/verify/AtCoder/abc328f/src/main.rs.html
 title: verify/AtCoder/abc328f/src/main.rs
 ---

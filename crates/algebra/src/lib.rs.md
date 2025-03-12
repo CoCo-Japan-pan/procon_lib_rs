@@ -12,8 +12,8 @@ data:
     path: crates/data_structure/lazy_segtree_utils/src/lib.rs
     title: crates/data_structure/lazy_segtree_utils/src/lib.rs
   - icon: ':heavy_check_mark:'
-    path: crates/data_structure/potentialized_union_find/src/lib.rs
-    title: crates/data_structure/potentialized_union_find/src/lib.rs
+    path: crates/data_structure/potentialized_unionfind/src/lib.rs
+    title: crates/data_structure/potentialized_unionfind/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/segtree/src/lib.rs
     title: crates/data_structure/segtree/src/lib.rs
@@ -48,6 +48,9 @@ data:
     path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
     title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   - icon: ':warning:'
+    path: verify/AtCoder/abc328f/src/main.rs
+    title: verify/AtCoder/abc328f/src/main.rs
+  - icon: ':warning:'
     path: verify/AtCoder/typical_068/src/main.rs
     title: verify/AtCoder/typical_068/src/main.rs
   _extendedVerifiedWith:
@@ -76,9 +79,6 @@ data:
     path: verify/AtCoder/abc312g/src/main.rs
     title: verify/AtCoder/abc312g/src/main.rs
   - icon: ':heavy_check_mark:'
-    path: verify/AtCoder/abc328f/src/main.rs
-    title: verify/AtCoder/abc328f/src/main.rs
-  - icon: ':heavy_check_mark:'
     path: verify/AtCoder/abc348e/src/main.rs
     title: verify/AtCoder/abc348e/src/main.rs
   - icon: ':heavy_check_mark:'
@@ -102,6 +102,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/staticrmq_sparse_table/src/main.rs
     title: verify/yosupo/staticrmq_sparse_table/src/main.rs
+  - icon: ':heavy_check_mark:'
+    path: verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
+    title: verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/vertex_set_path_composite/src/main.rs
     title: verify/yosupo/vertex_set_path_composite/src/main.rs
@@ -165,6 +168,7 @@ data:
   path: crates/algebra/src/lib.rs
   requiredBy:
   - verify/AtCoder/typical_068/src/main.rs
+  - verify/AtCoder/abc328f/src/main.rs
   - crates/tree/rerooting/src/lib.rs
   - crates/tree/euler_tour/src/lib.rs
   - crates/math/matrix/src/lib.rs
@@ -173,7 +177,7 @@ data:
   - crates/data_structure/segtree/src/lib.rs
   - crates/data_structure/lazy_segtree/src/lib.rs
   - crates/data_structure/dual_segtree/src/lib.rs
-  - crates/data_structure/potentialized_union_find/src/lib.rs
+  - crates/data_structure/potentialized_unionfind/src/lib.rs
   - crates/data_structure/sparse_table_on_segtree/src/lib.rs
   - crates/data_structure/segtree_2d_dense/src/lib.rs
   - crates/data_structure/sparse_table/src/lib.rs
@@ -196,13 +200,13 @@ data:
   - verify/yosupo/point_add_rect_sum_wavelet_seg/src/main.rs
   - verify/yosupo/rectangle_add_point_get/src/main.rs
   - verify/yosupo/vertex_set_path_composite/src/main.rs
+  - verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
   - verify/yosupo/point_add_rectangle_sum_seg2d/src/main.rs
   - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
   - verify/AtCoder/abc348e/src/main.rs
   - verify/AtCoder/abc222f/src/main.rs
   - verify/AtCoder/abc312g/src/main.rs
   - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
-  - verify/AtCoder/abc328f/src/main.rs
 documentation_of: crates/algebra/src/lib.rs
 layout: document
 redirect_from:

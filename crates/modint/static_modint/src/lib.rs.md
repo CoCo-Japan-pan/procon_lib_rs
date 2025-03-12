@@ -46,6 +46,9 @@ data:
     path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
     title: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
   - icon: ':heavy_check_mark:'
+    path: verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
+    title: verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/vertex_set_path_composite/src/main.rs
     title: verify/yosupo/vertex_set_path_composite/src/main.rs
   - icon: ':heavy_check_mark:'
@@ -188,6 +191,7 @@ data:
   - verify/yosupo/vertex_set_path_composite/src/main.rs
   - verify/yosupo/inv_of_formal_power_series/src/main.rs
   - verify/yosupo/frequency_table_of_tree_distance/src/main.rs
+  - verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
   - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
   - verify/yosupo/convolution_mod_1000000007_ntt/src/main.rs
   - verify/AtCoder/abc340g/src/main.rs

@@ -5,8 +5,8 @@ data:
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   - icon: ':heavy_check_mark:'
-    path: crates/data_structure/potentialized_union_find/src/lib.rs
-    title: crates/data_structure/potentialized_union_find/src/lib.rs
+    path: crates/data_structure/potentialized_unionfind/src/lib.rs
+    title: crates/data_structure/potentialized_unionfind/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -22,7 +22,7 @@ data:
     \  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! https://atcoder.jp/contests/typical90/tasks/typical90_bp\n\nuse algebra::{Group,\
-    \ Monoid};\nuse potentialized_union_find::PotentializedUnionFind;\nuse proconio::{fastout,\
+    \ Monoid};\nuse potentialized_unionfind::PotentializedUnionFind;\nuse proconio::{fastout,\
     \ input, marker::Usize1};\n\n/// y = +-x + bias \u3092\u8868\u3059\u7FA4\n#[derive(Debug,\
     \ Clone, Copy, PartialEq, Eq)]\nstruct AffineGroup {\n    keisuu: bool,\n    bias:\
     \ i64,\n}\n\nimpl AffineGroup {\n    fn apply(&self, x: i64) -> i64 {\n      \
@@ -49,11 +49,11 @@ data:
     \        }\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
-  - crates/data_structure/potentialized_union_find/src/lib.rs
+  - crates/data_structure/potentialized_unionfind/src/lib.rs
   isVerificationFile: false
   path: verify/AtCoder/typical_068/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-28 22:46:07+09:00'
+  timestamp: '2025-03-13 00:09:19+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: verify/AtCoder/typical_068/src/main.rs

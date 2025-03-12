@@ -51,11 +51,11 @@ data:
     - icon: ':warning:'
       path: crates/data_structure/partially_persistent_unionfind/src/lib.rs
       title: crates/data_structure/partially_persistent_unionfind/src/lib.rs
-  - name: crates/data_structure/potentialized_union_find/src
+  - name: crates/data_structure/potentialized_unionfind/src
     pages:
     - icon: ':heavy_check_mark:'
-      path: crates/data_structure/potentialized_union_find/src/lib.rs
-      title: crates/data_structure/potentialized_union_find/src/lib.rs
+      path: crates/data_structure/potentialized_unionfind/src/lib.rs
+      title: crates/data_structure/potentialized_unionfind/src/lib.rs
   - name: crates/data_structure/range_chmin_max_add_sum/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -351,6 +351,11 @@ data:
     - icon: ':warning:'
       path: verify/AtCoder/abc294g/src/main.rs
       title: verify/AtCoder/abc294g/src/main.rs
+  - name: verify/AtCoder/abc328f/src
+    pages:
+    - icon: ':warning:'
+      path: verify/AtCoder/abc328f/src/main.rs
+      title: verify/AtCoder/abc328f/src/main.rs
   - name: verify/AtCoder/abc384g/src
     pages:
     - icon: ':warning:'
@@ -462,11 +467,6 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/AtCoder/abc312g/src/main.rs
       title: verify/AtCoder/abc312g/src/main.rs
-  - name: verify/AtCoder/abc328f/src
-    pages:
-    - icon: ':heavy_check_mark:'
-      path: verify/AtCoder/abc328f/src/main.rs
-      title: verify/AtCoder/abc328f/src/main.rs
   - name: verify/AtCoder/abc340g/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -612,6 +612,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yosupo/unionfind_verify/src/main.rs
       title: verify/yosupo/unionfind_verify/src/main.rs
+  - name: verify/yosupo/unionfind_with_potential_non_commutative_group/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
+      title: verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
   - name: verify/yosupo/vertex_add_path_sum/src
     pages:
     - icon: ':heavy_check_mark:'
