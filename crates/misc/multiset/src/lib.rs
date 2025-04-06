@@ -50,8 +50,9 @@ impl<K: Ord> MultiSet<K> {
         self.map.entry(key).and_modify(|e| *e += c).or_insert(c);
     }
 
-    /// keyを一つ削除する
-    pub fn remove_one<Q>(&mut self, key: &Q)
+    /// keyを一つ削除する もともとkeyが一つ以上あればtrueを返す
+    /// もともとkeyがなければfalseを返す
+    pub fn remove_one<Q>(&mut self, key: &Q) -> bool
     where
         K: Borrow<Q>,
         Q: Ord + ?Sized,
@@ -61,6 +62,9 @@ impl<K: Ord> MultiSet<K> {
             if *v == 0 {
                 self.map.remove(key);
             }
+            true
+        } else {
+            false
         }
     }
 
@@ -108,11 +112,11 @@ impl<K: Ord> MultiSet<K> {
     }
 
     pub fn min_key(&self) -> Option<&K> {
-        self.map.keys().next()
+        self.map.first_key_value().map(|(k, _)| k)
     }
 
     pub fn max_key(&self) -> Option<&K> {
-        self.map.keys().next_back()
+        self.map.last_key_value().map(|(k, _)| k)
     }
 }
 
