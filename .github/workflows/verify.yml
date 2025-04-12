@@ -21,8 +21,8 @@ jobs:
           python-version: "3.13"
 
     - name: Install dependencies
-    # pip3 install git+https://github.com/CoCo-Japan-pan/verification-helper.git@for-usage
-      run: pip3 install -U online-judge-verify-helper
+    # pip3 install -U online-judge-verify-helper
+      run: pip3 install git+https://github.com/CoCo-Japan-pan/verification-helper.git@non-timeout
 
     - name: Set Toolchain
       # https://github.com/dtolnay/rust-toolchain
