@@ -94,13 +94,13 @@ mod tests {
 
     #[test]
     fn test() {
-        let mut rng = rand::rng();
+        let mut rng = rand::thread_rng();
         const SIZE: usize = 100;
         let mut puf = PartiallyPersistentUnionFind::new(SIZE);
         let mut ufs = vec![UnionFind::new(SIZE)];
         for _ in 0..SIZE * 2 {
-            let a = rng.random_range(0..SIZE);
-            let b = rng.random_range(0..SIZE);
+            let a = rng.gen_range(0..SIZE);
+            let b = rng.gen_range(0..SIZE);
             let mut last = ufs.last().unwrap().clone();
             last.merge(a, b);
             ufs.push(last);

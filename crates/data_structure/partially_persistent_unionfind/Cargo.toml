@@ -12,5 +12,5 @@ publish = false
 [dependencies]
 
 [dev-dependencies]
-rand = "0.9"
+rand = "0.8.5"
 unionfind = { path = "../unionfind" }
