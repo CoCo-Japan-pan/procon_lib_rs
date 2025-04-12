@@ -4,20 +4,20 @@ data:
   - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
-  _extendedRequiredBy: []
-  _extendedVerifiedWith:
-  - icon: ':x:'
+  _extendedRequiredBy:
+  - icon: ':warning:'
     path: verify/AtCoder/abc222f/src/main.rs
     title: verify/AtCoder/abc222f/src/main.rs
-  - icon: ':x:'
+  - icon: ':warning:'
     path: verify/AtCoder/abc312g/src/main.rs
     title: verify/AtCoder/abc312g/src/main.rs
-  - icon: ':x:'
+  - icon: ':warning:'
     path: verify/AtCoder/abc348e/src/main.rs
     title: verify/AtCoder/abc348e/src/main.rs
-  _isVerificationFailed: true
+  _extendedVerifiedWith: []
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -84,13 +84,13 @@ data:
   - crates/algebra/src/lib.rs
   isVerificationFile: false
   path: crates/tree/rerooting/src/lib.rs
-  requiredBy: []
-  timestamp: '2024-10-28 22:46:07+09:00'
-  verificationStatus: LIBRARY_ALL_WA
-  verifiedWith:
+  requiredBy:
   - verify/AtCoder/abc348e/src/main.rs
   - verify/AtCoder/abc222f/src/main.rs
   - verify/AtCoder/abc312g/src/main.rs
+  timestamp: '2024-10-28 22:46:07+09:00'
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
 documentation_of: crates/tree/rerooting/src/lib.rs
 layout: document
 redirect_from:

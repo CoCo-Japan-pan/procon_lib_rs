@@ -58,7 +58,7 @@ data:
   isVerificationFile: true
   path: verify/yukicoder/no_1625/src/main.rs
   requiredBy: []
-  timestamp: '1970-01-01 00:00:00+00:00'
+  timestamp: '2024-12-01 13:32:56+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: verify/yukicoder/no_1625/src/main.rs

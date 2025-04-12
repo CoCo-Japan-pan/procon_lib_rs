@@ -8,7 +8,7 @@ data:
     path: crates/utils/monoid_utils/src/lib.rs
     title: crates/utils/monoid_utils/src/lib.rs
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: crates/data_structure/sparse_table_on_segtree/src/lib.rs
     title: crates/data_structure/sparse_table_on_segtree/src/lib.rs
   - icon: ':heavy_check_mark:'

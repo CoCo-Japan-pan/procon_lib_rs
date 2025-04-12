@@ -39,7 +39,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/range_chmin_chmax_add_range_sum/src/main.rs
   requiredBy: []
-  timestamp: '1970-01-01 00:00:00+00:00'
+  timestamp: '2024-10-31 16:00:30+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/range_chmin_chmax_add_range_sum/src/main.rs

@@ -58,7 +58,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
   requiredBy: []
-  timestamp: '1970-01-01 00:00:00+00:00'
+  timestamp: '2025-03-13 00:09:19+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs

@@ -8,7 +8,7 @@ data:
     path: crates/data_structure/sparse_table/src/lib.rs
     title: crates/data_structure/sparse_table/src/lib.rs
   _extendedRequiredBy:
-  - icon: ':x:'
+  - icon: ':warning:'
     path: crates/tree/auxiliary_tree/src/lib.rs
     title: crates/tree/auxiliary_tree/src/lib.rs
   _extendedVerifiedWith:

@@ -33,7 +33,7 @@ data:
   isVerificationFile: true
   path: verify/yukicoder/no_649_avl/src/main.rs
   requiredBy: []
-  timestamp: '1970-01-01 00:00:00+00:00'
+  timestamp: '2024-09-26 21:28:14+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: verify/yukicoder/no_649_avl/src/main.rs

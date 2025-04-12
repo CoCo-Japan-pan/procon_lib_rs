@@ -29,7 +29,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/sum_of_floor_of_linear/src/main.rs
   requiredBy: []
-  timestamp: '1970-01-01 00:00:00+00:00'
+  timestamp: '2024-10-24 16:54:37+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: verify/yosupo/sum_of_floor_of_linear/src/main.rs

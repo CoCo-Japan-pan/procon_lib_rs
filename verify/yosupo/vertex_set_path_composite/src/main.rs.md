@@ -73,7 +73,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/vertex_set_path_composite/src/main.rs
   requiredBy: []
-  timestamp: '1970-01-01 00:00:00+00:00'
+  timestamp: '2025-03-09 01:10:53+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: verify/yosupo/vertex_set_path_composite/src/main.rs

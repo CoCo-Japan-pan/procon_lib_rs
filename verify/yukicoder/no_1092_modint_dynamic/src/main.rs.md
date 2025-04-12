@@ -35,7 +35,7 @@ data:
   isVerificationFile: true
   path: verify/yukicoder/no_1092_modint_dynamic/src/main.rs
   requiredBy: []
-  timestamp: '1970-01-01 00:00:00+00:00'
+  timestamp: '2024-10-18 21:12:10+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: verify/yukicoder/no_1092_modint_dynamic/src/main.rs

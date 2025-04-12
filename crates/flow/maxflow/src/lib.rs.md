@@ -5,7 +5,7 @@ data:
     path: crates/internals/internal_type_traits/src/lib.rs
     title: crates/internals/internal_type_traits/src/lib.rs
   _extendedRequiredBy:
-  - icon: ':x:'
+  - icon: ':warning:'
     path: crates/flow/maxflow_lower_bound/src/lib.rs
     title: crates/flow/maxflow_lower_bound/src/lib.rs
   _extendedVerifiedWith: []

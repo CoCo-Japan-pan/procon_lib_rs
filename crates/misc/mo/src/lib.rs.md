@@ -6,12 +6,12 @@ data:
     path: verify/AtCoder/abc384g/src/main.rs
     title: verify/AtCoder/abc384g/src/main.rs
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yosupo/static_range_inversions_query/src/main.rs
     title: verify/yosupo/static_range_inversions_query/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links:
     - https://ei1333.hateblo.jp/entry/2017/09/11/211011)
@@ -82,7 +82,7 @@ data:
   requiredBy:
   - verify/AtCoder/abc384g/src/main.rs
   timestamp: '2024-12-15 22:00:14+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - verify/yosupo/static_range_inversions_query/src/main.rs
 documentation_of: crates/misc/mo/src/lib.rs

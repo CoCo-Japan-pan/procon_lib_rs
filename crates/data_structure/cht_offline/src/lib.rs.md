@@ -9,12 +9,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/line_add_get_min/src/main.rs
     title: verify/yosupo/line_add_get_min/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yosupo/segment_add_get_min/src/main.rs
     title: verify/yosupo/segment_add_get_min/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     links:
     - https://hcpc-hokudai.github.io/archive/algorithm_convex_hull_trick_001.pdf)
@@ -144,7 +144,7 @@ data:
   path: crates/data_structure/cht_offline/src/lib.rs
   requiredBy: []
   timestamp: '2024-09-30 16:25:48+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - verify/yosupo/segment_add_get_min/src/main.rs
   - verify/yosupo/line_add_get_min/src/main.rs

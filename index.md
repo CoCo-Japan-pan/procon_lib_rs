@@ -18,7 +18,7 @@ data:
       title: crates/data_structure/avl/src/lib.rs
   - name: crates/data_structure/cht_offline/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/data_structure/cht_offline/src/lib.rs
       title: crates/data_structure/cht_offline/src/lib.rs
   - name: crates/data_structure/dual_segtree/src
@@ -28,12 +28,12 @@ data:
       title: crates/data_structure/dual_segtree/src/lib.rs
   - name: crates/data_structure/fenwick_tree/src
     pages:
-    - icon: ':question:'
+    - icon: ':x:'
       path: crates/data_structure/fenwick_tree/src/lib.rs
       title: crates/data_structure/fenwick_tree/src/lib.rs
   - name: crates/data_structure/lazy_segtree/src
     pages:
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: crates/data_structure/lazy_segtree/src/lib.rs
       title: crates/data_structure/lazy_segtree/src/lib.rs
   - name: crates/data_structure/lazy_segtree_beats/src
@@ -88,7 +88,7 @@ data:
       title: crates/data_structure/sparse_table/src/lib.rs
   - name: crates/data_structure/sparse_table_on_segtree/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: crates/data_structure/sparse_table_on_segtree/src/lib.rs
       title: crates/data_structure/sparse_table_on_segtree/src/lib.rs
   - name: crates/data_structure/unionfind/src
@@ -108,7 +108,7 @@ data:
       title: crates/flow/maxflow/src/lib.rs
   - name: crates/flow/maxflow_lower_bound/src
     pages:
-    - icon: ':x:'
+    - icon: ':warning:'
       path: crates/flow/maxflow_lower_bound/src/lib.rs
       title: crates/flow/maxflow_lower_bound/src/lib.rs
   - name: crates/flow/mincost_bflow/src
@@ -208,7 +208,7 @@ data:
       title: crates/math/floor_ceil_sum/src/lib.rs
   - name: crates/math/matrix/src
     pages:
-    - icon: ':x:'
+    - icon: ':warning:'
       path: crates/math/matrix/src/lib.rs
       title: crates/math/matrix/src/lib.rs
   - name: crates/math/zeta_mobius_bitset/src
@@ -223,7 +223,7 @@ data:
       title: crates/misc/doubling/src/lib.rs
   - name: crates/misc/mo/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: crates/misc/mo/src/lib.rs
       title: crates/misc/mo/src/lib.rs
   - name: crates/misc/multiset/src
@@ -258,7 +258,7 @@ data:
       title: crates/string/rolling_hash/src/lib.rs
   - name: crates/tree/auxiliary_tree/src
     pages:
-    - icon: ':x:'
+    - icon: ':warning:'
       path: crates/tree/auxiliary_tree/src/lib.rs
       title: crates/tree/auxiliary_tree/src/lib.rs
   - name: crates/tree/cartesian_tree/src
@@ -268,7 +268,7 @@ data:
       title: crates/tree/cartesian_tree/src/lib.rs
   - name: crates/tree/centroid_decomposition/src
     pages:
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: crates/tree/centroid_decomposition/src/lib.rs
       title: crates/tree/centroid_decomposition/src/lib.rs
   - name: crates/tree/euler_tour/src
@@ -283,12 +283,12 @@ data:
       title: crates/tree/hld/src/lib.rs
   - name: crates/tree/rerooting/src
     pages:
-    - icon: ':x:'
+    - icon: ':warning:'
       path: crates/tree/rerooting/src/lib.rs
       title: crates/tree/rerooting/src/lib.rs
   - name: crates/utils/capture/src
     pages:
-    - icon: ':question:'
+    - icon: ':heavy_check_mark:'
       path: crates/utils/capture/src/lib.rs
       title: crates/utils/capture/src/lib.rs
   - name: crates/utils/localize_closure/src
@@ -331,11 +331,21 @@ data:
     - icon: ':question:'
       path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
       title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
+  - name: verify/AtCoder/abc222f/src
+    pages:
+    - icon: ':warning:'
+      path: verify/AtCoder/abc222f/src/main.rs
+      title: verify/AtCoder/abc222f/src/main.rs
   - name: verify/AtCoder/abc239e/src
     pages:
     - icon: ':warning:'
       path: verify/AtCoder/abc239e/src/main.rs
       title: verify/AtCoder/abc239e/src/main.rs
+  - name: verify/AtCoder/abc285g/src
+    pages:
+    - icon: ':warning:'
+      path: verify/AtCoder/abc285g/src/main.rs
+      title: verify/AtCoder/abc285g/src/main.rs
   - name: verify/AtCoder/abc290f/src
     pages:
     - icon: ':warning:'
@@ -346,21 +356,56 @@ data:
     - icon: ':warning:'
       path: verify/AtCoder/abc291g/src/main.rs
       title: verify/AtCoder/abc291g/src/main.rs
+  - name: verify/AtCoder/abc293e/src
+    pages:
+    - icon: ':warning:'
+      path: verify/AtCoder/abc293e/src/main.rs
+      title: verify/AtCoder/abc293e/src/main.rs
   - name: verify/AtCoder/abc294g/src
     pages:
     - icon: ':warning:'
       path: verify/AtCoder/abc294g/src/main.rs
       title: verify/AtCoder/abc294g/src/main.rs
+  - name: verify/AtCoder/abc312g/src
+    pages:
+    - icon: ':warning:'
+      path: verify/AtCoder/abc312g/src/main.rs
+      title: verify/AtCoder/abc312g/src/main.rs
   - name: verify/AtCoder/abc328f/src
     pages:
     - icon: ':warning:'
       path: verify/AtCoder/abc328f/src/main.rs
       title: verify/AtCoder/abc328f/src/main.rs
+  - name: verify/AtCoder/abc340g/src
+    pages:
+    - icon: ':warning:'
+      path: verify/AtCoder/abc340g/src/main.rs
+      title: verify/AtCoder/abc340g/src/main.rs
+  - name: verify/AtCoder/abc348e/src
+    pages:
+    - icon: ':warning:'
+      path: verify/AtCoder/abc348e/src/main.rs
+      title: verify/AtCoder/abc348e/src/main.rs
+  - name: verify/AtCoder/abc359g_auxiliary/src
+    pages:
+    - icon: ':warning:'
+      path: verify/AtCoder/abc359g_auxiliary/src/main.rs
+      title: verify/AtCoder/abc359g_auxiliary/src/main.rs
+  - name: verify/AtCoder/abc359g_centroid/src
+    pages:
+    - icon: ':warning:'
+      path: verify/AtCoder/abc359g_centroid/src/main.rs
+      title: verify/AtCoder/abc359g_centroid/src/main.rs
   - name: verify/AtCoder/abc384g/src
     pages:
     - icon: ':warning:'
       path: verify/AtCoder/abc384g/src/main.rs
       title: verify/AtCoder/abc384g/src/main.rs
+  - name: verify/AtCoder/alpc_l_lazy_seg/src
+    pages:
+    - icon: ':warning:'
+      path: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
+      title: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   - name: verify/AtCoder/typical_057/src
     pages:
     - icon: ':warning:'
@@ -429,7 +474,7 @@ data:
       title: verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
   - name: verify/AOJ/no_1068/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/AOJ/no_1068/src/main.rs
       title: verify/AOJ/no_1068/src/main.rs
   - name: verify/AOJ/no_1549/src
@@ -447,51 +492,6 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/AOJ/no_2842/src/main.rs
       title: verify/AOJ/no_2842/src/main.rs
-  - name: verify/AtCoder/abc222f/src
-    pages:
-    - icon: ':x:'
-      path: verify/AtCoder/abc222f/src/main.rs
-      title: verify/AtCoder/abc222f/src/main.rs
-  - name: verify/AtCoder/abc285g/src
-    pages:
-    - icon: ':x:'
-      path: verify/AtCoder/abc285g/src/main.rs
-      title: verify/AtCoder/abc285g/src/main.rs
-  - name: verify/AtCoder/abc293e/src
-    pages:
-    - icon: ':x:'
-      path: verify/AtCoder/abc293e/src/main.rs
-      title: verify/AtCoder/abc293e/src/main.rs
-  - name: verify/AtCoder/abc312g/src
-    pages:
-    - icon: ':x:'
-      path: verify/AtCoder/abc312g/src/main.rs
-      title: verify/AtCoder/abc312g/src/main.rs
-  - name: verify/AtCoder/abc340g/src
-    pages:
-    - icon: ':x:'
-      path: verify/AtCoder/abc340g/src/main.rs
-      title: verify/AtCoder/abc340g/src/main.rs
-  - name: verify/AtCoder/abc348e/src
-    pages:
-    - icon: ':x:'
-      path: verify/AtCoder/abc348e/src/main.rs
-      title: verify/AtCoder/abc348e/src/main.rs
-  - name: verify/AtCoder/abc359g_auxiliary/src
-    pages:
-    - icon: ':x:'
-      path: verify/AtCoder/abc359g_auxiliary/src/main.rs
-      title: verify/AtCoder/abc359g_auxiliary/src/main.rs
-  - name: verify/AtCoder/abc359g_centroid/src
-    pages:
-    - icon: ':x:'
-      path: verify/AtCoder/abc359g_centroid/src/main.rs
-      title: verify/AtCoder/abc359g_centroid/src/main.rs
-  - name: verify/AtCoder/alpc_l_lazy_seg/src
-    pages:
-    - icon: ':x:'
-      path: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
-      title: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   - name: verify/yosupo/cartesian_tree_ysp/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -589,12 +589,12 @@ data:
       title: verify/yosupo/rectangle_sum/src/main.rs
   - name: verify/yosupo/segment_add_get_min/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yosupo/segment_add_get_min/src/main.rs
       title: verify/yosupo/segment_add_get_min/src/main.rs
   - name: verify/yosupo/static_range_inversions_query/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yosupo/static_range_inversions_query/src/main.rs
       title: verify/yosupo/static_range_inversions_query/src/main.rs
   - name: verify/yosupo/staticrmq_sparse_table/src

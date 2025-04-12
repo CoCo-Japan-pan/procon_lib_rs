@@ -5,7 +5,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/dual_segtree/src/lib.rs
     title: crates/data_structure/dual_segtree/src/lib.rs
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/data_structure/lazy_segtree/src/lib.rs
     title: crates/data_structure/lazy_segtree/src/lib.rs
   - icon: ':warning:'
@@ -26,16 +26,16 @@ data:
   - icon: ':x:'
     path: crates/data_structure/sparse_table/src/lib.rs
     title: crates/data_structure/sparse_table/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: crates/data_structure/sparse_table_on_segtree/src/lib.rs
     title: crates/data_structure/sparse_table_on_segtree/src/lib.rs
-  - icon: ':x:'
+  - icon: ':warning:'
     path: crates/math/matrix/src/lib.rs
     title: crates/math/matrix/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/tree/euler_tour/src/lib.rs
     title: crates/tree/euler_tour/src/lib.rs
-  - icon: ':x:'
+  - icon: ':warning:'
     path: crates/tree/rerooting/src/lib.rs
     title: crates/tree/rerooting/src/lib.rs
   - icon: ':warning:'
@@ -48,8 +48,20 @@ data:
     path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
     title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   - icon: ':warning:'
+    path: verify/AtCoder/abc222f/src/main.rs
+    title: verify/AtCoder/abc222f/src/main.rs
+  - icon: ':warning:'
+    path: verify/AtCoder/abc312g/src/main.rs
+    title: verify/AtCoder/abc312g/src/main.rs
+  - icon: ':warning:'
     path: verify/AtCoder/abc328f/src/main.rs
     title: verify/AtCoder/abc328f/src/main.rs
+  - icon: ':warning:'
+    path: verify/AtCoder/abc348e/src/main.rs
+    title: verify/AtCoder/abc348e/src/main.rs
+  - icon: ':warning:'
+    path: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
+    title: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   - icon: ':warning:'
     path: verify/AtCoder/typical_068/src/main.rs
     title: verify/AtCoder/typical_068/src/main.rs
@@ -66,24 +78,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
     title: verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/AOJ/no_1068/src/main.rs
     title: verify/AOJ/no_1068/src/main.rs
   - icon: ':heavy_check_mark:'
     path: verify/AOJ/no_2842/src/main.rs
     title: verify/AOJ/no_2842/src/main.rs
-  - icon: ':x:'
-    path: verify/AtCoder/abc222f/src/main.rs
-    title: verify/AtCoder/abc222f/src/main.rs
-  - icon: ':x:'
-    path: verify/AtCoder/abc312g/src/main.rs
-    title: verify/AtCoder/abc312g/src/main.rs
-  - icon: ':x:'
-    path: verify/AtCoder/abc348e/src/main.rs
-    title: verify/AtCoder/abc348e/src/main.rs
-  - icon: ':x:'
-    path: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
-    title: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/point_add_rect_sum_wavelet_seg/src/main.rs
     title: verify/yosupo/point_add_rect_sum_wavelet_seg/src/main.rs
@@ -167,7 +167,11 @@ data:
   isVerificationFile: false
   path: crates/algebra/src/lib.rs
   requiredBy:
+  - verify/AtCoder/abc348e/src/main.rs
+  - verify/AtCoder/abc222f/src/main.rs
+  - verify/AtCoder/abc312g/src/main.rs
   - verify/AtCoder/typical_068/src/main.rs
+  - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   - verify/AtCoder/abc328f/src/main.rs
   - crates/tree/rerooting/src/lib.rs
   - crates/tree/euler_tour/src/lib.rs
@@ -203,10 +207,6 @@ data:
   - verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
   - verify/yosupo/point_add_rectangle_sum_seg2d/src/main.rs
   - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
-  - verify/AtCoder/abc348e/src/main.rs
-  - verify/AtCoder/abc222f/src/main.rs
-  - verify/AtCoder/abc312g/src/main.rs
-  - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
 documentation_of: crates/algebra/src/lib.rs
 layout: document
 redirect_from:

@@ -49,7 +49,7 @@ data:
   isVerificationFile: true
   path: verify/AOJ/dsl_2d_dual_seg/src/main.rs
   requiredBy: []
-  timestamp: '1970-01-01 00:00:00+00:00'
+  timestamp: '2024-10-28 22:46:07+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/dsl_2d_dual_seg/src/main.rs

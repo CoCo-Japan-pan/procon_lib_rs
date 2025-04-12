@@ -14,7 +14,7 @@ data:
   - icon: ':warning:'
     path: crates/flow/maxflow/src/lib.rs
     title: crates/flow/maxflow/src/lib.rs
-  - icon: ':x:'
+  - icon: ':warning:'
     path: crates/flow/maxflow_lower_bound/src/lib.rs
     title: crates/flow/maxflow_lower_bound/src/lib.rs
   - icon: ':warning:'
@@ -26,7 +26,7 @@ data:
   - icon: ':warning:'
     path: crates/internals/internal_modint/src/lib.rs
     title: crates/internals/internal_modint/src/lib.rs
-  - icon: ':x:'
+  - icon: ':warning:'
     path: crates/math/matrix/src/lib.rs
     title: crates/math/matrix/src/lib.rs
   - icon: ':x:'

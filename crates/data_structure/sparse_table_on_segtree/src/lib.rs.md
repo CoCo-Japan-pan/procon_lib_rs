@@ -9,12 +9,12 @@ data:
     title: crates/data_structure/sparse_table/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/AOJ/no_1068/src/main.rs
     title: verify/AOJ/no_1068/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links:
     - https://maspypy.github.io/library/ds/sparse_table/sparse_table_on_segtree.hpp>
@@ -68,7 +68,7 @@ data:
   path: crates/data_structure/sparse_table_on_segtree/src/lib.rs
   requiredBy: []
   timestamp: '2024-12-09 18:16:33+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - verify/AOJ/no_1068/src/main.rs
 documentation_of: crates/data_structure/sparse_table_on_segtree/src/lib.rs

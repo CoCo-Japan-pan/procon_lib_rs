@@ -4,17 +4,17 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/tree/euler_tour/src/lib.rs
     title: crates/tree/euler_tour/src/lib.rs
-  _extendedRequiredBy: []
-  _extendedVerifiedWith:
-  - icon: ':x:'
+  _extendedRequiredBy:
+  - icon: ':warning:'
     path: verify/AtCoder/abc340g/src/main.rs
     title: verify/AtCoder/abc340g/src/main.rs
-  - icon: ':x:'
+  - icon: ':warning:'
     path: verify/AtCoder/abc359g_auxiliary/src/main.rs
     title: verify/AtCoder/abc359g_auxiliary/src/main.rs
-  _isVerificationFailed: true
+  _extendedVerifiedWith: []
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     links:
     - https://atcoder.jp/contests/abc340/editorial/9249)
@@ -82,12 +82,12 @@ data:
   - crates/tree/euler_tour/src/lib.rs
   isVerificationFile: false
   path: crates/tree/auxiliary_tree/src/lib.rs
-  requiredBy: []
-  timestamp: '2024-10-06 16:15:33+09:00'
-  verificationStatus: LIBRARY_ALL_WA
-  verifiedWith:
+  requiredBy:
   - verify/AtCoder/abc359g_auxiliary/src/main.rs
   - verify/AtCoder/abc340g/src/main.rs
+  timestamp: '2024-10-06 16:15:33+09:00'
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
 documentation_of: crates/tree/auxiliary_tree/src/lib.rs
 layout: document
 redirect_from:

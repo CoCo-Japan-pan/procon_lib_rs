@@ -34,7 +34,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/zalgorithm_rolling_hash/src/main.rs
   requiredBy: []
-  timestamp: '1970-01-01 00:00:00+00:00'
+  timestamp: '2024-10-31 15:27:16+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: verify/yosupo/zalgorithm_rolling_hash/src/main.rs

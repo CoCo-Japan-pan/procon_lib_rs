@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':warning:'
     path: crates/math/matrix/src/lib.rs
     title: crates/math/matrix/src/lib.rs
   - icon: ':x:'
@@ -9,11 +9,10 @@ data:
     title: crates/modint/dynamic_modint/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':warning:'
   attributes:
-    PROBLEM: https://atcoder.jp/contests/abc293/tasks/abc293_e
     links:
     - https://atcoder.jp/contests/abc293/tasks/abc293_e
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -22,28 +21,27 @@ data:
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
     \  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "// verification-helper: PROBLEM https://atcoder.jp/contests/abc293/tasks/abc293_e\n\
-    \nuse dynamic_modint::{define_modcontainer, DynamicModInt};\nuse matrix::{Matrix,\
-    \ UsualSemiring};\nuse proconio::input;\n\ndefine_modcontainer!(MOD);\ntype MInt\
-    \ = DynamicModInt<MOD>;\n\nfn main() {\n    input! {\n        a: u32, x: u64,\
-    \ m: u32,\n    }\n    MInt::set_modulus(m);\n    let keisuu = vec![\n        vec![MInt::new(a),\
-    \ MInt::new(1)],\n        vec![MInt::new(0), MInt::new(1)],\n    ];\n    let keisuu\
-    \ = Matrix::<UsualSemiring<MInt>>::from(keisuu);\n    let keisuu = keisuu.pow(x\
-    \ - 1);\n    let ans = keisuu * &Matrix::from(vec![vec![MInt::new(1)], vec![MInt::new(1)]]);\n\
-    \    println!(\"{}\", ans.get(0, 0));\n}\n"
+  code: "// https://atcoder.jp/contests/abc293/tasks/abc293_e\n\nuse dynamic_modint::{define_modcontainer,\
+    \ DynamicModInt};\nuse matrix::{Matrix, UsualSemiring};\nuse proconio::input;\n\
+    \ndefine_modcontainer!(MOD);\ntype MInt = DynamicModInt<MOD>;\n\nfn main() {\n\
+    \    input! {\n        a: u32, x: u64, m: u32,\n    }\n    MInt::set_modulus(m);\n\
+    \    let keisuu = vec![\n        vec![MInt::new(a), MInt::new(1)],\n        vec![MInt::new(0),\
+    \ MInt::new(1)],\n    ];\n    let keisuu = Matrix::<UsualSemiring<MInt>>::from(keisuu);\n\
+    \    let keisuu = keisuu.pow(x - 1);\n    let ans = keisuu * &Matrix::from(vec![vec![MInt::new(1)],\
+    \ vec![MInt::new(1)]]);\n    println!(\"{}\", ans.get(0, 0));\n}\n"
   dependsOn:
   - crates/math/matrix/src/lib.rs
   - crates/modint/dynamic_modint/src/lib.rs
-  isVerificationFile: true
+  isVerificationFile: false
   path: verify/AtCoder/abc293e/src/main.rs
   requiredBy: []
-  timestamp: '1970-01-01 00:00:00+00:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2025-04-12 12:26:44+09:00'
+  verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: verify/AtCoder/abc293e/src/main.rs
 layout: document
 redirect_from:
-- /verify/verify/AtCoder/abc293e/src/main.rs
-- /verify/verify/AtCoder/abc293e/src/main.rs.html
+- /library/verify/AtCoder/abc293e/src/main.rs
+- /library/verify/AtCoder/abc293e/src/main.rs.html
 title: verify/AtCoder/abc293e/src/main.rs
 ---

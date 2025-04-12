@@ -15,12 +15,12 @@ data:
     path: verify/AtCoder/abc290f/src/main.rs
     title: verify/AtCoder/abc290f/src/main.rs
   - icon: ':warning:'
+    path: verify/AtCoder/abc340g/src/main.rs
+    title: verify/AtCoder/abc340g/src/main.rs
+  - icon: ':warning:'
     path: verify/AtCoder/typical_057/src/main.rs
     title: verify/AtCoder/typical_057/src/main.rs
   _extendedVerifiedWith:
-  - icon: ':x:'
-    path: verify/AtCoder/abc340g/src/main.rs
-    title: verify/AtCoder/abc340g/src/main.rs
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/convolution_mod_1000000007_ntt/src/main.rs
     title: verify/yosupo/convolution_mod_1000000007_ntt/src/main.rs
@@ -178,6 +178,7 @@ data:
   path: crates/modint/static_modint/src/lib.rs
   requiredBy:
   - verify/AtCoder/typical_057/src/main.rs
+  - verify/AtCoder/abc340g/src/main.rs
   - verify/AtCoder/abc290f/src/main.rs
   - crates/fps/ntt/src/lib.rs
   timestamp: '2025-03-02 17:25:42+09:00'
@@ -194,7 +195,6 @@ data:
   - verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
   - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
   - verify/yosupo/convolution_mod_1000000007_ntt/src/main.rs
-  - verify/AtCoder/abc340g/src/main.rs
 documentation_of: crates/modint/static_modint/src/lib.rs
 layout: document
 redirect_from:

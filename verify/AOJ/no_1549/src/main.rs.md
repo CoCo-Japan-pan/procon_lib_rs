@@ -34,7 +34,7 @@ data:
   isVerificationFile: true
   path: verify/AOJ/no_1549/src/main.rs
   requiredBy: []
-  timestamp: '1970-01-01 00:00:00+00:00'
+  timestamp: '2024-12-16 14:54:34+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/no_1549/src/main.rs

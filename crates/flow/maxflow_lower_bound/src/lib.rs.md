@@ -7,14 +7,14 @@ data:
   - icon: ':warning:'
     path: crates/internals/internal_type_traits/src/lib.rs
     title: crates/internals/internal_type_traits/src/lib.rs
-  _extendedRequiredBy: []
-  _extendedVerifiedWith:
-  - icon: ':x:'
+  _extendedRequiredBy:
+  - icon: ':warning:'
     path: verify/AtCoder/abc285g/src/main.rs
     title: verify/AtCoder/abc285g/src/main.rs
-  _isVerificationFailed: true
+  _extendedVerifiedWith: []
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':warning:'
   attributes:
     links:
     - https://atcoder.jp/contests/abc285/editorial/5500>
@@ -72,11 +72,11 @@ data:
   - crates/internals/internal_type_traits/src/lib.rs
   isVerificationFile: false
   path: crates/flow/maxflow_lower_bound/src/lib.rs
-  requiredBy: []
-  timestamp: '2025-03-02 17:25:42+09:00'
-  verificationStatus: LIBRARY_ALL_WA
-  verifiedWith:
+  requiredBy:
   - verify/AtCoder/abc285g/src/main.rs
+  timestamp: '2025-03-02 17:25:42+09:00'
+  verificationStatus: LIBRARY_NO_TESTS
+  verifiedWith: []
 documentation_of: crates/flow/maxflow_lower_bound/src/lib.rs
 layout: document
 redirect_from:
