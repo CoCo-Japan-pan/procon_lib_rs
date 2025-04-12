@@ -45,21 +45,21 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
     title: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
     title: verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/vertex_set_path_composite/src/main.rs
     title: verify/yosupo/vertex_set_path_composite/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yukicoder/no_803/src/main.rs
     title: verify/yukicoder/no_803/src/main.rs
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
-    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/modint.rs>
+    - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/modint.rs
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
@@ -182,7 +182,7 @@ data:
   - verify/AtCoder/abc290f/src/main.rs
   - crates/fps/ntt/src/lib.rs
   timestamp: '2025-03-02 17:25:42+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_803/src/main.rs
   - verify/yosupo/point_set_range_composite/src/main.rs

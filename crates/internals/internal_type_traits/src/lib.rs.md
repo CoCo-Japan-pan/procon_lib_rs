@@ -5,7 +5,7 @@ data:
   - icon: ':warning:'
     path: crates/data_structure/lazy_segtree_utils/src/lib.rs
     title: crates/data_structure/lazy_segtree_utils/src/lib.rs
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/data_structure/segtree_2d_compressed/src/lib.rs
     title: crates/data_structure/segtree_2d_compressed/src/lib.rs
   - icon: ':warning:'
@@ -29,22 +29,22 @@ data:
   - icon: ':warning:'
     path: crates/math/matrix/src/lib.rs
     title: crates/math/matrix/src/lib.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: crates/modint/dynamic_modint/src/lib.rs
     title: crates/modint/dynamic_modint/src/lib.rs
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/modint/static_modint/src/lib.rs
     title: crates/modint/static_modint/src/lib.rs
   - icon: ':warning:'
     path: crates/utils/monoid_utils/src/lib.rs
     title: crates/utils/monoid_utils/src/lib.rs
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
     title: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
     title: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
     title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   _extendedVerifiedWith: []

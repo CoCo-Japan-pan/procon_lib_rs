@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/data_structure/cht_offline/src/lib.rs
     title: crates/data_structure/cht_offline/src/lib.rs
   _extendedRequiredBy: []

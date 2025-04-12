@@ -15,12 +15,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/rectangle_sum/src/main.rs
     title: verify/yosupo/rectangle_sum/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yukicoder/no_738/src/main.rs
     title: verify/yukicoder/no_738/src/main.rs
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -189,7 +189,7 @@ data:
   path: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
   requiredBy: []
   timestamp: '2025-03-02 17:25:42+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_738/src/main.rs
   - verify/yosupo/rectangle_sum/src/main.rs

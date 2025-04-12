@@ -9,15 +9,15 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/line_add_get_min/src/main.rs
     title: verify/yosupo/line_add_get_min/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/segment_add_get_min/src/main.rs
     title: verify/yosupo/segment_add_get_min/src/main.rs
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
-    - https://hcpc-hokudai.github.io/archive/algorithm_convex_hull_trick_001.pdf)
+    - https://hcpc-hokudai.github.io/archive/algorithm_convex_hull_trick_001.pdf
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
@@ -144,7 +144,7 @@ data:
   path: crates/data_structure/cht_offline/src/lib.rs
   requiredBy: []
   timestamp: '2024-09-30 16:25:48+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/segment_add_get_min/src/main.rs
   - verify/yosupo/line_add_get_min/src/main.rs

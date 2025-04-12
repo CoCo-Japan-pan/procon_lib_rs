@@ -17,8 +17,8 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links:
-    - https://atcoder.jp/contests/abc285/editorial/5500>
-    - https://tubo28.me/compprog/algorithm/flow_with_lu_bound/>
+    - https://atcoder.jp/contests/abc285/editorial/5500
+    - https://tubo28.me/compprog/algorithm/flow_with_lu_bound/
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \

@@ -1,14 +1,14 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/data_structure/cht_offline/src/lib.rs
     title: crates/data_structure/cht_offline/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     PROBLEM: https://judge.yosupo.jp/problem/segment_add_get_min
     links:
@@ -46,7 +46,7 @@ data:
   path: verify/yosupo/segment_add_get_min/src/main.rs
   requiredBy: []
   timestamp: '2024-07-15 21:52:20+09:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/segment_add_get_min/src/main.rs
 layout: document

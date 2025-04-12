@@ -2,7 +2,7 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: crates/math/bit_matrix/src/lib.rs
     title: crates/math/bit_matrix/src/lib.rs
   - icon: ':warning:'
@@ -14,8 +14,8 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links:
-    - https://choosealicense.com/licenses/mit/)
-    - https://crates.io/crates/bitset-fixed)
+    - https://choosealicense.com/licenses/mit/
+    - https://crates.io/crates/bitset-fixed
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \

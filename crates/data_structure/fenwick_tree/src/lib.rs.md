@@ -15,21 +15,21 @@ data:
     path: verify/AtCoder/abc384g/src/main.rs
     title: verify/AtCoder/abc384g/src/main.rs
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/static_range_inversions_query/src/main.rs
     title: verify/yosupo/static_range_inversions_query/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/vertex_add_path_sum/src/main.rs
     title: verify/yosupo/vertex_add_path_sum/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/vertex_add_subtree_sum/src/main.rs
     title: verify/yosupo/vertex_add_subtree_sum/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yukicoder/no_649_fenwick_tree/src/main.rs
     title: verify/yukicoder/no_649_fenwick_tree/src/main.rs
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -115,7 +115,7 @@ data:
   - crates/data_structure/raq_rsq/src/lib.rs
   - crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
   timestamp: '2025-01-19 12:17:00+09:00'
-  verificationStatus: LIBRARY_ALL_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_649_fenwick_tree/src/main.rs
   - verify/yosupo/static_range_inversions_query/src/main.rs

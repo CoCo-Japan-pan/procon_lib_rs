@@ -14,10 +14,10 @@ data:
   - icon: ':warning:'
     path: crates/math/enumerate_inv_mods/src/lib.rs
     title: crates/math/enumerate_inv_mods/src/lib.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: crates/modint/dynamic_modint/src/lib.rs
     title: crates/modint/dynamic_modint/src/lib.rs
-  - icon: ':question:'
+  - icon: ':heavy_check_mark:'
     path: crates/modint/static_modint/src/lib.rs
     title: crates/modint/static_modint/src/lib.rs
   _extendedVerifiedWith: []

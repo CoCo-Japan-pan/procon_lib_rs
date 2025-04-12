@@ -15,22 +15,22 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/lca_hld/src/main.rs
     title: verify/yosupo/lca_hld/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/vertex_add_path_sum/src/main.rs
     title: verify/yosupo/vertex_add_path_sum/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/vertex_add_subtree_sum/src/main.rs
     title: verify/yosupo/vertex_add_subtree_sum/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/vertex_set_path_composite/src/main.rs
     title: verify/yosupo/vertex_set_path_composite/src/main.rs
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
-    - https://codeforces.com/blog/entry/53170)
-    - https://hcpc-hokudai.github.io/archive/graph_tree_001.pdf)
+    - https://codeforces.com/blog/entry/53170
+    - https://hcpc-hokudai.github.io/archive/graph_tree_001.pdf
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
@@ -146,7 +146,7 @@ data:
   - verify/AtCoder/abc294g/src/main.rs
   - verify/AtCoder/abc239e/src/main.rs
   timestamp: '2025-03-09 01:10:53+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/no_2667/src/main.rs
   - verify/yosupo/lca_hld/src/main.rs

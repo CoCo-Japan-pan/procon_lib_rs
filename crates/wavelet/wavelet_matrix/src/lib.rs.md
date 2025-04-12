@@ -18,18 +18,18 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/range_kth_smallest/src/main.rs
     title: verify/yosupo/range_kth_smallest/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yukicoder/no_738/src/main.rs
     title: verify/yukicoder/no_738/src/main.rs
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: verify/yukicoder/no_919/src/main.rs
     title: verify/yukicoder/no_919/src/main.rs
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: rs
-  _verificationStatusIcon: ':question:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links:
-    - https://miti-7.hatenablog.com/entry/2018/04/28/152259)
+    - https://miti-7.hatenablog.com/entry/2018/04/28/152259
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
@@ -234,7 +234,7 @@ data:
   requiredBy:
   - verify/AtCoder/abc239e/src/main.rs
   timestamp: '2024-12-16 14:54:34+09:00'
-  verificationStatus: LIBRARY_SOME_WA
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/no_1549/src/main.rs
   - verify/yukicoder/no_738/src/main.rs
