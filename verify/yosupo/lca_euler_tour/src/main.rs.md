@@ -32,7 +32,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/lca_euler_tour/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-06 15:56:08+09:00'
+  timestamp: '1970-01-01 00:00:00+00:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/lca_euler_tour/src/main.rs

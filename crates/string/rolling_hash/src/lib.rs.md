@@ -6,12 +6,12 @@ data:
     title: crates/hash/modint_mersenne/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yosupo/zalgorithm_rolling_hash/src/main.rs
     title: verify/yosupo/zalgorithm_rolling_hash/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -72,7 +72,7 @@ data:
   path: crates/string/rolling_hash/src/lib.rs
   requiredBy: []
   timestamp: '2024-10-31 15:27:16+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - verify/yosupo/zalgorithm_rolling_hash/src/main.rs
 documentation_of: crates/string/rolling_hash/src/lib.rs

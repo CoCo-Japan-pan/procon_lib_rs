@@ -4,7 +4,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/fps/ntt/src/lib.rs
     title: crates/fps/ntt/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/modint/static_modint/src/lib.rs
     title: crates/modint/static_modint/src/lib.rs
   _extendedRequiredBy: []
@@ -36,7 +36,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/convolution_ntt/src/main.rs
   requiredBy: []
-  timestamp: '2025-02-28 13:20:48+09:00'
+  timestamp: '1970-01-01 00:00:00+00:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/convolution_ntt/src/main.rs

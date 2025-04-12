@@ -2,7 +2,7 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: crates/math/bit_matrix/src/lib.rs
     title: crates/math/bit_matrix/src/lib.rs
   - icon: ':warning:'

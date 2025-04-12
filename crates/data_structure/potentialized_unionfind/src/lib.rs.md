@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/algebra/src/lib.rs
     title: crates/algebra/src/lib.rs
   _extendedRequiredBy:
@@ -12,12 +12,12 @@ data:
     path: verify/AtCoder/typical_068/src/main.rs
     title: verify/AtCoder/typical_068/src/main.rs
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
     title: verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -97,7 +97,7 @@ data:
   - verify/AtCoder/typical_068/src/main.rs
   - verify/AtCoder/abc328f/src/main.rs
   timestamp: '2025-03-13 00:09:19+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
 documentation_of: crates/data_structure/potentialized_unionfind/src/lib.rs

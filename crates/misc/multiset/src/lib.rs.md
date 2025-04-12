@@ -34,36 +34,39 @@ data:
     \ self, key: K) {\n        self.map.entry(key).and_modify(|e| *e += 1).or_insert(1);\n\
     \    }\n\n    /// key\u3092c\u500B\u8FFD\u52A0\n    pub fn insert_bunch(&mut self,\
     \ key: K, c: usize) {\n        self.map.entry(key).and_modify(|e| *e += c).or_insert(c);\n\
-    \    }\n\n    /// key\u3092\u4E00\u3064\u524A\u9664\u3059\u308B\n    pub fn remove_one<Q>(&mut\
-    \ self, key: &Q)\n    where\n        K: Borrow<Q>,\n        Q: Ord + ?Sized,\n\
-    \    {\n        if let Some(v) = self.map.get_mut(key) {\n            *v -= 1;\n\
+    \    }\n\n    /// key\u3092\u4E00\u3064\u524A\u9664\u3059\u308B \u3082\u3068\u3082\
+    \u3068key\u304C\u4E00\u3064\u4EE5\u4E0A\u3042\u308C\u3070true\u3092\u8FD4\u3059\
+    \n    /// \u3082\u3068\u3082\u3068key\u304C\u306A\u3051\u308C\u3070false\u3092\
+    \u8FD4\u3059\n    pub fn remove_one<Q>(&mut self, key: &Q) -> bool\n    where\n\
+    \        K: Borrow<Q>,\n        Q: Ord + ?Sized,\n    {\n        if let Some(v)\
+    \ = self.map.get_mut(key) {\n            *v -= 1;\n            if *v == 0 {\n\
+    \                self.map.remove(key);\n            }\n            true\n    \
+    \    } else {\n            false\n        }\n    }\n\n    /// key\u3092c\u500B\
+    \u524A\u9664\u3059\u308B\n    pub fn remove_bunch<Q>(&mut self, key: &Q, c: usize)\n\
+    \    where\n        K: Borrow<Q>,\n        Q: Ord + ?Sized,\n    {\n        if\
+    \ let Some(v) = self.map.get_mut(key) {\n            *v = v.saturating_sub(c);\n\
     \            if *v == 0 {\n                self.map.remove(key);\n           \
-    \ }\n        }\n    }\n\n    /// key\u3092c\u500B\u524A\u9664\u3059\u308B\n  \
-    \  pub fn remove_bunch<Q>(&mut self, key: &Q, c: usize)\n    where\n        K:\
-    \ Borrow<Q>,\n        Q: Ord + ?Sized,\n    {\n        if let Some(v) = self.map.get_mut(key)\
-    \ {\n            *v = v.saturating_sub(c);\n            if *v == 0 {\n       \
-    \         self.map.remove(key);\n            }\n        }\n    }\n\n    /// key\u3092\
-    \u3059\u3079\u3066\u524A\u9664\u3059\u308B\n    pub fn remove_all<Q>(&mut self,\
-    \ key: &Q)\n    where\n        K: Borrow<Q>,\n        Q: Ord + ?Sized,\n    {\n\
-    \        self.map.remove(key);\n    }\n\n    pub fn contains_key<Q>(&self, key:\
-    \ &Q) -> bool\n    where\n        K: Borrow<Q>,\n        Q: Ord + ?Sized,\n  \
-    \  {\n        self.map.contains_key(key)\n    }\n\n    pub fn count<Q>(&self,\
-    \ key: &Q) -> usize\n    where\n        K: Borrow<Q>,\n        Q: Ord + ?Sized,\n\
-    \    {\n        self.map.get(key).copied().unwrap_or(0)\n    }\n\n    pub fn is_empty(&self)\
-    \ -> bool {\n        self.map.is_empty()\n    }\n\n    pub fn min_key(&self) ->\
-    \ Option<&K> {\n        self.map.keys().next()\n    }\n\n    pub fn max_key(&self)\
-    \ -> Option<&K> {\n        self.map.keys().next_back()\n    }\n}\n\n#[cfg(test)]\n\
-    mod test {\n    use super::*;\n    use rand::prelude::*;\n\n    #[test]\n    fn\
-    \ test() {\n        let mut rng = thread_rng();\n        let mut ms = MultiSet::new();\n\
-    \        let mut v = vec![];\n        for _ in 0..1000 {\n            let x =\
-    \ rng.gen_range(0..10);\n            let cnt = rng.gen_range(1..=10);\n      \
-    \      if rng.gen() {\n                ms.insert_one(x);\n                v.push(x);\n\
-    \            } else {\n                ms.insert_bunch(x, cnt);\n            \
-    \    v.extend(std::iter::repeat(x).take(cnt));\n            }\n            let\
-    \ x = rng.gen_range(0..10);\n            let cnt = rng.gen_range(1..=5);\n   \
-    \         if rng.gen() {\n                ms.remove_one(&x);\n               \
-    \ if let Some(pos) = v.iter().position(|&y| y == x) {\n                    v.remove(pos);\n\
-    \                }\n            } else {\n                ms.remove_bunch(&x,\
+    \ }\n        }\n    }\n\n    /// key\u3092\u3059\u3079\u3066\u524A\u9664\u3059\
+    \u308B\n    pub fn remove_all<Q>(&mut self, key: &Q)\n    where\n        K: Borrow<Q>,\n\
+    \        Q: Ord + ?Sized,\n    {\n        self.map.remove(key);\n    }\n\n   \
+    \ pub fn contains_key<Q>(&self, key: &Q) -> bool\n    where\n        K: Borrow<Q>,\n\
+    \        Q: Ord + ?Sized,\n    {\n        self.map.contains_key(key)\n    }\n\n\
+    \    pub fn count<Q>(&self, key: &Q) -> usize\n    where\n        K: Borrow<Q>,\n\
+    \        Q: Ord + ?Sized,\n    {\n        self.map.get(key).copied().unwrap_or(0)\n\
+    \    }\n\n    pub fn is_empty(&self) -> bool {\n        self.map.is_empty()\n\
+    \    }\n\n    pub fn min_key(&self) -> Option<&K> {\n        self.map.first_key_value().map(|(k,\
+    \ _)| k)\n    }\n\n    pub fn max_key(&self) -> Option<&K> {\n        self.map.last_key_value().map(|(k,\
+    \ _)| k)\n    }\n}\n\n#[cfg(test)]\nmod test {\n    use super::*;\n    use rand::prelude::*;\n\
+    \n    #[test]\n    fn test() {\n        let mut rng = thread_rng();\n        let\
+    \ mut ms = MultiSet::new();\n        let mut v = vec![];\n        for _ in 0..1000\
+    \ {\n            let x = rng.gen_range(0..10);\n            let cnt = rng.gen_range(1..=10);\n\
+    \            if rng.gen() {\n                ms.insert_one(x);\n             \
+    \   v.push(x);\n            } else {\n                ms.insert_bunch(x, cnt);\n\
+    \                v.extend(std::iter::repeat(x).take(cnt));\n            }\n  \
+    \          let x = rng.gen_range(0..10);\n            let cnt = rng.gen_range(1..=5);\n\
+    \            if rng.gen() {\n                ms.remove_one(&x);\n            \
+    \    if let Some(pos) = v.iter().position(|&y| y == x) {\n                   \
+    \ v.remove(pos);\n                }\n            } else {\n                ms.remove_bunch(&x,\
     \ cnt);\n                for _ in 0..cnt {\n                    if let Some(pos)\
     \ = v.iter().position(|&y| y == x) {\n                        v.remove(pos);\n\
     \                    }\n                }\n            }\n        }\n        for\
@@ -74,7 +77,7 @@ data:
   isVerificationFile: false
   path: crates/misc/multiset/src/lib.rs
   requiredBy: []
-  timestamp: '2025-01-12 13:23:48+09:00'
+  timestamp: '2025-04-07 00:26:50+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/misc/multiset/src/lib.rs

@@ -15,18 +15,18 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/lca_hld/src/main.rs
     title: verify/yosupo/lca_hld/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yosupo/vertex_add_path_sum/src/main.rs
     title: verify/yosupo/vertex_add_path_sum/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yosupo/vertex_add_subtree_sum/src/main.rs
     title: verify/yosupo/vertex_add_subtree_sum/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yosupo/vertex_set_path_composite/src/main.rs
     title: verify/yosupo/vertex_set_path_composite/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     links:
     - https://codeforces.com/blog/entry/53170)
@@ -146,7 +146,7 @@ data:
   - verify/AtCoder/abc294g/src/main.rs
   - verify/AtCoder/abc239e/src/main.rs
   timestamp: '2025-03-09 01:10:53+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - verify/AOJ/no_2667/src/main.rs
   - verify/yosupo/lca_hld/src/main.rs

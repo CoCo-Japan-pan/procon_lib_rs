@@ -30,7 +30,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/cartesian_tree_ysp/src/main.rs
   requiredBy: []
-  timestamp: '2025-02-27 16:14:03+09:00'
+  timestamp: '1970-01-01 00:00:00+00:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/cartesian_tree_ysp/src/main.rs

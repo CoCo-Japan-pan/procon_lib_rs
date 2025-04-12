@@ -1,14 +1,14 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: crates/math/floor_ceil_sum/src/lib.rs
     title: crates/math/floor_ceil_sum/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     PROBLEM: https://judge.yosupo.jp/problem/sum_of_floor_of_linear
     links:
@@ -29,8 +29,8 @@ data:
   isVerificationFile: true
   path: verify/yosupo/sum_of_floor_of_linear/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-24 16:54:37+09:00'
-  verificationStatus: TEST_ACCEPTED
+  timestamp: '1970-01-01 00:00:00+00:00'
+  verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: verify/yosupo/sum_of_floor_of_linear/src/main.rs
 layout: document

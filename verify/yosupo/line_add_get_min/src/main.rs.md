@@ -42,7 +42,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/line_add_get_min/src/main.rs
   requiredBy: []
-  timestamp: '2024-07-15 21:52:20+09:00'
+  timestamp: '1970-01-01 00:00:00+00:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/line_add_get_min/src/main.rs

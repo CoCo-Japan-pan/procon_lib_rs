@@ -5,7 +5,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/cht_offline/src/lib.rs
     title: crates/data_structure/cht_offline/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/lazy_segtree/src/lib.rs
     title: crates/data_structure/lazy_segtree/src/lib.rs
   - icon: ':warning:'
@@ -14,7 +14,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/range_chmin_max_add_sum/src/lib.rs
     title: crates/data_structure/range_chmin_max_add_sum/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/segtree/src/lib.rs
     title: crates/data_structure/segtree/src/lib.rs
   - icon: ':heavy_check_mark:'
@@ -23,16 +23,16 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/fps/fps_utils/src/lib.rs
     title: crates/fps/fps_utils/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/wavelet/wavelet_matrix/src/lib.rs
     title: crates/wavelet/wavelet_matrix/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
     title: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
     title: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
     title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   _extendedVerifiedWith: []

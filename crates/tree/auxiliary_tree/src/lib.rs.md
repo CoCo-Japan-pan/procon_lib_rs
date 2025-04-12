@@ -6,15 +6,15 @@ data:
     title: crates/tree/euler_tour/src/lib.rs
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/AtCoder/abc340g/src/main.rs
     title: verify/AtCoder/abc340g/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/AtCoder/abc359g_auxiliary/src/main.rs
     title: verify/AtCoder/abc359g_auxiliary/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links:
     - https://atcoder.jp/contests/abc340/editorial/9249)
@@ -84,7 +84,7 @@ data:
   path: crates/tree/auxiliary_tree/src/lib.rs
   requiredBy: []
   timestamp: '2024-10-06 16:15:33+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - verify/AtCoder/abc359g_auxiliary/src/main.rs
   - verify/AtCoder/abc340g/src/main.rs

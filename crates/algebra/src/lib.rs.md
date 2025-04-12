@@ -5,37 +5,37 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/dual_segtree/src/lib.rs
     title: crates/data_structure/dual_segtree/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/lazy_segtree/src/lib.rs
     title: crates/data_structure/lazy_segtree/src/lib.rs
   - icon: ':warning:'
     path: crates/data_structure/lazy_segtree_utils/src/lib.rs
     title: crates/data_structure/lazy_segtree_utils/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: crates/data_structure/potentialized_unionfind/src/lib.rs
     title: crates/data_structure/potentialized_unionfind/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/segtree/src/lib.rs
     title: crates/data_structure/segtree/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/data_structure/segtree_2d_compressed/src/lib.rs
     title: crates/data_structure/segtree_2d_compressed/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/segtree_2d_dense/src/lib.rs
     title: crates/data_structure/segtree_2d_dense/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: crates/data_structure/sparse_table/src/lib.rs
     title: crates/data_structure/sparse_table/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/sparse_table_on_segtree/src/lib.rs
     title: crates/data_structure/sparse_table_on_segtree/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: crates/math/matrix/src/lib.rs
     title: crates/math/matrix/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/tree/euler_tour/src/lib.rs
     title: crates/tree/euler_tour/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: crates/tree/rerooting/src/lib.rs
     title: crates/tree/rerooting/src/lib.rs
   - icon: ':warning:'
@@ -44,7 +44,7 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
     title: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
     title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   - icon: ':warning:'
@@ -72,16 +72,16 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/AOJ/no_2842/src/main.rs
     title: verify/AOJ/no_2842/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/AtCoder/abc222f/src/main.rs
     title: verify/AtCoder/abc222f/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/AtCoder/abc312g/src/main.rs
     title: verify/AtCoder/abc312g/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/AtCoder/abc348e/src/main.rs
     title: verify/AtCoder/abc348e/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
     title: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   - icon: ':heavy_check_mark:'
@@ -99,24 +99,24 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/rectangle_add_point_get/src/main.rs
     title: verify/yosupo/rectangle_add_point_get/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yosupo/staticrmq_sparse_table/src/main.rs
     title: verify/yosupo/staticrmq_sparse_table/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
     title: verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yosupo/vertex_set_path_composite/src/main.rs
     title: verify/yosupo/vertex_set_path_composite/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yukicoder/no_1625/src/main.rs
     title: verify/yukicoder/no_1625/src/main.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yukicoder/no_1625_wavelet/src/main.rs
     title: verify/yukicoder/no_1625_wavelet/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -185,7 +185,7 @@ data:
   - crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
   - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   timestamp: '2024-10-28 22:46:07+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - verify/AOJ/dsl_2f_lazy_seg/src/main.rs
   - verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs

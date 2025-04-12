@@ -3,12 +3,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/yukicoder/no_649_avl/src/main.rs
     title: verify/yukicoder/no_649_avl/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':x:'
   attributes:
     links:
     - https://qiita.com/QCFium/items/3cf26a6dc2d49ef490d7)
@@ -281,7 +281,7 @@ data:
   path: crates/data_structure/avl/src/lib.rs
   requiredBy: []
   timestamp: '2024-09-26 21:28:14+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_ALL_WA
   verifiedWith:
   - verify/yukicoder/no_649_avl/src/main.rs
 documentation_of: crates/data_structure/avl/src/lib.rs

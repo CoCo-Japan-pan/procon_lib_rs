@@ -3,15 +3,15 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/AtCoder/abc359g_centroid/src/main.rs
     title: verify/AtCoder/abc359g_centroid/src/main.rs
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/frequency_table_of_tree_distance/src/main.rs
     title: verify/yosupo/frequency_table_of_tree_distance/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     links:
     - https://github.com/to-omer/competitive-library/blob/master/crates/competitive/src/tools/capture.rs>
@@ -131,7 +131,7 @@ data:
   path: crates/utils/capture/src/lib.rs
   requiredBy: []
   timestamp: '2024-12-09 18:05:27+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - verify/yosupo/frequency_table_of_tree_distance/src/main.rs
   - verify/AtCoder/abc359g_centroid/src/main.rs

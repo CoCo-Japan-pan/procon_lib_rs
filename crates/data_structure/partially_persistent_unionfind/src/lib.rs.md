@@ -57,10 +57,10 @@ data:
     \ <= t {\n                ok = mid;\n            } else {\n                ng\
     \ = mid;\n            }\n        }\n        self.num[x][ok].1\n    }\n}\n\n#[cfg(test)]\n\
     mod tests {\n    use super::*;\n    use rand::prelude::*;\n    use unionfind::UnionFind;\n\
-    \n    #[test]\n    fn test() {\n        let mut rng = rand::rng();\n        const\
-    \ SIZE: usize = 100;\n        let mut puf = PartiallyPersistentUnionFind::new(SIZE);\n\
+    \n    #[test]\n    fn test() {\n        let mut rng = rand::thread_rng();\n  \
+    \      const SIZE: usize = 100;\n        let mut puf = PartiallyPersistentUnionFind::new(SIZE);\n\
     \        let mut ufs = vec![UnionFind::new(SIZE)];\n        for _ in 0..SIZE *\
-    \ 2 {\n            let a = rng.random_range(0..SIZE);\n            let b = rng.random_range(0..SIZE);\n\
+    \ 2 {\n            let a = rng.gen_range(0..SIZE);\n            let b = rng.gen_range(0..SIZE);\n\
     \            let mut last = ufs.last().unwrap().clone();\n            last.merge(a,\
     \ b);\n            ufs.push(last);\n            puf.merge(a, b);\n        }\n\
     \        for t in 0..=SIZE * 2 {\n            for i in 0..SIZE {\n           \
@@ -72,7 +72,7 @@ data:
   isVerificationFile: false
   path: crates/data_structure/partially_persistent_unionfind/src/lib.rs
   requiredBy: []
-  timestamp: '2025-02-23 14:02:59+09:00'
+  timestamp: '2025-04-12 11:59:38+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/data_structure/partially_persistent_unionfind/src/lib.rs

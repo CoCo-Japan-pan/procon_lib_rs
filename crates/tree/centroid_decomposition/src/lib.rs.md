@@ -6,15 +6,15 @@ data:
     path: verify/AtCoder/abc291g/src/main.rs
     title: verify/AtCoder/abc291g/src/main.rs
   _extendedVerifiedWith:
-  - icon: ':heavy_check_mark:'
+  - icon: ':x:'
     path: verify/AtCoder/abc359g_centroid/src/main.rs
     title: verify/AtCoder/abc359g_centroid/src/main.rs
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/frequency_table_of_tree_distance/src/main.rs
     title: verify/yosupo/frequency_table_of_tree_distance/src/main.rs
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: rs
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     links:
     - https://www.quora.com/profile/Abbas-Rangwala-13/Centroid-Decomposition-of-a-Tree)
@@ -87,7 +87,7 @@ data:
   requiredBy:
   - verify/AtCoder/abc291g/src/main.rs
   timestamp: '2024-07-15 11:56:42+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - verify/yosupo/frequency_table_of_tree_distance/src/main.rs
   - verify/AtCoder/abc359g_centroid/src/main.rs

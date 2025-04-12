@@ -3,7 +3,7 @@ data:
   libraryCategories:
   - name: crates/algebra/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/algebra/src/lib.rs
       title: crates/algebra/src/lib.rs
   - name: crates/bitset/src
@@ -13,7 +13,7 @@ data:
       title: crates/bitset/src/lib.rs
   - name: crates/data_structure/avl/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: crates/data_structure/avl/src/lib.rs
       title: crates/data_structure/avl/src/lib.rs
   - name: crates/data_structure/cht_offline/src
@@ -28,12 +28,12 @@ data:
       title: crates/data_structure/dual_segtree/src/lib.rs
   - name: crates/data_structure/fenwick_tree/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/data_structure/fenwick_tree/src/lib.rs
       title: crates/data_structure/fenwick_tree/src/lib.rs
   - name: crates/data_structure/lazy_segtree/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/data_structure/lazy_segtree/src/lib.rs
       title: crates/data_structure/lazy_segtree/src/lib.rs
   - name: crates/data_structure/lazy_segtree_beats/src
@@ -53,7 +53,7 @@ data:
       title: crates/data_structure/partially_persistent_unionfind/src/lib.rs
   - name: crates/data_structure/potentialized_unionfind/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: crates/data_structure/potentialized_unionfind/src/lib.rs
       title: crates/data_structure/potentialized_unionfind/src/lib.rs
   - name: crates/data_structure/range_chmin_max_add_sum/src
@@ -68,12 +68,12 @@ data:
       title: crates/data_structure/raq_rsq/src/lib.rs
   - name: crates/data_structure/segtree/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/data_structure/segtree/src/lib.rs
       title: crates/data_structure/segtree/src/lib.rs
   - name: crates/data_structure/segtree_2d_compressed/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/data_structure/segtree_2d_compressed/src/lib.rs
       title: crates/data_structure/segtree_2d_compressed/src/lib.rs
   - name: crates/data_structure/segtree_2d_dense/src
@@ -83,7 +83,7 @@ data:
       title: crates/data_structure/segtree_2d_dense/src/lib.rs
   - name: crates/data_structure/sparse_table/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: crates/data_structure/sparse_table/src/lib.rs
       title: crates/data_structure/sparse_table/src/lib.rs
   - name: crates/data_structure/sparse_table_on_segtree/src
@@ -93,7 +93,7 @@ data:
       title: crates/data_structure/sparse_table_on_segtree/src/lib.rs
   - name: crates/data_structure/unionfind/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: crates/data_structure/unionfind/src/lib.rs
       title: crates/data_structure/unionfind/src/lib.rs
   - name: crates/flow/atcoder_mincostflow/src
@@ -108,7 +108,7 @@ data:
       title: crates/flow/maxflow/src/lib.rs
   - name: crates/flow/maxflow_lower_bound/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: crates/flow/maxflow_lower_bound/src/lib.rs
       title: crates/flow/maxflow_lower_bound/src/lib.rs
   - name: crates/flow/mincost_bflow/src
@@ -183,7 +183,7 @@ data:
       title: crates/math/binom/src/lib.rs
   - name: crates/math/bit_matrix/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: crates/math/bit_matrix/src/lib.rs
       title: crates/math/bit_matrix/src/lib.rs
   - name: crates/math/bitwise_convolution/src
@@ -203,12 +203,12 @@ data:
       title: crates/math/eratosthenes/src/lib.rs
   - name: crates/math/floor_ceil_sum/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: crates/math/floor_ceil_sum/src/lib.rs
       title: crates/math/floor_ceil_sum/src/lib.rs
   - name: crates/math/matrix/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: crates/math/matrix/src/lib.rs
       title: crates/math/matrix/src/lib.rs
   - name: crates/math/zeta_mobius_bitset/src
@@ -238,12 +238,12 @@ data:
       title: crates/misc/top2/src/lib.rs
   - name: crates/modint/dynamic_modint/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: crates/modint/dynamic_modint/src/lib.rs
       title: crates/modint/dynamic_modint/src/lib.rs
   - name: crates/modint/static_modint/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/modint/static_modint/src/lib.rs
       title: crates/modint/static_modint/src/lib.rs
   - name: crates/rand/pcg32/src
@@ -253,12 +253,12 @@ data:
       title: crates/rand/pcg32/src/lib.rs
   - name: crates/string/rolling_hash/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: crates/string/rolling_hash/src/lib.rs
       title: crates/string/rolling_hash/src/lib.rs
   - name: crates/tree/auxiliary_tree/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: crates/tree/auxiliary_tree/src/lib.rs
       title: crates/tree/auxiliary_tree/src/lib.rs
   - name: crates/tree/cartesian_tree/src
@@ -268,7 +268,7 @@ data:
       title: crates/tree/cartesian_tree/src/lib.rs
   - name: crates/tree/centroid_decomposition/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/tree/centroid_decomposition/src/lib.rs
       title: crates/tree/centroid_decomposition/src/lib.rs
   - name: crates/tree/euler_tour/src
@@ -278,17 +278,17 @@ data:
       title: crates/tree/euler_tour/src/lib.rs
   - name: crates/tree/hld/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/tree/hld/src/lib.rs
       title: crates/tree/hld/src/lib.rs
   - name: crates/tree/rerooting/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: crates/tree/rerooting/src/lib.rs
       title: crates/tree/rerooting/src/lib.rs
   - name: crates/utils/capture/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/utils/capture/src/lib.rs
       title: crates/utils/capture/src/lib.rs
   - name: crates/utils/localize_closure/src
@@ -313,12 +313,12 @@ data:
       title: crates/wavelet/bitdict/src/lib.rs
   - name: crates/wavelet/wavelet_matrix/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/wavelet/wavelet_matrix/src/lib.rs
       title: crates/wavelet/wavelet_matrix/src/lib.rs
   - name: crates/wavelet/wavelet_matrix_cum_sum/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
       title: crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
   - name: crates/wavelet/wavelet_matrix_fenwick/src
@@ -328,7 +328,7 @@ data:
       title: crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
   - name: crates/wavelet/wavelet_matrix_segtree/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':question:'
       path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
       title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   - name: verify/AtCoder/abc239e/src
@@ -449,47 +449,47 @@ data:
       title: verify/AOJ/no_2842/src/main.rs
   - name: verify/AtCoder/abc222f/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/AtCoder/abc222f/src/main.rs
       title: verify/AtCoder/abc222f/src/main.rs
   - name: verify/AtCoder/abc285g/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/AtCoder/abc285g/src/main.rs
       title: verify/AtCoder/abc285g/src/main.rs
   - name: verify/AtCoder/abc293e/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/AtCoder/abc293e/src/main.rs
       title: verify/AtCoder/abc293e/src/main.rs
   - name: verify/AtCoder/abc312g/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/AtCoder/abc312g/src/main.rs
       title: verify/AtCoder/abc312g/src/main.rs
   - name: verify/AtCoder/abc340g/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/AtCoder/abc340g/src/main.rs
       title: verify/AtCoder/abc340g/src/main.rs
   - name: verify/AtCoder/abc348e/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/AtCoder/abc348e/src/main.rs
       title: verify/AtCoder/abc348e/src/main.rs
   - name: verify/AtCoder/abc359g_auxiliary/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/AtCoder/abc359g_auxiliary/src/main.rs
       title: verify/AtCoder/abc359g_auxiliary/src/main.rs
   - name: verify/AtCoder/abc359g_centroid/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/AtCoder/abc359g_centroid/src/main.rs
       title: verify/AtCoder/abc359g_centroid/src/main.rs
   - name: verify/AtCoder/alpc_l_lazy_seg/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
       title: verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   - name: verify/yosupo/cartesian_tree_ysp/src
@@ -599,82 +599,82 @@ data:
       title: verify/yosupo/static_range_inversions_query/src/main.rs
   - name: verify/yosupo/staticrmq_sparse_table/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yosupo/staticrmq_sparse_table/src/main.rs
       title: verify/yosupo/staticrmq_sparse_table/src/main.rs
   - name: verify/yosupo/sum_of_floor_of_linear/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yosupo/sum_of_floor_of_linear/src/main.rs
       title: verify/yosupo/sum_of_floor_of_linear/src/main.rs
   - name: verify/yosupo/unionfind_verify/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yosupo/unionfind_verify/src/main.rs
       title: verify/yosupo/unionfind_verify/src/main.rs
   - name: verify/yosupo/unionfind_with_potential_non_commutative_group/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
       title: verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
   - name: verify/yosupo/vertex_add_path_sum/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yosupo/vertex_add_path_sum/src/main.rs
       title: verify/yosupo/vertex_add_path_sum/src/main.rs
   - name: verify/yosupo/vertex_add_subtree_sum/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yosupo/vertex_add_subtree_sum/src/main.rs
       title: verify/yosupo/vertex_add_subtree_sum/src/main.rs
   - name: verify/yosupo/vertex_set_path_composite/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yosupo/vertex_set_path_composite/src/main.rs
       title: verify/yosupo/vertex_set_path_composite/src/main.rs
   - name: verify/yosupo/zalgorithm_rolling_hash/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yosupo/zalgorithm_rolling_hash/src/main.rs
       title: verify/yosupo/zalgorithm_rolling_hash/src/main.rs
   - name: verify/yukicoder/no_1092_modint_dynamic/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yukicoder/no_1092_modint_dynamic/src/main.rs
       title: verify/yukicoder/no_1092_modint_dynamic/src/main.rs
   - name: verify/yukicoder/no_1625/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yukicoder/no_1625/src/main.rs
       title: verify/yukicoder/no_1625/src/main.rs
   - name: verify/yukicoder/no_1625_wavelet/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yukicoder/no_1625_wavelet/src/main.rs
       title: verify/yukicoder/no_1625_wavelet/src/main.rs
   - name: verify/yukicoder/no_649_avl/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yukicoder/no_649_avl/src/main.rs
       title: verify/yukicoder/no_649_avl/src/main.rs
   - name: verify/yukicoder/no_649_fenwick_tree/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yukicoder/no_649_fenwick_tree/src/main.rs
       title: verify/yukicoder/no_649_fenwick_tree/src/main.rs
   - name: verify/yukicoder/no_738/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yukicoder/no_738/src/main.rs
       title: verify/yukicoder/no_738/src/main.rs
   - name: verify/yukicoder/no_803/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yukicoder/no_803/src/main.rs
       title: verify/yukicoder/no_803/src/main.rs
   - name: verify/yukicoder/no_919/src
     pages:
-    - icon: ':heavy_check_mark:'
+    - icon: ':x:'
       path: verify/yukicoder/no_919/src/main.rs
       title: verify/yukicoder/no_919/src/main.rs
 layout: toppage

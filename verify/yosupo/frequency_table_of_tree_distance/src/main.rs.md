@@ -4,13 +4,13 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/fps/ntt/src/lib.rs
     title: crates/fps/ntt/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/modint/static_modint/src/lib.rs
     title: crates/modint/static_modint/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/tree/centroid_decomposition/src/lib.rs
     title: crates/tree/centroid_decomposition/src/lib.rs
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/utils/capture/src/lib.rs
     title: crates/utils/capture/src/lib.rs
   _extendedRequiredBy: []
@@ -74,7 +74,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/frequency_table_of_tree_distance/src/main.rs
   requiredBy: []
-  timestamp: '2025-02-28 13:20:48+09:00'
+  timestamp: '1970-01-01 00:00:00+00:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/frequency_table_of_tree_distance/src/main.rs

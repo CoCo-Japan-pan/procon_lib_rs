@@ -1,7 +1,7 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: crates/tree/hld/src/lib.rs
     title: crates/tree/hld/src/lib.rs
   _extendedRequiredBy: []
@@ -31,7 +31,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/lca_hld/src/main.rs
   requiredBy: []
-  timestamp: '2025-03-09 01:10:53+09:00'
+  timestamp: '1970-01-01 00:00:00+00:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/lca_hld/src/main.rs
