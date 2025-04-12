@@ -1,4 +1,4 @@
-// verification-helper: PROBLEM https://atcoder.jp/contests/abc285/tasks/abc285_g
+// https://atcoder.jp/contests/abc285/tasks/abc285_g
 
 #![allow(non_snake_case)]
 use itertools::iproduct;

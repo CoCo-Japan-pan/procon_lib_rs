@@ -1,4 +1,4 @@
-// verification-helper: PROBLEM https://atcoder.jp/contests/abc340/tasks/abc340_g
+// https://atcoder.jp/contests/abc340/tasks/abc340_g
 
 use auxiliary_tree::AuxiliaryTree;
 use proconio::{fastout, input, marker::Usize1};

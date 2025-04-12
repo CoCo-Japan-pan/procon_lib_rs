@@ -1,4 +1,4 @@
-// verification-helper: PROBLEM https://atcoder.jp/contests/practice2/tasks/practice2_l
+// https://atcoder.jp/contests/practice2/tasks/practice2_l
 
 use lazy_segtree::LazySegTree;
 use proconio::{fastout, input, marker::Usize1};

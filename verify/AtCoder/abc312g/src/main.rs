@@ -1,4 +1,4 @@
-// verification-helper: PROBLEM https://atcoder.jp/contests/abc312/tasks/abc312_g
+// https://atcoder.jp/contests/abc312/tasks/abc312_g
 
 use algebra::{Commutative, Monoid};
 use proconio::{fastout, input, marker::Usize1};

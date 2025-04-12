@@ -1,4 +1,4 @@
-// verification-helper: PROBLEM https://atcoder.jp/contests/abc359/tasks/abc359_g
+// https://atcoder.jp/contests/abc359/tasks/abc359_g
 use capture::crecurse;
 use centroid_decomposition::CentroidDecomposition;
 use proconio::{fastout, input, marker::Usize1};

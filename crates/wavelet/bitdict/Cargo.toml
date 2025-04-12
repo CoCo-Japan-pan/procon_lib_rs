@@ -15,7 +15,7 @@ publish = false
 rand = "0.8.5"
 rand_pcg = "0.3.1"
 # https://docs.rs/crate/criterion/latest
-criterion = "0.4"
+criterion = "0.3"
 
 [[bench]]
 name = "my_benchmark"

@@ -1,4 +1,4 @@
-// verification-helper: PROBLEM https://atcoder.jp/contests/abc293/tasks/abc293_e
+// https://atcoder.jp/contests/abc293/tasks/abc293_e
 
 use dynamic_modint::{define_modcontainer, DynamicModInt};
 use matrix::{Matrix, UsualSemiring};
