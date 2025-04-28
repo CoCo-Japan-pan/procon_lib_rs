@@ -6,6 +6,9 @@ data:
     path: crates/data_structure/dual_segtree/src/lib.rs
     title: crates/data_structure/dual_segtree/src/lib.rs
   - icon: ':heavy_check_mark:'
+    path: crates/data_structure/dynamic_segtree/src/lib.rs
+    title: crates/data_structure/dynamic_segtree/src/lib.rs
+  - icon: ':heavy_check_mark:'
     path: crates/data_structure/lazy_segtree/src/lib.rs
     title: crates/data_structure/lazy_segtree/src/lib.rs
   - icon: ':warning:'
@@ -94,6 +97,9 @@ data:
     path: verify/yosupo/point_set_range_composite/src/main.rs
     title: verify/yosupo/point_set_range_composite/src/main.rs
   - icon: ':heavy_check_mark:'
+    path: verify/yosupo/point_set_range_composite_large_array/src/main.rs
+    title: verify/yosupo/point_set_range_composite_large_array/src/main.rs
+  - icon: ':heavy_check_mark:'
     path: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
     title: verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
   - icon: ':heavy_check_mark:'
@@ -173,6 +179,7 @@ data:
   - crates/tree/rerooting/src/lib.rs
   - crates/tree/euler_tour/src/lib.rs
   - crates/data_structure/dual_segtree/src/lib.rs
+  - crates/data_structure/dynamic_segtree/src/lib.rs
   - crates/data_structure/sparse_table/src/lib.rs
   - crates/data_structure/segtree_2d_compressed/src/lib.rs
   - crates/data_structure/lazy_segtree_utils/src/lib.rs
@@ -203,6 +210,7 @@ data:
   - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
   - verify/yosupo/point_add_rectangle_sum_seg2d/src/main.rs
   - verify/yosupo/point_add_rect_sum_wavelet_seg/src/main.rs
+  - verify/yosupo/point_set_range_composite_large_array/src/main.rs
   - verify/yosupo/staticrmq_sparse_table/src/main.rs
   - verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
   - verify/yosupo/vertex_set_path_composite/src/main.rs

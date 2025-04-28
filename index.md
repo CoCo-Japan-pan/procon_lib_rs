@@ -26,6 +26,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/data_structure/dual_segtree/src/lib.rs
       title: crates/data_structure/dual_segtree/src/lib.rs
+  - name: crates/data_structure/dynamic_segtree/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: crates/data_structure/dynamic_segtree/src/lib.rs
+      title: crates/data_structure/dynamic_segtree/src/lib.rs
   - name: crates/data_structure/fenwick_tree/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -567,6 +572,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yosupo/point_set_range_composite/src/main.rs
       title: verify/yosupo/point_set_range_composite/src/main.rs
+  - name: verify/yosupo/point_set_range_composite_large_array/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yosupo/point_set_range_composite_large_array/src/main.rs
+      title: verify/yosupo/point_set_range_composite_large_array/src/main.rs
   - name: verify/yosupo/range_affine_range_sum_lazy_seg/src
     pages:
     - icon: ':heavy_check_mark:'

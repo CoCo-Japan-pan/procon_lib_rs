@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["subset_mobius","subset_zeta","superset_mobius","superset_zeta"]};

@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["bostan_mori"],"struct":["Fps"]};
