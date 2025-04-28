@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["calc_mo_friendly_order"],"struct":["MoRunner"],"trait":["MoFuncs"]};
