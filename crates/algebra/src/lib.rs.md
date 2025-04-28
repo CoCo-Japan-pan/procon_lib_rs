@@ -119,11 +119,11 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.3/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
-    \  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \  File \"/opt/hostedtoolcache/Python/3.13.3/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! `Algrebra`\u3067\u306F\u3001\u30C7\u30FC\u30BF\u69CB\u9020\u306B\u4E57\
     \u305B\u308B\u4EE3\u6570\u69CB\u9020\u306Etrait\u3092\u63D0\u4F9B\u3057\u307E\u3059\
@@ -167,46 +167,46 @@ data:
   isVerificationFile: false
   path: crates/algebra/src/lib.rs
   requiredBy:
-  - verify/AtCoder/abc348e/src/main.rs
-  - verify/AtCoder/abc222f/src/main.rs
-  - verify/AtCoder/abc312g/src/main.rs
-  - verify/AtCoder/typical_068/src/main.rs
-  - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
-  - verify/AtCoder/abc328f/src/main.rs
+  - crates/utils/monoid_utils/src/lib.rs
+  - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
+  - crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
   - crates/tree/rerooting/src/lib.rs
   - crates/tree/euler_tour/src/lib.rs
-  - crates/math/matrix/src/lib.rs
-  - crates/utils/monoid_utils/src/lib.rs
-  - crates/data_structure/lazy_segtree_utils/src/lib.rs
-  - crates/data_structure/segtree/src/lib.rs
-  - crates/data_structure/lazy_segtree/src/lib.rs
   - crates/data_structure/dual_segtree/src/lib.rs
-  - crates/data_structure/potentialized_unionfind/src/lib.rs
-  - crates/data_structure/sparse_table_on_segtree/src/lib.rs
-  - crates/data_structure/segtree_2d_dense/src/lib.rs
   - crates/data_structure/sparse_table/src/lib.rs
   - crates/data_structure/segtree_2d_compressed/src/lib.rs
-  - crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
-  - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
+  - crates/data_structure/lazy_segtree_utils/src/lib.rs
+  - crates/data_structure/lazy_segtree/src/lib.rs
+  - crates/data_structure/segtree/src/lib.rs
+  - crates/data_structure/segtree_2d_dense/src/lib.rs
+  - crates/data_structure/sparse_table_on_segtree/src/lib.rs
+  - crates/data_structure/potentialized_unionfind/src/lib.rs
+  - crates/math/matrix/src/lib.rs
+  - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
+  - verify/AtCoder/abc222f/src/main.rs
+  - verify/AtCoder/abc328f/src/main.rs
+  - verify/AtCoder/abc348e/src/main.rs
+  - verify/AtCoder/abc312g/src/main.rs
+  - verify/AtCoder/typical_068/src/main.rs
   timestamp: '2024-10-28 22:46:07+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/AOJ/dsl_2f_lazy_seg/src/main.rs
+  - verify/yukicoder/no_1625_wavelet/src/main.rs
+  - verify/yukicoder/no_1625/src/main.rs
   - verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
-  - verify/AOJ/no_2842/src/main.rs
   - verify/AOJ/no_1068/src/main.rs
   - verify/AOJ/dsl_2d_dual_seg_non_commutative/src/main.rs
   - verify/AOJ/dsl_2d_dual_seg/src/main.rs
-  - verify/yukicoder/no_1625_wavelet/src/main.rs
-  - verify/yukicoder/no_1625/src/main.rs
+  - verify/AOJ/no_2842/src/main.rs
+  - verify/AOJ/dsl_2f_lazy_seg/src/main.rs
   - verify/yosupo/point_set_range_composite/src/main.rs
-  - verify/yosupo/staticrmq_sparse_table/src/main.rs
-  - verify/yosupo/point_add_rect_sum_wavelet_seg/src/main.rs
-  - verify/yosupo/rectangle_add_point_get/src/main.rs
-  - verify/yosupo/vertex_set_path_composite/src/main.rs
-  - verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
-  - verify/yosupo/point_add_rectangle_sum_seg2d/src/main.rs
   - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
+  - verify/yosupo/point_add_rectangle_sum_seg2d/src/main.rs
+  - verify/yosupo/point_add_rect_sum_wavelet_seg/src/main.rs
+  - verify/yosupo/staticrmq_sparse_table/src/main.rs
+  - verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
+  - verify/yosupo/vertex_set_path_composite/src/main.rs
+  - verify/yosupo/rectangle_add_point_get/src/main.rs
 documentation_of: crates/algebra/src/lib.rs
 layout: document
 redirect_from:

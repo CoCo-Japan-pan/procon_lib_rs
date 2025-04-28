@@ -27,11 +27,11 @@ data:
   attributes:
     links:
     - https://drive.google.com/file/d/1bSjYiA-nSsHzBbCnLq1GeTpRzs2Ucm0q/view
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.3/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
-    \  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \  File \"/opt/hostedtoolcache/Python/3.13.3/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! Sparse\u306A\u5834\u5408\u306B\u5BFE\u5FDC\u3059\u308B\u305F\u3081\u3001\
     \u66F4\u65B0query\u3092\u5148\u8AAD\u307F\u3057\u3066\u5EA7\u6A19\u5727\u7E2E\u3059\
@@ -139,8 +139,8 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_1625/src/main.rs
-  - verify/yosupo/rectangle_add_point_get/src/main.rs
   - verify/yosupo/point_add_rectangle_sum_seg2d/src/main.rs
+  - verify/yosupo/rectangle_add_point_get/src/main.rs
 documentation_of: crates/data_structure/segtree_2d_compressed/src/lib.rs
 layout: document
 redirect_from:

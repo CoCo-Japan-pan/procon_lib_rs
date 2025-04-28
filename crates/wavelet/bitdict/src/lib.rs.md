@@ -23,11 +23,11 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links: []
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.3/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
-    \  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \  File \"/opt/hostedtoolcache/Python/3.13.3/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! \u5B8C\u5099\u8F9E\u66F8  \n//! 2N + O(1) bit \u7528\u3044\u3066\u3044\
     \u308B\u306E\u3067\u3001succint\u3067\u306F\u306A\u3044 compact\u3067\u306F\u3042\
@@ -172,11 +172,11 @@ data:
   isVerificationFile: false
   path: crates/wavelet/bitdict/src/lib.rs
   requiredBy:
-  - crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
-  - crates/wavelet/wavelet_matrix/src/lib.rs
-  - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   - crates/wavelet/wavelet_matrix_cum_sum/src/lib.rs
   - crates/wavelet/bitdict/benches/my_benchmark.rs
+  - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
+  - crates/wavelet/wavelet_matrix/src/lib.rs
+  - crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
   timestamp: '2024-10-09 22:07:44+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

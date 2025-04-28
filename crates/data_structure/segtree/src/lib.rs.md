@@ -27,11 +27,11 @@ data:
   attributes:
     links:
     - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.3/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
-    \  File \"/opt/hostedtoolcache/Python/3.13.2/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \  File \"/opt/hostedtoolcache/Python/3.13.3/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! From <https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs>\n\
     \nuse algebra::Monoid;\nuse internal_bits::ceil_log2;\nuse std::ops::RangeBounds;\n\
@@ -101,8 +101,8 @@ data:
   isVerificationFile: false
   path: crates/data_structure/segtree/src/lib.rs
   requiredBy:
-  - crates/data_structure/segtree_2d_compressed/src/lib.rs
   - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
+  - crates/data_structure/segtree_2d_compressed/src/lib.rs
   timestamp: '2024-10-28 22:46:07+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

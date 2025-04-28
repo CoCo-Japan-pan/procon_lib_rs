@@ -256,6 +256,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/string/rolling_hash/src/lib.rs
       title: crates/string/rolling_hash/src/lib.rs
+  - name: crates/string/trie/src
+    pages:
+    - icon: ':warning:'
+      path: crates/string/trie/src/lib.rs
+      title: crates/string/trie/src/lib.rs
   - name: crates/tree/auxiliary_tree/src
     pages:
     - icon: ':warning:'
