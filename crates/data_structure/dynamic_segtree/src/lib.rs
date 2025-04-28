@@ -124,12 +124,12 @@ fn prod_node<M: Monoid>(
     res
 }
 
-pub struct DynamicSegmentTree<M: Monoid> {
+pub struct DynamicSegTree<M: Monoid> {
     range_size: usize,
     root_node: NodePtr<M>,
 }
 
-impl<M: Monoid> DynamicSegmentTree<M> {
+impl<M: Monoid> DynamicSegTree<M> {
     /// range_size個の単位元で初期化
     pub fn new(range_size: usize) -> Self {
         Self {
