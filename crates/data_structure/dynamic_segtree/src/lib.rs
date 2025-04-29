@@ -53,7 +53,7 @@ fn set_node<M: Monoid>(
         *node = Some(Box::new(Node::new(index, value)));
         return;
     }
-    let mut node = node.as_mut().unwrap();
+    let node = node.as_mut().unwrap();
     if node.index == index {
         node.value = value;
         node.update();
