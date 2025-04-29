@@ -5,9 +5,6 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/dual_segtree/src/lib.rs
     title: crates/data_structure/dual_segtree/src/lib.rs
-  - icon: ':warning:'
-    path: crates/data_structure/dynamic_lazy_segtree/src/lib.rs
-    title: crates/data_structure/dynamic_lazy_segtree/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/dynamic_segtree/src/lib.rs
     title: crates/data_structure/dynamic_segtree/src/lib.rs
@@ -193,7 +190,6 @@ data:
   - crates/data_structure/segtree/src/lib.rs
   - crates/data_structure/segtree_2d_dense/src/lib.rs
   - crates/data_structure/sparse_table_on_segtree/src/lib.rs
-  - crates/data_structure/dynamic_lazy_segtree/src/lib.rs
   - crates/data_structure/potentialized_unionfind/src/lib.rs
   - crates/math/matrix/src/lib.rs
   - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
