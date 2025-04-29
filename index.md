@@ -682,6 +682,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yukicoder/no_738/src/main.rs
       title: verify/yukicoder/no_738/src/main.rs
+  - name: verify/yukicoder/no_789_dynamic/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yukicoder/no_789_dynamic/src/main.rs
+      title: verify/yukicoder/no_789_dynamic/src/main.rs
   - name: verify/yukicoder/no_803/src
     pages:
     - icon: ':heavy_check_mark:'

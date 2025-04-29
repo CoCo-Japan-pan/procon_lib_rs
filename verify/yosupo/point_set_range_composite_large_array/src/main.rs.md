@@ -47,7 +47,7 @@ data:
   isVerificationFile: true
   path: verify/yosupo/point_set_range_composite_large_array/src/main.rs
   requiredBy: []
-  timestamp: '2025-04-28 23:37:37+09:00'
+  timestamp: '2025-04-29 13:10:45+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/point_set_range_composite_large_array/src/main.rs

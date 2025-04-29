@@ -9,6 +9,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yosupo/point_set_range_composite_large_array/src/main.rs
     title: verify/yosupo/point_set_range_composite_large_array/src/main.rs
+  - icon: ':heavy_check_mark:'
+    path: verify/yukicoder/no_789_dynamic/src/main.rs
+    title: verify/yukicoder/no_789_dynamic/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -40,7 +43,7 @@ data:
     \    mut value: M::Target,\n    left: usize,\n    right: usize,\n) {\n    if node.is_none()\
     \ {\n        // \u4F59\u8A08\u306B\u6F5C\u3089\u305A\u3001\u30E1\u30E2\u30EA\u78BA\
     \u4FDD\u3092\u9AD8\u30051\u56DE\u306B\u6291\u3048\u308B\n        *node = Some(Box::new(Node::new(index,\
-    \ value)));\n        return;\n    }\n    let mut node = node.as_mut().unwrap();\n\
+    \ value)));\n        return;\n    }\n    let node = node.as_mut().unwrap();\n\
     \    if node.index == index {\n        node.value = value;\n        node.update();\n\
     \        return;\n    }\n    let half = (left + right) >> 1;\n    if index < half\
     \ {\n        // \u5DE6\u306B\u884C\u304F\u307B\u3069index\u304C\u5C0F\u3055\u304F\
@@ -94,9 +97,10 @@ data:
   isVerificationFile: false
   path: crates/data_structure/dynamic_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2025-04-28 23:37:37+09:00'
+  timestamp: '2025-04-29 13:10:45+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - verify/yukicoder/no_789_dynamic/src/main.rs
   - verify/yosupo/point_set_range_composite_large_array/src/main.rs
 documentation_of: crates/data_structure/dynamic_segtree/src/lib.rs
 layout: document

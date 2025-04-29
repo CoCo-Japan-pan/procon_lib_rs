@@ -120,6 +120,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: verify/yukicoder/no_1625_wavelet/src/main.rs
     title: verify/yukicoder/no_1625_wavelet/src/main.rs
+  - icon: ':heavy_check_mark:'
+    path: verify/yukicoder/no_789_dynamic/src/main.rs
+    title: verify/yukicoder/no_789_dynamic/src/main.rs
   _isVerificationFailed: false
   _pathExtension: rs
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -200,6 +203,7 @@ data:
   verifiedWith:
   - verify/yukicoder/no_1625_wavelet/src/main.rs
   - verify/yukicoder/no_1625/src/main.rs
+  - verify/yukicoder/no_789_dynamic/src/main.rs
   - verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
   - verify/AOJ/no_1068/src/main.rs
   - verify/AOJ/dsl_2d_dual_seg_non_commutative/src/main.rs
