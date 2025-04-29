@@ -5,6 +5,7 @@
 use algebra::Monoid;
 use std::ops::RangeBounds;
 
+#[derive(Debug)]
 struct Node<M: Monoid> {
     left_child: Option<Box<Node<M>>>,
     right_child: Option<Box<Node<M>>>,
@@ -124,6 +125,7 @@ fn prod_node<M: Monoid>(
     res
 }
 
+#[derive(Debug)]
 pub struct DynamicSegTree<M: Monoid> {
     range_size: usize,
     root_node: NodePtr<M>,

@@ -3,6 +3,7 @@
 use lazy_segtree::LazySegTree;
 use proconio::{fastout, input};
 
+#[derive(Debug)]
 struct MinMonoid {}
 impl algebra::Monoid for MinMonoid {
     type Target = i32;

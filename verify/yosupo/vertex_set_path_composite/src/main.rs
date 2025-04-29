@@ -11,6 +11,7 @@ struct Affine {
     a: ModInt998244353,
     b: ModInt998244353,
 }
+#[derive(Debug)]
 enum AffineLeftMonoid {}
 impl Monoid for AffineLeftMonoid {
     type Target = Affine;
@@ -27,6 +28,7 @@ impl Monoid for AffineLeftMonoid {
         }
     }
 }
+#[derive(Debug)]
 enum AffineRightMonoid {}
 impl Monoid for AffineRightMonoid {
     type Target = Affine;

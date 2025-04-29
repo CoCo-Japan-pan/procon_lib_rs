@@ -3,6 +3,7 @@ use algebra::{IdempotentMonoid, Monoid};
 use proconio::{fastout, input};
 use sparse_table::SparseTable;
 
+#[derive(Debug)]
 pub enum MinMonoid {}
 impl Monoid for MinMonoid {
     type Target = u32;

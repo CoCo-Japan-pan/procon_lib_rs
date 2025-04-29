@@ -24,6 +24,7 @@ impl algebra::Action for MyMap {
     }
 }
 
+#[derive(Debug)]
 struct MinMonoid {}
 impl algebra::Monoid for MinMonoid {
     type Target = u32;

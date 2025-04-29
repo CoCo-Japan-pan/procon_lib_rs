@@ -5,6 +5,7 @@ use proconio::{fastout, input, marker::Usize1};
 use segtree_2d_dense::SegTree2DDense;
 use std::collections::VecDeque;
 
+#[derive(Debug)]
 pub enum AddMonoid {}
 impl Monoid for AddMonoid {
     type Target = u32;

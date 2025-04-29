@@ -5,6 +5,7 @@ use proconio::{fastout, input, marker::Usize1};
 use rerooting::Rerooting;
 use rustc_hash::FxHashMap;
 
+#[derive(Debug)]
 pub struct MaxMonoid {}
 impl Monoid for MaxMonoid {
     type Target = u64;

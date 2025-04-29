@@ -4,6 +4,7 @@ use algebra::Monoid;
 use dynamic_segtree::DynamicSegTree;
 use proconio::{fastout, input};
 
+#[derive(Debug)]
 struct SumMonoid;
 impl Monoid for SumMonoid {
     type Target = usize;

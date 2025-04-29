@@ -4,7 +4,7 @@ use algebra::{Commutative, IdempotentMonoid, Monoid};
 use proconio::{fastout, input};
 use sparse_table_on_segtree::SparseTableOnSegTree;
 
-#[derive(Clone)]
+#[derive(Debug, Clone)]
 pub enum MinMonoid {}
 impl Monoid for MinMonoid {
     type Target = u32;

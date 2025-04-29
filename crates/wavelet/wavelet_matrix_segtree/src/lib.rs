@@ -317,6 +317,7 @@ mod test {
     use rand::prelude::*;
 
     // 加算群
+    #[derive(Debug)]
     struct AddGroup;
     impl Monoid for AddGroup {
         type Target = i64;

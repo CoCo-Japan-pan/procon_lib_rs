@@ -20,7 +20,7 @@ pub trait Action: Debug + Clone {
 }
 
 /// モノイド
-pub trait Monoid {
+pub trait Monoid: Debug {
     /// モノイドの要素
     type Target: Debug + Clone + Eq;
     /// 単位元
