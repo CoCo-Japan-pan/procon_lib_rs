@@ -24,21 +24,21 @@ data:
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://judge.yosupo.jp/problem/staticrmq\n\
     use algebra::{IdempotentMonoid, Monoid};\nuse proconio::{fastout, input};\nuse\
-    \ sparse_table::SparseTable;\n\npub enum MinMonoid {}\nimpl Monoid for MinMonoid\
-    \ {\n    type Target = u32;\n    fn id_element() -> Self::Target {\n        u32::MAX\n\
-    \    }\n    fn binary_operation(a: &Self::Target, b: &Self::Target) -> Self::Target\
-    \ {\n        *a.min(b)\n    }\n}\nimpl IdempotentMonoid for MinMonoid {}\n\n#[fastout]\n\
-    fn main() {\n    input! {\n        n: usize,\n        q: usize,\n        a: [u32;\
-    \ n],\n    }\n    let st = SparseTable::<MinMonoid>::new(a);\n    for _ in 0..q\
-    \ {\n        input! { l: usize, r: usize }\n        println!(\"{}\", st.prod(l..r));\n\
-    \    }\n}\n"
+    \ sparse_table::SparseTable;\n\n#[derive(Debug)]\npub enum MinMonoid {}\nimpl\
+    \ Monoid for MinMonoid {\n    type Target = u32;\n    fn id_element() -> Self::Target\
+    \ {\n        u32::MAX\n    }\n    fn binary_operation(a: &Self::Target, b: &Self::Target)\
+    \ -> Self::Target {\n        *a.min(b)\n    }\n}\nimpl IdempotentMonoid for MinMonoid\
+    \ {}\n\n#[fastout]\nfn main() {\n    input! {\n        n: usize,\n        q: usize,\n\
+    \        a: [u32; n],\n    }\n    let st = SparseTable::<MinMonoid>::new(a);\n\
+    \    for _ in 0..q {\n        input! { l: usize, r: usize }\n        println!(\"\
+    {}\", st.prod(l..r));\n    }\n}\n"
   dependsOn:
   - crates/algebra/src/lib.rs
   - crates/data_structure/sparse_table/src/lib.rs
   isVerificationFile: true
   path: verify/yosupo/staticrmq_sparse_table/src/main.rs
   requiredBy: []
-  timestamp: '2024-12-09 18:16:33+09:00'
+  timestamp: '2025-04-29 15:50:13+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/yosupo/staticrmq_sparse_table/src/main.rs

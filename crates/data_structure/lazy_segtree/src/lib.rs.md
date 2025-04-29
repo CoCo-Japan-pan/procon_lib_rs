@@ -212,7 +212,7 @@ data:
   requiredBy:
   - crates/data_structure/lazy_segtree_utils/src/lib.rs
   - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
-  timestamp: '2024-10-29 14:36:52+09:00'
+  timestamp: '2025-04-29 15:50:13+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs

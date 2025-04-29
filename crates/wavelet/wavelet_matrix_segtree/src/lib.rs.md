@@ -206,20 +206,20 @@ data:
     \        let x = if index.access(x) {\n            index.rank0_all() + index.rank_1(x)\n\
     \        } else {\n            index.rank_0(x)\n        };\n        self.segtree_per_bit.last().unwrap().get(x)\n\
     \    }\n}\n\n#[cfg(test)]\nmod test {\n    use super::*;\n    use rand::prelude::*;\n\
-    \n    // \u52A0\u7B97\u7FA4\n    struct AddGroup;\n    impl Monoid for AddGroup\
-    \ {\n        type Target = i64;\n        fn id_element() -> Self::Target {\n \
-    \           0\n        }\n        fn binary_operation(a: &Self::Target, b: &Self::Target)\
-    \ -> Self::Target {\n            a + b\n        }\n    }\n    impl Commutative\
-    \ for AddGroup {}\n    impl Group for AddGroup {\n        fn inverse(a: &Self::Target)\
-    \ -> Self::Target {\n            -a\n        }\n    }\n\n    #[test]\n    fn test_static_rect_sum()\
-    \ {\n        use wavelet_matrix_cum_sum::WaveletMatrixCumSum;\n        let mut\
-    \ rng = thread_rng();\n        const SIZE: usize = 100000;\n        let num_list:\
-    \ Vec<usize> = (0..SIZE).map(|_| rng.gen_range(0..SIZE)).collect();\n        let\
-    \ wm_cum_sum = WaveletMatrixCumSum::new(&num_list, &num_list);\n        let num_list_i64:\
-    \ Vec<i64> = num_list.iter().map(|i| *i as i64).collect();\n        let wm_seg\
-    \ = WaveletMatrixSegTree::<AddGroup>::from_weight(&num_list, &num_list_i64);\n\
-    \n        for _ in 0..SIZE {\n            let xl = rng.gen_range(0..SIZE);\n \
-    \           let xr = rng.gen_range(xl..SIZE);\n            let yl = rng.gen_range(0..SIZE);\n\
+    \n    // \u52A0\u7B97\u7FA4\n    #[derive(Debug)]\n    struct AddGroup;\n    impl\
+    \ Monoid for AddGroup {\n        type Target = i64;\n        fn id_element() ->\
+    \ Self::Target {\n            0\n        }\n        fn binary_operation(a: &Self::Target,\
+    \ b: &Self::Target) -> Self::Target {\n            a + b\n        }\n    }\n \
+    \   impl Commutative for AddGroup {}\n    impl Group for AddGroup {\n        fn\
+    \ inverse(a: &Self::Target) -> Self::Target {\n            -a\n        }\n   \
+    \ }\n\n    #[test]\n    fn test_static_rect_sum() {\n        use wavelet_matrix_cum_sum::WaveletMatrixCumSum;\n\
+    \        let mut rng = thread_rng();\n        const SIZE: usize = 100000;\n  \
+    \      let num_list: Vec<usize> = (0..SIZE).map(|_| rng.gen_range(0..SIZE)).collect();\n\
+    \        let wm_cum_sum = WaveletMatrixCumSum::new(&num_list, &num_list);\n  \
+    \      let num_list_i64: Vec<i64> = num_list.iter().map(|i| *i as i64).collect();\n\
+    \        let wm_seg = WaveletMatrixSegTree::<AddGroup>::from_weight(&num_list,\
+    \ &num_list_i64);\n\n        for _ in 0..SIZE {\n            let xl = rng.gen_range(0..SIZE);\n\
+    \            let xr = rng.gen_range(xl..SIZE);\n            let yl = rng.gen_range(0..SIZE);\n\
     \            let yr = rng.gen_range(yl..SIZE);\n            let cum_sum_ans =\
     \ wm_cum_sum.rect_sum(xl..xr, yl..yr) as i64;\n            assert_eq!(cum_sum_ans,\
     \ wm_seg.rect_sum_group(xl, xr, yl, yr));\n            assert_eq!(cum_sum_ans,\
@@ -262,7 +262,7 @@ data:
   isVerificationFile: false
   path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   requiredBy: []
-  timestamp: '2025-03-02 17:25:42+09:00'
+  timestamp: '2025-04-29 15:50:13+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_1625_wavelet/src/main.rs

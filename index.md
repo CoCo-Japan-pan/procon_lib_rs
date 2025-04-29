@@ -26,6 +26,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/data_structure/dual_segtree/src/lib.rs
       title: crates/data_structure/dual_segtree/src/lib.rs
+  - name: crates/data_structure/dynamic_lazy_segtree/src
+    pages:
+    - icon: ':warning:'
+      path: crates/data_structure/dynamic_lazy_segtree/src/lib.rs
+      title: crates/data_structure/dynamic_lazy_segtree/src/lib.rs
   - name: crates/data_structure/dynamic_segtree/src
     pages:
     - icon: ':heavy_check_mark:'

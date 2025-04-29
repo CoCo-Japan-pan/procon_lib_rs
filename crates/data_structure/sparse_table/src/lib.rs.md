@@ -62,7 +62,7 @@ data:
   requiredBy:
   - crates/tree/euler_tour/src/lib.rs
   - crates/data_structure/sparse_table_on_segtree/src/lib.rs
-  timestamp: '2024-12-09 18:16:33+09:00'
+  timestamp: '2025-04-29 15:50:13+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/staticrmq_sparse_table/src/main.rs

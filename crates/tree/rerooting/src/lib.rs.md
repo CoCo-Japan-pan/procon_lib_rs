@@ -88,7 +88,7 @@ data:
   - verify/AtCoder/abc222f/src/main.rs
   - verify/AtCoder/abc348e/src/main.rs
   - verify/AtCoder/abc312g/src/main.rs
-  timestamp: '2024-10-28 22:46:07+09:00'
+  timestamp: '2025-04-29 15:50:13+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/tree/rerooting/src/lib.rs

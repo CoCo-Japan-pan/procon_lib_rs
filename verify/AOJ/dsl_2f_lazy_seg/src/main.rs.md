@@ -29,8 +29,8 @@ data:
     \ { update: None }\n    }\n    fn composition(&mut self, rhs: &Self) {\n     \
     \   if let Some(x) = rhs.update {\n            self.update = Some(x);\n      \
     \  }\n    }\n    fn apply(&self, target: &mut Self::Target) {\n        if let\
-    \ Some(x) = self.update {\n            *target = x;\n        }\n    }\n}\n\nstruct\
-    \ MinMonoid {}\nimpl algebra::Monoid for MinMonoid {\n    type Target = u32;\n\
+    \ Some(x) = self.update {\n            *target = x;\n        }\n    }\n}\n\n#[derive(Debug)]\n\
+    struct MinMonoid {}\nimpl algebra::Monoid for MinMonoid {\n    type Target = u32;\n\
     \    fn id_element() -> Self::Target {\n        u32::MAX\n    }\n    fn binary_operation(a:\
     \ &Self::Target, b: &Self::Target) -> Self::Target {\n        *a.min(b)\n    }\n\
     }\n\nstruct RmqRuq {}\nimpl algebra::ActionMonoid for RmqRuq {\n    type M = MinMonoid;\n\
@@ -49,7 +49,7 @@ data:
   isVerificationFile: true
   path: verify/AOJ/dsl_2f_lazy_seg/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-29 14:36:52+09:00'
+  timestamp: '2025-04-29 15:50:13+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/dsl_2f_lazy_seg/src/main.rs

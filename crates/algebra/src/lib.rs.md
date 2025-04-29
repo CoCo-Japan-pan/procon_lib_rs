@@ -5,6 +5,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/dual_segtree/src/lib.rs
     title: crates/data_structure/dual_segtree/src/lib.rs
+  - icon: ':warning:'
+    path: crates/data_structure/dynamic_lazy_segtree/src/lib.rs
+    title: crates/data_structure/dynamic_lazy_segtree/src/lib.rs
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/dynamic_segtree/src/lib.rs
     title: crates/data_structure/dynamic_segtree/src/lib.rs
@@ -148,10 +151,10 @@ data:
     \u5F8C)  \n    /// (atcoder library\u3068\u306F\u4F5C\u7528\u306E\u9806\u304C\u9006\
     \u306A\u306E\u3067\u6CE8\u610F)\n    fn composition(&mut self, rhs: &Self);\n\
     \    /// \u4F5C\u7528\u306E\u9069\u7528\n    fn apply(&self, target: &mut Self::Target);\n\
-    }\n\n/// \u30E2\u30CE\u30A4\u30C9\npub trait Monoid {\n    /// \u30E2\u30CE\u30A4\
-    \u30C9\u306E\u8981\u7D20\n    type Target: Debug + Clone + Eq;\n    /// \u5358\
-    \u4F4D\u5143\n    fn id_element() -> Self::Target;\n    /// \u4E8C\u9805\u6F14\
-    \u7B97\n    fn binary_operation(a: &Self::Target, b: &Self::Target) -> Self::Target;\n\
+    }\n\n/// \u30E2\u30CE\u30A4\u30C9\npub trait Monoid: Debug {\n    /// \u30E2\u30CE\
+    \u30A4\u30C9\u306E\u8981\u7D20\n    type Target: Debug + Clone + Eq;\n    ///\
+    \ \u5358\u4F4D\u5143\n    fn id_element() -> Self::Target;\n    /// \u4E8C\u9805\
+    \u6F14\u7B97\n    fn binary_operation(a: &Self::Target, b: &Self::Target) -> Self::Target;\n\
     }\n\n/// \u81EA\u5DF1\u6E96\u540C\u578B\u6027\u3092\u8981\u6C42  \n/// \u3064\u307E\
     \u308A\u533A\u9593\u548C\u3078\u306E\u9069\u7528\u3068\u3001\u5404\u8981\u7D20\
     \u3078\u306E\u9069\u7528\u306E\u533A\u9593\u548C\u304C\u4E00\u81F4\u3059\u308B\
@@ -190,6 +193,7 @@ data:
   - crates/data_structure/segtree/src/lib.rs
   - crates/data_structure/segtree_2d_dense/src/lib.rs
   - crates/data_structure/sparse_table_on_segtree/src/lib.rs
+  - crates/data_structure/dynamic_lazy_segtree/src/lib.rs
   - crates/data_structure/potentialized_unionfind/src/lib.rs
   - crates/math/matrix/src/lib.rs
   - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
@@ -198,7 +202,7 @@ data:
   - verify/AtCoder/abc348e/src/main.rs
   - verify/AtCoder/abc312g/src/main.rs
   - verify/AtCoder/typical_068/src/main.rs
-  timestamp: '2024-10-28 22:46:07+09:00'
+  timestamp: '2025-04-29 15:50:13+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yukicoder/no_1625_wavelet/src/main.rs

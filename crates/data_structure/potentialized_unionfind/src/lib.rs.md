@@ -96,7 +96,7 @@ data:
   requiredBy:
   - verify/AtCoder/abc328f/src/main.rs
   - verify/AtCoder/typical_068/src/main.rs
-  timestamp: '2025-03-13 00:09:19+09:00'
+  timestamp: '2025-04-29 15:50:13+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs

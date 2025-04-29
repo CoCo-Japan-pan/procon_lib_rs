@@ -107,7 +107,7 @@ data:
   path: crates/math/matrix/src/lib.rs
   requiredBy:
   - verify/AtCoder/abc293e/src/main.rs
-  timestamp: '2025-03-02 17:25:42+09:00'
+  timestamp: '2025-04-29 15:50:13+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/math/matrix/src/lib.rs

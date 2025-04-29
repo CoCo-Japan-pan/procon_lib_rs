@@ -43,7 +43,7 @@ data:
   path: crates/utils/monoid_utils/src/lib.rs
   requiredBy:
   - crates/data_structure/sparse_table/src/lib.rs
-  timestamp: '2025-03-02 17:25:42+09:00'
+  timestamp: '2025-04-29 15:50:13+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/utils/monoid_utils/src/lib.rs

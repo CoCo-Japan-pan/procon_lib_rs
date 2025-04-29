@@ -24,9 +24,9 @@ data:
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/problems/2842\n\
     \nuse algebra::{Commutative, Monoid};\nuse proconio::{fastout, input, marker::Usize1};\n\
-    use segtree_2d_dense::SegTree2DDense;\nuse std::collections::VecDeque;\n\npub\
-    \ enum AddMonoid {}\nimpl Monoid for AddMonoid {\n    type Target = u32;\n   \
-    \ fn id_element() -> Self::Target {\n        0\n    }\n    fn binary_operation(a:\
+    use segtree_2d_dense::SegTree2DDense;\nuse std::collections::VecDeque;\n\n#[derive(Debug)]\n\
+    pub enum AddMonoid {}\nimpl Monoid for AddMonoid {\n    type Target = u32;\n \
+    \   fn id_element() -> Self::Target {\n        0\n    }\n    fn binary_operation(a:\
     \ &Self::Target, b: &Self::Target) -> Self::Target {\n        *a + *b\n    }\n\
     }\nimpl Commutative for AddMonoid {}\n\n#[fastout]\nfn main() {\n    input! {\n\
     \        h: usize,\n        w: usize,\n        t: usize,\n        q: usize,\n\
@@ -59,7 +59,7 @@ data:
   isVerificationFile: true
   path: verify/AOJ/no_2842/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-28 22:46:07+09:00'
+  timestamp: '2025-04-29 15:50:13+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/no_2842/src/main.rs

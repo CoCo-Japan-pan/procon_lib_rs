@@ -24,15 +24,15 @@ data:
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "// verification-helper: PROBLEM https://onlinejudge.u-aizu.ac.jp/problems/1068\n\
     \nuse algebra::{Commutative, IdempotentMonoid, Monoid};\nuse proconio::{fastout,\
-    \ input};\nuse sparse_table_on_segtree::SparseTableOnSegTree;\n\n#[derive(Clone)]\n\
-    pub enum MinMonoid {}\nimpl Monoid for MinMonoid {\n    type Target = u32;\n \
-    \   fn id_element() -> Self::Target {\n        u32::MAX\n    }\n    fn binary_operation(a:\
-    \ &Self::Target, b: &Self::Target) -> Self::Target {\n        *a.min(b)\n    }\n\
-    }\nimpl IdempotentMonoid for MinMonoid {}\nimpl Commutative for MinMonoid {}\n\
-    \n#[fastout]\nfn main() {\n    loop {\n        input! {\n            r: usize,\n\
-    \            c: usize,\n            q: usize,\n        }\n        if r == 0 {\n\
-    \            break;\n        }\n        input! {\n            grid: [[u32; c];\
-    \ r],\n        }\n        let seg = SparseTableOnSegTree::<MinMonoid>::new(grid);\n\
+    \ input};\nuse sparse_table_on_segtree::SparseTableOnSegTree;\n\n#[derive(Debug,\
+    \ Clone)]\npub enum MinMonoid {}\nimpl Monoid for MinMonoid {\n    type Target\
+    \ = u32;\n    fn id_element() -> Self::Target {\n        u32::MAX\n    }\n   \
+    \ fn binary_operation(a: &Self::Target, b: &Self::Target) -> Self::Target {\n\
+    \        *a.min(b)\n    }\n}\nimpl IdempotentMonoid for MinMonoid {}\nimpl Commutative\
+    \ for MinMonoid {}\n\n#[fastout]\nfn main() {\n    loop {\n        input! {\n\
+    \            r: usize,\n            c: usize,\n            q: usize,\n       \
+    \ }\n        if r == 0 {\n            break;\n        }\n        input! {\n  \
+    \          grid: [[u32; c]; r],\n        }\n        let seg = SparseTableOnSegTree::<MinMonoid>::new(grid);\n\
     \        for _ in 0..q {\n            input! {\n                r1: usize,\n \
     \               c1: usize,\n                r2: usize,\n                c2: usize,\n\
     \            }\n            let ans = seg.prod(r1..=r2, c1..=c2);\n          \
@@ -43,7 +43,7 @@ data:
   isVerificationFile: true
   path: verify/AOJ/no_1068/src/main.rs
   requiredBy: []
-  timestamp: '2024-10-28 22:46:07+09:00'
+  timestamp: '2025-04-29 15:50:13+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/no_1068/src/main.rs
