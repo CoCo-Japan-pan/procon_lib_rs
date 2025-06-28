@@ -201,11 +201,6 @@ data:
     - icon: ':warning:'
       path: crates/math/enumerate_inv_mods/src/lib.rs
       title: crates/math/enumerate_inv_mods/src/lib.rs
-  - name: crates/math/eratosthenes/src
-    pages:
-    - icon: ':warning:'
-      path: crates/math/eratosthenes/src/lib.rs
-      title: crates/math/eratosthenes/src/lib.rs
   - name: crates/math/floor_ceil_sum/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -216,6 +211,11 @@ data:
     - icon: ':warning:'
       path: crates/math/matrix/src/lib.rs
       title: crates/math/matrix/src/lib.rs
+  - name: crates/math/prime_utils/src
+    pages:
+    - icon: ':warning:'
+      path: crates/math/prime_utils/src/lib.rs
+      title: crates/math/prime_utils/src/lib.rs
   - name: crates/math/zeta_mobius_bitset/src
     pages:
     - icon: ':warning:'
@@ -256,6 +256,11 @@ data:
     - icon: ':warning:'
       path: crates/rand/pcg32/src/lib.rs
       title: crates/rand/pcg32/src/lib.rs
+  - name: crates/string/atcoder_string/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: crates/string/atcoder_string/src/lib.rs
+      title: crates/string/atcoder_string/src/lib.rs
   - name: crates/string/rolling_hash/src
     pages:
     - icon: ':heavy_check_mark:'
@@ -617,6 +622,11 @@ data:
     - icon: ':heavy_check_mark:'
       path: verify/yosupo/staticrmq_sparse_table/src/main.rs
       title: verify/yosupo/staticrmq_sparse_table/src/main.rs
+  - name: verify/yosupo/suffixarray/src
+    pages:
+    - icon: ':heavy_check_mark:'
+      path: verify/yosupo/suffixarray/src/main.rs
+      title: verify/yosupo/suffixarray/src/main.rs
   - name: verify/yosupo/sum_of_floor_of_linear/src
     pages:
     - icon: ':heavy_check_mark:'

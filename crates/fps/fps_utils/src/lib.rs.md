@@ -27,11 +27,11 @@ data:
   attributes:
     links:
     - https://qiita.com/ryuhe1/items/da5acbcce4ac1911f47a#bostanmori-%E3%81%AE%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0-1
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.3/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.5/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
-    \  File \"/opt/hostedtoolcache/Python/3.13.3/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \  File \"/opt/hostedtoolcache/Python/3.13.5/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "use enumerate_inv_mods::enumerate_invs;\nuse internal_bits::ceil_log2;\n\
     use ntt::{convolution, ConvHelper};\nuse std::fmt::Display;\nuse std::ops::{Add,\
@@ -144,8 +144,8 @@ data:
   timestamp: '2025-02-28 13:20:48+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/yosupo/log_of_formal_power_series/src/main.rs
   - verify/yosupo/exp_of_formal_power_series/src/main.rs
+  - verify/yosupo/log_of_formal_power_series/src/main.rs
   - verify/yosupo/inv_of_formal_power_series/src/main.rs
 documentation_of: crates/fps/fps_utils/src/lib.rs
 layout: document

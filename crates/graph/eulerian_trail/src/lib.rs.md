@@ -15,11 +15,11 @@ data:
   attributes:
     links:
     - https://kokiymgch.hatenablog.com/entry/2017/12/07/193238
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.3/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.5/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
-    \  File \"/opt/hostedtoolcache/Python/3.13.3/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \  File \"/opt/hostedtoolcache/Python/3.13.5/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! [\u30AA\u30A4\u30E9\u30FC\u8DEF\u306E\u69CB\u7BC9](https://kokiymgch.hatenablog.com/entry/2017/12/07/193238)\
     \  \n//! \u7121\u5411\u30B0\u30E9\u30D5\u306E\u81EA\u5DF1\u30EB\u30FC\u30D7\u306F\
@@ -99,8 +99,8 @@ data:
   isVerificationFile: false
   path: crates/graph/eulerian_trail/src/lib.rs
   requiredBy:
-  - verify/yosupo/eulerian_trail_undirected/src/main.rs
   - verify/yosupo/eulerian_trail_directed/src/main.rs
+  - verify/yosupo/eulerian_trail_undirected/src/main.rs
   timestamp: '2024-06-06 18:19:30+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

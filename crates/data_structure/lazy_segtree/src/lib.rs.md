@@ -30,11 +30,11 @@ data:
   attributes:
     links:
     - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/lazysegtree.rs
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.3/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.5/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
-    \  File \"/opt/hostedtoolcache/Python/3.13.3/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \  File \"/opt/hostedtoolcache/Python/3.13.5/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! <https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/lazysegtree.rs>\
     \ \u3092\u57FA\u306B\u3057\u3066\u3044\u307E\u3059  \n//! composition\u3084mapping\u306B\
@@ -210,14 +210,14 @@ data:
   isVerificationFile: false
   path: crates/data_structure/lazy_segtree/src/lib.rs
   requiredBy:
-  - crates/data_structure/lazy_segtree_utils/src/lib.rs
   - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
+  - crates/data_structure/lazy_segtree_utils/src/lib.rs
   timestamp: '2025-04-29 15:50:13+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
   - verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
   - verify/AOJ/dsl_2f_lazy_seg/src/main.rs
-  - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
 documentation_of: crates/data_structure/lazy_segtree/src/lib.rs
 layout: document
 redirect_from:
