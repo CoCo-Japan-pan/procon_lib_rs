@@ -8,6 +8,7 @@ data:
   _verificationStatusIcon: ':warning:'
   attributes:
     links:
+    - https://atcoder.jp/contests/abc227/editorial/2909
     - https://qiita.com/drken/items/3beb679e54266f20ab63
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.5/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
@@ -32,23 +33,36 @@ data:
     \    min_factor,\n        }\n    }\n\n    pub fn is_prime(&self, n: usize) ->\
     \ bool {\n        assert!(n <= self.max_n);\n        n >= 2 && self.min_factor[n]\
     \ == n\n    }\n\n    pub fn get_primes(&self) -> &[usize] {\n        &self.primes\n\
-    \    }\n\n    /// `O(log N)` \u3067\u7D20\u56E0\u6570\u5206\u89E3  \n    /// (\u7D20\
-    \u56E0\u6570\u3001\u3079\u304D) \u306E\u914D\u5217\u3092\u8FD4\u3059\n    pub\
-    \ fn factorize(&self, mut n: usize) -> Vec<(usize, usize)> {\n        assert!(n\
-    \ <= self.max_n);\n        let mut res = vec![];\n        while n > 1 {\n    \
-    \        let p = self.min_factor[n];\n            let mut cnt = 0;\n         \
-    \   while self.min_factor[n] == p {\n                cnt += 1;\n             \
-    \   n /= p;\n            }\n            res.push((p, cnt));\n        }\n     \
-    \   res\n    }\n\n    /// \u7D04\u6570\u306E\u500B\u6570\u30AA\u30FC\u30C0\u30FC\
-    \u3067\u7D04\u6570\u5217\u6319 \u7279\u306B\u51FA\u529B\u306F\u30BD\u30FC\u30C8\
-    \u3057\u3066\u3044\u306A\u3044\u306E\u3067\u6CE8\u610F\n    pub fn enumerate_divisors(&self,\
-    \ n: usize) -> Vec<usize> {\n        let pc = self.factorize(n);\n        let\
-    \ size = pc.iter().map(|(_, c)| c + 1).product::<usize>();\n        let mut ret\
-    \ = Vec::with_capacity(size);\n        ret.push(1);\n        for (p, c) in pc\
-    \ {\n            let cur_size = ret.len();\n            for i in 0..cur_size {\n\
-    \                let mut new_num = ret[i];\n                for _ in 0..c {\n\
-    \                    new_num *= p;\n                    ret.push(new_num);\n \
-    \               }\n            }\n        }\n        ret\n    }\n\n    /// \u500D\
+    \    }\n\n    /// `O(log n)` \u3067n\u3092\u7D20\u56E0\u6570\u5206\u89E3  \n \
+    \   /// (\u7D20\u56E0\u6570\u3001\u3079\u304D) \u306E\u914D\u5217\u3092\u8FD4\u3059\
+    \n    pub fn factorize(&self, mut n: usize) -> Vec<(usize, usize)> {\n       \
+    \ assert!(n <= self.max_n);\n        let mut res = vec![];\n        while n >\
+    \ 1 {\n            let p = self.min_factor[n];\n            let mut cnt = 0;\n\
+    \            while self.min_factor[n] == p {\n                cnt += 1;\n    \
+    \            n /= p;\n            }\n            res.push((p, cnt));\n       \
+    \ }\n        res\n    }\n\n    /// \u9589\u533A\u9593`[l, r]`\u306E\u7D20\u56E0\
+    \u6570\u5206\u89E3\u3092\u307E\u3068\u3081\u3066\u884C\u3046 `M = max(r - l +\
+    \ 1, \u221Ar)` \u3068\u3057\u3066 `O(M loglog M)`  \n    /// <https://atcoder.jp/contests/abc227/editorial/2909>\n\
+    \    pub fn factorize_range(&self, l: usize, r: usize) -> Vec<Vec<(usize, usize)>>\
+    \ {\n        assert!(r / self.max_n <= self.max_n);\n        assert!(l <= r);\n\
+    \        let mut ret = vec![vec![]; r - l + 1];\n        let mut nums = (l..=r).collect::<Vec<_>>();\n\
+    \        for &p in &self.primes {\n            for num in ((l + p - 1) / p * p..=r).step_by(p)\
+    \ {\n                if num == 0 {\n                    continue;\n          \
+    \      }\n                let mut cnt = 0;\n                let idx = num - l;\n\
+    \                while nums[idx] % p == 0 {\n                    nums[idx] /=\
+    \ p;\n                    cnt += 1;\n                }\n                ret[idx].push((p,\
+    \ cnt));\n            }\n        }\n        for (idx, &num) in nums.iter().enumerate()\
+    \ {\n            if num > 1 {\n                ret[idx].push((num, 1));\n    \
+    \        }\n        }\n        ret\n    }\n\n    /// \u7D04\u6570\u306E\u500B\u6570\
+    \u30AA\u30FC\u30C0\u30FC\u3067\u7D04\u6570\u5217\u6319 \u7279\u306B\u51FA\u529B\
+    \u306F\u30BD\u30FC\u30C8\u3057\u3066\u3044\u306A\u3044\u306E\u3067\u6CE8\u610F\
+    \n    pub fn enumerate_divisors(&self, n: usize) -> Vec<usize> {\n        let\
+    \ pc = self.factorize(n);\n        let size = pc.iter().map(|(_, c)| c + 1).product::<usize>();\n\
+    \        let mut ret = Vec::with_capacity(size);\n        ret.push(1);\n     \
+    \   for (p, c) in pc {\n            let cur_size = ret.len();\n            for\
+    \ i in 0..cur_size {\n                let mut new_num = ret[i];\n            \
+    \    for _ in 0..c {\n                    new_num *= p;\n                    ret.push(new_num);\n\
+    \                }\n            }\n        }\n        ret\n    }\n\n    /// \u500D\
     \u6570\u95A2\u4FC2\u306B\u95A2\u3059\u308B\u9AD8\u901F\u30BC\u30FC\u30BF\u5909\
     \u63DB  \n    /// `list[i] = func({list[i\u306E\u500D\u6570\u9054]})` \u306B\u5909\
     \u63DB\u3059\u308B  \n    /// \u53EF\u63DB\u306A\u4E8C\u9805\u6F14\u7B97`func`\u3092\
@@ -143,12 +157,16 @@ data:
     \ SIZE: usize = 1000000;\n        let era = Eratosthenes::new(SIZE);\n       \
     \ for i in 1..=SIZE {\n            assert_eq!(era.is_prime(i), miller_rabin(i\
     \ as u64), \"i = {}\", i);\n        }\n\n        assert!(!miller_rabin(10_u64.pow(18)\
-    \ * 2 + 1));\n        assert!(miller_rabin((1_u64 << 61) - 1));\n    }\n}\n"
+    \ * 2 + 1));\n        assert!(miller_rabin((1_u64 << 61) - 1));\n    }\n\n   \
+    \ #[test]\n    fn test_factorize_range() {\n        const SIZE: usize = 1000000;\n\
+    \        let era = Eratosthenes::new(SIZE);\n        let fact_range = era.factorize_range(0,\
+    \ SIZE);\n        for i in 0..=SIZE {\n            let fact = era.factorize(i);\n\
+    \            assert_eq!(fact, fact_range[i]);\n        }\n    }\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/math/prime_utils/src/lib.rs
   requiredBy: []
-  timestamp: '2025-06-29 01:56:09+09:00'
+  timestamp: '2025-06-29 02:49:11+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/math/prime_utils/src/lib.rs
