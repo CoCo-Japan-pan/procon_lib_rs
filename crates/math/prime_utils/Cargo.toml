@@ -1,5 +1,5 @@
 [package]
-name = "eratosthenes"
+name = "prime_utils"
 version = "0.1.0"
 edition = "2021"
 license = "CC0-1.0"

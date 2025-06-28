@@ -163,6 +163,48 @@ impl Eratosthenes {
     }
 }
 
+fn mod_pow(base: u64, mut exp: u64, modulus: u64) -> u64 {
+    let mut res = 1;
+    let mut b = base % modulus;
+    while exp > 0 {
+        if exp & 1 == 1 {
+            res = (res * b) % modulus;
+        }
+        b = (b * b) % modulus;
+        exp >>= 1;
+    }
+    res
+}
+
+fn suspect(a: u64, mut t: u64, n: u64) -> bool {
+    let mut x = mod_pow(a, t, n);
+    let n1 = n - 1;
+    while t != n1 && x != 1 && x != n1 {
+        x = (x * x) % n;
+        t <<= 1;
+    }
+    ((t & 1) == 1) || x == n1
+}
+
+/// `n < 2^64`におけるミラー・ラビン素数判定法 `O(log n)`
+pub fn miller_rabin(n: u64) -> bool {
+    if n == 2 {
+        return true;
+    }
+    if n < 2 || (n & 1) == 0 {
+        return false;
+    }
+    let mut d = (n - 1) >> 1;
+    d >>= d.trailing_zeros();
+    const CHECK_LIST: [u64; 12] = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37];
+    for a in CHECK_LIST.into_iter().take_while(|&a| a < n) {
+        if !suspect(a, d, n) {
+            return false;
+        }
+    }
+    true
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -235,6 +277,15 @@ mod test {
         }
         for size in [0, 1, 10, 100, 1000] {
             test(size);
+        }
+    }
+
+    #[test]
+    fn test_miller_rabin() {
+        const SIZE: usize = 1000000;
+        let era = Eratosthenes::new(SIZE);
+        for i in 1..=SIZE {
+            assert_eq!(era.is_prime(i), miller_rabin(i as u64), "i = {}", i);
         }
     }
 }
