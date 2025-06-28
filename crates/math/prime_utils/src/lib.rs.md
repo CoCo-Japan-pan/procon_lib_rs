@@ -69,20 +69,21 @@ data:
     \       }\n        assert!(r / self.max_n <= self.max_n);\n        let mut ret\
     \ = vec![true; r - l + 1];\n        if l == 0 {\n            ret[0] = false;\n\
     \        }\n        if l <= 1 {\n            ret[1 - l] = false;\n        }\n\
-    \        for &p in &self.primes {\n            for num in ((l + p - 1) / p + p\
-    \ * p..=r).step_by(p) {\n                let idx = num - l;\n                ret[idx]\
-    \ = false;\n            }\n        }\n        ret\n    }\n\n    /// \u7D04\u6570\
-    \u306E\u500B\u6570\u30AA\u30FC\u30C0\u30FC\u3067\u7D04\u6570\u5217\u6319 \u7279\
-    \u306B\u51FA\u529B\u306F\u30BD\u30FC\u30C8\u3057\u3066\u3044\u306A\u3044\u306E\
-    \u3067\u6CE8\u610F\n    pub fn enumerate_divisors(&self, n: usize) -> Vec<usize>\
-    \ {\n        let pc = self.factorize(n);\n        let size = pc.iter().map(|(_,\
-    \ c)| c + 1).product::<usize>();\n        let mut ret = Vec::with_capacity(size);\n\
-    \        ret.push(1);\n        for (p, c) in pc {\n            let cur_size =\
-    \ ret.len();\n            for i in 0..cur_size {\n                let mut new_num\
-    \ = ret[i];\n                for _ in 0..c {\n                    new_num *= p;\n\
-    \                    ret.push(new_num);\n                }\n            }\n  \
-    \      }\n        ret\n    }\n\n    /// \u500D\u6570\u95A2\u4FC2\u306B\u95A2\u3059\
-    \u308B\u9AD8\u901F\u30BC\u30FC\u30BF\u5909\u63DB  \n    /// `list[i] = func({list[i\u306E\
+    \        for &p in &self.primes {\n            for num in ((l + p - 1) / p * p..=r).step_by(p)\
+    \ {\n                if num == p {\n                    continue;\n          \
+    \      }\n                let idx = num - l;\n                ret[idx] = false;\n\
+    \            }\n        }\n        ret\n    }\n\n    /// \u7D04\u6570\u306E\u500B\
+    \u6570\u30AA\u30FC\u30C0\u30FC\u3067\u7D04\u6570\u5217\u6319 \u7279\u306B\u51FA\
+    \u529B\u306F\u30BD\u30FC\u30C8\u3057\u3066\u3044\u306A\u3044\u306E\u3067\u6CE8\
+    \u610F\n    pub fn enumerate_divisors(&self, n: usize) -> Vec<usize> {\n     \
+    \   let pc = self.factorize(n);\n        let size = pc.iter().map(|(_, c)| c +\
+    \ 1).product::<usize>();\n        let mut ret = Vec::with_capacity(size);\n  \
+    \      ret.push(1);\n        for (p, c) in pc {\n            let cur_size = ret.len();\n\
+    \            for i in 0..cur_size {\n                let mut new_num = ret[i];\n\
+    \                for _ in 0..c {\n                    new_num *= p;\n        \
+    \            ret.push(new_num);\n                }\n            }\n        }\n\
+    \        ret\n    }\n\n    /// \u500D\u6570\u95A2\u4FC2\u306B\u95A2\u3059\u308B\
+    \u9AD8\u901F\u30BC\u30FC\u30BF\u5909\u63DB  \n    /// `list[i] = func({list[i\u306E\
     \u500D\u6570\u9054]})` \u306B\u5909\u63DB\u3059\u308B  \n    /// \u53EF\u63DB\u306A\
     \u4E8C\u9805\u6F14\u7B97`func`\u3092\u6307\u5B9A\u3059\u308B  \n    /// 0\u756A\
     \u76EE\u306E\u5024\u306B\u3064\u3044\u3066\u306F\u4F55\u3082\u3057\u306A\u3044\
