@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"fn":["bitwise_and_convolution","bitwise_or_convolution","bitwise_xor_convolution","fast_hadamard","inv_fast_hadamard"]};
