@@ -110,11 +110,17 @@ impl Eratosthenes {
         }
         assert!(r / self.max_n <= self.max_n);
         let mut ret = vec![true; r - l + 1];
+        if l == 0 {
+            ret[0] = false;
+        }
         if l <= 1 {
             ret[1 - l] = false;
         }
         for &p in &self.primes {
             for num in ((l + p - 1) / p * p..=r).step_by(p) {
+                if num == p {
+                    continue;
+                }
                 let idx = num - l;
                 ret[idx] = false;
             }
@@ -356,6 +362,16 @@ mod test {
         for i in 0..=SIZE {
             let fact = era.factorize(i);
             assert_eq!(fact, fact_range[i]);
+        }
+    }
+
+    #[test]
+    fn test_is_prime_range() {
+        const SIZE: usize = 1000000;
+        let era = Eratosthenes::new(SIZE);
+        let is_prime_range = era.is_prime_range(0, SIZE);
+        for i in 0..=SIZE {
+            assert_eq!(era.is_prime(i), is_prime_range[i], "i = {}", i);
         }
     }
 }
