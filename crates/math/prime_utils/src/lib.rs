@@ -67,11 +67,16 @@ impl Eratosthenes {
         res
     }
 
-    /// 閉区間`[l, r]`の素因数分解をまとめて行う `M = max(r - l + 1, √r)` として `O(M loglog M)`  
+    /// `√r`以下の素数を構造体のメンバとして持っていることを前提とする  
+    /// 閉区間`[l, r]`の素因数分解をまとめて行う  
+    /// `M = max(r - l + 1, √r)` として `O(M loglog M)`  
+    /// 素因数分解の結果を二次元配列ですべて持つのでメモリ使用量に注意  
     /// <https://atcoder.jp/contests/abc227/editorial/2909>
     pub fn factorize_range(&self, l: usize, r: usize) -> Vec<Vec<(usize, usize)>> {
+        if r < l {
+            return vec![];
+        }
         assert!(r / self.max_n <= self.max_n);
-        assert!(l <= r);
         let mut ret = vec![vec![]; r - l + 1];
         let mut nums = (l..=r).collect::<Vec<_>>();
         for &p in &self.primes {
@@ -91,6 +96,27 @@ impl Eratosthenes {
         for (idx, &num) in nums.iter().enumerate() {
             if num > 1 {
                 ret[idx].push((num, 1));
+            }
+        }
+        ret
+    }
+
+    /// `√r` 以下の素数を構造体のメンバとして持っていることを前提とする  
+    /// 閉区間 `[l, r]` が素数か否かをまとめて判定  
+    /// `M = max(r - l + 1, √r)` として `O(M loglog M)`
+    pub fn is_prime_range(&self, l: usize, r: usize) -> Vec<bool> {
+        if r < l {
+            return vec![];
+        }
+        assert!(r / self.max_n <= self.max_n);
+        let mut ret = vec![true; r - l + 1];
+        if l <= 1 {
+            ret[1 - l] = false;
+        }
+        for &p in &self.primes {
+            for num in ((l + p - 1) / p * p..=r).step_by(p) {
+                let idx = num - l;
+                ret[idx] = false;
             }
         }
         ret
