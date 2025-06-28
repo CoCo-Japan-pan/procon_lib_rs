@@ -67,15 +67,16 @@ data:
     \ \u3068\u3057\u3066 `O(M loglog M)`\n    pub fn is_prime_range(&self, l: usize,\
     \ r: usize) -> Vec<bool> {\n        if r < l {\n            return vec![];\n \
     \       }\n        assert!(r / self.max_n <= self.max_n);\n        let mut ret\
-    \ = vec![true; r - l + 1];\n        if l <= 1 {\n            ret[1 - l] = false;\n\
-    \        }\n        for &p in &self.primes {\n            for num in ((l + p -\
-    \ 1) / p * p..=r).step_by(p) {\n                let idx = num - l;\n         \
-    \       ret[idx] = false;\n            }\n        }\n        ret\n    }\n\n  \
-    \  /// \u7D04\u6570\u306E\u500B\u6570\u30AA\u30FC\u30C0\u30FC\u3067\u7D04\u6570\
-    \u5217\u6319 \u7279\u306B\u51FA\u529B\u306F\u30BD\u30FC\u30C8\u3057\u3066\u3044\
-    \u306A\u3044\u306E\u3067\u6CE8\u610F\n    pub fn enumerate_divisors(&self, n:\
-    \ usize) -> Vec<usize> {\n        let pc = self.factorize(n);\n        let size\
-    \ = pc.iter().map(|(_, c)| c + 1).product::<usize>();\n        let mut ret = Vec::with_capacity(size);\n\
+    \ = vec![true; r - l + 1];\n        if l == 0 {\n            ret[0] = false;\n\
+    \        }\n        if l <= 1 {\n            ret[1 - l] = false;\n        }\n\
+    \        for &p in &self.primes {\n            for num in ((l + p - 1) / p + p\
+    \ * p..=r).step_by(p) {\n                let idx = num - l;\n                ret[idx]\
+    \ = false;\n            }\n        }\n        ret\n    }\n\n    /// \u7D04\u6570\
+    \u306E\u500B\u6570\u30AA\u30FC\u30C0\u30FC\u3067\u7D04\u6570\u5217\u6319 \u7279\
+    \u306B\u51FA\u529B\u306F\u30BD\u30FC\u30C8\u3057\u3066\u3044\u306A\u3044\u306E\
+    \u3067\u6CE8\u610F\n    pub fn enumerate_divisors(&self, n: usize) -> Vec<usize>\
+    \ {\n        let pc = self.factorize(n);\n        let size = pc.iter().map(|(_,\
+    \ c)| c + 1).product::<usize>();\n        let mut ret = Vec::with_capacity(size);\n\
     \        ret.push(1);\n        for (p, c) in pc {\n            let cur_size =\
     \ ret.len();\n            for i in 0..cur_size {\n                let mut new_num\
     \ = ret[i];\n                for _ in 0..c {\n                    new_num *= p;\n\
@@ -178,12 +179,16 @@ data:
     \ #[test]\n    fn test_factorize_range() {\n        const SIZE: usize = 1000000;\n\
     \        let era = Eratosthenes::new(SIZE);\n        let fact_range = era.factorize_range(0,\
     \ SIZE);\n        for i in 0..=SIZE {\n            let fact = era.factorize(i);\n\
-    \            assert_eq!(fact, fact_range[i]);\n        }\n    }\n}\n"
+    \            assert_eq!(fact, fact_range[i]);\n        }\n    }\n\n    #[test]\n\
+    \    fn test_is_prime_range() {\n        const SIZE: usize = 1000000;\n      \
+    \  let era = Eratosthenes::new(SIZE);\n        let is_prime_range = era.is_prime_range(0,\
+    \ SIZE);\n        for i in 0..=SIZE {\n            assert_eq!(era.is_prime(i),\
+    \ is_prime_range[i], \"i = {}\", i);\n        }\n    }\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/math/prime_utils/src/lib.rs
   requiredBy: []
-  timestamp: '2025-06-29 03:25:31+09:00'
+  timestamp: '2025-06-29 03:31:50+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/math/prime_utils/src/lib.rs

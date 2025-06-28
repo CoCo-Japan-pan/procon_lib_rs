@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["eulerian_trail_from_edge_list","eulerian_trail_from_matrix","eulerian_trail_from_vertex_list"]};
