@@ -40,45 +40,62 @@ data:
     \ 1 {\n            let p = self.min_factor[n];\n            let mut cnt = 0;\n\
     \            while self.min_factor[n] == p {\n                cnt += 1;\n    \
     \            n /= p;\n            }\n            res.push((p, cnt));\n       \
-    \ }\n        res\n    }\n\n    /// \u9589\u533A\u9593`[l, r]`\u306E\u7D20\u56E0\
-    \u6570\u5206\u89E3\u3092\u307E\u3068\u3081\u3066\u884C\u3046 `M = max(r - l +\
-    \ 1, \u221Ar)` \u3068\u3057\u3066 `O(M loglog M)`  \n    /// <https://atcoder.jp/contests/abc227/editorial/2909>\n\
+    \ }\n        res\n    }\n\n    /// `\u221Ar`\u4EE5\u4E0B\u306E\u7D20\u6570\u3092\
+    \u69CB\u9020\u4F53\u306E\u30E1\u30F3\u30D0\u3068\u3057\u3066\u6301\u3063\u3066\
+    \u3044\u308B\u3053\u3068\u3092\u524D\u63D0\u3068\u3059\u308B  \n    /// \u9589\
+    \u533A\u9593`[l, r]`\u306E\u7D20\u56E0\u6570\u5206\u89E3\u3092\u307E\u3068\u3081\
+    \u3066\u884C\u3046  \n    /// `M = max(r - l + 1, \u221Ar)` \u3068\u3057\u3066\
+    \ `O(M loglog M)`  \n    /// \u7D20\u56E0\u6570\u5206\u89E3\u306E\u7D50\u679C\u3092\
+    \u4E8C\u6B21\u5143\u914D\u5217\u3067\u3059\u3079\u3066\u6301\u3064\u306E\u3067\
+    \u30E1\u30E2\u30EA\u4F7F\u7528\u91CF\u306B\u6CE8\u610F  \n    /// <https://atcoder.jp/contests/abc227/editorial/2909>\n\
     \    pub fn factorize_range(&self, l: usize, r: usize) -> Vec<Vec<(usize, usize)>>\
-    \ {\n        assert!(r / self.max_n <= self.max_n);\n        assert!(l <= r);\n\
-    \        let mut ret = vec![vec![]; r - l + 1];\n        let mut nums = (l..=r).collect::<Vec<_>>();\n\
-    \        for &p in &self.primes {\n            for num in ((l + p - 1) / p * p..=r).step_by(p)\
-    \ {\n                if num == 0 {\n                    continue;\n          \
-    \      }\n                let mut cnt = 0;\n                let idx = num - l;\n\
-    \                while nums[idx] % p == 0 {\n                    nums[idx] /=\
-    \ p;\n                    cnt += 1;\n                }\n                ret[idx].push((p,\
+    \ {\n        if r < l {\n            return vec![];\n        }\n        assert!(r\
+    \ / self.max_n <= self.max_n);\n        let mut ret = vec![vec![]; r - l + 1];\n\
+    \        let mut nums = (l..=r).collect::<Vec<_>>();\n        for &p in &self.primes\
+    \ {\n            for num in ((l + p - 1) / p * p..=r).step_by(p) {\n         \
+    \       if num == 0 {\n                    continue;\n                }\n    \
+    \            let mut cnt = 0;\n                let idx = num - l;\n          \
+    \      while nums[idx] % p == 0 {\n                    nums[idx] /= p;\n     \
+    \               cnt += 1;\n                }\n                ret[idx].push((p,\
     \ cnt));\n            }\n        }\n        for (idx, &num) in nums.iter().enumerate()\
     \ {\n            if num > 1 {\n                ret[idx].push((num, 1));\n    \
-    \        }\n        }\n        ret\n    }\n\n    /// \u7D04\u6570\u306E\u500B\u6570\
-    \u30AA\u30FC\u30C0\u30FC\u3067\u7D04\u6570\u5217\u6319 \u7279\u306B\u51FA\u529B\
-    \u306F\u30BD\u30FC\u30C8\u3057\u3066\u3044\u306A\u3044\u306E\u3067\u6CE8\u610F\
-    \n    pub fn enumerate_divisors(&self, n: usize) -> Vec<usize> {\n        let\
-    \ pc = self.factorize(n);\n        let size = pc.iter().map(|(_, c)| c + 1).product::<usize>();\n\
-    \        let mut ret = Vec::with_capacity(size);\n        ret.push(1);\n     \
-    \   for (p, c) in pc {\n            let cur_size = ret.len();\n            for\
-    \ i in 0..cur_size {\n                let mut new_num = ret[i];\n            \
-    \    for _ in 0..c {\n                    new_num *= p;\n                    ret.push(new_num);\n\
-    \                }\n            }\n        }\n        ret\n    }\n\n    /// \u500D\
-    \u6570\u95A2\u4FC2\u306B\u95A2\u3059\u308B\u9AD8\u901F\u30BC\u30FC\u30BF\u5909\
-    \u63DB  \n    /// `list[i] = func({list[i\u306E\u500D\u6570\u9054]})` \u306B\u5909\
-    \u63DB\u3059\u308B  \n    /// \u53EF\u63DB\u306A\u4E8C\u9805\u6F14\u7B97`func`\u3092\
-    \u6307\u5B9A\u3059\u308B  \n    /// 0\u756A\u76EE\u306E\u5024\u306B\u3064\u3044\
-    \u3066\u306F\u4F55\u3082\u3057\u306A\u3044\u306E\u3067\u6CE8\u610F\n    pub fn\
-    \ multiple_zeta<T: Copy>(&self, mut list: Vec<T>, func: impl Fn(T, T) -> T) ->\
-    \ Vec<T> {\n        let n = list.len().saturating_sub(1);\n        assert!(n <=\
-    \ self.max_n);\n        for p in self.primes.iter().take_while(|&&p| p <= n) {\n\
-    \            for i in (1..=(n / p)).rev() {\n                list[i] = func(list[i],\
-    \ list[i * p]);\n            }\n        }\n        list\n    }\n\n    /// \u500D\
-    \u6570\u95A2\u4FC2\u306B\u95A2\u3059\u308B\u9AD8\u901F\u30E1\u30D3\u30A6\u30B9\
-    \u5909\u63DB(\u52A0\u7B97\u306E\u9006\u6F14\u7B97)  \n    /// 0\u756A\u76EE\u306E\
-    \u5024\u306B\u3064\u3044\u3066\u306F\u4F55\u3082\u3057\u306A\u3044\u306E\u3067\
-    \u6CE8\u610F\n    pub fn multiple_mobius<T: Sub<Output = T> + Copy>(&self, mut\
-    \ list: Vec<T>) -> Vec<T> {\n        let n = list.len().saturating_sub(1);\n \
-    \       assert!(n <= self.max_n);\n        for p in self.primes.iter().take_while(|&&p|\
+    \        }\n        }\n        ret\n    }\n\n    /// `\u221Ar` \u4EE5\u4E0B\u306E\
+    \u7D20\u6570\u3092\u69CB\u9020\u4F53\u306E\u30E1\u30F3\u30D0\u3068\u3057\u3066\
+    \u6301\u3063\u3066\u3044\u308B\u3053\u3068\u3092\u524D\u63D0\u3068\u3059\u308B\
+    \  \n    /// \u9589\u533A\u9593 `[l, r]` \u304C\u7D20\u6570\u304B\u5426\u304B\u3092\
+    \u307E\u3068\u3081\u3066\u5224\u5B9A  \n    /// `M = max(r - l + 1, \u221Ar)`\
+    \ \u3068\u3057\u3066 `O(M loglog M)`\n    pub fn is_prime_range(&self, l: usize,\
+    \ r: usize) -> Vec<bool> {\n        if r < l {\n            return vec![];\n \
+    \       }\n        assert!(r / self.max_n <= self.max_n);\n        let mut ret\
+    \ = vec![true; r - l + 1];\n        if l <= 1 {\n            ret[1 - l] = false;\n\
+    \        }\n        for &p in &self.primes {\n            for num in ((l + p -\
+    \ 1) / p * p..=r).step_by(p) {\n                let idx = num - l;\n         \
+    \       ret[idx] = false;\n            }\n        }\n        ret\n    }\n\n  \
+    \  /// \u7D04\u6570\u306E\u500B\u6570\u30AA\u30FC\u30C0\u30FC\u3067\u7D04\u6570\
+    \u5217\u6319 \u7279\u306B\u51FA\u529B\u306F\u30BD\u30FC\u30C8\u3057\u3066\u3044\
+    \u306A\u3044\u306E\u3067\u6CE8\u610F\n    pub fn enumerate_divisors(&self, n:\
+    \ usize) -> Vec<usize> {\n        let pc = self.factorize(n);\n        let size\
+    \ = pc.iter().map(|(_, c)| c + 1).product::<usize>();\n        let mut ret = Vec::with_capacity(size);\n\
+    \        ret.push(1);\n        for (p, c) in pc {\n            let cur_size =\
+    \ ret.len();\n            for i in 0..cur_size {\n                let mut new_num\
+    \ = ret[i];\n                for _ in 0..c {\n                    new_num *= p;\n\
+    \                    ret.push(new_num);\n                }\n            }\n  \
+    \      }\n        ret\n    }\n\n    /// \u500D\u6570\u95A2\u4FC2\u306B\u95A2\u3059\
+    \u308B\u9AD8\u901F\u30BC\u30FC\u30BF\u5909\u63DB  \n    /// `list[i] = func({list[i\u306E\
+    \u500D\u6570\u9054]})` \u306B\u5909\u63DB\u3059\u308B  \n    /// \u53EF\u63DB\u306A\
+    \u4E8C\u9805\u6F14\u7B97`func`\u3092\u6307\u5B9A\u3059\u308B  \n    /// 0\u756A\
+    \u76EE\u306E\u5024\u306B\u3064\u3044\u3066\u306F\u4F55\u3082\u3057\u306A\u3044\
+    \u306E\u3067\u6CE8\u610F\n    pub fn multiple_zeta<T: Copy>(&self, mut list: Vec<T>,\
+    \ func: impl Fn(T, T) -> T) -> Vec<T> {\n        let n = list.len().saturating_sub(1);\n\
+    \        assert!(n <= self.max_n);\n        for p in self.primes.iter().take_while(|&&p|\
+    \ p <= n) {\n            for i in (1..=(n / p)).rev() {\n                list[i]\
+    \ = func(list[i], list[i * p]);\n            }\n        }\n        list\n    }\n\
+    \n    /// \u500D\u6570\u95A2\u4FC2\u306B\u95A2\u3059\u308B\u9AD8\u901F\u30E1\u30D3\
+    \u30A6\u30B9\u5909\u63DB(\u52A0\u7B97\u306E\u9006\u6F14\u7B97)  \n    /// 0\u756A\
+    \u76EE\u306E\u5024\u306B\u3064\u3044\u3066\u306F\u4F55\u3082\u3057\u306A\u3044\
+    \u306E\u3067\u6CE8\u610F\n    pub fn multiple_mobius<T: Sub<Output = T> + Copy>(&self,\
+    \ mut list: Vec<T>) -> Vec<T> {\n        let n = list.len().saturating_sub(1);\n\
+    \        assert!(n <= self.max_n);\n        for p in self.primes.iter().take_while(|&&p|\
     \ p <= n) {\n            for i in 1..=(n / p) {\n                list[i] = list[i]\
     \ - list[i * p];\n            }\n        }\n        list\n    }\n\n    /// \u6DFB\
     \u3048\u5B57gcd\u7573\u307F\u8FBC\u307F  \n    /// 0\u756A\u76EE\u306E\u5024\u306B\
@@ -166,7 +183,7 @@ data:
   isVerificationFile: false
   path: crates/math/prime_utils/src/lib.rs
   requiredBy: []
-  timestamp: '2025-06-29 02:49:11+09:00'
+  timestamp: '2025-06-29 03:25:31+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/math/prime_utils/src/lib.rs
