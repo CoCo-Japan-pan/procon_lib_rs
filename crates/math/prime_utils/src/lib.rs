@@ -165,7 +165,8 @@ impl Eratosthenes {
 
 fn mod_pow(base: u64, mut exp: u64, modulus: u64) -> u64 {
     let mut res = 1;
-    let mut b = base % modulus;
+    let mut b = (base % modulus) as u128;
+    let modulus = modulus as u128;
     while exp > 0 {
         if exp & 1 == 1 {
             res = (res * b) % modulus;
@@ -173,14 +174,14 @@ fn mod_pow(base: u64, mut exp: u64, modulus: u64) -> u64 {
         b = (b * b) % modulus;
         exp >>= 1;
     }
-    res
+    res as u64
 }
 
 fn suspect(a: u64, mut t: u64, n: u64) -> bool {
     let mut x = mod_pow(a, t, n);
     let n1 = n - 1;
     while t != n1 && x != 1 && x != n1 {
-        x = (x * x) % n;
+        x = mod_pow(x, 2, n);
         t <<= 1;
     }
     ((t & 1) == 1) || x == n1
@@ -287,5 +288,8 @@ mod test {
         for i in 1..=SIZE {
             assert_eq!(era.is_prime(i), miller_rabin(i as u64), "i = {}", i);
         }
+
+        assert!(!miller_rabin(10_u64.pow(18) * 2 + 1));
+        assert!(miller_rabin((1_u64 << 61) - 1));
     }
 }
