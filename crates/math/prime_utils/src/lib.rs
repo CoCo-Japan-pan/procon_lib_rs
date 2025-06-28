@@ -50,7 +50,7 @@ impl Eratosthenes {
         &self.primes
     }
 
-    /// `O(log N)` で素因数分解  
+    /// `O(log n)` でnを素因数分解  
     /// (素因数、べき) の配列を返す
     pub fn factorize(&self, mut n: usize) -> Vec<(usize, usize)> {
         assert!(n <= self.max_n);
@@ -65,6 +65,35 @@ impl Eratosthenes {
             res.push((p, cnt));
         }
         res
+    }
+
+    /// 閉区間`[l, r]`の素因数分解をまとめて行う `M = max(r - l + 1, √r)` として `O(M loglog M)`  
+    /// <https://atcoder.jp/contests/abc227/editorial/2909>
+    pub fn factorize_range(&self, l: usize, r: usize) -> Vec<Vec<(usize, usize)>> {
+        assert!(r / self.max_n <= self.max_n);
+        assert!(l <= r);
+        let mut ret = vec![vec![]; r - l + 1];
+        let mut nums = (l..=r).collect::<Vec<_>>();
+        for &p in &self.primes {
+            for num in ((l + p - 1) / p * p..=r).step_by(p) {
+                if num == 0 {
+                    continue;
+                }
+                let mut cnt = 0;
+                let idx = num - l;
+                while nums[idx] % p == 0 {
+                    nums[idx] /= p;
+                    cnt += 1;
+                }
+                ret[idx].push((p, cnt));
+            }
+        }
+        for (idx, &num) in nums.iter().enumerate() {
+            if num > 1 {
+                ret[idx].push((num, 1));
+            }
+        }
+        ret
     }
 
     /// 約数の個数オーダーで約数列挙 特に出力はソートしていないので注意
@@ -291,5 +320,16 @@ mod test {
 
         assert!(!miller_rabin(10_u64.pow(18) * 2 + 1));
         assert!(miller_rabin((1_u64 << 61) - 1));
+    }
+
+    #[test]
+    fn test_factorize_range() {
+        const SIZE: usize = 1000000;
+        let era = Eratosthenes::new(SIZE);
+        let fact_range = era.factorize_range(0, SIZE);
+        for i in 0..=SIZE {
+            let fact = era.factorize(i);
+            assert_eq!(fact, fact_range[i]);
+        }
     }
 }
