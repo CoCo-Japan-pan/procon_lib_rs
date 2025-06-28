@@ -95,25 +95,25 @@ data:
     \ p <= n) {\n            for i in (1..=(n / p)).rev() {\n                list[i\
     \ * p] = list[i * p] - list[i];\n            }\n        }\n        list\n    }\n\
     }\n\nfn mod_pow(base: u64, mut exp: u64, modulus: u64) -> u64 {\n    let mut res\
-    \ = 1;\n    let mut b = base % modulus;\n    while exp > 0 {\n        if exp &\
-    \ 1 == 1 {\n            res = (res * b) % modulus;\n        }\n        b = (b\
-    \ * b) % modulus;\n        exp >>= 1;\n    }\n    res\n}\n\nfn suspect(a: u64,\
-    \ mut t: u64, n: u64) -> bool {\n    let mut x = mod_pow(a, t, n);\n    let n1\
-    \ = n - 1;\n    while t != n1 && x != 1 && x != n1 {\n        x = (x * x) % n;\n\
-    \        t <<= 1;\n    }\n    ((t & 1) == 1) || x == n1\n}\n\n/// `n < 2^64`\u306B\
-    \u304A\u3051\u308B\u30DF\u30E9\u30FC\u30FB\u30E9\u30D3\u30F3\u7D20\u6570\u5224\
-    \u5B9A\u6CD5 `O(log n)`\npub fn miller_rabin(n: u64) -> bool {\n    if n == 2\
-    \ {\n        return true;\n    }\n    if n < 2 || (n & 1) == 0 {\n        return\
-    \ false;\n    }\n    let mut d = (n - 1) >> 1;\n    d >>= d.trailing_zeros();\n\
-    \    const CHECK_LIST: [u64; 12] = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37];\n\
-    \    for a in CHECK_LIST.into_iter().take_while(|&a| a < n) {\n        if !suspect(a,\
-    \ d, n) {\n            return false;\n        }\n    }\n    true\n}\n\n#[cfg(test)]\n\
-    mod test {\n    use super::*;\n    use rand::prelude::*;\n\n    #[test]\n    fn\
-    \ test_divisors_manual() {\n        let era = Eratosthenes::new(60);\n       \
-    \ let mut divisors_60 = era.enumerate_divisors(60);\n        divisors_60.sort_unstable();\n\
-    \        assert_eq!(divisors_60, [1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60])\n\
-    \    }\n\n    #[test]\n    fn test_multiple_zeta_manual() {\n        let list\
-    \ = (0..=12).collect::<Vec<usize>>();\n        let era = Eratosthenes::new(12);\n\
+    \ = 1;\n    let mut b = (base % modulus) as u128;\n    let modulus = modulus as\
+    \ u128;\n    while exp > 0 {\n        if exp & 1 == 1 {\n            res = (res\
+    \ * b) % modulus;\n        }\n        b = (b * b) % modulus;\n        exp >>=\
+    \ 1;\n    }\n    res as u64\n}\n\nfn suspect(a: u64, mut t: u64, n: u64) -> bool\
+    \ {\n    let mut x = mod_pow(a, t, n);\n    let n1 = n - 1;\n    while t != n1\
+    \ && x != 1 && x != n1 {\n        x = mod_pow(x, 2, n);\n        t <<= 1;\n  \
+    \  }\n    ((t & 1) == 1) || x == n1\n}\n\n/// `n < 2^64`\u306B\u304A\u3051\u308B\
+    \u30DF\u30E9\u30FC\u30FB\u30E9\u30D3\u30F3\u7D20\u6570\u5224\u5B9A\u6CD5 `O(log\
+    \ n)`\npub fn miller_rabin(n: u64) -> bool {\n    if n == 2 {\n        return\
+    \ true;\n    }\n    if n < 2 || (n & 1) == 0 {\n        return false;\n    }\n\
+    \    let mut d = (n - 1) >> 1;\n    d >>= d.trailing_zeros();\n    const CHECK_LIST:\
+    \ [u64; 12] = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37];\n    for a in CHECK_LIST.into_iter().take_while(|&a|\
+    \ a < n) {\n        if !suspect(a, d, n) {\n            return false;\n      \
+    \  }\n    }\n    true\n}\n\n#[cfg(test)]\nmod test {\n    use super::*;\n    use\
+    \ rand::prelude::*;\n\n    #[test]\n    fn test_divisors_manual() {\n        let\
+    \ era = Eratosthenes::new(60);\n        let mut divisors_60 = era.enumerate_divisors(60);\n\
+    \        divisors_60.sort_unstable();\n        assert_eq!(divisors_60, [1, 2,\
+    \ 3, 4, 5, 6, 10, 12, 15, 20, 30, 60])\n    }\n\n    #[test]\n    fn test_multiple_zeta_manual()\
+    \ {\n        let list = (0..=12).collect::<Vec<usize>>();\n        let era = Eratosthenes::new(12);\n\
     \        let list = era.multiple_zeta(list, |a, b| a + b);\n        assert_eq!(list,\
     \ [0, 78, 42, 30, 24, 15, 18, 7, 8, 9, 10, 11, 12]);\n    }\n\n    #[test]\n \
     \   fn test_divisor_zeta_manual() {\n        let list = (0..=12).collect::<Vec<usize>>();\n\
@@ -142,12 +142,13 @@ data:
     \        }\n    }\n\n    #[test]\n    fn test_miller_rabin() {\n        const\
     \ SIZE: usize = 1000000;\n        let era = Eratosthenes::new(SIZE);\n       \
     \ for i in 1..=SIZE {\n            assert_eq!(era.is_prime(i), miller_rabin(i\
-    \ as u64), \"i = {}\", i);\n        }\n    }\n}\n"
+    \ as u64), \"i = {}\", i);\n        }\n\n        assert!(!miller_rabin(10_u64.pow(18)\
+    \ * 2 + 1));\n        assert!(miller_rabin((1_u64 << 61) - 1));\n    }\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/math/prime_utils/src/lib.rs
   requiredBy: []
-  timestamp: '2025-06-29 01:46:50+09:00'
+  timestamp: '2025-06-29 01:56:09+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/math/prime_utils/src/lib.rs
