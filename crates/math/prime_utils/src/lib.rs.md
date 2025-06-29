@@ -26,12 +26,11 @@ data:
     \ min_factor = vec![0; max_n + 1];\n        let mut primes = vec![];\n       \
     \ min_factor[1] = 1;\n        for num in 2..=max_n {\n            if min_factor[num]\
     \ != 0 {\n                continue;\n            }\n            primes.push(num);\n\
-    \            let mut cur_num = num;\n            while cur_num <= max_n {\n  \
-    \              if min_factor[cur_num] == 0 {\n                    min_factor[cur_num]\
-    \ = num;\n                }\n                cur_num += num;\n            }\n\
-    \        }\n        Self {\n            max_n,\n            primes,\n        \
-    \    min_factor,\n        }\n    }\n\n    pub fn is_prime(&self, n: usize) ->\
-    \ bool {\n        assert!(n <= self.max_n);\n        n >= 2 && self.min_factor[n]\
+    \            for cur_num in (num..=max_n).step_by(num) {\n                if min_factor[cur_num]\
+    \ == 0 {\n                    min_factor[cur_num] = num;\n                }\n\
+    \            }\n        }\n        Self {\n            max_n,\n            primes,\n\
+    \            min_factor,\n        }\n    }\n\n    pub fn is_prime(&self, n: usize)\
+    \ -> bool {\n        assert!(n <= self.max_n);\n        n >= 2 && self.min_factor[n]\
     \ == n\n    }\n\n    pub fn get_primes(&self) -> &[usize] {\n        &self.primes\n\
     \    }\n\n    /// `O(log n)` \u3067n\u3092\u7D20\u56E0\u6570\u5206\u89E3  \n \
     \   /// (\u7D20\u56E0\u6570\u3001\u3079\u304D) \u306E\u914D\u5217\u3092\u8FD4\u3059\
@@ -136,10 +135,15 @@ data:
     \ && x != 1 && x != n1 {\n        x = mod_pow(x, 2, n);\n        t <<= 1;\n  \
     \  }\n    ((t & 1) == 1) || x == n1\n}\n\n/// `n < 2^64`\u306B\u304A\u3051\u308B\
     \u30DF\u30E9\u30FC\u30FB\u30E9\u30D3\u30F3\u7D20\u6570\u5224\u5B9A\u6CD5 `O(log\
-    \ n)`\npub fn miller_rabin(n: u64) -> bool {\n    if n == 2 {\n        return\
-    \ true;\n    }\n    if n < 2 || (n & 1) == 0 {\n        return false;\n    }\n\
-    \    let mut d = (n - 1) >> 1;\n    d >>= d.trailing_zeros();\n    const CHECK_LIST:\
-    \ [u64; 12] = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37];\n    for a in CHECK_LIST.into_iter().take_while(|&a|\
+    \ n)`  \n/// \u30AA\u30FC\u30D0\u30D5\u30ED\u30FC\u5BFE\u7B56\u3067128bit\u6574\
+    \u6570\u3092\u4F7F\u7528\u3057\u3066\u3044\u308B\u5206\u5C11\u3057\u9045\u3044\
+    \u304B\u3082  \n/// \u9023\u7D9A\u3059\u308B\u533A\u9593\u306E\u7D20\u6570\u5224\
+    \u5B9A\u3092\u884C\u3046\u5834\u5408\u306F\u3001`is_prime_range`\u3092\u4F7F\u7528\
+    \u3059\u308B\u306E\u304C\u3088\u3055\u305D\u3046\npub fn miller_rabin(n: u64)\
+    \ -> bool {\n    if n == 2 {\n        return true;\n    }\n    if n < 2 || (n\
+    \ & 1) == 0 {\n        return false;\n    }\n    let mut d = (n - 1) >> 1;\n \
+    \   d >>= d.trailing_zeros();\n    const CHECK_LIST: [u64; 12] = [2, 3, 5, 7,\
+    \ 11, 13, 17, 19, 23, 29, 31, 37];\n    for a in CHECK_LIST.into_iter().take_while(|&a|\
     \ a < n) {\n        if !suspect(a, d, n) {\n            return false;\n      \
     \  }\n    }\n    true\n}\n\n#[cfg(test)]\nmod test {\n    use super::*;\n    use\
     \ rand::prelude::*;\n\n    #[test]\n    fn test_divisors_manual() {\n        let\
@@ -189,7 +193,7 @@ data:
   isVerificationFile: false
   path: crates/math/prime_utils/src/lib.rs
   requiredBy: []
-  timestamp: '2025-06-29 03:31:50+09:00'
+  timestamp: '2025-06-29 12:06:50+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/math/prime_utils/src/lib.rs
