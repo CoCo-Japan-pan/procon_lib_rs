@@ -250,15 +250,17 @@ fn suspect(a: u64, mut t: u64, n: u64) -> bool {
 /// オーバフロー対策で128bit整数を使用している分少し遅いかも  
 /// 連続する区間の素数判定を行う場合は、`is_prime_range`を使用するのがよさそう
 pub fn miller_rabin(n: u64) -> bool {
-    if n == 2 {
-        return true;
-    }
-    if n < 2 || (n & 1) == 0 {
+    if n < 2 {
         return false;
+    }
+    const CHECK_LIST: [u64; 12] = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37];
+    for p in CHECK_LIST {
+        if n % p == 0 {
+            return n == p;
+        }
     }
     let mut d = (n - 1) >> 1;
     d >>= d.trailing_zeros();
-    const CHECK_LIST: [u64; 12] = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37];
     for a in CHECK_LIST.into_iter().take_while(|&a| a < n) {
         if !suspect(a, d, n) {
             return false;
