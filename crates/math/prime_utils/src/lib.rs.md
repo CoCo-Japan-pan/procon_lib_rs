@@ -140,10 +140,10 @@ data:
     \u304B\u3082  \n/// \u9023\u7D9A\u3059\u308B\u533A\u9593\u306E\u7D20\u6570\u5224\
     \u5B9A\u3092\u884C\u3046\u5834\u5408\u306F\u3001`is_prime_range`\u3092\u4F7F\u7528\
     \u3059\u308B\u306E\u304C\u3088\u3055\u305D\u3046\npub fn miller_rabin(n: u64)\
-    \ -> bool {\n    if n == 2 {\n        return true;\n    }\n    if n < 2 || (n\
-    \ & 1) == 0 {\n        return false;\n    }\n    let mut d = (n - 1) >> 1;\n \
-    \   d >>= d.trailing_zeros();\n    const CHECK_LIST: [u64; 12] = [2, 3, 5, 7,\
-    \ 11, 13, 17, 19, 23, 29, 31, 37];\n    for a in CHECK_LIST.into_iter().take_while(|&a|\
+    \ -> bool {\n    if n < 2 {\n        return false;\n    }\n    const CHECK_LIST:\
+    \ [u64; 12] = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37];\n    for p in CHECK_LIST\
+    \ {\n        if n % p == 0 {\n            return n == p;\n        }\n    }\n \
+    \   let mut d = (n - 1) >> 1;\n    d >>= d.trailing_zeros();\n    for a in CHECK_LIST.into_iter().take_while(|&a|\
     \ a < n) {\n        if !suspect(a, d, n) {\n            return false;\n      \
     \  }\n    }\n    true\n}\n\n#[cfg(test)]\nmod test {\n    use super::*;\n    use\
     \ rand::prelude::*;\n\n    #[test]\n    fn test_divisors_manual() {\n        let\
@@ -193,7 +193,7 @@ data:
   isVerificationFile: false
   path: crates/math/prime_utils/src/lib.rs
   requiredBy: []
-  timestamp: '2025-06-29 12:06:50+09:00'
+  timestamp: '2025-06-29 13:08:09+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/math/prime_utils/src/lib.rs
