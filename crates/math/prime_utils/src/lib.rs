@@ -26,12 +26,10 @@ impl Eratosthenes {
                 continue;
             }
             primes.push(num);
-            let mut cur_num = num;
-            while cur_num <= max_n {
+            for cur_num in (num..=max_n).step_by(num) {
                 if min_factor[cur_num] == 0 {
                     min_factor[cur_num] = num;
                 }
-                cur_num += num;
             }
         }
         Self {
@@ -248,7 +246,9 @@ fn suspect(a: u64, mut t: u64, n: u64) -> bool {
     ((t & 1) == 1) || x == n1
 }
 
-/// `n < 2^64`におけるミラー・ラビン素数判定法 `O(log n)`
+/// `n < 2^64`におけるミラー・ラビン素数判定法 `O(log n)`  
+/// オーバフロー対策で128bit整数を使用している分少し遅いかも  
+/// 連続する区間の素数判定を行う場合は、`is_prime_range`を使用するのがよさそう
 pub fn miller_rabin(n: u64) -> bool {
     if n == 2 {
         return true;
