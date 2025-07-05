@@ -12,3 +12,4 @@ publish = false
 [dependencies]
 algebra = { path = "../../algebra" }
 internal_bits = { path = "../../internals/internal_bits" }
+monoid_utils = { path = "../../utils/monoid_utils" }

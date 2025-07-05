@@ -2,7 +2,11 @@
 
 use algebra::Monoid;
 use internal_bits::ceil_log2;
+use monoid_utils::{MaxMonoid, MinMonoid};
 use std::ops::RangeBounds;
+
+pub type MinSegTree<T> = SegTree<MinMonoid<T>>;
+pub type MaxSegTree<T> = SegTree<MaxMonoid<T>>;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct SegTree<M: Monoid> {
