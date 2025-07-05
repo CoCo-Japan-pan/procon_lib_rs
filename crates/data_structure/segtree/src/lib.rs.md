@@ -7,6 +7,9 @@ data:
   - icon: ':warning:'
     path: crates/internals/internal_bits/src/lib.rs
     title: crates/internals/internal_bits/src/lib.rs
+  - icon: ':warning:'
+    path: crates/utils/monoid_utils/src/lib.rs
+    title: crates/utils/monoid_utils/src/lib.rs
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
     path: crates/data_structure/segtree_2d_compressed/src/lib.rs
@@ -34,13 +37,15 @@ data:
     \  File \"/opt/hostedtoolcache/Python/3.13.5/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! From <https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs>\n\
-    \nuse algebra::Monoid;\nuse internal_bits::ceil_log2;\nuse std::ops::RangeBounds;\n\
-    \n#[derive(Debug, Clone, PartialEq, Eq)]\npub struct SegTree<M: Monoid> {\n  \
-    \  range_size: usize,\n    leaf_size: usize,\n    log: usize,\n    data: Vec<M::Target>,\n\
-    }\n\nimpl<M: Monoid> From<&Vec<M::Target>> for SegTree<M> {\n    fn from(v: &Vec<M::Target>)\
-    \ -> Self {\n        let range_size = v.len();\n        let log = ceil_log2(range_size\
-    \ as u32) as usize;\n        let leaf_size = 1 << log;\n        let mut data =\
-    \ vec![M::id_element(); leaf_size * 2];\n        data[leaf_size..leaf_size + range_size].clone_from_slice(v);\n\
+    \nuse algebra::Monoid;\nuse internal_bits::ceil_log2;\nuse monoid_utils::{MaxMonoid,\
+    \ MinMonoid};\nuse std::ops::RangeBounds;\n\npub type MinSegTree<T> = SegTree<MinMonoid<T>>;\n\
+    pub type MaxSegTree<T> = SegTree<MaxMonoid<T>>;\n\n#[derive(Debug, Clone, PartialEq,\
+    \ Eq)]\npub struct SegTree<M: Monoid> {\n    range_size: usize,\n    leaf_size:\
+    \ usize,\n    log: usize,\n    data: Vec<M::Target>,\n}\n\nimpl<M: Monoid> From<&Vec<M::Target>>\
+    \ for SegTree<M> {\n    fn from(v: &Vec<M::Target>) -> Self {\n        let range_size\
+    \ = v.len();\n        let log = ceil_log2(range_size as u32) as usize;\n     \
+    \   let leaf_size = 1 << log;\n        let mut data = vec![M::id_element(); leaf_size\
+    \ * 2];\n        data[leaf_size..leaf_size + range_size].clone_from_slice(v);\n\
     \        let mut seg_tree = SegTree {\n            range_size,\n            leaf_size,\n\
     \            log,\n            data,\n        };\n        for i in (1..leaf_size).rev()\
     \ {\n            seg_tree.update(i);\n        }\n        seg_tree\n    }\n}\n\n\
@@ -98,12 +103,13 @@ data:
   dependsOn:
   - crates/algebra/src/lib.rs
   - crates/internals/internal_bits/src/lib.rs
+  - crates/utils/monoid_utils/src/lib.rs
   isVerificationFile: false
   path: crates/data_structure/segtree/src/lib.rs
   requiredBy:
   - crates/data_structure/segtree_2d_compressed/src/lib.rs
   - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
-  timestamp: '2025-04-29 15:50:13+09:00'
+  timestamp: '2025-07-05 19:31:22+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/vertex_set_path_composite/src/main.rs

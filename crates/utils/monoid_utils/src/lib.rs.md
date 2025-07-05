@@ -9,6 +9,9 @@ data:
     title: crates/internals/internal_type_traits/src/lib.rs
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
+    path: crates/data_structure/segtree/src/lib.rs
+    title: crates/data_structure/segtree/src/lib.rs
+  - icon: ':heavy_check_mark:'
     path: crates/data_structure/sparse_table/src/lib.rs
     title: crates/data_structure/sparse_table/src/lib.rs
   _extendedVerifiedWith: []
@@ -43,6 +46,7 @@ data:
   path: crates/utils/monoid_utils/src/lib.rs
   requiredBy:
   - crates/data_structure/sparse_table/src/lib.rs
+  - crates/data_structure/segtree/src/lib.rs
   timestamp: '2025-04-29 15:50:13+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
