@@ -33,25 +33,26 @@ data:
     \u305F\u5DEE\u5206\n    Diff(usize, M),\n    /// \u81EA\u8EAB\u304C\u89AA\u306A\
     \u3089\u3001\u305D\u306E\u96C6\u5408\u306E\u30B5\u30A4\u30BA\u3092\u6301\u3064\
     \n    Size(usize),\n}\n\n#[derive(Debug)]\npub struct PotentializedUnionFind<M:\
-    \ Group> {\n    n: usize,\n    potential: RefCell<Vec<DiffOrSize<M::Target>>>,\n\
-    }\n\nimpl<M: Group> PotentializedUnionFind<M> {\n    pub fn new(size: usize) ->\
-    \ Self {\n        PotentializedUnionFind {\n            n: size,\n           \
-    \ potential: RefCell::new(vec![Size(1); size]),\n        }\n    }\n\n    /// x\u304B\
-    \u3089\u307F\u305Fy\u306E\u5DEE\u5206\u3092\u8FFD\u52A0\u3059\u308B  \n    ///\
-    \ \u3064\u307E\u308A `potential[x] \u25E6 diff = potential[y]` \u3068\u306A\u308B\
-    \u3088\u3046\u306B\u3059\u308B  \n    /// \u4ECA\u307E\u3067\u306E\u95A2\u4FC2\
-    \u3068\u77DB\u76FE\u3057\u306A\u3044\u5834\u5408\u3001\u547C\u3073\u51FA\u3057\
-    \u524D\u306B\u5DEE\u5206\u304C\u672A\u5B9A\u7FA9\u306A\u3089`Ok(true)`\u3001\u5B9A\
-    \u7FA9\u6E08\u307F\u306A\u3089`Ok(false)`\u3092\u8FD4\u3059  \n    /// \u4ECA\u307E\
-    \u3067\u306E\u95A2\u4FC2\u3068\u77DB\u76FE\u3059\u308B\u5834\u5408\u3001\u5143\
-    \u3005\u5B9A\u7FA9\u3055\u308C\u3066\u3044\u308Bx\u304B\u3089\u898B\u305Fy\u306E\
-    \u5DEE\u5206\u3092e\u3068\u3057\u3066`Err(e)`\u3092\u8FD4\u3059\n    pub fn relate(&mut\
-    \ self, x: usize, y: usize, diff: M::Target) -> Result<bool, M::Target> {\n  \
-    \      assert!(x < self.n);\n        assert!(y < self.n);\n        let (x, x_diff)\
-    \ = self.root_and_diff(x);\n        let (y, y_diff) = self.root_and_diff(y);\n\
-    \        if x == y {\n            if M::binary_operation(&x_diff, &diff) == y_diff\
-    \ {\n                Ok(false)\n            } else {\n                Err(M::binary_operation(&M::inverse(&x_diff),\
-    \ &y_diff))\n            }\n        } else {\n            let mut pot = self.potential.borrow_mut();\n\
+    \ Group>\nwhere\n    M::Target: Eq,\n{\n    n: usize,\n    potential: RefCell<Vec<DiffOrSize<M::Target>>>,\n\
+    }\n\nimpl<M: Group> PotentializedUnionFind<M>\nwhere\n    M::Target: Eq,\n{\n\
+    \    pub fn new(size: usize) -> Self {\n        PotentializedUnionFind {\n   \
+    \         n: size,\n            potential: RefCell::new(vec![Size(1); size]),\n\
+    \        }\n    }\n\n    /// x\u304B\u3089\u307F\u305Fy\u306E\u5DEE\u5206\u3092\
+    \u8FFD\u52A0\u3059\u308B  \n    /// \u3064\u307E\u308A `potential[x] \u25E6 diff\
+    \ = potential[y]` \u3068\u306A\u308B\u3088\u3046\u306B\u3059\u308B  \n    ///\
+    \ \u4ECA\u307E\u3067\u306E\u95A2\u4FC2\u3068\u77DB\u76FE\u3057\u306A\u3044\u5834\
+    \u5408\u3001\u547C\u3073\u51FA\u3057\u524D\u306B\u5DEE\u5206\u304C\u672A\u5B9A\
+    \u7FA9\u306A\u3089`Ok(true)`\u3001\u5B9A\u7FA9\u6E08\u307F\u306A\u3089`Ok(false)`\u3092\
+    \u8FD4\u3059  \n    /// \u4ECA\u307E\u3067\u306E\u95A2\u4FC2\u3068\u77DB\u76FE\
+    \u3059\u308B\u5834\u5408\u3001\u5143\u3005\u5B9A\u7FA9\u3055\u308C\u3066\u3044\
+    \u308Bx\u304B\u3089\u898B\u305Fy\u306E\u5DEE\u5206\u3092e\u3068\u3057\u3066`Err(e)`\u3092\
+    \u8FD4\u3059\n    pub fn relate(&mut self, x: usize, y: usize, diff: M::Target)\
+    \ -> Result<bool, M::Target> {\n        assert!(x < self.n);\n        assert!(y\
+    \ < self.n);\n        let (x, x_diff) = self.root_and_diff(x);\n        let (y,\
+    \ y_diff) = self.root_and_diff(y);\n        if x == y {\n            if M::binary_operation(&x_diff,\
+    \ &diff) == y_diff {\n                Ok(false)\n            } else {\n      \
+    \          Err(M::binary_operation(&M::inverse(&x_diff), &y_diff))\n         \
+    \   }\n        } else {\n            let mut pot = self.potential.borrow_mut();\n\
     \            if let (&Size(x_size), &Size(y_size)) = (&pot[x], &pot[y]) {\n  \
     \              let x_root_to_y = M::binary_operation(&x_diff, &diff);\n      \
     \          if x_size > y_size {\n                    let diff = M::binary_operation(&x_root_to_y,\
@@ -96,7 +97,7 @@ data:
   requiredBy:
   - verify/AtCoder/typical_068/src/main.rs
   - verify/AtCoder/abc328f/src/main.rs
-  timestamp: '2025-04-29 15:50:13+09:00'
+  timestamp: '2025-08-03 12:43:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs

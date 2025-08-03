@@ -40,7 +40,7 @@ data:
   isVerificationFile: false
   path: verify/AtCoder/abc328f/src/main.rs
   requiredBy: []
-  timestamp: '2025-04-29 15:50:13+09:00'
+  timestamp: '2025-08-03 12:43:51+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: verify/AtCoder/abc328f/src/main.rs

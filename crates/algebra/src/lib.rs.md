@@ -149,9 +149,9 @@ data:
     \u306A\u306E\u3067\u6CE8\u610F)\n    fn composition(&mut self, rhs: &Self);\n\
     \    /// \u4F5C\u7528\u306E\u9069\u7528\n    fn apply(&self, target: &mut Self::Target);\n\
     }\n\n/// \u30E2\u30CE\u30A4\u30C9\npub trait Monoid: Debug {\n    /// \u30E2\u30CE\
-    \u30A4\u30C9\u306E\u8981\u7D20\n    type Target: Debug + Clone + Eq;\n    ///\
-    \ \u5358\u4F4D\u5143\n    fn id_element() -> Self::Target;\n    /// \u4E8C\u9805\
-    \u6F14\u7B97\n    fn binary_operation(a: &Self::Target, b: &Self::Target) -> Self::Target;\n\
+    \u30A4\u30C9\u306E\u8981\u7D20\n    type Target: Debug + Clone;\n    /// \u5358\
+    \u4F4D\u5143\n    fn id_element() -> Self::Target;\n    /// \u4E8C\u9805\u6F14\
+    \u7B97\n    fn binary_operation(a: &Self::Target, b: &Self::Target) -> Self::Target;\n\
     }\n\n/// \u81EA\u5DF1\u6E96\u540C\u578B\u6027\u3092\u8981\u6C42  \n/// \u3064\u307E\
     \u308A\u533A\u9593\u548C\u3078\u306E\u9069\u7528\u3068\u3001\u5404\u8981\u7D20\
     \u3078\u306E\u9069\u7528\u306E\u533A\u9593\u548C\u304C\u4E00\u81F4\u3059\u308B\
@@ -176,49 +176,49 @@ data:
   isVerificationFile: false
   path: crates/algebra/src/lib.rs
   requiredBy:
-  - verify/AtCoder/abc348e/src/main.rs
-  - verify/AtCoder/abc222f/src/main.rs
   - verify/AtCoder/typical_068/src/main.rs
+  - verify/AtCoder/abc348e/src/main.rs
   - verify/AtCoder/abc328f/src/main.rs
-  - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
   - verify/AtCoder/abc312g/src/main.rs
+  - verify/AtCoder/abc222f/src/main.rs
+  - verify/AtCoder/alpc_l_lazy_seg/src/main.rs
+  - crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
+  - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
   - crates/tree/rerooting/src/lib.rs
   - crates/tree/euler_tour/src/lib.rs
-  - crates/data_structure/lazy_segtree_utils/src/lib.rs
-  - crates/data_structure/dual_segtree/src/lib.rs
-  - crates/data_structure/segtree_2d_dense/src/lib.rs
-  - crates/data_structure/potentialized_unionfind/src/lib.rs
-  - crates/data_structure/sparse_table/src/lib.rs
-  - crates/data_structure/lazy_segtree/src/lib.rs
-  - crates/data_structure/sparse_table_on_segtree/src/lib.rs
-  - crates/data_structure/segtree/src/lib.rs
-  - crates/data_structure/segtree_2d_compressed/src/lib.rs
-  - crates/data_structure/dynamic_segtree/src/lib.rs
-  - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
-  - crates/wavelet/wavelet_matrix_fenwick/src/lib.rs
-  - crates/utils/monoid_utils/src/lib.rs
   - crates/math/matrix/src/lib.rs
-  timestamp: '2025-04-29 15:50:13+09:00'
+  - crates/utils/monoid_utils/src/lib.rs
+  - crates/data_structure/segtree/src/lib.rs
+  - crates/data_structure/potentialized_unionfind/src/lib.rs
+  - crates/data_structure/lazy_segtree/src/lib.rs
+  - crates/data_structure/segtree_2d_compressed/src/lib.rs
+  - crates/data_structure/sparse_table/src/lib.rs
+  - crates/data_structure/lazy_segtree_utils/src/lib.rs
+  - crates/data_structure/dynamic_segtree/src/lib.rs
+  - crates/data_structure/segtree_2d_dense/src/lib.rs
+  - crates/data_structure/sparse_table_on_segtree/src/lib.rs
+  - crates/data_structure/dual_segtree/src/lib.rs
+  timestamp: '2025-08-03 12:43:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/yukicoder/no_1625_wavelet/src/main.rs
-  - verify/yukicoder/no_1625/src/main.rs
   - verify/yukicoder/no_789_dynamic/src/main.rs
-  - verify/yosupo/point_add_rect_sum_wavelet_seg/src/main.rs
-  - verify/yosupo/vertex_set_path_composite/src/main.rs
+  - verify/yukicoder/no_1625/src/main.rs
+  - verify/yukicoder/no_1625_wavelet/src/main.rs
+  - verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
+  - verify/yosupo/rectangle_add_point_get/src/main.rs
   - verify/yosupo/point_set_range_composite/src/main.rs
+  - verify/yosupo/staticrmq_sparse_table/src/main.rs
+  - verify/yosupo/vertex_set_path_composite/src/main.rs
+  - verify/yosupo/point_add_rect_sum_wavelet_seg/src/main.rs
   - verify/yosupo/point_set_range_composite_large_array/src/main.rs
   - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
-  - verify/yosupo/rectangle_add_point_get/src/main.rs
-  - verify/yosupo/staticrmq_sparse_table/src/main.rs
-  - verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
   - verify/yosupo/point_add_rectangle_sum_seg2d/src/main.rs
+  - verify/AOJ/dsl_2f_lazy_seg/src/main.rs
   - verify/AOJ/dsl_2d_dual_seg/src/main.rs
   - verify/AOJ/dsl_2h_lazy_seg_commutative/src/main.rs
-  - verify/AOJ/dsl_2d_dual_seg_non_commutative/src/main.rs
-  - verify/AOJ/no_1068/src/main.rs
   - verify/AOJ/no_2842/src/main.rs
-  - verify/AOJ/dsl_2f_lazy_seg/src/main.rs
+  - verify/AOJ/no_1068/src/main.rs
+  - verify/AOJ/dsl_2d_dual_seg_non_commutative/src/main.rs
 documentation_of: crates/algebra/src/lib.rs
 layout: document
 redirect_from:

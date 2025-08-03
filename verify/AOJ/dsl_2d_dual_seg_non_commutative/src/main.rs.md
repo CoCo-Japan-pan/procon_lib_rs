@@ -45,7 +45,7 @@ data:
   isVerificationFile: true
   path: verify/AOJ/dsl_2d_dual_seg_non_commutative/src/main.rs
   requiredBy: []
-  timestamp: '2025-04-29 15:50:13+09:00'
+  timestamp: '2025-08-03 12:43:51+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: verify/AOJ/dsl_2d_dual_seg_non_commutative/src/main.rs

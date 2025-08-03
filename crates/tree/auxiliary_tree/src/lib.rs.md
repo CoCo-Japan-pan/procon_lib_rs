@@ -83,8 +83,8 @@ data:
   isVerificationFile: false
   path: crates/tree/auxiliary_tree/src/lib.rs
   requiredBy:
-  - verify/AtCoder/abc340g/src/main.rs
   - verify/AtCoder/abc359g_auxiliary/src/main.rs
+  - verify/AtCoder/abc340g/src/main.rs
   timestamp: '2024-10-06 16:15:33+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

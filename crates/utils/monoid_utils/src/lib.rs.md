@@ -45,9 +45,9 @@ data:
   isVerificationFile: false
   path: crates/utils/monoid_utils/src/lib.rs
   requiredBy:
-  - crates/data_structure/sparse_table/src/lib.rs
   - crates/data_structure/segtree/src/lib.rs
-  timestamp: '2025-04-29 15:50:13+09:00'
+  - crates/data_structure/sparse_table/src/lib.rs
+  timestamp: '2025-08-03 12:43:51+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/utils/monoid_utils/src/lib.rs

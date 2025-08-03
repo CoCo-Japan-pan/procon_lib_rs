@@ -107,13 +107,13 @@ data:
   isVerificationFile: false
   path: crates/data_structure/segtree/src/lib.rs
   requiredBy:
-  - crates/data_structure/segtree_2d_compressed/src/lib.rs
   - crates/wavelet/wavelet_matrix_segtree/src/lib.rs
-  timestamp: '2025-07-05 19:31:22+09:00'
+  - crates/data_structure/segtree_2d_compressed/src/lib.rs
+  timestamp: '2025-08-03 12:43:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/yosupo/vertex_set_path_composite/src/main.rs
   - verify/yosupo/point_set_range_composite/src/main.rs
+  - verify/yosupo/vertex_set_path_composite/src/main.rs
 documentation_of: crates/data_structure/segtree/src/lib.rs
 layout: document
 redirect_from:
