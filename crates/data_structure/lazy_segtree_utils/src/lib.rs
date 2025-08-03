@@ -1,16 +1,14 @@
 //! 使用頻度の高い遅延セグ木達
 
-use internal_type_traits::Integral;
-use lazy_segtree::LazySegTree;
-use std::ops::RangeBounds;
-
 pub mod inner_types {
     use algebra::{Action, ActionMonoid, Commutative, Monoid};
-    use internal_type_traits::Integral;
+    use internal_type_traits::{BoundedAbove, BoundedBelow, Zero};
+    use std::fmt::Debug;
     use std::marker::PhantomData;
+    use std::ops::{Add, AddAssign, Mul};
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-    pub struct MaxMonoid<T: Integral>(PhantomData<T>);
-    impl<T: Integral> Monoid for MaxMonoid<T> {
+    pub struct MaxMonoid<T>(PhantomData<T>);
+    impl<T: BoundedBelow + Ord + Debug + Copy> Monoid for MaxMonoid<T> {
         type Target = T;
         fn id_element() -> Self::Target {
             T::min_value()
@@ -21,8 +19,8 @@ pub mod inner_types {
     }
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-    pub struct MinMonoid<T: Integral>(PhantomData<T>);
-    impl<T: Integral> Monoid for MinMonoid<T> {
+    pub struct MinMonoid<T>(PhantomData<T>);
+    impl<T: BoundedAbove + Ord + Debug + Copy> Monoid for MinMonoid<T> {
         type Target = T;
         fn id_element() -> Self::Target {
             T::max_value()
@@ -33,8 +31,8 @@ pub mod inner_types {
     }
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-    pub struct SumMonoid<T: Integral>(PhantomData<T>);
-    impl<T: Integral> Monoid for SumMonoid<T> {
+    pub struct SumMonoid<T>(PhantomData<T>);
+    impl<T: Zero + Add<Output = T> + Debug + Copy> Monoid for SumMonoid<T> {
         /// (和、長さ)
         type Target = (T, T);
         fn id_element() -> Self::Target {
@@ -46,8 +44,8 @@ pub mod inner_types {
     }
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-    pub struct AddAction<T: Integral>(T);
-    impl<T: Integral> Action for AddAction<T> {
+    pub struct AddAction<T>(T);
+    impl<T: Zero + AddAssign + Copy + Debug> Action for AddAction<T> {
         type Target = T;
         fn id_action() -> Self {
             Self(T::zero())
@@ -59,17 +57,17 @@ pub mod inner_types {
             *target += self.0;
         }
     }
-    impl<T: Integral> Commutative for AddAction<T> {}
+    impl<T> Commutative for AddAction<T> {}
 
-    impl<T: Integral> From<T> for AddAction<T> {
+    impl<T> From<T> for AddAction<T> {
         fn from(value: T) -> Self {
             AddAction(value)
         }
     }
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-    pub struct AddActionSum<T: Integral>(T);
-    impl<T: Integral> Action for AddActionSum<T> {
+    pub struct AddActionSum<T>(T);
+    impl<T: Zero + AddAssign + Mul<Output = T> + Copy + Debug> Action for AddActionSum<T> {
         type Target = (T, T);
         fn id_action() -> Self {
             Self(T::zero())
@@ -81,17 +79,17 @@ pub mod inner_types {
             target.0 += self.0 * target.1;
         }
     }
-    impl<T: Integral> Commutative for AddActionSum<T> {}
+    impl<T> Commutative for AddActionSum<T> {}
 
-    impl<T: Integral> From<T> for AddActionSum<T> {
+    impl<T> From<T> for AddActionSum<T> {
         fn from(value: T) -> Self {
             AddActionSum(value)
         }
     }
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-    pub struct UpdateAction<T: Integral>(Option<T>);
-    impl<T: Integral> Action for UpdateAction<T> {
+    pub struct UpdateAction<T>(Option<T>);
+    impl<T: Debug + Copy> Action for UpdateAction<T> {
         type Target = T;
         fn id_action() -> Self {
             Self(None)
@@ -106,15 +104,15 @@ pub mod inner_types {
         }
     }
 
-    impl<T: Integral> From<T> for UpdateAction<T> {
+    impl<T> From<T> for UpdateAction<T> {
         fn from(value: T) -> Self {
             UpdateAction(Some(value))
         }
     }
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-    pub struct UpdateActionSum<T: Integral>(Option<T>);
-    impl<T: Integral> Action for UpdateActionSum<T> {
+    pub struct UpdateActionSum<T>(Option<T>);
+    impl<T: Debug + Copy + Mul<Output = T>> Action for UpdateActionSum<T> {
         type Target = (T, T);
         fn id_action() -> Self {
             Self(None)
@@ -129,56 +127,63 @@ pub mod inner_types {
         }
     }
 
-    impl<T: Integral> From<T> for UpdateActionSum<T> {
+    impl<T> From<T> for UpdateActionSum<T> {
         fn from(value: T) -> Self {
             UpdateActionSum(Some(value))
         }
     }
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-    pub struct AddMax<T: Integral>(PhantomData<T>);
-    impl<T: Integral> ActionMonoid for AddMax<T> {
+    pub struct AddMax<T>(PhantomData<T>);
+    impl<T: Zero + AddAssign + Copy + Debug + BoundedBelow + Ord> ActionMonoid for AddMax<T> {
         type A = AddAction<T>;
         type M = MaxMonoid<T>;
     }
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-    pub struct AddMin<T: Integral>(PhantomData<T>);
-    impl<T: Integral> ActionMonoid for AddMin<T> {
+    pub struct AddMin<T>(PhantomData<T>);
+    impl<T: Zero + AddAssign + Copy + Debug + BoundedAbove + Ord> ActionMonoid for AddMin<T> {
         type A = AddAction<T>;
         type M = MinMonoid<T>;
     }
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-    pub struct AddSum<T: Integral>(PhantomData<T>);
-    impl<T: Integral> ActionMonoid for AddSum<T> {
+    pub struct AddSum<T>(PhantomData<T>);
+    impl<T: Zero + Add<Output = T> + AddAssign + Mul<Output = T> + Copy + Debug> ActionMonoid
+        for AddSum<T>
+    {
         type A = AddActionSum<T>;
         type M = SumMonoid<T>;
     }
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-    pub struct UpdateMax<T: Integral>(PhantomData<T>);
-    impl<T: Integral> ActionMonoid for UpdateMax<T> {
+    pub struct UpdateMax<T>(PhantomData<T>);
+    impl<T: Debug + Copy + BoundedBelow + Ord> ActionMonoid for UpdateMax<T> {
         type A = UpdateAction<T>;
         type M = MaxMonoid<T>;
     }
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-    pub struct UpdateMin<T: Integral>(PhantomData<T>);
-    impl<T: Integral> ActionMonoid for UpdateMin<T> {
+    pub struct UpdateMin<T>(PhantomData<T>);
+    impl<T: Debug + Copy + BoundedAbove + Ord> ActionMonoid for UpdateMin<T> {
         type A = UpdateAction<T>;
         type M = MinMonoid<T>;
     }
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-    pub struct UpdateSum<T: Integral>(PhantomData<T>);
-    impl<T: Integral> ActionMonoid for UpdateSum<T> {
+    pub struct UpdateSum<T>(PhantomData<T>);
+    impl<T: Debug + Copy + Mul<Output = T> + Zero + Add<Output = T>> ActionMonoid for UpdateSum<T> {
         type A = UpdateActionSum<T>;
         type M = SumMonoid<T>;
     }
 }
 
 use inner_types::*;
+use internal_type_traits::{One, Zero};
+use lazy_segtree::LazySegTree;
+use std::fmt::Debug;
+use std::ops::RangeBounds;
+use std::ops::{Add, AddAssign, Mul};
 pub type AddMaxLazySegTree<T> = LazySegTree<AddMax<T>>;
 pub type AddMinLazySegTree<T> = LazySegTree<AddMin<T>>;
 pub type AddSumLazySegTree<T> = LazySegTree<AddSum<T>>;
@@ -187,12 +192,14 @@ pub type UpdateMinLazySegTree<T> = LazySegTree<UpdateMin<T>>;
 pub type UpdateSumLazySegTree<T> = LazySegTree<UpdateSum<T>>;
 
 /// Sumモノイドを載せた遅延セグ木の、配列からの初期化と、区間SumクエリのWrapper
-pub trait SumWrapper<T: Integral> {
+pub trait SumWrapper<T> {
     fn from_vec(list: Vec<T>) -> Self;
     fn prod_sum<R: RangeBounds<usize>>(&mut self, range: R) -> T;
 }
 
-impl<T: Integral> SumWrapper<T> for UpdateSumLazySegTree<T> {
+impl<T: Debug + Copy + Mul<Output = T> + Zero + One + Add<Output = T>> SumWrapper<T>
+    for UpdateSumLazySegTree<T>
+{
     fn from_vec(list: Vec<T>) -> Self {
         Self::from(
             list.into_iter()
@@ -205,7 +212,9 @@ impl<T: Integral> SumWrapper<T> for UpdateSumLazySegTree<T> {
     }
 }
 
-impl<T: Integral> SumWrapper<T> for AddSumLazySegTree<T> {
+impl<T: Zero + One + Add<Output = T> + AddAssign + Mul<Output = T> + Copy + Debug> SumWrapper<T>
+    for AddSumLazySegTree<T>
+{
     fn from_vec(list: Vec<T>) -> Self {
         Self::from(
             list.into_iter()
@@ -292,6 +301,31 @@ mod test {
             let l = rng.gen_range(0..SIZE);
             let r = rng.gen_range(l..SIZE);
             let sum: i64 = list[l..r].iter().sum();
+            assert_eq!(sum, seg.prod_sum(l..r));
+        }
+    }
+
+    #[test]
+    fn test_update_sum_modint() {
+        use static_modint::ModInt998244353 as MInt;
+        let mut rng = thread_rng();
+        const SIZE: usize = 1000;
+        let mut list = (0..SIZE)
+            .map(|_| MInt::new(rng.gen_range(0..MInt::modulus())))
+            .collect::<Vec<MInt>>();
+        let mut seg = UpdateSumLazySegTree::from_vec(list.clone());
+        for _ in 0..SIZE {
+            let l = rng.gen_range(0..SIZE);
+            let r = rng.gen_range(l..SIZE);
+            let new_val = MInt::new(rng.gen_range(0..MInt::modulus()));
+            for id in l..r {
+                list[id] = new_val;
+            }
+            seg.apply_range(l..r, &new_val.into());
+
+            let l = rng.gen_range(0..SIZE);
+            let r = rng.gen_range(l..SIZE);
+            let sum: MInt = list[l..r].iter().copied().sum();
             assert_eq!(sum, seg.prod_sum(l..r));
         }
     }

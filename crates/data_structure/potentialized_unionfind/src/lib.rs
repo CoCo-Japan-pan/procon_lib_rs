@@ -13,12 +13,18 @@ enum DiffOrSize<M> {
 }
 
 #[derive(Debug)]
-pub struct PotentializedUnionFind<M: Group> {
+pub struct PotentializedUnionFind<M: Group>
+where
+    M::Target: Eq,
+{
     n: usize,
     potential: RefCell<Vec<DiffOrSize<M::Target>>>,
 }
 
-impl<M: Group> PotentializedUnionFind<M> {
+impl<M: Group> PotentializedUnionFind<M>
+where
+    M::Target: Eq,
+{
     pub fn new(size: usize) -> Self {
         PotentializedUnionFind {
             n: size,

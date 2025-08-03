@@ -22,7 +22,7 @@ pub trait Action: Debug + Clone {
 /// モノイド
 pub trait Monoid: Debug {
     /// モノイドの要素
-    type Target: Debug + Clone + Eq;
+    type Target: Debug + Clone;
     /// 単位元
     fn id_element() -> Self::Target;
     /// 二項演算

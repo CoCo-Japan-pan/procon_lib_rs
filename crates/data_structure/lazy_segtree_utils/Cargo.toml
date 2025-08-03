@@ -16,3 +16,4 @@ lazy_segtree = { path = "../lazy_segtree" }
 
 [dev-dependencies]
 rand = "0.8.5"
+static_modint = { path = "../../modint/static_modint" }
