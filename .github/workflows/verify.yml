@@ -28,7 +28,7 @@ jobs:
       # https://github.com/dtolnay/rust-toolchain
       uses: dtolnay/rust-toolchain@master
       with:
-        toolchain: 1.70.0
+        toolchain: 1.89.0
         components: rustfmt, clippy
     
     - name: lint
