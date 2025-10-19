@@ -1,0 +1,1 @@
+searchState.loadedDescShard("dynamic_segtree", 0, "動的セグメント木 …\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.\nrange_size個の単位元で初期化")

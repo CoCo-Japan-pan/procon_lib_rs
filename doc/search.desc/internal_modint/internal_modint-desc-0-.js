@@ -1,0 +1,1 @@
+searchState.loadedDescShard("internal_modint", 0, "Trait for primitive integer types.\ng = gcd(a,b)と、ax = g (mod b)なるgと0 &lt;= x &lt; …")

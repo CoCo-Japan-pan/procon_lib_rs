@@ -1,0 +1,1 @@
+searchState.loadedDescShard("bitdict", 0, "完備辞書 2N + O(1) bit …\ni番目のビットを取得する O(1)\n…\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.\n0で初期化されたビット列を作成\n全ての範囲における0の数 O(1)\n全ての範囲における1の数 O(1)\n[0..i)の0の数 O(1)\n[0..i)の1の数 O(1)\n0-basedでi番目の0の位置 最悪O(logN) 平均O(1)\n0-basedでi番目の1の位置 最悪O(logN) 平均O(1)\ni番目のビットを立てる …")

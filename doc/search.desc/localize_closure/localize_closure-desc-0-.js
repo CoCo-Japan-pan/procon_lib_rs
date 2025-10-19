@@ -1,0 +1,1 @@
+searchState.loadedDescShard("localize_closure", 0, "From …\nMacro that define closure like macro. Unlike closure, this …")

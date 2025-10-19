@@ -1,0 +1,1 @@
+searchState.loadedDescShard("raq_rsq", 0, "蟻本p165をもとにしている fenwick tree …\n区間加算\n1点加算\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.")

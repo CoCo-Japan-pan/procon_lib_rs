@@ -1,0 +1,1 @@
+searchState.loadedDescShard("wavelet_matrix_fenwick", 0, "Wavelet Matrix に Fenwick Tree (Binary Indexed Tree) …\n座標圧縮とx座標の重複除去を行うWrapper <code>T</code>…\n点(x, y)の重みにadd_valを加算する\nReturns the argument unchanged.\n…\n点(x, y)の重みを取得する\nCalls <code>U::from(self)</code>.\nすべて単位元で初期化する場合\n矩形区間内の点の重みの和を求める\n点(x, y)の重みをnew_valに更新する")

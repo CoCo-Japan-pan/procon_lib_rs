@@ -1,0 +1,1 @@
+searchState.loadedDescShard("doubling", 0, "ダブリング\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.\n[0, n) -&gt; [0, n) の写像funcを受け取る …\nfunc^x(index)を返す")

@@ -1,0 +1,1 @@
+searchState.loadedDescShard("centroid_decomposition", 0, "木の(再帰的な)重心分解を行う\ncentroid-tree グラフが空の場合は(vec![], …\nReturns the argument unchanged.\n…\nCalls <code>U::from(self)</code>.\n<code>f = |used: &amp;[bool], centroid: usize| { ... }</code> <code>used</code>…")
