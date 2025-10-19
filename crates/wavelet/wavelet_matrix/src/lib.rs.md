@@ -30,11 +30,11 @@ data:
   attributes:
     links:
     - https://miti-7.hatenablog.com/entry/2018/04/28/152259
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.5/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.8/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
-    \  File \"/opt/hostedtoolcache/Python/3.13.5/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \  File \"/opt/hostedtoolcache/Python/3.13.8/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! [Wavelet Matrix](https://miti-7.hatenablog.com/entry/2018/04/28/152259)\n\
     \nuse bitdict::BitDict;\nuse internal_bits::ceil_log2;\nuse std::ops::RangeBounds;\n\
@@ -236,10 +236,10 @@ data:
   timestamp: '2024-12-16 14:54:34+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/yukicoder/no_919/src/main.rs
-  - verify/yukicoder/no_738/src/main.rs
   - verify/yosupo/range_kth_smallest/src/main.rs
   - verify/AOJ/no_1549/src/main.rs
+  - verify/yukicoder/no_919/src/main.rs
+  - verify/yukicoder/no_738/src/main.rs
 documentation_of: crates/wavelet/wavelet_matrix/src/lib.rs
 layout: document
 redirect_from:

@@ -18,11 +18,11 @@ data:
   attributes:
     links:
     - https://www.quora.com/profile/Abbas-Rangwala-13/Centroid-Decomposition-of-a-Tree
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.5/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.8/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
-    \  File \"/opt/hostedtoolcache/Python/3.13.5/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \  File \"/opt/hostedtoolcache/Python/3.13.8/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! \u6728\u306E(\u518D\u5E30\u7684\u306A)\u91CD\u5FC3\u5206\u89E3\u3092\u884C\
     \u3046\n\npub struct CentroidDecomposition<'a> {\n    graph: &'a Vec<Vec<usize>>,\n\
@@ -85,8 +85,8 @@ data:
   isVerificationFile: false
   path: crates/tree/centroid_decomposition/src/lib.rs
   requiredBy:
-  - verify/AtCoder/abc291g/src/main.rs
   - verify/AtCoder/abc359g_centroid/src/main.rs
+  - verify/AtCoder/abc291g/src/main.rs
   timestamp: '2024-07-15 11:56:42+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

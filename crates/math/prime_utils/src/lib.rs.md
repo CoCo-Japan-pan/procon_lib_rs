@@ -10,11 +10,11 @@ data:
     links:
     - https://atcoder.jp/contests/abc227/editorial/2909
     - https://qiita.com/drken/items/3beb679e54266f20ab63
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.5/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.8/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
-    \  File \"/opt/hostedtoolcache/Python/3.13.5/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \  File \"/opt/hostedtoolcache/Python/3.13.8/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! [\u30A8\u30E9\u30C8\u30B9\u30C6\u30CD\u30B9\u306E\u7BE9](https://qiita.com/drken/items/3beb679e54266f20ab63)\n\
     \nuse std::ops::{Add, MulAssign, Sub};\n\npub struct Eratosthenes {\n    max_n:\
@@ -126,24 +126,32 @@ data:
     \        assert!(n <= self.max_n);\n        for p in self.primes.iter().take_while(|&&p|\
     \ p <= n) {\n            for i in (1..=(n / p)).rev() {\n                list[i\
     \ * p] = list[i * p] - list[i];\n            }\n        }\n        list\n    }\n\
-    }\n\nfn mod_pow(base: u64, mut exp: u64, modulus: u64) -> u64 {\n    let mut res\
-    \ = 1;\n    let mut b = (base % modulus) as u128;\n    let modulus = modulus as\
-    \ u128;\n    while exp > 0 {\n        if exp & 1 == 1 {\n            res = (res\
-    \ * b) % modulus;\n        }\n        b = (b * b) % modulus;\n        exp >>=\
-    \ 1;\n    }\n    res as u64\n}\n\nfn suspect(a: u64, mut t: u64, n: u64) -> bool\
-    \ {\n    let mut x = mod_pow(a, t, n);\n    let n1 = n - 1;\n    while t != n1\
-    \ && x != 1 && x != n1 {\n        x = mod_pow(x, 2, n);\n        t <<= 1;\n  \
-    \  }\n    ((t & 1) == 1) || x == n1\n}\n\n/// `n < 2^64`\u306B\u304A\u3051\u308B\
-    \u30DF\u30E9\u30FC\u30FB\u30E9\u30D3\u30F3\u7D20\u6570\u5224\u5B9A\u6CD5 `O(log\
-    \ n)`  \n/// \u30AA\u30FC\u30D0\u30D5\u30ED\u30FC\u5BFE\u7B56\u3067128bit\u6574\
-    \u6570\u3092\u4F7F\u7528\u3057\u3066\u3044\u308B\u5206\u5C11\u3057\u9045\u3044\
-    \u304B\u3082  \n/// \u9023\u7D9A\u3059\u308B\u533A\u9593\u306E\u7D20\u6570\u5224\
-    \u5B9A\u3092\u884C\u3046\u5834\u5408\u306F\u3001`is_prime_range`\u3092\u4F7F\u7528\
-    \u3059\u308B\u306E\u304C\u3088\u3055\u305D\u3046\npub fn miller_rabin(n: u64)\
-    \ -> bool {\n    if n < 2 {\n        return false;\n    }\n    const CHECK_LIST:\
-    \ [u64; 12] = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37];\n    for p in CHECK_LIST\
-    \ {\n        if n % p == 0 {\n            return n == p;\n        }\n    }\n \
-    \   let mut d = (n - 1) >> 1;\n    d >>= d.trailing_zeros();\n    for a in CHECK_LIST.into_iter().take_while(|&a|\
+    }\n\n/// \u30AA\u30A4\u30E9\u30FC\u306E\u30C8\u30FC\u30B7\u30A7\u30F3\u30C8\u95A2\
+    \u6570 \u03C6(n) (: = n\u3068\u4E92\u3044\u306B\u7D20\u306An\u4EE5\u4E0B\u306E\
+    \u81EA\u7136\u6570\u306E\u500B\u6570) \u3092 1\u304B\u3089n\u307E\u3067\u307E\u3068\
+    \u3081\u3066\u6C42\u3081\u308B `O(n log log n)`\npub fn euler_totient_function(n:\
+    \ usize) -> Vec<usize> {\n    let mut phi = (0..=n).collect::<Vec<usize>>();\n\
+    \    for p in 2..=n {\n        if phi[p] != p {\n            continue;\n     \
+    \   }\n        for multiple in (p..=n).step_by(p) {\n            phi[multiple]\
+    \ -= phi[multiple] / p;\n        }\n    }\n    phi\n}\n\nfn mod_pow(base: u64,\
+    \ mut exp: u64, modulus: u64) -> u64 {\n    let mut res = 1;\n    let mut b =\
+    \ (base % modulus) as u128;\n    let modulus = modulus as u128;\n    while exp\
+    \ > 0 {\n        if exp & 1 == 1 {\n            res = (res * b) % modulus;\n \
+    \       }\n        b = (b * b) % modulus;\n        exp >>= 1;\n    }\n    res\
+    \ as u64\n}\n\nfn suspect(a: u64, mut t: u64, n: u64) -> bool {\n    let mut x\
+    \ = mod_pow(a, t, n);\n    let n1 = n - 1;\n    while t != n1 && x != 1 && x !=\
+    \ n1 {\n        x = mod_pow(x, 2, n);\n        t <<= 1;\n    }\n    ((t & 1) ==\
+    \ 1) || x == n1\n}\n\n/// `n < 2^64`\u306B\u304A\u3051\u308B\u30DF\u30E9\u30FC\
+    \u30FB\u30E9\u30D3\u30F3\u7D20\u6570\u5224\u5B9A\u6CD5 `O(log n)`  \n/// \u30AA\
+    \u30FC\u30D0\u30D5\u30ED\u30FC\u5BFE\u7B56\u3067128bit\u6574\u6570\u3092\u4F7F\
+    \u7528\u3057\u3066\u3044\u308B\u5206\u5C11\u3057\u9045\u3044\u304B\u3082  \n///\
+    \ \u9023\u7D9A\u3059\u308B\u533A\u9593\u306E\u7D20\u6570\u5224\u5B9A\u3092\u884C\
+    \u3046\u5834\u5408\u306F\u3001`is_prime_range`\u3092\u4F7F\u7528\u3059\u308B\u306E\
+    \u304C\u3088\u3055\u305D\u3046\npub fn miller_rabin(n: u64) -> bool {\n    if\
+    \ n < 2 {\n        return false;\n    }\n    const CHECK_LIST: [u64; 12] = [2,\
+    \ 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37];\n    for p in CHECK_LIST {\n     \
+    \   if n % p == 0 {\n            return n == p;\n        }\n    }\n    let mut\
+    \ d = (n - 1) >> 1;\n    d >>= d.trailing_zeros();\n    for a in CHECK_LIST.into_iter().take_while(|&a|\
     \ a < n) {\n        if !suspect(a, d, n) {\n            return false;\n      \
     \  }\n    }\n    true\n}\n\n#[cfg(test)]\nmod test {\n    use super::*;\n    use\
     \ rand::prelude::*;\n\n    #[test]\n    fn test_divisors_manual() {\n        let\
@@ -188,12 +196,17 @@ data:
     \    fn test_is_prime_range() {\n        const SIZE: usize = 1000000;\n      \
     \  let era = Eratosthenes::new(SIZE);\n        let is_prime_range = era.is_prime_range(0,\
     \ SIZE);\n        for i in 0..=SIZE {\n            assert_eq!(era.is_prime(i),\
-    \ is_prime_range[i], \"i = {}\", i);\n        }\n    }\n}\n"
+    \ is_prime_range[i], \"i = {}\", i);\n        }\n    }\n\n    #[test]\n    fn\
+    \ test_euler_totient_function() {\n        const SIZE: usize = 10000;\n      \
+    \  let phi = euler_totient_function(SIZE);\n        for i in 1..=SIZE {\n    \
+    \        let mut cnt = 0;\n            for j in 1..=i {\n                if num::integer::gcd(i,\
+    \ j) == 1 {\n                    cnt += 1;\n                }\n            }\n\
+    \            assert_eq!(phi[i], cnt, \"i = {}\", i);\n        }\n    }\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: crates/math/prime_utils/src/lib.rs
   requiredBy: []
-  timestamp: '2025-06-29 13:08:09+09:00'
+  timestamp: '2025-10-19 13:58:01+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/math/prime_utils/src/lib.rs

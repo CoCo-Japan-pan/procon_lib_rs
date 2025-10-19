@@ -346,6 +346,16 @@ data:
     - icon: ':heavy_check_mark:'
       path: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
       title: crates/wavelet/wavelet_matrix_segtree/src/lib.rs
+  - name: target/debug/build/serde-b44e3bdfb61e7d8b/out
+    pages:
+    - icon: ':warning:'
+      path: target/debug/build/serde-b44e3bdfb61e7d8b/out/private.rs
+      title: target/debug/build/serde-b44e3bdfb61e7d8b/out/private.rs
+  - name: target/debug/build/serde_core-e35a78910f85776b/out
+    pages:
+    - icon: ':warning:'
+      path: target/debug/build/serde_core-e35a78910f85776b/out/private.rs
+      title: target/debug/build/serde_core-e35a78910f85776b/out/private.rs
   - name: verify/AtCoder/abc222f/src
     pages:
     - icon: ':warning:'
