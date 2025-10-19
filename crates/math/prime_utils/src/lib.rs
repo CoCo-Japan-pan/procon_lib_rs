@@ -222,6 +222,20 @@ impl Eratosthenes {
     }
 }
 
+/// オイラーのトーシェント関数 φ(n) (: = nと互いに素なn以下の自然数の個数) を 1からnまでまとめて求める `O(n log log n)`
+pub fn euler_totient_function(n: usize) -> Vec<usize> {
+    let mut phi = (0..=n).collect::<Vec<usize>>();
+    for p in 2..=n {
+        if phi[p] != p {
+            continue;
+        }
+        for multiple in (p..=n).step_by(p) {
+            phi[multiple] -= phi[multiple] / p;
+        }
+    }
+    phi
+}
+
 fn mod_pow(base: u64, mut exp: u64, modulus: u64) -> u64 {
     let mut res = 1;
     let mut b = (base % modulus) as u128;
@@ -374,6 +388,21 @@ mod test {
         let is_prime_range = era.is_prime_range(0, SIZE);
         for i in 0..=SIZE {
             assert_eq!(era.is_prime(i), is_prime_range[i], "i = {}", i);
+        }
+    }
+
+    #[test]
+    fn test_euler_totient_function() {
+        const SIZE: usize = 10000;
+        let phi = euler_totient_function(SIZE);
+        for i in 1..=SIZE {
+            let mut cnt = 0;
+            for j in 1..=i {
+                if num::integer::gcd(i, j) == 1 {
+                    cnt += 1;
+                }
+            }
+            assert_eq!(phi[i], cnt, "i = {}", i);
         }
     }
 }
