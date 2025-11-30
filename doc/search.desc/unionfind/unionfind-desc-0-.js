@@ -1,1 +1,0 @@
-searchState.loadedDescShard("unionfind", 0, "…\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.\n合併しつつ、合併した集合の代表元を返す")

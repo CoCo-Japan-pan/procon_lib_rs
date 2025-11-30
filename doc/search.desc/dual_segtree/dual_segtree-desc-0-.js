@@ -1,1 +1,0 @@
-searchState.loadedDescShard("dual_segtree", 0, "作用素を通常のセグメント木のように持つ …\n作用を区間適用, …\n可換性を仮定しない作用の区間適用 …\n区間に可換な作用を適用する …\nReturns the argument unchanged.\n一点取得(その点への作用の合成を返す)\n…\nCalls <code>U::from(self)</code>.")

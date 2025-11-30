@@ -1,1 +1,0 @@
-searchState.loadedDescShard("auxiliary_tree", 0, "LCAベースの圧縮木 Auxiliary Tree\nReturns the argument unchanged.\nLCAの関係を保ったまま圧縮された木を返す …\nCalls <code>U::from(self)</code>.")

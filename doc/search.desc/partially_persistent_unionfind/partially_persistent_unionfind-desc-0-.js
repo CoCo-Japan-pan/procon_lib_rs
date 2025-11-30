@@ -1,1 +1,0 @@
-searchState.loadedDescShard("partially_persistent_unionfind", 0, "部分永続UnionFind …\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.\n時刻tにおいてxの属する集合の根を返す\nxとyが属する集合を併合し、時間を進める …\n…\n時刻tにおいてxの属する集合のサイズを返す")

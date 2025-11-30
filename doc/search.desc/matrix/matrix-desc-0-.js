@@ -1,1 +1,0 @@
-searchState.loadedDescShard("matrix", 0, "行列ライブラリ 行列積は普通に<code>O(d^3)</code>…\n通常の足し算、掛け算による半環\nReturns the argument unchanged.\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.\nCalls <code>U::from(self)</code>.")

@@ -1,1 +1,0 @@
-searchState.loadedDescShard("scc", 0, "有効グラフの強連結成分分解を行います。 …\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.")

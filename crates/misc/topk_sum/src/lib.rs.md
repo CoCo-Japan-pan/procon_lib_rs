@@ -17,23 +17,27 @@ data:
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
     \  File \"/opt/hostedtoolcache/Python/3.13.9/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
-  code: "use internal_type_traits::Zero;\nuse std::collections::BTreeMap;\nuse std::ops::{Add,\
-    \ AddAssign, Neg, SubAssign};\n\n/// \u5927\u304D\u3044 \u307E\u305F\u306F \u5C0F\
-    \u3055\u3044 \u9806\u306B\u4E0A\u4F4DK\u500B\u306E\u548C\u3092\u6C42\u3081\u308B\
-    \  \n/// K\u304C\u56FA\u5B9A\u3055\u308C\u3066\u3044\u308B\u3053\u3068\u3092\u524D\
-    \u63D0\u3068\u3057\u3066\u3044\u308B\npub struct TopKSum<T: Ord, const BIGGER:\
-    \ bool> {\n    top_multi_set: BTreeMap<T, usize>,\n    left_multi_set: BTreeMap<T,\
-    \ usize>,\n    k: usize,\n    size: usize,\n    sum: T,\n}\n\nimpl<T, const BIGGER:\
-    \ bool> TopKSum<T, BIGGER>\nwhere\n    T: Ord + Copy + Neg<Output = T> + Add<Output\
-    \ = T> + AddAssign + SubAssign + Zero,\n{\n    pub fn new(k: usize) -> Self {\n\
-    \        Self {\n            top_multi_set: BTreeMap::new(),\n            left_multi_set:\
-    \ BTreeMap::new(),\n            k,\n            size: 0,\n            sum: T::zero(),\n\
-    \        }\n    }\n\n    pub fn insert(&mut self, value: T) {\n        let value\
-    \ = if BIGGER { value } else { -value };\n        if self.size < self.k {\n  \
-    \          *self.top_multi_set.entry(value).or_default() += 1;\n            self.sum\
-    \ += value;\n        } else if let Some((&smallest_top, _)) = self.top_multi_set.first_key_value()\
-    \ {\n            if value > smallest_top {\n                // top \u304B\u3089\
-    \ smallest_top \u3092 left \u306B\u79FB\u52D5\n                let count = self.top_multi_set.get_mut(&smallest_top).unwrap();\n\
+  code: "//! \u5927\u304D\u3044 \u307E\u305F\u306F \u5C0F\u3055\u3044 \u9806\u306B\
+    \u4E0A\u4F4DK(\u56FA\u5B9A)\u500B\u306E\u548C\u3092\u6C42\u3081\u308B\u30C7\u30FC\
+    \u30BF\u69CB\u9020\nuse internal_type_traits::Zero;\nuse std::collections::BTreeMap;\n\
+    use std::ops::{Add, AddAssign, Neg, SubAssign};\n\n/// \u5927\u304D\u3044 \u307E\
+    \u305F\u306F \u5C0F\u3055\u3044 \u9806\u306B\u4E0A\u4F4DK\u500B\u306E\u548C\u3092\
+    \u6C42\u3081\u308B  \n/// K\u304C\u56FA\u5B9A\u3055\u308C\u3066\u3044\u308B\u3053\
+    \u3068\u3092\u524D\u63D0\u3068\u3057\u3066\u3044\u308B  \n/// \u540C\u3058\u5024\
+    \u3092\u8907\u6570\u56DE\u633F\u5165\u53EF\u80FD\npub struct TopKSum<T: Ord, const\
+    \ BIGGER: bool> {\n    top_multi_set: BTreeMap<T, usize>,\n    left_multi_set:\
+    \ BTreeMap<T, usize>,\n    k: usize,\n    size: usize,\n    sum: T,\n}\n\nimpl<T,\
+    \ const BIGGER: bool> TopKSum<T, BIGGER>\nwhere\n    T: Ord + Copy + Neg<Output\
+    \ = T> + Add<Output = T> + AddAssign + SubAssign + Zero,\n{\n    pub fn new(k:\
+    \ usize) -> Self {\n        Self {\n            top_multi_set: BTreeMap::new(),\n\
+    \            left_multi_set: BTreeMap::new(),\n            k,\n            size:\
+    \ 0,\n            sum: T::zero(),\n        }\n    }\n\n    pub fn insert(&mut\
+    \ self, value: T) {\n        let value = if BIGGER { value } else { -value };\n\
+    \        if self.size < self.k {\n            *self.top_multi_set.entry(value).or_default()\
+    \ += 1;\n            self.sum += value;\n        } else if let Some((&smallest_top,\
+    \ _)) = self.top_multi_set.first_key_value() {\n            if value > smallest_top\
+    \ {\n                // top \u304B\u3089 smallest_top \u3092 left \u306B\u79FB\
+    \u52D5\n                let count = self.top_multi_set.get_mut(&smallest_top).unwrap();\n\
     \                *count -= 1;\n                if *count == 0 {\n            \
     \        self.top_multi_set.remove(&smallest_top);\n                }\n      \
     \          *self.left_multi_set.entry(smallest_top).or_default() += 1;\n     \
@@ -87,7 +91,7 @@ data:
   isVerificationFile: false
   path: crates/misc/topk_sum/src/lib.rs
   requiredBy: []
-  timestamp: '2025-11-30 17:49:36+09:00'
+  timestamp: '2025-11-30 18:00:48+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/misc/topk_sum/src/lib.rs

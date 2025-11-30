@@ -1,1 +1,0 @@
-searchState.loadedDescShard("mo", 0, "Mo’s algorithm 一般に二つのindex <code>(x, y)</code> …\n…\n…\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.\n…\n<code>querys</code> はオフラインで読み込んだクエリ(x, y) …\nクエリ(0, …\n(x, y) -&gt; (x-1, y) の変更\n(x, y) -&gt; (x+1, y) の変更\n(x, y) -&gt; (x, y-1) の変更\n(x, y) -&gt; (x, y+1) の変更")

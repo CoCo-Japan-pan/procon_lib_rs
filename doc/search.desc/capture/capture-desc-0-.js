@@ -1,1 +1,0 @@
-searchState.loadedDescShard("capture", 0, "From …\nMacro that returns a recursive function that …\nAutomatic memorization for recursive functions.")

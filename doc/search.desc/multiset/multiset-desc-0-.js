@@ -1,1 +1,0 @@
-searchState.loadedDescShard("multiset", 0, "…\nReturns the argument unchanged.\nkeyをc個追加\nkeyを1個追加\nCalls <code>U::from(self)</code>.\nkeyをすべて削除する\nkeyをc個削除する\nkeyを一つ削除する …")

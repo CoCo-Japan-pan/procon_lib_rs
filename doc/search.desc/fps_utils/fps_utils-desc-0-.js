@@ -1,1 +1,0 @@
-searchState.loadedDescShard("fps_utils", 0, "<code>[x^n] p(x)/q(x)</code> を <code>O(k log k log n)</code> 時間で求める …\n微分\nmod x^deg\nReturns the argument unchanged.\n積分\nCalls <code>U::from(self)</code>.\nmod x^deg\nmod x^deg\nmod x^nを取る")
