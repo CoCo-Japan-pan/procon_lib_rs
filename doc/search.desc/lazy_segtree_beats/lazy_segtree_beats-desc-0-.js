@@ -1,0 +1,1 @@
+searchState.loadedDescShard("lazy_segtree_beats", 0, "…\nSegment Tree Beats における内部のノード …\n作用の適用 成功したら<code>true</code>、失敗したら<code>false</code>…\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.\n…")

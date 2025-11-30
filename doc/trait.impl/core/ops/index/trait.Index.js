@@ -1,0 +1,9 @@
+(function() {
+    var implementors = Object.fromEntries([["bit_matrix",[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.89.0/core/ops/index/trait.Index.html\" title=\"trait core::ops::index::Index\">Index</a>&lt;<a class=\"primitive\" href=\"https://doc.rust-lang.org/1.89.0/std/primitive.usize.html\">usize</a>&gt; for <a class=\"struct\" href=\"bit_matrix/struct.BitMatrix.html\" title=\"struct bit_matrix::BitMatrix\">BitMatrix</a>"]]],["bitset",[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.89.0/core/ops/index/trait.Index.html\" title=\"trait core::ops::index::Index\">Index</a>&lt;<a class=\"primitive\" href=\"https://doc.rust-lang.org/1.89.0/std/primitive.usize.html\">usize</a>&gt; for <a class=\"struct\" href=\"bitset/struct.BitSet.html\" title=\"struct bitset::BitSet\">BitSet</a>"]]]]);
+    if (window.register_implementors) {
+        window.register_implementors(implementors);
+    } else {
+        window.pending_implementors = implementors;
+    }
+})()
+//{"start":57,"fragment_lengths":[394,374]}

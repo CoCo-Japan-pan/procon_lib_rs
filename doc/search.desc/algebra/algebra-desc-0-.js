@@ -1,0 +1,1 @@
+searchState.loadedDescShard("algebra", 0, "<code>Algrebra</code>…\n作用素のモノイド\n作用 作用自体もモノイドであることを要求 …\n自己準同型性を要求 …\n可換\n群 モノイドに加えて、逆元を持つ\n冪等なモノイド つまり x = x op x …\n作用の対象のモノイド\nモノイド\n半環 加算は可換モノイド 乗算はモノイド …\n作用の対象\nモノイドの要素\n作用の適用\n二項演算\n作用の合成(selfが先、rhsが後) (atcoder …\n恒等写像\n単位元")
