@@ -1,0 +1,1 @@
+searchState.loadedDescShard("segtree_2d_dense", 0, "内部で2次元配列を持つセグメント木 <code>O(HW)</code>…\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.")

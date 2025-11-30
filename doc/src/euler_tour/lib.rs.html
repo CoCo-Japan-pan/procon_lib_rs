@@ -1,0 +1,105 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `crates/tree/euler_tour/src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-84e720fa.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="euler_tour" data-themes="" data-resource-suffix="" data-rustdoc-version="1.89.0 (29483883e 2025-08-04)" data-channel="1.89.0" data-search-js="search-92309212.js" data-settings-js="settings-5514c975.js" ><script src="../../static.files/storage-4e99c027.js"></script><script defer src="../../static.files/src-script-813739b1.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-fd3af306.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-32bb7600.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">euler_tour/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap digits-3"><pre class="rust"><code><a href=#1 id=1 data-nosnippet>1</a><span class="doccomment">//! 頂点に着目したオイラーツアー  
+<a href=#2 id=2 data-nosnippet>2</a>//! LCAをRMQに帰着させて求められる  
+<a href=#3 id=3 data-nosnippet>3</a>//! SparseTableを用いるので前時間`O(NlogN)`、クエリ時間`O(1)`  
+<a href=#4 id=4 data-nosnippet>4</a></span><span class="kw">use </span>algebra::{IdempotentMonoid, Monoid};
+<a href=#5 id=5 data-nosnippet>5</a><span class="kw">use </span>sparse_table::SparseTable;
+<a href=#6 id=6 data-nosnippet>6</a>
+<a href=#7 id=7 data-nosnippet>7</a><span class="attr">#[derive(Debug)]
+<a href=#8 id=8 data-nosnippet>8</a></span><span class="kw">pub struct </span>MinMonoid;
+<a href=#9 id=9 data-nosnippet>9</a><span class="kw">impl </span>Monoid <span class="kw">for </span>MinMonoid {
+<a href=#10 id=10 data-nosnippet>10</a>    <span class="kw">type </span>Target = (usize, usize);
+<a href=#11 id=11 data-nosnippet>11</a>    <span class="kw">fn </span>id_element() -&gt; <span class="self">Self</span>::Target {
+<a href=#12 id=12 data-nosnippet>12</a>        (usize::MAX, usize::MAX)
+<a href=#13 id=13 data-nosnippet>13</a>    }
+<a href=#14 id=14 data-nosnippet>14</a>    <span class="kw">fn </span>binary_operation(a: <span class="kw-2">&amp;</span><span class="self">Self</span>::Target, b: <span class="kw-2">&amp;</span><span class="self">Self</span>::Target) -&gt; <span class="self">Self</span>::Target {
+<a href=#15 id=15 data-nosnippet>15</a>        <span class="kw-2">*</span>a.min(b)
+<a href=#16 id=16 data-nosnippet>16</a>    }
+<a href=#17 id=17 data-nosnippet>17</a>}
+<a href=#18 id=18 data-nosnippet>18</a><span class="kw">impl </span>IdempotentMonoid <span class="kw">for </span>MinMonoid {}
+<a href=#19 id=19 data-nosnippet>19</a>
+<a href=#20 id=20 data-nosnippet>20</a><span class="attr">#[derive(Debug)]
+<a href=#21 id=21 data-nosnippet>21</a></span><span class="kw">pub struct </span>EulerTour {
+<a href=#22 id=22 data-nosnippet>22</a>    <span class="doccomment">/// 頂点に着目したオイラーツアー  
+<a href=#23 id=23 data-nosnippet>23</a>    /// 各辺を2回ずつ通るので、サイズは`2|E| + 1 = "2|V| - 1`
+<a href=#24 id=24 data-nosnippet>24</a>    </span><span class="kw">pub </span>euler_tour_vertex: Vec&lt;usize&gt;,
+<a href=#25 id=25 data-nosnippet>25</a>    <span class="doccomment">/// 各頂点の深さ
+<a href=#26 id=26 data-nosnippet>26</a>    </span><span class="kw">pub </span>depth: Vec&lt;usize&gt;,
+<a href=#27 id=27 data-nosnippet>27</a>    <span class="doccomment">/// オイラーツアーにおいて、各頂点が最初に出現するインデックス
+<a href=#28 id=28 data-nosnippet>28</a>    </span><span class="kw">pub </span>first_occurrence: Vec&lt;usize&gt;,
+<a href=#29 id=29 data-nosnippet>29</a>    <span class="doccomment">/// オイラーツアーにおいて、各頂点が最後に出現するインデックス
+<a href=#30 id=30 data-nosnippet>30</a>    </span><span class="kw">pub </span>last_occurrence: Vec&lt;usize&gt;,
+<a href=#31 id=31 data-nosnippet>31</a>    <span class="doccomment">/// (深さ、頂点)の配列から構成されるSparseTable  
+<a href=#32 id=32 data-nosnippet>32</a>    /// first_occurenceの[最小、最大]の範囲で区間積を取ることで、(lcaの深さ、lcaの頂点)を求められる  
+<a href=#33 id=33 data-nosnippet>33</a>    </span>sparse_table: SparseTable&lt;MinMonoid&gt;,
+<a href=#34 id=34 data-nosnippet>34</a>}
+<a href=#35 id=35 data-nosnippet>35</a>
+<a href=#36 id=36 data-nosnippet>36</a><span class="kw">impl </span>EulerTour {
+<a href=#37 id=37 data-nosnippet>37</a>    <span class="doccomment">/// SparseTableを構築しているので、`O(NlogN)`
+<a href=#38 id=38 data-nosnippet>38</a>    </span><span class="kw">pub fn </span>new(graph: <span class="kw-2">&amp;</span>[Vec&lt;usize&gt;], root: usize) -&gt; <span class="self">Self </span>{
+<a href=#39 id=39 data-nosnippet>39</a>        <span class="kw">let </span>n = graph.len();
+<a href=#40 id=40 data-nosnippet>40</a>        <span class="kw">struct </span>Cls&lt;<span class="lifetime">'a</span>&gt; {
+<a href=#41 id=41 data-nosnippet>41</a>            graph: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[Vec&lt;usize&gt;],
+<a href=#42 id=42 data-nosnippet>42</a>            euler_tour_vertex: Vec&lt;usize&gt;,
+<a href=#43 id=43 data-nosnippet>43</a>            depth: Vec&lt;usize&gt;,
+<a href=#44 id=44 data-nosnippet>44</a>        }
+<a href=#45 id=45 data-nosnippet>45</a>        <span class="kw">let </span><span class="kw-2">mut </span>cls = Cls {
+<a href=#46 id=46 data-nosnippet>46</a>            graph,
+<a href=#47 id=47 data-nosnippet>47</a>            euler_tour_vertex: Vec::with_capacity(<span class="number">2 </span>* n - <span class="number">1</span>),
+<a href=#48 id=48 data-nosnippet>48</a>            depth: <span class="macro">vec!</span>[<span class="number">0</span>; n],
+<a href=#49 id=49 data-nosnippet>49</a>        };
+<a href=#50 id=50 data-nosnippet>50</a>        <span class="kw">fn </span>dfs(cls: <span class="kw-2">&amp;mut </span>Cls, v: usize, p: usize) {
+<a href=#51 id=51 data-nosnippet>51</a>            cls.euler_tour_vertex.push(v);
+<a href=#52 id=52 data-nosnippet>52</a>            <span class="kw">for </span><span class="kw-2">&amp;</span>nv <span class="kw">in </span><span class="kw-2">&amp;</span>cls.graph[v] {
+<a href=#53 id=53 data-nosnippet>53</a>                <span class="kw">if </span>nv == p {
+<a href=#54 id=54 data-nosnippet>54</a>                    <span class="kw">continue</span>;
+<a href=#55 id=55 data-nosnippet>55</a>                }
+<a href=#56 id=56 data-nosnippet>56</a>                cls.depth[nv] = cls.depth[v] + <span class="number">1</span>;
+<a href=#57 id=57 data-nosnippet>57</a>                dfs(cls, nv, v);
+<a href=#58 id=58 data-nosnippet>58</a>                cls.euler_tour_vertex.push(v);
+<a href=#59 id=59 data-nosnippet>59</a>            }
+<a href=#60 id=60 data-nosnippet>60</a>        }
+<a href=#61 id=61 data-nosnippet>61</a>        dfs(<span class="kw-2">&amp;mut </span>cls, root, n);
+<a href=#62 id=62 data-nosnippet>62</a>        <span class="kw">let </span><span class="kw-2">mut </span>first_occurrence = <span class="macro">vec!</span>[usize::MAX; n];
+<a href=#63 id=63 data-nosnippet>63</a>        <span class="kw">let </span><span class="kw-2">mut </span>last_occurrence = <span class="macro">vec!</span>[<span class="number">0</span>; n];
+<a href=#64 id=64 data-nosnippet>64</a>        <span class="kw">for </span>(i, <span class="kw-2">&amp;</span>v) <span class="kw">in </span>cls.euler_tour_vertex.iter().enumerate() {
+<a href=#65 id=65 data-nosnippet>65</a>            first_occurrence[v] = first_occurrence[v].min(i);
+<a href=#66 id=66 data-nosnippet>66</a>            last_occurrence[v] = i;
+<a href=#67 id=67 data-nosnippet>67</a>        }
+<a href=#68 id=68 data-nosnippet>68</a>        <span class="comment">// オイラーツアーの深さと頂点のペアからなる配列を作成
+<a href=#69 id=69 data-nosnippet>69</a>        </span><span class="kw">let </span>depth_vertex = cls
+<a href=#70 id=70 data-nosnippet>70</a>            .euler_tour_vertex
+<a href=#71 id=71 data-nosnippet>71</a>            .iter()
+<a href=#72 id=72 data-nosnippet>72</a>            .map(|<span class="kw-2">&amp;</span>v| (cls.depth[v], v))
+<a href=#73 id=73 data-nosnippet>73</a>            .collect();
+<a href=#74 id=74 data-nosnippet>74</a>        <span class="kw">let </span>sparse_table = SparseTable::new(depth_vertex);
+<a href=#75 id=75 data-nosnippet>75</a>        <span class="self">Self </span>{
+<a href=#76 id=76 data-nosnippet>76</a>            euler_tour_vertex: cls.euler_tour_vertex,
+<a href=#77 id=77 data-nosnippet>77</a>            depth: cls.depth,
+<a href=#78 id=78 data-nosnippet>78</a>            first_occurrence,
+<a href=#79 id=79 data-nosnippet>79</a>            last_occurrence,
+<a href=#80 id=80 data-nosnippet>80</a>            sparse_table,
+<a href=#81 id=81 data-nosnippet>81</a>        }
+<a href=#82 id=82 data-nosnippet>82</a>    }
+<a href=#83 id=83 data-nosnippet>83</a>
+<a href=#84 id=84 data-nosnippet>84</a>    <span class="doccomment">/// SparseTableを用いているので、`O(1)`
+<a href=#85 id=85 data-nosnippet>85</a>    </span><span class="kw">pub fn </span>lca(<span class="kw-2">&amp;</span><span class="self">self</span>, u: usize, v: usize) -&gt; usize {
+<a href=#86 id=86 data-nosnippet>86</a>        <span class="kw">let </span>l = <span class="self">self</span>.first_occurrence[u];
+<a href=#87 id=87 data-nosnippet>87</a>        <span class="kw">let </span>r = <span class="self">self</span>.first_occurrence[v];
+<a href=#88 id=88 data-nosnippet>88</a>        <span class="kw">let </span>(l, r) = (l.min(r), l.max(r));
+<a href=#89 id=89 data-nosnippet>89</a>        <span class="self">self</span>.sparse_table.prod(l..=r).<span class="number">1
+<a href=#90 id=90 data-nosnippet>90</a>    </span>}
+<a href=#91 id=91 data-nosnippet>91</a>
+<a href=#92 id=92 data-nosnippet>92</a>    <span class="kw">pub fn </span>lca_multiple(<span class="kw-2">&amp;</span><span class="self">self</span>, vertex_list: <span class="kw-2">&amp;</span>[usize]) -&gt; usize {
+<a href=#93 id=93 data-nosnippet>93</a>        <span class="kw">let </span>l = vertex_list
+<a href=#94 id=94 data-nosnippet>94</a>            .iter()
+<a href=#95 id=95 data-nosnippet>95</a>            .map(|<span class="kw-2">&amp;</span>v| <span class="self">self</span>.first_occurrence[v])
+<a href=#96 id=96 data-nosnippet>96</a>            .min()
+<a href=#97 id=97 data-nosnippet>97</a>            .unwrap();
+<a href=#98 id=98 data-nosnippet>98</a>        <span class="kw">let </span>r = vertex_list
+<a href=#99 id=99 data-nosnippet>99</a>            .iter()
+<a href=#100 id=100 data-nosnippet>100</a>            .map(|<span class="kw-2">&amp;</span>v| <span class="self">self</span>.first_occurrence[v])
+<a href=#101 id=101 data-nosnippet>101</a>            .max()
+<a href=#102 id=102 data-nosnippet>102</a>            .unwrap();
+<a href=#103 id=103 data-nosnippet>103</a>        <span class="self">self</span>.sparse_table.prod(l..=r).<span class="number">1
+<a href=#104 id=104 data-nosnippet>104</a>    </span>}
+<a href=#105 id=105 data-nosnippet>105</a>}</code></pre></div></section></main></body></html>

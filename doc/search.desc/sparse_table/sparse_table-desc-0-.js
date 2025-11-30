@@ -1,0 +1,1 @@
+searchState.loadedDescShard("sparse_table", 0, "…\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.\n<code>O(nlogn)</code>\n<code>O(1)</code>")

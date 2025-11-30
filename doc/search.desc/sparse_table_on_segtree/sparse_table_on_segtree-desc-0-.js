@@ -1,0 +1,1 @@
+searchState.loadedDescShard("sparse_table_on_segtree", 0, "2D Sparse …\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.\n<code>O(HWlogH)</code>\n<code>O(logH)</code>")

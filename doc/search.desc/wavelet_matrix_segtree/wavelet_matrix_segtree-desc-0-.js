@@ -1,0 +1,1 @@
+searchState.loadedDescShard("wavelet_matrix_segtree", 0, "Wavelet Matrix に、ビットごとのSegment …\n座標圧縮とx座標の重複除去を行うWrapper …\nReturns the argument unchanged.\n…\n点(x, y)の重みを取得する\nCalls <code>U::from(self)</code>.\nすべて単位元で初期化する場合\n群を重みとして載せている場合における、…\n…\n点(x, y)の重みをnew_valに更新する")
