@@ -1,0 +1,1 @@
+searchState.loadedDescShard("trie", 0, "トライ木(のベース実装) …\n…\n…\nsが存在するか\nsを接頭辞に持つ文字列が存在するか\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.")

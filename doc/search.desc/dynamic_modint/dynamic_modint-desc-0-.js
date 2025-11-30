@@ -1,0 +1,1 @@
+searchState.loadedDescShard("dynamic_modint", 0, "動的に決定するModを持つModInt …\nModContainerを定義するマクロ …\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.")

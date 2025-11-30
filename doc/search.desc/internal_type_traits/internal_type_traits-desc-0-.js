@@ -1,0 +1,1 @@
+searchState.loadedDescShard("internal_type_traits", 0, "整数型を使いたいときのトレイト …\nClass that has multiplicative identity element\nClass that has additive identity element\nThe multiplicative identity element\nThe additive identity element")
