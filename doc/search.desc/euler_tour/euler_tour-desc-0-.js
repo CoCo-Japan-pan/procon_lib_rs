@@ -1,1 +1,0 @@
-searchState.loadedDescShard("euler_tour", 0, "頂点に着目したオイラーツアー …\n各頂点の深さ\n頂点に着目したオイラーツアー …\n…\nReturns the argument unchanged.\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.\nCalls <code>U::from(self)</code>.\n…\nSparseTableを用いているので、<code>O(1)</code>\nSparseTableを構築しているので、<code>O(NlogN)</code>")

@@ -1,1 +1,0 @@
-searchState.loadedDescShard("binom", 0, "…\nnCkの計算(n&lt;kの場合は0とする)\nReturns the argument unchanged.\nn!\nn!の逆元\nCalls <code>U::from(self)</code>.\nnPkの計算(n&lt;kの場合は0とする)")

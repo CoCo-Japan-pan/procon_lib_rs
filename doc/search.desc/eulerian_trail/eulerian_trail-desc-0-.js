@@ -1,1 +1,0 @@
-searchState.loadedDescShard("eulerian_trail", 0, "オイラー路の構築 …\n…\n…\n…")

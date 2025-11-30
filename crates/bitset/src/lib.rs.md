@@ -16,11 +16,11 @@ data:
     links:
     - https://choosealicense.com/licenses/mit/
     - https://crates.io/crates/bitset-fixed
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.8/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.9/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
-    \  File \"/opt/hostedtoolcache/Python/3.13.8/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \  File \"/opt/hostedtoolcache/Python/3.13.9/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! \u5185\u90E8\u3067u64\u306E\u914D\u5217\u3092\u6301\u3063\u3066\u30D3\
     \u30C3\u30C8\u6F14\u7B97\u3092\u307E\u3068\u3081\u3066\u884C\u3044\u300164\u500D\
@@ -266,8 +266,8 @@ data:
   isVerificationFile: false
   path: crates/bitset/src/lib.rs
   requiredBy:
-  - verify/AtCoder/typical_059/src/main.rs
   - crates/math/bit_matrix/src/lib.rs
+  - verify/AtCoder/typical_059/src/main.rs
   timestamp: '2024-10-20 18:08:55+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []

@@ -1,1 +1,0 @@
-searchState.loadedDescShard("fenwick_tree", 0, "Returns the argument unchanged.\nCalls <code>U::from(self)</code>.\n<code>a[0] + ... + a[x - 1] &lt; w</code> を満たす最大の <code>x</code> を返す")

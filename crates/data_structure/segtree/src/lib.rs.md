@@ -30,11 +30,11 @@ data:
   attributes:
     links:
     - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.8/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.9/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
-    \  File \"/opt/hostedtoolcache/Python/3.13.8/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \  File \"/opt/hostedtoolcache/Python/3.13.9/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "//! From <https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/segtree.rs>\n\
     \nuse algebra::Monoid;\nuse internal_bits::ceil_log2;\nuse monoid_utils::{MaxMonoid,\
@@ -112,8 +112,8 @@ data:
   timestamp: '2025-08-03 12:43:51+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - verify/yosupo/vertex_set_path_composite/src/main.rs
   - verify/yosupo/point_set_range_composite/src/main.rs
+  - verify/yosupo/vertex_set_path_composite/src/main.rs
 documentation_of: crates/data_structure/segtree/src/lib.rs
 layout: document
 redirect_from:

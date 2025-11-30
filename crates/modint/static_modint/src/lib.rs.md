@@ -63,11 +63,11 @@ data:
   attributes:
     links:
     - https://github.com/rust-lang-ja/ac-library-rs/blob/master/src/modint.rs
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.8/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.13.9/x64/lib/python3.13/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n          \
     \         ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\
-    \  File \"/opt/hostedtoolcache/Python/3.13.8/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
+    \  File \"/opt/hostedtoolcache/Python/3.13.9/x64/lib/python3.13/site-packages/onlinejudge_verify/languages/rust.py\"\
     , line 288, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "use internal_modint::{ModInt, RemEuclidU32};\nuse internal_type_traits::{One,\
     \ Zero};\nuse std::fmt::{Debug, Display};\nuse std::iter::{Product, Sum};\nuse\
@@ -180,25 +180,25 @@ data:
   isVerificationFile: false
   path: crates/modint/static_modint/src/lib.rs
   requiredBy:
-  - verify/AtCoder/abc340g/src/main.rs
-  - verify/AtCoder/abc290f/src/main.rs
-  - verify/AtCoder/typical_057/src/main.rs
   - crates/fps/ntt/src/lib.rs
+  - verify/AtCoder/abc290f/src/main.rs
+  - verify/AtCoder/abc340g/src/main.rs
+  - verify/AtCoder/typical_057/src/main.rs
   timestamp: '2025-03-02 17:25:42+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - verify/yukicoder/no_803/src/main.rs
+  - verify/yosupo/point_set_range_composite/src/main.rs
+  - verify/yosupo/convolution_ntt/src/main.rs
+  - verify/yosupo/log_of_formal_power_series/src/main.rs
+  - verify/yosupo/inv_of_formal_power_series/src/main.rs
   - verify/yosupo/convolution_mod_1000000007_ntt/src/main.rs
   - verify/yosupo/exp_of_formal_power_series/src/main.rs
-  - verify/yosupo/inv_of_formal_power_series/src/main.rs
-  - verify/yosupo/vertex_set_path_composite/src/main.rs
   - verify/yosupo/range_affine_range_sum_lazy_seg/src/main.rs
-  - verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
-  - verify/yosupo/point_set_range_composite/src/main.rs
   - verify/yosupo/point_set_range_composite_large_array/src/main.rs
-  - verify/yosupo/log_of_formal_power_series/src/main.rs
+  - verify/yosupo/unionfind_with_potential_non_commutative_group/src/main.rs
+  - verify/yosupo/vertex_set_path_composite/src/main.rs
   - verify/yosupo/frequency_table_of_tree_distance/src/main.rs
-  - verify/yosupo/convolution_ntt/src/main.rs
-  - verify/yukicoder/no_803/src/main.rs
 documentation_of: crates/modint/static_modint/src/lib.rs
 layout: document
 redirect_from:

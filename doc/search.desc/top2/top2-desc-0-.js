@@ -1,1 +1,0 @@
-searchState.loadedDescShard("top2", 0, "abc345e …\nTop2(大きい順)までのMapを持つ …\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.")

@@ -1,1 +1,0 @@
-searchState.loadedDescShard("lazy_segtree", 0, "…\n作用の可換性を仮定しない上での区間適用 …\n可換な作用の区間適用\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.")

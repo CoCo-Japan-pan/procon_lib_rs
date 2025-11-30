@@ -1,1 +1,0 @@
-searchState.loadedDescShard("floor_ceil_sum", 0, "Calculates the sum of <code>ceil((a * i + b) / m)</code> for <code>0 &lt;= i &lt; n</code>.\nCalculates the sum of <code>floor((a * i + b) / m)</code> for <code>0 &lt;= i &lt; n</code>…")

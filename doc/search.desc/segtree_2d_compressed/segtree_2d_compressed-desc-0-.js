@@ -1,1 +1,0 @@
-searchState.loadedDescShard("segtree_2d_compressed", 0, "…\nTは座標圧縮する型\n…\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.\n…")

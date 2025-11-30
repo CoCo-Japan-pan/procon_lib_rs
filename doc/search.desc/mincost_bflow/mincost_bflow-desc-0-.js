@@ -1,1 +1,0 @@
-searchState.loadedDescShard("mincost_bflow", 0, "…\n頂点vにdemand分の吸い込みを追加\n<code>from -&gt; to</code> に、<code>lower &lt;= cap &lt;= upper</code> …\n頂点vにsupply分の湧き出しを追加\n総コスト\n復元した流量\nReturns the argument unchanged.\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.\nCalls <code>U::from(self)</code>.\n最小費用b-flowを解く …\nポテンシャル\n…\n…\n…")

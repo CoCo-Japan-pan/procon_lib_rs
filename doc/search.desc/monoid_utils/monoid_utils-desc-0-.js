@@ -1,1 +1,0 @@
-searchState.loadedDescShard("monoid_utils", 0, "よくつかうモノイド達\nReturns the argument unchanged.\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.\nCalls <code>U::from(self)</code>.")

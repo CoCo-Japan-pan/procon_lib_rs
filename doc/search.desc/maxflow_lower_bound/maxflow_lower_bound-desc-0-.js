@@ -1,1 +1,0 @@
-searchState.loadedDescShard("maxflow_lower_bound", 0, "最小流量制限付き最大流 …\n…\n…\n…\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.")

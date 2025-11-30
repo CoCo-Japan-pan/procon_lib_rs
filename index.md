@@ -241,6 +241,11 @@ data:
     - icon: ':warning:'
       path: crates/misc/top2/src/lib.rs
       title: crates/misc/top2/src/lib.rs
+  - name: crates/misc/topk_sum/src
+    pages:
+    - icon: ':warning:'
+      path: crates/misc/topk_sum/src/lib.rs
+      title: crates/misc/topk_sum/src/lib.rs
   - name: crates/modint/dynamic_modint/src
     pages:
     - icon: ':heavy_check_mark:'
