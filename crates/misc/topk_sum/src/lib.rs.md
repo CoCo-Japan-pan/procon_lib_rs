@@ -54,16 +54,16 @@ data:
     \ {\n            *count -= 1;\n            if *count == 0 {\n                self.top_multi_set.remove(&value);\n\
     \            }\n            self.sum -= value;\n\n            // left \u304B\u3089\
     \u6700\u5927\u5024\u3092 top \u306B\u79FB\u52D5\n            if let Some((&largest_left,\
-    \ _)) = self.left_multi_set.iter().next_back() {\n                let count =\
-    \ self.left_multi_set.get_mut(&largest_left).unwrap();\n                *count\
-    \ -= 1;\n                if *count == 0 {\n                    self.left_multi_set.remove(&largest_left);\n\
-    \                }\n                *self.top_multi_set.entry(largest_left).or_default()\
-    \ += 1;\n                self.sum += largest_left;\n            }\n        } else\
-    \ if let Some(count) = self.left_multi_set.get_mut(&value) {\n            *count\
-    \ -= 1;\n            if *count == 0 {\n                self.left_multi_set.remove(&value);\n\
-    \            }\n        } else {\n            return false;\n        }\n     \
-    \   self.size -= 1;\n        true\n    }\n\n    pub fn sum(&self) -> T {\n   \
-    \     if BIGGER {\n            self.sum\n        } else {\n            -self.sum\n\
+    \ _)) = self.left_multi_set.last_key_value() {\n                let count = self.left_multi_set.get_mut(&largest_left).unwrap();\n\
+    \                *count -= 1;\n                if *count == 0 {\n            \
+    \        self.left_multi_set.remove(&largest_left);\n                }\n     \
+    \           *self.top_multi_set.entry(largest_left).or_default() += 1;\n     \
+    \           self.sum += largest_left;\n            }\n        } else if let Some(count)\
+    \ = self.left_multi_set.get_mut(&value) {\n            *count -= 1;\n        \
+    \    if *count == 0 {\n                self.left_multi_set.remove(&value);\n \
+    \           }\n        } else {\n            return false;\n        }\n      \
+    \  self.size -= 1;\n        true\n    }\n\n    pub fn sum(&self) -> T {\n    \
+    \    if BIGGER {\n            self.sum\n        } else {\n            -self.sum\n\
     \        }\n    }\n}\n\n#[cfg(test)]\nmod tests {\n    use rand::Rng;\n\n    use\
     \ super::*;\n    #[test]\n    fn test_topk_sum() {\n        let mut rng = rand::thread_rng();\n\
     \        const SIZE: usize = 1000;\n        const K: usize = 100;\n        let\
@@ -91,7 +91,7 @@ data:
   isVerificationFile: false
   path: crates/misc/topk_sum/src/lib.rs
   requiredBy: []
-  timestamp: '2025-11-30 18:00:48+09:00'
+  timestamp: '2025-11-30 17:49:36+09:00'
   verificationStatus: LIBRARY_NO_TESTS
   verifiedWith: []
 documentation_of: crates/misc/topk_sum/src/lib.rs

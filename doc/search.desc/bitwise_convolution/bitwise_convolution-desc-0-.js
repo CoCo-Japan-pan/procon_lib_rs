@@ -1,1 +1,0 @@
-searchState.loadedDescShard("bitwise_convolution", 0, "bitwise AND, OR, XOR convolution\n<code>c[k] = Σ a[i] * b[j] (i &amp; j == k)</code>\n<code>c[k] = Σ a[i] * b[j] (i | j == k)</code>\n<code>c[k] = Σ a[i] * b[j] (i ^ j == k)</code>\n<code>H~n = 2^(n/2) Hn</code> の行列をかける <code>Hn</code>…\n<code>fast_hadamard</code>の逆行列をかける …")

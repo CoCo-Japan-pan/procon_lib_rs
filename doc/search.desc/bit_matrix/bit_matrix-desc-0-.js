@@ -1,1 +1,0 @@
-searchState.loadedDescShard("bit_matrix", 0, "mod 2の世界での行列\n<code>+ = or, * = and</code>\n<code>+ = xor, * = and</code>\nReturns the argument unchanged.\nReturns the argument unchanged.\nReturns the argument unchanged.\n…\nindexでアクセスしてもよい\nCalls <code>U::from(self)</code>.\nCalls <code>U::from(self)</code>.\nCalls <code>U::from(self)</code>.\n連立一次方程式 Ax = …\n行列のべき乗を計算する")

@@ -1,1 +1,0 @@
-searchState.loadedDescShard("wavelet_matrix", 0, "Wavelet Matrix\n0以上の静的な数列を扱う …\n数列のpos番目の要素を復元する O(logσ)\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.\n…\n…\n…\n…\n…\n数列の[0, …\n…\n数列のpos番目の数値numの位置を求める …")

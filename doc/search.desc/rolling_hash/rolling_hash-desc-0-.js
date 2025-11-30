@@ -1,1 +1,0 @@
-searchState.loadedDescShard("rolling_hash", 0, "…\nReturns the argument unchanged.\n<code>base^i</code>を返す\n部分列<code>s[range]</code>のhash値を返す <code>O(1)</code>\n接頭辞のhash値を返す(<code>get_hash(0..i)</code>…\n…\nCalls <code>U::from(self)</code>.\nsのrolling hashを構築 <code>O(|s|)</code> …")

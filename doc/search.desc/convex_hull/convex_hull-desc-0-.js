@@ -1,1 +1,0 @@
-searchState.loadedDescShard("convex_hull", 0, "二次元座標を表す構造体\n…\n外積 これが0以上なら、self -&gt; rhs …\n内積\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.\nソート済みの点列から凸包を求める <code>O(n)</code> …\n(0, 0)からのユークリッド距離の二乗 <code>x^2 + y^2</code>")

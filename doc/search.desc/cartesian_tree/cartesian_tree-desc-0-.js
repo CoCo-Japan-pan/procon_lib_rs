@@ -1,1 +1,0 @@
-searchState.loadedDescShard("cartesian_tree", 0, "Cartesian-tree …\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.\n…")

@@ -1,1 +1,0 @@
-searchState.loadedDescShard("ntt", 0, "FFT 原始根, NTT friendly MOD 高速化 Reference …\nModIntに畳み込みも追加したトレイト\n…\n…")

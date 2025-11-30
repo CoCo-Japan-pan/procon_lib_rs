@@ -1,1 +1,0 @@
-searchState.loadedDescShard("bitset", 0, "…\nbitとしてはLSB -&gt; …\n全て1かどうかを返す\nどれか1つでも1があるかどうかを返す\n範囲外だが余分に持っているbitを0にする …\n1の数を返す\n0の数を返す\ni番目のbitを反転させる\nReturns the argument unchanged.\nindexでアクセスしてもよい\nCalls <code>U::from(self)</code>.\nsize個のbitを持つBitSetを生成する(どれもunset)\n全て0かどうかを返す\ni番目のbitをbに設定する\nFaster left shift and or\nFaster right shift and or")

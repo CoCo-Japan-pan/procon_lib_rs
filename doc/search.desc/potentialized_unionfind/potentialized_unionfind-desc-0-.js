@@ -1,1 +1,0 @@
-searchState.loadedDescShard("potentialized_unionfind", 0, "ポテンシャル付きUnion-Find 群を載せる\nxから見たyの差分が定義されていれば返す …\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.\nxからみたyの差分を追加する つまり …\n代表元と、それから見た差分を求める …\n…")
