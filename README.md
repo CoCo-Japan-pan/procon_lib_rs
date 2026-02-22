@@ -10,3 +10,4 @@
 - 平衡二分木にモノイドを載せて、反転やシフトもできるセグ木にする
 - 区間をsetで管理
 - kD-tree
+- xorをapplyしてmin,maxが取れるbinary-trie
